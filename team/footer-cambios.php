@@ -78,7 +78,7 @@
         //alert(arrayOrdenes);
         var primeraFila = $('#primeraFila');
         var html = imprimirCambios(arrayOrdenes,pedidoUpdate,fechaUpdate,notasUpdate,usuarioUpdate);
-    	//primeraFila.after(html);
+    	primeraFila.after(html);
     }
     cambios();
 	$('#bscar').on('change',function(){
