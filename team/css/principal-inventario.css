@@ -1,0 +1,26 @@
+#cuerpo{
+    margin-left:15%;
+    width:85%;
+}
+.botonesInventario{
+    width: 100% !important; 
+    margin-top:5% !important;
+}
+.funcionamiento{
+    margin-top: 270px;
+}
+.ochentaycinco{
+    width:85% !important;
+}
+#listadoResumen, .padding5{
+    padding-top:5%;
+}
+#listadoCodigos{
+    padding-top:5%;
+}
+#resultados{
+    margin-top: 30%;
+}
+#readerPrendaEmpacada{
+    margin-top:5% !important;
+}

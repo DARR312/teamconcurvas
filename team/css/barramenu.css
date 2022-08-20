@@ -1,0 +1,50 @@
+#barraMenu{
+    height: 100%;
+    width: 10%;
+    position: fixed;
+    border-right: #cdcdcd solid thin;
+    background: white;
+}
+.accesos{
+    width: 80%;
+    margin: 10%;
+    text-align: center !important;
+}
+.accesos img {
+    width: 40%;
+    margin: 5% 20% 5% 20%;
+}
+@media only screen and (max-width:767px) {
+    .accesos {
+        width: 14%;
+        margin: 1%;
+        text-align: center !important;
+        float: left;
+    }
+    .logo_pc img{
+        width: 85%;
+        margin: 13%;
+    }
+    .logo_pc {
+        position: inherit !important;
+    }
+    #barraCelu{
+        border-bottom: #cdcdcd solid thin;
+        background: white;
+        height: 120px;
+    }
+    .botonmodal{
+        width: 80% !important;
+        margin: 5% 10% !important;
+    }
+    #reader__scan_region, #reader__scan_region video{
+        width:100% !important;
+    }
+    #reader__dashboard_section_fsr{
+        display: none !important;
+    }
+    #reader__dashboard_section_csr span button{
+        width: 80% !important;
+        margin: 5% 10% !important;
+    }
+}

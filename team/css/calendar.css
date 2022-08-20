@@ -1,0 +1,16 @@
+/* Propeller typography */
+@import "https://opensource.propeller.in/components/typography/css/typography.css";
+
+/* Propeller input */
+@import "https://opensource.propeller.in/components/textfield/css/textfield.css";
+
+/* Propeller icons */
+@import "https://fonts.googleapis.com/icon?family=Material+Icons";
+@import "https://opensource.propeller.in/components/icons/css/google-icons.css";
+
+/* Bootstrap datetimepicker */
+@import "https://opensource.propeller.in/components/datetimepicker/css/bootstrap-datetimepicker.css";
+
+/* Propeller datetimepicker */
+@import "https://opensource.propeller.in/components/datetimepicker/css/pmd-datetimepicker.css";
+.pmd-textfield-focused {background-color: #b50c4c !important;}
