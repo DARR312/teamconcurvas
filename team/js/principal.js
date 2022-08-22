@@ -1,3 +1,5 @@
+//const urlhost = "/index.php/controlador/" ;
+const urlhost = "https://concurvas.com/team/controlador/" ;
 function formatoPrecio(precio){
     let myFunc = num => Number(num);
     var nuevoPrecio =  Array.from(String(precio), myFunc);
@@ -13,8 +15,8 @@ function permisosPrincipales () {
 	var enviar = "funcion=permisosPrincipales";
 	var habilitados = 'no';
 	$.ajax({
-		url: "https://concurvas.com/team/controlador/",
-		headers: {'Access-Control-Allow-Origin': 'https://concurvas.com/team/controlador/'},
+		url: urlhost,
+		headers: {'Access-Control-Allow-Origin': urlhost},
 		type: "GET",
 		async: false,
 		data: enviar,
@@ -30,8 +32,8 @@ function permisosVentas() {
 	var enviar = "funcion=permisosVentas";
 	var habilitados = 'no';
 	$.ajax({
-		url: "https://concurvas.com/team/controlador/",
-		headers: {'Access-Control-Allow-Origin': 'https://concurvas.com/team/controlador/'},
+		url: urlhost,
+		headers: {'Access-Control-Allow-Origin': urlhost},
 		type: "GET",
 		async: false,
 		data: enviar,
@@ -47,8 +49,8 @@ function permisosCambios() {
 	var enviar = "funcion=permisosCambios";
 	var habilitados = 'no';
 	$.ajax({
-		url: "https://concurvas.com/team/controlador/",
-		headers: {'Access-Control-Allow-Origin': 'https://concurvas.com/team/controlador/'},
+		url: urlhost,
+		headers: {'Access-Control-Allow-Origin': urlhost},
 		type: "GET",
 		async: false,
 		data: enviar,
@@ -64,8 +66,8 @@ function ciudades() {
 	var enviar = "funcion=ciudades";
 	var ciudades = 'no';
 	$.ajax({
-		url: "https://concurvas.com/team/controlador/",
-		headers: {'Access-Control-Allow-Origin': 'https://concurvas.com/team/controlador/'},
+		url: urlhost,
+		headers: {'Access-Control-Allow-Origin': urlhost},
 		type: "GET",
 		async: false,
 		data: enviar,
@@ -81,8 +83,8 @@ function clientesBuscar(telefono) {
 	var enviar = "funcion=clientesEncontrados&telefono="+telefono;
 	var client = 'no';
 	$.ajax({
-		url: "https://concurvas.com/team/controlador/",
-		headers: {'Access-Control-Allow-Origin': 'https://concurvas.com/team/controlador/'},
+		url: urlhost,
+		headers: {'Access-Control-Allow-Origin': urlhost},
 		type: "GET",
 		async: false,
 		data: enviar,
@@ -99,8 +101,8 @@ function clientesEncontrados(telefono) {
 	var enviar = "funcion=clientesEncontrados&telefono="+telefono;
 	var client = 'no';
 	$.ajax({
-		url: "https://concurvas.com/team/controlador/",
-		headers: {'Access-Control-Allow-Origin': 'https://concurvas.com/team/controlador/'},
+		url: urlhost,
+		headers: {'Access-Control-Allow-Origin': urlhost},
 		type: "GET",
 		async: false,
 		data: enviar,
@@ -116,8 +118,8 @@ function guardarCliente(nombre,telefono,dir1,comp1,ciudad1) {
 	var enviar = "funcion=guardarCliente&nombre="+nombre+"&telefono="+telefono+"&dir1="+dir1+"&comp1="+comp1+"&ciudad1="+ciudad1;
 	var id;
 	$.ajax({
-		url: "https://concurvas.com/team/controlador/",
-		headers: {'Access-Control-Allow-Origin': 'https://concurvas.com/team/controlador/'},
+		url: urlhost,
+		headers: {'Access-Control-Allow-Origin': urlhost},
 		type: "GET",
 		async: false,
 		data: enviar,
@@ -132,8 +134,8 @@ function permisosInventario() {
 	var enviar = "funcion=permisosInventario";
 	var habilitados = 'no';
 	$.ajax({
-		url: "https://concurvas.com/team/controlador/",
-		headers: {'Access-Control-Allow-Origin': 'https://concurvas.com/team/controlador/'},
+		url: urlhost,
+		headers: {'Access-Control-Allow-Origin': urlhost},
 		type: "GET",
 		async: false,
 		data: enviar,
@@ -149,8 +151,8 @@ function disponibles() {
 	var obtenidos = "no";
     //alert(enviar);
     $.ajax({
-    	url: "https://concurvas.com/team/controlador/",
-    	headers: {'Access-Control-Allow-Origin': 'https://concurvas.com/team/controlador/'},
+    	url: urlhost,
+    	headers: {'Access-Control-Allow-Origin': urlhost},
     	type: "GET",
     	async: false,
     	data: enviar,
@@ -165,8 +167,8 @@ function referenciaNueva(nombre,color,talla,link,detal,mayor,categoria) {
 	var enviar = "funcion=referenciaNueva&nombre="+nombre+"&color="+color+"&talla="+talla+"&link="+link+"&detal="+detal+"&mayor="+mayor+"&categoria="+categoria;
 	var id;
 	$.ajax({
-		url: "https://concurvas.com/team/controlador/",
-		headers: {'Access-Control-Allow-Origin': 'https://concurvas.com/team/controlador/'},
+		url: urlhost,
+		headers: {'Access-Control-Allow-Origin': urlhost},
 		type: "GET",
 		async: false,
 		data: enviar,
@@ -183,8 +185,8 @@ function obtenerData(columna,tabla,tipo,valor,valor2) {
 	var obtenidos = "no";
 	//alert(enviar);
 	$.ajax({
-		url: "https://concurvas.com/team/controlador/",
-		headers: {'Access-Control-Allow-Origin': 'https://concurvas.com/team/controlador/'},
+		url: urlhost,
+		headers: {'Access-Control-Allow-Origin': urlhost},
 		type: "GET",
 		async: false,
 		data: enviar,
@@ -200,8 +202,8 @@ function nuevocodigo(tipo,item) {
 	var obtenidos = "no";
 	//alert(enviar);
 	$.ajax({
-		url: "https://concurvas.com/team/controlador/",
-		headers: {'Access-Control-Allow-Origin': 'https://concurvas.com/team/controlador/'},
+		url: urlhost,
+		headers: {'Access-Control-Allow-Origin': urlhost},
 		type: "GET",
 		async: false,
 		data: enviar,
@@ -217,8 +219,8 @@ function nuevaMarquilla(datos) {
 	var obtenidos = "no";
 	//alert(enviar);
 	$.ajax({
-		url: "https://concurvas.com/team/controlador/",
-		headers: {'Access-Control-Allow-Origin': 'https://concurvas.com/team/controlador/'},
+		url: urlhost,
+		headers: {'Access-Control-Allow-Origin': urlhost},
 		type: "GET",
 		async: false,
 		data: enviar,
@@ -341,8 +343,8 @@ function enviarInventario(datos) {
         var enviar = "funcion=cambiarEstadoprendas&valor="+datos+"&valor2="+estado+"&nombre="+nombre+"&id="+id;
     	var obtenidos = "no";
     	$.ajax({
-    		url: "https://concurvas.com/team/controlador/",
-    		headers: {'Access-Control-Allow-Origin': 'https://concurvas.com/team/controlador/'},
+    		url: urlhost,
+    		headers: {'Access-Control-Allow-Origin': urlhost},
     		type: "GET",
     		async: false,
     		data: enviar,
@@ -389,8 +391,8 @@ function agregarventa(idCliente,datosCliente,pedido,precio,notas,origen,fecha,id
     var enviar = "funcion=agregarventa&valor="+datos;
 	var obtenidos = "0";
     $.ajax({
-    	url: "https://concurvas.com/team/controlador/",
-    	headers: {'Access-Control-Allow-Origin': 'https://concurvas.com/team/controlador/'},
+    	url: urlhost,
+    	headers: {'Access-Control-Allow-Origin': urlhost},
     	type: "GET",
     	async: false,
     	data: enviar,
@@ -408,8 +410,8 @@ function agregarcambio(venta_id,datos_cliente,prendasSalen,prendasEntran,notas,e
     var enviar = "funcion=agregarcambio&valor="+datos;
 	var obtenidos = "0";
     $.ajax({
-    	url: "https://concurvas.com/team/controlador/",
-    	headers: {'Access-Control-Allow-Origin': 'https://concurvas.com/team/controlador/'},
+    	url: urlhost,
+    	headers: {'Access-Control-Allow-Origin': urlhost},
     	type: "GET",
     	async: false,
     	data: enviar,
@@ -424,8 +426,8 @@ function ventaitem(idVenta,itemVenta) {
    var enviar = "funcion=ventaitem&valor="+idVenta+"&valor2="+itemVenta;
 	var obtenidos = "no";
     $.ajax({
-    	url: "https://concurvas.com/team/controlador/",
-    	headers: {'Access-Control-Allow-Origin': 'https://concurvas.com/team/controlador/'},
+    	url: urlhost,
+    	headers: {'Access-Control-Allow-Origin': urlhost},
     	type: "GET",
     	async: false,
     	data: enviar,
@@ -440,8 +442,8 @@ function cambioitem(prenda_idsale,prenda_idregresa,cambio_id,ventainicial_id) {
    var enviar = "funcion=cambioitem&valor="+prenda_idsale+"&valor2="+prenda_idregresa+"&valor3="+cambio_id+"&valor4="+ventainicial_id;
 	var obtenidos = "no";
     $.ajax({
-    	url: "https://concurvas.com/team/controlador/",
-    	headers: {'Access-Control-Allow-Origin': 'https://concurvas.com/team/controlador/'},
+    	url: urlhost,
+    	headers: {'Access-Control-Allow-Origin': urlhost},
     	type: "GET",
     	async: false,
     	data: enviar,
@@ -461,8 +463,8 @@ function ordenesventa(bscar,estadoFiltro,transportador,datetimepicker_default,da
     var enviar = "funcion=ordenesventa&valor="+bscar+"&valor2="+estadoFiltro+"&valor3="+transportador+"&valor4="+datetimepicker_default+"&valor5="+datetimepicker_defaultFiltro;
     var obtenidos = "no";
     $.ajax({
-    	url: "https://concurvas.com/team/controlador/",
-    	headers: {'Access-Control-Allow-Origin': 'https://concurvas.com/team/controlador/'},
+    	url: urlhost,
+    	headers: {'Access-Control-Allow-Origin': urlhost},
     	type: "GET",
     	async: false,
     	data: enviar,
@@ -482,8 +484,8 @@ function ordenescambio(bscar,estadoFiltro,transportador,datetimepicker_default,d
     var enviar = "funcion=ordenescambio&valor="+bscar+"&valor2="+estadoFiltro+"&valor3="+transportador+"&valor4="+datetimepicker_default+"&valor5="+datetimepicker_defaultFiltro;
     var obtenidos = "no";
     $.ajax({
-    	url: "https://concurvas.com/team/controlador/",
-    	headers: {'Access-Control-Allow-Origin': 'https://concurvas.com/team/controlador/'},
+    	url: urlhost,
+    	headers: {'Access-Control-Allow-Origin': urlhost},
     	type: "GET",
     	async: false,
     	data: enviar,
@@ -498,8 +500,8 @@ function actualizar(tabla,columna,id,usuarioCell) {
    var enviar = "funcion=actualizar&columna="+columna+"&tabla="+tabla+"&valor="+id+"&valor2="+usuarioCell;
    var obtenidos = "no";
     $.ajax({
-    	url: "https://concurvas.com/team/controlador/",
-    	headers: {'Access-Control-Allow-Origin': 'https://concurvas.com/team/controlador/'},
+    	url: urlhost,
+    	headers: {'Access-Control-Allow-Origin': urlhost},
     	type: "GET",
     	async: false,
     	data: enviar,
@@ -514,8 +516,8 @@ function restar(id,valor,valor2) {
    var enviar = "funcion=restar&id="+id+"&valor="+valor+"&valor2="+valor2;
    var obtenidos = "no";
     $.ajax({
-    	url: "https://concurvas.com/team/controlador/",
-    	headers: {'Access-Control-Allow-Origin': 'https://concurvas.com/team/controlador/'},
+    	url: urlhost,
+    	headers: {'Access-Control-Allow-Origin': urlhost},
     	type: "GET",
     	async: false,
     	data: enviar,
@@ -534,8 +536,8 @@ function codigosprendas(bscar,estadoFiltro,cual,notas) {
     var enviar = "funcion=codigosprendas&valor="+bscar+"&valor2="+estadoFiltro+"&valor3="+cual+"&valor4="+notas;
     var obtenidos = "no";
     $.ajax({
-    	url: "https://concurvas.com/team/controlador/",
-    	headers: {'Access-Control-Allow-Origin': 'https://concurvas.com/team/controlador/'},
+    	url: urlhost,
+    	headers: {'Access-Control-Allow-Origin': urlhost},
     	type: "GET",
     	async: false,
     	data: enviar,
@@ -554,8 +556,8 @@ function resumenprendas(bscar,nombre,color,talla) {
     var enviar = "funcion=resumenprendas&valor="+bscar+"&valor2="+nombre+"&valor3="+color+"&valor4="+talla;
     var obtenidos = "no";
     $.ajax({
-    	url: "https://concurvas.com/team/controlador/",
-    	headers: {'Access-Control-Allow-Origin': 'https://concurvas.com/team/controlador/'},
+    	url: urlhost,
+    	headers: {'Access-Control-Allow-Origin': urlhost},
     	type: "GET",
     	async: false,
     	data: enviar,
@@ -570,8 +572,8 @@ function empezarnuevaauditoria(fecha) {
     var enviar = "funcion=empezarnuevaauditoria&valor="+fecha;
     var obtenidos = "no";
     $.ajax({
-    	url: "https://concurvas.com/team/controlador/",
-    	headers: {'Access-Control-Allow-Origin': 'https://concurvas.com/team/controlador/'},
+    	url: urlhost,
+    	headers: {'Access-Control-Allow-Origin': urlhost},
     	type: "GET",
     	async: false,
     	data: enviar,
@@ -590,8 +592,8 @@ function auditprendas(bscar,estadoFiltro,cual,notas) {
     var enviar = "funcion=auditprendas&valor="+bscar+"&valor2="+estadoFiltro+"&valor3="+cual+"&valor4="+notas;
     var obtenidos = "no";
     $.ajax({
-    	url: "https://concurvas.com/team/controlador/",
-    	headers: {'Access-Control-Allow-Origin': 'https://concurvas.com/team/controlador/'},
+    	url: urlhost,
+    	headers: {'Access-Control-Allow-Origin': urlhost},
     	type: "GET",
     	async: false,
     	data: enviar,
@@ -607,8 +609,8 @@ function enviarEmpacados(data) {//10,Diego,1%29%°C1145RB2D13S64°C1145RB9D13S64
     var enviar = "funcion=enviarEmpacados&valor="+dataArray[0]+"&valor2="+dataArray[1]+"&valor3="+dataArray[2]+"&valor4="+dataArray[3];
     var obtenidos = "no";
     $.ajax({
-    	url: "https://concurvas.com/team/controlador/",
-    	headers: {'Access-Control-Allow-Origin': 'https://concurvas.com/team/controlador/'},
+    	url: urlhost,
+    	headers: {'Access-Control-Allow-Origin': urlhost},
     	type: "GET",
     	async: false,
     	data: enviar,
@@ -623,8 +625,8 @@ function actualizarVentaitem(estado,id) {
     var enviar = "funcion=actualizarVentaitem&valor="+estado+"&valor2="+id;
     var obtenidos = "no";
     $.ajax({
-    	url: "https://concurvas.com/team/controlador/",
-    	headers: {'Access-Control-Allow-Origin': 'https://concurvas.com/team/controlador/'},
+    	url: urlhost,
+    	headers: {'Access-Control-Allow-Origin': urlhost},
     	type: "GET",
     	async: false,
     	data: enviar,
@@ -639,8 +641,8 @@ function actualizarPrendas(usuarioCell,estado,ventaId,codigo) {
     var enviar = "funcion=actualizarPrendas&valor="+usuarioCell+"&valor2="+estado+"&valor3="+ventaId+"&valor4="+codigo;
     var obtenidos = "no";
     $.ajax({
-    	url: "https://concurvas.com/team/controlador/",
-    	headers: {'Access-Control-Allow-Origin': 'https://concurvas.com/team/controlador/'},
+    	url: urlhost,
+    	headers: {'Access-Control-Allow-Origin': urlhost},
     	type: "GET",
     	async: false,
     	data: enviar,
@@ -655,8 +657,8 @@ function inicialcaja(valor) {
     var enviar = "funcion=inicialcaja&valor="+valor;
     var obtenidos = "no";
     $.ajax({
-    	url: "https://concurvas.com/team/controlador/",
-    	headers: {'Access-Control-Allow-Origin': 'https://concurvas.com/team/controlador/'},
+    	url: urlhost,
+    	headers: {'Access-Control-Allow-Origin': urlhost},
     	type: "GET",
     	async: false,
     	data: enviar,
@@ -671,8 +673,8 @@ function referenciasrodas(valor) {
     var enviar = "funcion=referenciasrodas&valor="+valor;
     var obtenidos = "no";
     $.ajax({
-    	url: "https://concurvas.com/team/controlador/",
-    	headers: {'Access-Control-Allow-Origin': 'https://concurvas.com/team/controlador/'},
+    	url: urlhost,
+    	headers: {'Access-Control-Allow-Origin': urlhost},
     	type: "GET",
     	async: false,
     	data: enviar,
@@ -687,8 +689,8 @@ function nuevocodigoinicial(codigo,referencia,usuario) {
     var enviar = "funcion=nuevocodigoinicial&valor="+codigo+"&valor2="+referencia+"&valor3="+usuario;
     var obtenidos = "no";
     $.ajax({
-    	url: "https://concurvas.com/team/controlador/",
-    	headers: {'Access-Control-Allow-Origin': 'https://concurvas.com/team/controlador/'},
+    	url: urlhost,
+    	headers: {'Access-Control-Allow-Origin': urlhost},
     	type: "GET",
     	async: false,
     	data: enviar,
@@ -703,8 +705,8 @@ function nuevolote () {
 	var enviar = "funcion=nuevolote";
 	var habilitados = 'no';
 	$.ajax({
-		url: "https://concurvas.com/team/controlador/",
-		headers: {'Access-Control-Allow-Origin': 'https://concurvas.com/team/controlador/'},
+		url: urlhost,
+		headers: {'Access-Control-Allow-Origin': urlhost},
 		type: "GET",
 		async: false,
 		data: enviar,

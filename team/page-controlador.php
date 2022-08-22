@@ -27,6 +27,7 @@ function permisosPrincipales(){
     $permi = "";
     global $wpdb;
     $permisos = $wpdb->get_results( "SELECT permiso_id FROM con_t_rolespermisos WHERE level = ".$user_level."", ARRAY_A  );
+    print_r($permisos);
     foreach ($permisos as $v1) {
         foreach ($v1 as $v2) {
             if($v2 == 1 || $v2 == 2 || $v2 == 3 || $v2 == 4){
