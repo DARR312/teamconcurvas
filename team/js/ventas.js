@@ -911,7 +911,7 @@ function ventas() {
     $('.fechaUpdate').on('click', function(){  
         var ids = $(this).attr("name"); 
         var estado = obtenerData("estado","con_t_ventas","row","venta_id",ids);
-        if(estado == "Sin empacar" || estado == "Empacado"){
+        if(estado == "Sin empacar" || estado == "Empacado" || estado == "No empacado"){
            $("#tituloFecha").text("Cambiar fecha del pedido: "+ids);
             $("#tituloFecha").attr("name",ids);
             $('#popup7').fadeIn('slow'); 

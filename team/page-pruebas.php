@@ -27,7 +27,7 @@ for($i=0;$i<sizeof($obtenidosArray);$i++){
 $imprimir=$imprimir."</table></div>";
 echo $imprimir;*/
 
-$referenciasArray = $wpdb->get_results( "SELECT DISTINCT referencia_id FROM con_t_trprendas ORDER BY referencia_id ASC", ARRAY_A);
+/*$referenciasArray = $wpdb->get_results( "SELECT DISTINCT referencia_id FROM con_t_trprendas ORDER BY referencia_id ASC", ARRAY_A);
 $estadosArray = $wpdb->get_results( "SELECT DISTINCT estado FROM con_t_trprendas ORDER BY estado ASC", ARRAY_A);
   //print_r($referenciasArray); 
   for($j = 0; $j<sizeof($referenciasArray);$j++){
@@ -44,7 +44,7 @@ $estadosArray = $wpdb->get_results( "SELECT DISTINCT estado FROM con_t_trprendas
     $cantidad = $cantidad - $separados[0]['COUNT(*)'];
     //echo $referenciasArray[$j]['referencia_id'].": ".$cantidad."--";
     $updated = $wpdb->update( "con_t_resumen", array('cantidad' => $cantidad), array( 'referencia_id' => $referenciasArray[$j]['referencia_id']));
-  }
+  }*/
   
 
 
