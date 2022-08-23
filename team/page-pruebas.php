@@ -2,7 +2,7 @@
 $fecha = wp_date('Y-m-d');
 $valor=$_GET['valor'];
 global $wpdb;
-/*******************************NO EMPACADO*******************************************************/
+/*******************************NO EMPACADO*******************************************************
 $obtenidosArray = $wpdb->get_results( "SELECT venta_id,estado,fecha_entrega FROM con_t_ventas WHERE (estado = 'Sin empacar') AND (fecha_entrega < '".$fecha."')", ARRAY_A);
 print_r($obtenidosArray);
 if($obtenidosArray){
@@ -14,7 +14,7 @@ if($obtenidosArray){
     }
 }
 /*******************************NO EMPACADO*******************************************************/
-/*$obtenidosArray = $wpdb->get_results( "SELECT estado,referencia_id,COUNT(*) FROM con_t_trprendas GROUP BY estado,referencia_id ORDER BY con_t_trprendas.referencia_id DESC", ARRAY_A);//133
+$obtenidosArray = $wpdb->get_results( "SELECT estado,referencia_id,COUNT(*) FROM con_t_trprendas GROUP BY estado,referencia_id ORDER BY con_t_trprendas.referencia_id DESC", ARRAY_A);//133
 print_r($obtenidosArray);
 $obtenidosArray = $wpdb->get_results( "SELECT descripcion,codigo  FROM con_t_trprendas WHERE (estado = 'En satélite')", ARRAY_A);//133
 $imprimir = "<div id='marquillas'><table border='1'><tr><th>Codigo</th><th>Descripción</th></tr>";
@@ -22,7 +22,7 @@ for($i=0;$i<sizeof($obtenidosArray);$i++){
     $imprimir = $imprimir."<tr><td>".$obtenidosArray[$i][descripcion]."</td><td>".$obtenidosArray[$i][codigo]."</td></tr>";
 }
 $imprimir=$imprimir."</table></div>";
-echo $imprimir;*/
+echo $imprimir;
 
 /*   $referenciasArray = $wpdb->get_results( "SELECT DISTINCT referencia_id FROM con_t_trprendas ORDER BY referencia_id ASC", ARRAY_A);
   $estadosArray = $wpdb->get_results( "SELECT DISTINCT estado FROM con_t_trprendas ORDER BY estado ASC", ARRAY_A);
