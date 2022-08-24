@@ -1,5 +1,7 @@
 <?php
-header("Access-Control-Allow-Origin: *");
+header('Access-Control-Allow-Origin: *');
+header("Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept");
+header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE');
 $funcion=$_GET['funcion']; 
 $valor=$_GET['valor'];
 $valor2=$_GET['valor2'];
@@ -707,7 +709,7 @@ function ordenescambio($valor,$valor2,$valor3,$valor4,$valor5){
     //print_r($cambiosTodos);
     $todas = "";
     foreach ($cambiosTodos as $v1) {
-        $todas = $todas.$v1[cambio_id]."%".$v1[fecha_creada]."%".$v1[venta_id]."%".$v1[datos_cliente]."%".$v1[pedido]."%".$v1[prendas_por_regresar]."%".$v1[cliente_ok]."%".$v1[notas]."%".$v1[excedente]."%".$v1[fecha_entrega]."%".$v1[estado]."&";
+        $todas = $todas.$v1['cambio_id']."%".$v1['fecha_creada']."%".$v1['venta_id']."%".$v1['datos_cliente']."%".$v1['pedido']."%".$v1['prendas_por_regresar']."%".$v1['cliente_ok']."%".$v1['notas']."%".$v1['excedente']."%".$v1['fecha_entrega']."%".$v1['estado']."&";
     }
     echo $todas;
     /*if($valor != "0"){ 
@@ -1029,11 +1031,11 @@ function resumenprendas($valor,$valor2,$valor3,$valor4){
     global $wpdb;
     if($valor != "0"){ 
         $todas = "";
-        $codigos = $wpdb->get_results( "SELECT nombre, color, talla, cantidad, precio_detal FROM con_t_resumen  WHERE nombre =".$valor." ", ARRAY_A  );
+        $codigos = $wpdb->get_results("SELECT nombre, color, talla, cantidad, precio_detal FROM con_t_resumen  WHERE nombre =".$valor." ", ARRAY_A  );
         //print_r($ventasTodas);
         if($codigos){
             foreach ($codigos as $v1) {
-                $todas = $todas.$v1[nombre]."%".$v1[color]."%".$v1[talla]."%".$v1[cantidad]."%".$v1[precio_detal]."&";
+                $todas = $todas.$v1['nombre']."%".$v1['color']."%".$v1['talla']."%".$v1['cantidad']."%".$v1['precio_detal']."&";
             }
         }else{
             $todas = "NA";
@@ -1042,10 +1044,10 @@ function resumenprendas($valor,$valor2,$valor3,$valor4){
     }else{ 
         $todas = "";
         $codigos = $wpdb->get_results( "SELECT nombre, color, talla, cantidad, precio_detal FROM con_t_resumen  WHERE 1", ARRAY_A  );
-        //print_r($ventasTodas);
+       // print_r($codigos);
         if($codigos){
             foreach ($codigos as $v1) {
-                $todas = $todas.$v1[nombre]."%".$v1[color]."%".$v1[talla]."%".$v1[cantidad]."%".$v1[precio_detal]."&";
+                $todas = $todas.$v1['nombre']."%".$v1['color']."%".$v1['talla']."%".$v1['cantidad']."%".$v1['precio_detal']."&";
             }
         }else{
             $todas = "NA";

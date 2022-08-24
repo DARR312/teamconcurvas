@@ -1,4 +1,4 @@
-const urlhost = "wordpress/index.php/controlador/" ;//http://localhost/wordpress/index.php/controlador/
+const urlhost = "http://localhost/wordpress/index.php/controlador" ;//http://localhost/wordpress/index.php/controlador/
 //const urlhost = "https://concurvas.com/team/controlador/" ;
 function formatoPrecio(precio){
     let myFunc = num => Number(num);
