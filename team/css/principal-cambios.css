@@ -50,7 +50,7 @@ width:5%;
 .close a img{
     width:85%;
 }
-#prendasEncontradas{
+#prendasEncontradas, #prendasCambiosEncontradas{
     margin-top:10%;
 }
 #guardarVenta{
