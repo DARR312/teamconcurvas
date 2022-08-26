@@ -550,7 +550,9 @@
     });
     $('#enviarEscaneados').on('click', function() {
         var escaneadosData = $('#escanerInv').text();
-        var escaneadosEnviar = escaneadosData.replace(" ","");;
+        alert(escaneadosData);
+        var escaneadosEnviar = escaneadosData.replace(" ","");
+        alert(escaneadosEnviar);
         var usuarioLevel = $('#usuarioCell').attr('name');
         var data = escaneadosEnviar+usuarioLevel;
         enviarInventario(data);

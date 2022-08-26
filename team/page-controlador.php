@@ -356,18 +356,20 @@ function cambiarEstadoprendas($valor,$valor2,$nombre,$id){
     $fecha = wp_date('Y-m-d H:i:s', null, $timezone );
     global $wpdb;
     $obtenidosArray = $wpdb->get_results( "SELECT estado FROM con_t_estadoprendas WHERE ID = ".$valor2."", ARRAY_A);
-    $datos="UPDATE con_t_trprendas SET  estado = '".$obtenidosArray[0][estado]."', fecha_cambio = '".$fecha."', cual = '".$nombre."' WHERE codigo IN (";
+    $datos="UPDATE con_t_trprendas SET  estado = '".$obtenidosArray[0]['estado']."', fecha_cambio = '".$fecha."', cual = '".$nombre."' WHERE codigo IN (";
     $datos2="SELECT ID FROM con_t_trprendas WHERE codigo IN (";
     $componentes = explode(",",$valor);
     $long =  sizeof($componentes)-2;
     for($i=0;$i < $long;$i++){
         if($i==0){ 
-            $datos = $datos."'".$componentes[$i]."'"; 
+            $datosSinEspacio =str_replace(' ', '', $componentes[$i]); 
+            $datos = $datos."'".$datosSinEspacio."'"; 
             $datos2 = $datos2."'".$componentes[$i]."'";
             //$referenciPrenda = $wpdb->get_results( "SELECT referencia_id FROM con_t_trprendas WHERE codigo = ".$componentes[$i]."", ARRAY_A);
         }
         else{ 
-            $datos = $datos.",'".$componentes[$i]."'"; 
+            $datosSinEspacio =str_replace(' ', '', $componentes[$i]); 
+            $datos = $datos.",'".$datosSinEspacio."'"; 
             $datos2 = $datos2.",'".$componentes[$i]."'";
            /* if($valor2=="En Plaza de las américas"){
                 $referenciPrenda = $wpdb->get_results( "SELECT referencia_id FROM con_t_trprendas WHERE codigo = ".$componentes[$i]."", ARRAY_A);
@@ -383,9 +385,9 @@ function cambiarEstadoprendas($valor,$valor2,$nombre,$id){
      $wpdb->query($datos);
     $resultado = $wpdb->get_results( $datos2, ARRAY_A);
     $long =  sizeof($resultado);
-    $datos3 = "INSERT INTO con_t_cambiostr ( prenda_id, estado_cambio, cual_cambio, usuario_id, fecha_hora) VALUES (".$resultado[0][ID].",".$obtenidosArray[0][estado].", '".$nombre."', ".$id.",'".$fecha."')";
+    $datos3 = "INSERT INTO con_t_cambiostr ( prenda_id, estado_cambio, cual_cambio, usuario_id, fecha_hora) VALUES (".$resultado[0]['ID'].",".$obtenidosArray[0]['estado'].", '".$nombre."', ".$id.",'".$fecha."')";
     for($i=1;$i < $long;$i++){
-        $datos3 = $datos3.",(".$resultado[$i][ID].",".$obtenidosArray[0][estado].", '".$nombre."', ".$id.",'".$fecha."')";
+        $datos3 = $datos3.",(".$resultado[$i]['ID'].",".$obtenidosArray[0]['estado'].", '".$nombre."', ".$id.",'".$fecha."')";
     }
     $wpdb->query($datos3);
 }
