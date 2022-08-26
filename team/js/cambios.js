@@ -126,6 +126,8 @@ function cambios() {
             var ventaItemsArray = ventaItems.split("%");
             //°Diego 1Diego 1°144°Beisbolera rojo L,°Diego 1Diego 1°145°Beisbolera Azul Oscuro L,
             var html = "<h1  style='display: none;' class='remover' id='ventaCliente' name='"+$('#ventaIdentificacion').val()+"'>"+ventaCliente+"</h1>";
+            html = html + "<h1  style='display: none;' class='remover' id='cambioIdUpdate' name='"+ids+"'></h1>";
+            html = html + "<h1  style='display: none;' class='remover' id='ventaIdUpdate' name='"+datoArray[3]+"'></h1>";
             for(var k = 0;k<(ventaItemsArray.length-1);k++){
                 var splt = ventaItemsArray[k].split("°");
                 var itemId = splt[2];
@@ -166,7 +168,53 @@ function cambios() {
         return false;     
     }); 
     $('#botonCargacambiosEncontrados').on('click', function(){
-        
+        var idUsuario = $('#usuario').attr("name");
+        var venta_id = $('#ventaIdUpdate').attr("name");
+        var idCambio = $('#cambioIdUpdate').attr("name");
+        var prendasSalen = "";
+        var prendasSalenName = "";
+        var prendasEntran = "";
+        var prendasEntranName = "";
+        var diferencia = 0;
+        var flag = 0;
+        for(var i = 0;i<$("#prendasCambiosEncontradas select").length;i++){
+            var datosNueva = $("#prendasCambiosEncontradas select:eq("+(i)+")").val();//192%Abbie Camel SM%120000
+            if(datosNueva != "NA"){
+                flag = 1;
+                var precioViejo = $("#prendasCambiosEncontradas p:eq("+(i)+")").attr("name");
+                var nuevoArray = datosNueva.split("%");
+                diferencia =parseInt(diferencia)+ parseInt(precioViejo)-parseInt(nuevoArray[2]);
+                prendasEntran = prendasEntran+$("#prendasCambiosEncontradas p:eq("+(i)+")").text()+", "
+                prendasEntranName = prendasEntranName+$("#prendasCambiosEncontradas select:eq("+(i)+")").attr("name")+"%";
+                prendasSalen = prendasSalen+nuevoArray[1]+",";
+                prendasSalenName = prendasSalenName+nuevoArray[0]+"%";
+            }
+        }
+        if(flag == 1){
+            var clienteAjuste = "";
+            var costoEnvio = $('#costosEnvio').val();
+            var cstasd = parseInt(costoEnvio)+0;
+            diferencia = diferencia + cstasd;
+            if(diferencia<0){
+                var fefren = -1*diferencia;
+                var formatopre = formatoPrecio(fefren);
+                clienteAjuste = "El cliente queda con saldo a favor de: "+formatopre;
+            }if(diferencia==0){
+                clienteAjuste = "El cliente no queda con saldo";
+            }if(diferencia>0){
+                var formatopre = formatoPrecio(diferencia);
+                clienteAjuste = "El cliente queda debe pagar de más: "+formatopre;
+            }
+            var prendasEntranIDSArray = prendasEntranName.split("%");
+            var prendasSalenIDSArray = prendasSalenName.split("%");
+            for(var i = 0;i<(prendasEntranIDSArray.length-1);i++){
+                //cambioitem(prendasSalenIDSArray[i],prendasEntranIDSArray[i],idCambio,venta_id);
+                alert(prendasSalenIDSArray[i]+"-"+prendasEntranIDSArray[i]+"-"+idCambio+"-"+venta_id);
+            }
+        }else{
+            alert("No hay cambios realizados");
+        }
+        return false;     
     });
     $('.fechaUpdate').on('click', function(){  
         var ids = $(this).attr("name"); 

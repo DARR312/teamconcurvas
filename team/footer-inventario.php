@@ -550,7 +550,8 @@
         html5QrcodeScanner.render(escanearInventa);
     });
     $('#enviarEscaneados').on('click', function() {
-        var escaneadosEnviar = $('#escanerInv').text();
+        var escaneadosData = $('#escanerInv').text();
+        var escaneadosEnviar = escaneadosData.replace(" ","");;
         var usuarioLevel = $('#usuarioCell').attr('name');
         var data = escaneadosEnviar+usuarioLevel;
         enviarInventario(data);
