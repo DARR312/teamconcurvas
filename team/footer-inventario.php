@@ -538,8 +538,7 @@
         }//C1145RB4D13S64°C1145RB7D13S64°
         inicialcaja(pr);
         $('.remover').remove();
-    });
-    
+    });    
     /*************************** Escaner inventario *******************************/
     $('#escanearInventario').on('click', function() {
         $('#escanerInv').css('display', 'block');
