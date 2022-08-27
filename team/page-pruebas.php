@@ -30,7 +30,7 @@ echo $imprimir;*/
 
 $referenciasArray = $wpdb->get_results( "SELECT DISTINCT referencia_id FROM con_t_trprendas ORDER BY referencia_id ASC", ARRAY_A);
 $estadosArray = $wpdb->get_results( "SELECT DISTINCT estado FROM con_t_trprendas ORDER BY estado ASC", ARRAY_A);
-  print_r($estadosArray); 
+  //print_r($estadosArray); 
   for($j = 0; $j<sizeof($referenciasArray);$j++){    
     $cantidad = 0;
     for($i = 0; $i<sizeof($estadosArray);$i++){
@@ -41,7 +41,8 @@ $estadosArray = $wpdb->get_results( "SELECT DISTINCT estado FROM con_t_trprendas
         }
     }
     $separados = $wpdb->get_results( "SELECT COUNT(*) FROM con_t_ventaitem WHERE (prenda_id = ".$referenciasArray[$j]['referencia_id'].") AND (estado_id = 1)", ARRAY_A);//133
-    $cantidad = $cantidad - $separados[0]['COUNT(*)'];
+    $separadosCambios = $wpdb->get_results( "SELECT COUNT(*) FROM con_t_cambioitem WHERE (prenda_idsale = ".$referenciasArray[$j]['referencia_id'].") AND (estado_id = 'Sin empacar')", ARRAY_A);//133
+    $cantidad = $cantidad - $separados[0]['COUNT(*)']- $separadosCambios[0]['COUNT(*)'];
     //echo $referenciasArray[$j]['referencia_id'].": ".$cantidad."--";
     $updated = $wpdb->update( "con_t_resumen", array('cantidad' => $cantidad), array( 'referencia_id' => $referenciasArray[$j]['referencia_id']));
   }

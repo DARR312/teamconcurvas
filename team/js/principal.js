@@ -1,5 +1,5 @@
-//const urlhost = "http://localhost/wordpress/index.php/controlador" ;//http://localhost/wordpress/index.php/controlador/
-const urlhost = "https://concurvas.com/team/controlador/" ;
+const urlhost = "http://localhost/wordpress/index.php/controlador" ;//http://localhost/wordpress/index.php/controlador/
+//const urlhost = "https://concurvas.com/team/controlador/" ;
 function formatoPrecio(precio){
     let myFunc = num => Number(num);
     var nuevoPrecio =  Array.from(String(precio), myFunc);
@@ -356,6 +356,38 @@ function enviarInventario(datos) {
    }
 };
 
+function cambiarEstadoprenda(valor,valor2,nombre,id) {
+	var enviar = "funcion=cambiarEstadoprenda&valor="+valor+"&valor2="+valor2+"&nombre="+nombre+"&id="+id;
+	var obtenidos = "no";
+	$.ajax({
+	 	url: urlhost,
+		headers: {'Access-Control-Allow-Origin': urlhost},
+		type: "GET",
+		async: false,
+		data: enviar,
+		success: function(data){
+			obtenidos = data;
+		}						
+	});
+	return obtenidos	
+ };
+
+ function restarInventario(valor) {
+	var enviar = "funcion=restarInventario&valor="+valor;
+	var obtenidos = "no";
+	$.ajax({
+	 	url: urlhost,
+		headers: {'Access-Control-Allow-Origin': urlhost},
+		type: "GET",
+		async: false,
+		data: enviar,
+		success: function(data){
+			obtenidos = data;
+		}						
+	});
+	return obtenidos	
+ };
+
 function readerDespachar(decodedText, decodedResult) {
         // Handle on success condition with the decoded text or result.
         //console.log(`Scan result: ${decodedText}`, decodedResult);
@@ -386,6 +418,12 @@ function readerDespachar(decodedText, decodedResult) {
         }else{alert("El pedido no ha sido empacado o ya está en ruta.");}
 };
 
+function escanearDanados(decodedText, decodedResult) {
+	// Handle on success condition with the decoded text or result.
+	//console.log(`Scan result: ${decodedText}`, decodedResult);
+	var escaneados = $('#escanerDan');
+	escaneados.append("<p>"+decodedText+"</p>");
+};
 function agregarventa(idCliente,datosCliente,pedido,precio,notas,origen,fecha,idUsuario,idUsuario) {
     var datos = idCliente+"¬"+notas+"¬"+origen+"¬"+fecha+"¬"+idUsuario+"¬"+idUsuario+"¬"+datosCliente+"¬"+pedido+"¬"+precio;
     var enviar = "funcion=agregarventa&valor="+datos;
@@ -715,5 +753,21 @@ function nuevolote () {
 		}						
 	});	
 	//alert(habilitados);
+	return habilitados;
+};
+
+function cantidadesinventario () {
+	var enviar = "funcion=cantidadesinventario";
+	var habilitados = 'no';
+	$.ajax({
+		url: urlhost,
+		headers: {'Access-Control-Allow-Origin': urlhost},
+		type: "GET",
+		async: false,
+		data: enviar,
+		success: function(data){
+			habilitados = data;
+		}						
+	});	
 	return habilitados;
 };

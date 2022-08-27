@@ -189,10 +189,10 @@ function cambios() {
                 prendasSalen = prendasSalen+nuevoArray[1]+",";
                 prendasSalenName = prendasSalenName+nuevoArray[0]+"%";
             }
-        }
+        } 
         if(flag == 1){
             var clienteAjuste = "";
-            var costoEnvio = $('#costosEnvio').val();
+            var costoEnvio = $('#costosEnvioEncontrado').val();
             var cstasd = parseInt(costoEnvio)+0;
             diferencia = diferencia + cstasd;
             if(diferencia<0){
@@ -207,10 +207,23 @@ function cambios() {
             }
             var prendasEntranIDSArray = prendasEntranName.split("%");
             var prendasSalenIDSArray = prendasSalenName.split("%");
+            actualizar("cambioitem_estado",idCambio,'Cancelado',0);
             for(var i = 0;i<(prendasEntranIDSArray.length-1);i++){
-                //cambioitem(prendasSalenIDSArray[i],prendasEntranIDSArray[i],idCambio,venta_id);
-                alert(prendasSalenIDSArray[i]+"-"+prendasEntranIDSArray[i]+"-"+idCambio+"-"+venta_id);
+                cambioitem(prendasSalenIDSArray[i],prendasEntranIDSArray[i],idCambio,venta_id);
+                //alert(prendasSalenIDSArray[i]+"-"+prendasEntranIDSArray[i]+"-"+idCambio+"-"+venta_id);
             }
+            actualizar("cambio_pedido",idCambio,prendasSalen+"°"+prendasEntran,diferencia);
+            $('.removeUpdate').remove();
+            $(".removecero").val(0);
+            $('#popup6').fadeOut('slow');       
+            $('.popup-overlay').fadeOut('slow'); 
+            $('.removerCambios').remove();
+            var ordenesCambio = ordenescambio($('#bscar').val(),$('#estadoFiltro').val(),$('#transportador').val(),$('#datetimepicker-default').val(),$('#datetimepicker-defaultFiltro').val());
+            var arrayOrdenes = ordenesCambio.split('&');
+            var primeraFila = $('#primeraFila');
+            var html = imprimirCambios(arrayOrdenes,'pedidoUpdate','fechaUpdate','notasUpdate','usuarioUpdate');
+            primeraFila.after(html);
+            cantidadesinventario();
         }else{
             alert("No hay cambios realizados");
         }

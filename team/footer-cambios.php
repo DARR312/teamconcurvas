@@ -75,7 +75,6 @@
         $('#filtroFE').attr("name",pedidoUpdate+","+fechaUpdate+","+notasUpdate+","+usuarioUpdate+","+botonrevisar);
         var ordenesCambio = ordenescambio($('#bscar').val(),$('#estadoFiltro').val(),$('#transportador').val(),$('#datetimepicker-default').val(),$('#datetimepicker-defaultFiltro').val());
         var arrayOrdenes = ordenesCambio.split('&');
-        //alert(arrayOrdenes);
         var primeraFila = $('#primeraFila');
         var html = imprimirCambios(arrayOrdenes,pedidoUpdate,fechaUpdate,notasUpdate,usuarioUpdate);
     	primeraFila.after(html);

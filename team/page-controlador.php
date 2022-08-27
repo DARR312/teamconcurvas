@@ -116,7 +116,7 @@ function permisosInventario(){
     $permisos = $wpdb->get_results( "SELECT permiso_id FROM con_t_rolespermisos WHERE level = ".$user_level."", ARRAY_A  );
     foreach ($permisos as $v1) {
         foreach ($v1 as $v2) {
-            if($v2 == 17 || $v2 == 18 || $v2 == 19 || $v2 == 20 || $v2 == 21 || $v2 == 22 || $v2 == 23 || $v2 == 24 || $v2 == 25 || $v2 == 28 || $v2 == 29 || $v2 == 30  || $v2 == 31  || $v2 == 32 || $v2 == 33 || $v2 == 34 || $v2 == 35){
+            if($v2 == 17 || $v2 == 18 || $v2 == 19 || $v2 == 20 || $v2 == 21 || $v2 == 22 || $v2 == 23 || $v2 == 24 || $v2 == 25 || $v2 == 28 || $v2 == 29 || $v2 == 30  || $v2 == 31  || $v2 == 32 || $v2 == 33 || $v2 == 34 || $v2 == 35 || $v2 == 36){
                 $permi = $permi.",".$v2;
             }
         }
@@ -392,6 +392,54 @@ function cambiarEstadoprendas($valor,$valor2,$nombre,$id){
     $wpdb->query($datos3);
 }
 
+function cambiarEstadoprenda($valor,$valor2,$nombre,$id){
+    $timezone = new DateTimeZone( 'America/Bogota' );
+    $fecha = wp_date('Y-m-d H:i:s', null, $timezone );
+    global $wpdb;
+    $obtenidosArray = $wpdb->get_results( "SELECT estado FROM con_t_estadoprendas WHERE ID = ".$valor2."", ARRAY_A);
+    $datos="UPDATE con_t_trprendas SET  estado = '".$obtenidosArray[0]['estado']."', fecha_cambio = '".$fecha."', cual = '".$nombre."', complemento_estado = '".$id."' WHERE codigo IN (";
+    $datos2="SELECT ID FROM con_t_trprendas WHERE codigo IN (";
+    $componentes = explode(",",$valor);
+    $long =  sizeof($componentes);
+    for($i=0;$i < $long;$i++){
+        if($i==0){ 
+            $datosSinEspacio =str_replace(' ', '', $componentes[$i]); 
+            $datos = $datos."'".$datosSinEspacio."'"; 
+            $datos2 = $datos2."'".$componentes[$i]."'";
+        }
+        else{ 
+            $datosSinEspacio =str_replace(' ', '', $componentes[$i]); 
+            $datos = $datos.",'".$datosSinEspacio."'"; 
+            $datos2 = $datos2.",'".$componentes[$i]."'";
+        }
+    }
+     $datos = $datos.")";
+     $datos2 = $datos2.")";
+     echo $datos;
+     $wpdb->query($datos);
+    $resultado = $wpdb->get_results( $datos2, ARRAY_A);
+    $long =  sizeof($resultado);
+    $datos3 = "INSERT INTO con_t_cambiostr ( prenda_id, estado_cambio, cual_cambio, usuario_id, fecha_hora) VALUES (".$resultado[0]['ID'].",".$obtenidosArray[0]['estado'].", '".$nombre."', ".$id.",'".$fecha."')";
+    for($i=1;$i < $long;$i++){
+        $datos3 = $datos3.",(".$resultado[$i]['ID'].",".$obtenidosArray[0]['estado'].", '".$nombre."', ".$id.",'".$fecha."')";
+    }
+    $wpdb->query($datos3);
+}
+
+function restarInventario($valor){
+    global $wpdb;
+    $componentes = explode(",",$valor);
+    $long =  sizeof($componentes);
+    for($i=0;$i < ($long-1);$i++){
+        $datosSinEspacio =str_replace(' ', '', $componentes[$i]); 
+        $refIdArray = $wpdb->get_results( "SELECT referencia_id FROM con_t_trprendas WHERE codigo = '".$datosSinEspacio."'", ARRAY_A);
+        $cantidadInicial = $wpdb->get_results( "SELECT cantidad FROM con_t_resumen WHERE referencia_id = ".$refIdArray[0]['referencia_id']."", ARRAY_A);
+        $cantidadNueva = --$cantidadInicial[0]['cantidad'];
+        $cambio = $wpdb->query("UPDATE con_t_resumen SET cantidad = ".$cantidadNueva." WHERE referencia_id = ".$refIdArray[0]['referencia_id']."");
+        echo $cambio;
+    }
+}
+
 function disponibles(){
     global $wpdb;
     $datos0 = "SELECT referencia_id, nombre, color, talla, precio_detal FROM con_t_resumen WHERE cantidad > 0 ORDER BY nombre ASC";
@@ -522,7 +570,7 @@ function ordenesventa($valor,$valor2,$valor3,$valor4,$valor5){
                     //print_r($ventasTodas);
                     if($ventasTodas){
                         foreach ($ventasTodas as $v1) {
-                            $todas = $todas.$v1[venta_id]."%".$v1[fecha_creada]."%".$v1[datos_cliente]."%".$v1[direccion]."%".$v1[pedido]."%".$v1[cliente_ok]."%".$v1[notas]."%".$v1[origen]."%".$v1[fecha_entrega]."%".$v1[estado]."%".$v1[vendedor_id]."%".$v1[usuario_id]."%".$v1[cliente_id]."&";
+                            $todas = $todas.$v1['venta_id']."%".$v1['fecha_creada']."%".$v1['datos_cliente']."%".$v1['direccion']."%".$v1['pedido']."%".$v1['cliente_ok']."%".$v1['notas']."%".$v1['origen']."%".$v1['fecha_entrega']."%".$v1['estado']."%".$v1['vendedor_id']."%".$v1['usuario_id']."%".$v1['cliente_id']."&";
                         }
                     }else{
                         $todas = "NA";
@@ -537,7 +585,7 @@ function ordenesventa($valor,$valor2,$valor3,$valor4,$valor5){
                     //print_r($ventasTodas);
                     if($ventasTodas){
                         foreach ($ventasTodas as $v1) {
-                            $todas = $todas.$v1[venta_id]."%".$v1[fecha_creada]."%".$v1[datos_cliente]."%".$v1[direccion]."%".$v1[pedido]."%".$v1[cliente_ok]."%".$v1[notas]."%".$v1[origen]."%".$v1[fecha_entrega]."%".$v1[estado]."%".$v1[vendedor_id]."%".$v1[usuario_id]."%".$v1[cliente_id]."&";
+                            $todas = $todas.$v1['venta_id']."%".$v1['fecha_creada']."%".$v1['datos_cliente']."%".$v1['direccion']."%".$v1['pedido']."%".$v1['cliente_ok']."%".$v1['notas']."%".$v1['origen']."%".$v1['fecha_entrega']."%".$v1['estado']."%".$v1['vendedor_id']."%".$v1['usuario_id']."%".$v1['cliente_id']."&";
                         }
                     }else{
                         $todas = "NA";
@@ -554,7 +602,7 @@ function ordenesventa($valor,$valor2,$valor3,$valor4,$valor5){
                     //print_r($ventasTodas);
                     if($ventasTodas){
                         foreach ($ventasTodas as $v1) {
-                            $todas = $todas.$v1[venta_id]."%".$v1[fecha_creada]."%".$v1[datos_cliente]."%".$v1[direccion]."%".$v1[pedido]."%".$v1[cliente_ok]."%".$v1[notas]."%".$v1[origen]."%".$v1[fecha_entrega]."%".$v1[estado]."%".$v1[vendedor_id]."%".$v1[usuario_id]."%".$v1[cliente_id]."&";
+                            $todas = $todas.$v1['venta_id']."%".$v1['fecha_creada']."%".$v1['datos_cliente']."%".$v1['direccion']."%".$v1['pedido']."%".$v1['cliente_ok']."%".$v1['notas']."%".$v1['origen']."%".$v1['fecha_entrega']."%".$v1['estado']."%".$v1['vendedor_id']."%".$v1['usuario_id']."%".$v1['cliente_id']."&";
                         }
                     }else{
                         $todas = "NA";
@@ -569,7 +617,7 @@ function ordenesventa($valor,$valor2,$valor3,$valor4,$valor5){
                     //print_r($ventasTodas);
                     if($ventasTodas){
                         foreach ($ventasTodas as $v1) {
-                            $todas = $todas.$v1[venta_id]."%".$v1[fecha_creada]."%".$v1[datos_cliente]."%".$v1[direccion]."%".$v1[pedido]."%".$v1[cliente_ok]."%".$v1[notas]."%".$v1[origen]."%".$v1[fecha_entrega]."%".$v1[estado]."%".$v1[vendedor_id]."%".$v1[usuario_id]."%".$v1[cliente_id]."&";
+                            $todas = $todas.$v1['venta_id']."%".$v1['fecha_creada']."%".$v1['datos_cliente']."%".$v1['direccion']."%".$v1['pedido']."%".$v1['cliente_ok']."%".$v1['notas']."%".$v1['origen']."%".$v1['fecha_entrega']."%".$v1['estado']."%".$v1['vendedor_id']."%".$v1['usuario_id']."%".$v1['cliente_id']."&";
                         }
                     }else{
                         $todas = "NA";
@@ -589,7 +637,7 @@ function ordenesventa($valor,$valor2,$valor3,$valor4,$valor5){
                         //print_r($ventasTodas);
                         if($ventasTodas){
                             foreach ($ventasTodas as $v1) {
-                                $todas = $todas.$v1[venta_id]."%".$v1[fecha_creada]."%".$v1[datos_cliente]."%".$v1[direccion]."%".$v1[pedido]."%".$v1[cliente_ok]."%".$v1[notas]."%".$v1[origen]."%".$v1[fecha_entrega]."%".$v1[estado]."%".$v1[vendedor_id]."%".$v1[usuario_id]."%".$v1[cliente_id]."&";
+                                $todas = $todas.$v1['venta_id']."%".$v1['fecha_creada']."%".$v1['datos_cliente']."%".$v1['direccion']."%".$v1['pedido']."%".$v1['cliente_ok']."%".$v1['notas']."%".$v1['origen']."%".$v1['fecha_entrega']."%".$v1['estado']."%".$v1['vendedor_id']."%".$v1['usuario_id']."%".$v1['cliente_id']."&";
                             }
                         }else{
                             $todas = "NA";
@@ -604,7 +652,7 @@ function ordenesventa($valor,$valor2,$valor3,$valor4,$valor5){
                         //print_r($ventasTodas);
                         if($ventasTodas){
                             foreach ($ventasTodas as $v1) {
-                                $todas = $todas.$v1[venta_id]."%".$v1[fecha_creada]."%".$v1[datos_cliente]."%".$v1[direccion]."%".$v1[pedido]."%".$v1[cliente_ok]."%".$v1[notas]."%".$v1[origen]."%".$v1[fecha_entrega]."%".$v1[estado]."%".$v1[vendedor_id]."%".$v1[usuario_id]."%".$v1[cliente_id]."&";
+                                $todas = $todas.$v1['venta_id']."%".$v1['fecha_creada']."%".$v1['datos_cliente']."%".$v1['direccion']."%".$v1['pedido']."%".$v1['cliente_ok']."%".$v1['notas']."%".$v1['origen']."%".$v1['fecha_entrega']."%".$v1['estado']."%".$v1['vendedor_id']."%".$v1['usuario_id']."%".$v1['cliente_id']."&";
                             }
                         }else{
                             $todas = "NA";
@@ -621,7 +669,7 @@ function ordenesventa($valor,$valor2,$valor3,$valor4,$valor5){
                         //print_r($ventasTodas);
                         if($ventasTodas){
                             foreach ($ventasTodas as $v1) {
-                                $todas = $todas.$v1[venta_id]."%".$v1[fecha_creada]."%".$v1[datos_cliente]."%".$v1[direccion]."%".$v1[pedido]."%".$v1[cliente_ok]."%".$v1[notas]."%".$v1[origen]."%".$v1[fecha_entrega]."%".$v1[estado]."%".$v1[vendedor_id]."%".$v1[usuario_id]."%".$v1[cliente_id]."&";
+                                $todas = $todas.$v1['venta_id']."%".$v1['fecha_creada']."%".$v1['datos_cliente']."%".$v1['direccion']."%".$v1['pedido']."%".$v1['cliente_ok']."%".$v1['notas']."%".$v1['origen']."%".$v1['fecha_entrega']."%".$v1['estado']."%".$v1['vendedor_id']."%".$v1['usuario_id']."%".$v1['cliente_id']."&";
                             }
                         }else{
                             $todas = "NA";
@@ -636,7 +684,7 @@ function ordenesventa($valor,$valor2,$valor3,$valor4,$valor5){
                         //print_r($ventasTodas);
                         if($ventasTodas){
                             foreach ($ventasTodas as $v1) {
-                                $todas = $todas.$v1[venta_id]."%".$v1[fecha_creada]."%".$v1[datos_cliente]."%".$v1[direccion]."%".$v1[pedido]."%".$v1[cliente_ok]."%".$v1[notas]."%".$v1[origen]."%".$v1[fecha_entrega]."%".$v1[estado]."%".$v1[vendedor_id]."%".$v1[usuario_id]."%".$v1[cliente_id]."&";
+                                $todas = $todas.$v1['venta_id']."%".$v1['fecha_creada']."%".$v1['datos_cliente']."%".$v1['direccion']."%".$v1['pedido']."%".$v1['cliente_ok']."%".$v1['notas']."%".$v1['origen']."%".$v1['fecha_entrega']."%".$v1['estado']."%".$v1['vendedor_id']."%".$v1['usuario_id']."%".$v1['cliente_id']."&";
                             }
                         }else{
                             $todas = "NA";
@@ -652,7 +700,7 @@ function ordenesventa($valor,$valor2,$valor3,$valor4,$valor5){
                         //print_r($ventasTodas);
                         if($ventasTodas){
                             foreach ($ventasTodas as $v1) {
-                                $todas = $todas.$v1[venta_id]."%".$v1[fecha_creada]."%".$v1[datos_cliente]."%".$v1[direccion]."%".$v1[pedido]."%".$v1[cliente_ok]."%".$v1[notas]."%".$v1[origen]."%".$v1[fecha_entrega]."%".$v1[estado]."%".$v1[vendedor_id]."%".$v1[usuario_id]."%".$v1[cliente_id]."&";
+                                $todas = $todas.$v1['venta_id']."%".$v1['fecha_creada']."%".$v1['datos_cliente']."%".$v1['direccion']."%".$v1['pedido']."%".$v1['cliente_ok']."%".$v1['notas']."%".$v1['origen']."%".$v1['fecha_entrega']."%".$v1['estado']."%".$v1['vendedor_id']."%".$v1['usuario_id']."%".$v1['cliente_id']."&";
                             }
                         }else{
                             $todas = "NA";
@@ -664,7 +712,7 @@ function ordenesventa($valor,$valor2,$valor3,$valor4,$valor5){
                         //print_r($ventasTodas);
                         if($ventasTodas){
                             foreach ($ventasTodas as $v1) {
-                                $todas = $todas.$v1[venta_id]."%".$v1[fecha_creada]."%".$v1[datos_cliente]."%".$v1[direccion]."%".$v1[pedido]."%".$v1[cliente_ok]."%".$v1[notas]."%".$v1[origen]."%".$v1[fecha_entrega]."%".$v1[estado]."%".$v1[vendedor_id]."%".$v1[usuario_id]."%".$v1[cliente_id]."&";
+                                $todas = $todas.$v1['venta_id']."%".$v1['fecha_creada']."%".$v1['datos_cliente']."%".$v1['direccion']."%".$v1['pedido']."%".$v1['cliente_ok']."%".$v1['notas']."%".$v1['origen']."%".$v1['fecha_entrega']."%".$v1['estado']."%".$v1['vendedor_id']."%".$v1['usuario_id']."%".$v1['cliente_id']."&";
                             }
                         }else{
                             $todas = "NA";
@@ -678,7 +726,7 @@ function ordenesventa($valor,$valor2,$valor3,$valor4,$valor5){
                         //print_r($ventasTodas);
                         if($ventasTodas){
                             foreach ($ventasTodas as $v1) {
-                                $todas = $todas.$v1[venta_id]."%".$v1[fecha_creada]."%".$v1[datos_cliente]."%".$v1[direccion]."%".$v1[pedido]."%".$v1[cliente_ok]."%".$v1[notas]."%".$v1[origen]."%".$v1[fecha_entrega]."%".$v1[estado]."%".$v1[vendedor_id]."%".$v1[usuario_id]."%".$v1[cliente_id]."&";
+                                $todas = $todas.$v1['venta_id']."%".$v1['fecha_creada']."%".$v1['datos_cliente']."%".$v1['direccion']."%".$v1['pedido']."%".$v1['cliente_ok']."%".$v1['notas']."%".$v1['origen']."%".$v1['fecha_entrega']."%".$v1['estado']."%".$v1['vendedor_id']."%".$v1['usuario_id']."%".$v1['cliente_id']."&";
                             }
                         }else{
                             $todas = "NA";
@@ -690,7 +738,7 @@ function ordenesventa($valor,$valor2,$valor3,$valor4,$valor5){
                         //print_r($ventasTodas);
                         if($ventasTodas){
                             foreach ($ventasTodas as $v1) {
-                                $todas = $todas.$v1[venta_id]."%".$v1[fecha_creada]."%".$v1[datos_cliente]."%".$v1[direccion]."%".$v1[pedido]."%".$v1[cliente_ok]."%".$v1[notas]."%".$v1[origen]."%".$v1[fecha_entrega]."%".$v1[estado]."%".$v1[vendedor_id]."%".$v1[usuario_id]."%".$v1[cliente_id]."&";
+                                $todas = $todas.$v1['venta_id']."%".$v1['fecha_creada']."%".$v1['datos_cliente']."%".$v1['direccion']."%".$v1['pedido']."%".$v1['cliente_ok']."%".$v1['notas']."%".$v1['origen']."%".$v1['fecha_entrega']."%".$v1['estado']."%".$v1['vendedor_id']."%".$v1['usuario_id']."%".$v1['cliente_id']."&";
                             }
                         }else{
                             $todas = "NA";
@@ -972,6 +1020,16 @@ function  actualizar($tabla,$columna,$valor,$valor2){
         echo $datos;
         $wpdb->insert("con_t_cambiostr", $datos);
     }
+    if($tabla == "cambio_pedido"){
+        $arraySalenEntran = explode("°",$valor);
+        $updated = $wpdb->update( "con_t_cambios", array('pedido' => $arraySalenEntran[0], 'prendas_por_regresar' => $arraySalenEntran[1], 'excedente' => $valor2), array( 'cambio_id' => $columna ) );
+        $datos = array("cambio_id" => $columna , "cambio" => $valor.$valor2 , "usuario_id" => $valores[2] , "fecha_hora" => $fecha , "campo_cambio" => "datos_cliente");
+        echo $datos;
+        $wpdb->insert("con_t_cambiostr", $datos);
+    }
+    if($tabla == "cambioitem_estado"){
+        $updated = $wpdb->update( "con_t_cambioitem", array('estado' => $valor), array( 'cambio_id' => $columna ) );
+    }
 }
 
 function  restar($id,$valor,$valor2){
@@ -1170,6 +1228,28 @@ function nuevolote(){
     $wpdb->insert("con_t_lotes", $valores);
 }
 
+function cantidadesinventario(){
+    global $wpdb;
+    $referenciasArray = $wpdb->get_results( "SELECT DISTINCT referencia_id FROM con_t_trprendas ORDER BY referencia_id ASC", ARRAY_A);
+$estadosArray = $wpdb->get_results( "SELECT DISTINCT estado FROM con_t_trprendas ORDER BY estado ASC", ARRAY_A);
+  //print_r($estadosArray); 
+    for($j = 0; $j<sizeof($referenciasArray);$j++){    
+        $cantidad = 0;
+        for($i = 0; $i<sizeof($estadosArray);$i++){
+            $obtenidosArray = $wpdb->get_results( "SELECT COUNT(*) FROM con_t_trprendas WHERE (referencia_id = ".$referenciasArray[$j]['referencia_id'].") AND (estado = '".$estadosArray[$i]['estado']."')", ARRAY_A);//133
+            //echo $estadosArray[$i][estado].": ".$obtenidosArray[0]['COUNT(*)']." ";
+            if(($estadosArray[$i]['estado'] == "En Administración") || ($estadosArray[$i]['estado'] == "En Empaques") || ($estadosArray[$i]['estado'] == "En Operaciones") || ($estadosArray[$i]['estado'] == "En Plaza de las américas") || ($estadosArray[$i]['estado'] == "En satélite")){
+                $cantidad = $cantidad +  $obtenidosArray[0]['COUNT(*)'];
+            }
+        }
+        $separados = $wpdb->get_results( "SELECT COUNT(*) FROM con_t_ventaitem WHERE (prenda_id = ".$referenciasArray[$j]['referencia_id'].") AND (estado_id = 1)", ARRAY_A);//133
+        $separadosCambios = $wpdb->get_results( "SELECT COUNT(*) FROM con_t_cambioitem WHERE (prenda_idsale = ".$referenciasArray[$j]['referencia_id'].") AND (estado_id = 'Sin empacar')", ARRAY_A);//133
+        $cantidad = $cantidad - $separados[0]['COUNT(*)']- $separadosCambios[0]['COUNT(*)'];
+        //echo $referenciasArray[$j]['referencia_id'].": ".$cantidad."--";
+        $updated = $wpdb->update( "con_t_resumen", array('cantidad' => $cantidad), array( 'referencia_id' => $referenciasArray[$j]['referencia_id']));
+    }
+}
+
 if($funcion == "permisosPrincipales"){
     permisosPrincipales();
 }if($funcion == "permisosVentas"){
@@ -1192,6 +1272,8 @@ if($funcion == "permisosPrincipales"){
     nuevaMarquilla($valor);
 }if($funcion == "cambiarEstadoprendas"){
     cambiarEstadoprendas($valor,$valor2,$nombre,$id);
+}if($funcion == "cambiarEstadoprenda"){
+    cambiarEstadoprenda($valor,$valor2,$nombre,$id);
 }if($funcion == "disponibles"){
     disponibles();
 }if($funcion == "agregarventa"){
@@ -1234,5 +1316,9 @@ if($funcion == "permisosPrincipales"){
     cambioitem($valor,$valor2,$valor3,$valor4);
 }if($funcion == "ordenescambio"){
    ordenescambio($valor,$valor2,$valor3,$valor4,$valor5);
-}
+}if($funcion == "cantidadesinventario"){
+    cantidadesinventario();
+ }if($funcion == "restarInventario"){
+    restarInventario($valor);
+ }
 ?>

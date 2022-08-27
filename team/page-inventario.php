@@ -261,6 +261,12 @@ function is_admin_user() {
             </p>
         </div>
         <div class='col-lg-6 col-md-6 col-sm-6 col-xs-12' id='confirmarDespacho' style='display: none;'><button class='botonmodal letra18pt-pc' type='button' id='confirmarDespachoButton'>Confirmar pedido</button></div>
+        <div style="width: 100%" id="readerDan"></div>
+        <div id='funcionesDan' style='display: none;'>
+            <div class='col-lg-6 col-md-6 col-sm-6 col-xs-12' id='enviarDan' ><button class='botonmodal letra18pt-pc' type='button'>Enviar a dañados</button></div>
+            <div id='escanerDan' style='display: none;' >
+          </div>
+        </div>
     </div>
 <?php
 	   get_footer("inventario"); 

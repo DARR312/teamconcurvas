@@ -56,6 +56,9 @@
         }if(items[i]==35){
             var segundo = $('#segundo');
             segundo.append("<div class='col-lg-2 col-md-2 col-sm-2 col-xs-12' id='accion35'><button class='botonmodal botonesInventario' type='button' id='reviVentas'>Ventas vs inventario</button></div>");
+        }if(items[i]==35){
+            var segundo = $('#botonesEscaner');
+            segundo.append("<div class='col-lg-12 col-md-12 col-sm-12 col-xs-12' id='accion36'><button class='botonmodal' type='button' id='enviarDanado'>Enviar dañados</button></div>");
         }
     }
     $('#crearReferencia').on('click', function(){   
@@ -552,10 +555,8 @@
         var escaneadosData = $('#escanerInv').text();
         alert(escaneadosData);
         var escaneadosEnviar = escaneadosData.replace(" ","");
-        alert(escaneadosEnviar);
         var usuarioLevel = $('#usuarioCell').attr('name');
         var data = escaneadosEnviar+usuarioLevel;
-        enviarInventario(data);
         var escaneados = $('#escanerInv');
         escaneados.text(" ");
     });
@@ -640,6 +641,41 @@
         $('#escanerDespachos').text("Pedido: ");
         $('#escanerDespachos').attr("name","");
         $('.removerPrendasdesp').remove();
+    });
+    /*************************** Enviar dañado *******************************/
+    $('#enviarDanado').on('click', function() {
+        $('#escanerDan').css('display', 'block');
+        $('#funcionesDan').css('display', 'block');
+        $('#botonesEscaner').css('display', 'none');
+        var html5QrcodeScanner = new Html5QrcodeScanner(
+    	"readerDan", { fps: 10, qrbox: 250 });
+        html5QrcodeScanner.render(escanearDanados);//esta función esta en Principal.js
+    });
+    $('#enviarDan').on('click', function() {
+        var escaneadosData = $('#escanerDan').text();
+        var cantidadInfo = $("#escanerDan p").length;
+	var falg = 0;
+	alert(flag+"-"+decodedText);
+	for(var i = 0;i<cantidadInfo;i++){
+		var id = $("#escanerDan p:eq("+i+")").text();
+		alert(id);
+		if(id == decodedText){
+			alert("Ya está escaneada");
+			falg = 1;
+			i = cantidadInfo+1;
+		}
+	}
+	alert(flag);
+	if(flag == 0){
+		escaneados.append("<p>"+decodedText+"</p>");
+	}	
+        var escaneadosEnviar = escaneadosData.replace(" ","");
+        var usuarioLevel = $('#usuarioCell').attr('name');//10,Diego Rodríguez,2
+        var usuarioArray = usuarioLevel.split(",");
+        cambiarEstadoprenda(escaneadosEnviar,16,usuarioArray[1],usuarioArray[2]);
+        restarInventario(escaneadosEnviar);
+        var escaneados = $('#escanerDan');
+        escaneados.text(" ");
     });
 })
 
