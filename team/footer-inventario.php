@@ -651,31 +651,28 @@
     	"readerDan", { fps: 10, qrbox: 250 });
         html5QrcodeScanner.render(escanearDanados);//esta función esta en Principal.js
     });
-    $('#enviarDan').on('click', function() {
-        var escaneadosData = $('#escanerDan').text();
+    $('#enviarDan').on('click', function() {    
+        //var escaneadosData = $('#escanerDan').text();
         var cantidadInfo = $("#escanerDan p").length;
-	var falg = 0;
-	alert(flag+"-"+decodedText);
-	for(var i = 0;i<cantidadInfo;i++){
-		var id = $("#escanerDan p:eq("+i+")").text();
-		alert(id);
-		if(id == decodedText){
-			alert("Ya está escaneada");
-			falg = 1;
-			i = cantidadInfo+1;
-		}
-	}
-	alert(flag);
-	if(flag == 0){
-		escaneados.append("<p>"+decodedText+"</p>");
-	}	
-        var escaneadosEnviar = escaneadosData.replace(" ","");
+        var flag = 0;        
+        var codigos = [];
+        var escaneadosEnviar = "";
+        for(var i = 0;i<cantidadInfo;i++){
+            var id = $("#escanerDan p:eq("+i+")").text();
+            var flag1 = 0;
+            for(var j =0;j<codigos.length;j++){
+                if(id == codigos[j]){flag1=1;}
+            }
+            if(flag1==0){
+                codigos.push(id);
+                escaneadosEnviar=escaneadosEnviar+id+",";
+            }
+        }
         var usuarioLevel = $('#usuarioCell').attr('name');//10,Diego Rodríguez,2
         var usuarioArray = usuarioLevel.split(",");
         cambiarEstadoprenda(escaneadosEnviar,16,usuarioArray[1],usuarioArray[2]);
         restarInventario(escaneadosEnviar);
-        var escaneados = $('#escanerDan');
-        escaneados.text(" ");
+        $('.removerr').remove();
     });
 })
 

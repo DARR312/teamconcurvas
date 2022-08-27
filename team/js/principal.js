@@ -422,7 +422,7 @@ function escanearDanados(decodedText, decodedResult) {
 	// Handle on success condition with the decoded text or result.
 	//console.log(`Scan result: ${decodedText}`, decodedResult);
 	var escaneados = $('#escanerDan');
-	escaneados.append("<p>"+decodedText+"</p>");
+	escaneados.append("<p class='removerr'>"+decodedText+"</p>");
 };
 function agregarventa(idCliente,datosCliente,pedido,precio,notas,origen,fecha,idUsuario,idUsuario) {
     var datos = idCliente+"¬"+notas+"¬"+origen+"¬"+fecha+"¬"+idUsuario+"¬"+idUsuario+"¬"+datosCliente+"¬"+pedido+"¬"+precio;
