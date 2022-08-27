@@ -56,7 +56,7 @@
         }if(items[i]==35){
             var segundo = $('#segundo');
             segundo.append("<div class='col-lg-2 col-md-2 col-sm-2 col-xs-12' id='accion35'><button class='botonmodal botonesInventario' type='button' id='reviVentas'>Ventas vs inventario</button></div>");
-        }if(items[i]==35){
+        }if(items[i]==36){
             var segundo = $('#botonesEscaner');
             segundo.append("<div class='col-lg-12 col-md-12 col-sm-12 col-xs-12' id='accion36'><button class='botonmodal' type='button' id='enviarDanado'>Enviar dañados</button></div>");
         }
