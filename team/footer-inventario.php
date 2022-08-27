@@ -557,6 +557,7 @@
         var escaneadosEnviar = escaneadosData.replace(" ","");
         var usuarioLevel = $('#usuarioCell').attr('name');
         var data = escaneadosEnviar+usuarioLevel;
+        enviarInventario(data);
         var escaneados = $('#escanerInv');
         escaneados.text(" ");
     });
