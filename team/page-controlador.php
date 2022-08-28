@@ -1030,6 +1030,20 @@ function  actualizar($tabla,$columna,$valor,$valor2){
     if($tabla == "cambioitem_estado"){
         $updated = $wpdb->update( "con_t_cambioitem", array('estado' => $valor), array( 'cambio_id' => $columna ) );
     }
+    if($tabla == "cambio_fecha" ){
+        $fechaentregaarray = explode("/",$columna);
+        $fechaentrega = $fechaentregaarray[2]."-".$fechaentregaarray[0]."-".$fechaentregaarray[1]." 00:00:00";
+        $updated = $wpdb->update( "con_t_cambios", array('fecha_entrega' => $fechaentrega), array( 'cambio_id' => $valor ) );
+        $datos = array("cambio_id" => $valor , "cambio" => $fechaentrega , "usuario_id" => $valores[2] , "fecha_hora" => $fecha , "campo_cambio" => "fecha_entrega");
+        echo $datos;
+        $wpdb->insert("con_t_cambiostr", $datos);
+    }
+    if($tabla == "cambio_nota" ){
+        $updated = $wpdb->update( "con_t_cambios", array('notas' => $columna), array( 'cambio_id' => $valor ) );
+        $datos = array("cambio_id" => $valor , "cambio" => $columna , "usuario_id" => $valores[2] , "fecha_hora" => $fecha , "campo_cambio" => "notas");
+        echo $datos;
+        $wpdb->insert("con_t_cambiostr", $datos);
+    }
 }
 
 function  restar($id,$valor,$valor2){

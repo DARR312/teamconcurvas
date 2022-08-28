@@ -231,7 +231,7 @@ function cambios() {
     });
     $('.fechaUpdate').on('click', function(){  
         var ids = $(this).attr("name"); 
-        var estado = obtenerData("estado","con_t_ventas","row","venta_id",ids);
+        var estado = obtenerData("estado","con_t_cambios","row","cambio_id",ids);
         if(estado == "Sin empacar" || estado == "Empacado"){
            $("#tituloFecha").text("Cambiar fecha del pedido: "+ids);
             $("#tituloFecha").attr("name",ids);
@@ -251,7 +251,7 @@ function cambios() {
             var fecha = $("#datetimepicker-update").val();
             var id =  $("#tituloFecha").attr("name");
             var usuarioCell = $('#usuarioCell').attr("name");
-            actualizar("venta_fecha",fecha,id,usuarioCell);
+            actualizar("cambio_fecha",fecha,id,usuarioCell);
             $('#popup7').fadeOut('slow');       
             $('.popup-overlay').fadeOut('slow');
         }else{alert("Inserta una fecha");}
@@ -259,7 +259,7 @@ function cambios() {
     }); 
     $('.notasUpdate').on('click', function(){  
         var ids = $(this).attr("name"); 
-        var estado = obtenerData("estado","con_t_ventas","row","venta_id",ids);
+        var estado = obtenerData("estado","con_t_cambios","row","cambio_id",ids);
         if(estado == "Sin empacar" || estado == "Empacado"){
             $("#tituloNotas").text("Cambiar notas del pedido: "+ids);
             $("#tituloNotas").attr("name",ids);
@@ -280,7 +280,7 @@ function cambios() {
         var nota = $("#notasUpdate").val();
         var id =  $("#tituloNotas").attr("name");
         var usuarioCell = $('#usuarioCell').attr("name");
-        actualizar("venta_nota",nota,id,usuarioCell);
+        actualizar("cambio_nota",nota,id,usuarioCell);
         $('#popup8').fadeOut('slow');       
         $('.popup-overlay').fadeOut('slow');
         return false;     
