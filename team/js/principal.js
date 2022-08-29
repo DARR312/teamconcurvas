@@ -424,12 +424,28 @@ function escanearDanados(decodedText, decodedResult) {
 	var escaneados = $('#escanerDan');
 	escaneados.append("<p class='removerr'>"+decodedText+"</p>");
 };
+
 function escanerventaplaza(decodedText, decodedResult) {
 	// Handle on success condition with the decoded text or result.
 	//console.log(`Scan result: ${decodedText}`, decodedResult);
 	var escaneados = $('#ventaPlazaenviar');
 	escaneados.append("<p class='removerr'>"+decodedText+"</p>");
 };
+
+function escanearmarugon(decodedText, decodedResult) {
+	// Handle on success condition with the decoded text or result.
+	//console.log(`Scan result: ${decodedText}`, decodedResult);
+	var escaneados = $('#escanerMadru');
+	escaneados.append("<p class='removerr'>"+decodedText+"</p>");
+};
+
+function escanerventamayorista(decodedText, decodedResult) {
+	// Handle on success condition with the decoded text or result.
+	//console.log(`Scan result: ${decodedText}`, decodedResult);
+	var escaneados = $('#ventaMayoristaenviar');
+	escaneados.append("<p class='removerr'>"+decodedText+"</p>");
+};
+
 function agregarventa(idCliente,datosCliente,pedido,precio,notas,origen,fecha,idUsuario,idUsuario) {
     var datos = idCliente+"¬"+notas+"¬"+origen+"¬"+fecha+"¬"+idUsuario+"¬"+idUsuario+"¬"+datosCliente+"¬"+pedido+"¬"+precio;
     var enviar = "funcion=agregarventa&valor="+datos;

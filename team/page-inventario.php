@@ -280,6 +280,22 @@ function is_admin_user() {
             <div id='ventaPlazaenviar' style='display: none;' >
           </div>
         </div>
+        <div style="width: 100%" id="readerMadrugon"></div>
+        <div id='funcionesMadru' style='display: none;'>
+            <div class='col-lg-6 col-md-6 col-sm-6 col-xs-12' id='enviarMadru' ><button class='botonmodal letra18pt-pc' type='button'>Enviar a madrugón</button></div>
+            <div id='escanerMadru' style='display: none;' >
+          </div>
+        </div>
+        <div style="width: 100%" id="readerVentamayorista"></div>
+        <div id='funcionesVetamayorista' style='display: none;'>
+            <div class="form-group pmd-textfield pmd-textfield-floating-label col-lg-12 col-md-12 col-sm-12 col-xs-12" id="paventa">
+    			<label for="vmvender" class="control-label letra18pt-pc"> VM- </label>
+    			<input class="form-control" type="number" id="vmvender" name="vmvender" required="" min='0'><span class="pmd-textfield-focused"></span>
+    		</div>
+            <div class='col-lg-6 col-md-6 col-sm-6 col-xs-12' id='ventaEnviarMayorista' ><button class='botonmodal letra18pt-pc' type='button'>Enviar a venta</button></div>
+            <div id='ventaMayoristaenviar' style='display: none;' >
+          </div>
+        </div>
     </div>
 <?php
 	   get_footer("inventario"); 

@@ -62,6 +62,9 @@
         }if(items[i]==37){
             var segundo = $('#botonesEscaner');
             segundo.append("<div class='col-lg-12 col-md-12 col-sm-12 col-xs-12' id='accion37'><button class='botonmodal' type='button' id='ventaPlaza'>Venta plaza</button></div>");
+        }if(items[i]==38){
+            var segundo = $('#botonesEscaner');
+            segundo.append("<div class='col-lg-12 col-md-12 col-sm-12 col-xs-12' id='accion38'><button class='botonmodal' type='button' id='ventaMayorista'>Venta mayorista</button></div>");
         }
     }
     $('#crearReferencia').on('click', function(){   
@@ -708,11 +711,79 @@
         var pa = $('#pavender').val();  
         var usuarioArray = usuarioLevel.split(",");
         if(pa){               
-            cambiarEstadoprenda(escaneadosEnviar,17,'PA-'+pa,usuarioArray[1]);
+            cambiarEstadoprenda(escaneadosEnviar,19,'PA-'+pa,usuarioArray[1]);
             restarInventario(escaneadosEnviar);
             $('.removerr').remove();            
             alert('Vendido(s): PA-'+pa); 
         }else{alert('Por favor ingresa el PA de la venta');}
+    });
+     /*************************** Enviar madrugón *******************************/
+     $('#enviarMadrugon').on('click', function() {
+        $('#escanerMadru').css('display', 'block');
+        $('#funcionesMadru').css('display', 'block');
+        $('#botonesEscaner').css('display', 'none');
+        var html5QrcodeScanner = new Html5QrcodeScanner(
+    	"readerDan", { fps: 10, qrbox: 250 });
+        html5QrcodeScanner.render(escanearmarugon);//esta función esta en Principal.js
+    });
+    $('#enviarMadru').on('click', function() {    
+        //var escaneadosData = $('#escanerDan').text();
+        var cantidadInfo = $("#escanerMadru p").length;
+        var flag = 0;        
+        var codigos = [];
+        var escaneadosEnviar = "";
+        for(var i = 0;i<cantidadInfo;i++){
+            var id = $("#escanerMadru p:eq("+i+")").text();
+            var flag1 = 0;
+            for(var j =0;j<codigos.length;j++){
+                if(id == codigos[j]){flag1=1;}
+            }
+            if(flag1==0){
+                codigos.push(id);
+                escaneadosEnviar=escaneadosEnviar+id+",";
+            }
+        }
+        var usuarioLevel = $('#usuarioCell').attr('name');//10,Diego Rodríguez,2
+        var usuarioArray = usuarioLevel.split(",");
+        cambiarEstadoprenda(escaneadosEnviar,18,usuarioArray[1],usuarioArray[2]);
+        restarInventario(escaneadosEnviar);
+        $('.removerr').remove();
+    });
+    /*************************** Venta mayorista *******************************/
+    $('#ventaMayorista').on('click', function() {
+        $('#funcionesVetamayorista').css('display', 'block');
+        $('#ventaMayoristaenviar').css('display', 'block');
+        $('#botonesEscaner').css('display', 'none');
+        var html5QrcodeScanner = new Html5QrcodeScanner(
+    	"readerVentamayorista", { fps: 10, qrbox: 250 });
+        html5QrcodeScanner.render(escanerventamayorista);//esta función esta en Principal.js
+    });
+    $('#ventaEnviarMayorista').on('click', function() {    
+        //var escaneadosData = $('#escanerDan').text();
+        var cantidadInfo = $("#ventaMayoristaenviar p").length;
+        var flag = 0;        
+        var codigos = [];
+        var escaneadosEnviar = "";
+        for(var i = 0;i<cantidadInfo;i++){
+            var id = $("#ventaMayoristaenviar p:eq("+i+")").text();
+            var flag1 = 0;
+            for(var j =0;j<codigos.length;j++){
+                if(id == codigos[j]){flag1=1;}
+            }
+            if(flag1==0){
+                codigos.push(id);
+                escaneadosEnviar=escaneadosEnviar+id+",";
+            }
+        }
+        var usuarioLevel = $('#usuarioCell').attr('name');//10,Diego Rodríguez,2
+        var pa = $('#vmvender').val();  
+        var usuarioArray = usuarioLevel.split(",");
+        if(pa){               
+            cambiarEstadoprenda(escaneadosEnviar,19,'VM-'+pa,usuarioArray[1]);
+            restarInventario(escaneadosEnviar);
+            $('.removerr').remove();            
+            alert('Vendido(s): VM-'+pa); 
+        }else{alert('Por favor ingresa el VM de la venta');}
     });
 })
 
