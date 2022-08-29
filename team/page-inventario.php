@@ -154,20 +154,23 @@ function is_admin_user() {
         <div id="verResumenprendas"  style='display: none;' class="funcionamiento">
             <div class="ochentaycinco fijo" id='primeraFilaResumen'>
                 <div class='col-lg-12 col-md-12 col-sm-12 col-xs-12'>
-    	           <div class='col-lg-3 col-md-3 col-sm-3 col-xs-3'>
+    	           <div class='col-lg-4 col-md-4 col-sm-4 col-xs-4'>
         	           <p class=' letra18pt-pc'>Referencia</p>
         	       </div> 
-        	       <div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'>
-        	           <p class=' letra18pt-pc'>Color</p>
+        	       <div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'>
+        	           <p class=' letra18pt-pc'>Fábrica</p>
         	       </div>
         	       <div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'>
-        	           <p class=' letra18pt-pc'>Talla</p>
+        	           <p class=' letra18pt-pc'>Bodega plaza</p>
         	       </div>
-        	       <div class='col-lg-3 col-md-3 col-sm-3 col-xs-3'>
-        	           <p class=' letra18pt-pc'>Cantidad</p>
+        	       <div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'>
+        	           <p class=' letra18pt-pc'>En plaza</p>
         	       </div>
         	       <div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'>
-        	           <p class=' letra18pt-pc'>Precio detal</p>
+        	           <p class=' letra18pt-pc'>En satélite</p>
+        	       </div>
+        	       <div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'>
+        	           <p class=' letra18pt-pc'>Precio</p>
         	       </div>
                 </div>
 	       </div>

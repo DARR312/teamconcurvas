@@ -9,7 +9,7 @@ function imprimirCodigos(arrayPrendas){
     return html;
 };
 
-function imprimirResumen(arrayPrendas){
+/*function imprimirResumen(arrayPrendas){
     var arrayPrenda = arrayPrendas[0].split('%');
     var html = "<div id='listadoResumen'><div class='col-lg-12 col-md-12 col-sm-12 col-xs-12 removerCodigos' id='primerCodigo'><div class='col-lg-3 col-md-3 col-sm-3 col-xs-3'><p class='letra18pt-pc'>"+arrayPrenda[0]+"</p></div><div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'><p class='letra18pt-pc'>"+arrayPrenda[1]+"</p></div><div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'><p class='letra18pt-pc'>"+arrayPrenda[2]+"</p></div><div class='col-lg-3 col-md-3 col-sm-3 col-xs-3'><p class='letra18pt-pc'>"+arrayPrenda[3]+"</p></div><div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'><p class='letra18pt-pc'>"+arrayPrenda[4]+"</p></div></div>";
     for(i=1;i<arrayPrendas.length-1;i++){
@@ -18,7 +18,7 @@ function imprimirResumen(arrayPrendas){
     }
     html = html+"</div>";
     return html;
-};
+};*/
 
 function imrpimirinicialcodigos(){
     $('.removerInicial').remove();

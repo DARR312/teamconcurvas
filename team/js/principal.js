@@ -771,3 +771,20 @@ function cantidadesinventario () {
 	});	
 	return habilitados;
 };
+
+function imprimirResumen() {
+	alert('Hola');
+	var enviar = "funcion=imprimirResumen";
+	var habilitados = 'no';
+	$.ajax({
+		url: urlhost,
+		headers: {'Access-Control-Allow-Origin': urlhost},
+		type: "GET",
+		async: false,
+		data: enviar,
+		success: function(data){
+			habilitados = data;
+		}						
+	});	
+	return habilitados;
+};
