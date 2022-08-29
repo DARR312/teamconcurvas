@@ -59,6 +59,9 @@
         }if(items[i]==36){
             var segundo = $('#botonesEscaner');
             segundo.append("<div class='col-lg-12 col-md-12 col-sm-12 col-xs-12' id='accion36'><button class='botonmodal' type='button' id='enviarDanado'>Enviar dañados</button></div>");
+        }if(items[i]==37){
+            var segundo = $('#botonesEscaner');
+            segundo.append("<div class='col-lg-12 col-md-12 col-sm-12 col-xs-12' id='accion37'><button class='botonmodal' type='button' id='ventaPlaza'>Venta plaza</button></div>");
         }
     }
     $('#crearReferencia').on('click', function(){   
@@ -674,6 +677,42 @@
         cambiarEstadoprenda(escaneadosEnviar,16,usuarioArray[1],usuarioArray[2]);
         restarInventario(escaneadosEnviar);
         $('.removerr').remove();
+    });
+    /*************************** Venta plaza *******************************/
+    $('#ventaPlaza').on('click', function() {
+        $('#funcionesVentaplaza').css('display', 'block');
+        $('#ventaPlazaenviar').css('display', 'block');
+        $('#botonesEscaner').css('display', 'none');
+        var html5QrcodeScanner = new Html5QrcodeScanner(
+    	"readerVentaplaza", { fps: 10, qrbox: 250 });
+        html5QrcodeScanner.render(escanerventaplaza);//esta función esta en Principal.js
+    });
+    $('#ventaEnviar').on('click', function() {    
+        //var escaneadosData = $('#escanerDan').text();
+        var cantidadInfo = $("#ventaPlazaenviar p").length;
+        var flag = 0;        
+        var codigos = [];
+        var escaneadosEnviar = "";
+        for(var i = 0;i<cantidadInfo;i++){
+            var id = $("#ventaPlazaenviar p:eq("+i+")").text();
+            var flag1 = 0;
+            for(var j =0;j<codigos.length;j++){
+                if(id == codigos[j]){flag1=1;}
+            }
+            if(flag1==0){
+                codigos.push(id);
+                escaneadosEnviar=escaneadosEnviar+id+",";
+            }
+        }
+        var usuarioLevel = $('#usuarioCell').attr('name');//10,Diego Rodríguez,2
+        var pa = $('#pavender').val();  
+        var usuarioArray = usuarioLevel.split(",");
+        if(pa){               
+            cambiarEstadoprenda(escaneadosEnviar,17,'PA-'+pa,usuarioArray[1]);
+            restarInventario(escaneadosEnviar);
+            $('.removerr').remove();            
+            alert('Vendido(s): PA-'+pa); 
+        }else{alert('Por favor ingresa el PA de la venta');}
     });
 })
 

@@ -270,6 +270,16 @@ function is_admin_user() {
             <div id='escanerDan' style='display: none;' >
           </div>
         </div>
+        <div style="width: 100%" id="readerVentaplaza"></div>
+        <div id='funcionesVentaplaza' style='display: none;'>
+            <div class="form-group pmd-textfield pmd-textfield-floating-label col-lg-12 col-md-12 col-sm-12 col-xs-12" id="paventa">
+    			<label for="pavender" class="control-label letra18pt-pc"> PA- </label>
+    			<input class="form-control" type="number" id="pavender" name="pavender" required="" min='0'><span class="pmd-textfield-focused"></span>
+    		</div>
+            <div class='col-lg-6 col-md-6 col-sm-6 col-xs-12' id='ventaEnviar' ><button class='botonmodal letra18pt-pc' type='button'>Enviar a venta</button></div>
+            <div id='ventaPlazaenviar' style='display: none;' >
+          </div>
+        </div>
     </div>
 <?php
 	   get_footer("inventario"); 
