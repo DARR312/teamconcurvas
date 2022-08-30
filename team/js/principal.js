@@ -1,5 +1,5 @@
-//const urlhost = "http://localhost/wordpress/index.php/controlador" ;//http://localhost/wordpress/index.php/controlador/
-const urlhost = "https://concurvas.com/team/controlador/" ;
+const urlhost = "http://localhost/wordpress/index.php/controlador" ;//http://localhost/wordpress/index.php/controlador/
+//const urlhost = "https://concurvas.com/team/controlador/" ;
 function formatoPrecio(precio){
     let myFunc = num => Number(num);
     var nuevoPrecio =  Array.from(String(precio), myFunc);
@@ -297,12 +297,15 @@ function readerPrendaEmpacada(decodedText, decodedResult) {
 function escanearEmpacar(decodedText, decodedResult) {
         // Handle on success condition with the decoded text or result.
         //console.log(`Scan result: ${decodedText}`, decodedResult);
-        var estadoVenta = obtenerData("estado","con_t_ventas","row","venta_id",decodedText);
-        if(estadoVenta == "Sin empacar" || estadoVenta == "No empacado"){
+		var estad = "";
+		if(decodedText[0] == "C"){estad = obtenerData("estado","con_t_cambios","row","cambio_id",decodedText.slice(1));
+		}else{estad = obtenerData("estado","con_t_ventas","row","venta_id",decodedText);}        
+        if(estad == "Sin empacar" || estadoVenta == "No empacado"){
             var items = "";
             var html= "";
             if(decodedText[0] == "C"){
-                alert("Es un cambio");
+				items = obtenerData("prenda_idsale,prenda_idregresa,cliente_ok,estado,cambioitem_id","con_t_cambioitem","rowVarios","cambio_id",decodedText.slice(1));
+				alert(items);//°113°140000°0°5%°113°140000°0°1%°113°140000°0°1%
             }else{
                items = obtenerData("prenda_id,valor,descuento_id,estado_id,ordenitem_id","con_t_ventaitem","rowVarios","venta_id",decodedText);
                //°113°140000°0°5%°113°140000°0°1%°113°140000°0°1%
@@ -795,7 +798,6 @@ function cantidadesinventario () {
 };
 
 function imprimirResumen() {
-	alert('Hola');
 	var enviar = "funcion=imprimirResumen";
 	var habilitados = 'no';
 	$.ajax({

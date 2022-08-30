@@ -120,8 +120,8 @@ function cambios() {
             //°1°250°40°Sin empacar%°2°72°40°Sin empacar%
             var datosArray = datosCambio.split("%");    
             var datoArray = datosArray[0].split("°");
-            var ventaItems = obtenerData("complemento_estado,descripcion","con_t_trprendas","rowVarios","cual","V"+datoArray[3]);
-            //°Diego 1Diego 1°144°Beisbolera rojo L%°Diego 1Diego 1°145°Beisbolera Azul Oscuro L%
+            var ventaItems = obtenerData("complemento_estado,referencia_id,descripcion","con_t_trprendas","rowVarios","cual","V"+datoArray[3]);
+            //°Diego Rodríguez°116°Beisbolera rojo L%°Diego Rodríguez°117°Beisbolera Azul Oscuro L%
             var ventaCliente = obtenerData("datos_cliente","con_t_ventas","row","venta_id",datoArray[3]);
             var ventaItemsArray = ventaItems.split("%");
             //°Diego 1Diego 1°144°Beisbolera rojo L,°Diego 1Diego 1°145°Beisbolera Azul Oscuro L,
@@ -384,7 +384,7 @@ function imprimirCambios(arrayOrdenes,pedidoUpdate,fechaUpdate,notasUpdate,usuar
         var precioFormato = formatoPrecio(excedente);
         precioFormato = signo+precioFormato;
         var html = html+"<div class='col-lg-12 col-md-12 col-sm-12 col-xs-12 removerCambios'><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'><p class='letra18pt-pc'>"+estado+"</p></div><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'><p class='letra18pt-pc'>C"+arrayOrden[0]+"</p></div><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'><p class='letra18pt-pc'>"+arrayOrden[2]+"</p></div><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'><p class='letra18pt-pc "+usuarioUpdate+"' name='"+arrayOrden[2]+"'>"+datosClienteUnicos[1]+" "+datosClienteUnicos[2]+"</p></div><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'><p class='letra18pt-pc'>"+datosClienteUnicos[3]+"</p></div><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'><p class='letra18pt-pc'>"+datosClienteUnicos[4]+"</p></div><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'><p class='letra18pt-pc'>"+datosClienteUnicos[5]+"</p></div><div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'><p class='letra18pt-pc "+pedidoUpdate+"' name='"+arrayOrden[0]+"'>"+arrayOrden[5]+"</p></div><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'><p class='letra18pt-pc dinerook"+ok+"'>"+precioFormato+"</p></div><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'><p class='letra18pt-pc "+fechaUpdate+"' name='"+arrayOrden[0]+"'>"+arrayOrden[10]+"</p></div><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'><p class='letra18pt-pc "+notasUpdate+"' name='"+arrayOrden[0]+"'>."+arrayOrden[8]+"</p></div></div>";
-        var imprimir = imprimir+"<tr><td>"+arrayOrden[0]+"</td><td>"+datosClienteUnicos[1]+"</td><td>"+datosClienteUnicos[3]+"</td><td>"+datosClienteUnicos[4]+"</td><td>"+datosClienteUnicos[5]+"</td><td>"+datosClienteUnicos[2]+"</td><td>"+arrayOrden[5]+"</td><td>C"+precioFormato+"</td><td>"+arrayOrden[8]+"</td></tr>"
+        var imprimir = imprimir+"<tr><td>C"+arrayOrden[0]+"</td><td>"+datosClienteUnicos[1]+"</td><td>"+datosClienteUnicos[3]+"</td><td>"+datosClienteUnicos[4]+"</td><td>"+datosClienteUnicos[5]+"</td><td>"+datosClienteUnicos[2]+"</td><td>"+arrayOrden[5]+"</td><td>C"+precioFormato+"</td><td>"+arrayOrden[8]+"</td></tr>"
     }
     html = html + imprimir +"</table></div>";
     return html;

@@ -23,8 +23,8 @@
             var botonesEscaner = $('#botonesEscaner');
             botonesEscaner.append("<div class='col-lg-6 col-md-6 col-sm-6 col-xs-12' id='accion22'><button class='botonmodal' type='button' id='despachar'>Despachar</button></div>");
         }if(items[i]==23){
-            var botonesEscaner = $('#botonesEscaner');
-            botonesEscaner.append("<div class='col-lg-6 col-md-6 col-sm-6 col-xs-12' id='accion23'><button class='botonmodal' type='button' id='venderPlaza'>Vender Plaza</button></div>");
+            /*var botonesEscaner = $('#botonesEscaner');
+            botonesEscaner.append("<div class='col-lg-6 col-md-6 col-sm-6 col-xs-12' id='accion23'><button class='botonmodal' type='button' id='venderPlaza'>Vender Plaza</button></div>");*/
         }if(items[i]==24){
             var botonesEscaner = $('#botonesEscaner');
             botonesEscaner.append("<div class='col-lg-6 col-md-6 col-sm-6 col-xs-12' id='accion24'><button class='botonmodal' type='button' id='enviarMadrugon'>Enviar Madrugón</button></div>");
