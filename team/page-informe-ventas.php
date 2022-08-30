@@ -6,6 +6,13 @@ global $wpdb;
   //echo $obtenidosArray[0][cliente_id];
   $fecha = wp_date('Y-m-d')." 00:00:00";
   $fechados =wp_date('Y-m-d')." 23:00:00";
-  $obtenidosArray = $wpdb->get_results( "SELECT COUNT(*) FROM con_t_ventas WHERE fecha_creada BETWEEN '".$fecha."' AND '".$fechados."'", ARRAY_A);
+  $vendedores = $wpdb->get_results( "SELECT DISTINCT vendedor_id FROM con_t_ventas ORDER BY vendedor_id ASC", ARRAY_A);
+  for($i=0;$i<sizeof($vendedores);$i++){
+      $vendedornombre = $wpdb->get_results( "SELECT display_name FROM con_users WHERE ID = ".$vendedores[$i]['vendedor_id']."", ARRAY_A);
+      echo $vendedornombre[0]['display_name']." ha vendido: ";
+      $ventas = $wpdb->get_results( "SELECT COUNT(*) FROM con_t_ventas WHERE (fecha_creada BETWEEN '".$fecha."' AND '".$fechados."') AND vendedor_id = ".$vendedores[$i]['vendedor_id']."", ARRAY_A);
+      echo $ventas[0]['COUNT(*)']." ";
+  }
+  $obtenidosArray = $wpdb->get_results( "SELECT COUNT(*) FROM con_t_ventas WHERE (fecha_creada BETWEEN '".$fecha."' AND '".$fechados."')", ARRAY_A);
   echo "Hoy se han vendido: ".$obtenidosArray[0]['COUNT(*)'];
 ?>
