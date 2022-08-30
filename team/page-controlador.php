@@ -99,7 +99,7 @@ function clientesEncontrados($telefono){
     $clientesTodas= $wpdb->get_results( "SELECT nombre, direccion_1, complemento_1, ciudad_1, cliente_id FROM con_t_clientes  WHERE telefono = ".$telefono."", ARRAY_A  );
     if($clientesTodas){
         foreach ($clientesTodas as $v1) {
-            $todas = $todas."$".$v1[nombre]."%".$v1[direccion_1]."%".$v1[cliente_id]."%".$v1[complemento_1]."%".$v1[ciudad_1];
+            $todas = $todas."$".$v1['nombre']."%".$v1['direccion_1']."%".$v1['cliente_id']."%".$v1['complemento_1']."%".$v1['ciudad_1'];
         }
     }else{
         $todas = "NA";

@@ -711,7 +711,7 @@
         var pa = $('#pavender').val();  
         var usuarioArray = usuarioLevel.split(",");
         if(pa){               
-            cambiarEstadoprenda(escaneadosEnviar,19,'PA-'+pa,usuarioArray[1]);
+            cambiarEstadoprenda(escaneadosEnviar,17,'PA-'+pa,usuarioArray[1]);
             restarInventario(escaneadosEnviar);
             $('.removerr').remove();            
             alert('Vendido(s): PA-'+pa); 
