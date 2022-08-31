@@ -1172,6 +1172,7 @@ function auditprendas($valor,$valor2,$valor3,$valor4){
 }
 
 function enviarEmpacados($valor,$valor2,$valor3,$valor4){////valor = 10,Diego,1 valor2 = 29 valor3 = °C1145RB2D13S64°C1145RB9D13S64 
+    echo $valor.$valor2.$valor3.$valor4;
     $usuario = explode(",",$valor);
     $fecha = wp_date('Y-m-d H:i:s');
     global $wpdb;

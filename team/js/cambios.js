@@ -120,7 +120,7 @@ function cambios() {
             //°1°250°40°Sin empacar%°2°72°40°Sin empacar%
             var datosArray = datosCambio.split("%");    
             var datoArray = datosArray[0].split("°");
-            var ventaItems = obtenerData("complemento_estado,referencia_id,descripcion","con_t_trprendas","rowVarios","cual","V"+datoArray[3]);
+            var ventaItems = obtenerData("complemento_estado,descripcion","con_t_trprendas","rowVarios","cual","V"+datoArray[3]);
             //°Diego Rodríguez°116°Beisbolera rojo L%°Diego Rodríguez°117°Beisbolera Azul Oscuro L%
             var ventaCliente = obtenerData("datos_cliente","con_t_ventas","row","venta_id",datoArray[3]);
             var ventaItemsArray = ventaItems.split("%");
