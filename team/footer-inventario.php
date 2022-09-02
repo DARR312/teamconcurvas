@@ -378,7 +378,40 @@
             var estado = $("#informe p:eq("+(i+1)+")").text();
             var notas = $("#informe p:eq("+(i+2)+")").text();
             if(id[0]=="C"){
-                alert("Es un cambio");
+                if(estado == "Cancelada"){
+                    actualizar("cambio_nota",nota,id,usuarioCell);
+                    actualizar("cambio_estado","En ruta",id.slice(1),usuarioCell);
+                    var cualVentaItem = obtenerData("complemento_estado","con_t_trprendas","rowVarios","cual",id);//°Diego 1°137%°Diego 1°138%
+                    var cualArry = cualVentaItem.split("%");
+                    for(var j = 0;j<(cualArry.length-1);j++){
+                        var idVentaItmeArray = cualArry[j].split("°");
+                        var idVentaItem = idVentaItmeArray[2];
+                        actualizar("cambioitem_estado",idVentaItem,'En ruta',0);//
+                    }
+                    $("#informe p:eq("+(i+2)+")").css('color', 'green');
+                }
+                if(estado == "Pendiente"){
+                    actualizar("cambio_estado","En ruta",id.slice(1),usuarioCell);
+                    var cualVentaItem = obtenerData("complemento_estado","con_t_trprendas","rowVarios","cual",id);//°Diego 1°137%°Diego 1°138%
+                    var cualArry = cualVentaItem.split("%");
+                    for(var j = 0;j<(cualArry.length-1);j++){
+                        var idVentaItmeArray = cualArry[j].split("°");
+                        var idVentaItem = idVentaItmeArray[2];
+                         actualizar("cambioitem_estado",idVentaItem,'En ruta',0);//
+                    }
+                    $("#informe p:eq("+(i+2)+")").css('color', 'green');
+                }
+                if(estado == "Completada"){
+                    actualizar("cambio_estado","Entregado sin informe",id.slice(1),usuarioCell);
+                    var cualVentaItem = obtenerData("complemento_estado","con_t_trprendas","rowVarios","cual",id);//°Diego 1°137%°Diego 1°138%
+                    var cualArry = cualVentaItem.split("%");
+                    for(var j = 0;j<(cualArry.length-1);j++){
+                        var idVentaItmeArray = cualArry[j].split("°");
+                        var idVentaItem = idVentaItmeArray[2];
+                        actualizar("cambioitem_estado",idVentaItem,'Entregado sin informe',0);//
+                    }
+                    $("#informe p:eq("+(i+2)+")").css('color', 'green');
+                }
             }else{
                 if(estado == "Cancelada"){
                     actualizar("venta_nota",notas,id,usuarioCell);
@@ -438,7 +471,76 @@
         for(var i = 3;i<cantidadInfo;i=i+3){
             var id = $("#informeD p:eq("+i+")").text();
             if(id[0]=="C"){
-                alert("Es un cambio");
+                var recaudo = $("#informeD p:eq("+(i+1)+")").text();
+                var excedente = obtenerData("excedente","con_t_cambios","row","cambio_id",id.slice(1));
+                var clienteok = obtenerData("cliente_ok","con_t_cambios","row","cambio_id",id.slice(1));
+                var idVenta = obtenerData("venta_id","con_t_cambios","row","cambio_id",id.slice(1));
+                var clienteokVenta = obtenerData("cliente_ok","con_t_ventas","row","venta_id",idVenta);
+                var items = obtenerData("prenda_idsale","con_t_cambioitem","rowVarios","ventainicial_id",idVenta);
+                //°117%
+                var valorSalida = 0;
+                var itemsArray = items.split("%");
+                alert(itemArray);
+                for(var i = 0;i < itemsArray.length;i++){
+                    var val = itemsArray[i].split("°");
+                    var valor = obtenerData("precio_detal","con_t_resumen","row","referencia_id",val[1]);
+                    alert(parseInt(valor)+1);
+                    alert(valorSalida);
+                    valorSalida = parseInt(valorSalida) + parseInt(valor);
+                }
+                alert(valorSalida);
+                /*var ok = parseInt(excedente)-parseInt(recaudo);
+                var dif = parseInt(clienteokVenta)+parseInt(recaudo)-parseInt(clienteok)+parseInt(recaudo);
+                //alert("Pedido: "+id+" Precio: "+precio+" Clienteok: "+clienteok+" Recaudo: "+recaudo+" Dif: "+dif);
+                if(dif<0){
+                    $("#informeD p:eq("+(i+2)+")").text("Para auditar");
+                    actualizar("venta_estado","Auditar",id,usuarioCell);
+                    actualizar("venta_clienteok",recaudo,id,usuarioCell);//(tabla,columna,id,usuarioCell)
+                    var cualVentaItem = obtenerData("complemento_estado","con_t_trprendas","rowVarios","cual","V"+id);//°Diego 1°137%°Diego 1°138%
+                    var cualArry = cualVentaItem.split("%");
+                    for(var j = 0;j<(cualArry.length-1);j++){
+                        var idVentaItmeArray = cualArry[j].split("°");
+                        var idVentaItem = idVentaItmeArray[2];
+                        actualizarVentaitem("Auditar",idVentaItem);
+                    }
+                }if(dif==0){
+                    $("#informeD p:eq("+(i+2)+")").text("Pedido ok");
+                    var prendasPedido = obtenerData("codigo,complemento_estado","con_t_trprendas","rowVarios","cual","V"+id);//°C1145RB5D13S64°Diego 1°138%
+                    var items = obtenerData("prenda_id,valor,descuento_id,estado_id","con_t_ventaitem","rowVarios","venta_id",id);//°44°120000°0°5%°113°140000°0°Despachado%
+                    var itemArray = items.split("%");
+                    var precio = 0;
+                    var cantidadItem = 0;
+                    for(var h = 0; h<(itemArray.length-1);h++){
+                        var item = itemArray[h].split("°");
+                        if(item[4]!=5){
+                            precio = precio + item[2];
+                            cantidadItem = cantidadItem +1;
+                        }
+                    }
+                    var prendas = prendasPedido.split("%");
+                    if((prendas.length-1) == cantidadItem){
+                        for(var v =0 ;v < (prendas.length-1); v++ ){
+                            var prendaArray = prendas[v].split("°");
+                            var prenda = prendaArray[1];
+                            actualizar("venta_estado","Entregado",id,usuarioCell);
+                            actualizar("venta_estado","Entregado",id,usuarioCell);
+                            actualizarPrendas(usuarioCell+prendaArray[2]+"°"+prendaArray[3],"Entregado","V"+id,prenda);
+                            actualizar("venta_clienteok",recaudo,id,usuarioCell);//(tabla,columna,id,usuarioCell)
+                            actualizarVentaitem("Entregado",prendaArray[3]);
+                        }
+                    }else{
+                        for(var v =0 ;v < (prendas.length-1); v++ ){
+                            var prenda = prendas[v].replace("°","");
+                            actualizar("venta_estado","Auditar",id,usuarioCell);
+                            actualizar("venta_estado","Auditar",id,usuarioCell);
+                            actualizar("venta_clienteok",recaudo+clienteok,id,usuarioCell);//(tabla,columna,id,usuarioCell)
+                        }
+                    }
+                }if(dif>0){
+                    $("#informeD p:eq("+(i+2)+")").text("Faltan prendas");
+                    actualizar("venta_estado","Ajustar",id,usuarioCell);
+                    actualizar("venta_estado","Ajustar",id,usuarioCell);
+                }*/
             }else{
                 var recaudo = $("#informeD p:eq("+(i+1)+")").text();
                 var pedido = obtenerData("pedido","con_t_ventas","row","venta_id",id);

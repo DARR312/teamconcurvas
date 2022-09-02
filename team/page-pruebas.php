@@ -11,9 +11,9 @@ $obtenidosArray = $wpdb->get_results( "SELECT venta_id,estado,fecha_entrega FROM
 print_r($obtenidosArray);
 if($obtenidosArray){
     for($i = 0;$i<sizeof($obtenidosArray);$i++){
-        echo " Pedido: ".$obtenidosArray[$i][venta_id];
-        $updated = $wpdb->update( "con_t_ventas", array('estado' => "No empacado"), array( 'venta_id' => $obtenidosArray[$i][venta_id] ) );
-        $datos = array("venta_id" => $obtenidosArray[$i][venta_id] , "cambio" => 'No empacado' , "usuario_id" => 1 , "fecha_hora" => $fecha , "campo_cambio" => "estado");
+        echo " Pedido: ".$obtenidosArray[$i]['venta_id'];
+        $updated = $wpdb->update( "con_t_ventas", array('estado' => "No empacado"), array( 'venta_id' => $obtenidosArray[$i]['venta_id'] ) );
+        $datos = array("venta_id" => $obtenidosArray[$i]['venta_id'] , "cambio" => 'No empacado' , "usuario_id" => 1 , "fecha_hora" => $fecha , "campo_cambio" => "estado");
         $wpdb->insert("con_t_ventastr", $datos);
     }
 }
