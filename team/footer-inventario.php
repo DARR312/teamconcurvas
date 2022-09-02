@@ -36,7 +36,9 @@
             segundo.append("<div class='col-lg-2 col-md-2 col-sm-2 col-xs-12' id='accion28'><button class='botonmodal botonesInventario' type='button' id='verCodigos'>Ver códigos</button></div>");
         }if(items[i]==29){
             var segundo = $('#segundo');
+            var tercero = $('#botonesEscaner');
             segundo.append("<div class='col-lg-2 col-md-2 col-sm-2 col-xs-12' id='accion29'><button class='botonmodal botonesInventario' type='button' id='verResumen'>Resumen</button></div>");
+            tercero.append("<div class='col-lg-2 col-md-2 col-sm-2 col-xs-12' id='accion290'><button class='botonmodal' type='button' id='verResumenCell'>Resumen</button></div>");
         }if(items[i]==30){
             var segundo = $('#segundo');
             segundo.append("<div class='col-lg-2 col-md-2 col-sm-2 col-xs-12' id='accion30'><button class='botonmodal botonesInventario' type='button' id='auditInvent'>Auditoria inventario</button></div>");
@@ -303,6 +305,26 @@
         var html = imprimirResumen(arrayPrendas);
     	primeraFila.after(html);
     });
+    $('#verResumenCell').on('click', function(){   
+        $('.remover').remove();
+        $('.removerCodigos').remove();
+        $('#codigosNuevos').css('display', 'none');
+        $('#referenciaNueva').css('display', 'none');
+        $('#resultados').css('display', 'none');
+        $('#btnExport').css('display', 'none');
+        $('#verCodigo').css('display', 'none');
+        $('#verResumenprendas').css('display', 'block');
+        $('#auditoriaInventario').css('display', 'none');
+        $('#subirInformes').css('display', 'none');
+        $('#informeDinero').css('display', 'none');         
+        $('#ventasVSinventario').css('display', 'none');
+        $('#inventarioInicialPc').css('display', 'none');
+        var resumen = resumenprendas($('#bscar').val(),"0","0","0");
+        var arrayPrendas = resumen.split('&');
+        var primeraFila = $('#primeraFilaResumen');
+        var html = imprimirResumen(arrayPrendas);
+    	primeraFila.after(html);
+    });
     $('#auditInvent').on('click', function(){   
         $('.remover').remove();
         $('.removerCodigos').remove();
@@ -528,6 +550,16 @@
     	informeAuditoriaz.append(html);
     });
     /****************CELULAR********************/
+    /*************************** Ver resumen *******************************/
+    $('#verResumenCell').on('click', function(){   
+        $('#verResumenprendasCell').css('display', 'block');
+        $('#botonesEscaner').css('display', 'none');
+        var resumen = resumenprendas($('#bscar').val(),"0","0","0");
+        var arrayPrendas = resumen.split('&');
+        var verResumenprendasCell = $('#verResumenprendasCell');
+        var html = imprimirResumenCell();//principal.js>>controlador.php
+    	verResumenprendasCell.append(html);
+    });
     /*************************** Inventario inicial *******************************/
     $('#inicialInventario').on('click', function() {
         $('#escanerInv').css('display', 'block');
@@ -597,7 +629,6 @@
         if(flag==0){
             var data = usuarioLevel+"%"+ventaId+"%"+codigosPrendas+"%"+idItems;//10,Diego,1%29%°C1145RB2D13S64°C1145RB9D13S64%°106°98
             if(ventaId[0] == "C"){
-                alert("cambio_estado"+" "+"Empacado"+" "+ventaId.slice(1)+" "+usuarioLevel);
                 actualizar("cambio_estado","Empacado",ventaId.slice(1),usuarioLevel);//$tabla,$columna,$valor,$valor2
                 var codigosArray = codigosPrendas.split("°");
                 var idItemsArray = idItems.split("°");
@@ -644,18 +675,38 @@
     $('#confirmarDespachoButton').on('click',function() {
         var usuarioLevel = $('#usuarioCell').attr('name');
         var ventaId = $('#escanerDespachos').attr("name");
-        var codigos = obtenerData("codigo,estado","con_t_trprendas","rowVarios","cual","V"+ventaId);//°C1145RB10D13S64°Despachado%°C1160RL1D15S14°Despachado%
+        var codigos = "";
+        if(ventaId[0] == "C"){
+            codigos = obtenerData("codigo,estado","con_t_trprendas","rowVarios","cual",ventaId);//°C1145RB10D13S64°Despachado%°C1160RL1D15S14°Despachado%
+        }else{
+            codigos = obtenerData("codigo,estado","con_t_trprendas","rowVarios","cual","V"+ventaId);//°C1145RB10D13S64°Despachado%°C1160RL1D15S14°Despachado%
+        }             
         var codigosArray = codigos.split("%");
-        actualizar("venta_estado","Despachado",ventaId,usuarioLevel);//$tabla,$columna,$valor,$valor2
-        for(var i = 0;i<(codigosArray.length-1);i++){
-            var codigoPrendaArray = codigosArray[i].split("°");
-            if((codigoPrendaArray[2] == "Empacado") || (codigoPrendaArray[2] == "Despachado")){
-                var codigoPrenda = codigoPrendaArray[1];
-                var name = $("#funcionesDespachar p:eq("+(i+1)+")").attr("name");
-                actualizarPrendas(usuarioLevel+"°"+name,"Despachado","V"+ventaId,codigoPrenda);
-                actualizarVentaitem("Despachado",name);
+        if(ventaId[0] == "C"){
+            actualizar("cambio_estado","Despachado",ventaId.slice(1),usuarioLevel);//$tabla,$columna,$valor,$valor2
+            for(var i = 0;i<(codigosArray.length-1);i++){
+                var codigoPrendaArray = codigosArray[i].split("°");
+                if((codigoPrendaArray[2] == "Empacado") || (codigoPrendaArray[2] == "Despachado")){
+                    var codigoPrenda = codigoPrendaArray[1];
+                    var name = $("#funcionesDespachar p:eq("+(i+1)+")").attr("name");
+                    actualizarPrendas(usuarioLevel+"°"+name,"Despachado",ventaId,codigoPrenda);
+                    actualizar("cambioitem_estado",name,'Despachado',0);//
+                }
+            }
+
+        }else{
+            actualizar("venta_estado","Despachado",ventaId,usuarioLevel);//$tabla,$columna,$valor,$valor2
+            for(var i = 0;i<(codigosArray.length-1);i++){
+                var codigoPrendaArray = codigosArray[i].split("°");
+                if((codigoPrendaArray[2] == "Empacado") || (codigoPrendaArray[2] == "Despachado")){
+                    var codigoPrenda = codigoPrendaArray[1];
+                    var name = $("#funcionesDespachar p:eq("+(i+1)+")").attr("name");
+                    actualizarPrendas(usuarioLevel+"°"+name,"Despachado","V"+ventaId,codigoPrenda);
+                    actualizarVentaitem("Despachado",name);
+                }
             }
         }
+        
         $('#escanerDespachos').text("Pedido: ");
         $('#escanerDespachos').attr("name","");
         $('.removerPrendasdesp').remove();

@@ -395,13 +395,15 @@ function readerDespachar(decodedText, decodedResult) {
         // Handle on success condition with the decoded text or result.
         //console.log(`Scan result: ${decodedText}`, decodedResult);
         $('.removerPrendasdesp').remove();
-        var estadoVenta = obtenerData("estado","con_t_ventas","row","venta_id",decodedText);
+		if(decodedText[0] == "C"){estadoVenta = obtenerData("estado","con_t_cambios","row","cambio_id",decodedText.slice(1));
+		}else{estadoVenta = obtenerData("estado","con_t_ventas","row","venta_id",decodedText);} 
         if(estadoVenta == "Empacado" || estadoVenta == "Despachado"){
             var items = "";
             var html= "";
             if(decodedText[0] == "C"){
-                alert("Es un cambio");
-            }else{
+				items = obtenerData("prenda_idsale,prenda_idregresa,cliente_ok,estado,cambioitem_id","con_t_cambioitem","rowVarios","cambio_id",decodedText.slice(1));
+				//°113°140000°0°5%°113°140000°0°1%°113°140000°0°1%
+			}else{
                items = obtenerData("prenda_id,valor,descuento_id,estado_id,ordenitem_id","con_t_ventaitem","rowVarios","venta_id",decodedText);
                //°113°140000°0°5%°113°140000°0°1%°113°140000°0°1%
             }
@@ -799,6 +801,22 @@ function cantidadesinventario () {
 
 function imprimirResumen() {
 	var enviar = "funcion=imprimirResumen";
+	var habilitados = 'no';
+	$.ajax({
+		url: urlhost,
+		headers: {'Access-Control-Allow-Origin': urlhost},
+		type: "GET",
+		async: false,
+		data: enviar,
+		success: function(data){
+			habilitados = data;
+		}						
+	});	
+	return habilitados;
+};
+
+function imprimirResumenCell() {
+	var enviar = "funcion=imprimirResumenCell";
 	var habilitados = 'no';
 	$.ajax({
 		url: urlhost,

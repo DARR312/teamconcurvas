@@ -295,6 +295,9 @@ function is_admin_user() {
             <div class='col-lg-6 col-md-6 col-sm-6 col-xs-12' id='ventaEnviarMayorista' ><button class='botonmodal letra18pt-pc' type='button'>Enviar a venta</button></div>
             <div id='ventaMayoristaenviar' style='display: none;' >
           </div>
+        </div>        
+        <div id="verResumenprendasCell"  style='display: none;'>
+            
         </div>
     </div>
 <?php
