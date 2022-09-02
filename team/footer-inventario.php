@@ -479,20 +479,17 @@
                 var items = obtenerData("prenda_idsale","con_t_cambioitem","rowVarios","ventainicial_id",idVenta);
                 //°117%
                 var valorSalida = 0;
+                var valor = 0;
                 var itemsArray = items.split("%");
-                alert(itemArray);
-                for(var i = 0;i < itemsArray.length;i++){
+                for(var i = 0;i < (itemsArray.length-1);i++){
                     var val = itemsArray[i].split("°");
-                    var valor = obtenerData("precio_detal","con_t_resumen","row","referencia_id",val[1]);
-                    alert(parseInt(valor)+1);
-                    alert(valorSalida);
+                    valor = obtenerData("precio_detal","con_t_resumen","row","referencia_id",val[1]);
                     valorSalida = parseInt(valorSalida) + parseInt(valor);
                 }
-                alert(valorSalida);
-                /*var ok = parseInt(excedente)-parseInt(recaudo);
-                var dif = parseInt(clienteokVenta)+parseInt(recaudo)-parseInt(clienteok)+parseInt(recaudo);
+                var ok = parseInt(excedente)-parseInt(recaudo);
+                var dif = parseInt(clienteokVenta)+parseInt(recaudo)-parseInt(valorSalida);
                 //alert("Pedido: "+id+" Precio: "+precio+" Clienteok: "+clienteok+" Recaudo: "+recaudo+" Dif: "+dif);
-                if(dif<0){
+                /*if(dif<0){
                     $("#informeD p:eq("+(i+2)+")").text("Para auditar");
                     actualizar("venta_estado","Auditar",id,usuarioCell);
                     actualizar("venta_clienteok",recaudo,id,usuarioCell);//(tabla,columna,id,usuarioCell)
