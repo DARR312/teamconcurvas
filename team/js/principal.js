@@ -305,7 +305,7 @@ function escanearEmpacar(decodedText, decodedResult) {
             var html= "";
             if(decodedText[0] == "C"){
 				items = obtenerData("prenda_idsale,prenda_idregresa,cliente_ok,estado,cambioitem_id","con_t_cambioitem","rowVarios","cambio_id",decodedText.slice(1));
-				alert(items);//°113°140000°0°5%°113°140000°0°1%°113°140000°0°1%
+				//°113°140000°0°5%°113°140000°0°1%°113°140000°0°1%
             }else{
                items = obtenerData("prenda_id,valor,descuento_id,estado_id,ordenitem_id","con_t_ventaitem","rowVarios","venta_id",decodedText);
                //°113°140000°0°5%°113°140000°0°1%°113°140000°0°1%

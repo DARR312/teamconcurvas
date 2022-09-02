@@ -319,7 +319,7 @@
         $('#inventarioInicialPc').css('display', 'none');
         var usuarioCell = $('#usuarioCell').attr("name");
         var usuarioCellArray = usuarioCell.split(",");
-        var resumen = auditprendas($('#bscar').val(),"0",usuarioCellArray[1],"0");
+        var resumen = auditprendas($('#bscar').val(),usuarioCellArray[0],usuarioCellArray[1],"0");
         var arrayPrendas = resumen.split('&');
         var primeraFila = $('#primeraAuditoria');
         var html = imprimirCodigos(arrayPrendas);
@@ -596,13 +596,24 @@
         }
         if(flag==0){
             var data = usuarioLevel+"%"+ventaId+"%"+codigosPrendas+"%"+idItems;//10,Diego,1%29%°C1145RB2D13S64°C1145RB9D13S64%°106°98
-            actualizar("venta_estado","Empacado",ventaId,usuarioLevel);//$tabla,$columna,$valor,$valor2
-            var codigosArray = codigosPrendas.split("°");
-            var idItemsArray = idItems.split("°");
-            for(var i = 1; i<codigosArray.length;i++){
-                actualizarVentaitem("Empacado",idItemsArray[i]);
-                actualizarPrendas(usuarioLevel+"°"+idItemsArray[i],"Empacado","V"+ventaId,codigosArray[i]);//$valor="10,Diego,1";$valor2="Empacado";$valor3=29;$valor4="C1132AO6D20S2";
-            }
+            if(ventaId[0] == "C"){
+                alert("cambio_estado"+" "+"Empacado"+" "+ventaId.slice(1)+" "+usuarioLevel);
+                actualizar("cambio_estado","Empacado",ventaId.slice(1),usuarioLevel);//$tabla,$columna,$valor,$valor2
+                var codigosArray = codigosPrendas.split("°");
+                var idItemsArray = idItems.split("°");
+                for(var i = 1; i<codigosArray.length;i++){
+                    actualizar("cambioitem_estado",idItemsArray[i],'Empacado',0);//
+                    actualizarPrendas(usuarioLevel+"°"+idItemsArray[i],"Empacado",ventaId,codigosArray[i]);//$valor="10,Diego,1";$valor2="Empacado";$valor3=29;$valor4="C1132AO6D20S2";
+                } 
+            }else{
+                actualizar("venta_estado","Empacado",ventaId,usuarioLevel);//$tabla,$columna,$valor,$valor2
+                var codigosArray = codigosPrendas.split("°");
+                var idItemsArray = idItems.split("°");
+                for(var i = 1; i<codigosArray.length;i++){
+                    actualizarVentaitem("Empacado",idItemsArray[i]);
+                    actualizarPrendas(usuarioLevel+"°"+idItemsArray[i],"Empacado","V"+ventaId,codigosArray[i]);//$valor="10,Diego,1";$valor2="Empacado";$valor3=29;$valor4="C1132AO6D20S2";
+                }
+            }        
             $('#escanerEmpaques').css('display', 'block');
             $('#funcionesEmpacar').css('display', 'none');
             $('#readerPrendaEmpacada__dashboard_section_csr button:eq(1)').click();

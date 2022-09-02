@@ -1006,12 +1006,12 @@ function  actualizar($tabla,$columna,$valor,$valor2){
     }
     if($tabla == "venta_estado" ){
         $updated = $wpdb->update( "con_t_ventas", array('estado' => $columna), array( 'venta_id' => $valor ) );
-        $datos = array("venta_id" => $valor , "cambio" => $columna , "usuario_id" => $valores[2] , "fecha_hora" => $fecha , "campo_cambio" => "notas");
+        $datos = array("venta_id" => $valor , "cambio" => $columna , "usuario_id" => $valores[2] , "fecha_hora" => $fecha , "campo_cambio" => "estado");
         $wpdb->insert("con_t_ventastr", $datos);
     }
     if($tabla == "venta_clienteok" ){
         $updated = $wpdb->update( "con_t_ventas", array('cliente_ok' => $columna), array( 'venta_id' => $valor ) );
-        $datos = array("venta_id" => $valor , "cambio" => $columna , "usuario_id" => $valores[2] , "fecha_hora" => $fecha , "campo_cambio" => "notas");
+        $datos = array("venta_id" => $valor , "cambio" => $columna , "usuario_id" => $valores[2] , "fecha_hora" => $fecha , "campo_cambio" => "cliente_ok");
         $wpdb->insert("con_t_ventastr", $datos);
     }
     if($tabla == "cambio_cliente" ){
@@ -1028,7 +1028,8 @@ function  actualizar($tabla,$columna,$valor,$valor2){
         $wpdb->insert("con_t_cambiostr", $datos);
     }
     if($tabla == "cambioitem_estado"){
-        $updated = $wpdb->update( "con_t_cambioitem", array('estado' => $valor), array( 'cambio_id' => $columna ) );
+        $datos = "UPDATE con_t_cambioitem SET estado='".$valor."' WHERE cambioitem_id  = ".$columna."";
+        $wpdb->query($datos);
     }
     if($tabla == "cambio_fecha" ){
         $fechaentregaarray = explode("/",$columna);
@@ -1042,6 +1043,11 @@ function  actualizar($tabla,$columna,$valor,$valor2){
         $updated = $wpdb->update( "con_t_cambios", array('notas' => $columna), array( 'cambio_id' => $valor ) );
         $datos = array("cambio_id" => $valor , "cambio" => $columna , "usuario_id" => $valores[2] , "fecha_hora" => $fecha , "campo_cambio" => "notas");
         echo $datos;
+        $wpdb->insert("con_t_cambiostr", $datos);
+    }
+    if($tabla == "cambio_estado" ){
+        $updated = $wpdb->update( "con_t_cambios", array('estado' => $columna), array( 'cambio_id' => $valor ) );
+        $datos = array("cambio_id" => $valor , "cambio" => $columna , "usuario_id" => $valores[2] , "fecha_hora" => $fecha , "campo_cambio" => "estado");
         $wpdb->insert("con_t_cambiostr", $datos);
     }
 }
@@ -1148,7 +1154,7 @@ function auditprendas($valor,$valor2,$valor3,$valor4){
         //print_r($ventasTodas);
         if($codigos){
             foreach ($codigos as $v1) {
-                $todas = $todas.$v1[codigo]."%".$v1[estado]."%".$v1[cual]."%".$v1[complemento_estado]."%".$v1[fecha_cambio]."&";
+                $todas = $todas.$v1['codigo']."%".$v1['estado']."%".$v1['cual']."%".$v1['complemento_estado']."%".$v1['fecha_cambio']."&";
             }
         }else{
             $todas = "NA";
@@ -1158,11 +1164,15 @@ function auditprendas($valor,$valor2,$valor3,$valor4){
         $todas = "";
         $last = $wpdb->get_results( "SELECT MAX(ID) as id FROM con_t_auditoriasinventario");
         $obtenidosArray = $wpdb->get_results( "SELECT fecha FROM con_t_auditoriasinventario WHERE ID = ".$last[0]->id."", ARRAY_A);
-        $codigos = $wpdb->get_results( "SELECT codigo, estado, cual, complemento_estado, fecha_cambio FROM con_t_trprendas WHERE (fecha_cambio < '".$obtenidosArray[0][fecha]."') AND (cual = '".$valor3."') ", ARRAY_A  );
+        if($valor2 == 10){
+            $codigos = $wpdb->get_results( "SELECT codigo, estado, cual, complemento_estado, fecha_cambio FROM con_t_trprendas WHERE (fecha_cambio < '".$obtenidosArray[0]['fecha']."')", ARRAY_A  );
+        }else{
+            $codigos = $wpdb->get_results( "SELECT codigo, estado, cual, complemento_estado, fecha_cambio FROM con_t_trprendas WHERE (fecha_cambio < '".$obtenidosArray[0]['fecha']."') AND (cual = '".$valor3."') ", ARRAY_A  );
+        }        
         //print_r($ventasTodas);
         if($codigos){
             foreach ($codigos as $v1) {
-                $todas = $todas.$v1[codigo]."%".$v1[estado]."%".$v1[cual]."%".$v1[complemento_estado]."%".$v1[fecha_cambio]."&";
+                $todas = $todas.$v1['codigo']."%".$v1['estado']."%".$v1['cual']."%".$v1['complemento_estado']."%".$v1['fecha_cambio']."&";
             }
         }else{
             $todas = "NA";
