@@ -1165,7 +1165,7 @@ function auditprendas($valor,$valor2,$valor3,$valor4){
         $last = $wpdb->get_results( "SELECT MAX(ID) as id FROM con_t_auditoriasinventario");
         $obtenidosArray = $wpdb->get_results( "SELECT fecha FROM con_t_auditoriasinventario WHERE ID = ".$last[0]->id."", ARRAY_A);
         if($valor2 == 10){
-            $codigos = $wpdb->get_results( "SELECT codigo, estado, cual, complemento_estado, fecha_cambio FROM con_t_trprendas WHERE (fecha_cambio < '".$obtenidosArray[0]['fecha']."')", ARRAY_A  );
+            $codigos = $wpdb->get_results( "SELECT codigo, estado, cual, complemento_estado, fecha_cambio FROM con_t_trprendas WHERE (fecha_cambio < '".$obtenidosArray[0]['fecha']." ') ORDER BY cual ASC", ARRAY_A  );
         }else{
             $codigos = $wpdb->get_results( "SELECT codigo, estado, cual, complemento_estado, fecha_cambio FROM con_t_trprendas WHERE (fecha_cambio < '".$obtenidosArray[0]['fecha']."') AND (cual = '".$valor3."') ", ARRAY_A  );
         }        
