@@ -300,7 +300,7 @@ function escanearEmpacar(decodedText, decodedResult) {
 		var estad = "";
 		if(decodedText[0] == "C"){estad = obtenerData("estado","con_t_cambios","row","cambio_id",decodedText.slice(1));
 		}else{estad = obtenerData("estado","con_t_ventas","row","venta_id",decodedText);}        
-        if(estad == "Sin empacar" || estadoVenta == "No empacado"){
+        if(estad == "Sin empacar" || estad == "No empacado"){
             var items = "";
             var html= "";
             if(decodedText[0] == "C"){
