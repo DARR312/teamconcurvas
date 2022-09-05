@@ -35,7 +35,7 @@ $estadosArray = $wpdb->get_results( "SELECT DISTINCT estado FROM con_t_trprendas
     for($i = 0; $i<sizeof($estadosArray);$i++){
         $obtenidosArray = $wpdb->get_results( "SELECT COUNT(*) FROM con_t_trprendas WHERE (referencia_id = ".$referenciasArray[$j]['referencia_id'].") AND (estado = '".$estadosArray[$i]['estado']."')", ARRAY_A);//133
         //echo $estadosArray[$i][estado].": ".$obtenidosArray[0]['COUNT(*)']." ";
-        if(($estadosArray[$i]['estado'] == "En Administración") || ($estadosArray[$i]['estado'] == "En Empaques") || ($estadosArray[$i]['estado'] == "En Operaciones") || ($estadosArray[$i]['estado'] == "En Plaza de las américas") || ($estadosArray[$i]['estado'] == "En satélite")){
+        if(($estadosArray[$i]['estado'] == "En Administración") || ($estadosArray[$i]['estado'] == "En Empaques") || ($estadosArray[$i]['estado'] == "En Operaciones") || ($estadosArray[$i]['estado'] == "En Plaza de las américas") || ($estadosArray[$i]['estado'] == "En satélite") || ($estadosArray[$i]['estado'] == "En producción")){
             $cantidad = $cantidad +  $obtenidosArray[0]['COUNT(*)'];
         }
     }
