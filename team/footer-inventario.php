@@ -19,6 +19,8 @@
         }if(items[i]==21){
             var botonesEscaner = $('#botonesEscaner');
             botonesEscaner.append("<div class='col-lg-6 col-md-6 col-sm-6 col-xs-12' id='accion21'><button class='botonmodal' type='button' id='empacar'>Empacar</button></div>");
+            var fechaAudito = $('#fechaAudito');
+            fechaAudito.after("<div class='form-group pmd-textfield pmd-textfield-floating-label col-lg-3 col-md-3 col-sm-3 col-xs-3 padding5'><label for='tipo' class='control-label letra18pt-pc'>Selecciona tipo de auditoría</label><select class='form-control' type='select' id='tipoAuditoria' name='tipoAuditoria' form='tipoAuditoria'><option value='Personal'>Personal</option><option value='Empacado'>Empacados</option><option value='Despachado'>Despachados</option></select><span class='pmd-textfield-focused'></span></div>")
         }if(items[i]==22){
             var botonesEscaner = $('#botonesEscaner');
             botonesEscaner.append("<div class='col-lg-6 col-md-6 col-sm-6 col-xs-12' id='accion22'><button class='botonmodal' type='button' id='despachar'>Despachar</button></div>");
@@ -646,6 +648,16 @@
         var informeAuditoriaz = $('#informeAuditoriaz');
     	informeAuditoriaz.append(html);
     });
+    $('#tipoAuditoria').on('change', function() {
+            $('.removerCodigos').remove();
+            var usuarioCell = $('#usuarioCell').attr("name");
+            var usuarioCellArray = usuarioCell.split(",");
+            var resumen = auditprendas($('#bscar').val(),usuarioCellArray[0],usuarioCellArray[1],$('#tipoAuditoria').val());
+            var arrayPrendas = resumen.split('&');
+            var primeraFila = $('#primeraAuditoria');
+            var html = imprimirCodigos(arrayPrendas);
+            primeraFila.after(html);
+    }); 
     /****************CELULAR********************/
     /*************************** Ver resumen *******************************/
     $('#verResumenCell').on('click', function(){   

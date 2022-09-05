@@ -181,28 +181,31 @@ function is_admin_user() {
                 <div class='col-lg-2 col-md-2 col-sm-2 col-xs-12 padding5' id='acc'>
                     <button class='botonmodal botonesInventario letra18pt-pc' type='button' id='empezarNueva'>Empezar nueva auditoria</button>
                 </div>
-                <div class='col-lg-6 col-md-6 col-sm-6 col-xs-12 padding5' id='filtroNuevoinv'>
+                <div class='col-lg-4 col-md-4 col-sm-4 col-xs-12 padding5' id='filtroNuevoinv'>
                    <div class="form-group pmd-textfield pmd-textfield-floating-label pmd-textfield-floating-label-completed">
                     	<label class="control-label letra18pt-pc" for="regular1">Fecha en la que empieza la auditoría</label>
                     	<input type="text" id="datetimepicker-filtroNuevoinv" class="form-control" />
                     </div>
                 </div>
-                <div class='col-lg-4 col-md-4 col-sm-4 col-xs-12 padding5' id='fechaAudito' name='<?php echo $last[0]->id ?>'>
+                <div class='col-lg-3 col-md-3 col-sm-3 col-xs-12 padding5' id='fechaAudito' name='<?php echo $last[0]->id ?>'>
                     
                 </div>
          <?php }?>
                 <div class='col-lg-12 col-md-12 col-sm-12 col-xs-12'>
-                    <div class='col-lg-3 col-md-3 col-sm-3 col-xs-3'>
+                    <div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'>
         	           <p class=' letra18pt-pc'>Referencia</p>
         	        </div> 
         	        <div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'>
-        	           <p class=' letra18pt-pc'>Color</p>
+        	           <p class=' letra18pt-pc'>Descripción</p>
+        	        </div>
+        	        <div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'>
+        	           <p class=' letra18pt-pc'>Estado</p>
         	        </div>
         	        <div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'>
         	           <p class=' letra18pt-pc'>Cual</p>
-        	        </div>
-        	        <div class='col-lg-3 col-md-3 col-sm-3 col-xs-3'>
-        	           <p class=' letra18pt-pc'>Notas</p>
+        	        </div>                    
+        	        <div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'>
+        	           <p class=' letra18pt-pc'>Complemento</p>
         	        </div>
         	        <div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'>
         	            <p class=' letra18pt-pc'>Fecha</p>
