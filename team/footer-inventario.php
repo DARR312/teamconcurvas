@@ -476,68 +476,69 @@
                 var clienteok = obtenerData("cliente_ok","con_t_cambios","row","cambio_id",id.slice(1));
                 var idVenta = obtenerData("venta_id","con_t_cambios","row","cambio_id",id.slice(1));
                 var clienteokVenta = obtenerData("cliente_ok","con_t_ventas","row","venta_id",idVenta);
-                var items = obtenerData("prenda_idsale","con_t_cambioitem","rowVarios","ventainicial_id",idVenta);
-                //°117%
+                var items = obtenerData("complemento_estado,estado,codigo","con_t_trprendas","rowVarios","cual","V"+idVenta);
+                //°Diego Rodríguez 2Diego Rodríguez 2°787°Entregado°C1212NA12D31S1%-------El 787 es el ordenitem_id en con_t_ventaitem
+                var itemsCambio = obtenerData("complemento_estado,estado","con_t_trprendas","rowVarios","cual",id);
                 var valorSalida = 0;
                 var valor = 0;
                 var itemsArray = items.split("%");
+                var itemVentas = [];
                 for(var i = 0;i < (itemsArray.length-1);i++){
                     var val = itemsArray[i].split("°");
-                    valor = obtenerData("precio_detal","con_t_resumen","row","referencia_id",val[1]);
-                    valorSalida = parseInt(valorSalida) + parseInt(valor);
+                    if(val[3]=="Entregado"){
+                        valor = obtenerData("valor","con_t_ventaitem","row","ordenitem_id",val[2]);
+                        valorSalida = parseInt(valorSalida) + parseInt(valor);
+                        itemVentas.push(val[4]);
+                    }
+                }
+                var itemsCambioArray = itemsCambio.split("%");
+                var itemCambios =[];
+                for(var i = 0;i < (itemsCambioArray.length-1);i++){
+                    var val = itemsCambioArray[i].split("°");
+                    itemCambios.push(val[2]);
                 }
                 var ok = parseInt(excedente)-parseInt(recaudo);
-                var dif = parseInt(clienteokVenta)+parseInt(recaudo)-parseInt(valorSalida);
-                //alert("Pedido: "+id+" Precio: "+precio+" Clienteok: "+clienteok+" Recaudo: "+recaudo+" Dif: "+dif);
-                /*if(dif<0){
+                var dif = parseInt(clienteokVenta)+parseInt(ok)-parseInt(valorSalida);
+                //alert("Pedido: "+id+" Precio ya pagado por el cliente: "+clienteokVenta+" Excedente - Recaudo: "+ok+" Valor de la prenda que sale: "+valorSalida+" Dif: "+dif);
+                if(dif<0){//Al cliente le sobra
                     $("#informeD p:eq("+(i+2)+")").text("Para auditar");
-                    actualizar("venta_estado","Auditar",id,usuarioCell);
-                    actualizar("venta_clienteok",recaudo,id,usuarioCell);//(tabla,columna,id,usuarioCell)
-                    var cualVentaItem = obtenerData("complemento_estado","con_t_trprendas","rowVarios","cual","V"+id);//°Diego 1°137%°Diego 1°138%
+                    actualizar("cambio_estado","Auditar",id.slice(1),usuarioCell);
+                    var cualVentaItem = obtenerData("complemento_estado","con_t_trprendas","rowVarios","cual",id);//°Diego 1°137%°Diego 1°138%
                     var cualArry = cualVentaItem.split("%");
                     for(var j = 0;j<(cualArry.length-1);j++){
                         var idVentaItmeArray = cualArry[j].split("°");
                         var idVentaItem = idVentaItmeArray[2];
-                        actualizarVentaitem("Auditar",idVentaItem);
+                        actualizar("cambioitem_estado",idVentaItem,'Auditar',0);//
                     }
-                }if(dif==0){
-                    $("#informeD p:eq("+(i+2)+")").text("Pedido ok");
-                    var prendasPedido = obtenerData("codigo,complemento_estado","con_t_trprendas","rowVarios","cual","V"+id);//°C1145RB5D13S64°Diego 1°138%
-                    var items = obtenerData("prenda_id,valor,descuento_id,estado_id","con_t_ventaitem","rowVarios","venta_id",id);//°44°120000°0°5%°113°140000°0°Despachado%
-                    var itemArray = items.split("%");
-                    var precio = 0;
-                    var cantidadItem = 0;
-                    for(var h = 0; h<(itemArray.length-1);h++){
-                        var item = itemArray[h].split("°");
-                        if(item[4]!=5){
-                            precio = precio + item[2];
-                            cantidadItem = cantidadItem +1;
-                        }
-                    }
+                }if(dif==0){//Pedido ok
+                    $("#informeD p:eq("+(i+4)+")").text("Pedido ok");
+                    var prendasPedido = obtenerData("codigo,complemento_estado","con_t_trprendas","rowVarios","cual",id);//°C1145RB5D13S64°Diego 1°138%
+                    //°C688CV403D900S149°Diego Rodríguez 2°24%
+                    var items = obtenerData("estado,cambioitem_id","con_t_cambioitem","rowVarios","cambio_id",id.slice(1));//°5%°Despachado%
+                    var itemArray = items.split("%");//°En ruta°24,
                     var prendas = prendasPedido.split("%");
-                    if((prendas.length-1) == cantidadItem){
+                    //alert("itemVentas: "+itemVentas+" itemCambios: "+itemCambios+" prendas: "+prendas);
+                    //itemVentas: 787 itemCambios: 24 prendas: °C688CV403D900S149°Diego Rodríguez 2°24,
+                    //alert("itemVentas: "+itemVentas.length+" itemCambios: "+itemCambios.length+" prendas: "+prendas.length);
+                    if((itemVentas.length != itemCambios.length) || (itemVentas.length != (prendas.length-1)) || ((prendas.length-1) != itemCambios.length)){
+                        actualizar("cambio_estado","Auditar",id.slice(1),usuarioCell);
+                        actualizar("cambio_clienteok",recaudo,id.slice(1),usuarioCell);
+                    }else{
+                        actualizar("cambio_estado","Entregado",id.slice(1),usuarioCell);
+                        actualizar("cambio_clienteok",recaudo,id.slice(1),usuarioCell);//(tabla,columna,id,usuarioCell)
                         for(var v =0 ;v < (prendas.length-1); v++ ){
+                            actualizar("cambioitem_estado",itemCambios[v],'Entregado',0);
                             var prendaArray = prendas[v].split("°");
                             var prenda = prendaArray[1];
-                            actualizar("venta_estado","Entregado",id,usuarioCell);
-                            actualizar("venta_estado","Entregado",id,usuarioCell);
-                            actualizarPrendas(usuarioCell+prendaArray[2]+"°"+prendaArray[3],"Entregado","V"+id,prenda);
-                            actualizar("venta_clienteok",recaudo,id,usuarioCell);//(tabla,columna,id,usuarioCell)
-                            actualizarVentaitem("Entregado",prendaArray[3]);
+                            actualizarPrendas(usuarioCell+prendaArray[2]+"°"+prendaArray[3],"Entregado",id,prenda);//Entregar prendas de cambio
+                           // alert(itemVentas);
+                            actualizarPrendas("Informe","Prenda por volver","V"+idVentaItem,itemVentas[v]);
                         }
-                    }else{
-                        for(var v =0 ;v < (prendas.length-1); v++ ){
-                            var prenda = prendas[v].replace("°","");
-                            actualizar("venta_estado","Auditar",id,usuarioCell);
-                            actualizar("venta_estado","Auditar",id,usuarioCell);
-                            actualizar("venta_clienteok",recaudo+clienteok,id,usuarioCell);//(tabla,columna,id,usuarioCell)
-                        }
-                    }
-                }if(dif>0){
+                    }                    
+                }if(dif>0){//El cliente nos debe dinero
                     $("#informeD p:eq("+(i+2)+")").text("Faltan prendas");
-                    actualizar("venta_estado","Ajustar",id,usuarioCell);
-                    actualizar("venta_estado","Ajustar",id,usuarioCell);
-                }*/
+                    actualizar("cambio_estado","Auditar",id.slice(1),usuarioCell);
+                }
             }else{
                 var recaudo = $("#informeD p:eq("+(i+1)+")").text();
                 var pedido = obtenerData("pedido","con_t_ventas","row","venta_id",id);
@@ -577,7 +578,6 @@
                             var prendaArray = prendas[v].split("°");
                             var prenda = prendaArray[1];
                             actualizar("venta_estado","Entregado",id,usuarioCell);
-                            actualizar("venta_estado","Entregado",id,usuarioCell);
                             actualizarPrendas(usuarioCell+prendaArray[2]+"°"+prendaArray[3],"Entregado","V"+id,prenda);
                             actualizar("venta_clienteok",recaudo,id,usuarioCell);//(tabla,columna,id,usuarioCell)
                             actualizarVentaitem("Entregado",prendaArray[3]);
@@ -586,14 +586,12 @@
                         for(var v =0 ;v < (prendas.length-1); v++ ){
                             var prenda = prendas[v].replace("°","");
                             actualizar("venta_estado","Auditar",id,usuarioCell);
-                            actualizar("venta_estado","Auditar",id,usuarioCell);
                             actualizar("venta_clienteok",recaudo+clienteok,id,usuarioCell);//(tabla,columna,id,usuarioCell)
                         }
                     }
                 }if(dif>0){
                     $("#informeD p:eq("+(i+2)+")").text("Faltan prendas");
-                    actualizar("venta_estado","Ajustar",id,usuarioCell);
-                    actualizar("venta_estado","Ajustar",id,usuarioCell);
+                    actualizar("venta_estado","Auditar",id,usuarioCell);
                 }
             }
         }

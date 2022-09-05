@@ -1050,6 +1050,12 @@ function  actualizar($tabla,$columna,$valor,$valor2){
         $datos = array("cambio_id" => $valor , "cambio" => $columna , "usuario_id" => $valores[2] , "fecha_hora" => $fecha , "campo_cambio" => "estado");
         $wpdb->insert("con_t_cambiostr", $datos);
     }
+    if($tabla == "cambio_clienteok" ){
+        echo "con_t_cambios, array('cliente_ok' => ".$columna."), array( 'cambio_id' => ".$valor." )";
+        $updated = $wpdb->update( "con_t_cambios", array('cliente_ok' => $columna), array( 'cambio_id' => $valor ) );
+        $datos = array("cambio_id" => $valor , "cambio" => $columna , "usuario_id" => $valores[2] , "fecha_hora" => $fecha , "campo_cambio" => "cliente_ok");
+        $wpdb->insert("con_t_cambiostr", $datos);
+    }
 }
 
 function  restar($id,$valor,$valor2){
