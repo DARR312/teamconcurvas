@@ -238,6 +238,12 @@ function is_admin_user() {
             <div class='col-lg-12 col-md-12 col-sm-12 col-xs-12' id='codigosInicalesPc'>
                 
             </div>
+        </div>        
+        <div id="liberarEmpacados"  style='display: none;' class="funcionamiento">
+            <div class="form-group pmd-textfield pmd-textfield-floating-label col-lg-12 col-md-12 col-sm-12 col-xs-12" id="codigoEmpacado">
+    			<label for="pavender" class="control-label letra18pt-pc"> PA- </label>
+    			<input class="form-control" type="number" id="pavender" name="pavender" required="" min='0'><span class="pmd-textfield-focused"></span>
+    		</div>
         </div>
     </div>
     <div id='cuerpoCell' class="container-fluid celular" >
