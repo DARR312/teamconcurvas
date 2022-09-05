@@ -2,7 +2,7 @@
 $valor=$_GET['valor'];
 global $wpdb;
 $referenciasArray = $wpdb->get_results( "SELECT referencia_id FROM con_t_resumen WHERE nombre = '".$valor."'", ARRAY_A);//133
-print_r($referenciasArray);
+//print_r($referenciasArray);
 $descripcion = $wpdb->get_results( "SELECT nombre,color,talla,precio_detal FROM con_t_resumen WHERE referencia_id = ".$referenciasArray[0]['referencia_id']."", ARRAY_A);
 $fabrica = $wpdb->get_results( "SELECT COUNT(*) FROM con_t_trprendas WHERE (referencia_id = ".$referenciasArray[0]['referencia_id'].") AND (estado = 'En Producción')", ARRAY_A); 
 $bodega = $wpdb->get_results( "SELECT COUNT(*) FROM con_t_trprendas WHERE (referencia_id = ".$referenciasArray[0]['referencia_id'].") AND ((estado = 'En Operaciones') || (estado = 'En Empaques'))", ARRAY_A);   

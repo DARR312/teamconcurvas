@@ -36,7 +36,7 @@ $estadosArray = $wpdb->get_results( "SELECT DISTINCT estado FROM con_t_trprendas
     $plaza = $wpdb->get_results( "SELECT COUNT(*) FROM con_t_trprendas WHERE (referencia_id = ".$referenciasArray[$j]['referencia_id'].") AND (estado = 'En Plaza de las américas')", ARRAY_A);  
     $satel = $wpdb->get_results( "SELECT COUNT(*) FROM con_t_trprendas WHERE (referencia_id = ".$referenciasArray[$j]['referencia_id'].") AND (estado = 'En satélite')", ARRAY_A);  
     $separados = $wpdb->get_results( "SELECT COUNT(*) FROM con_t_ventaitem WHERE (prenda_id = ".$referenciasArray[$j]['referencia_id'].") AND (estado_id = 1)", ARRAY_A);//133
-    $cantidad = $fabrica[0]['COUNT(*)'] + $bodega[0]['COUNT(*)'] + $plaza[0]['COUNT(*)'] + $satel[0]['COUNT(*)'] + $separados[0]['COUNT(*)'];
+    $cantidad = $fabrica[0]['COUNT(*)'] + $bodega[0]['COUNT(*)'] + $plaza[0]['COUNT(*)'] + $satel[0]['COUNT(*)'] - $separados[0]['COUNT(*)'];
     //$separadosCambios = $wpdb->get_results( "SELECT COUNT(*) FROM con_t_cambioitem WHERE (prenda_idsale = ".$referenciasArray[$j]['referencia_id'].") AND (estado_id = 'Sin empacar')", ARRAY_A);//133
     //$cantidad = $cantidad - $separados[0]['COUNT(*)']- $separadosCambios[0]['COUNT(*)'];
     //echo $referenciasArray[$j]['referencia_id'].": ".$cantidad."--";
