@@ -830,3 +830,19 @@ function imprimirResumenCell() {
 	});	
 	return habilitados;
 };
+
+function  liberarpaquete(codigo){
+	var enviar = "funcion=liberarpaquete&valor="+codigo;
+	var habilitados = 'no';
+	$.ajax({
+		url: urlhost,
+		headers: {'Access-Control-Allow-Origin': urlhost},
+		type: "GET",
+		async: false,
+		data: enviar,
+		success: function(data){
+			habilitados = data;
+		}						
+	});	
+	return habilitados;
+};

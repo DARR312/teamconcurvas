@@ -1326,6 +1326,35 @@ function imprimirResumenCell(){
     echo $html;
 }
 
+function liberarpaquete($valor){
+    global $wpdb;
+    if($valor[0] == "C" || $valor[0] == "c"){
+        $descripcion = $wpdb->get_results( "SELECT estado,codigo FROM con_t_trprendas WHERE cual = '".$valor."'", ARRAY_A);
+        if($descripcion[0]['codigo']){
+            echo "No se puede liberar porque la prenda ".$descripcion[0]['codigo']." está ".$descripcion[0]['estado']." en este pedido";
+        }else{
+            $timezone = new DateTimeZone( 'America/Bogota' );
+            $fecha = wp_date('Y-m-d H:i:s', null, $timezone );
+            $updated = $wpdb->update( "con_t_cambios", array('estado' => "Sin empacar"), array( 'cambio_id' => substr($valor,1) ) );
+            $datos = array("cambio_id" =>substr($valor,1) , "cambio" => "Sin empacar" , "fecha_hora" => $fecha , "campo_cambio" => "estado");
+            $wpdb->insert("con_t_cambiostr", $datos);          
+            echo "Empaque ".$valor." liberado";
+        }
+    }else{
+        $descripcion = $wpdb->get_results( "SELECT estado,codigo FROM con_t_trprendas WHERE cual = 'V".$valor."'", ARRAY_A);
+        if($descripcion[0]['codigo']){
+            echo "No se puede liberar porque la prenda ".$descripcion[0]['codigo']." está ".$descripcion[0]['estado']." en este pedido";
+        }else{
+            $timezone = new DateTimeZone( 'America/Bogota' );
+            $fecha = wp_date('Y-m-d H:i:s', null, $timezone );
+            $updated = $wpdb->update( "con_t_ventas", array('estado' => "Sin empacar"), array( 'venta_id' => $valor ) );
+            $datos = array("venta_id" => $valor , "cambio" => "Sin empacar","fecha_hora" => $fecha , "campo_cambio" => "estado");
+            $wpdb->insert("con_t_ventastr", $datos);
+            echo "Empaque ".$valor." liberado";
+        }
+    }
+}
+
 if($funcion == "permisosPrincipales"){
     permisosPrincipales();
 }if($funcion == "permisosVentas"){
@@ -1400,5 +1429,7 @@ if($funcion == "permisosPrincipales"){
     imprimirResumen();
 }if($funcion == "imprimirResumenCell"){
     imprimirResumenCell();
+}if($funcion == "liberarpaquete"){
+    liberarpaquete($valor);
 }
 ?>
