@@ -6,6 +6,8 @@ global $wpdb;
   //echo $obtenidosArray[0][cliente_id];
   $fecha = wp_date('Y-m-d')." 00:00:00";
   $fechados =wp_date('Y-m-d')." 23:00:00";
+  echo $fecha;
+  echo $fechados;
   $vendedores = $wpdb->get_results( "SELECT DISTINCT vendedor_id FROM con_t_ventas ORDER BY vendedor_id ASC", ARRAY_A);
   for($i=0;$i<sizeof($vendedores);$i++){
       $vendedornombre = $wpdb->get_results( "SELECT display_name FROM con_users WHERE ID = ".$vendedores[$i]['vendedor_id']."", ARRAY_A);
