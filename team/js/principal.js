@@ -799,6 +799,22 @@ function cantidadesinventario () {
 	return habilitados;
 };
 
+function madru() {
+	var enviar = "funcion=madrugones";
+	var habilitados = 'no';
+	$.ajax({
+		url: urlhost,
+		headers: {'Access-Control-Allow-Origin': urlhost},
+		type: "GET",
+		async: false,
+		data: enviar,
+		success: function(data){
+			habilitados = data;
+		}						
+	});	
+	return habilitados;
+};
+
 function imprimirResumen() {
 	var enviar = "funcion=imprimirResumen";
 	var habilitados = 'no';

@@ -48,7 +48,7 @@
             segundo.append("<div class='col-lg-2 col-md-2 col-sm-2 col-xs-12' id='accion30'><button class='botonmodal botonesInventario' type='button' id='auditInvent'>Auditoria inventario</button></div>");
         }if(items[i]==31){
             var segundo = $('#segundo');
-            segundo.append("<div class='col-lg-2 col-md-2 col-sm-2 col-xs-12' id='accion31'><button class='botonmodal botonesInventario' type='button' id='lym'>Lonas y madrugón</button></div>");
+            segundo.append("<div class='col-lg-2 col-md-2 col-sm-2 col-xs-12' id='accion31'><button class='botonmodal botonesInventario' type='button' id='madrug'>Madrugón</button></div>");
         }if(items[i]==32){
             var fechaAudito = $('#fechaAudito');
             var fechaInventario = obtenerData("fecha","con_t_auditoriasinventario","row","ID",fechaAudito.attr("name"));
@@ -86,7 +86,8 @@
         $('#informeDinero').css('display', 'none');         
         $('#ventasVSinventario').css('display', 'none');
         $('#inventarioInicialPc').css('display', 'none');
-        $('#liberarEmpacados').css('display', 'none');
+        $('#liberarEmpacados').css('display', 'none'); 
+        $('#madrugonDiv').css('display', 'none'); 
         var html = "";
         var nombresReferencias = obtenerData("nombre","con_t_resumen","unico");
         var items = nombresReferencias.split(',');
@@ -184,6 +185,7 @@
         $('#ventasVSinventario').css('display', 'none');
         $('#inventarioInicialPc').css('display', 'none');
         $('#liberarEmpacados').css('display', 'none');
+        $('#madrugonDiv').css('display', 'none'); 
         var htmlnombre = "<option class='remover' value='NA'>No aplica</option>";
         var datosreferencias = obtenerData("referencia_id,nombre,color,talla","con_t_resumen","varios");
         var items = datosreferencias.split(',');
@@ -286,6 +288,7 @@
         $('#ventasVSinventario').css('display', 'none');
         $('#inventarioInicialPc').css('display', 'none');
         $('#liberarEmpacados').css('display', 'none');
+        $('#madrugonDiv').css('display', 'none'); 
         var codigosprenda = codigosprendas($('#bscar').val(),"0","0","0");
         var arrayPrendas = codigosprenda.split('&');
         var primeraFila = $('#primeraFila');
@@ -306,7 +309,8 @@
         $('#informeDinero').css('display', 'none');         
         $('#ventasVSinventario').css('display', 'none');
         $('#inventarioInicialPc').css('display', 'none');
-        $('#liberarEmpacados').css('display', 'none');
+        $('#liberarEmpacados').css('display', 'none');  
+        $('#madrugonDiv').css('display', 'none'); 
         var resumen = resumenprendas($('#bscar').val(),"0","0","0");
         var arrayPrendas = resumen.split('&');
         var primeraFila = $('#primeraFilaResumen');
@@ -328,6 +332,7 @@
         $('#ventasVSinventario').css('display', 'none');
         $('#inventarioInicialPc').css('display', 'none');
         $('#liberarEmpacados').css('display', 'none');
+        $('#madrugonDiv').css('display', 'none'); 
         var resumen = resumenprendas($('#bscar').val(),"0","0","0");
         var arrayPrendas = resumen.split('&');
         var primeraFila = $('#primeraFilaResumen');
@@ -348,7 +353,8 @@
         $('#informeDinero').css('display', 'none');
         $('#ventasVSinventario').css('display', 'none');
         $('#inventarioInicialPc').css('display', 'none');
-        $('#liberarEmpacados').css('display', 'none');
+        $('#liberarEmpacados').css('display', 'none'); 
+        $('#madrugonDiv').css('display', 'none'); 
         var usuarioCell = $('#usuarioCell').attr("name");
         var usuarioCellArray = usuarioCell.split(",");
         var resumen = auditprendas($('#bscar').val(),usuarioCellArray[0],usuarioCellArray[1],"0");
@@ -380,6 +386,7 @@
         $('#ventasVSinventario').css('display', 'none');
         $('#inventarioInicialPc').css('display', 'none');
         $('#liberarEmpacados').css('display', 'none');
+        $('#madrugonDiv').css('display', 'none'); 
     });
     $('#cargarInforme').on('click', function(){ 
         var usuarioCell = $('#usuarioCell').attr("name");
@@ -476,6 +483,7 @@
         $('#ventasVSinventario').css('display', 'none');
         $('#inventarioInicialPc').css('display', 'none');
         $('#liberarEmpacados').css('display', 'none');
+        $('#madrugonDiv').css('display', 'none'); 
     });
     $('#cargarInformeDineroButton').on('click', function(){
         var usuarioCell = $('#usuarioCell').attr("name");
@@ -623,6 +631,7 @@
         $('#ventasVSinventario').css('display', 'none');
         $('#inventarioInicialPc').css('display', 'block');
         $('#liberarEmpacados').css('display', 'none');
+        $('#madrugonDiv').css('display', 'none'); 
         imrpimirinicialcodigos();
     });
     /********************** VENTAS VS INVENTARIO *******************************/
@@ -639,6 +648,9 @@
         $('#subirInformes').css('display', 'none');
         $('#informeDinero').css('display', 'none');
         $('#ventasVSinventario').css('display', 'block');
+        $('#inventarioInicialPc').css('display', 'none');
+        $('#liberarEmpacados').css('display', 'none');  
+        $('#madrugonDiv').css('display', 'none'); 
         var prendasAjustar = obtenerData("fecha_creada,venta_id,cliente_ok,notas,estado","con_t_ventas","rowVarios","estado","Ajustar");
         //°2022-07-05 17:39:36°28°0°°Ajustar%
         var html = "<div class='col-lg-12 col-md-12 col-sm-12 col-xs-12 remover' id='primeraFila'><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1 remover'><p class='letra18pt-pc negrillaUno'>Estado</p></div><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'><p class='letra18pt-pc negrillaUno'>Orden</p></div><div class='col-lg-3 col-md-3 col-sm-3 col-xs-3'><p class='letra18pt-pc negrillaUno'>Dinero registrado</p></div><div class='col-lg-3 col-md-3 col-sm-3 col-xs-3'><p class='letra18pt-pc negrillaUno'>Prendas fuera</p></div></div>";
@@ -683,7 +695,8 @@
         $('#informeDinero').css('display', 'none');         
         $('#ventasVSinventario').css('display', 'none');
         $('#inventarioInicialPc').css('display', 'none');
-        $('#liberarEmpacados').css('display', 'block');        
+        $('#liberarEmpacados').css('display', 'block');  
+        $('#madrugonDiv').css('display', 'none');        
     });    
     $('#liberarEmpaque').on('click', function(){   
         var codigo = $('#buscarempacado').val();      
@@ -691,6 +704,32 @@
         $('#buscarempacado').val(0);
         alert(resultado);
     });
+    $('#madrug').on('click', function(){   
+        $('.remover').remove();
+        $('.removerCodigos').remove();
+        $('#codigosNuevos').css('display', 'none');
+        $('#referenciaNueva').css('display', 'none');
+        $('#resultados').css('display', 'none');
+        $('#btnExport').css('display', 'none');
+        $('#verCodigo').css('display', 'none');
+        $('#verResumenprendas').css('display', 'none');
+        $('#auditoriaInventario').css('display', 'none');
+        $('#subirInformes').css('display', 'none');
+        $('#informeDinero').css('display', 'none');         
+        $('#ventasVSinventario').css('display', 'none');
+        $('#inventarioInicialPc').css('display', 'none');
+        $('#liberarEmpacados').css('display', 'none');  
+        $('#madrugonDiv').css('display', 'block');  
+        var usuarioCell = $('#usuarioCell').attr("name");
+        var usuarioCellArray = usuarioCell.split(",");
+        var madrugones = madru();//principal.js      
+        var madrugos = JSON.parse(madrugones);
+        console.log(madrugos[0].fecha);
+        /*var arrayMadrugones = madrugones.split('&');
+        var primeraFila = $('#primeraMadrugones');
+        var html = imprimirMadrugones(arrayMadrugones);
+    	primeraFila.after(html);     */
+    }); 
     /****************CELULAR********************/
     /*************************** Ver resumen *******************************/
     $('#verResumenCell').on('click', function(){   

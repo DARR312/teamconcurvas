@@ -2,10 +2,17 @@
 $fecha = wp_date('Y-m-d');
 $valor=$_GET['valor'];
 global $wpdb;
+$obtenidosArray = $wpdb->get_results( "SELECT COUNT(*),prenda_id FROM con_t_ventaitem WHERE estado_id = 1 GROUP BY prenda_id", ARRAY_A);
+$html = "";
+for($i=0;$i<sizeof($obtenidosArray);$i++){
+  $ref = $wpdb->get_results( "SELECT nombre,color,talla FROM con_t_resumen WHERE referencia_id = ".$obtenidosArray[$i]['prenda_id']."", ARRAY_A);
+  $html = $html."<div class='col-lg-12 col-md-12 col-sm-12 col-xs-12'><p class='letra18pt-pc'>".$ref[0]['nombre']." ".$ref[0]['color']." ".$ref[0]['talla']." Sin empacar: ".$obtenidosArray[$i]['COUNT(*)']."</p></div>";
+}
+echo $html;
 /*echo "hola";
 $obtenidosArray = $wpdb->get_results( "SELECT COUNT(*) FROM con_t_trprendas GROUP BY codigo", ARRAY_A);//133
 print_r($obtenidosArray);*/
-/*******************************NO EMPACADO*******************************************************/
+/*******************************NO EMPACADO*******************************************************
 $obtenidosArray = $wpdb->get_results( "SELECT venta_id,estado,fecha_entrega FROM con_t_ventas WHERE (estado = 'Sin empacar') AND (fecha_entrega < '".$fecha."')", ARRAY_A);
 print_r($obtenidosArray);
 if($obtenidosArray){
@@ -26,7 +33,7 @@ for($i=0;$i<sizeof($obtenidosArray);$i++){
 }
 $imprimir=$imprimir."</table></div>";
 echo $imprimir;*/
-/******************************* ACTUALIZAR INVENTARIO *******************************************************/
+/******************************* ACTUALIZAR INVENTARIO *******************************************************
 $referenciasArray = $wpdb->get_results( "SELECT DISTINCT referencia_id FROM con_t_trprendas ORDER BY referencia_id ASC", ARRAY_A);
 $estadosArray = $wpdb->get_results( "SELECT DISTINCT estado FROM con_t_trprendas ORDER BY estado ASC", ARRAY_A);
   //print_r($estadosArray); 

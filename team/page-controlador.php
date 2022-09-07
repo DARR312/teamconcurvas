@@ -1355,6 +1355,12 @@ function liberarpaquete($valor){
     }
 }
 
+function madrugones(){
+    global $wpdb;
+    $madrugones = $wpdb->get_results( "SELECT  `fecha`, `valor_mercancia`, `valor_dinero`, `madrugon_ok` FROM con_t_madrugon WHERE 1 ORDER BY fecha DESC", ARRAY_A  );
+    echo json_encode($madrugones);
+}
+
 if($funcion == "permisosPrincipales"){
     permisosPrincipales();
 }if($funcion == "permisosVentas"){
@@ -1431,5 +1437,7 @@ if($funcion == "permisosPrincipales"){
     imprimirResumenCell();
 }if($funcion == "liberarpaquete"){
     liberarpaquete($valor);
+}if($funcion == "madrugones"){
+    madrugones();
 }
 ?>
