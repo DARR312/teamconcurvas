@@ -706,7 +706,8 @@
     });
     $('#madrug').on('click', function(){   
         $('.remover').remove();
-        $('.removerCodigos').remove();
+        $('.removerMadurgones').remove();
+        $('.removerPMadurgones').remove();
         $('#codigosNuevos').css('display', 'none');
         $('#referenciaNueva').css('display', 'none');
         $('#resultados').css('display', 'none');
@@ -720,6 +721,8 @@
         $('#inventarioInicialPc').css('display', 'none');
         $('#liberarEmpacados').css('display', 'none');  
         $('#madrugonDiv').css('display', 'block');  
+        $('#primeraMadrugones').css('display', 'block');
+        $('#primeraPrendasMadrugones').css('display', 'none');
         var usuarioCell = $('#usuarioCell').attr("name");
         var usuarioCellArray = usuarioCell.split(",");
         var madrugones = madru();//principal.js      

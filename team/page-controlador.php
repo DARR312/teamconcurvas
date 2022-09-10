@@ -1377,7 +1377,12 @@ function prendasMadrugon($valor){
         $ref = $wpdb->get_results( "SELECT precio_mayorista FROM con_t_resumen WHERE referencia_id = ".$key."", ARRAY_A);
         $valortotal = $valortotal + ($ref[0]['precio_mayorista']*$value);
     }
-    echo $valortotal;
+    $updated = $wpdb->update( "con_t_madrugon", array('valor_mercancia' => $valortotal), array( 'ID' =>$valor ));
+    if($datos[0]['fecha'] == $valortotal){
+        $updated = $wpdb->update( "con_t_madrugon", array('madrugon_ok' => "Si"), array( 'ID' =>$valor ));
+    }
+    $prendas = $wpdb->get_results("SELECT  `referencia_id`, `descripcion`, `codigo`, `estado`, `cual`, `complemento_estado`, `fecha_cambio` FROM `con_t_trprendas` WHERE (`estado`='Madrugón') AND (`fecha_cambio` BETWEEN '".$fechainicio."' AND '".$fechafin."')",ARRAY_A);
+    echo json_encode($prendas);
 }
 
 if($funcion == "permisosPrincipales"){

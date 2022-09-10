@@ -269,6 +269,26 @@ function is_admin_user() {
                     <p class=' letra18pt-pc'>Ver prendas de este madrugón</p>
                 </div>
             </div>
+            <div class='col-lg-12 col-md-12 col-sm-12 col-xs-12' style='display: none;' id='primeraPrendasMadrugones'>
+                    <div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'>
+        	           <p class=' letra18pt-pc'>Referencia</p>
+        	        </div> 
+        	        <div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'>
+        	           <p class=' letra18pt-pc'>Descripción</p>
+        	        </div>
+        	        <div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'>
+        	           <p class=' letra18pt-pc'>Estado</p>
+        	        </div>
+        	        <div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'>
+        	           <p class=' letra18pt-pc'>Cual</p>
+        	        </div>                    
+        	        <div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'>
+        	           <p class=' letra18pt-pc'>Complemento</p>
+        	        </div>
+        	        <div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'>
+        	            <p class=' letra18pt-pc'>Fecha</p>
+        	        </div>
+        	   </div>
         </div>  
     </div>
     <div id='cuerpoCell' class="container-fluid celular" >

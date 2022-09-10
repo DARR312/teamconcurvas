@@ -2,7 +2,15 @@
 function inventario(){
     $('.verMadrugon').on('click', function(){ 
         var id = $(this).attr("name");
-        prendasMadrugon(id);
+        var prednasM = prendasMadrugon(id);
+        $('.removerMadurgones').remove();     
+        var pmadrugos = JSON.parse(prednasM);  
+        $('#primeraMadrugones').css('display', 'none');
+        $('#primeraPrendasMadrugones').css('display', 'block');
+        var primeraFila = $('#primeraPrendasMadrugones');
+        var html = imprimirPrendasMadrugones(pmadrugos);
+    	primeraFila.after(html);
+        inventario();
     });
 };
 
@@ -67,3 +75,11 @@ function imprimirMadrugones(madrugos){
     return html;
 };
 
+function imprimirPrendasMadrugones(pmadrugos){
+    console.log(pmadrugos);
+    var html = "";//madrugos[i].ID
+    for(var i = 0; i<(pmadrugos.length);i++){
+        html = html+"<div class='col-lg-12 col-md-12 col-sm-12 col-xs-12 removerPMadurgones'><div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'><p class=' letra18pt-pc'>"+pmadrugos[i].codigo+"</p></div><div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'><p class=' letra18pt-pc'>"+pmadrugos[i].descripcion+"</p></div><div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'><p class=' letra18pt-pc'>"+pmadrugos[i].estado+"</p></div><div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'><p class=' letra18pt-pc'>"+pmadrugos[i].cual+"</p></div><div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'><p class=' letra18pt-pc'>"+pmadrugos[i].complemento_estado+"</p></div><div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'><p class=' letra18pt-pc'>"+pmadrugos[i].fecha_cambio+"</p></div></div>";
+    }
+    return html;
+};
