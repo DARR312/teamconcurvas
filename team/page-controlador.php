@@ -1357,8 +1357,27 @@ function liberarpaquete($valor){
 
 function madrugones(){
     global $wpdb;
-    $madrugones = $wpdb->get_results( "SELECT  `fecha`, `valor_mercancia`, `valor_dinero`, `madrugon_ok` FROM con_t_madrugon WHERE 1 ORDER BY fecha DESC", ARRAY_A  );
+    $madrugones = $wpdb->get_results( "SELECT  `ID`, `fecha`, `valor_mercancia`, `valor_dinero`, `madrugon_ok` FROM con_t_madrugon WHERE 1 ORDER BY fecha DESC", ARRAY_A  );
     echo json_encode($madrugones);
+}
+
+function prendasMadrugon($valor){
+    global $wpdb;
+    $datos = $wpdb->get_results( "SELECT `fecha`, `valor_dinero` FROM `con_t_madrugon` WHERE `ID`=".$valor."", ARRAY_A  );
+    $fechainicio = $datos[0]['fecha']." 00:00:00";
+    $fechafin= $datos[0]['fecha']." 23:00:00";
+    $prendas = $wpdb->get_results("SELECT `referencia_id` FROM `con_t_trprendas` WHERE (`estado`='Madrugón') AND (`fecha_cambio` BETWEEN '".$fechainicio."' AND '".$fechafin."')",ARRAY_N);
+    $ids = array();
+    for($j=0;$j<sizeof($prendas);$j++){
+        array_push($ids, $prendas[$j][0]);
+    }
+    $vals = array_count_values($ids);
+    $valortotal = 0;
+    foreach ($vals as $key => $value){
+        $ref = $wpdb->get_results( "SELECT precio_mayorista FROM con_t_resumen WHERE referencia_id = ".$key."", ARRAY_A);
+        $valortotal = $valortotal + ($ref[0]['precio_mayorista']*$value);
+    }
+    echo $valortotal;
 }
 
 if($funcion == "permisosPrincipales"){
@@ -1439,5 +1458,7 @@ if($funcion == "permisosPrincipales"){
     liberarpaquete($valor);
 }if($funcion == "madrugones"){
     madrugones();
+}if($funcion == "prendasMadrugon"){
+    prendasMadrugon($valor);
 }
 ?>

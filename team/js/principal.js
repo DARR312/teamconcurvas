@@ -1,9 +1,13 @@
-//const urlhost = "http://localhost/wordpress/index.php/controlador" ;//http://localhost/wordpress/index.php/controlador/
-const urlhost = "https://concurvas.com/team/controlador/" ;
+const urlhost = "http://localhost/wordpress/index.php/controlador" ;//http://localhost/wordpress/index.php/controlador/
+//const urlhost = "https://concurvas.com/team/controlador/" ;
 function formatoPrecio(precio){
     let myFunc = num => Number(num);
     var nuevoPrecio =  Array.from(String(precio), myFunc);
     var ultimo = nuevoPrecio[nuevoPrecio.length-1];
+	if(nuevoPrecio.length>6){
+		let start =nuevoPrecio.length-6;
+    	nuevoPrecio.splice(start, 0, '´');
+	}
     let start =nuevoPrecio.length-3;
     nuevoPrecio.splice(start, 0, '.');
     nuevoPrecio.unshift("$");
@@ -849,6 +853,22 @@ function imprimirResumenCell() {
 
 function  liberarpaquete(codigo){
 	var enviar = "funcion=liberarpaquete&valor="+codigo;
+	var habilitados = 'no';
+	$.ajax({
+		url: urlhost,
+		headers: {'Access-Control-Allow-Origin': urlhost},
+		type: "GET",
+		async: false,
+		data: enviar,
+		success: function(data){
+			habilitados = data;
+		}						
+	});	
+	return habilitados;
+};
+
+function  prendasMadrugon(id){
+	var enviar = "funcion=prendasMadrugon&valor="+id;
 	var habilitados = 'no';
 	$.ajax({
 		url: urlhost,

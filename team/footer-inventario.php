@@ -723,12 +723,11 @@
         var usuarioCell = $('#usuarioCell').attr("name");
         var usuarioCellArray = usuarioCell.split(",");
         var madrugones = madru();//principal.js      
-        var madrugos = JSON.parse(madrugones);
-        console.log(madrugos[0].fecha);
-        /*var arrayMadrugones = madrugones.split('&');
+        var madrugos = JSON.parse(madrugones);     
         var primeraFila = $('#primeraMadrugones');
-        var html = imprimirMadrugones(arrayMadrugones);
-    	primeraFila.after(html);     */
+        var html = imprimirMadrugones(madrugos);
+    	primeraFila.after(html);
+        inventario();
     }); 
     /****************CELULAR********************/
     /*************************** Ver resumen *******************************/
