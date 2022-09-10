@@ -1051,10 +1051,12 @@ function  actualizar($tabla,$columna,$valor,$valor2){
         $wpdb->insert("con_t_cambiostr", $datos);
     }
     if($tabla == "cambio_clienteok" ){
-        echo "con_t_cambios, array('cliente_ok' => ".$columna."), array( 'cambio_id' => ".$valor." )";
         $updated = $wpdb->update( "con_t_cambios", array('cliente_ok' => $columna), array( 'cambio_id' => $valor ) );
         $datos = array("cambio_id" => $valor , "cambio" => $columna , "usuario_id" => $valores[2] , "fecha_hora" => $fecha , "campo_cambio" => "cliente_ok");
         $wpdb->insert("con_t_cambiostr", $datos);
+    }
+    if($tabla == "dinero_madrugon" ){
+        $updated = $wpdb->update( "con_t_madrugon", array('valor_dinero' => $columna), array( 'ID' =>$valor ));
     }
 }
 
@@ -1363,26 +1365,37 @@ function madrugones(){
 
 function prendasMadrugon($valor){
     global $wpdb;
-    $datos = $wpdb->get_results( "SELECT `fecha`, `valor_dinero` FROM `con_t_madrugon` WHERE `ID`=".$valor."", ARRAY_A  );
+    $datos = $wpdb->get_results( "SELECT `fecha`, `valor_dinero`,madrugon_ok FROM `con_t_madrugon` WHERE `ID`=".$valor."", ARRAY_A  );
     $fechainicio = $datos[0]['fecha']." 00:00:00";
     $fechafin= $datos[0]['fecha']." 23:00:00";
-    $prendas = $wpdb->get_results("SELECT `referencia_id` FROM `con_t_trprendas` WHERE (`estado`='Madrugón') AND (`fecha_cambio` BETWEEN '".$fechainicio."' AND '".$fechafin."')",ARRAY_N);
-    $ids = array();
-    for($j=0;$j<sizeof($prendas);$j++){
-        array_push($ids, $prendas[$j][0]);
+    if( $datos[0]['madrugon_ok'] == "No"){
+        $prendas = $wpdb->get_results("SELECT `referencia_id` FROM `con_t_trprendas` WHERE (`estado`='Madrugón') AND (`fecha_cambio` BETWEEN '".$fechainicio."' AND '".$fechafin."')",ARRAY_N);
+        $ids = array();
+        for($j=0;$j<sizeof($prendas);$j++){
+            array_push($ids, $prendas[$j][0]);
+        }
+        $vals = array_count_values($ids);
+        $valortotal = 0;
+        foreach ($vals as $key => $value){
+            $ref = $wpdb->get_results( "SELECT precio_mayorista FROM con_t_resumen WHERE referencia_id = ".$key."", ARRAY_A);
+            $valortotal = $valortotal + ($ref[0]['precio_mayorista']*$value);
+        }
+        $updated = $wpdb->update( "con_t_madrugon", array('valor_mercancia' => $valortotal), array( 'ID' =>$valor ));
+        if($datos[0]['valor_dinero'] == $valortotal){
+            $updated = $wpdb->update( "con_t_madrugon", array('madrugon_ok' => "Si"), array( 'ID' =>$valor ));
+            $datos="UPDATE `con_t_trprendas` SET `estado`='Venta madrugón' WHERE (`estado`='Madrugón') AND (`fecha_cambio` BETWEEN '".$fechainicio."' AND '".$fechafin."')";
+            $wpdb->query($datos);
+            $prendas = $wpdb->get_results("SELECT  `referencia_id`, `descripcion`, `codigo`, `estado`, `cual`, `complemento_estado`, `fecha_cambio` FROM `con_t_trprendas` WHERE (`estado`='Venta madrugón') AND (`fecha_cambio` BETWEEN '".$fechainicio."' AND '".$fechafin."')",ARRAY_A);
+            echo json_encode($prendas);
+        }else{
+            $prendas = $wpdb->get_results("SELECT  `referencia_id`, `descripcion`, `codigo`, `estado`, `cual`, `complemento_estado`, `fecha_cambio` FROM `con_t_trprendas` WHERE (`estado`='Madrugón') AND (`fecha_cambio` BETWEEN '".$fechainicio."' AND '".$fechafin."')",ARRAY_A);
+            echo json_encode($prendas);
+        }
+    }else{
+        $prendas = $wpdb->get_results("SELECT  `referencia_id`, `descripcion`, `codigo`, `estado`, `cual`, `complemento_estado`, `fecha_cambio` FROM `con_t_trprendas` WHERE (`estado`='Venta madrugón') AND (`fecha_cambio` BETWEEN '".$fechainicio."' AND '".$fechafin."')",ARRAY_A);
+        echo json_encode($prendas);
     }
-    $vals = array_count_values($ids);
-    $valortotal = 0;
-    foreach ($vals as $key => $value){
-        $ref = $wpdb->get_results( "SELECT precio_mayorista FROM con_t_resumen WHERE referencia_id = ".$key."", ARRAY_A);
-        $valortotal = $valortotal + ($ref[0]['precio_mayorista']*$value);
-    }
-    $updated = $wpdb->update( "con_t_madrugon", array('valor_mercancia' => $valortotal), array( 'ID' =>$valor ));
-    if($datos[0]['fecha'] == $valortotal){
-        $updated = $wpdb->update( "con_t_madrugon", array('madrugon_ok' => "Si"), array( 'ID' =>$valor ));
-    }
-    $prendas = $wpdb->get_results("SELECT  `referencia_id`, `descripcion`, `codigo`, `estado`, `cual`, `complemento_estado`, `fecha_cambio` FROM `con_t_trprendas` WHERE (`estado`='Madrugón') AND (`fecha_cambio` BETWEEN '".$fechainicio."' AND '".$fechafin."')",ARRAY_A);
-    echo json_encode($prendas);
+    
 }
 
 if($funcion == "permisosPrincipales"){

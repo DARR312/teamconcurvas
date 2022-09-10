@@ -12,6 +12,36 @@ function inventario(){
     	primeraFila.after(html);
         inventario();
     });
+    $('.editarValorDinero').on('click', function(){  
+        var ids = $(this).attr("name");
+        $('#editarValorVenta').attr("name",ids);
+        $('#popup').fadeIn('slow');         
+        $('.popup-overlay').fadeIn('slow');         
+        $('.popup-overlay').height($(window).height());
+        return false;     
+    });   
+    $('#close').on('click', function(){   
+        $('#popup').fadeOut('slow');       
+        $('.popup-overlay').fadeOut('slow'); 
+        return false;     
+    });         
+    $('#dineroGuardado').on('click', function(){   
+        $('#popup').fadeOut('slow');       
+        $('.popup-overlay').fadeOut('slow'); 
+        $('#primeraMadrugones').css('display', 'block');
+        $('#primeraPrendasMadrugones').css('display', 'none');
+        $('.removerMadurgones').remove(); 
+        var id = $('#editarValorVenta').attr("name");
+        var valor = $('#valorDinero').val();
+        actualizar("dinero_madrugon",valor,id,0);//
+        var madrugones = madru();//principal.js      
+        var madrugos = JSON.parse(madrugones);     
+        var primeraFila = $('#primeraMadrugones');
+        var html = imprimirMadrugones(madrugos);
+    	primeraFila.after(html);
+        inventario();
+        return false;     
+    });  
 };
 
 function imprimirCodigos(arrayPrendas){
@@ -69,8 +99,14 @@ function inventarioPrendas() {
 
 function imprimirMadrugones(madrugos){
     var html = "";
+    var usuarioCell = $('#usuarioCell').attr("name");
+    var usuarioCellArray = usuarioCell.split(",");
+    var editarValorDinero = "";
+    if(usuarioCellArray[0]==10){
+        editarValorDinero = "editarValorDinero";
+    }
     for(var i = 0; i<(madrugos.length);i++){
-        html = html+"<div class='col-lg-12 col-md-12 col-sm-12 col-xs-12 removerMadurgones'><div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'><p class=' letra18pt-pc'>"+madrugos[i].ID+"</p></div><div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'><p class=' letra18pt-pc'>"+madrugos[i].fecha+"</p></div><div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'><p class=' letra18pt-pc'>"+formatoPrecio(madrugos[i].valor_mercancia)+"</p></div><div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'><p class=' letra18pt-pc'>"+formatoPrecio(madrugos[i].valor_dinero)+"</p></div><div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'><p class=' letra18pt-pc'>"+madrugos[i].madrugon_ok+"</p></div><div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'><button class='botonmodal botonenmodal letra18pt-pc verMadrugon' type='button' name='"+madrugos[i].ID+"'> Ver madrugón </button></div></div>";
+        html = html+"<div class='col-lg-12 col-md-12 col-sm-12 col-xs-12 removerMadurgones'><div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'><p class=' letra18pt-pc'>"+madrugos[i].ID+"</p></div><div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'><p class=' letra18pt-pc'>"+madrugos[i].fecha+"</p></div><div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'><p class=' letra18pt-pc'>"+formatoPrecio(madrugos[i].valor_mercancia)+"</p></div><div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'><p class=' letra18pt-pc "+editarValorDinero+"' name='"+madrugos[i].ID+"'>"+formatoPrecio(madrugos[i].valor_dinero)+"</p></div><div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'><p class=' letra18pt-pc'>"+madrugos[i].madrugon_ok+"</p></div><div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'><button class='botonmodal botonenmodal letra18pt-pc verMadrugon' type='button' name='"+madrugos[i].ID+"'> Ver madrugón </button></div></div>";
     }
     return html;
 };

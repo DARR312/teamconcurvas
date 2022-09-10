@@ -354,6 +354,25 @@ function is_admin_user() {
             
         </div>
     </div>
+    <div id='popup' style='display: none;' class="pc tablet">
+        <div class='content-popup' id="editarValorVenta">
+            <div class='close'><a href='#' id='close'>
+                <img src='<?php echo get_template_directory_uri(); ?>/imagenes/iconos/close.png'/></a>
+            </div>
+            <div>
+                <h2 class="letra18pt-pc">Subir dinero</h2>
+                <div action="" method="get" accept-charset="UTF-8" autocomplete="off" class="" id="formularioCliente">
+					<div class="form-group pmd-textfield pmd-textfield-floating-label">
+						<label for="valorDinero" class="control-label letra18pt-pc"> Valor dinero</label>
+						<input class="form-control" type="number" id="valorDinero" name="valorDinero" required=""><span class="pmd-textfield-focused"></span>
+                    </div>					
+				</div>
+				<button type="submit" class="botonmodal letra18pt-pc" id="dineroGuardado"> Guardar dinero </button>
+                <div style='float:left; width:100%;'>
+                </div>
+            </div>
+        </div>
+    </div>
 <?php
 	   get_footer("inventario"); 
 	}else{
