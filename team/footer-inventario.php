@@ -520,6 +520,7 @@
                 var ok = parseInt(excedente)-parseInt(recaudo);
                 var dif = parseInt(clienteokVenta)+parseInt(ok)-parseInt(valorSalida);
                 //alert("Pedido: "+id+" Precio ya pagado por el cliente: "+clienteokVenta+" Excedente - Recaudo: "+ok+" Valor de la prenda que sale: "+valorSalida+" Dif: "+dif);
+                actualizar("cambio_clienteok",recaudo,id.slice(1),usuarioCell);
                 if(dif<0){//Al cliente le sobra
                     $("#informeD p:eq("+(i+2)+")").text("Para auditar");
                     actualizar("cambio_estado","Auditar",id.slice(1),usuarioCell);
@@ -542,10 +543,8 @@
                     //alert("itemVentas: "+itemVentas.length+" itemCambios: "+itemCambios.length+" prendas: "+prendas.length);
                     if((itemVentas.length != itemCambios.length) || (itemVentas.length != (prendas.length-1)) || ((prendas.length-1) != itemCambios.length)){
                         actualizar("cambio_estado","Auditar",id.slice(1),usuarioCell);
-                        actualizar("cambio_clienteok",recaudo,id.slice(1),usuarioCell);
                     }else{
                         actualizar("cambio_estado","Entregado",id.slice(1),usuarioCell);
-                        actualizar("cambio_clienteok",recaudo,id.slice(1),usuarioCell);//(tabla,columna,id,usuarioCell)
                         for(var v =0 ;v < (prendas.length-1); v++ ){
                             actualizar("cambioitem_estado",itemCambios[v],'Entregado',0);
                             var prendaArray = prendas[v].split("°");
@@ -562,15 +561,15 @@
             }else{
                 var recaudo = $("#informeD p:eq("+(i+1)+")").text();
                 var pedido = obtenerData("pedido","con_t_ventas","row","venta_id",id);
-                var clienteok = obtenerData("cliente_ok","con_t_ventas","row","venta_id",id);
+                //var clienteok = obtenerData("cliente_ok","con_t_ventas","row","venta_id",id);
                 var pedidoArray = pedido.split("%");
                 var precio = pedidoArray[1];
-                var dif = parseInt(precio)-parseInt(clienteok)-parseInt(recaudo);
+                var dif = parseInt(precio)-parseInt(recaudo);
                 //alert("Pedido: "+id+" Precio: "+precio+" Clienteok: "+clienteok+" Recaudo: "+recaudo+" Dif: "+dif);
+                actualizar("venta_clienteok",recaudo,id,usuarioCell);//(tabla,columna,id,usuarioCell)
                 if(dif<0){
                     $("#informeD p:eq("+(i+2)+")").text("Para auditar");
                     actualizar("venta_estado","Auditar",id,usuarioCell);
-                    actualizar("venta_clienteok",recaudo,id,usuarioCell);//(tabla,columna,id,usuarioCell)
                     var cualVentaItem = obtenerData("complemento_estado","con_t_trprendas","rowVarios","cual","V"+id);//°Diego 1°137%°Diego 1°138%
                     var cualArry = cualVentaItem.split("%");
                     for(var j = 0;j<(cualArry.length-1);j++){
@@ -599,14 +598,12 @@
                             var prenda = prendaArray[1];
                             actualizar("venta_estado","Entregado",id,usuarioCell);
                             actualizarPrendas(usuarioCell+prendaArray[2]+"°"+prendaArray[3],"Entregado","V"+id,prenda);
-                            actualizar("venta_clienteok",recaudo,id,usuarioCell);//(tabla,columna,id,usuarioCell)
                             actualizarVentaitem("Entregado",prendaArray[3]);
                         }
                     }else{
                         for(var v =0 ;v < (prendas.length-1); v++ ){
                             var prenda = prendas[v].replace("°","");
                             actualizar("venta_estado","Auditar",id,usuarioCell);
-                            actualizar("venta_clienteok",recaudo+clienteok,id,usuarioCell);//(tabla,columna,id,usuarioCell)
                         }
                     }
                 }if(dif>0){
