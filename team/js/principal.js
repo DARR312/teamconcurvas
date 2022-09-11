@@ -1,9 +1,5 @@
 const urlhost = "http://localhost/wordpress/index.php/controlador" ;//http://localhost/wordpress/index.php/controlador/
-<<<<<<< HEAD
 //const urlhost = "https://concurvas.com/team/controlador/" ;sebas
-=======
-//const urlhost = "https://concurvas.com/team/controlador/" ;
->>>>>>> e7cf19428b6650d73f110d1893a8818f30afe40c
 function formatoPrecio(precio){
     let myFunc = num => Number(num);
     var nuevoPrecio =  Array.from(String(precio), myFunc);
