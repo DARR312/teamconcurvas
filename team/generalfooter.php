@@ -13,7 +13,7 @@
 <?php } ?>
 <script>
 $(window).load(function(){
-   var permisos = permisosPrincipales();
+   var permisos = permisosPrincipales();//principal.js
    var items = permisos.split(',');
    //alert(items.length);
    var html = ""; 
