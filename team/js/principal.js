@@ -15,7 +15,7 @@ function formatoPrecio(precio){
     return preciodevuelto;
 };
 
-function permisosPrincipales () {
+function permisosPrincipales () {//permisos para los logos de la barra principal
 	var enviar = "funcion=permisosPrincipales";
 	var habilitados = 'no';
 	$.ajax({
