@@ -565,7 +565,7 @@
                 var pedidoArray = pedido.split("%");
                 var precio = pedidoArray[1];
                 var dif = parseInt(precio)-parseInt(recaudo);
-                //alert("Pedido: "+id+" Precio: "+precio+" Clienteok: "+clienteok+" Recaudo: "+recaudo+" Dif: "+dif);
+                //alert("Pedido: "+id+" Precio: "+precio+" Recaudo: "+recaudo+" Dif: "+dif);
                 actualizar("venta_clienteok",recaudo,id,usuarioCell);//(tabla,columna,id,usuarioCell)
                 if(dif<0){
                     $("#informeD p:eq("+(i+2)+")").text("Para auditar");
