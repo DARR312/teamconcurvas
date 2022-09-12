@@ -882,3 +882,26 @@ function  prendasMadrugon(id){
 	});	
 	return habilitados;
 };
+
+function  revisarfechasatelite(arraItem){
+	var items = "";
+	for(var i = 0;i<arraItem.length;i++){
+		items=items+"°"+arraItem[i];
+	}
+	var enviar = "funcion=revisarfechasatelite&valor="+items;
+	var habilitados = 'no';
+	$.ajax({
+		url: urlhost,
+		headers: {'Access-Control-Allow-Origin': urlhost},
+		type: "GET",
+		async: false,
+		data: enviar,
+		success: function(data){
+			habilitados = data;
+		}						
+	});	
+	var verificados = JSON.parse(habilitados);  
+	for (let index = 0; index < verificados.length; index++) {
+		var fecha = verificados[index].fecha;	
+	}
+};

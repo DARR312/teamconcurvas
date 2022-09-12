@@ -237,6 +237,8 @@
                                                         var html = html+"<p class='col-lg-2 col-md-2 col-sm-2 col-xs-2 reinicia' id='cantidadV5'>"+$('#cantidad5').val()+"</p><p class='col-lg-4 col-md-4 col-sm-4 col-xs-4 reinicia' id='refe5'>"+items5[1]+"</p><p class='reinicia' style='display: none;' id='idref5'>"+items5[0]+"</p><p class='reinicia' style='display: none;' id='precio5'>"+items5[2]+"</p>";
                                                         var html = html+"<p class='col-lg-2 col-md-2 col-sm-2 col-xs-2 reinicia' id='cantidadV6'>"+$('#cantidad6').val()+"</p><p class='col-lg-4 col-md-4 col-sm-4 col-xs-4 reinicia' id='refe6'>"+items6[1]+"</p><p class='reinicia' style='display: none;' id='idref6'>"+items6[0]+"</p><p class='reinicia' style='display: none;' id='precio6'>"+items6[2]+"</p>";
                                                         var pedido = $('#pedido');
+                                                        var arraItems = [items[0],items2[0],items3[0],items4[0],items5[0],items6[0]];
+                                                        revisarfechasatelite(arraItems);
                                                         pedido.append(html);
                                                     }else{alert("Ingresa la cantidad para la referencia 6");}
                                                 }else{
@@ -258,6 +260,8 @@
                                                     var html = html+"<p class='col-lg-2 col-md-2 col-sm-2 col-xs-2 reinicia' id='cantidadV4'>"+$('#cantidad4').val()+"</p><p class='col-lg-4 col-md-4 col-sm-4 col-xs-4 reinicia' id='refe4'>"+items4[1]+"</p><p class='reinicia' style='display: none;' id='idref4'>"+items4[0]+"</p><p class='reinicia' style='display: none;' id='precio4'>"+items4[2]+"</p>";
                                                     var html = html+"<p class='col-lg-2 col-md-2 col-sm-2 col-xs-2 reinicia' id='cantidadV5'>"+$('#cantidad5').val()+"</p><p class='col-lg-4 col-md-4 col-sm-4 col-xs-4 reinicia' id='refe5'>"+items5[1]+"</p><p class='reinicia' style='display: none;' id='idref5'>"+items5[0]+"</p><p class='reinicia' style='display: none;' id='precio5'>"+items5[2]+"</p>";
                                                     var pedido = $('#pedido');
+                                                        var arraItems = [items[0],items2[0],items3[0],items4[0],items5[0]];
+                                                        revisarfechasatelite(arraItems);
                                                     pedido.append(html);
                                                 }
                                             }else{alert("Ingresa la cantidad para la referencia 5");}
@@ -277,6 +281,8 @@
                                             var html = html+"<p class='col-lg-2 col-md-2 col-sm-2 col-xs-2 reinicia' id='cantidadV3'>"+$('#cantidad3').val()+"</p><p class='col-lg-4 col-md-4 col-sm-4 col-xs-4 reinicia' id='refe3'>"+items3[1]+"</p><p class='reinicia' style='display: none;' id='idref3'>"+items3[0]+"</p><p class='reinicia' style='display: none;' id='precio3'>"+items3[2]+"</p>";
                                             var html = html+"<p class='col-lg-2 col-md-2 col-sm-2 col-xs-2 reinicia' id='cantidadV4'>"+$('#cantidad4').val()+"</p><p class='col-lg-4 col-md-4 col-sm-4 col-xs-4 reinicia' id='refe4'>"+items4[1]+"</p><p class='reinicia' style='display: none;' id='idref4'>"+items4[0]+"</p><p class='reinicia' style='display: none;' id='precio4'>"+items4[2]+"</p>";
                                             var pedido = $('#pedido');
+                                                        var arraItems = [items[0],items2[0],items3[0],items4[0]];
+                                                        revisarfechasatelite(arraItems);
                                             pedido.append(html);
                                         }
                                     }else{alert("Ingresa la cantidad para la referencia 4");}
@@ -293,6 +299,8 @@
                                     var html = html+"<p class='col-lg-2 col-md-2 col-sm-2 col-xs-2 reinicia' id='cantidadV2'>"+$('#cantidad2').val()+"</p><p class='col-lg-4 col-md-4 col-sm-4 col-xs-4 reinicia' id='refe2'>"+items2[1]+"</p><p class='reinicia' style='display: none;' id='idref2'>"+items2[0]+"</p><p class='reinicia' style='display: none;' id='precio2'>"+items2[2]+"</p>";
                                     var html = html+"<p class='col-lg-2 col-md-2 col-sm-2 col-xs-2 reinicia' id='cantidadV3'>"+$('#cantidad3').val()+"</p><p class='col-lg-4 col-md-4 col-sm-4 col-xs-4 reinicia' id='refe3'>"+items3[1]+"</p><p class='reinicia' style='display: none;' id='idref3'>"+items3[0]+"</p><p class='reinicia' style='display: none;' id='precio3'>"+items3[2]+"</p>";
                                     var pedido = $('#pedido');
+                                                        var arraItems = [items[0],items2[0],items3[0]];
+                                                        revisarfechasatelite(arraItems);
                                     pedido.append(html);
                                 }
                             }else{alert("Ingresa la cantidad para la referencia 3");}
@@ -306,6 +314,8 @@
                             var html = "<p class='col-lg-2 col-md-2 col-sm-2 col-xs-2 reinicia' id='cantidadV1'>"+$('#cantidad1').val()+"</p><p class='col-lg-4 col-md-4 col-sm-4 col-xs-4 reinicia' id='refe1'>"+items[1]+"</p><p class='reinicia' style='display: none;' id='idref1'>"+items[0]+"</p><p class='reinicia' style='display: none;' id='precio1'>"+items[2]+"</p>";
                             var html = html+"<p class='col-lg-2 col-md-2 col-sm-2 col-xs-2 reinicia' id='cantidadV2'>"+$('#cantidad2').val()+"</p><p class='col-lg-4 col-md-4 col-sm-4 col-xs-4 reinicia' id='refe2'>"+items2[1]+"</p><p class='reinicia' style='display: none;' id='idref2'>"+items2[0]+"</p><p class='reinicia' style='display: none;' id='precio2'>"+items2[2]+"</p>";
                             var pedido = $('#pedido');
+                                                        var arraItems = [items[0],items2[0]];
+                                                        revisarfechasatelite(arraItems);
                             pedido.append(html);
                         }
                     }else{alert("Ingresa la cantidad para la referencia 2");}
@@ -316,6 +326,8 @@
                     var items = datos.split('%');
                     var html = "<p class='col-lg-2 col-md-2 col-sm-2 col-xs-2 reinicia' id='cantidadV1'>"+$('#cantidad1').val()+"</p><p class='col-lg-4 col-md-4 col-sm-4 col-xs-4 reinicia' id='refe1'>"+items[1]+"</p><p class='reinicia' style='display: none;' id='idref1'>"+items[0]+"</p><p class='reinicia' style='display: none;' id='precio1'>"+items[2]+"</p>";
                     var pedido = $('#pedido');
+                                                        var arraItems = [items[0]];
+                                                        revisarfechasatelite(arraItems);
                     pedido.append(html);
                 }
             }else{alert("Ingresa la cantidad para la referencia 1");}

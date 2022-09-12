@@ -1398,6 +1398,37 @@ function prendasMadrugon($valor){
     
 }
 
+function revisarfechasatelite($valor){
+    global $wpdb;
+    $referenciasArray = explode("°",$valor);
+    $html = "";
+    $verificadas = array();
+    for($i=1;$i<(sizeof($referenciasArray));$i++){
+        $descripcion = $wpdb->get_results( "SELECT nombre,color,talla,precio_detal FROM con_t_resumen WHERE referencia_id = ".$referenciasArray[$i]."", ARRAY_A);
+        $fabrica = $wpdb->get_results( "SELECT COUNT(*) FROM con_t_trprendas WHERE (referencia_id = ".$referenciasArray[$i].") AND (estado = 'En Producción')", ARRAY_A);  
+        $bodega = $wpdb->get_results( "SELECT COUNT(*) FROM con_t_trprendas WHERE (referencia_id = ".$referenciasArray[$i].") AND ((estado = 'En Operaciones') || (estado = 'En Empaques'))", ARRAY_A);  
+        $plaza = $wpdb->get_results( "SELECT COUNT(*) FROM con_t_trprendas WHERE (referencia_id = ".$referenciasArray[$i].") AND (estado = 'En Plaza de las américas')", ARRAY_A);  
+        $separados = $wpdb->get_results( "SELECT COUNT(*) FROM con_t_ventaitem WHERE (prenda_id = ".$referenciasArray[$i].") AND (estado_id = 1)", ARRAY_A);//133
+        $cantidad = $fabrica[0]['COUNT(*)']+$bodega[0]['COUNT(*)']+$plaza[0]['COUNT(*)']-$separados[0]['COUNT(*)'];
+        if($cantidad<=0){
+            $fechaDescripcion = array();
+            $satel = $wpdb->get_results( "SELECT codigo FROM con_t_trprendas WHERE (referencia_id = ".$referenciasArray[$i].") AND (estado = 'En satélite')", ARRAY_A);  
+            $lote = "";
+            for($j=1;$j<50;$j++){
+                if(($satel[0]['codigo'][$j] == "0")||($satel[0]['codigo'][$j] == "1")||($satel[0]['codigo'][$j] == "2")||($satel[0]['codigo'][$j] == "3")||($satel[0]['codigo'][$j] == "4")||($satel[0]['codigo'][$j] == "5")||($satel[0]['codigo'][$j] == "6")||($satel[0]['codigo'][$j] == "7")||($satel[0]['codigo'][$j] == "8")||($satel[0]['codigo'][$j] == "9")){
+                    $lote=$lote.$satel[0]['codigo'][$j];
+                }else{$j=51;}
+            }//array_push($ids, $prendas[$j][0]);
+            $fecha = $wpdb->get_results( "SELECT fecha_terminada FROM con_t_lotes WHERE ID = ".$lote."", ARRAY_A);//133
+            $descr = $descripcion[0]['nombre']." ".$descripcion[0]['color']." ".$descripcion[0]['talla'];
+            $fechaDescripcion['descripcion']= $descr;
+            $fechaDescripcion['fecha'] = $fecha;
+            array_push($verificadas, $fechaDescripcion);
+        }        
+    }
+    echo json_encode($verificadas);
+}
+
 if($funcion == "permisosPrincipales"){
     permisosPrincipales();
 }if($funcion == "permisosVentas"){
@@ -1478,5 +1509,7 @@ if($funcion == "permisosPrincipales"){
     madrugones();
 }if($funcion == "prendasMadrugon"){
     prendasMadrugon($valor);
+}if($funcion == "revisarfechasatelite"){
+    revisarfechasatelite($valor);
 }
 ?>
