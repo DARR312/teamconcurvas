@@ -8,7 +8,7 @@
                 <img src='<?php echo get_template_directory_uri(); ?>/imagenes/iconos/close.png'/></a>
             </div>
             <div>
-                <h2 class="letra18pt-pc">Venta nueva</h2>
+                <h2 class="letra18pt-pc" id="ventaNuevaTitulo" name="2025-09-14">Venta nueva</h2>
                 <div action="https://concurvas.com/team/controlador/" method="get"  autocomplete="off" class="col-lg-4 col-md-4 col-sm-4 col-xs-12" id="buscarCliente">
         		    <div class="form-group pmd-textfield pmd-textfield-floating-label">
         		        <label for="nombre" class="control-label letra18pt-pc"> Teléfono</label>
@@ -22,8 +22,7 @@
             	    <button class='botonmodal botonenmodal letra18pt-pc' type='button' id='agregarCliente'> Agregar cliente </button>
             	</div>
             	<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="datosCliente">
-            	<h2 class="letra18pt-pc">Datos Cliente</h2>
-            	
+            	<h2 class="letra18pt-pc">Datos Cliente</h2>            	
                     <div action="" method="get" accept-charset="UTF-8" autocomplete="off" class="" id="guardarVenta">
             			<div class="form-group pmd-textfield pmd-textfield-floating-label">
             				<input class="form-control" type="text" id="nombreVenta" name="nombreVenta" required="" disabled="disabled"><span class="pmd-textfield-focused"></span>

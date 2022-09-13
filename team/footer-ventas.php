@@ -572,9 +572,6 @@ function seleccionCliente(id) {
 	$('#datetimepicker-default').datetimepicker({
 		format: 'L'
 	});
-	$('#datetimepicker-entrega').datetimepicker({
-		format: 'L'
-	});
 	$('#datetimepicker-defaultFiltro').datetimepicker({
 		format: 'L'
 	});

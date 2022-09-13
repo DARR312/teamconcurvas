@@ -1,4 +1,4 @@
-function ventas() {   
+function ventas() {  
     $('.usuarioUpdate').on('click', function(){  
         var ids = $(this).attr("name");
         var idsArray = ids.split("%");

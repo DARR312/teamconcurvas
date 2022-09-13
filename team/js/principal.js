@@ -900,8 +900,28 @@ function  revisarfechasatelite(arraItem){
 			habilitados = data;
 		}						
 	});	
-	var verificados = JSON.parse(habilitados);  
-	for (let index = 0; index < verificados.length; index++) {
-		var fecha = verificados[index].fecha;	
+	if(habilitados.length>2){
+		var verificados = JSON.parse(habilitados); 
+		var end = new Date('2015-01-28'); 
+		var fechas = [end];
+		let text = '{ "referencia":"NA" , "fecha_check":"'+end+'" , "fecha":"2015-01-28" }';
+		const objetoFinal = JSON.parse(text);
+		for (let index = 0; index < verificados.length; index++){
+			var fecha_terminadas = verificados[index].fecha;	
+			var fs = new Date(fecha_terminadas[0].fecha_terminada);
+			if(fs > fechas[0]){
+				fechas[0] = fs;
+				text = '{ "referencia":"'+verificados[index].descripcion+'" , "fecha_check":"'+fs+'", "fecha":"'+fecha_terminadas[0].fecha_terminada+'" }';
+				objetoFinal[0] = JSON.parse(text);
+			}
+		}
+		alert("El pedido puede ser despachado hasta el: "+objetoFinal[0].fecha+" debido a que la/el "+objetoFinal[0].referencia+" está en satélite");
+		$('#ventaNuevaTitulo').attr("name",objetoFinal[0].fecha);
+	}else{
+		$('#ventaNuevaTitulo').attr("name","2025-09-14");
 	}
+	$('#datetimepicker-entrega').datetimepicker({
+		format: 'L',
+        maxDate: $('#ventaNuevaTitulo').attr("name")
+	});
 };
