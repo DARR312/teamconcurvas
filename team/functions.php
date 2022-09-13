@@ -1,5 +1,5 @@
 <?php
-/************************TIPOS DE USUARIOS******************
+/************************TIPOS DE USUARIOS******************/
 function xx__update_custom_roles() {
     if ( get_option( 'custom_roles_version' ) < 1 ) {
         add_role( 'custom_role', 'Jefe Producción', array( 'read' => true, 'level_0' => true ) );
@@ -7,8 +7,8 @@ function xx__update_custom_roles() {
     }
 }
 add_action( 'init', 'xx__update_custom_roles' );
-/************************TIPOS DE USUARIOS******************
-add_role( 'empacador', 'Empacador', array(  'level_2' => true ));
+/************************TIPOS DE USUARIOS******************/
+add_role( 'disenador', 'Diseñador', array(  'level_6' => true ));
 /*remove_role( 'cliente' ); 
 add_role( 'joperaciones', 'Jefe Operaciones', array(  'level_7' => true ));
 add_role( 'transportador', 'Transportador', array(  'level_0' => true ));
