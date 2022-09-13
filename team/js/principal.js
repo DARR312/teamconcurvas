@@ -1,5 +1,5 @@
-//const urlhost = "http://localhost/wordpress/index.php/controlador" ;//http://localhost/wordpress/index.php/controlador/
-const urlhost = "https://concurvas.com/team/controlador/" ; 
+const urlhost = "http://localhost/wordpress/index.php/controlador" ;//http://localhost/wordpress/index.php/controlador/
+//const urlhost = "https://concurvas.com/team/controlador/" ; 
 function formatoPrecio(precio){
     let myFunc = num => Number(num);
     var nuevoPrecio =  Array.from(String(precio), myFunc);
@@ -900,7 +900,7 @@ function  revisarfechasatelite(arraItem){
 			habilitados = data;
 		}						
 	});	
-	/*if(habilitados.length>2){
+	if(habilitados.length>2){
 		var verificados = JSON.parse(habilitados); 
 		var end = new Date('2015-01-28'); 
 		var fechas = [end];
@@ -918,11 +918,11 @@ function  revisarfechasatelite(arraItem){
 		alert("El pedido puede ser despachado hasta el: "+objetoFinal[0].fecha+" debido a que la/el "+objetoFinal[0].referencia+" está en satélite");
 		$('#ventaNuevaTitulo').attr("name",objetoFinal[0].fecha);
 	}else{
-		$('#ventaNuevaTitulo').attr("name","2025-09-14");
-	}*/
-	$('#ventaNuevaTitulo').attr("name","2025-09-14");
+		$('#ventaNuevaTitulo').attr("name","2020-09-14");
+	}
+	$('#datetimepicker-entrega').css('display', 'block');
 	$('#datetimepicker-entrega').datetimepicker({
 		format: 'L',
-        maxDate: $('#ventaNuevaTitulo').attr("name")
+        minDate: $('#ventaNuevaTitulo').attr("name")
 	});
 };

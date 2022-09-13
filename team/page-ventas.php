@@ -8,7 +8,7 @@
                 <img src='<?php echo get_template_directory_uri(); ?>/imagenes/iconos/close.png'/></a>
             </div>
             <div>
-                <h2 class="letra18pt-pc" id="ventaNuevaTitulo" name="2025-09-14">Venta nueva</h2>
+                <h2 class="letra18pt-pc" id="ventaNuevaTitulo" name="2020-09-14">Venta nueva</h2>
                 <div action="https://concurvas.com/team/controlador/" method="get"  autocomplete="off" class="col-lg-4 col-md-4 col-sm-4 col-xs-12" id="buscarCliente">
         		    <div class="form-group pmd-textfield pmd-textfield-floating-label">
         		        <label for="nombre" class="control-label letra18pt-pc"> Teléfono</label>
@@ -52,7 +52,7 @@
             	<div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" id="fechaEntrega">
             	    <div class="form-group pmd-textfield pmd-textfield-floating-label pmd-textfield-floating-label-completed">
                     	<label class="control-label letra18pt-pc" for="regular1">Fecha de entrega</label>
-                    	<input type="text" id="datetimepicker-entrega" class="form-control" />
+                    	<input type="text" id="datetimepicker-entrega" class="form-control" style='display: none;'/>
                     </div>
             	</div> 
             	<div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" id="fechaEntrega">
@@ -250,7 +250,7 @@
 						<label for="cantidad1Update" class="control-label letra18pt-pc"> Cantidad</label>
 						<input class="form-control removecero" type="number" id="cantidad1Update" name="cantidad1Update" required=""><span class="pmd-textfield-focused"></span>
 					</div> 
-					<div class="form-group pmd-textfield pmd-textfield-floating-label col-lg-4 col-md-4 col-sm-4 col-xs-4">
+					<div class="form-group pmd-textfield pmd-textfield-floating-label col-lg-10 col-md-10 col-sm-10 col-xs-10">
 						<label for="prenda1Update" class="control-label letra18pt-pc"> Prenda </label>
 						<select class="form-control disponiblesUpdate " type="select" id="prenda1Update" name="prenda1Update" form="formularioCliente" required="">
 						</select><span class="pmd-textfield-focused"></span>
@@ -259,7 +259,7 @@
 						<label for="cantidad2Update" class="control-label letra18pt-pc"> Cantidad</label>
 						<input class="form-control removecero" type="number" id="cantidad2Update" name="cantidad2Update" required=""><span class="pmd-textfield-focused"></span>
 					</div>
-					<div class="form-group pmd-textfield pmd-textfield-floating-label col-lg-4 col-md-4 col-sm-4 col-xs-4">
+					<div class="form-group pmd-textfield pmd-textfield-floating-label col-lg-10 col-md-10 col-sm-10 col-xs-10">
 						<label for="prenda2Update" class="control-label letra18pt-pc"> Prenda </label>
 						<select class="form-control disponiblesUpdate " type="select" id="prenda2Update" name="prenda2Update" form="formularioCliente" required="">
 						</select><span class="pmd-textfield-focused"></span>
@@ -268,7 +268,7 @@
 						<label for="cantida31Update" class="control-label letra18pt-pc"> Cantidad</label>
 						<input class="form-control removecero" type="number" id="cantidad3Update" name="cantidad3Update" required=""><span class="pmd-textfield-focused"></span>
 					</div>
-					<div class="form-group pmd-textfield pmd-textfield-floating-label col-lg-4 col-md-4 col-sm-4 col-xs-4">
+					<div class="form-group pmd-textfield pmd-textfield-floating-label col-lg-10 col-md-10 col-sm-10 col-xs-10">
 						<label for="prenda3Update" class="control-label letra18pt-pc"> Prenda </label>
 						<select class="form-control disponiblesUpdate" type="select" id="prenda3Update" name="prenda3Update" form="formularioCliente" required="">
 						</select><span class="pmd-textfield-focused"></span>
@@ -277,7 +277,7 @@
 						<label for="cantidad4Update" class="control-label letra18pt-pc"> Cantidad</label>
 						<input class="form-control removecero" type="number" id="cantidad4Update" name="cantidad4Update" required=""><span class="pmd-textfield-focused"></span>
 					</div>
-					<div class="form-group pmd-textfield pmd-textfield-floating-label col-lg-4 col-md-4 col-sm-4 col-xs-4">
+					<div class="form-group pmd-textfield pmd-textfield-floating-label col-lg-10 col-md-10 col-sm-10 col-xs-10">
 						<label for="prenda4Update" class="control-label letra18pt-pc"> Prenda </label>
 						<select class="form-control disponiblesUpdate" type="select" id="prenda4Update" name="prenda4Update" form="formularioCliente" required="">
 						</select><span class="pmd-textfield-focused"></span>
@@ -286,7 +286,7 @@
 						<label for="cantidad5Update" class="control-label letra18pt-pc"> Cantidad</label>
 						<input class="form-control removecero" type="number" id="cantidad5Update" name="cantidad5Update" required=""><span class="pmd-textfield-focused"></span>
 					</div>
-					<div class="form-group pmd-textfield pmd-textfield-floating-label col-lg-4 col-md-4 col-sm-4 col-xs-4">
+					<div class="form-group pmd-textfield pmd-textfield-floating-label col-lg-10 col-md-10 col-sm-10 col-xs-10">
 						<label for="prenda5Update" class="control-label letra18pt-pc"> Prenda </label>
 						<select class="form-control disponiblesUpdate" type="select" id="prenda5Update" name="prenda5Update" form="formularioCliente" required="">
 						</select><span class="pmd-textfield-focused"></span>
@@ -295,7 +295,7 @@
 						<label for="cantidad6Update" class="control-label letra18pt-pc"> Cantidad</label>
 						<input class="form-control removecero" type="number" id="cantidad6Update" name="cantidad6Update" required=""><span class="pmd-textfield-focused"></span>
 					</div>
-					<div class="form-group pmd-textfield pmd-textfield-floating-label col-lg-4 col-md-4 col-sm-4 col-xs-4">
+					<div class="form-group pmd-textfield pmd-textfield-floating-label col-lg-10 col-md-10 col-sm-10 col-xs-10">
 						<label for="prenda6Update" class="control-label letra18pt-pc"> Prenda </label>
 						<select class="form-control disponiblesUpdate" type="select" id="prenda6Update" name="prenda6Update" form="formularioCliente" required="">
 						</select><span class="pmd-textfield-focused"></span>
