@@ -900,7 +900,7 @@ function  revisarfechasatelite(arraItem){
 			habilitados = data;
 		}						
 	});	
-	if(habilitados.length>2){
+	/*if(habilitados.length>2){
 		var verificados = JSON.parse(habilitados); 
 		var end = new Date('2015-01-28'); 
 		var fechas = [end];
@@ -919,7 +919,8 @@ function  revisarfechasatelite(arraItem){
 		$('#ventaNuevaTitulo').attr("name",objetoFinal[0].fecha);
 	}else{
 		$('#ventaNuevaTitulo').attr("name","2025-09-14");
-	}
+	}*/
+	$('#ventaNuevaTitulo').attr("name","2025-09-14");
 	$('#datetimepicker-entrega').datetimepicker({
 		format: 'L',
         maxDate: $('#ventaNuevaTitulo').attr("name")
