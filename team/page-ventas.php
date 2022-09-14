@@ -246,58 +246,58 @@
             <div>
                 <h2>Pedido</h2>
                 <div action="" method="get" accept-charset="UTF-8" autocomplete="off" class="" id="formularioPedido">
-					<div class="form-group pmd-textfield pmd-textfield-floating-label col-lg-2 col-md-2 col-sm-2 col-xs-2 pmd-textfield-floating-label-completed">
+					<div class="form-group pmd-textfield pmd-textfield-floating-label col-lg-2 col-md-2 col-sm-2 col-xs-2 pmd-textfield-floating-label-completed s1">
 						<label for="cantidad1Update" class="control-label letra18pt-pc"> Cantidad</label>
 						<input class="form-control removecero" type="number" id="cantidad1Update" name="cantidad1Update" required=""><span class="pmd-textfield-focused"></span>
 					</div> 
-					<div class="form-group pmd-textfield pmd-textfield-floating-label col-lg-10 col-md-10 col-sm-10 col-xs-10">
+					<div class="form-group pmd-textfield pmd-textfield-floating-label col-lg-10 col-md-10 col-sm-10 col-xs-10 s1">
 						<label for="prenda1Update" class="control-label letra18pt-pc"> Prenda </label>
-						<select class="form-control disponiblesUpdate " type="select" id="prenda1Update" name="prenda1Update" form="formularioCliente" required="">
+						<select class="form-control disponiblesUpdate " onchange="minmaxupdate(this.id)" type="select" id="prenda1Update" name="prenda1Update" form="formularioCliente" required="">
 						</select><span class="pmd-textfield-focused"></span>
 					</div>
-					<div class="form-group pmd-textfield pmd-textfield-floating-label col-lg-2 col-md-2 col-sm-2 col-xs-2 pmd-textfield-floating-label-completed">
+					<div class="form-group pmd-textfield pmd-textfield-floating-label col-lg-2 col-md-2 col-sm-2 col-xs-2 pmd-textfield-floating-label-completed s2" style='display: none;'>
 						<label for="cantidad2Update" class="control-label letra18pt-pc"> Cantidad</label>
 						<input class="form-control removecero" type="number" id="cantidad2Update" name="cantidad2Update" required=""><span class="pmd-textfield-focused"></span>
 					</div>
-					<div class="form-group pmd-textfield pmd-textfield-floating-label col-lg-10 col-md-10 col-sm-10 col-xs-10">
+					<div class="form-group pmd-textfield pmd-textfield-floating-label col-lg-10 col-md-10 col-sm-10 col-xs-10 s2" style='display: none;'>
 						<label for="prenda2Update" class="control-label letra18pt-pc"> Prenda </label>
-						<select class="form-control disponiblesUpdate " type="select" id="prenda2Update" name="prenda2Update" form="formularioCliente" required="">
+						<select class="form-control disponiblesUpdate " onchange="minmaxupdate(this.id)" type="select" id="prenda2Update" name="prenda2Update" form="formularioCliente" required="">
 						</select><span class="pmd-textfield-focused"></span>
 					</div>
-					<div class="form-group pmd-textfield pmd-textfield-floating-label col-lg-2 col-md-2 col-sm-2 col-xs-2 pmd-textfield-floating-label-completed">
+					<div class="form-group pmd-textfield pmd-textfield-floating-label col-lg-2 col-md-2 col-sm-2 col-xs-2 pmd-textfield-floating-label-completed s3" style='display: none;'>
 						<label for="cantida31Update" class="control-label letra18pt-pc"> Cantidad</label>
 						<input class="form-control removecero" type="number" id="cantidad3Update" name="cantidad3Update" required=""><span class="pmd-textfield-focused"></span>
 					</div>
-					<div class="form-group pmd-textfield pmd-textfield-floating-label col-lg-10 col-md-10 col-sm-10 col-xs-10">
+					<div class="form-group pmd-textfield pmd-textfield-floating-label col-lg-10 col-md-10 col-sm-10 col-xs-10 s3" style='display: none;'>
 						<label for="prenda3Update" class="control-label letra18pt-pc"> Prenda </label>
-						<select class="form-control disponiblesUpdate" type="select" id="prenda3Update" name="prenda3Update" form="formularioCliente" required="">
+						<select class="form-control disponiblesUpdate" onchange="minmaxupdate(this.id)" type="select" id="prenda3Update" name="prenda3Update" form="formularioCliente" required="">
 						</select><span class="pmd-textfield-focused"></span>
 					</div>
-					<div class="form-group pmd-textfield pmd-textfield-floating-label col-lg-2 col-md-2 col-sm-2 col-xs-2 pmd-textfield-floating-label-completed">
+					<div class="form-group pmd-textfield pmd-textfield-floating-label col-lg-2 col-md-2 col-sm-2 col-xs-2 pmd-textfield-floating-label-completed s4" style='display: none;'>
 						<label for="cantidad4Update" class="control-label letra18pt-pc"> Cantidad</label>
 						<input class="form-control removecero" type="number" id="cantidad4Update" name="cantidad4Update" required=""><span class="pmd-textfield-focused"></span>
 					</div>
-					<div class="form-group pmd-textfield pmd-textfield-floating-label col-lg-10 col-md-10 col-sm-10 col-xs-10">
+					<div class="form-group pmd-textfield pmd-textfield-floating-label col-lg-10 col-md-10 col-sm-10 col-xs-10 s4" style='display: none;'>
 						<label for="prenda4Update" class="control-label letra18pt-pc"> Prenda </label>
-						<select class="form-control disponiblesUpdate" type="select" id="prenda4Update" name="prenda4Update" form="formularioCliente" required="">
+						<select class="form-control disponiblesUpdate" onchange="minmaxupdate(this.id)" type="select" id="prenda4Update" name="prenda4Update" form="formularioCliente" required="">
 						</select><span class="pmd-textfield-focused"></span>
 					</div>
-					<div class="form-group pmd-textfield pmd-textfield-floating-label col-lg-2 col-md-2 col-sm-2 col-xs-2 pmd-textfield-floating-label-completed">
+					<div class="form-group pmd-textfield pmd-textfield-floating-label col-lg-2 col-md-2 col-sm-2 col-xs-2 pmd-textfield-floating-label-completed s5" style='display: none;'>
 						<label for="cantidad5Update" class="control-label letra18pt-pc"> Cantidad</label>
 						<input class="form-control removecero" type="number" id="cantidad5Update" name="cantidad5Update" required=""><span class="pmd-textfield-focused"></span>
 					</div>
-					<div class="form-group pmd-textfield pmd-textfield-floating-label col-lg-10 col-md-10 col-sm-10 col-xs-10">
+					<div class="form-group pmd-textfield pmd-textfield-floating-label col-lg-10 col-md-10 col-sm-10 col-xs-10 s5" style='display: none;'>
 						<label for="prenda5Update" class="control-label letra18pt-pc"> Prenda </label>
-						<select class="form-control disponiblesUpdate" type="select" id="prenda5Update" name="prenda5Update" form="formularioCliente" required="">
+						<select class="form-control disponiblesUpdate" onchange="minmaxupdate(this.id)" type="select" id="prenda5Update" name="prenda5Update" form="formularioCliente" required="">
 						</select><span class="pmd-textfield-focused"></span>
 					</div>
-					<div class="form-group pmd-textfield pmd-textfield-floating-label col-lg-2 col-md-2 col-sm-2 col-xs-2 pmd-textfield-floating-label-completed">
+					<div class="form-group pmd-textfield pmd-textfield-floating-label col-lg-2 col-md-2 col-sm-2 col-xs-2 pmd-textfield-floating-label-completed s6" style='display: none;'>
 						<label for="cantidad6Update" class="control-label letra18pt-pc"> Cantidad</label>
 						<input class="form-control removecero" type="number" id="cantidad6Update" name="cantidad6Update" required=""><span class="pmd-textfield-focused"></span>
 					</div>
-					<div class="form-group pmd-textfield pmd-textfield-floating-label col-lg-10 col-md-10 col-sm-10 col-xs-10">
+					<div class="form-group pmd-textfield pmd-textfield-floating-label col-lg-10 col-md-10 col-sm-10 col-xs-10 s6" style='display: none;'>
 						<label for="prenda6Update" class="control-label letra18pt-pc"> Prenda </label>
-						<select class="form-control disponiblesUpdate" type="select" id="prenda6Update" name="prenda6Update" form="formularioCliente" required="">
+						<select class="form-control disponiblesUpdate" onchange="minmaxupdate(this.id)" type="select" id="prenda6Update" name="prenda6Update" form="formularioCliente" required="">
 						</select><span class="pmd-textfield-focused"></span>
 					</div>
 				</div>

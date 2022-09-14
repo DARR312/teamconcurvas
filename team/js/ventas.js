@@ -1,4 +1,70 @@
-function ventas() {  
+function ventas() { 
+
+    function sumarRestarpedido(datosIniciales,datosNuevos) {
+        console.log(datosIniciales);
+        console.log(datosNuevos);
+        var arrayResta = new Array(6);var arraySuma = new Array(6);
+        for (var i = 0; i < 6; i++) {arrayResta[i] = new Array(2);arraySuma[i] = new Array(2);}
+        var r = 0;var s = 0;           
+        for (var i = 0; i < 6; i++){
+            if(!datosIniciales[i][0]){j=6;}
+            for (var j = 0; j < 6; j++){
+                if(!datosNuevos[j][0]){                            
+                    arrayResta[r][0] = datosIniciales[i][0];
+                    arrayResta[r][1] = datosIniciales[i][1];
+                    r++;
+                    break;                    
+                }
+                if(datosIniciales[i][0] != datosNuevos[j][0]){ continue;}
+                if(datosIniciales[i][1] <= datosNuevos[j][1]){break;}
+                var d = datosIniciales[j][1] - datosNuevos[i][1];
+                arrayResta[r][0] = datosIniciales[i][0];
+                arrayResta[r][1] = d;
+                r++;
+                break;
+            }
+        }
+        var pedido = "";var precio = 0;
+        for (var i = 0; i < 6; i++) {
+            if(!datosNuevos[i][0]){break;}
+            pedido = pedido+datosNuevos[i][1]+" "+datosNuevos[i][3]+" ";
+            precio = precio + (parseInt(datosNuevos[i][2])*parseInt(datosNuevos[i][1]));
+            for (var j = 0; j < 6; j++){
+                if(!datosIniciales[j][0]){
+                    arraySuma[s][0] = datosNuevos[i][0];
+                    arraySuma[s][1] = datosNuevos[i][1];
+                    s++;
+                    flag = 1;
+                    break;
+                }
+                if(datosIniciales[j][0] != datosNuevos[i][0]){continue;}
+                if(datosIniciales[j][1] >= datosNuevos[i][1]){break;}
+                var d = datosNuevos[i][1] - datosIniciales[j][1];
+                arraySuma[s][0] = datosNuevos[i][0];
+                arraySuma[s][1] = d;
+                s++;
+                break;
+            }        
+        }
+        pedido = pedido+"°"+precio;
+        var itemVenta = arraySuma[0][1]+"/"+arraySuma[0][0];
+        var usuarioCell = $('#usuarioCell').attr("name");
+        actualizar("venta_pedido",pedido,ids,usuarioCell);
+        console.log("Suma");console.log(arraySuma);
+        console.log("Resta");console.log(arrayResta);
+        for (var i = 1; i < arraySuma.length; i++){
+            if(arraySuma[i][0]){
+                itemVenta = itemVenta+","+arraySuma[i][1]+"/"+arraySuma[i][0];
+            }else{i=7;}
+        }
+        for (var i = 0; i < arrayResta.length; i++){
+            if(arrayResta[i][0]){
+                restar(ids,arrayResta[i][0],arrayResta[i][1]);
+            }else{i=7;}
+        }
+        ventaitem(ids,itemVenta);
+    };
+
     $('.usuarioUpdate').on('click', function(){  
         var ids = $(this).attr("name");
         var idsArray = ids.split("%");
@@ -47,7 +113,7 @@ function ventas() {
     $('.pedidoUpdate').on('click', function(){  
         var ids = $(this).attr("name");
         var estado = obtenerData("estado","con_t_ventas","row","venta_id",ids);
-        if(estado == "Sin empacar" || estado == "Empacado" || estado == "No empacado"){
+        if(estado == "Sin empacar" || estado == "No empacado"){
             $("#prendasGuardadasUpdate").attr('name', ids);
             var datosVenta = obtenerData("ordenitem_id,prenda_id,valor,descuento_id,estado_id","con_t_ventaitem","rowVarios","venta_id",ids);
             //°34°5°89900°0°1%°35°7°130000°0°1%°36°8°89900°0°1%°37°11°89900°0°1%°38°34°130000°0°1%°39°34°130000°0°1%
@@ -85,6 +151,7 @@ function ventas() {
                     var datosPrendaArray = datosPrenda.split("°");
                     var seleccion = $("#prenda"+p+"Update");
                     var talla = datosPrendaArray[3].split("%");
+                    $(".s"+p).css('display', 'block');
                     seleccion.append("<option class='removeUpdate' value='"+datosOrdenados[i][0]+"%"+datosPrendaArray[1]+" "+datosPrendaArray[2]+" "+datosPrendaArray[3]+datosOrdenados[i][2]+"'>"+datosPrendaArray[1]+" "+datosPrendaArray[2]+" "+talla[0]+"</option>");
                     var cant = "#cantidad"+p+"Update";
                    $(cant).val(datosOrdenados[i][1]);
@@ -123,789 +190,66 @@ function ventas() {
         ids = $(this).attr("name");
         var datosInicialesString = $('#popup6').attr("name"); 
         var datosNuevos = new Array(6);
-        for (var i = 0; i < 6; i++) {
-           datosNuevos[i] = new Array(4);
-        }
-        if($('#prenda1Update').val() != "NA"){
-            if($('#cantidad1Update').val() > 0){
-                if($('#prenda2Update').val() != "NA"){
-                    if($('#cantidad2Update').val() > 0){
-                        if($('#prenda3Update').val() != "NA"){
-                            if($('#cantidad3Update').val() > 0){
-                                if($('#prenda4Update').val() != "NA"){
-                                    if($('#cantidad4Update').val() > 0){
-                                        if($('#prenda5Update').val() != "NA"){
-                                            if($('#cantidad5Update').val() > 0){
-                                                if($('#prenda6Update').val() != "NA"){
-                                                    if($('#cantidad6Update').val() > 0){
-                                                        var datos = $('#prenda1Update').val();
-                                                        var items = datos.split('%');
-                                                        var datos = $('#prenda2Update').val();
-                                                        var items2 = datos.split('%');
-                                                        var datos = $('#prenda3Update').val();
-                                                        var items3 = datos.split('%');
-                                                        var datos = $('#prenda4Update').val();
-                                                        var items4 = datos.split('%');
-                                                        var datos = $('#prenda5Update').val();
-                                                        var items5 = datos.split('%');
-                                                        var datos = $('#prenda6Update').val();
-                                                        var items6 = datos.split('%');
-                                                        datosNuevos[0][0] = items[0];
-                                                        datosNuevos[0][1] = $('#cantidad1Update').val();
-                                                        datosNuevos[0][2] = items[2];
-                                                        datosNuevos[0][3] = items[1];
-                                                        datosNuevos[1][0] = items2[0];
-                                                        datosNuevos[1][1] = $('#cantidad2Update').val();
-                                                        datosNuevos[1][2] = items2[2];
-                                                        datosNuevos[1][3] = items2[1];
-                                                        datosNuevos[2][0] = items3[0];
-                                                        datosNuevos[2][1] = $('#cantidad3Update').val();
-                                                        datosNuevos[2][2] = items3[2];
-                                                        datosNuevos[2][3] = items3[1];
-                                                        datosNuevos[3][0] = items4[0];
-                                                        datosNuevos[3][1] = $('#cantidad4Update').val();
-                                                        datosNuevos[3][2] = items4[2];
-                                                        datosNuevos[3][3] = items4[1];
-                                                        datosNuevos[4][0] = items5[0];
-                                                        datosNuevos[4][1] = $('#cantidad5Update').val();
-                                                        datosNuevos[4][2] = items5[2];
-                                                        datosNuevos[4][3] = items5[1];
-                                                        datosNuevos[5][0] = items6[0];
-                                                        datosNuevos[5][1] = $('#cantidad6Update').val();
-                                                        datosNuevos[5][2] = items6[2];
-                                                        datosNuevos[5][3] = items6[1];
-                                                        var datosInicialesArray = datosInicialesString.split('°');
-                                                        var datosIniciales = new Array(6);
-                                                        for (var i = 0; i < 6; i++) {
-                                                           datosIniciales[i] = new Array(3);
-                                                        }
-                                                        for (var i = 1; i < datosInicialesArray.length; i++) {
-                                                            var itemArray = datosInicialesArray[i].split('-');
-                                                            datosIniciales[i-1][0] = itemArray[0];
-                                                            datosIniciales[i-1][1] = itemArray[1];
-                                                            datosIniciales[i-1][2] = itemArray[2];
-                                                        }
-                                                        var arrayResta = new Array(6);
-                                                        var arraySuma = new Array(6);
-                                                        for (var i = 0; i < 6; i++) {
-                                                           arrayResta[i] = new Array(2);
-                                                           arraySuma[i] = new Array(2);
-                                                        }
-                                                        var r = 0;
-                                                        var s = 0;
-                                                        for (var i = 0; i < 6; i++) {
-                                                           if(datosIniciales[i][0]){
-                                                           var flag = 0;
-                                                           for (var j = 0; j < 6; j++) {
-                                                               if(datosNuevos[j][0]){
-                                                                    if(datosIniciales[i][0] == datosNuevos[j][0]){
-                                                                        flag = 1;
-                                                                        if(datosIniciales[i][1] > datosNuevos[j][1]){
-                                                                            var d = datosIniciales[j][1] - datosNuevos[i][1];
-                                                                            arrayResta[r][0] = datosIniciales[i][0];
-                                                                            arrayResta[r][1] = d;
-                                                                            r++;
-                                                                            j=6;
-                                                                        }
-                                                                        j=6;
-                                                                    }
-                                                               }else{
-                                                                    arrayResta[r][0] = datosIniciales[i][0];
-                                                                    arrayResta[r][1] = datosIniciales[i][1];
-                                                                    r++;
-                                                                    j = 6;
-                                                                    flag = 1;
-                                                               }
-                                                           }
-                                                           if(flag==0){
-                                                                arrayResta[r][0] = datosIniciales[i][0];
-                                                                arrayResta[r][1] = datosIniciales[i][1];
-                                                                r++;
-                                                           }
-                                                       }else{i = 6;}
-                                                    }
-                                                    var pedido = "";
-                                                    var precio = 0;
-                                                    for (var i = 0; i < 6; i++) {
-                                                        var flag = 0;
-                                                       if(datosNuevos[i][0]){
-                                                           pedido = pedido+datosNuevos[i][1]+" "+datosNuevos[i][3]+" ";
-                                                           precio = precio + (parseInt(datosNuevos[i][2])*parseInt(datosNuevos[i][1]));
-                                                           for (var j = 0; j < 6; j++) {
-                                                               if(datosIniciales[j][0]){
-                                                                    if(datosIniciales[j][0] == datosNuevos[i][0]){
-                                                                        flag = 1;
-                                                                        if(datosIniciales[j][1] < datosNuevos[i][1]){
-                                                                            var d = datosNuevos[i][1] - datosIniciales[j][1];
-                                                                            arraySuma[s][0] = datosNuevos[i][0];
-                                                                            arraySuma[s][1] = d;
-                                                                            s++;
-                                                                            j=6;
-                                                                        }
-                                                                        j=6;
-                                                                    }
-                                                               }else{
-                                                                    arraySuma[s][0] = datosNuevos[i][0];
-                                                                    arraySuma[s][1] = datosNuevos[i][1];
-                                                                    s++;
-                                                                    flag = 1;
-                                                                    j = 6;
-                                                               }
-                                                           }
-                                                            if(flag==0){
-                                                                arraySuma[s][0] = datosNuevos[i][0];
-                                                                arraySuma[s][1] = datosNuevos[i][1];
-                                                                s++;
-                                                           }
-                                                       }else{i = 6;}
-                                                    }
-                                                        pedido = pedido+"°"+precio;
-                                                        var itemVenta = arraySuma[0][1]+"/"+arraySuma[0][0];
-                                                        var usuarioCell = $('#usuarioCell').attr("name");
-                                                        actualizar("venta_pedido",pedido,ids,usuarioCell);
-                                                        for (var i = 1; i < arraySuma.length; i++){
-                                                            if(arraySuma[i][0]){
-                                                                itemVenta = itemVenta+","+arraySuma[i][1]+"/"+arraySuma[i][0];
-                                                            }else{i=7;}
-                                                        }
-                                                        for (var i = 0; i < arrayResta.length; i++){
-                                                            if(arrayResta[i][0]){
-                                                               restar(ids,arrayResta[i][0],arrayResta[i][1]);
-                                                            }else{i=7;}
-                                                        }
-                                                        ventaitem(ids,itemVenta);
-                                                        $('.removeUpdate').remove();
-                                                        $(".removecero").val(0);
-                                                        $('#popup6').fadeOut('slow');       
-                                                        $('.popup-overlay').fadeOut('slow'); 
-                                                    }else{alert("Ingresa la cantidad para la referencia 6");}
-                                                }else{
-                                                    var datos = $('#prenda1Update').val();
-                                                    var items = datos.split('%');
-                                                    var datos = $('#prenda2Update').val();
-                                                    var items2 = datos.split('%');
-                                                    var datos = $('#prenda3Update').val();
-                                                    var items3 = datos.split('%');
-                                                    var datos = $('#prenda4Update').val();
-                                                    var items4 = datos.split('%');
-                                                    var datos = $('#prenda5Update').val();
-                                                    var items5 = datos.split('%');
-                                                    datosNuevos[0][0] = items[0];
-                                                    datosNuevos[0][1] = $('#cantidad1Update').val();
-                                                    datosNuevos[0][2] = items[2];
-                                                    datosNuevos[0][3] = items[1];
-                                                    datosNuevos[1][0] = items2[0];
-                                                    datosNuevos[1][1] = $('#cantidad2Update').val();
-                                                    datosNuevos[1][2] = items2[2];
-                                                    datosNuevos[1][3] = items2[1];
-                                                    datosNuevos[2][0] = items3[0];
-                                                    datosNuevos[2][1] = $('#cantidad3Update').val();
-                                                    datosNuevos[2][2] = items3[2];
-                                                    datosNuevos[2][3] = items3[1];
-                                                    datosNuevos[3][0] = items4[0];
-                                                    datosNuevos[3][1] = $('#cantidad4Update').val();
-                                                    datosNuevos[3][2] = items4[2];
-                                                    datosNuevos[3][3] = items4[1];
-                                                    datosNuevos[4][0] = items5[0];
-                                                    datosNuevos[4][1] = $('#cantidad5Update').val();
-                                                    datosNuevos[4][2] = items5[2];
-                                                    datosNuevos[4][3] = items5[1];
-                                                    var datosInicialesArray = datosInicialesString.split('°');
-                                                    var datosIniciales = new Array(6);
-                                                    for (var i = 0; i < 6; i++) {
-                                                       datosIniciales[i] = new Array(3);
-                                                    }
-                                                    for (var i = 1; i < datosInicialesArray.length; i++) {
-                                                        var itemArray = datosInicialesArray[i].split('-');
-                                                        datosIniciales[i-1][0] = itemArray[0];
-                                                        datosIniciales[i-1][1] = itemArray[1];
-                                                        datosIniciales[i-1][2] = itemArray[2];
-                                                    }
-                                                    var arrayResta = new Array(6);
-                                                    var arraySuma = new Array(6);
-                                                    for (var i = 0; i < 6; i++) {
-                                                       arrayResta[i] = new Array(2);
-                                                       arraySuma[i] = new Array(2);
-                                                    }
-                                                    var r = 0;
-                                                    var s = 0;
-                                                    for (var i = 0; i < 6; i++) {
-                                                       if(datosIniciales[i][0]){
-                                                           var flag = 0;
-                                                           for (var j = 0; j < 6; j++) {
-                                                               if(datosNuevos[j][0]){
-                                                                    if(datosIniciales[i][0] == datosNuevos[j][0]){
-                                                                        flag = 1;
-                                                                        if(datosIniciales[i][1] > datosNuevos[j][1]){
-                                                                            var d = datosIniciales[j][1] - datosNuevos[i][1];
-                                                                            arrayResta[r][0] = datosIniciales[i][0];
-                                                                            arrayResta[r][1] = d;
-                                                                            r++;
-                                                                            j=6;
-                                                                        }
-                                                                        j=6;
-                                                                    }
-                                                               }else{
-                                                                    arrayResta[r][0] = datosIniciales[i][0];
-                                                                    arrayResta[r][1] = datosIniciales[i][1];
-                                                                    r++;
-                                                                    j = 6;
-                                                                    flag = 1;
-                                                               }
-                                                           }
-                                                           if(flag==0){
-                                                                arrayResta[r][0] = datosIniciales[i][0];
-                                                                arrayResta[r][1] = datosIniciales[i][1];
-                                                                r++;
-                                                           }
-                                                       }else{i = 6;}
-                                                    }
-                                                    var pedido = "";
-                                                    var precio = 0;
-                                                    for (var i = 0; i < 6; i++) {
-                                                        var flag = 0;
-                                                       if(datosNuevos[i][0]){
-                                                           pedido = pedido+datosNuevos[i][1]+" "+datosNuevos[i][3]+" ";
-                                                           precio = precio + (parseInt(datosNuevos[i][2])*parseInt(datosNuevos[i][1]));
-                                                           for (var j = 0; j < 6; j++) {
-                                                               if(datosIniciales[j][0]){
-                                                                    if(datosIniciales[j][0] == datosNuevos[i][0]){
-                                                                        flag = 1;
-                                                                        if(datosIniciales[j][1] < datosNuevos[i][1]){
-                                                                            var d = datosNuevos[i][1] - datosIniciales[j][1];
-                                                                            arraySuma[s][0] = datosNuevos[i][0];
-                                                                            arraySuma[s][1] = d;
-                                                                            s++;
-                                                                            j=6;
-                                                                        }
-                                                                        j=6;
-                                                                    }
-                                                               }else{
-                                                                    arraySuma[s][0] = datosNuevos[i][0];
-                                                                    arraySuma[s][1] = datosNuevos[i][1];
-                                                                    s++;
-                                                                    flag = 1;
-                                                                    j = 6;
-                                                               }
-                                                           }
-                                                            if(flag==0){
-                                                                arraySuma[s][0] = datosNuevos[i][0];
-                                                                arraySuma[s][1] = datosNuevos[i][1];
-                                                                s++;
-                                                           }
-                                                       }else{i = 6;}
-                                                    }
-                                                    pedido = pedido+"°"+precio;
-                                                    var itemVenta = arraySuma[0][1]+"/"+arraySuma[0][0];
-                                                    var usuarioCell = $('#usuarioCell').attr("name");
-                                                    actualizar("venta_pedido",pedido,ids,usuarioCell);
-                                                    for (var i = 1; i < arraySuma.length; i++){
-                                                        if(arraySuma[i][0]){
-                                                            itemVenta = itemVenta+","+arraySuma[i][1]+"/"+arraySuma[i][0];
-                                                        }else{i=7;}
-                                                    }
-                                                    for (var i = 0; i < arrayResta.length; i++){
-                                                        if(arrayResta[i][0]){
-                                                           restar(ids,arrayResta[i][0],arrayResta[i][1]);
-                                                        }else{i=7;}
-                                                    }
-                                                    ventaitem(ids,itemVenta);
-                                                    $('.removeUpdate').remove();
-                                                    $(".removecero").val(0);
-                                                    $('#popup6').fadeOut('slow');       
-                                                    $('.popup-overlay').fadeOut('slow'); 
-                                                }
-                                            }else{alert("Ingresa la cantidad para la referencia 5");}
-                                        }else{
-                                            var datos = $('#prenda1Update').val();
-                                            var items = datos.split('%');
-                                            var datos = $('#prenda2Update').val();
-                                            var items2 = datos.split('%');
-                                            var datos = $('#prenda3Update').val();
-                                            var items3 = datos.split('%');
-                                            var datos = $('#prenda4Update').val();
-                                            var items4 = datos.split('%');
-                                            datosNuevos[0][0] = items[0];
-                                            datosNuevos[0][1] = $('#cantidad1Update').val();
-                                            datosNuevos[0][2] = items[2];
-                                            datosNuevos[0][3] = items[1];
-                                            datosNuevos[1][0] = items2[0];
-                                            datosNuevos[1][1] = $('#cantidad2Update').val();
-                                            datosNuevos[1][2] = items2[2];
-                                            datosNuevos[1][3] = items2[1];
-                                            datosNuevos[2][0] = items3[0];
-                                            datosNuevos[2][1] = $('#cantidad3Update').val();
-                                            datosNuevos[2][2] = items3[2];
-                                            datosNuevos[2][3] = items3[1];
-                                            datosNuevos[3][0] = items4[0];
-                                            datosNuevos[3][1] = $('#cantidad4Update').val();
-                                            datosNuevos[3][2] = items4[2];
-                                            datosNuevos[3][3] = items4[1];
-                                            var datosInicialesArray = datosInicialesString.split('°');
-                                            var datosIniciales = new Array(6);
-                                            for (var i = 0; i < 6; i++) {
-                                               datosIniciales[i] = new Array(3);
-                                            }
-                                            for (var i = 1; i < datosInicialesArray.length; i++) {
-                                                var itemArray = datosInicialesArray[i].split('-');
-                                                datosIniciales[i-1][0] = itemArray[0];
-                                                datosIniciales[i-1][1] = itemArray[1];
-                                                datosIniciales[i-1][2] = itemArray[2];
-                                            }
-                                            var arrayResta = new Array(6);
-                                            var arraySuma = new Array(6);
-                                            for (var i = 0; i < 6; i++) {
-                                               arrayResta[i] = new Array(2);
-                                               arraySuma[i] = new Array(2);
-                                            }
-                                            var r = 0;
-                                            var s = 0;
-                                            for (var i = 0; i < 6; i++) {
-                                                if(datosIniciales[i][0]){
-                                                   var flag = 0;
-                                                   for (var j = 0; j < 6; j++) {
-                                                       if(datosNuevos[j][0]){
-                                                            if(datosIniciales[i][0] == datosNuevos[j][0]){
-                                                                flag = 1;
-                                                                if(datosIniciales[i][1] > datosNuevos[j][1]){
-                                                                    var d = datosIniciales[j][1] - datosNuevos[i][1];
-                                                                    arrayResta[r][0] = datosIniciales[i][0];
-                                                                    arrayResta[r][1] = d;
-                                                                    r++;
-                                                                    j=6;
-                                                                }
-                                                                j=6;
-                                                            }
-                                                       }else{
-                                                            arrayResta[r][0] = datosIniciales[i][0];
-                                                            arrayResta[r][1] = datosIniciales[i][1];
-                                                            r++;
-                                                            j = 6;
-                                                            flag = 1;
-                                                       }
-                                                   }
-                                                   if(flag==0){
-                                                        arrayResta[r][0] = datosIniciales[i][0];
-                                                        arrayResta[r][1] = datosIniciales[i][1];
-                                                        r++;
-                                                   }
-                                               }else{i = 6;}
-                                            }
-                                            var pedido = "";
-                                            var precio = 0;
-                                            for (var i = 0; i < 6; i++) {
-                                                var flag = 0;
-                                               if(datosNuevos[i][0]){
-                                                   pedido = pedido+datosNuevos[i][1]+" "+datosNuevos[i][3]+" ";
-                                                   precio = precio + (parseInt(datosNuevos[i][2])*parseInt(datosNuevos[i][1]));
-                                                   for (var j = 0; j < 6; j++) {
-                                                       if(datosIniciales[j][0]){
-                                                            if(datosIniciales[j][0] == datosNuevos[i][0]){
-                                                                flag = 1;
-                                                                if(datosIniciales[j][1] < datosNuevos[i][1]){
-                                                                    var d = datosNuevos[i][1] - datosIniciales[j][1];
-                                                                    arraySuma[s][0] = datosNuevos[i][0];
-                                                                    arraySuma[s][1] = d;
-                                                                    s++;
-                                                                    j=6;
-                                                                }
-                                                                j=6;
-                                                            }
-                                                       }else{
-                                                            arraySuma[s][0] = datosNuevos[i][0];
-                                                            arraySuma[s][1] = datosNuevos[i][1];
-                                                            s++;
-                                                            flag = 1;
-                                                            j = 6;
-                                                       }
-                                                   }
-                                                    if(flag==0){
-                                                        arraySuma[s][0] = datosNuevos[i][0];
-                                                        arraySuma[s][1] = datosNuevos[i][1];
-                                                        s++;
-                                                   }
-                                               }else{i = 6;}
-                                            }
-                                            pedido = pedido+"°"+precio;
-                                            var itemVenta = arraySuma[0][1]+"/"+arraySuma[0][0];
-                                            var usuarioCell = $('#usuarioCell').attr("name");
-                                            actualizar("venta_pedido",pedido,ids,usuarioCell);
-                                            for (var i = 1; i < arraySuma.length; i++){
-                                                if(arraySuma[i][0]){
-                                                    itemVenta = itemVenta+","+arraySuma[i][1]+"/"+arraySuma[i][0];
-                                                }else{i=7;}
-                                            }
-                                            for (var i = 0; i < arrayResta.length; i++){
-                                                if(arrayResta[i][0]){
-                                                   restar(ids,arrayResta[i][0],arrayResta[i][1]);
-                                                }else{i=7;}
-                                            }
-                                            ventaitem(ids,itemVenta);
-                                            $('.removeUpdate').remove();
-                                            $(".removecero").val(0);
-                                            $('#popup6').fadeOut('slow');       
-                                            $('.popup-overlay').fadeOut('slow'); 
-                                        }
-                                    }else{alert("Ingresa la cantidad para la referencia 4");}
-                                }else{
-                                    var datos = $('#prenda1Update').val();
-                                    var items = datos.split('%');
-                                    var datos = $('#prenda2Update').val();
-                                    var items2 = datos.split('%');
-                                    var datos = $('#prenda3Update').val();
-                                    var items3 = datos.split('%');
-                                    datosNuevos[0][0] = items[0];
-                                    datosNuevos[0][1] = $('#cantidad1Update').val();
-                                    datosNuevos[0][2] = items[2];
-                                    datosNuevos[0][3] = items[1];
-                                    datosNuevos[1][0] = items2[0];
-                                    datosNuevos[1][1] = $('#cantidad2Update').val();
-                                    datosNuevos[1][2] = items2[2];
-                                    datosNuevos[1][3] = items2[1];
-                                    datosNuevos[2][0] = items3[0];
-                                    datosNuevos[2][1] = $('#cantidad3Update').val();
-                                    datosNuevos[2][2] = items3[2];
-                                    datosNuevos[2][3] = items3[1];
-                                    var datosInicialesArray = datosInicialesString.split('°');
-                                    var datosIniciales = new Array(6);
-                                    for (var i = 0; i < 6; i++) {
-                                       datosIniciales[i] = new Array(3);
-                                    }
-                                    for (var i = 1; i < datosInicialesArray.length; i++) {
-                                        var itemArray = datosInicialesArray[i].split('-');
-                                        datosIniciales[i-1][0] = itemArray[0];
-                                        datosIniciales[i-1][1] = itemArray[1];
-                                        datosIniciales[i-1][2] = itemArray[2];
-                                    }
-                                    var arrayResta = new Array(6);
-                                    var arraySuma = new Array(6);
-                                    for (var i = 0; i < 6; i++) {
-                                       arrayResta[i] = new Array(2);
-                                       arraySuma[i] = new Array(2);
-                                    }
-                                    var r = 0;
-                                    var s = 0;
-                                    for (var i = 0; i < 6; i++) {
-                                       if(datosIniciales[i][0]){
-                                   var flag = 0;
-                                   for (var j = 0; j < 6; j++) {
-                                        if(datosNuevos[j][0]){
-                                            if(datosIniciales[i][0] == datosNuevos[j][0]){
-                                                flag = 1;
-                                                if(datosIniciales[i][1] > datosNuevos[j][1]){
-                                                    var d = datosIniciales[j][1] - datosNuevos[i][1];
-                                                    arrayResta[r][0] = datosIniciales[i][0];
-                                                    arrayResta[r][1] = d;
-                                                    r++;
-                                                    j=6;
-                                                }
-                                                j=6;
-                                            }
-                                        }else{
-                                            arrayResta[r][0] = datosIniciales[i][0];
-                                            arrayResta[r][1] = datosIniciales[i][1];
-                                            r++;
-                                            j = 6;
-                                            flag = 1;
-                                        }
-                                        }
-                                       if(flag==0){
-                                            arrayResta[r][0] = datosIniciales[i][0];
-                                            arrayResta[r][1] = datosIniciales[i][1];
-                                            r++;
-                                       }
-                                   }else{i = 6;}
-                                }
-                                var pedido = "";
-                                var precio = 0;
-                                for (var i = 0; i < 6; i++) {
-                                    var flag = 0;
-                                   if(datosNuevos[i][0]){
-                                       pedido = pedido+datosNuevos[i][1]+" "+datosNuevos[i][3]+" ";
-                                       precio = precio + (parseInt(datosNuevos[i][2])*parseInt(datosNuevos[i][1]));
-                                       for (var j = 0; j < 6; j++) {
-                                           if(datosIniciales[j][0]){
-                                                if(datosIniciales[j][0] == datosNuevos[i][0]){
-                                                    flag = 1;
-                                                    if(datosIniciales[j][1] < datosNuevos[i][1]){
-                                                        var d = datosNuevos[i][1] - datosIniciales[j][1];
-                                                        arraySuma[s][0] = datosNuevos[i][0];
-                                                        arraySuma[s][1] = d;
-                                                        s++;
-                                                        j=6;
-                                                    }
-                                                    j=6;
-                                                }
-                                           }else{
-                                                arraySuma[s][0] = datosNuevos[i][0];
-                                                arraySuma[s][1] = datosNuevos[i][1];
-                                                s++;
-                                                flag = 1;
-                                                j = 6;
-                                           }
-                                       }
-                                        if(flag==0){
-                                            arraySuma[s][0] = datosNuevos[i][0];
-                                            arraySuma[s][1] = datosNuevos[i][1];
-                                            s++;
-                                       }
-                                   }else{i = 6;}
-                                }
-                                    pedido = pedido+"°"+precio;
-                                    var itemVenta = arraySuma[0][1]+"/"+arraySuma[0][0];
-                                    var usuarioCell = $('#usuarioCell').attr("name");
-                                    actualizar("venta_pedido",pedido,ids,usuarioCell);
-                                    for (var i = 1; i < arraySuma.length; i++){
-                                        if(arraySuma[i][0]){
-                                            itemVenta = itemVenta+","+arraySuma[i][1]+"/"+arraySuma[i][0];
-                                        }else{i=7;}
-                                    }
-                                    for (var i = 0; i < arrayResta.length; i++){
-                                        if(arrayResta[i][0]){
-                                           restar(ids,arrayResta[i][0],arrayResta[i][1]);
-                                        }else{i=7;}
-                                    }
-                                    ventaitem(ids,itemVenta);
-                                    $('.removeUpdate').remove();
-                                    $(".removecero").val(0);
-                                    $('#popup6').fadeOut('slow');       
-                                    $('.popup-overlay').fadeOut('slow');
-                                }
-                            }else{alert("Ingresa la cantidad para la referencia 3");}
-                        }else{
-                            var datos = $('#prenda1Update').val();
-                            var items = datos.split('%');
-                            var datos = $('#prenda2Update').val();
-                            var items2 = datos.split('%');
-                            datosNuevos[0][0] = items[0];
-                            datosNuevos[0][1] = $('#cantidad1Update').val();
-                            datosNuevos[0][2] = items[2];
-                            datosNuevos[0][3] = items[1];
-                            datosNuevos[1][0] = items2[0];
-                            datosNuevos[1][1] = $('#cantidad2Update').val();
-                            datosNuevos[1][2] = items2[2];
-                            datosNuevos[1][3] = items2[1];
-                            var datosInicialesArray = datosInicialesString.split('°');
-                            var datosIniciales = new Array(6);
-                            for (var i = 0; i < 6; i++) {
-                               datosIniciales[i] = new Array(3);
-                            }
-                            for (var i = 1; i < datosInicialesArray.length; i++) {
-                                var itemArray = datosInicialesArray[i].split('-');
-                                datosIniciales[i-1][0] = itemArray[0];
-                                datosIniciales[i-1][1] = itemArray[1];
-                                datosIniciales[i-1][2] = itemArray[2];
-                            }
-                            var arrayResta = new Array(6);
-                            var arraySuma = new Array(6);
-                            for (var i = 0; i < 6; i++) {
-                               arrayResta[i] = new Array(2);
-                               arraySuma[i] = new Array(2);
-                            }
-                            var r = 0;
-                            var s = 0;
-                            for (var i = 0; i < 6; i++) {
-                               if(datosIniciales[i][0]){
-                                   var flag = 0;
-                                   for (var j = 0; j < 6; j++) {
-                                       if(datosNuevos[j][0]){
-                                            if(datosIniciales[i][0] == datosNuevos[j][0]){
-                                                flag = 1;
-                                                if(datosIniciales[i][1] > datosNuevos[j][1]){
-                                                    var d = datosIniciales[j][1] - datosNuevos[i][1];
-                                                    arrayResta[r][0] = datosIniciales[i][0];
-                                                    arrayResta[r][1] = d;
-                                                    r++;
-                                                    j=6;
-                                                }
-                                                j=6;
-                                            }
-                                       }else{
-                                            arrayResta[r][0] = datosIniciales[i][0];
-                                            arrayResta[r][1] = datosIniciales[i][1];
-                                            r++;
-                                            j = 6;
-                                            flag = 1;
-                                       }
-                                   }
-                                   if(flag==0){
-                                        arrayResta[r][0] = datosIniciales[i][0];
-                                        arrayResta[r][1] = datosIniciales[i][1];
-                                        r++;
-                                   }
-                               }else{i = 6;}
-                            }
-                            var pedido = "";
-                            var precio = 0;
-                            for (var i = 0; i < 6; i++) {
-                                var flag = 0;
-                               if(datosNuevos[i][0]){
-                                   pedido = pedido+datosNuevos[i][1]+" "+datosNuevos[i][3]+" ";
-                                   precio = precio + (parseInt(datosNuevos[i][2])*parseInt(datosNuevos[i][1]));
-                                   for (var j = 0; j < 6; j++) {
-                                       if(datosIniciales[j][0]){
-                                            if(datosIniciales[j][0] == datosNuevos[i][0]){
-                                                flag = 1;
-                                                if(datosIniciales[j][1] < datosNuevos[i][1]){
-                                                    var d = datosNuevos[i][1] - datosIniciales[j][1];
-                                                    arraySuma[s][0] = datosNuevos[i][0];
-                                                    arraySuma[s][1] = d;
-                                                    s++;
-                                                    j=6;
-                                                }
-                                                j=6;
-                                            }
-                                       }else{
-                                            arraySuma[s][0] = datosNuevos[i][0];
-                                            arraySuma[s][1] = datosNuevos[i][1];
-                                            s++;
-                                            j = 6;
-                                            flag = 1;
-                                       }
-                                   }
-                                    if(flag==0){
-                                        arraySuma[s][0] = datosNuevos[i][0];
-                                        arraySuma[s][1] = datosNuevos[i][1];
-                                        s++;
-                                   }
-                               }else{i = 6;}
-                            }
-                            pedido = pedido+"°"+precio;
-                            var itemVenta = arraySuma[0][1]+"/"+arraySuma[0][0];
-                            var usuarioCell = $('#usuarioCell').attr("name");
-                            actualizar("venta_pedido",pedido,ids,usuarioCell);
-                            for (var i = 1; i < arraySuma.length; i++){
-                                if(arraySuma[i][0]){
-                                    itemVenta = itemVenta+","+arraySuma[i][1]+"/"+arraySuma[i][0];
-                                }else{i=7;}
-                            }
-                            for (var i = 0; i < arrayResta.length; i++){
-                                if(arrayResta[i][0]){
-                                   restar(ids,arrayResta[i][0],arrayResta[i][1]);
-                                }else{i=7;}
-                            }
-                            ventaitem(ids,itemVenta);
-                            $('.removeUpdate').remove();
-                            $(".removecero").val(0);
-                            $('#popup6').fadeOut('slow');       
-                            $('.popup-overlay').fadeOut('slow');
-                        }
-                    }else{alert("Ingresa la cantidad para la referencia 2");}
-                }else{
-                    var datos = $('#prenda1Update').val();
-                    var items = datos.split('%');
-                    datosNuevos[0][0] = items[0];
-                    datosNuevos[0][1] = $('#cantidad1Update').val();
-                    datosNuevos[0][2] = items[2];
-                    datosNuevos[0][3] = items[1];
-                    var datosInicialesArray = datosInicialesString.split('°');
-                    var datosIniciales = new Array(6);
-                    for (var i = 0; i < 6; i++) {
-                       datosIniciales[i] = new Array(3);
-                    }
-                    for (var i = 1; i < datosInicialesArray.length; i++) {
-                        var itemArray = datosInicialesArray[i].split('-');
-                        datosIniciales[i-1][0] = itemArray[0];
-                        datosIniciales[i-1][1] = itemArray[1];
-                        datosIniciales[i-1][2] = itemArray[2];
-                    }
-                    var arrayResta = new Array(6);
-                    var arraySuma = new Array(6);
-                    for (var i = 0; i < 6; i++) {
-                       arrayResta[i] = new Array(2);
-                       arraySuma[i] = new Array(2);
-                    }
-                    var r = 0;
-                    var s = 0;
-                    for (var i = 0; i < 6; i++) {
-                       if(datosIniciales[i][0]){
-                           var flag = 0;
-                           for (var j = 0; j < 6; j++) {
-                               if(datosNuevos[j][0]){
-                                    if(datosIniciales[i][0] == datosNuevos[j][0]){
-                                        flag = 1;
-                                        if(datosIniciales[i][1] > datosNuevos[j][1]){
-                                            var d = datosIniciales[j][1] - datosNuevos[i][1];
-                                            arrayResta[r][0] = datosIniciales[i][0];
-                                            arrayResta[r][1] = d;
-                                            r++;
-                                            j=6;
-                                        }
-                                        j=6;
-                                    }
-                               }else{
-                                    arrayResta[r][0] = datosIniciales[i][0];
-                                    arrayResta[r][1] = datosIniciales[i][1];
-                                    r++;
-                                    j = 6;
-                                    flag = 1;
-                               }
-                           }
-                           if(flag==0){
-                                arrayResta[r][0] = datosIniciales[i][0];
-                                arrayResta[r][1] = datosIniciales[i][1];
-                                r++;
-                           }
-                       }else{i = 6;}
-                    }
-                    var pedido = "";
-                    var precio = 0;
-                    for (var i = 0; i < 6; i++) {
-                        var flag = 0;
-                       if(datosNuevos[i][0]){
-                           pedido = pedido+datosNuevos[i][1]+" "+datosNuevos[i][3]+" ";
-                           precio = precio + (parseInt(datosNuevos[i][2])*parseInt(datosNuevos[i][1]));
-                           alert("i: "+i+"precio: "+precio);
-                           for (var j = 0; j < 6; j++) {
-                               if(datosIniciales[j][0]){
-                                    if(datosIniciales[j][0] == datosNuevos[i][0]){
-                                        flag = 1;
-                                        if(datosIniciales[j][1] < datosNuevos[i][1]){
-                                            var d = datosNuevos[i][1] - datosIniciales[j][1];
-                                            arraySuma[s][0] = datosNuevos[i][0];
-                                            arraySuma[s][1] = d;
-                                            s++;
-                                            j=6;
-                                        }
-                                        j=6;
-                                    }
-                               }else{
-                                    arraySuma[s][0] = datosNuevos[i][0];
-                                    arraySuma[s][1] = datosNuevos[i][1];
-                                    s++;
-                                    flag = 1;
-                                    j = 6;
-                               }
-                           }
-                            if(flag==0){
-                                arraySuma[s][0] = datosNuevos[i][0];
-                                arraySuma[s][1] = datosNuevos[i][1];
-                                s++;
-                           }
-                       }else{i = 6;}
-                    } 
-                    pedido = pedido+"°"+precio;
-                    var itemVenta = arraySuma[0][1]+"/"+arraySuma[0][0];
-                    var usuarioCell = $('#usuarioCell').attr("name");
-                    actualizar("venta_pedido",pedido,ids,usuarioCell);
-                    for (var i = 1; i < arraySuma.length; i++){
-                        if(arraySuma[i][0]){
-                            itemVenta = itemVenta+","+arraySuma[i][1]+"/"+arraySuma[i][0];
-                        }else{i=7;}
-                    }
-                    for (var i = 0; i < arrayResta.length; i++){
-                        if(arrayResta[i][0]){
-                           restar(ids,arrayResta[i][0],arrayResta[i][1]);
-                        }else{i=7;}
-                    }
-                    ventaitem(ids,itemVenta);
-                    $('.removeUpdate').remove();
-                    $(".removecero").val(0);
-                    $('#popup6').fadeOut('slow');       
-                    $('.popup-overlay').fadeOut('slow');
+        for (var i = 0; i < 6; i++) {datosNuevos[i] = new Array(4);}
+        for (let k = 1; k < 7; k++) {
+            if(k==6){
+                if($('#cantidad6Update').val() <= 0){
+                    alert("Ingresa la cantidad para la referencia 6");
+                    break;
                 }
-            }else{alert("Ingresa la cantidad para la referencia 1");}
-        }else{alert("Ingresa al menos una referencia para el pedido");}
+                for (let i = 1; i < 7; i++) {
+                    var datos = $('#prenda'+i+'Update').val();var items = datos.split('%');
+                    datosNuevos[i-1][0] = items[0];
+                    datosNuevos[i-1][1] = $('#cantidad'+i+'Update').val();
+                    datosNuevos[i-1][2] = items[2];
+                    datosNuevos[i-1][3] = items[1];        
+                }        
+                var datosInicialesArray = datosInicialesString.split('°');
+                var datosIniciales = new Array(6);
+                for (var i = 0; i < 6; i++) {datosIniciales[i] = new Array(3);}
+                for (var i = 1; i < datosInicialesArray.length; i++) {
+                    var itemArray = datosInicialesArray[i].split('-');
+                    datosIniciales[i-1][0] = itemArray[0];
+                    datosIniciales[i-1][1] = itemArray[1];
+                    datosIniciales[i-1][2] = itemArray[2];
+                }
+                sumarRestarpedido(datosIniciales,datosNuevos);                
+                $('.removeUpdate').remove();
+                $(".removecero").val(0);
+                $('#popup6').fadeOut('slow');       
+                $('.popup-overlay').fadeOut('slow');
+
+            }
+            if($('#prenda'+k+'Update').val() == "NA"){
+                if(k==1){alert("Ingresa cantidades para la referencia 1 "+k);console.log(datosNuevos);break;}
+                for (let i = 1; i < k; i++) {
+                    var datos = $('#prenda'+i+'Update').val();var items = datos.split('%');
+                    datosNuevos[i-1][0] = items[0];
+                    datosNuevos[i-1][1] = $('#cantidad'+i+'Update').val();
+                    datosNuevos[i-1][2] = items[2];
+                    datosNuevos[i-1][3] = items[1]; 
+                }        
+                var datosInicialesArray = datosInicialesString.split('°');
+                var datosIniciales = new Array(6);
+                for (var i = 0; i < 6; i++) {datosIniciales[i] = new Array(3);}
+                for (var i = 1; i < datosInicialesArray.length; i++) {
+                    var itemArray = datosInicialesArray[i].split('-');
+                    datosIniciales[i-1][0] = itemArray[0];
+                    datosIniciales[i-1][1] = itemArray[1];
+                    datosIniciales[i-1][2] = itemArray[2];
+                }
+                sumarRestarpedido(datosIniciales,datosNuevos);                
+                $('.removeUpdate').remove();
+                $(".removecero").val(0);
+                $('#popup6').fadeOut('slow');       
+                $('.popup-overlay').fadeOut('slow'); 
+                break;
+            }            
+            if($('#cantidad'+k+'Update').val() <= 0){
+                alert("Ingresa la cantidad para la referencia "+k+" ");
+                break;
+            }          
+        }      
         return false;    
     }); 
     $('.fechaUpdate').on('click', function(){  
@@ -1117,6 +461,18 @@ function minmax(id) {
   var valArray = valor.split("%");
   var cantidad = obtenerData("cantidad","con_t_resumen","row","referencia_id",valArray);
   var ultimo = id[id.length-1];
+  if(ultimo != "6"){
+      var siguiente = parseInt(ultimo)+1;
+    $(".s"+siguiente).css('display', 'block');
+  }
+  $("#cantidad"+ultimo).attr("max",cantidad);
+  $("#cantidad"+ultimo).val(1);
+}
+function minmaxupdate(id) {
+  var valor = $("#"+id).val();//265%Abbie Negro SM%140000
+  var valArray = valor.split("%");
+  var cantidad = obtenerData("cantidad","con_t_resumen","row","referencia_id",valArray);
+  var ultimo = id[id.length-7];
   if(ultimo != "6"){
       var siguiente = parseInt(ultimo)+1;
     $(".s"+siguiente).css('display', 'block');

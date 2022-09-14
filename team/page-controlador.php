@@ -513,7 +513,7 @@ function ventaitem($valor,$valor2){
     echo $datos2;
     $resultado = $wpdb->get_results( $datos2, ARRAY_A);
     $item = explode("/",$vals[0]);
-    $datos = "INSERT INTO con_t_ventaitem ( prenda_id,valor, descuento_id, venta_id,estado_id,comision) VALUES (".$item[1].",".$resultado[0]['precio_detal'].",0,".$valor.",1,100)";
+    $datos = "INSERT INTO con_t_ventaitem ( prenda_id,valor, descuento_id, venta_id,estado_id,comision) VALUES (".$item[1].",".$resultado[0]['precio_detal'].",0,".$valor.",1,1000)";
     $item = explode("/",$vals[0]);
     $cantidadNueva = $resultado[0]['cantidad'] - $item[0];
     $updated = $wpdb->update( "con_t_resumen", array('cantidad' => $cantidadNueva), array( 'referencia_id' => $item[1] ) );

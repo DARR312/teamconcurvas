@@ -112,7 +112,7 @@ function cambios() {
     $('.pedidoUpdate').on('click', function(){  
         var ids = $(this).attr("name");
         var estado = obtenerData("estado","con_t_cambios","row","cambio_id",ids);
-        if(estado == "Sin empacar" || estado == "Empacado" || estado == "No empacado"){
+        if(estado == "Sin empacar" || estado == "No empacado"){
             $('.remover').remove();
             $("#prendasGuardadasUpdate").attr('name', ids);
             var datosCambio = obtenerData("cambioitem_id,prenda_idsale,ventainicial_id,estado","con_t_cambioitem","rowVarios","cambio_id",ids);
