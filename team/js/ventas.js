@@ -25,10 +25,12 @@ function ventas() {
             }
         }
         var pedido = "";var precio = 0;
+        var arrayItems = [];
         for (var i = 0; i < 6; i++) {
             if(!datosNuevos[i][0]){break;}
             pedido = pedido+datosNuevos[i][1]+" "+datosNuevos[i][3]+" ";
             precio = precio + (parseInt(datosNuevos[i][2])*parseInt(datosNuevos[i][1]));
+            arrayItems.push(datosNuevos[i][0]);
             for (var j = 0; j < 6; j++){
                 if(!datosIniciales[j][0]){
                     arraySuma[s][0] = datosNuevos[i][0];
@@ -63,6 +65,12 @@ function ventas() {
             }else{i=7;}
         }
         ventaitem(ids,itemVenta);
+        revisarfechasatelite(arrayItems);
+        //console.log(ids);
+        var fechaActual = obtenerData("fecha_entrega","con_t_ventas","row","venta_id",ids);
+        var fecha_restriccion = $('#ventaNuevaTitulo').attr("name");
+        
+        //actualizar("venta_fecha",fecha,id,usuarioCell);
     };
 
     $('.usuarioUpdate').on('click', function(){  
@@ -283,7 +291,7 @@ function ventas() {
     $('.notasUpdate').on('click', function(){  
         var ids = $(this).attr("name"); 
         var estado = obtenerData("estado","con_t_ventas","row","venta_id",ids);
-        if(estado == "Sin empacar" || estado == "Empacado"){
+        if(estado == "Sin empacar" || estado == "Empacado" || estado == "No empacado"){
             $("#tituloNotas").text("Cambiar notas del pedido: "+ids);
             $("#tituloNotas").attr("name",ids);
             $('#popup8').fadeIn('slow'); 
@@ -472,7 +480,7 @@ function minmaxupdate(id) {
   var valor = $("#"+id).val();//265%Abbie Negro SM%140000
   var valArray = valor.split("%");
   var cantidad = obtenerData("cantidad","con_t_resumen","row","referencia_id",valArray);
-  var ultimo = id[id.length-7];
+  var ultimo = id[id.length-7];  
   if(ultimo != "6"){
       var siguiente = parseInt(ultimo)+1;
     $(".s"+siguiente).css('display', 'block');
