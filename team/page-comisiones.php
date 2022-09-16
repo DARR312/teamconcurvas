@@ -7,7 +7,7 @@ $obtenidosArray = $wpdb->get_results( "SELECT COUNT(*),cast(fecha_creada as date
 $comision=0;
 $sintecho = 0;
 for($j=0;$j<sizeof($obtenidosArray);$j++){
-    
+    $html = $html."<p class='letra18pt-pc'>".$obtenidosArray[$j]['cast(fecha_creada as date)'].": ".$obtenidosArray[$j]['COUNT(*)']."</p>";
     $fecha_start = $obtenidosArray[$j]['cast(fecha_creada as date)']." 00:00:00";
     $fecha_end = $obtenidosArray[$j]['cast(fecha_creada as date)']." 23:00:00";
     $idfechaArray = $wpdb->get_results( "SELECT venta_id FROM con_t_ventas WHERE (`vendedor_id` = ".$valor.") AND (fecha_entrega  BETWEEN  '".$fecha_start."' AND '".$fecha_end."')", ARRAY_A);
@@ -20,5 +20,5 @@ for($j=0;$j<sizeof($obtenidosArray);$j++){
     }
 }
 echo "<p class='letra18pt-pc'>Comisión con techo: ".$comision."--- Sin techo: ".$sintecho."</p>";;
-
+echo $html;
 ?>
