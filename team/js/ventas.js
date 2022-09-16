@@ -69,8 +69,14 @@ function ventas() {
         //console.log(ids);
         var fechaActual = obtenerData("fecha_entrega","con_t_ventas","row","venta_id",ids);
         var fecha_restriccion = $('#ventaNuevaTitulo').attr("name");
-        
-        //actualizar("venta_fecha",fecha,id,usuarioCell);
+        var actual = new Date(fechaActual); 
+        var restriccion = new Date(fecha_restriccion); 
+        if(actual<restriccion){
+            console.log("se debe cambiar la fecha del pedido "+fechaActual+"<"+fecha_restriccion);
+            var frarray = fecha_restriccion.split('-');
+            var fr = frarray[1]+"/"+frarray[2]+"/"+frarray[0];
+            actualizar("venta_fecha",fr,ids,usuarioCell);
+        }
     };
 
     $('.usuarioUpdate').on('click', function(){  
