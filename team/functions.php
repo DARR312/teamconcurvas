@@ -8,8 +8,8 @@ function xx__update_custom_roles() {
 }
 add_action( 'init', 'xx__update_custom_roles' );
 /************************TIPOS DE USUARIOS******************
-add_role( 'disenador', 'Diseñador', array(  'level_6' => true ));
-/*remove_role( 'cliente' ); 
+add_role( 'empacador', 'Empacador', array(  'level_2' => true ));
+remove_role( 'cliente' ); 
 add_role( 'joperaciones', 'Jefe Operaciones', array(  'level_7' => true ));
 add_role( 'transportador', 'Transportador', array(  'level_0' => true ));
 add_role( 'vendedor', 'Vendedor', array(  'level_1' => true ));

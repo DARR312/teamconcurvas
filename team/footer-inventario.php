@@ -5,7 +5,10 @@
     botonesEscaner.append("<div class='col-lg-6 col-md-6 col-sm-6 col-xs-12' id='accion01'><button class='botonmodal' type='button' id='inicialInventario'>Inventario inicial</button></div>");
     var segundo = $('#segundo');
     segundo.append("<div class='col-lg-2 col-md-2 col-sm-2 col-xs-12' id='accion1'><button class='botonmodal botonesInventario' type='button' id='registrarCodigos'>Inventario inicial </button></div>");
-    var items = permisoInventario.split(',');
+    var items = permisoInventario.split(',');    
+    var fechaAudito = $('#fechaAudito');
+        var fechaInventario = obtenerData("fecha","con_t_auditoriasinventario","row","ID",fechaAudito.attr("name"));
+        fechaAudito.append("<p class='removFecha'>Fecha de la auditoría actual: "+fechaInventario+"</p>");
     for(i=1;i<items.length;i++){
         if(items[i]==17){
             var segundo = $('#segundo');
@@ -19,7 +22,7 @@
         }if(items[i]==21){
             var botonesEscaner = $('#botonesEscaner');
             botonesEscaner.append("<div class='col-lg-6 col-md-6 col-sm-6 col-xs-12' id='accion21'><button class='botonmodal' type='button' id='empacar'>Empacar</button></div>");
-            var fechaAudito = $('#buscadorContainer');
+            var fechaAudito = $('#fechaAudito');
             fechaAudito.after("<div class='form-group pmd-textfield pmd-textfield-floating-label col-lg-3 col-md-3 col-sm-3 col-xs-3 padding5'><label for='tipo' class='control-label letra18pt-pc'>Selecciona tipo de auditoría</label><select class='form-control' type='select' id='tipoAuditoria' name='tipoAuditoria' form='tipoAuditoria'><option value='Personal'>Personal</option><option value='Empacado'>Empacados</option><option value='Despachado'>Despachados</option></select><span class='pmd-textfield-focused'></span></div>")
             var segundo = $('#segundo');
             segundo.append("<div class='col-lg-2 col-md-2 col-sm-2 col-xs-12' id='accion40'><button class='botonmodal botonesInventario' type='button' id='verLiberar'>Liberar empaque</button></div>");
@@ -50,9 +53,6 @@
             var segundo = $('#segundo');
             segundo.append("<div class='col-lg-2 col-md-2 col-sm-2 col-xs-12' id='accion31'><button class='botonmodal botonesInventario' type='button' id='madrug'>Madrugón</button></div>");
         }if(items[i]==32){
-            var fechaAudito = $('#fechaAudito');
-            var fechaInventario = obtenerData("fecha","con_t_auditoriasinventario","row","ID",fechaAudito.attr("name"));
-            fechaAudito.append("<p class='removFecha'>Fecha de la auditoría actual: "+fechaInventario+"</p>");
         }if(items[i]==33){
             var segundo = $('#segundo');
             segundo.append("<div class='col-lg-2 col-md-2 col-sm-2 col-xs-12' id='accion33'><button class='botonmodal botonesInventario' type='button' id='Sinf'>Subir informe</button></div>");
@@ -71,7 +71,7 @@
         }if(items[i]==38){
             var segundo = $('#botonesEscaner');
             segundo.append("<div class='col-lg-12 col-md-12 col-sm-12 col-xs-12' id='accion38'><button class='botonmodal' type='button' id='ventaMayorista'>Venta mayorista</button></div>");
-        }
+        }        
     }
     $('#crearReferencia').on('click', function(){   
         $('.remover').remove();
