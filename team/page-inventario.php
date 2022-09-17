@@ -250,7 +250,7 @@ function is_admin_user() {
         </div>        
         <div id="madrugonDiv"  style='display: none;' class="funcionamiento">
             <div class='col-lg-12 col-md-12 col-sm-12 col-xs-12' id='primeraMadrugones'>
-                <div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'>
+                <div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'>
                     <p class=' letra18pt-pc'>ID Madrugón</p>
                 </div> 
                 <div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'>
@@ -261,8 +261,14 @@ function is_admin_user() {
                 </div>
                 <div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'>
                     <p class=' letra18pt-pc'>Valor en dinero</p>
-                </div>                    
-                <div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'>
+                </div>                      
+                <div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'>
+                    <p class=' letra18pt-pc'>Valor en cambios</p>
+                </div>                 
+                <div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'>
+                    <p class=' letra18pt-pc'>Diferencia</p>
+                </div>              
+                <div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'>
                     <p class=' letra18pt-pc'>Madrugón ok</p>
                 </div>
                 <div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'>
@@ -368,6 +374,25 @@ function is_admin_user() {
                     </div>					
 				</div>
 				<button type="submit" class="botonmodal letra18pt-pc" id="dineroGuardado"> Guardar dinero </button>
+                <div style='float:left; width:100%;'>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id='popup1' style='display: none;' class="pc tablet">
+        <div class='content-popup' id="editarValorCambios">
+            <div class='close'><a href='#' id='close1'>
+                <img src='<?php echo get_template_directory_uri(); ?>/imagenes/iconos/close.png'/></a>
+            </div>
+            <div>
+                <h2 class="letra18pt-pc">Subir dinero</h2>
+                <div action="" method="get" accept-charset="UTF-8" autocomplete="off" class="" id="formularioCliente">
+					<div class="form-group pmd-textfield pmd-textfield-floating-label">
+						<label for="valorDineroCambio" class="control-label letra18pt-pc"> Valor dinero</label>
+						<input class="form-control" type="number" id="valorDineroCambio" name="valorDineroCambio" required=""><span class="pmd-textfield-focused"></span>
+                    </div>					
+				</div>
+				<button type="submit" class="botonmodal letra18pt-pc" id="dineroGuardadoCambios"> Guardar dinero </button>
                 <div style='float:left; width:100%;'>
                 </div>
             </div>

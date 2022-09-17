@@ -26,11 +26,11 @@
 }
 .fila{border-bottom: solid thin #cdcdcd;}
 .verMadrugon{width: 100% !important;}
-.editarValorDinero{
+.editarValorDinero, .editarValorCambios{
     color:#4285f4;
     cursor: pointer;
 }
-#popup{     
+#popup, #popup1{     
     left: 0;     
     position: absolute;     
     top: 0;     

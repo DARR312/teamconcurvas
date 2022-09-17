@@ -42,6 +42,36 @@ function inventario(){
         inventario();
         return false;     
     });  
+    $('.editarValorCambios').on('click', function(){  
+        var ids = $(this).attr("name");
+        $('#editarValorCambios').attr("name",ids);
+        $('#popup1').fadeIn('slow');         
+        $('.popup-overlay').fadeIn('slow');         
+        $('.popup-overlay').height($(window).height());
+        return false;     
+    });   
+    $('#close1').on('click', function(){   
+        $('#popup1').fadeOut('slow');       
+        $('.popup-overlay').fadeOut('slow'); 
+        return false;     
+    });         
+    $('#dineroGuardadoCambios').on('click', function(){   
+        $('#popup1').fadeOut('slow');       
+        $('.popup-overlay').fadeOut('slow'); 
+        $('#primeraMadrugones').css('display', 'block');
+        $('#primeraPrendasMadrugones').css('display', 'none');
+        $('.removerMadurgones').remove(); 
+        var id = $('#editarValorCambios').attr("name");
+        var valor = $('#valorDineroCambio').val();
+        actualizar("dinero_madrugonCambio",valor,id,0);//
+        var madrugones = madru();//principal.js      
+        var madrugos = JSON.parse(madrugones);     
+        var primeraFila = $('#primeraMadrugones');
+        var html = imprimirMadrugones(madrugos);
+    	primeraFila.after(html);
+        inventario();
+        return false;     
+    });  
 };
 
 function imprimirCodigos(arrayPrendas){
@@ -102,11 +132,14 @@ function imprimirMadrugones(madrugos){
     var usuarioCell = $('#usuarioCell').attr("name");
     var usuarioCellArray = usuarioCell.split(",");
     var editarValorDinero = "";
+    var editarValorCambios = "";
     if(usuarioCellArray[0]==10){
         editarValorDinero = "editarValorDinero";
+        editarValorCambios = "editarValorCambios";
     }
     for(var i = 0; i<(madrugos.length);i++){
-        html = html+"<div class='col-lg-12 col-md-12 col-sm-12 col-xs-12 removerMadurgones'><div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'><p class=' letra18pt-pc'>"+madrugos[i].ID+"</p></div><div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'><p class=' letra18pt-pc'>"+madrugos[i].fecha+"</p></div><div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'><p class=' letra18pt-pc'>"+formatoPrecio(madrugos[i].valor_mercancia)+"</p></div><div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'><p class=' letra18pt-pc "+editarValorDinero+"' name='"+madrugos[i].ID+"'>"+formatoPrecio(madrugos[i].valor_dinero)+"</p></div><div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'><p class=' letra18pt-pc'>"+madrugos[i].madrugon_ok+"</p></div><div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'><button class='botonmodal botonenmodal letra18pt-pc verMadrugon' type='button' name='"+madrugos[i].ID+"'> Ver madrugón </button></div></div>";
+        var diferencia = parseInt(madrugos[i].valor_dinero)+parseInt(madrugos[i].valor_cambios)-parseInt(madrugos[i].valor_mercancia);
+        html = html+"<div class='col-lg-12 col-md-12 col-sm-12 col-xs-12 removerMadurgones'><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'><p class=' letra18pt-pc'>"+madrugos[i].ID+"</p></div><div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'><p class=' letra18pt-pc'>"+madrugos[i].fecha+"</p></div><div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'><p class=' letra18pt-pc'>"+formatoPrecio(madrugos[i].valor_mercancia)+"</p></div><div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'><p class=' letra18pt-pc "+editarValorDinero+"' name='"+madrugos[i].ID+"'>"+formatoPrecio(madrugos[i].valor_dinero)+"</p></div><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'><p class=' letra18pt-pc "+editarValorCambios+"' name='"+madrugos[i].ID+"'>"+formatoPrecio(madrugos[i].valor_cambios)+"</p></div><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'><p class=' letra18pt-pc'>"+formatoPrecio(diferencia)+"</p></div><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'><p class=' letra18pt-pc'>"+madrugos[i].madrugon_ok+"</p></div><div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'><button class='botonmodal botonenmodal letra18pt-pc verMadrugon' type='button' name='"+madrugos[i].ID+"'> Ver madrugón </button></div></div>";
     }
     return html;
 };

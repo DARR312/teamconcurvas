@@ -1058,6 +1058,9 @@ function  actualizar($tabla,$columna,$valor,$valor2){
     if($tabla == "dinero_madrugon" ){
         $updated = $wpdb->update( "con_t_madrugon", array('valor_dinero' => $columna), array( 'ID' =>$valor ));
     }
+    if($tabla == "dinero_madrugonCambio" ){
+        $updated = $wpdb->update( "con_t_madrugon", array('valor_cambios' => $columna), array( 'ID' =>$valor ));
+    }
 }
 
 function  restar($id,$valor,$valor2){
@@ -1359,7 +1362,7 @@ function liberarpaquete($valor){
 
 function madrugones(){
     global $wpdb;
-    $madrugones = $wpdb->get_results( "SELECT  `ID`, `fecha`, `valor_mercancia`, `valor_dinero`, `madrugon_ok` FROM con_t_madrugon WHERE 1 ORDER BY fecha DESC", ARRAY_A  );
+    $madrugones = $wpdb->get_results( "SELECT  `ID`, `fecha`, `valor_mercancia`, `valor_dinero`, `madrugon_ok`, `valor_cambios` FROM con_t_madrugon WHERE 1 ORDER BY fecha DESC", ARRAY_A  );
     echo json_encode($madrugones);
 }
 

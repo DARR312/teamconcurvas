@@ -1,8 +1,9 @@
 //const urlhost = "http://localhost/wordpress/index.php/controlador" ;//http://localhost/wordpress/index.php/controlador/
 const urlhost = "https://concurvas.com/team/controlador/" ; 
 function formatoPrecio(precio){
+	var pre = Math.sqrt(precio*precio);
     let myFunc = num => Number(num);
-    var nuevoPrecio =  Array.from(String(precio), myFunc);
+    var nuevoPrecio =  Array.from(String(pre), myFunc);
     var ultimo = nuevoPrecio[nuevoPrecio.length-1];
 	if(nuevoPrecio.length>6){
 		let start =nuevoPrecio.length-6;
