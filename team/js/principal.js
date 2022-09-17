@@ -11,7 +11,8 @@ function formatoPrecio(precio){
 	}
     let start =nuevoPrecio.length-3;
     nuevoPrecio.splice(start, 0, '.');
-    nuevoPrecio.unshift("$");
+	if(precio<0){nuevoPrecio.unshift("-$");}
+	else{nuevoPrecio.unshift("$");}
     var preciodevuelto= nuevoPrecio.join('');
     return preciodevuelto;
 };
