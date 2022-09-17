@@ -1368,7 +1368,7 @@ function madrugones(){
 
 function prendasMadrugon($valor){
     global $wpdb;
-    $datos = $wpdb->get_results( "SELECT `fecha`, `valor_dinero`,madrugon_ok FROM `con_t_madrugon` WHERE `ID`=".$valor."", ARRAY_A  );
+    $datos = $wpdb->get_results( "SELECT `fecha`, `valor_dinero`,madrugon_ok,valor_cambios FROM `con_t_madrugon` WHERE `ID`=".$valor."", ARRAY_A  );
     $fechainicio = $datos[0]['fecha']." 00:00:00";
     $fechafin= $datos[0]['fecha']." 23:00:00";
     if( $datos[0]['madrugon_ok'] == "No"){
@@ -1384,7 +1384,7 @@ function prendasMadrugon($valor){
             $valortotal = $valortotal + ($ref[0]['precio_mayorista']*$value);
         }
         $updated = $wpdb->update( "con_t_madrugon", array('valor_mercancia' => $valortotal), array( 'ID' =>$valor ));
-        if($datos[0]['valor_dinero'] == $valortotal){
+        if(($datos[0]['valor_dinero']+$datos[0]['valor_cambios']) == $valortotal){
             $updated = $wpdb->update( "con_t_madrugon", array('madrugon_ok' => "Si"), array( 'ID' =>$valor ));
             $datos="UPDATE `con_t_trprendas` SET `estado`='Venta madrugón' WHERE (`estado`='Madrugón') AND (`fecha_cambio` BETWEEN '".$fechainicio."' AND '".$fechafin."')";
             $wpdb->query($datos);
