@@ -361,6 +361,7 @@ function escanearEmpacar(decodedText, decodedResult) {
 						actualizar("cambioitem_estado",item[5],'Empacado',0);//
 					}
 				}
+				alert("Empaque actualizado");
 			}else{
                actualizar("venta_estado","Empacado",decodedText,usuarioLevel);//$tabla,$columna,$valor,$valor2
                var items = obtenerData("prenda_id,valor,descuento_id,estado_id,ordenitem_id","con_t_ventaitem","rowVarios","venta_id",decodedText);
@@ -380,6 +381,7 @@ function escanearEmpacar(decodedText, decodedResult) {
 					   actualizar("venta_estado",'Empacado',item[5],usuarioCell);//
 				   }
 			   }
+			   alert("Empaque actualizado");
 			}        
 		}
 };
