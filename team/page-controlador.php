@@ -1223,7 +1223,8 @@ function actualizarVentaitem($valor,$valor2){////valor = "Empacado" valor2 = 29
 
 function actualizarPrendas($valor,$valor2,$valor3,$valor4){////valor = "Empacado" valor2 = 29
     $usuario = explode(",",$valor);
-    $fecha = wp_date('Y-m-d H:i:s');
+    $timezone = new DateTimeZone( 'America/Bogota' );
+    $fecha = wp_date('Y-m-d H:i:s', null, $timezone );
     $usuarioActual = $usuario[1]." ".$usuario[2];
     global $wpdb;
     $updated = $wpdb->update( "con_t_trprendas", array('estado' => $valor2,'cual' => $valor3,'complemento_estado' => $usuarioActual, 'fecha_cambio' => $fecha), array( 'codigo' => $valor4) );
