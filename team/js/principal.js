@@ -357,6 +357,7 @@ function escanearEmpacar(decodedText, decodedResult) {
 				for(var i = 0;i<(codigosArray.length-1);i++){
 					var codigoPrendaArray = codigosArray[i].split("°");
 					var item = itemsArray[i].split("°");
+					alert(codigoPrendaArray[2] );
 					if((codigoPrendaArray[2] == "Empacado") || (codigoPrendaArray[2] == "Despachado")){
 						var codigoPrenda = codigoPrendaArray[1];
 						actualizarPrendas(usuarioLevel+"°"+codigoPrenda,"Empacado",ventaId,codigoPrenda);
@@ -378,9 +379,11 @@ function escanearEmpacar(decodedText, decodedResult) {
 			   for(var i = 0;i<(codigosArray.length-1);i++){
 				   var codigoPrendaArray = codigosArray[i].split("°");
 				   var item = itemsArray[i].split("°");
+				   alert(codigoPrendaArray[2] );
 				   if((codigoPrendaArray[2] == "Empacado") || (codigoPrendaArray[2] == "Despachado")){
 					   var codigoPrenda = codigoPrendaArray[1];
 					   actualizarPrendas(usuarioLevel+"°"+item[4],"Empacado",ventaId,codigoPrenda);
+					   alert(usuarioLevel+"°"+item[4]+",Empacado,"+ventaId+","+codigoPrenda);
 				   }
 			   }
 			   alert("Empaque actualizado");
