@@ -363,8 +363,8 @@ function escanearEmpacar(decodedText, decodedResult) {
 					alert("El : "+codigoPrendaArray[1]+" esta "+codigoPrendaArray[2] );
 					if((codigoPrendaArray[2] == "Empacado") || (codigoPrendaArray[2] == "Despachado")){
 						var codigoPrenda = codigoPrendaArray[1];
-						alert(usuarioLevel+"°"+item[4]+",Empacado,"+decodedText+","+codigoPrenda);
-						actualizarPrendas(usuarioLevel+"°"+codigoPrenda,"Empacado",decodedText,codigoPrenda);
+						alert(usuarioLevel+"°"+item[5]+",Empacado,C"+decodedText+","+codigoPrenda);
+						actualizarPrendas(usuarioLevel+"°"+item[5],"Empacado","C"+decodedText,codigoPrenda);
 					}
 				}
 				alert("Empaque actualizado");
@@ -388,8 +388,8 @@ function escanearEmpacar(decodedText, decodedResult) {
 				   alert("El : "+codigoPrendaArray[1]+" esta "+codigoPrendaArray[2] );
 				   if((codigoPrendaArray[2] == "Empacado") || (codigoPrendaArray[2] == "Despachado")){
 					   var codigoPrenda = codigoPrendaArray[1];
-					   alert(usuarioLevel+"°"+item[4]+",Empacado,V"+decodedText+","+codigoPrenda);
-					   actualizarPrendas(usuarioLevel+"°"+item[4],"Empacado","V"+decodedText,codigoPrenda);
+					   alert(usuarioLevel+"°"+item[5]+",Empacado,V"+decodedText+","+codigoPrenda);
+					   actualizarPrendas(usuarioLevel+"°"+item[5],"Empacado","V"+decodedText,codigoPrenda);
 				   }
 			   }
 			   alert("Empaque actualizado");
