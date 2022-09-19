@@ -353,7 +353,8 @@ function escanearEmpacar(decodedText, decodedResult) {
 						actualizar("cambioitem_estado",item[5],'Empacado',0);//					
 					}
 				}
-				codigos = obtenerData("codigo,estado","con_t_trprendas","rowVarios","cual",decodedText);//°C1145RB10D13S64°Despachado%°C1160RL1D15S14°Despachado%
+				var codigos = obtenerData("codigo,estado","con_t_trprendas","rowVarios","cual",decodedText);//°C1145RB10D13S64°Despachado%°C1160RL1D15S14°Despachado%
+				alert(codigos);
 				for(var i = 0;i<(codigosArray.length-1);i++){
 					var codigoPrendaArray = codigosArray[i].split("°");
 					var item = itemsArray[i].split("°");
@@ -375,7 +376,8 @@ function escanearEmpacar(decodedText, decodedResult) {
 					   actualizarVentaitem("Empacado",item[5]);					
 				   }
 			   }
-			   codigos = obtenerData("codigo,estado","con_t_trprendas","rowVarios","cual","V"+decodedText);//°C1145RB10D13S64°Despachado%°C1160RL1D15S14°Despachado%
+			   var codigos = obtenerData("codigo,estado","con_t_trprendas","rowVarios","cual","V"+decodedText);//°C1145RB10D13S64°Despachado%°C1160RL1D15S14°Despachado%
+			 	alert(codigos);  
 			   for(var i = 0;i<(codigosArray.length-1);i++){
 				   var codigoPrendaArray = codigosArray[i].split("°");
 				   var item = itemsArray[i].split("°");
