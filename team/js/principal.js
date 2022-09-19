@@ -350,16 +350,17 @@ function escanearEmpacar(decodedText, decodedResult) {
 				for(var i = 0; i<(itemsArray.length-1);i++){
 					var item = itemsArray[i].split("°");
 					if( (item[4]==1) || (item[4]=="Empacado") || (item[4]=="Despachado") ){
-						actualizarPrendas(usuarioLevel+"°"+item[5],"Empacado",decodedText,codigoPrenda);						
+						actualizar("cambioitem_estado",item[5],'Empacado',0);//					
 					}
 				}
 				codigos = obtenerData("codigo,estado","con_t_trprendas","rowVarios","cual",decodedText);//°C1145RB10D13S64°Despachado%°C1160RL1D15S14°Despachado%
 				for(var i = 0;i<(codigosArray.length-1);i++){
 					var codigoPrendaArray = codigosArray[i].split("°");
+					var item = itemsArray[i].split("°");
 					if((codigoPrendaArray[2] == "Empacado") || (codigoPrendaArray[2] == "Despachado")){
 						var codigoPrenda = codigoPrendaArray[1];
-						actualizarPrendas(usuarioLevel+"°"+item[5],"Empacado",ventaId,codigoPrenda);
-						actualizar("cambioitem_estado",item[5],'Empacado',0);//
+						actualizarPrendas(usuarioLevel+"°"+codigoPrenda,"Empacado",ventaId,codigoPrenda);
+						alert(usuarioLevel+"°"+item[4]+",Empacado,"+ventaId+","+codigoPrenda);
 					}
 				}
 				alert("Empaque actualizado");
@@ -370,16 +371,16 @@ function escanearEmpacar(decodedText, decodedResult) {
 			   for(var i = 0; i<(itemsArray.length-1);i++){
 				   var item = itemsArray[i].split("°");
 				   if( (item[4]==1) || (item[4]=="Empacado") || (item[4]=="Despachado") ){
-					   actualizarPrendas(usuarioLevel+"°"+item[5],"Empacado","V"+decodedText,codigoPrenda);						
+					   actualizarVentaitem("Empacado",item[5]);					
 				   }
 			   }
 			   codigos = obtenerData("codigo,estado","con_t_trprendas","rowVarios","cual","V"+decodedText);//°C1145RB10D13S64°Despachado%°C1160RL1D15S14°Despachado%
 			   for(var i = 0;i<(codigosArray.length-1);i++){
 				   var codigoPrendaArray = codigosArray[i].split("°");
+				   var item = itemsArray[i].split("°");
 				   if((codigoPrendaArray[2] == "Empacado") || (codigoPrendaArray[2] == "Despachado")){
 					   var codigoPrenda = codigoPrendaArray[1];
-					   actualizarPrendas(usuarioLevel+"°"+item[5],"Empacado",ventaId,codigoPrenda);
-					   actualizar("venta_estado",'Empacado',item[5],usuarioCell);//
+					   actualizarPrendas(usuarioLevel+"°"+item[4],"Empacado",ventaId,codigoPrenda);
 				   }
 			   }
 			   alert("Empaque actualizado");
