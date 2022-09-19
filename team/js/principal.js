@@ -341,6 +341,7 @@ function escanearEmpacar(decodedText, decodedResult) {
             $('#funcionesEmpacar').css('display', 'block');
         }else{//***********************************ELSE**************************************************************** */
 			var usuarioLevel = $('#usuarioCell').attr('name');
+			alert(decodedText);
 			if(decodedText[0] == "C"){
                 actualizar("cambio_estado","Empacado",decodedText.slice(1),usuarioLevel);//$tabla,$columna,$valor,$valor2
 				var items = obtenerData("prenda_idsale,prenda_idregresa,cliente_ok,estado,cambioitem_id","con_t_cambioitem","rowVarios","cambio_id",decodedText.slice(1));
