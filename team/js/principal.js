@@ -341,12 +341,13 @@ function escanearEmpacar(decodedText, decodedResult) {
             $('#funcionesEmpacar').css('display', 'block');
         }else{//***********************************ELSE**************************************************************** */
 			var usuarioLevel = $('#usuarioCell').attr('name');
-			alert(decodedText);
+			alert("Venta o cambio: "+decodedText);
 			if(decodedText[0] == "C"){
                 actualizar("cambio_estado","Empacado",decodedText.slice(1),usuarioLevel);//$tabla,$columna,$valor,$valor2
 				var items = obtenerData("prenda_idsale,prenda_idregresa,cliente_ok,estado,cambioitem_id","con_t_cambioitem","rowVarios","cambio_id",decodedText.slice(1));
 				//°113°140000°0°5%°113°140000°0°1%°113°140000°0°1%			
 				var itemsArray = items.split("%");
+				alert(items);
 				for(var i = 0; i<(itemsArray.length-1);i++){
 					var item = itemsArray[i].split("°");
 					if( (item[4]==1) || (item[4]=="Empacado") || (item[4]=="Despachado") ){
@@ -370,6 +371,7 @@ function escanearEmpacar(decodedText, decodedResult) {
                actualizar("venta_estado","Empacado",decodedText,usuarioLevel);//$tabla,$columna,$valor,$valor2
                var items = obtenerData("prenda_id,valor,descuento_id,estado_id,ordenitem_id","con_t_ventaitem","rowVarios","venta_id",decodedText);
 			   var itemsArray = items.split("%");
+			   alert(items);
 			   for(var i = 0; i<(itemsArray.length-1);i++){
 				   var item = itemsArray[i].split("°");
 				   if( (item[4]==1) || (item[4]=="Empacado") || (item[4]=="Despachado") ){
