@@ -339,7 +339,49 @@ function escanearEmpacar(decodedText, decodedResult) {
             $('#enviarEmpacados').css('display', 'block');
             $('#readerPrendaEmpacada').css('display', 'block');
             $('#funcionesEmpacar').css('display', 'block');
-        }else{alert("Este pedido ya está empacado");}
+        }else{//***********************************ELSE**************************************************************** */
+			var usuarioLevel = $('#usuarioCell').attr('name');
+			if(decodedText[0] == "C"){
+                actualizar("cambio_estado","Empacado",decodedText.slice(1),usuarioLevel);//$tabla,$columna,$valor,$valor2
+				var items = obtenerData("prenda_idsale,prenda_idregresa,cliente_ok,estado,cambioitem_id","con_t_cambioitem","rowVarios","cambio_id",decodedText.slice(1));
+				//°113°140000°0°5%°113°140000°0°1%°113°140000°0°1%			
+				var itemsArray = items.split("%");
+				for(var i = 0; i<(itemsArray.length-1);i++){
+					var item = itemsArray[i].split("°");
+					if( (item[4]==1) || (item[4]=="Empacado") || (item[4]=="Despachado") ){
+						actualizarPrendas(usuarioLevel+"°"+item[5],"Empacado",decodedText,codigoPrenda);						
+					}
+				}
+				codigos = obtenerData("codigo,estado","con_t_trprendas","rowVarios","cual",decodedText);//°C1145RB10D13S64°Despachado%°C1160RL1D15S14°Despachado%
+				for(var i = 0;i<(codigosArray.length-1);i++){
+					var codigoPrendaArray = codigosArray[i].split("°");
+					if((codigoPrendaArray[2] == "Empacado") || (codigoPrendaArray[2] == "Despachado")){
+						var codigoPrenda = codigoPrendaArray[1];
+						actualizarPrendas(usuarioLevel+"°"+item[5],"Empacado",ventaId,codigoPrenda);
+						actualizar("cambioitem_estado",item[5],'Empacado',0);//
+					}
+				}
+			}else{
+               actualizar("venta_estado","Empacado",decodedText,usuarioLevel);//$tabla,$columna,$valor,$valor2
+               var items = obtenerData("prenda_id,valor,descuento_id,estado_id,ordenitem_id","con_t_ventaitem","rowVarios","venta_id",decodedText);
+			   var itemsArray = items.split("%");
+			   for(var i = 0; i<(itemsArray.length-1);i++){
+				   var item = itemsArray[i].split("°");
+				   if( (item[4]==1) || (item[4]=="Empacado") || (item[4]=="Despachado") ){
+					   actualizarPrendas(usuarioLevel+"°"+item[5],"Empacado","V"+decodedText,codigoPrenda);						
+				   }
+			   }
+			   codigos = obtenerData("codigo,estado","con_t_trprendas","rowVarios","cual","V"+decodedText);//°C1145RB10D13S64°Despachado%°C1160RL1D15S14°Despachado%
+			   for(var i = 0;i<(codigosArray.length-1);i++){
+				   var codigoPrendaArray = codigosArray[i].split("°");
+				   if((codigoPrendaArray[2] == "Empacado") || (codigoPrendaArray[2] == "Despachado")){
+					   var codigoPrenda = codigoPrendaArray[1];
+					   actualizarPrendas(usuarioLevel+"°"+item[5],"Empacado",ventaId,codigoPrenda);
+					   actualizar("venta_estado",'Empacado',item[5],usuarioCell);//
+				   }
+			   }
+			}        
+		}
 };
 
 function enviarInventario(datos) {

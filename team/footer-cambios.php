@@ -82,10 +82,10 @@
     cambios();
 	$('#bscar').on('change',function(){
 	    $('.removerVentas').remove();
-	    var ordenesVenta = ordenesventa($('#bscar').val(),$('#estadoFiltro').val(),$('#transportador').val(),$('#datetimepicker-default').val(),$('#datetimepicker-defaultFiltro').val());
+	    var ordenesVenta = ordenescambio($('#bscar').val(),$('#estadoFiltro').val(),$('#transportador').val(),$('#datetimepicker-default').val(),$('#datetimepicker-defaultFiltro').val());
         var arrayOrdenes = ordenesVenta.split('&');
         var primeraFila = $('#primeraFila');
-        var html = imprimirVentas(arrayOrdenes,botonrevisar,pedidoUpdate,fechaUpdate,notasUpdate,usuarioUpdate);
+        var html = imprimirCambios(arrayOrdenes,botonrevisar,pedidoUpdate,fechaUpdate,notasUpdate,usuarioUpdate);
     	primeraFila.after(html);
     	cambios();
 	});
@@ -93,10 +93,10 @@
 	
 	$('#estadoFiltro').on('change',function(){
 	    $('.removerVentas').remove();
-	    var ordenesVenta = ordenesventa($('#bscar').val(),$('#estadoFiltro').val(),$('#transportador').val(),$('#datetimepicker-default').val(),$('#datetimepicker-defaultFiltro').val());
+	    var ordenesVenta = ordenescambio($('#bscar').val(),$('#estadoFiltro').val(),$('#transportador').val(),$('#datetimepicker-default').val(),$('#datetimepicker-defaultFiltro').val());
         var arrayOrdenes = ordenesVenta.split('&');
         var primeraFila = $('#primeraFila');
-        var html = imprimirVentas(arrayOrdenes,botonrevisar,pedidoUpdate,fechaUpdate,notasUpdate,usuarioUpdate);
+        var html = imprimirCambios(arrayOrdenes,botonrevisar,pedidoUpdate,fechaUpdate,notasUpdate,usuarioUpdate);
     	primeraFila.after(html);
     	cambios();
 	});
@@ -104,10 +104,10 @@
 	
 	$('#transportador').on('change',function(){
 	    $('.removerVentas').remove();
-	    var ordenesVenta = ordenesventa($('#bscar').val(),$('#estadoFiltro').val(),$('#transportador').val(),$('#datetimepicker-default').val(),$('#datetimepicker-defaultFiltro').val());
+	    var ordenesVenta = ordenescambio($('#bscar').val(),$('#estadoFiltro').val(),$('#transportador').val(),$('#datetimepicker-default').val(),$('#datetimepicker-defaultFiltro').val());
         var arrayOrdenes = ordenesVenta.split('&');
         var primeraFila = $('#primeraFila');
-        var html = imprimirVentas(arrayOrdenes,botonrevisar,pedidoUpdate,fechaUpdate,notasUpdate,usuarioUpdate);
+        var html = imprimirCambios(arrayOrdenes,botonrevisar,pedidoUpdate,fechaUpdate,notasUpdate,usuarioUpdate);
     	primeraFila.after(html);
     	cambios();
 	});
@@ -273,7 +273,7 @@
                 var arrayOrdenes = ordenescambio.split('&');
                 //alert(ordenescambio);
                 var primeraFila = $('#primeraFila');
-                var html = imprimirVentas(arrayOrdenes,botonrevisar,pedidoUpdate,fechaUpdate,notasUpdate,usuarioUpdate);
+                var html = imprimirCambios(arrayOrdenes,botonrevisar,pedidoUpdate,fechaUpdate,notasUpdate,usuarioUpdate);
             	primeraFila.after(html);
             	ventas();
             }else{
