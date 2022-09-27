@@ -295,7 +295,23 @@ function is_admin_user() {
         	            <p class=' letra18pt-pc'>Fecha</p>
         	        </div>
         	   </div>
-        </div>  
+        </div>         
+        <div id="fechaslotesdiv"  style='display: none;' class="funcionamiento">
+            <div class='col-lg-12 col-md-12 col-sm-12 col-xs-12' id='prmra'>
+                <div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'>
+                    <p class=' letra18pt-pc'># Lote</p>
+                </div> 
+                <div class='col-lg-4 col-md-4 col-sm-4 col-xs-4'>
+                    <p class=' letra18pt-pc'>Fecha</p>
+                </div>
+                <div class='col-lg-3 col-md-3 col-sm-3 col-xs-3'>
+                    <p class=' letra18pt-pc'>Nueva fecha</p>
+                </div>
+                <div class='col-lg-3 col-md-3 col-sm-3 col-xs-3'>
+                    <p class=' letra18pt-pc'>Cambiar</p>
+                </div>
+            </div>  
+        </div> 
     </div>
     <div id='cuerpoCell' class="container-fluid celular" >
         <div id='botonesEscaner' >

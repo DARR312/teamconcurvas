@@ -101,8 +101,7 @@
     	primeraFila.after(html);
     	ventas();
 	});
-	
-	
+
 	$('#transportador').on('change',function(){
 	    $('.removerVentas').remove();
 	    var ordenesVenta = ordenesventa($('#bscar').val(),$('#estadoFiltro').val(),$('#transportador').val(),$('#datetimepicker-default').val(),$('#datetimepicker-defaultFiltro').val());
@@ -111,7 +110,18 @@
         var html = imprimirVentas(arrayOrdenes,botonrevisar,pedidoUpdate,fechaUpdate,notasUpdate,usuarioUpdate);
     	primeraFila.after(html);
     	ventas();
+	});	
+
+	$('#tipoenvio').on('change',function(){
+	    $('.removerVentas').remove();
+	    var ordenesVenta = ordenesventa($('#bscar').val(),$('#estadoFiltro').val(),$('#transportador').val(),$('#datetimepicker-default').val(),$('#datetimepicker-defaultFiltro').val());
+        var arrayOrdenes = ordenesVenta.split('&');
+        var primeraFila = $('#primeraFila');
+        var html = imprimirVentas(arrayOrdenes,botonrevisar,pedidoUpdate,fechaUpdate,notasUpdate,usuarioUpdate);
+    	primeraFila.after(html);
+    	ventas();
 	});
+	
 	
     $('#agregarVenta').on('click', function(){         
         $('#popup').fadeIn('slow');         

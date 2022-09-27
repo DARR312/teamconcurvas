@@ -1,5 +1,5 @@
-//const urlhost = "http://localhost/wordpress/index.php/controlador" ;//http://localhost/wordpress/index.php/controlador/
-const urlhost = "https://concurvas.com/team/controlador/" ; 
+const urlhost = "http://localhost/wordpress/index.php/controlador" ;//http://localhost/wordpress/index.php/controlador/
+//const urlhost = "https://concurvas.com/team/controlador/" ; 
 function formatoPrecio(precio){
 	var pre = Math.sqrt(precio*precio);
     let myFunc = num => Number(num);
@@ -982,4 +982,68 @@ function  revisarfechasatelite(arraItem){
 		format: 'L',
         minDate: $('#ventaNuevaTitulo').attr("name")
 	});
+};
+
+function enviarVentamayorista(decodedText, decodedResult) {
+	// Handle on success condition with the decoded text or result.
+	//console.log(`Scan result: ${decodedText}`, decodedResult);
+	var prendasCant = ($('#escaneados p').length);
+	if(prendasCant==0){
+		var escaneados = $('#escaneados');
+		var html = "<p class='letra18pt-pc negrillaUno remover'>"+decodedText+"</p>"
+		escaneados.append(html);
+	}else{
+		var flag = 1;
+		for(var i = 0;i<prendasCant;i++){
+			var prenda = $("#escaneados p:eq("+i+")").text();
+			if(prenda == decodedText){
+				flag = 0;
+				break;
+			}
+		}
+		if(flag == 1){
+			var escaneados = $('#escaneados');
+			var html = "<p class='letra18pt-pc negrillaUno remover'>"+decodedText+"</p>"
+			escaneados.append(html);
+		}
+	}
+	
+};
+
+function enviarparaventamayorista(valor) {
+    var enviar = "funcion=enviarparaventamayorista&valor="+valor;
+    var obtenidos = "no";
+    $.ajax({
+    	url: urlhost,
+    	headers: {'Access-Control-Allow-Origin': urlhost},
+    	type: "GET",
+    	async: false,
+    	data: enviar,
+    	success: function(data){
+    		obtenidos = data;
+    	}						
+    });
+    return obtenidos;
+};
+
+function imprimirprendasparavender(valor) {
+    var enviar = "funcion=imprimirprendasparavender";
+    var obtenidos = "no";
+    $.ajax({
+    	url: urlhost,
+    	headers: {'Access-Control-Allow-Origin': urlhost},
+    	type: "GET",
+    	async: false,
+    	data: enviar,
+    	success: function(data){
+    		obtenidos = data;
+    	}						
+    });
+	var pventamayorista = JSON.parse(obtenidos);  
+    var html = "";
+	for (let i = 0; i < pventamayorista.length; i++) {
+		html = html + "<div class='col-lg-12 col-md-12 col-sm-12 col-xs-12 removerprendasparaventa'><div class='col-lg-3 col-md-3 col-sm-3 col-xs-3'><p type='submit' class='letra18pt-pc' > "+pventamayorista[i].codigo+" </p></div><div class='col-lg-3 col-md-3 col-sm-3 col-xs-3'><p type='submit' class='letra18pt-pc'>"+pventamayorista[i].descripcion+"</p></div><div class='col-lg-3 col-md-3 col-sm-3 col-xs-3'><p type='submit' class='letra18pt-pc'> "+pventamayorista[i].valor+" </p></div><div class='col-lg-3 col-md-3 col-sm-3 col-xs-3 form-check'><input class='form-check-input' type='checkbox' value='"+pventamayorista[i].ID+"' id='check"+pventamayorista[i].ID+"'><label class='form-check-label' for='flexCheckDefault"+pventamayorista[i].ID+"'>Agregar</label></div></div>";
+	}
+	var primeraPrendas = $('#primeraPrendas');
+	primeraPrendas.after(html);
 };

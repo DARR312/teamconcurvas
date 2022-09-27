@@ -16,6 +16,7 @@
         }if(items[i]==19){
             var segundo = $('#segundo');
             segundo.append("<div class='col-lg-2 col-md-2 col-sm-2 col-xs-12' id='accion19'><button class='botonmodal botonesInventario' type='button' id='crearCodigos'>Crear códigos</button></div>");
+            segundo.append("<div class='col-lg-2 col-md-2 col-sm-2 col-xs-12' id='accion19'><button class='botonmodal botonesInventario' type='button' id='fechaslotes'>Fechas de lotes</button></div>");
         }if(items[i]==20){
             var botonesEscaner = $('#botonesEscaner');
             botonesEscaner.append("<div class='col-lg-6 col-md-6 col-sm-6 col-xs-12' id='accion20'><button class='botonmodal' type='button' id='escanearInventario'>Escanear inventario</button></div>");
@@ -631,6 +632,25 @@
         $('#madrugonDiv').css('display', 'none'); 
         imrpimirinicialcodigos();
     });
+    $('#fechaslotes').on('click', function(){   
+        $('.remover').remove();
+        $('.removerCodigos').remove();
+        $('#codigosNuevos').css('display', 'none');
+        $('#referenciaNueva').css('display', 'none');
+        $('#resultados').css('display', 'none');
+        $('#btnExport').css('display', 'none');
+        $('#verCodigo').css('display', 'none');
+        $('#verResumenprendas').css('display', 'none');
+        $('#auditoriaInventario').css('display', 'none');
+        $('#subirInformes').css('display', 'none');
+        $('#informeDinero').css('display', 'none');
+        $('#ventasVSinventario').css('display', 'none');
+        $('#inventarioInicialPc').css('display', 'none');
+        $('#liberarEmpacados').css('display', 'none');
+        $('#madrugonDiv').css('display', 'none'); 
+        $('#fechaslotesdiv').css('display', 'block');
+        imrpimirlotes();
+    });
     /********************** VENTAS VS INVENTARIO *******************************/
     $('#reviVentas').on('click', function(){   
         $('.remover').remove();
@@ -1043,6 +1063,7 @@
 	$('#datetimepicker-filtroNuevoinv').datetimepicker({
 		format: 'L'
 	});
+	
 </script>
 <!-- https://sheetjs.com/ -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>

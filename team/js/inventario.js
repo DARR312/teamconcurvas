@@ -152,3 +152,32 @@ function imprimirPrendasMadrugones(pmadrugos){
     }
     return html;
 };
+
+function imrpimirlotes(){
+    $('.removerlotes').remove();
+    var tlotes = obtenerData(0,"con_t_lotes","todas",0,0);
+    var lotes = JSON.parse(tlotes);  
+    console.log(lotes);
+    var html = "";
+    for(var i = (lotes.length-1); i>=0;i--){
+        html = html+"<div class='col-lg-12 col-md-12 col-sm-12 col-xs-12 removerlotes'><div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'><p class=' letra18pt-pc'>"+lotes[i].ID+"</p></div><div class='col-lg-4 col-md-4 col-sm-4 col-xs-4'><p class=' letra18pt-pc'>"+lotes[i].fecha_terminada+"</p></div><div class='col-lg-3 col-md-3 col-sm-3 col-xs-3'><div class='form-group pmd-textfield pmd-textfield-floating-label pmd-textfield-floating-label-completed'><label class='control-label letra18pt-pc' for='regular1' >Fecha entrega</label><input type='text' id='fe"+lotes[i].ID+"' class='form-control datetimepicker-fechanuevalote'/></div></div><div class='col-lg-3 col-md-3 col-sm-3 col-xs-3'><button class='botonmodal cambiarfechaentrega' type='button' id='"+lotes[i].ID+"'>Cambiar</button></div></div>";
+    }
+    $('#prmra').after(html);
+    // Default date and time picker
+	$('.datetimepicker-fechanuevalote').datetimepicker({
+		format: 'L'
+	});
+    $('.cambiarfechaentrega').on('click', function() {   
+        var id = this.id;
+        var fen = $("#fe"+id+"").val();
+        actualizar("fechalotes",fen,id);//$tabla,$columna,$valor,$valor2
+        imrpimirlotes();
+    });
+    //     var codigo = codigosArray[i].replace("°","");
+    //     html = html+"<div class='col-lg-12 col-md-12 col-sm-12 col-xs-12 removerlotes'><div class='col-lg-4 col-md-4 col-sm-4 col-xs-4'><p class='letra18pt-pc negrillaUno' id='"+i+"prenda'>"+codigo+"</p></div><div class='form-group pmd-textfield pmd-textfield-floating-label col-lg-4 col-md-4 col-sm-4 col-xs-4'><label for='prenda"+i+"' class='control-label letra18pt-pc'> Referencia </label><select class='form-control referenciasCodigos' type='select' id='prenda"+i+"' name='prenda"+i+"' form='formularioCliente'></select><span class='pmd-textfield-focused'></span></div><div class='col-lg-4 col-md-4 col-sm-4 col-xs-4'><button class='botonmodal botonenmodal letra18pt-pc insertCodigo' type='button' name='"+i+"'> Insertar Código </button></div></div>";
+    // }
+    // $('#codigosInicalesPc').append(html);
+    // var nombresReferencias = referenciasrodas();
+    // $('.referenciasCodigos').append(nombresReferencias);
+    // inventarioPrendas();
+};

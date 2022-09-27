@@ -81,7 +81,7 @@
     }
     cambios();
 	$('#bscar').on('change',function(){
-	    $('.removerVentas').remove();
+	    $('.removerCambios').remove();
 	    var ordenesVenta = ordenescambio($('#bscar').val(),$('#estadoFiltro').val(),$('#transportador').val(),$('#datetimepicker-default').val(),$('#datetimepicker-defaultFiltro').val());
         var arrayOrdenes = ordenesVenta.split('&');
         var primeraFila = $('#primeraFila');
