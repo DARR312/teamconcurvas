@@ -31,9 +31,9 @@ $(window).load(function(){
        }if(items[i]==4){
            html =html+ " <a href='https://concurvas.com/team/inventario'><div class='accesos' > <img src='<?php echo get_template_directory_uri(); ?>/imagenes/iconos/inventario.png' alt='Avatar'></div></a>";
        }if(items[i]==37){
-           html =html+ " <a href='https://concurvas.com/team/ventas-plaza'><div class='accesos' > <img src='<?php echo get_template_directory_uri(); ?>/imagenes/iconos/ventas.png' alt='Avatar'></div></a>";
+           //html =html+ " <a href='https://concurvas.com/team/ventas-plaza'><div class='accesos' > <img src='<?php echo get_template_directory_uri(); ?>/imagenes/iconos/ventas.png' alt='Avatar'></div></a>";
        }if(items[i]==38){
-           html =html+ " <a href='https://concurvas.com/team/ventas-mayorista'><div class='accesos' > <img src='<?php echo get_template_directory_uri(); ?>/imagenes/iconos/ventas.png' alt='Avatar'></div></a>";
+           //html =html+ " <a href='https://concurvas.com/team/ventas-mayorista'><div class='accesos' > <img src='<?php echo get_template_directory_uri(); ?>/imagenes/iconos/ventas.png' alt='Avatar'></div></a>";
        }
    }
     var usuario = $('#usuario');
