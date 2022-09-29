@@ -114,8 +114,13 @@
         $('#popup').fadeIn('slow');
         $('.removerprendasparaventa').remove();
         return false;     
+    });     
+    $('#agregarprendaspedido').on('click', function(){  
+        var check = $("#popup4 input"); 
+        console.log(check);
+        return false;     
     });
-    /*************************** Enviar para venta *******************************/
+    /*************************** Enviar para venta (CELULAR) *******************************/
     $('#empezarEscaner').on('click', function() {
         $('#escaneados').css('display', 'block');
         $('#inicialEscaner').css('display', 'block');

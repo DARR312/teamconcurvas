@@ -48,7 +48,7 @@
 		/*----------------------POSICIÓN------------------------------*/
 		</style>
         </head>
-        <div class="container-fluid fijo" style="width: 90%;">
+        <div class="container-fluid fijo" style="width: 84%;">
 
 <?php 	
 $timezone = new DateTimeZone( 'America/Bogota' );

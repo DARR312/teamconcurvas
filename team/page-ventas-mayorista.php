@@ -136,6 +136,9 @@
             </div> 
             <div>
                 <h2>Pedido</h2>
+				<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" >
+					<button class='botonmodal letra18pt-pc' type='button' id='agregarprendaspedido'> Agregar prendas </button>
+				</div>
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="primeraPrendas">
 					<div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
 						<p type="submit" class="letra18pt-pc" > Prenda </p>

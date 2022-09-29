@@ -2,8 +2,8 @@
     width:100% !important;
 }
 #bloquePrincipal{
-    width:85%;
-    margin-left:15%;
+    width:83%;
+    margin-left:16%;
 }
 #popup, #popup2, #popup3, #popup4, #popup5, #popup6, #popup7, #popup8, #popup9{     
 left: 0;     
@@ -72,7 +72,7 @@ width:5%;
     position: fixed;
     z-index: 9;
     background-color: #f8f9fa;
-    width: 85%;
+    width: 83%;
     padding-top:25px;
 }
 #primeraVenta{
