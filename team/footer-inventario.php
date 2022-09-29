@@ -64,7 +64,7 @@
             segundo.append("<div class='col-lg-2 col-md-2 col-sm-2 col-xs-12' id='accion34'><button class='botonmodal botonesInventario' type='button' id='infD'>Informe de dinero</button></div>");
         }if(items[i]==35){
             var segundo = $('#segundo');
-            segundo.append("<div class='col-lg-2 col-md-2 col-sm-2 col-xs-12' id='accion35'><button class='botonmodal botonesInventario' type='button' id='reviVentas'>Ventas vs inventario</button></div>");
+            //segundo.append("<div class='col-lg-2 col-md-2 col-sm-2 col-xs-12' id='accion35'><button class='botonmodal botonesInventario' type='button' id='reviVentas'>Ventas vs inventario</button></div>");
         }if(items[i]==36){
             var segundo = $('#botonesEscaner');
             segundo.append("<div class='col-lg-12 col-md-12 col-sm-12 col-xs-12' id='accion36'><button class='botonmodal' type='button' id='enviarDanado'>Enviar dañados</button></div>");
@@ -91,6 +91,7 @@
         $('#inventarioInicialPc').css('display', 'none');
         $('#liberarEmpacados').css('display', 'none'); 
         $('#madrugonDiv').css('display', 'none'); 
+        $('#fechaslotesdiv').css('display', 'none');
         var html = "";
         var nombresReferencias = obtenerData("nombre","con_t_resumen","unico");
         var items = nombresReferencias.split(',');
@@ -189,6 +190,7 @@
         $('#inventarioInicialPc').css('display', 'none');
         $('#liberarEmpacados').css('display', 'none');
         $('#madrugonDiv').css('display', 'none'); 
+        $('#fechaslotesdiv').css('display', 'none');
         var htmlnombre = "<option class='remover' value='NA'>No aplica</option>";
         var datosreferencias = obtenerData("referencia_id,nombre,color,talla","con_t_resumen","varios");
         var items = datosreferencias.split(',');
@@ -292,6 +294,7 @@
         $('#inventarioInicialPc').css('display', 'none');
         $('#liberarEmpacados').css('display', 'none');
         $('#madrugonDiv').css('display', 'none'); 
+        $('#fechaslotesdiv').css('display', 'none');
         var codigosprenda = codigosprendas($('#bscar').val(),"0","0","0");
         var arrayPrendas = codigosprenda.split('&');
         var primeraFila = $('#primeraFila');
@@ -314,6 +317,7 @@
         $('#inventarioInicialPc').css('display', 'none');
         $('#liberarEmpacados').css('display', 'none');  
         $('#madrugonDiv').css('display', 'none'); 
+        $('#fechaslotesdiv').css('display', 'none');
         var resumen = resumenprendas($('#bscar').val(),"0","0","0");
         var arrayPrendas = resumen.split('&');
         var primeraFila = $('#primeraFilaResumen');
@@ -336,6 +340,7 @@
         $('#inventarioInicialPc').css('display', 'none');
         $('#liberarEmpacados').css('display', 'none');
         $('#madrugonDiv').css('display', 'none'); 
+        $('#fechaslotesdiv').css('display', 'none');
         var resumen = resumenprendas($('#bscar').val(),"0","0","0");
         var arrayPrendas = resumen.split('&');
         var primeraFila = $('#primeraFilaResumen');
@@ -359,6 +364,7 @@
         $('#inventarioInicialPc').css('display', 'none');
         $('#liberarEmpacados').css('display', 'none'); 
         $('#madrugonDiv').css('display', 'none'); 
+        $('#fechaslotesdiv').css('display', 'none');
         var usuarioCell = $('#usuarioCell').attr("name");
         var usuarioCellArray = usuarioCell.split(",");
         var resumen = auditprendas($('#bscar').val(),usuarioCellArray[0],usuarioCellArray[1],"0");
@@ -391,6 +397,7 @@
         $('#inventarioInicialPc').css('display', 'none');
         $('#liberarEmpacados').css('display', 'none');
         $('#madrugonDiv').css('display', 'none'); 
+        $('#fechaslotesdiv').css('display', 'none');
     });
     $('#cargarInforme').on('click', function(){ 
         var usuarioCell = $('#usuarioCell').attr("name");
@@ -488,6 +495,7 @@
         $('#inventarioInicialPc').css('display', 'none');
         $('#liberarEmpacados').css('display', 'none');
         $('#madrugonDiv').css('display', 'none'); 
+        $('#fechaslotesdiv').css('display', 'none');
     });
     $('#cargarInformeDineroButton').on('click', function(){
         var usuarioCell = $('#usuarioCell').attr("name");
@@ -633,6 +641,7 @@
         $('#inventarioInicialPc').css('display', 'block');
         $('#liberarEmpacados').css('display', 'none');
         $('#madrugonDiv').css('display', 'none'); 
+        $('#fechaslotesdiv').css('display', 'none');
         imrpimirinicialcodigos();
     });
     $('#fechaslotes').on('click', function(){   
@@ -716,7 +725,8 @@
         $('#ventasVSinventario').css('display', 'none');
         $('#inventarioInicialPc').css('display', 'none');
         $('#liberarEmpacados').css('display', 'block');  
-        $('#madrugonDiv').css('display', 'none');        
+        $('#madrugonDiv').css('display', 'none');  
+        $('#fechaslotesdiv').css('display', 'none');      
     });    
     $('#liberarEmpaque').on('click', function(){   
         var codigo = $('#buscarempacado').val();      
@@ -741,6 +751,7 @@
         $('#inventarioInicialPc').css('display', 'none');
         $('#liberarEmpacados').css('display', 'none');  
         $('#madrugonDiv').css('display', 'block');  
+        $('#fechaslotesdiv').css('display', 'none');
         $('#primeraMadrugones').css('display', 'block');
         $('#primeraPrendasMadrugones').css('display', 'none');
         var usuarioCell = $('#usuarioCell').attr("name");
