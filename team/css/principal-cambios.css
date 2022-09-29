@@ -68,15 +68,11 @@ width:5%;
     margin-top: 10% !important;
 }
 #primeraFila{
-    margin-top: 235px;
     position: fixed;
     z-index: 9;
     background-color: #f8f9fa;
     width: 83%;
     padding-top:25px;
-}
-#primeraVenta{
-    margin-top: 315px;
 }
 .cliente_ok1{display:none;}
 .dinerook1{color:#1a7a1c;}
