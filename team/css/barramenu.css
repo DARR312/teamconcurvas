@@ -18,9 +18,10 @@
     padding: 0 !important;
 }
 .nombresiconos{
-    color:rgb(193, 46, 114);
+    color:rgb(193, 46, 114) !important;
     margin: 20% 0 20% 0 !important;
 }
+.nombresiconos a{color:rgb(193, 46, 114) !important;}
 #usuario{
     margin-top: 70% !important;
 }
