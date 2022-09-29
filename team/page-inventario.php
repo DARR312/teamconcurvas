@@ -175,7 +175,7 @@ function is_admin_user() {
                 </div>
 	       </div>
         </div>
-        <div id="auditoriaInventario"  style='display: none;' class="funcionamiento">
+        <div id="auditoriaInventario"  style='display: none;'>
             <div class="ochentaycinco fijo" id='primeraAuditoria'>
           <?php  if( is_admin_user() ) { $last = $wpdb->get_results( "SELECT MAX(ID) as id FROM con_t_auditoriasinventario");?>
                 <div class='col-lg-2 col-md-2 col-sm-2 col-xs-12 padding5' id='acc'>

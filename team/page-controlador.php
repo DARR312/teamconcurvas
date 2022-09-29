@@ -1087,6 +1087,10 @@ function  actualizar($tabla,$columna,$valor,$valor2){
         echo "con_t_lotes".",array('fecha_terminada' => '".$fecha."'), array( 'ID' =>".$valor." )";
         $updated = $wpdb->update( "con_t_lotes", array('fecha_terminada' => $fecha), array( 'ID' =>$valor ));
         echo $updated;
+    }    
+    if($tabla == "actualizar_satelite" ){        
+        $datos="UPDATE `con_t_trprendas` SET `fecha_cambio`='".$fecha."' WHERE (`estado`='En satélite') AND (`cual` = ".$columna.")";
+        $wpdb->query($datos);
     }
 }
 
@@ -1208,11 +1212,16 @@ function auditprendas($valor,$valor2,$valor3,$valor4){
             $codigos = $wpdb->get_results( "SELECT codigo, estado, cual, complemento_estado, fecha_cambio, descripcion FROM con_t_trprendas WHERE (fecha_cambio < '".$fecha."') AND (estado = '".$valor4."') ", ARRAY_A  );           
         }else{
             if($valor2 == 10){
-                $codigos = $wpdb->get_results( "SELECT codigo, estado, cual, complemento_estado, fecha_cambio, descripcion FROM con_t_trprendas WHERE (fecha_cambio < '".$obtenidosArray[0]['fecha']." ') ORDER BY cual ASC", ARRAY_A  );
+                $codigos = $wpdb->get_results( "SELECT codigo, estado, cual, complemento_estado, fecha_cambio, descripcion FROM con_t_trprendas WHERE (fecha_cambio < '".$obtenidosArray[0]['fecha']." ') AND (estado != 'En satélite')  ORDER BY cual ASC", ARRAY_A  );
             }else{
-                $codigos = $wpdb->get_results( "SELECT codigo, estado, cual, complemento_estado, fecha_cambio, descripcion FROM con_t_trprendas WHERE (fecha_cambio < '".$obtenidosArray[0]['fecha']."') AND (cual = '".$valor3."') ", ARRAY_A  );
+                $codigos = $wpdb->get_results( "SELECT codigo, estado, cual, complemento_estado, fecha_cambio, descripcion FROM con_t_trprendas WHERE (fecha_cambio < '".$obtenidosArray[0]['fecha']."') AND (cual = '".$valor3."')  AND (estado != 'En satélite') ", ARRAY_A  );
             }        
-        }        
+        }  
+        if($valor4 == "Satelite"){
+            $timezone = new DateTimeZone( 'America/Bogota' );
+            $fecha = wp_date('Y-m-d H:i:s', strtotime('-2 week'), $timezone );
+            $codigos = $wpdb->get_results( "SELECT codigo, estado, cual, complemento_estado, fecha_cambio, descripcion FROM con_t_trprendas WHERE (fecha_cambio < '".$fecha."') AND (estado = 'En satélite') ", ARRAY_A  );           
+        }     
         if($codigos){
             foreach ($codigos as $v1) {
                 $todas = $todas.$v1['codigo']."%".$v1['estado']."%".$v1['cual']."%".$v1['complemento_estado']."%".$v1['fecha_cambio']."%".$v1['descripcion']."&";
@@ -1478,6 +1487,33 @@ function imprimirprendasparavender(){////C1145RB7D13S64°C1145RB4D13S64°
     echo json_encode($agregagos);
 }
 
+function consultarsatelite($valor){////C1145RB7D13S64°C1145RB4D13S64°
+    global $wpdb;
+    $obtenidosArray = $wpdb->get_results( "SELECT COUNT(*),`descripcion` FROM con_t_trprendas WHERE (`estado` = 'En satélite') AND (`cual` = ".$valor.") GROUP BY `descripcion`", ARRAY_A);
+    //print_r($obtenidosArray);
+    $html="<div class='col-lg-12 col-md-12 col-sm-12 col-xs-12 removersatelite' id='bloquesatelite'>";
+    for($j=0;$j<sizeof($obtenidosArray);$j++){
+        $html = $html."
+        <div class='col-lg-12 col-md-12 col-sm-12 col-xs-12 removersatelite'>
+            <div class='col-lg-5 col-md-5 col-sm-5 col-xs-5'>
+                <p class='letra18pt-pc' id='ok".$j."' name='no'>".$obtenidosArray[$j]['descripcion']."</p>
+            </div>
+            <div class='col-lg-7 col-md-7 col-sm-7 col-xs-7'>    
+                <div class='form-group pmd-textfield pmd-textfield-floating-label pmd-textfield-floating-label-completed'>
+                    <label class='control-label letra18pt-pc' for='regular1'>Calcula y pon el número de prendas de esta referencia que tiene el satélite</label>
+                    <input type='number' class='form-control cantidad' name='".$obtenidosArray[$j]['COUNT(*)']."' id='".$j."'/>
+                    <span class='pmd-textfield-focused'></span>
+                </div>    
+            </div>
+        </div>
+       ";
+    }
+    echo $html."<div class='col-lg-6 col-md-6 col-sm-6 col-xs-6 removersatelite'> 
+    <button class='botonmodal botonenmodal letra18pt-pc' type='button' id='confirmarsatelite'> Confirmar prendas </button>
+    </div>
+    </div>";
+}
+
 if($funcion == "permisosPrincipales"){
     permisosPrincipales();
 }if($funcion == "permisosVentas"){
@@ -1564,5 +1600,7 @@ if($funcion == "permisosPrincipales"){
     enviarparaventamayorista($valor);
 }if($funcion == "imprimirprendasparavender"){
     imprimirprendasparavender();
+}if($funcion == "consultarsatelite"){
+    consultarsatelite($valor);
 }
 ?>

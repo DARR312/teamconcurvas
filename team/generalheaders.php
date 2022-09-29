@@ -29,6 +29,9 @@
 	<!-------------------form---------------->
 	<link rel="stylesheet" href="<?php echo get_template_directory_uri(); ?>/css/form.css" async>
 	<!-------------------form---------------->
+	<?php if(get_the_title() == "Consultarsatelite"){ ?>
+	<link rel="stylesheet" href="<?php echo get_template_directory_uri(); ?>/css/consultarsatelite.css" async>
+	<?php } ?>
 	<style type="text/css">
 		/*----------------------ON/OFF ------------------------------*/		
 			@media only screen and  (min-width:992px){.tablet, .celular{display:none;}.pc{display: block;}}
