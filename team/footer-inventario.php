@@ -305,6 +305,16 @@
         console.log(html);
     	tituloscodigos.after(html);
     });
+    
+    $('#bscar').on('change', function(){          
+        $('.removerCodigos').remove();
+        var codigosprenda = codigosprendasjson($('#bscar').val(),"0","0","0");
+        var tituloscodigos = $('#tituloscodigos');
+        var html = imprimirCodigosjson(codigosprenda);
+        console.log(html);
+    	tituloscodigos.after(html);
+    });
+
     $('#verResumen').on('click', function(){   
         $('.remover').remove();
         $('.removerCodigos').remove();
