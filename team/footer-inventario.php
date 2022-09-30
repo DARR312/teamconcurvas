@@ -9,10 +9,14 @@
     var fechaAudito = $('#fechaAudito');
         var fechaInventario = obtenerData("fecha","con_t_auditoriasinventario","row","ID",fechaAudito.attr("name"));
         fechaAudito.append("<p class='removFecha'>Fecha de la auditoría actual: "+fechaInventario+"</p>");
+        var flag = 0;
     for(i=1;i<items.length;i++){
         if(items[i]==17 || items[i]==21){
-            var fechaAudito = $('#fechaAudito');
-            fechaAudito.after("<div class='form-group pmd-textfield pmd-textfield-floating-label col-lg-3 col-md-3 col-sm-3 col-xs-3 padding5'><label for='tipo' class='control-label letra18pt-pc'>Selecciona tipo de auditoría</label><select class='form-control' type='select' id='tipoAuditoria' name='tipoAuditoria' form='tipoAuditoria'><option value='Personal'>Personal</option><option value='Empacado'>Empacados</option><option value='Despachado'>Despachados</option><option value='Satelite'>En satélite</option></select><span class='pmd-textfield-focused'></span></div>")
+            if (flag == 0){
+                var fechaAudito = $('#fechaAudito');
+                fechaAudito.after("<div class='form-group pmd-textfield pmd-textfield-floating-label col-lg-3 col-md-3 col-sm-3 col-xs-3 padding5'><label for='tipo' class='control-label letra18pt-pc'>Selecciona tipo de auditoría</label><select class='form-control' type='select' id='tipoAuditoria' name='tipoAuditoria' form='tipoAuditoria'><option value='Personal'>Personal</option><option value='Empacado'>Empacados</option><option value='Despachado'>Despachados</option><option value='Satelite'>En satélite</option></select><span class='pmd-textfield-focused'></span></div>");    
+                flag = 1;
+            }            
         }
         if(items[i]==17){
             var segundo = $('#segundo');
