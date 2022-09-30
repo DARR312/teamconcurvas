@@ -1157,7 +1157,7 @@ function codigosprendasjson($valor,$valor2,$valor3,$valor4){
         echo json_encode($codigos);
     }else{ 
         $todas = "";
-        $codigos = $wpdb->get_results( "SELECT codigo, estado, cual, complemento_estado, fecha_cambio, descripcion FROM con_t_trprendas WHERE 1", ARRAY_A  );
+        $codigos = $wpdb->get_results( "SELECT codigo, estado, cual, complemento_estado, fecha_cambio, referencia_id FROM con_t_trprendas WHERE 1", ARRAY_A  );
         echo json_encode($codigos);
     }
 }
