@@ -128,7 +128,7 @@ function is_admin_user() {
             <div class='col-lg-8 col-md-8 col-sm-8 col-xs-12' id='crearMarquillas'><button class='botonmodal' type='button' id='crearCodes'>Crear códigos +</button></div>
         </div>
         <div id="verCodigo"  style='display: none;' class="funcionamiento">
-            <div class="ochentaycinco fijo">
+            <div class="ochentaycinco fijo" id='tituloscodigos'>
                 <div class='col-lg-12 col-md-12 col-sm-12 col-xs-12'>
     	           <div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'>
         	           <p class=' letra18pt-pc'>Codigo</p>

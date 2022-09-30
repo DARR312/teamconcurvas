@@ -674,6 +674,27 @@ function codigosprendas(bscar,estadoFiltro,cual,notas) {
     return obtenidos;
 };
 
+
+function codigosprendasjson(bscar,estadoFiltro,cual,notas) {
+    if(!bscar || bscar == " "){bscar="0";}
+    if(!estadoFiltro || estadoFiltro == " "){estadoFiltro="0";}
+    if(!cual || cual == " "){cual="0";}
+    if(!notas || notas == " "){notas="0";}
+    var enviar = "funcion=codigosprendasjson&valor="+bscar+"&valor2="+estadoFiltro+"&valor3="+cual+"&valor4="+notas;
+    var obtenidos = "no";
+    $.ajax({
+    	url: urlhost,
+    	headers: {'Access-Control-Allow-Origin': urlhost},
+    	type: "GET",
+    	async: false,
+    	data: enviar,
+    	success: function(data){
+    		obtenidos = data;
+    	}						
+    });
+    return obtenidos;
+};
+
 function resumenprendas(bscar,nombre,color,talla) {
     if(!bscar || bscar == " "){bscar="0";}
     if(!nombre || nombre == " "){nombre="0";}

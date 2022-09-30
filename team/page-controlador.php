@@ -1149,6 +1149,19 @@ function codigosprendas($valor,$valor2,$valor3,$valor4){
     }
 }
 
+function codigosprendasjson($valor,$valor2,$valor3,$valor4){
+    global $wpdb;
+    if($valor != "0"){ 
+        $todas = "";
+        $codigos = $wpdb->get_results( "SELECT codigo, estado, cual, complemento_estado, fecha_cambio, referencia_id FROM con_t_trprendas  WHERE codigo =".$valor." ", ARRAY_A  );
+        echo json_encode($codigos);
+    }else{ 
+        $todas = "";
+        $codigos = $wpdb->get_results( "SELECT codigo, estado, cual, complemento_estado, fecha_cambio, descripcion FROM con_t_trprendas WHERE 1", ARRAY_A  );
+        echo json_encode($codigos);
+    }
+}
+
 function resumenprendas($valor,$valor2,$valor3,$valor4){
     global $wpdb;
     if($valor != "0"){ 
@@ -1554,6 +1567,8 @@ if($funcion == "permisosPrincipales"){
     permisos($valor);
 }if($funcion == "codigosprendas"){
     codigosprendas($valor,$valor2,$valor3,$valor4);
+}if($funcion == "codigosprendasjson"){
+    codigosprendasjson($valor,$valor2,$valor3,$valor4);
 }if($funcion == "resumenprendas"){
     resumenprendas($valor,$valor2,$valor3,$valor4);
 }if($funcion == "empezarnuevaauditoria"){

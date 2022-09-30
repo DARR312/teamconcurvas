@@ -85,6 +85,19 @@ function imprimirCodigos(arrayPrendas){
     return html;
 };
 
+function imprimirCodigosjson(codigos){
+    var jsonPrenda = JSON.parse(codigos); 
+    console.log(jsonPrenda);
+    var html = "<div><div class='col-lg-12 col-md-12 col-sm-12 col-xs-12 removerCodigos' id='primerCodigo'><div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'><p class='letra18pt-pc'>"+jsonPrenda[0].codigo+"</p></div><div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'><p class='letra18pt-pc'>"+jsonPrenda[0].complemento_estado+"</p></div><div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'><p class='letra18pt-pc'>"+jsonPrenda[0].cual+"</p></div><div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'><p class='letra18pt-pc'>"+jsonPrenda[0].descripcion+"</p></div><div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'><p class='letra18pt-pc'>"+jsonPrenda[0].estado+"</p></div><div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'><p class='letra18pt-pc'>"+jsonPrenda[0].fecha_cambio+"</p></div></div>";
+    for(i=1;i<jsonPrenda.length;i++){
+        console.log(jsonPrenda[i]);
+        var html = html+"<div class='col-lg-12 col-md-12 col-sm-12 col-xs-12 removerCodigos'><div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'><p class='letra18pt-pc'>"+jsonPrenda[i].codigo+"</p></div><div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'><p class='letra18pt-pc'>"+jsonPrenda[i].complemento_estado+"</p></div><div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'><p class='letra18pt-pc'>"+jsonPrenda[i].cual+"</p></div><div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'><p class='letra18pt-pc'>"+jsonPrenda[i].descripcion+"</p></div><div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'><p class='letra18pt-pc'>"+jsonPrenda[i].estado+"</p></div><div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'><p class='letra18pt-pc'>"+jsonPrenda[i].fecha_cambio+"</p></div></div>";
+    }
+    html = html+"</div>";
+    return html;
+};
+
+
 /*function imprimirResumen(arrayPrendas){
     var arrayPrenda = arrayPrendas[0].split('%');
     var html = "<div id='listadoResumen'><div class='col-lg-12 col-md-12 col-sm-12 col-xs-12 removerCodigos' id='primerCodigo'><div class='col-lg-3 col-md-3 col-sm-3 col-xs-3'><p class='letra18pt-pc'>"+arrayPrenda[0]+"</p></div><div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'><p class='letra18pt-pc'>"+arrayPrenda[1]+"</p></div><div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'><p class='letra18pt-pc'>"+arrayPrenda[2]+"</p></div><div class='col-lg-3 col-md-3 col-sm-3 col-xs-3'><p class='letra18pt-pc'>"+arrayPrenda[3]+"</p></div><div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'><p class='letra18pt-pc'>"+arrayPrenda[4]+"</p></div></div>";

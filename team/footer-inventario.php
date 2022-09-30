@@ -299,11 +299,11 @@
         $('#liberarEmpacados').css('display', 'none');
         $('#madrugonDiv').css('display', 'none'); 
         $('#fechaslotesdiv').css('display', 'none');
-        var codigosprenda = codigosprendas($('#bscar').val(),"0","0","0");
-        var arrayPrendas = codigosprenda.split('&');
-        var primeraFila = $('#primeraFila');
-        var html = imprimirCodigos(arrayPrendas);
-    	primeraFila.after(html);
+        var codigosprenda = codigosprendasjson($('#bscar').val(),"0","0","0");
+        var tituloscodigos = $('#tituloscodigos');
+        var html = imprimirCodigosjson(codigosprenda);
+        console.log(html);
+    	tituloscodigos.after(html);
     });
     $('#verResumen').on('click', function(){   
         $('.remover').remove();
