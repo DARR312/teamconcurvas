@@ -65,7 +65,7 @@
     #primeraVenta{margin-top: 370px;}   
     .funcionamiento{margin-top: 315px;}
 }
-@media only screen and (max-width:1550){
+@media only screen and (max-width:1549px){
     #primeraFila{margin-top: 235px;}
     #primeraVenta{margin-top: 315px;}
     .funcionamiento{margin-top: 270px;}
