@@ -77,6 +77,6 @@ width:5%;
 .cliente_ok1{display:none;}
 .dinerook1{color:#1a7a1c;}
 .pedidoUpdate, .fechaUpdate, .notasUpdate, .usuarioUpdate{
-    color:#4285f4;
+    color:rgb(193, 46, 114) !important;
     cursor: pointer;
 }
