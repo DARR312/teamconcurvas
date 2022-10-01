@@ -73,45 +73,55 @@
         }
         transportador.append(htmlll);
         $('#filtroFE').attr("name",pedidoUpdate+","+fechaUpdate+","+notasUpdate+","+usuarioUpdate+","+botonrevisar);
-        var ordenesCambio = ordenescambio($('#bscar').val(),$('#estadoFiltro').val(),$('#transportador').val(),$('#datetimepicker-default').val(),$('#datetimepicker-defaultFiltro').val());
-        var arrayOrdenes = ordenesCambio.split('&');
+        var ordenesCambio = ordenescambiojson($('#bscar').val(),$('#estadoFiltro').val(),$('#transportador').val(),$('#tipoenvio').val(),$('#datetimepicker-creadacambios').val(),$('#datetimepicker-entregacambios').val());
+        var html = imprimirCambiosjson(ordenesCambio,pedidoUpdate,fechaUpdate,notasUpdate,usuarioUpdate);
+        console.log(html);
         var primeraFila = $('#primeraFila');
-        var html = imprimirCambios(arrayOrdenes,pedidoUpdate,fechaUpdate,notasUpdate,usuarioUpdate);
-    	primeraFila.after(html);
+        primeraFila.after(html);
     }
     cambios();
 	$('#bscar').on('change',function(){
 	    $('.removerCambios').remove();
-	    var ordenesVenta = ordenescambio($('#bscar').val(),$('#estadoFiltro').val(),$('#transportador').val(),$('#datetimepicker-default').val(),$('#datetimepicker-defaultFiltro').val());
-        var arrayOrdenes = ordenesVenta.split('&');
+	    var ordenesCambio = ordenescambiojson($('#bscar').val(),$('#estadoFiltro').val(),$('#transportador').val(),$('#tipoenvio').val(),$('#datetimepicker-creadacambios').val(),$('#datetimepicker-entregacambios').val());
+        var html = imprimirCambiosjson(ordenesCambio,pedidoUpdate,fechaUpdate,notasUpdate,usuarioUpdate);
+        console.log(html);
         var primeraFila = $('#primeraFila');
-        var html = imprimirCambios(arrayOrdenes,botonrevisar,pedidoUpdate,fechaUpdate,notasUpdate,usuarioUpdate);
-    	primeraFila.after(html);
+        primeraFila.after(html);
     	cambios();
 	});
 	
 	
 	$('#estadoFiltro').on('change',function(){
-	    $('.removerVentas').remove();
-	    var ordenesVenta = ordenescambio($('#bscar').val(),$('#estadoFiltro').val(),$('#transportador').val(),$('#datetimepicker-default').val(),$('#datetimepicker-defaultFiltro').val());
-        var arrayOrdenes = ordenesVenta.split('&');
+	    $('.removerCambios').remove();
+        var ordenesCambio = ordenescambiojson($('#bscar').val(),$('#estadoFiltro').val(),$('#transportador').val(),$('#tipoenvio').val(),$('#datetimepicker-creadacambios').val(),$('#datetimepicker-entregacambios').val());
+        var html = imprimirCambiosjson(ordenesCambio,pedidoUpdate,fechaUpdate,notasUpdate,usuarioUpdate);
+        console.log(html);
         var primeraFila = $('#primeraFila');
-        var html = imprimirCambios(arrayOrdenes,botonrevisar,pedidoUpdate,fechaUpdate,notasUpdate,usuarioUpdate);
-    	primeraFila.after(html);
+        primeraFila.after(html);
     	cambios();
 	});
 	
 	
 	$('#transportador').on('change',function(){
-	    $('.removerVentas').remove();
-	    var ordenesVenta = ordenescambio($('#bscar').val(),$('#estadoFiltro').val(),$('#transportador').val(),$('#datetimepicker-default').val(),$('#datetimepicker-defaultFiltro').val());
-        var arrayOrdenes = ordenesVenta.split('&');
-        var primeraFila = $('#primeraFila');
-        var html = imprimirCambios(arrayOrdenes,botonrevisar,pedidoUpdate,fechaUpdate,notasUpdate,usuarioUpdate);
-    	primeraFila.after(html);
-    	cambios();
+	    // $('.removerVentas').remove();
+	    // var ordenesVenta = ordenescambio($('#bscar').val(),$('#estadoFiltro').val(),$('#transportador').val(),$('#datetimepicker-creadacambios').val(),$('#datetimepicker-entregacambios').val());
+        // var arrayOrdenes = ordenesVenta.split('&');
+        // var primeraFila = $('#primeraFila');
+        // var html = imprimirCambios(arrayOrdenes,botonrevisar,pedidoUpdate,fechaUpdate,notasUpdate,usuarioUpdate);
+    	// primeraFila.after(html);
+    	// cambios();
 	});
-	
+
+    $('#tipoenvio').on('change',function(){
+	    // $('.removerVentas').remove();
+        // var ordenesCambio = ordenescambiojson($('#bscar').val(),$('#estadoFiltro').val(),$('#transportador').val(),$('#tipoenvio').val(),$('#datetimepicker-creadacambios').val(),$('#datetimepicker-entregacambios').val());
+        // var html = imprimirCambiosjson(ordenesCambio,pedidoUpdate,fechaUpdate,notasUpdate,usuarioUpdate);
+        // console.log(html);
+        // var primeraFila = $('#primeraFila');
+        // primeraFila.after(html);
+    	// cambios();
+	});
+
     $('#agregarCambio').on('click', function(){         
         $('#popup').fadeIn('slow');         
         $('.popup-overlay').fadeIn('slow');         
@@ -269,7 +279,7 @@
                 $('.popup-overlay').fadeOut('slow');      
                 $('.reinicia').remove();
                 $('.removeCambio').remove();
-                var ordenescambio = ordenescambio($('#bscar').val(),$('#estadoFiltro').val(),$('#transportador').val(),$('#datetimepicker-default').val(),$('#datetimepicker-defaultFiltro').val());
+                var ordenescambio = ordenescambio($('#bscar').val(),$('#estadoFiltro').val(),$('#transportador').val(),$('#datetimepicker-creadacambios').val(),$('#datetimepicker-entregacambios').val());
                 var arrayOrdenes = ordenescambio.split('&');
                 //alert(ordenescambio);
                 var primeraFila = $('#primeraFila');
@@ -334,13 +344,13 @@
 
 <script>
 	// Default date and time picker
-	$('#datetimepicker-default').datetimepicker({
+	$('#datetimepicker-creadacambios').datetimepicker({
 		format: 'L'
 	});
 	$('#datetimepicker-entrega').datetimepicker({
 		format: 'L'
 	});
-	$('#datetimepicker-defaultFiltro').datetimepicker({
+	$('#datetimepicker-entregacambios').datetimepicker({
 		format: 'L'
 	});
 	$('#datetimepicker-update').datetimepicker({

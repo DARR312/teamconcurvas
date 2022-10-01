@@ -43,7 +43,7 @@
     		
         </div>
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="segundo">
-            <?php if(get_the_title() == "Ventas" || get_the_title() == "Cambios"){ ?>
+            <?php if(get_the_title() == "Ventas"){ ?>
             <div class='col-lg-3 col-md-3 col-sm-3 col-xs-12' id='filtroFV'>
                <div class="form-group pmd-textfield pmd-textfield-floating-label pmd-textfield-floating-label-completed">
                 	<label class="control-label letra18pt-pc" for="regular1">Filtra por fecha de creación</label>
@@ -54,6 +54,20 @@
                <div class="form-group pmd-textfield pmd-textfield-floating-label pmd-textfield-floating-label-completed">
                 	<label class="control-label letra18pt-pc" for="regular1">Filtra por fecha de entrega</label>
                 	<input type="text" id="datetimepicker-defaultFiltro" class="form-control" />
+                </div>
+            </div>
+            <?php } ?>
+            <?php if(get_the_title() == "Cambios"){ ?>
+            <div class='col-lg-3 col-md-3 col-sm-3 col-xs-12' id='filtroFV'>
+               <div class="form-group pmd-textfield pmd-textfield-floating-label pmd-textfield-floating-label-completed">
+                	<label class="control-label letra18pt-pc" for="regular1">Filtra por fecha de creación</label>
+                	<input type="text" id="datetimepicker-creadacambios" class="form-control" />
+                </div>
+            </div>
+            <div class='col-lg-3 col-md-3 col-sm-3 col-xs-12' id='filtroFE'>
+               <div class="form-group pmd-textfield pmd-textfield-floating-label pmd-textfield-floating-label-completed">
+                	<label class="control-label letra18pt-pc" for="regular1">Filtra por fecha de entrega</label>
+                	<input type="text" id="datetimepicker-entregacambios" class="form-control" />
                 </div>
             </div>
             <?php } ?>

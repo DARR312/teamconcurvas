@@ -963,6 +963,38 @@
                     	primeraFila.after(html);
                     	ventas();
 					}
+                    if(e.delegateTarget.ownerDocument.activeElement.id == "datetimepicker-creadacambios"){
+					    var htmlUpdate = $('#filtroFE').attr("name");
+					    var htmlUpdateArray = htmlUpdate.split(",");
+					    var pedidoUpdate = htmlUpdateArray[0];
+					    var fechaUpdate = htmlUpdateArray[1];
+					    var notasUpdate = htmlUpdateArray[2];
+					    var usuarioUpdate = htmlUpdateArray[3];
+					    var botonrevisar = htmlUpdateArray[4];
+					    $('.removerCambios').remove();
+                        var ordenesCambio = ordenescambiojson($('#bscar').val(),$('#estadoFiltro').val(),$('#transportador').val(),$('#tipoenvio').val(),$('#datetimepicker-creadacambios').val(),$('#datetimepicker-entregacambios').val());
+                        var html = imprimirCambiosjson(ordenesCambio,pedidoUpdate,fechaUpdate,notasUpdate,usuarioUpdate);
+                        console.log(html);
+                        var primeraFila = $('#primeraFila');
+                        primeraFila.after(html);
+                        cambios();
+					}
+					if(e.delegateTarget.ownerDocument.activeElement.id == "datetimepicker-entregacambios"){
+					    var htmlUpdate = $('#filtroFE').attr("name");
+					    var htmlUpdateArray = htmlUpdate.split(",");
+					    var pedidoUpdate = htmlUpdateArray[0];
+					    var fechaUpdate = htmlUpdateArray[1];
+					    var notasUpdate = htmlUpdateArray[2];
+					    var usuarioUpdate = htmlUpdateArray[3];
+					    var botonrevisar = htmlUpdateArray[4];
+                        $('.removerCambios').remove();
+                        var ordenesCambio = ordenescambiojson($('#bscar').val(),$('#estadoFiltro').val(),$('#transportador').val(),$('#tipoenvio').val(),$('#datetimepicker-creadacambios').val(),$('#datetimepicker-entregacambios').val());
+                        var html = imprimirCambiosjson(ordenesCambio,pedidoUpdate,fechaUpdate,notasUpdate,usuarioUpdate);
+                        console.log(html);
+                        var primeraFila = $('#primeraFila');
+                        primeraFila.after(html);
+                        cambios();
+					}
 					if (!hasTime() && !options.keepOpen && !options.inline) {
                         hide();
                     }

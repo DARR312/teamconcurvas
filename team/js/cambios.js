@@ -218,7 +218,7 @@ function cambios() {
             $('#popup6').fadeOut('slow');       
             $('.popup-overlay').fadeOut('slow'); 
             $('.removerCambios').remove();
-            var ordenesCambio = ordenescambio($('#bscar').val(),$('#estadoFiltro').val(),$('#transportador').val(),$('#datetimepicker-default').val(),$('#datetimepicker-defaultFiltro').val());
+            var ordenesCambio = ordenescambio($('#bscar').val(),$('#estadoFiltro').val(),$('#transportador').val(),$('#datetimepicker-creadacambios').val(),$('#datetimepicker-entregacambios').val());
             var arrayOrdenes = ordenesCambio.split('&');
             var primeraFila = $('#primeraFila');
             var html = imprimirCambios(arrayOrdenes,'pedidoUpdate','fechaUpdate','notasUpdate','usuarioUpdate');
@@ -297,7 +297,7 @@ function cambios() {
 	    var botonrevisar = htmlUpdateArray[4];
         actualizar("venta_estado","Revisar Pago",ids,usuarioCell);
         $('.removerVentas').remove();
-	    var ordenesVenta = ordenesventa($('#bscar').val(),$('#estadoFiltro').val(),$('#transportador').val(),$('#datetimepicker-default').val(),$('#datetimepicker-defaultFiltro').val());
+	    var ordenesVenta = ordenesventa($('#bscar').val(),$('#estadoFiltro').val(),$('#transportador').val(),$('#datetimepicker-creadacambios').val(),$('#datetimepicker-entregacambios').val());
         var arrayOrdenes = ordenesVenta.split('&');
         var primeraFila = $('#primeraFila');
         var html = imprimirVentas(arrayOrdenes,botonrevisar,pedidoUpdate,fechaUpdate,notasUpdate,usuarioUpdate);
@@ -325,7 +325,7 @@ function cambios() {
     	$('#confirmarPago').attr("name",ids);
         /*actualizar("venta_clienteok","1",ids,usuarioCell);
         $('.removerVentas').remove();
-	    var ordenesVenta = ordenesventa($('#bscar').val(),$('#estadoFiltro').val(),$('#transportador').val(),$('#datetimepicker-default').val(),$('#datetimepicker-defaultFiltro').val());
+	    var ordenesVenta = ordenesventa($('#bscar').val(),$('#estadoFiltro').val(),$('#transportador').val(),$('#datetimepicker-creadacambios').val(),$('#datetimepicker-entregacambios').val());
         var arrayOrdenes = ordenesVenta.split('&');
         var itemsVentas = $('#itemsVentas');
     	itemsVentas.after(html);
@@ -346,7 +346,7 @@ function cambios() {
         $('.popup-overlay').fadeOut('slow'); 
         $('.removeUpdate').remove();
         actualizar("venta_clienteok",pago,ids,usuarioCell);//(tabla,columna,id,usuarioCell)
-        var ordenesVenta = ordenesventa($('#bscar').val(),$('#estadoFiltro').val(),$('#transportador').val(),$('#datetimepicker-default').val(),$('#datetimepicker-defaultFiltro').val());
+        var ordenesVenta = ordenesventa($('#bscar').val(),$('#estadoFiltro').val(),$('#transportador').val(),$('#datetimepicker-creadacambios').val(),$('#datetimepicker-entregacambios').val());
         var arrayOrdenes = ordenesVenta.split('&');
         var itemsVentas = $('#itemsVentas');
     	itemsVentas.after(html);
@@ -389,6 +389,41 @@ function imprimirCambios(arrayOrdenes,pedidoUpdate,fechaUpdate,notasUpdate,usuar
     html = html + imprimir +"</table></div>";
     return html;
 };
+function imprimirCambiosjson(ordenesCambio,pedidoUpdate,fechaUpdate,notasUpdate,usuarioUpdate){
+    var jsonCambios = JSON.parse(ordenesCambio); 
+    console.log(jsonCambios);
+    var ok = 0;
+    var signo = "";
+    if(jsonCambios[0].excedente < 0){
+        jsonCambios[0].excedente = -1*jsonCambios[0].excedente;
+        signo = "-";
+    }
+    var precioFormato = formatoPrecio(jsonCambios[0].excedente);
+    precioFormato = signo+precioFormato;
+    var datosdelcliente = jsonCambios[0].datos_cliente.split("°");
+    var html = "<div class='col-lg-12 col-md-12 col-sm-12 col-xs-12 removerCambios' id='primeraVenta'> <div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'><p class='letra18pt-pc'>"+jsonCambios[0].estado+"</p></div><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'><p class='letra18pt-pc'>C"+jsonCambios[0].cambio_id+"</p></div><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'><p class='letra18pt-pc'>"+jsonCambios[0].venta_id+"</p></div><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'><p class='letra18pt-pc "+usuarioUpdate+"' name='"+jsonCambios[0].venta_id+"'>"+datosdelcliente[1]+" "+datosdelcliente[2]+"</p></div><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'><p class='letra18pt-pc'>"+datosdelcliente[3]+"</p></div><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'><p class='letra18pt-pc'>"+datosdelcliente[4]+"</p></div><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'><p class='letra18pt-pc'>"+datosdelcliente[5].substr(0, datosdelcliente[5].length - 1)+"</p></div><div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'><p class='letra18pt-pc "+pedidoUpdate+"' name='"+jsonCambios[0].cambio_id+"'>"+jsonCambios[0].pedido+"</p></div><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'><p class='letra18pt-pc dinerook"+ok+"'>"+precioFormato+"</p></div><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'><p class='letra18pt-pc "+fechaUpdate+"' name='"+jsonCambios[0].cambio_id+"'>"+jsonCambios[0].fecha_entrega+"</p></div><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'><p class='letra18pt-pc "+notasUpdate+"' name='"+jsonCambios[0].cambio_id+"'>."+jsonCambios[0].notas+"</p></div></div>";
+    var imprimir = "<div id='impresionParaempacar' style='display: none;' class='removerCambios'><table border='1'><tr><th>Cambio</th><th>Cliente</th><th>Ciudad</th><th>Teléfono</th><th>Dirección</th><th>Complemento</th><th>Excedente</th><th>Pedido</th><th>Notas</th></tr><tr><td>C"+jsonCambios[0].estado+"</td><td>"+datosdelcliente[1]+"</td><td>"+datosdelcliente[5].substr(0, datosdelcliente[5].length - 1)+"</td><td>"+datosdelcliente[2]+"</td><td>"+datosdelcliente[3]+"</td><td>"+datosdelcliente[4]+"</td><td>"+precioFormato+"</td><td>"+jsonCambios[0].pedido+"</td><td>"+jsonCambios[0].notas+"</td></tr>";
+    
+    if(jsonCambios.length>0){
+        for(i=1;i<jsonCambios.length;i++){
+            console.log(jsonCambios[i]);
+            var ok = 0;
+            var signo = "";
+            if(jsonCambios[i].excedente < 0){
+                jsonCambios[i].excedente = -1*jsonCambios[i].excedente;
+                signo = "-";
+            }
+            var precioFormato = formatoPrecio(jsonCambios[i].excedente);
+            precioFormato = signo+precioFormato;
+            var datosdelcliente = jsonCambios[i].datos_cliente.split("°");
+            html = html+"<div class='col-lg-12 col-md-12 col-sm-12 col-xs-12 removerCambios'><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'><p class='letra18pt-pc'>"+jsonCambios[i].estado+"</p></div><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'><p class='letra18pt-pc'>C"+jsonCambios[i].cambio_id+"</p></div><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'><p class='letra18pt-pc'>"+jsonCambios[i].venta_id+"</p></div><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'><p class='letra18pt-pc "+usuarioUpdate+"' name='"+jsonCambios[i].venta_id+"'>"+datosdelcliente[1]+" "+datosdelcliente[2]+"</p></div><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'><p class='letra18pt-pc'>"+datosdelcliente[3]+"</p></div><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'><p class='letra18pt-pc'>"+datosdelcliente[4]+"</p></div><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'><p class='letra18pt-pc'>"+datosdelcliente[5].substr(0, datosdelcliente[5].length - 1)+"</p></div><div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'><p class='letra18pt-pc "+pedidoUpdate+"' name='"+jsonCambios[i].cambio_id+"'>"+jsonCambios[i].pedido+"</p></div><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'><p class='letra18pt-pc dinerook"+ok+"'>"+precioFormato+"</p></div><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'><p class='letra18pt-pc "+fechaUpdate+"' name='"+jsonCambios[i].cambio_id+"'>"+jsonCambios[i].fecha_entrega+"</p></div><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'><p class='letra18pt-pc "+notasUpdate+"' name='"+jsonCambios[i].cambio_id+"'>."+jsonCambios[i].notas+"</p></div></div>";
+            imprimir = imprimir+"<div id='impresionParaempacar' style='display: none;' class='removerCambios'><table border='1'><tr><th>Cambio</th><th>Cliente</th><th>Ciudad</th><th>Teléfono</th><th>Dirección</th><th>Complemento</th><th>Excedente</th><th>Pedido</th><th>Notas</th></tr><tr><td>C"+jsonCambios[i].estado+"</td><td>"+datosdelcliente[1]+"</td><td>"+datosdelcliente[5].substr(0, datosdelcliente[5].length - 1)+"</td><td>"+datosdelcliente[2]+"</td><td>"+datosdelcliente[3]+"</td><td>"+datosdelcliente[4]+"</td><td>"+precioFormato+"</td><td>"+jsonCambios[i].pedido+"</td><td>"+jsonCambios[i].notas+"</td></tr>";
+        }        
+    }
+    html = html + imprimir +"</table></div>";
+    return html;
+};
+
 function imprimiritemventas(ventaItems){
     var ventaItemsArray = ventaItems.split("%");
     var precio = 0;
@@ -406,20 +441,4 @@ function imprimiritemventas(ventaItems){
     var precioFormato = formatoPrecio(precio);
     html = html+"<p class='col-lg-12 col-md-12 col-sm-12 col-xs-12 letra18pt-pc removeUpdate'>Precio total: "+precioFormato+"</p>";
     return html;
-    /*var arrayOrden = arrayOrdenes[0].split('%');
-    var estado = arrayOrden[11];
-    var datosCliente = arrayOrden[2];
-    var datosClienteUnicos = datosCliente.split('°');
-    var html = "<div class='col-lg-12 col-md-12 col-sm-12 col-xs-12 removerVentas' id='primeraVenta'><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'><p class='letra18pt-pc'>"+estado+"</p></div><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'><p class='letra18pt-pc'>"+arrayOrden[0]+"</p></div><div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'><p class='letra18pt-pc "+usuarioUpdate+"' name='"+arrayOrden[14]+"%"+arrayOrden[0]+"'>"+datosClienteUnicos[1]+" "+datosClienteUnicos[2]+"</p></div><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'><p class='letra18pt-pc'>"+datosClienteUnicos[3]+"</p></div><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'><p class='letra18pt-pc'>"+datosClienteUnicos[4]+"</p></div><div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'><p class='letra18pt-pc "+pedidoUpdate+"' name='"+arrayOrden[0]+"'>"+arrayOrden[5]+"</p></div><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'><p class='letra18pt-pc dinerook"+arrayOrden[7]+"'>"+arrayOrden[6]+"</p></div><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'><p class='letra18pt-pc "+fechaUpdate+"' name='"+arrayOrden[0]+"'>"+arrayOrden[10]+"</p></div><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'><p class='letra18pt-pc "+notasUpdate+"' name='"+arrayOrden[0]+"'>."+arrayOrden[8]+"</p></div><div class='col-lg-1 col-md-1 col-sm-1 col-xs-12 cliente_ok"+arrayOrden[7]+"'><button class='botonmodal "+botonrevisar+"' type='button' name='"+arrayOrden[0]+"'>R</button></div></div>";
-    var imprimir = "<div id='impresionParaempacar' style='display: none;' class='removerVentas'><table border='1'><tr><th>Orden</th><th>Cliente</th><th>Dirección</th><th>Complemento</th><th>Teléfono</th><th>Pedido</th><th>Notas</th><th>Precio</th><th>Pedido pago</th></tr><tr><td>"+arrayOrden[0]+"</td><td>"+datosClienteUnicos[1]+"</td><td>"+datosClienteUnicos[3]+"</td><td>"+datosClienteUnicos[4]+" "+datosClienteUnicos[5]+"</td><td>"+datosClienteUnicos[2]+"</td><td>"+arrayOrden[5]+"</td><td>"+arrayOrden[8]+"</td><td>"+arrayOrden[6]+"</td><td>"+arrayOrden[7]+"</td></tr>";
-    for(i=1;i<arrayOrdenes.length-1;i++){
-        var arrayOrden = arrayOrdenes[i].split('%');
-        var estado = arrayOrden[11];
-        var datosCliente = arrayOrden[2];
-        var datosClienteUnicos = datosCliente.split('°');
-        var html = html+"<div class='col-lg-12 col-md-12 col-sm-12 col-xs-12 removerVentas'><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'><p class='letra18pt-pc'>"+estado+"</p></div><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'><p class='letra18pt-pc'>"+arrayOrden[0]+"</p></div><div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'><p class='letra18pt-pc "+usuarioUpdate+"' name='"+arrayOrden[14]+"%"+arrayOrden[0]+"'>"+datosClienteUnicos[1]+" "+datosClienteUnicos[2]+"</p></div><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'><p class='letra18pt-pc'>"+datosClienteUnicos[3]+"</p></div><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'><p class='letra18pt-pc'>"+datosClienteUnicos[4]+"</p></div><div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'><p class='letra18pt-pc "+pedidoUpdate+"' name='"+arrayOrden[0]+"'>"+arrayOrden[5]+"</p></div><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'><p class='letra18pt-pc  dinerook"+arrayOrden[7]+"'>"+arrayOrden[6]+"</p></div><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'><p class='letra18pt-pc "+fechaUpdate+"' name='"+arrayOrden[0]+"'>"+arrayOrden[10]+"</p></div><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'><p class='letra18pt-pc "+notasUpdate+"' name='"+arrayOrden[0]+"'>."+arrayOrden[8]+"</p></div><div class='col-lg-1 col-md-1 col-sm-1 col-xs-12 cliente_ok"+arrayOrden[7]+"'><button class='botonmodal "+botonrevisar+"' type='button' name='"+arrayOrden[0]+"'>R</button></div></div>";
-        var imprimir = imprimir+"<tr><td>"+arrayOrden[0]+"</td><td>"+datosClienteUnicos[1]+"</td><td>"+datosClienteUnicos[3]+"</td><td>"+datosClienteUnicos[4]+" "+datosClienteUnicos[5]+"</td><td>"+datosClienteUnicos[2]+"</td><td>"+arrayOrden[5]+"</td><td>"+arrayOrden[8]+"</td><td>"+arrayOrden[6]+"</td><td>"+arrayOrden[7]+"</td></tr>"
-    }
-    html = html + imprimir +"</table></div>";
-    return html;*/
 };

@@ -622,6 +622,28 @@ function ordenescambio(bscar,estadoFiltro,transportador,datetimepicker_default,d
     return obtenidos;
 };
 
+function ordenescambiojson(bscar,estadoFiltro,transportador,tipo,datetimepicker_default,datetimepicker_entregacambios) {
+    if(!bscar || bscar == " "){bscar="0";}
+    if(!estadoFiltro || estadoFiltro == " "){estadoFiltro="0";}
+    if(!transportador || transportador == " "){transportador="0";}
+    if(!tipo || tipo == " "){tipo="0";}
+    if(!datetimepicker_default || datetimepicker_default == " "){datetimepicker_default="0";}
+    if(!datetimepicker_entregacambios || datetimepicker_entregacambios == " "){datetimepicker_entregacambios="0";}
+    var enviar = "funcion=ordenescambiojson&valor="+bscar+"&valor2="+estadoFiltro+"&valor3="+transportador+"&valor4="+tipo+"&valor5="+datetimepicker_default+"&valor6="+datetimepicker_entregacambios;
+    var obtenidos = "no";
+    $.ajax({
+    	url: urlhost,
+    	headers: {'Access-Control-Allow-Origin': urlhost},
+    	type: "GET",
+    	async: false,
+    	data: enviar,
+    	success: function(data){
+    		obtenidos = data;
+    	}						
+    });
+    return obtenidos;
+};
+
 function actualizar(tabla,columna,id,usuarioCell) {
    var enviar = "funcion=actualizar&columna="+columna+"&tabla="+tabla+"&valor="+id+"&valor2="+usuarioCell;
    var obtenidos = "no";
