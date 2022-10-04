@@ -1333,6 +1333,17 @@ function enviarparaventamayorista($valor){////C1145RB7D13S64°C1145RB4D13S64°
     }
 }
 
+function enviarparaventaplaza($valor){////C1145RB7D13S64°C1145RB4D13S64°
+    global $wpdb;
+    $prendas = explode("°",$valor);
+    for($j=0;$j<(sizeof($prendas)-1);$j++){     
+        $ref = $wpdb->get_results( "SELECT referencia_id,descripcion FROM con_t_trprendas WHERE codigo = '".$prendas[$j]."'", ARRAY_A  );
+        $valor = $wpdb->get_results( "SELECT precio_detal FROM con_t_resumen WHERE referencia_id = ".$ref[0]['referencia_id']."", ARRAY_A  );
+        $insertado = $wpdb->insert("con_t_prendasplaza", array("codigo" => $prendas[$j], "descripcion" => $ref[0]['descripcion'],  'valor' => $valor[0]['precio_detal']));
+        echo $insertado;
+    }
+}
+
 function imprimirprendasparavender(){////C1145RB7D13S64°C1145RB4D13S64°
     global $wpdb;
     $agregagos = $wpdb->get_results( "SELECT `ID`, `codigo`, `valor`, `descripcion` FROM con_t_prendasmayorista WHERE agregada = 0", ARRAY_A);//133
@@ -1456,6 +1467,8 @@ if($funcion == "permisosPrincipales"){
     enviarparaventamayorista($valor);
 }if($funcion == "imprimirprendasparavender"){
     imprimirprendasparavender();
+}if($funcion == "enviarparaventaplaza"){
+    enviarparaventaplaza($valor);
 }if($funcion == "consultarsatelite"){
     consultarsatelite($valor);
 }

@@ -1069,6 +1069,52 @@ function enviarparaventamayorista(valor) {
     return obtenidos;
 };
 
+function enviarVentaplaza(decodedText, decodedResult) {
+	// Handle on success condition with the decoded text or result.
+	//console.log(`Scan result: ${decodedText}`, decodedResult);
+	var prendasCant = ($('#escaneados p').length);
+	if(prendasCant==0){
+		var escaneados = $('#escaneados');
+		var html = "<p class='letra18pt-pc negrillaUno remover'>"+decodedText+"</p>"
+		escaneados.append(html);
+	}else{
+		var flag = 1;
+		for(var i = 0;i<prendasCant;i++){
+			var prenda = $("#escaneados p:eq("+i+")").text();
+			if(prenda == decodedText){
+				flag = 0;
+				break;
+			}
+		}
+		if(flag == 1){
+			var escaneados = $('#escaneados');
+			var html = "<p class='letra18pt-pc negrillaUno remover'>"+decodedText+"</p>"
+			escaneados.append(html);
+		}
+	}
+	
+};
+
+function enviarparaventa(prendas) {
+	console.log(prendas);
+	var valor='';
+	for (let i = 0; i < prendas.length; i++){valor = '°'+prendas[i].innerText;}
+    var enviar = "funcion=enviarparaventaplaza&valor="+valor;
+    var obtenidos = "no";
+    $.ajax({
+    	url: urlhost,
+    	headers: {'Access-Control-Allow-Origin': urlhost},
+    	type: "GET",
+    	async: false,
+    	data: enviar,
+    	success: function(data){
+    		obtenidos = data;
+    	}						
+    });
+    return obtenidos;
+};
+
+
 function imprimirprendasparavender(valor) {
     var enviar = "funcion=imprimirprendasparavender";
     var obtenidos = "no";
