@@ -1,5 +1,7 @@
 <?php 	
-$fecha = wp_date('Y-m-d');
+$timezone = new DateTimeZone( 'America/Bogota' );
+$fecha = wp_date('Y-m-d', strtotime('+1 day'), $timezone );
+echo $fecha;
 $valor=$_GET['valor'];
 global $wpdb;
 /*echo "hola";
