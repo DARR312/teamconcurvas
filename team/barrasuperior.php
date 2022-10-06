@@ -8,7 +8,7 @@
             			<input class="form-control" type="text" id="bscar" name="bscar" required=""><span class="pmd-textfield-focused"></span>
     			    </div>
     			</div>
-                <?php if(get_the_title() == "Ventas" ||){ ?>
+                <?php if(get_the_title() == "Ventas"){ ?>
                 <div class="form-group pmd-textfield pmd-textfield-floating-label">
                     <div class='col-lg-2 col-md-2 col-sm-2 col-xs-12' id='buscadortelefono'>
             			<label for="nombre" class="control-label letra18pt-pc">Buscar por teléfono</label>
