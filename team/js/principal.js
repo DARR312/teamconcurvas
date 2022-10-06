@@ -601,6 +601,27 @@ function ordenesventa(bscar,estadoFiltro,transportador,datetimepicker_default,da
     return obtenidos;
 };
 
+function ordenesventajson(bscar,estadoFiltro,transportador,datetimepicker_default,datetimepicker_defaultFiltro,buscadortelefono) {
+    if(!bscar || bscar == " "){bscar="0";}
+    if(!estadoFiltro || estadoFiltro == " "){estadoFiltro="0";}
+    if(!transportador || transportador == " "){transportador="0";}
+    if(!datetimepicker_default || datetimepicker_default == " "){datetimepicker_default="0";}
+    if(!datetimepicker_defaultFiltro || datetimepicker_defaultFiltro == " "){datetimepicker_defaultFiltro="0";}
+    var enviar = "funcion=ordenesventajson&valor="+bscar+"&valor2="+estadoFiltro+"&valor3="+transportador+"&valor4="+datetimepicker_default+"&valor5="+datetimepicker_defaultFiltro+"&valor6="+buscadortelefono;
+    var obtenidos = "no";
+    $.ajax({
+    	url: urlhost,
+    	headers: {'Access-Control-Allow-Origin': urlhost},
+    	type: "GET",
+    	async: false,
+    	data: enviar,
+    	success: function(data){
+    		obtenidos = data;
+    	}						
+    });
+    return obtenidos;
+};
+
 function ordenescambio(bscar,estadoFiltro,transportador,datetimepicker_default,datetimepicker_defaultFiltro) {
     if(!bscar || bscar == " "){bscar="0";}
     if(!estadoFiltro || estadoFiltro == " "){estadoFiltro="0";}
@@ -1099,7 +1120,7 @@ function enviarparaventa(prendas) {
 	console.log(prendas);
 	var valor='';
 	for (let i = 0; i < prendas.length; i++){valor = '°'+prendas[i].innerText;}
-    var enviar = "funcion=enviarparaventaplaza&valor="+valor;
+    var enviar = "funcion=enviarparaventa&valor="+valor;
     var obtenidos = "no";
     $.ajax({
     	url: urlhost,

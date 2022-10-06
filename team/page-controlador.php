@@ -787,8 +787,65 @@ function ordenescambio($valor,$valor2,$valor3,$valor4,$valor5){
 function ordenescambiojson($valor,$estadoFiltro,$transportador,$tipoenvio,$datetimepicker_default,$datetimepicker_defaultFiltro){
     global $wpdb;
     if($valor != "0"){ 
-        $cambiosTodos = $wpdb->get_results( "SELECT cambio_id,fecha_creada,venta_id,datos_cliente,pedido,prendas_por_regresar,cliente_ok,notas,excedente,fecha_entrega,estado FROM con_t_cambios  WHERE cambio_id =".$valor."", ARRAY_A  );
+        $cambiosTodos = $wpdb->get_results( "SELECT cliente_id,origen,cambio_id,fecha_creada,venta_id,datos_cliente,pedido,prendas_por_regresar,cliente_ok,notas,excedente,fecha_entrega,estado FROM con_t_cambios  WHERE cambio_id =".$valor."", ARRAY_A  );
         echo json_encode($cambiosTodos);       
+    }else{ 
+        $where = "";
+        $est="";
+        $tra="";
+        $tip="";
+        $cre="";
+        $ent="";
+        if($estadoFiltro != "0" || $transportador != "0" || $tipoenvio != "0" || $datetimepicker_default != "0" || $datetimepicker_defaultFiltro != "0"){
+            $where=" WHERE cambio_id > 10";
+        }
+        if($estadoFiltro != "0"){
+            $est=" AND (estado = '".$estadoFiltro."')";
+        }
+        if($transportador != "0"){
+            $tra="";
+        }
+        if($tipoenvio != "0"){
+            $tip="";
+        }
+        if($datetimepicker_default != "0"){
+            $fechaventagaarray = explode("/",$datetimepicker_default);
+            $fechaventa = $fechaventagaarray[2]."-".$fechaventagaarray[0]."-".$fechaventagaarray[1]." 00:00:00";
+            $fechaventaup = $fechaventagaarray[2]."-".$fechaventagaarray[0]."-".$fechaventagaarray[1]." 23:59:59";            
+            $cre=" AND (fecha_creada  BETWEEN  '".$fechaventa."' AND '".$fechaventaup."')";
+        }
+        if($datetimepicker_defaultFiltro != "0"){
+            $cre="";
+            $fechaventagaarray = explode("/",$datetimepicker_defaultFiltro);
+            $fechaventa = $fechaventagaarray[2]."-".$fechaventagaarray[0]."-".$fechaventagaarray[1]." 00:00:00";
+            $fechaventaup = $fechaventagaarray[2]."-".$fechaventagaarray[0]."-".$fechaventagaarray[1]." 23:59:59";    
+            $ent=" AND (fecha_entrega BETWEEN  '".$fechaventa."' AND '".$fechaventaup."')";
+        }
+        //echo "SELECT cambio_id,fecha_creada,venta_id,datos_cliente,pedido,prendas_por_regresar,cliente_ok,notas,excedente,fecha_entrega,estado FROM con_t_cambios".$where.$est.$tra.$tip.$ent.$ent."";
+        $cambiosTodos = $wpdb->get_results("SELECT cambio_id,fecha_creada,venta_id,datos_cliente,pedido,prendas_por_regresar,cliente_ok,notas,excedente,fecha_entrega,estado FROM con_t_cambios".$where.$est.$tra.$tip.$ent.$ent."", ARRAY_A);
+        echo json_encode($cambiosTodos);
+    }
+}
+
+function ordenesventajson($valor,$estadoFiltro,$tipoenvio,$datetimepicker_default,$datetimepicker_defaultFiltro,$telefono){
+    global $wpdb;
+    if($valor != "0"){ 
+        $ventas = $wpdb->get_results( "SELECT venta_id,fecha_creada,datos_cliente,pedido,cliente_ok,notas,fecha_entrega,estado FROM con_t_ventas  WHERE venta_id =".$valor."", ARRAY_A  );
+        echo json_encode($ventas);       
+    }if($telefono != "0"){ 
+        $ventascambios = [];
+        $clienteId = $wpdb->get_results( "SELECT `cliente_id` FROM `con_t_clientes` WHERE `telefono`=".$telefono."", ARRAY_A  );
+        $ventasTodos = $wpdb->get_results( "SELECT venta_id,fecha_creada,datos_cliente,pedido,cliente_ok,notas,fecha_entrega,estado FROM con_t_ventas  WHERE cliente_id =".$clienteId[0]['cliente_id']."", ARRAY_A  );
+        $consultaCambio = "";
+        if(sizeof($ventasTodos)>1){                
+            foreach ($ventasTodos as $v1){
+                $consultaCambio = $consultaCambio." OR ".$v1['venta_id'];
+            }
+        }
+        $cambiosTodos = $wpdb->get_results( "SELECT cambio_id,fecha_creada,venta_id,datos_cliente,pedido,prendas_por_regresar,cliente_ok,notas,excedente,fecha_entrega,estado FROM con_t_cambios  WHERE venta_id = ".$ventasTodos[0]['venta_id']." ".$consultaCambio."", ARRAY_A  );
+        $ventascambios['ventas'] = $ventasTodos;
+        $ventascambios['cambios'] = $cambiosTodos;
+        echo json_encode($ventascambios);       
     }else{ 
         $where = "";
         $est="";
@@ -1333,7 +1390,7 @@ function enviarparaventamayorista($valor){////C1145RB7D13S64°C1145RB4D13S64°
     }
 }
 
-function enviarparaventaplaza($valor){////C1145RB7D13S64°C1145RB4D13S64°
+function enviarparaventa($valor){////C1145RB7D13S64°C1145RB4D13S64°
     global $wpdb;
     $prendas = explode("°",$valor);
     for($j=0;$j<(sizeof($prendas)-1);$j++){     
@@ -1409,7 +1466,9 @@ if($funcion == "permisosPrincipales"){
    ventaitem($valor,$valor2);
 }if($funcion == "ordenesventa"){
    ordenesventa($valor,$valor2,$valor3,$valor4,$valor5);
-}if($funcion == "actualizar"){
+}if($funcion == "ordenesventajson"){
+    ordenesventajson($valor,$valor2,$valor3,$valor4,$valor5,$valor6);
+ }if($funcion == "actualizar"){
    actualizar($tabla,$columna,$valor,$valor2);
 }if($funcion == "restar"){
    restar($id,$valor,$valor2);
@@ -1467,8 +1526,8 @@ if($funcion == "permisosPrincipales"){
     enviarparaventamayorista($valor);
 }if($funcion == "imprimirprendasparavender"){
     imprimirprendasparavender();
-}if($funcion == "enviarparaventaplaza"){
-    enviarparaventaplaza($valor);
+}if($funcion == "enviarparaventa"){
+    enviarparaventa($valor);
 }if($funcion == "consultarsatelite"){
     consultarsatelite($valor);
 }

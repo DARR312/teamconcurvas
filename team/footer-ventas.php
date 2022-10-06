@@ -81,6 +81,7 @@
     	primeraFila.after(html);
     }
     ventas();
+
 	$('#bscar').on('change',function(){
 	    $('.removerVentas').remove();
 	    var ordenesVenta = ordenesventa($('#bscar').val(),$('#estadoFiltro').val(),$('#transportador').val(),$('#datetimepicker-default').val(),$('#datetimepicker-defaultFiltro').val());
@@ -91,7 +92,17 @@
     	ventas();
 	});
 	
-	
+	$('#buscadortelefono').on('change',function(){
+	    $('.removerVentas').remove();
+	    var ordenesVenta = ordenesventajson($('#bscar').val(),$('#estadoFiltro').val(),$('#transportador').val(),$('#datetimepicker-default').val(),$('#datetimepicker-defaultFiltro').val(),$('#bscartelefono').val());
+        var jsonVentaCambio = JSON.parse(ordenesVenta); 
+        console.log(jsonVentaCambio);
+        var primeraFila = $('#primeraFila');
+        var html = imprimirVentasCambiosjson(jsonVentaCambio,botonrevisar,pedidoUpdate,fechaUpdate,notasUpdate,usuarioUpdate);
+    	primeraFila.after(html);
+    	ventas();
+	});
+
 	$('#estadoFiltro').on('change',function(){
 	    $('.removerVentas').remove();
 	    var ordenesVenta = ordenesventa($('#bscar').val(),$('#estadoFiltro').val(),$('#transportador').val(),$('#datetimepicker-default').val(),$('#datetimepicker-defaultFiltro').val());

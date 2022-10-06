@@ -18,6 +18,16 @@ if($obtenidosArray){
         $wpdb->insert("con_t_ventastr", $datos);
     }
 }
+$obtenidosCambios = $wpdb->get_results( "SELECT cambio_id,estado,fecha_entrega FROM con_t_cambios WHERE (estado = 'Sin empacar') AND (fecha_entrega < '".$fecha."')", ARRAY_A);
+print_r($obtenidosCambios);
+if($obtenidosCambios){
+    for($i = 0;$i<sizeof($obtenidosCambios);$i++){
+        echo " Pedido: ".$obtenidosCambios[$i]['cambio_id'];
+        $updated = $wpdb->update( "con_t_cambios", array('estado' => "No empacado"), array( 'cambio_id' => $obtenidosCambios[$i]['cambio_id'] ) );
+        $datos = array("cambio_id" => $obtenidosCambios[$i]['cambio_id'] , "cambio" => 'No empacado' , "usuario_id" => 1 , "fecha_hora" => $fecha , "campo_cambio" => "estado");
+        $wpdb->insert("con_t_cambiostr", $datos);
+    }
+}
 /*******************************NO EMPACADO*******************************************************/
 /*$obtenidosArray = $wpdb->get_results( "SELECT estado,referencia_id,COUNT(*) FROM con_t_trprendas GROUP BY estado,referencia_id ORDER BY con_t_trprendas.referencia_id DESC", ARRAY_A);//133
 //print_r($obtenidosArray);

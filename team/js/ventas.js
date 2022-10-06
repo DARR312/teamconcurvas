@@ -470,6 +470,85 @@ function imprimiritemventas(ventaItems){
     html = html + imprimir +"</table></div>";
     return html;*/
 };
+function imprimirVentasCambiosjson(jsonVentaCambio,botonrevisar,pedidoUpdate,fechaUpdate,notasUpdate,usuarioUpdate){
+    var jsonVentas = jsonVentaCambio.ventas; 
+    var jsonCambios = jsonVentaCambio.cambios; 
+    console.log(jsonVentas);
+    console.log(jsonCambios);
+    var datosClienteUnicos = jsonVentas[0].datos_cliente.split('°');
+    var ok = 0;
+    var press = 0;
+    if(jsonVentas[0].cliente_ok>0){
+        ok = 1;
+        press = jsonVentas[0].cliente_ok;
+        botonrevisar = "cliente_ok1";
+    }else{
+        pr = jsonVentas[0].pedido.split("%");
+        press = pr[1];
+        botonrevisar = "revisarPago";//<div class='col-lg-1 col-md-1 col-sm-1 col-xs-12 cliente_ok"+arrayOrden[7]+"'><button class='botonmodal "+botonrevisar+"' type='button' name='"+arrayOrden[0]+"'>R</button></div>
+    }
+    var precioFormato = formatoPrecio(press);
+    var notas = jsonVentas[0].notas;
+    var direcc = datosClienteUnicos[3];
+    var compleDirecc = datosClienteUnicos[4];
+    var estado = jsonVentas[0].estado;
+    var html = "<div class='col-lg-12 col-md-12 col-sm-12 col-xs-12 removerVentas' id='primeraVenta'><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1' name='Estado'><p class='letra18pt-pc'>"+estado+"</p></div><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1' name='Orden'><p class='letra18pt-pc'>"+jsonVentas[0].venta_id+"</p></div><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1' name='Cliente'><p class='letra18pt-pc "+usuarioUpdate+"' name='"+jsonVentas[0].cliente_id+"%"+jsonVentas[0].venta_id+"'>"+datosClienteUnicos[1]+" "+datosClienteUnicos[2]+"</p></div><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1' name='Dirección'><p class='letra18pt-pc'>"+direcc+"</p></div><div class='col-lg-2 col-md-2 col-sm-2 col-xs-2' name='Adición'><p class='letra18pt-pc'>"+compleDirecc+"</p></div><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1' name='Ciudad'><p class='letra18pt-pc'>"+datosClienteUnicos[5]+"</p></div><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1' name='Pedido'><p class='letra18pt-pc "+pedidoUpdate+"' name='"+jsonVentas[0].venta_id+"'>"+jsonVentas[0].cliente_id+"</p></div><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1' name='Precio'><p class='letra18pt-pc dinerook"+ok+"'>"+precioFormato+"</p></div><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1' name='Entrega'><p class='letra18pt-pc "+fechaUpdate+"' name='"+jsonVentas[0].venta_id+"'>"+jsonVentas[0].fecha_entrega+"</p></div><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1' name='Notas'><p class='letra18pt-pc "+notasUpdate+"' name='"+jsonVentas[0].venta_id+"'>."+notas+"</p></div><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1' name='Origen'><p class='letra18pt-pc'>"+jsonVentas[0].origen+"</p></div></div>";
+    var imprimir = "<div id='impresionParaempacar' style='display: none;' class='removerVentas'><table border='1'><tr><th>Orden</th><th>Cliente</th><th>Dirección</th><th>Complemento</th><th>Ciudad</th><th>Teléfono</th><th>Pedido</th><th>Notas</th><th>Precio</th><th>Pedido pago</th></tr><tr><td>"+jsonVentas[0].venta_id+"</td><td>"+datosClienteUnicos[1]+"</td><td>"+datosClienteUnicos[3]+"</td><td>"+datosClienteUnicos[4]+"</td><td>"+datosClienteUnicos[5]+"</td><td>"+datosClienteUnicos[2]+"</td><td>"+jsonVentas[0].cliente_ok+"</td><td>"+jsonVentas[0].origen+"</td><td>"+precioFormato+"</td><td>"+jsonVentas[0].origen+"</td></tr>";
+    for(i=1;i<jsonVentas.length;i++){
+        var datosClienteUnicos = jsonVentas[0].datos_cliente.split('°');
+        var ok = 0;
+        var press = 0;
+        if(jsonVentas[i].cliente_ok>0){
+            ok = 1;
+            press = jsonVentas[i].cliente_ok;
+            botonrevisar = "cliente_ok1";
+        }else{
+            pr = jsonVentas[i].pedido.split("%");
+            press = pr[1];
+            botonrevisar = "revisarPago";//<div class='col-lg-1 col-md-1 col-sm-1 col-xs-12 cliente_ok"+arrayOrden[7]+"'><button class='botonmodal "+botonrevisar+"' type='button' name='"+arrayOrden[0]+"'>R</button></div>
+        }
+        var precioFormato = formatoPrecio(press);
+        var notas = jsonVentas[i].notas;
+        var direcc = datosClienteUnicos[3];
+        var compleDirecc = datosClienteUnicos[4];
+        var estado = jsonVentas[0].estado;
+        var html = html+"<div class='col-lg-12 col-md-12 col-sm-12 col-xs-12 removerVentas'><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1' name='Estado'><p class='letra18pt-pc'>"+estado+"</p></div><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1' name='Orden'><p class='letra18pt-pc'>"+jsonVentas[i].venta_id+"</p></div><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1' name='Cliente'><p class='letra18pt-pc "+usuarioUpdate+"' name='"+jsonVentas[i].cliente_id+"%"+jsonVentas[i].venta_id+"'>"+datosClienteUnicos[1]+" "+datosClienteUnicos[2]+"</p></div><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1' name='Dirección'><p class='letra18pt-pc'>"+direcc+"</p></div><div class='col-lg-2 col-md-2 col-sm-2 col-xs-2' name='Adición'><p class='letra18pt-pc'>"+compleDirecc+"</p></div><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1' name='Ciudad'><p class='letra18pt-pc'>"+datosClienteUnicos[5]+"</p></div><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1' name='Pedido'><p class='letra18pt-pc "+pedidoUpdate+"' name='"+jsonVentas[i].venta_id+"'>"+jsonVentas[i].cliente_id+"</p></div><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1' name='Precio'><p class='letra18pt-pc dinerook"+ok+"'>"+precioFormato+"</p></div><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1' name='Entrega'><p class='letra18pt-pc "+fechaUpdate+"' name='"+jsonVentas[i].venta_id+"'>"+jsonVentas[i].fecha_entrega+"</p></div><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1' name='Notas'><p class='letra18pt-pc "+notasUpdate+"' name='"+jsonVentas[i].venta_id+"'>."+notas+"</p></div><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1' name='Origen'><p class='letra18pt-pc'>"+jsonVentas[i].origen+"</p></div></div>";
+        var imprimir = imprimir+"<tr><td>"+jsonVentas[i].venta_id+"</td><td>"+datosClienteUnicos[1]+"</td><td>"+datosClienteUnicos[3]+"</td><td>"+datosClienteUnicos[4]+"</td><td>"+datosClienteUnicos[5]+"</td><td>"+datosClienteUnicos[2]+"</td><td>"+jsonVentas[i].cliente_ok+"</td><td>"+jsonVentas[i].origen+"</td><td>"+precioFormato+"</td><td>"+jsonVentas[i].origen+"</td></tr>";
+    }
+    html = html + imprimir +"</table></div>";
+    var jsonCambios = jsonVentaCambio.cambios; 
+    console.log(jsonCambios);
+    var ok = 0;
+    var signo = "";
+    if(jsonCambios[0].excedente < 0){
+        jsonCambios[0].excedente = -1*jsonCambios[0].excedente;
+        signo = "-";
+    }
+    var precioFormato = formatoPrecio(jsonCambios[0].excedente);
+    precioFormato = signo+precioFormato;
+    var datosdelcliente = jsonCambios[0].datos_cliente.split("°");
+    html = html + "<div class='col-lg-12 col-md-12 col-sm-12 col-xs-12'><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'><p class='letra18pt-pc negrillaUno'>Estado</p></div><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'><p class='letra18pt-pc negrillaUno'>Orden de cambio</p></div><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'><p class='letra18pt-pc negrillaUno'>Orden de venta</p></div><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'><p class='letra18pt-pc negrillaUno'>Cliente</p></div><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'><p class='letra18pt-pc negrillaUno'>Dirección</p></div><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'><p class='letra18pt-pc negrillaUno'>Adición</p></div><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'><p class='letra18pt-pc negrillaUno'>Ciudad</p></div><div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'><p class='letra18pt-pc negrillaUno'>Pedido</p></div><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'><p class='letra18pt-pc negrillaUno'>Excedente</p></div><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'><p class='letra18pt-pc negrillaUno'>Entrega</p></div><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'><p class='letra18pt-pc negrillaUno'>Notas</p></div></div>";
+    html = html +"<div class='col-lg-12 col-md-12 col-sm-12 col-xs-12 removerCambios'> <div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'><p class='letra18pt-pc'>"+jsonCambios[0].estado+"</p></div><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'><p class='letra18pt-pc'>C"+jsonCambios[0].cambio_id+"</p></div><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'><p class='letra18pt-pc'>"+jsonCambios[0].venta_id+"</p></div><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'><p class='letra18pt-pc "+usuarioUpdate+"' name='"+jsonCambios[0].venta_id+"'>"+datosdelcliente[1]+" "+datosdelcliente[2]+"</p></div><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'><p class='letra18pt-pc'>"+datosdelcliente[3]+"</p></div><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'><p class='letra18pt-pc'>"+datosdelcliente[4]+"</p></div><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'><p class='letra18pt-pc'>"+datosdelcliente[5].substr(0, datosdelcliente[5].length - 1)+"</p></div><div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'><p class='letra18pt-pc "+pedidoUpdate+"' name='"+jsonCambios[0].cambio_id+"'>"+jsonCambios[0].pedido+"</p></div><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'><p class='letra18pt-pc dinerook"+ok+"'>"+precioFormato+"</p></div><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'><p class='letra18pt-pc "+fechaUpdate+"' name='"+jsonCambios[0].cambio_id+"'>"+jsonCambios[0].fecha_entrega+"</p></div><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'><p class='letra18pt-pc "+notasUpdate+"' name='"+jsonCambios[0].cambio_id+"'>."+jsonCambios[0].notas+"</p></div></div>";
+    //imprimir = "<div id='impresionParaempacar' style='display: none;' class='removerCambios'><table border='1'><tr><th>Cambio</th><th>Cliente</th><th>Dirección</th><th>Complemento</th><th>Ciudad</th><th>Teléfono</th><th>Pedido</th><th>Notas</th><th>Excedente</th></tr><tr><td>C"+jsonCambios[0].cambio_id+"</td><td>"+datosdelcliente[1]+"</td><td>"+datosdelcliente[3]+"</td><td>"+datosdelcliente[4]+"</td><td>"+datosdelcliente[5].substr(0, datosdelcliente[5].length - 1)+"</td><td>"+datosdelcliente[2]+"</td><td>"+jsonCambios[0].pedido+"</td><td>"+jsonCambios[0].notas+"</td><td>"+precioFormato+"</td></tr>";
+    if(jsonCambios.length>0){
+        for(i=1;i<jsonCambios.length;i++){
+            console.log(jsonCambios[i]);
+            var ok = 0;
+            var signo = "";
+            if(jsonCambios[i].excedente < 0){
+                jsonCambios[i].excedente = -1*jsonCambios[i].excedente;
+                signo = "-";
+            }
+            var precioFormato = formatoPrecio(jsonCambios[i].excedente);
+            precioFormato = signo+precioFormato;
+            var datosdelcliente = jsonCambios[i].datos_cliente.split("°");
+            html = html+"<div class='col-lg-12 col-md-12 col-sm-12 col-xs-12 removerCambios'><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'><p class='letra18pt-pc'>"+jsonCambios[i].estado+"</p></div><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'><p class='letra18pt-pc'>C"+jsonCambios[i].cambio_id+"</p></div><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'><p class='letra18pt-pc'>"+jsonCambios[i].venta_id+"</p></div><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'><p class='letra18pt-pc "+usuarioUpdate+"' name='"+jsonCambios[i].venta_id+"'>"+datosdelcliente[1]+" "+datosdelcliente[2]+"</p></div><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'><p class='letra18pt-pc'>"+datosdelcliente[3]+"</p></div><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'><p class='letra18pt-pc'>"+datosdelcliente[4]+"</p></div><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'><p class='letra18pt-pc'>"+datosdelcliente[5].substr(0, datosdelcliente[5].length - 1)+"</p></div><div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'><p class='letra18pt-pc "+pedidoUpdate+"' name='"+jsonCambios[i].cambio_id+"'>"+jsonCambios[i].pedido+"</p></div><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'><p class='letra18pt-pc dinerook"+ok+"'>"+precioFormato+"</p></div><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'><p class='letra18pt-pc "+fechaUpdate+"' name='"+jsonCambios[i].cambio_id+"'>"+jsonCambios[i].fecha_entrega+"</p></div><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'><p class='letra18pt-pc "+notasUpdate+"' name='"+jsonCambios[i].cambio_id+"'>."+jsonCambios[i].notas+"</p></div></div>";
+            //imprimir = imprimir+"<tr><td>C"+jsonCambios[i].cambio_id+"</td><td>"+datosdelcliente[1]+"</td><td>"+datosdelcliente[3]+"</td><td>"+datosdelcliente[4]+"</td><td>"+datosdelcliente[5].substr(0, datosdelcliente[5].length - 1)+"</td><td>"+datosdelcliente[2]+"</td><td>"+jsonCambios[i].pedido+"</td><td>"+jsonCambios[i].notas+"</td><td>"+precioFormato+"</td></tr>";
+        }        
+    }
+    html = html + imprimir +"</table></div>";
+    return html;
+};
 function minmax(id) {
   var valor = $("#"+id).val();//265%Abbie Negro SM%140000
   var valArray = valor.split("%");

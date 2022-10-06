@@ -133,12 +133,7 @@
     $('#enviarParaventa').on('click', function() {
         var prendas = ($('#escaneados p'));
         enviarparaventa(prendas);
-        // for(var i = 0;i<prendasCantidad;i++){
-        //     var prenda = $("#escaneados p:eq("+i+")").text();
-        //     pr = pr+prenda+"°";
-        // }//C1145RB4D13S64°C1145RB7D13S64°
-        // enviarparaventamayorista(pr);
-        // $('.remover').remove();
+        $('.remover').remove();
     });           
 })
 </script>
