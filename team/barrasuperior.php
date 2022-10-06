@@ -8,13 +8,14 @@
             			<input class="form-control" type="text" id="bscar" name="bscar" required=""><span class="pmd-textfield-focused"></span>
     			    </div>
     			</div>
+                <?php if(get_the_title() == "Ventas" ||){ ?>
                 <div class="form-group pmd-textfield pmd-textfield-floating-label">
                     <div class='col-lg-2 col-md-2 col-sm-2 col-xs-12' id='buscadortelefono'>
             			<label for="nombre" class="control-label letra18pt-pc">Buscar por teléfono</label>
             			<input class="form-control" type="text" id="bscartelefono" name="bscar" required=""><span class="pmd-textfield-focused"></span>
     			    </div>
     			</div>
-    			 <?php if(get_the_title() == "Ventas" || get_the_title() == "Cambios" || get_the_title() == "Ventas mayorista"){ 
+    			 <?php} if(get_the_title() == "Ventas" || get_the_title() == "Cambios" || get_the_title() == "Ventas mayorista"){ 
     			    $user_info = get_users( array( 'role__in' => array( 'transportador') ) );
                     $transport = $user_info[0]->ID;
                     for($i = 1;$i < sizeof($user_info);$i++){
