@@ -415,7 +415,7 @@
     });
     $('#cargarInforme').on('click', function(){ 
         var usuarioCell = $('#usuarioCell').attr("name");
-        console.log(usuariocell);
+        console.log(usuarioCell);
         var cantidadInfo = $("#informe p").length;
         for(var i = 3;i<cantidadInfo;i=i+3){
             var id = $("#informe p:eq("+i+")").text();
