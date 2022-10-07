@@ -1241,14 +1241,14 @@ function imprimirResumen(){
     global $wpdb;
     $referenciasArray = $wpdb->get_results( "SELECT DISTINCT referencia_id FROM con_t_trprendas ORDER BY referencia_id ASC", ARRAY_A);
     $descripcion = $wpdb->get_results( "SELECT nombre,color,talla,precio_detal FROM con_t_resumen WHERE referencia_id = ".$referenciasArray[1]['referencia_id']."", ARRAY_A);
-    $fabrica = $wpdb->get_results( "SELECT COUNT(*) FROM con_t_trprendas WHERE (referencia_id = ".$referenciasArray[0]['referencia_id'].") AND (estado = 'En Producción')", ARRAY_A); 
+    $fabrica = $wpdb->get_results( "SELECT COUNT(*) FROM con_t_trprendas WHERE (referencia_id = ".$referenciasArray[0]['referencia_id'].") AND  ((estado = 'En Producción')  || (estado = 'En Bodega'))", ARRAY_A); 
     $bodega = $wpdb->get_results( "SELECT COUNT(*) FROM con_t_trprendas WHERE (referencia_id = ".$referenciasArray[0]['referencia_id'].") AND ((estado = 'En Operaciones') || (estado = 'En Empaques'))", ARRAY_A);   
     $plaza = $wpdb->get_results( "SELECT COUNT(*) FROM con_t_trprendas WHERE (referencia_id = ".$referenciasArray[0]['referencia_id'].") AND (estado = 'En Plaza de las américas')", ARRAY_A);  
     $satel = $wpdb->get_results( "SELECT COUNT(*) FROM con_t_trprendas WHERE (referencia_id = ".$referenciasArray[0]['referencia_id'].") AND (estado = 'En satélite')", ARRAY_A);  
     $html = "<div id='listadoResumen'><div class='col-lg-12 col-md-12 col-sm-12 col-xs-12 removerCodigos' id='primerCodigo'><div class='col-lg-4 col-md-4 col-sm-4 col-xs-4'><p class='letra18pt-pc'>".$descripcion[0]['nombre']." ".$descripcion[0]['color']." ".$descripcion[0]['talla']."</p></div><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'><p class='letra18pt-pc'>".$fabrica[0]['COUNT(*)']."</p></div><div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'><p class='letra18pt-pc'>".$bodega[0]['COUNT(*)']."</p></div><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'><p class='letra18pt-pc'>".$plaza[0]['COUNT(*)']."</p></div><div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'><p class='letra18pt-pc'>".$satel[0]['COUNT(*)']."</p></div><div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'><p class='letra18pt-pc'>".$descripcion[0]['precio_detal']."</p></div></div>";
     for($j=2;$j<sizeof($referenciasArray);$j++){
         $descripcion = $wpdb->get_results( "SELECT nombre,color,talla,precio_detal FROM con_t_resumen WHERE referencia_id = ".$referenciasArray[$j]['referencia_id']."", ARRAY_A);
-        $fabrica = $wpdb->get_results( "SELECT COUNT(*) FROM con_t_trprendas WHERE (referencia_id = ".$referenciasArray[$j]['referencia_id'].") AND (estado = 'En Producción')", ARRAY_A);  
+        $fabrica = $wpdb->get_results( "SELECT COUNT(*) FROM con_t_trprendas WHERE (referencia_id = ".$referenciasArray[$j]['referencia_id'].") AND  ((estado = 'En Producción')  || (estado = 'En Bodega'))", ARRAY_A);  
         $bodega = $wpdb->get_results( "SELECT COUNT(*) FROM con_t_trprendas WHERE (referencia_id = ".$referenciasArray[$j]['referencia_id'].") AND ((estado = 'En Operaciones') || (estado = 'En Empaques'))", ARRAY_A);  
         $plaza = $wpdb->get_results( "SELECT COUNT(*) FROM con_t_trprendas WHERE (referencia_id = ".$referenciasArray[$j]['referencia_id'].") AND (estado = 'En Plaza de las américas')", ARRAY_A);  
         $satel = $wpdb->get_results( "SELECT COUNT(*) FROM con_t_trprendas WHERE (referencia_id = ".$referenciasArray[$j]['referencia_id'].") AND (estado = 'En satélite')", ARRAY_A);  
@@ -1261,14 +1261,14 @@ function imprimirResumenCell(){
     global $wpdb;
     $referenciasArray = $wpdb->get_results( "SELECT DISTINCT referencia_id FROM con_t_trprendas ORDER BY referencia_id ASC", ARRAY_A);
     $descripcion = $wpdb->get_results( "SELECT nombre,color,talla,precio_detal FROM con_t_resumen WHERE referencia_id = ".$referenciasArray[1]['referencia_id']."", ARRAY_A);
-    $fabrica = $wpdb->get_results( "SELECT COUNT(*) FROM con_t_trprendas WHERE (referencia_id = ".$referenciasArray[0]['referencia_id'].") AND (estado = 'En Producción')", ARRAY_A); 
+    $fabrica = $wpdb->get_results( "SELECT COUNT(*) FROM con_t_trprendas WHERE (referencia_id = ".$referenciasArray[0]['referencia_id'].") AND  ((estado = 'En Producción')  || (estado = 'En Bodega'))", ARRAY_A); 
     $bodega = $wpdb->get_results( "SELECT COUNT(*) FROM con_t_trprendas WHERE (referencia_id = ".$referenciasArray[0]['referencia_id'].") AND ((estado = 'En Operaciones') || (estado = 'En Empaques'))", ARRAY_A);   
     $plaza = $wpdb->get_results( "SELECT COUNT(*) FROM con_t_trprendas WHERE (referencia_id = ".$referenciasArray[0]['referencia_id'].") AND (estado = 'En Plaza de las américas')", ARRAY_A);  
     $satel = $wpdb->get_results( "SELECT COUNT(*) FROM con_t_trprendas WHERE (referencia_id = ".$referenciasArray[0]['referencia_id'].") AND (estado = 'En satélite')", ARRAY_A);  
     $html = "<div class='col-lg-12 col-md-12 col-sm-12 col-xs-12 removerCodigos fila' id='primerCodigoCell'><div class='col-lg-12 col-md-12 col-sm-12 col-xs-12'><p class='letra18pt-pc'>".$descripcion[0]['nombre']." ".$descripcion[0]['color']." ".$descripcion[0]['talla']."</p></div><div class='col-lg-10 col-md-10 col-sm-10 col-xs-10'><p class='letra18pt-pc'>Fábrica</p></div><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'><p class='letra18pt-pc'>".$fabrica[0]['COUNT(*)']."</p></div><div class='col-lg-10 col-md-10 col-sm-10 col-xs-10'><p class='letra18pt-pc'>Bodega</p></div><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'><p class='letra18pt-pc'>".$bodega[0]['COUNT(*)']."</p></div><div class='col-lg-10 col-md-10 col-sm-10 col-xs-10'><p class='letra18pt-pc'>Plaza</p></div><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'><p class='letra18pt-pc'>".$plaza[0]['COUNT(*)']."</p></div><div class='col-lg-10 col-md-10 col-sm-10 col-xs-10'><p class='letra18pt-pc'>Satélite</p></div><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'><p class='letra18pt-pc'>".$satel[0]['COUNT(*)']."</p></div><div class='col-lg-10 col-md-10 col-sm-10 col-xs-10'><p class='letra18pt-pc'>Precio</p></div><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'><p class='letra18pt-pc'>".$descripcion[0]['precio_detal']."</p></div></div>";
     for($j=2;$j<sizeof($referenciasArray);$j++){
         $descripcion = $wpdb->get_results( "SELECT nombre,color,talla,precio_detal FROM con_t_resumen WHERE referencia_id = ".$referenciasArray[$j]['referencia_id']."", ARRAY_A);
-        $fabrica = $wpdb->get_results( "SELECT COUNT(*) FROM con_t_trprendas WHERE (referencia_id = ".$referenciasArray[$j]['referencia_id'].") AND (estado = 'En Producción')", ARRAY_A);  
+        $fabrica = $wpdb->get_results( "SELECT COUNT(*) FROM con_t_trprendas WHERE (referencia_id = ".$referenciasArray[$j]['referencia_id'].") AND  ((estado = 'En Producción')  || (estado = 'En Bodega'))", ARRAY_A);  
         $bodega = $wpdb->get_results( "SELECT COUNT(*) FROM con_t_trprendas WHERE (referencia_id = ".$referenciasArray[$j]['referencia_id'].") AND ((estado = 'En Operaciones') || (estado = 'En Empaques'))", ARRAY_A);  
         $plaza = $wpdb->get_results( "SELECT COUNT(*) FROM con_t_trprendas WHERE (referencia_id = ".$referenciasArray[$j]['referencia_id'].") AND (estado = 'En Plaza de las américas')", ARRAY_A);  
         $satel = $wpdb->get_results( "SELECT COUNT(*) FROM con_t_trprendas WHERE (referencia_id = ".$referenciasArray[$j]['referencia_id'].") AND (estado = 'En satélite')", ARRAY_A);  
@@ -1354,7 +1354,7 @@ function revisarfechasatelite($valor){
     $verificadas = array();
     for($i=1;$i<(sizeof($referenciasArray));$i++){
         $descripcion = $wpdb->get_results( "SELECT nombre,color,talla,precio_detal FROM con_t_resumen WHERE referencia_id = ".$referenciasArray[$i]."", ARRAY_A);
-        $fabrica = $wpdb->get_results( "SELECT COUNT(*) FROM con_t_trprendas WHERE (referencia_id = ".$referenciasArray[$i].") AND (estado = 'En Producción')", ARRAY_A);  
+        $fabrica = $wpdb->get_results( "SELECT COUNT(*) FROM con_t_trprendas WHERE (referencia_id = ".$referenciasArray[$i].") AND  ((estado = 'En Producción')  || (estado = 'En Bodega'))", ARRAY_A);  
         $bodega = $wpdb->get_results( "SELECT COUNT(*) FROM con_t_trprendas WHERE (referencia_id = ".$referenciasArray[$i].") AND ((estado = 'En Operaciones') || (estado = 'En Empaques'))", ARRAY_A);  
         $plaza = $wpdb->get_results( "SELECT COUNT(*) FROM con_t_trprendas WHERE (referencia_id = ".$referenciasArray[$i].") AND (estado = 'En Plaza de las américas')", ARRAY_A);  
         $separados = $wpdb->get_results( "SELECT COUNT(*) FROM con_t_ventaitem WHERE (prenda_id = ".$referenciasArray[$i].") AND (estado_id = 1)", ARRAY_A);//133
@@ -1406,6 +1406,13 @@ function imprimirprendasparavender(){////C1145RB7D13S64°C1145RB4D13S64°
     $agregagos = $wpdb->get_results( "SELECT `ID`, `codigo`, `valor`, `descripcion` FROM con_t_prendasmayorista WHERE agregada = 0", ARRAY_A);//133
     echo json_encode($agregagos);
 }
+
+function imprimirprendasparavenderdetal(){////C1145RB7D13S64°C1145RB4D13S64°
+    global $wpdb;
+    $agregagos = $wpdb->get_results( "SELECT `ID`, `codigo`, `valor`, `descripcion` FROM con_t_prendasplaza WHERE agregada = 0", ARRAY_A);//133
+    echo json_encode($agregagos);
+}
+
 
 function consultarsatelite($valor){////C1145RB7D13S64°C1145RB4D13S64°
     global $wpdb;
@@ -1526,6 +1533,8 @@ if($funcion == "permisosPrincipales"){
     enviarparaventamayorista($valor);
 }if($funcion == "imprimirprendasparavender"){
     imprimirprendasparavender();
+}if($funcion == "imprimirprendasparavenderdetal"){
+    imprimirprendasparavenderdetal();
 }if($funcion == "enviarparaventa"){
     enviarparaventa($valor);
 }if($funcion == "consultarsatelite"){

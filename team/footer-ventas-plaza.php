@@ -106,8 +106,8 @@
         $('#popup').fadeOut('slow');         
         $('#popup4').fadeIn('slow'); 
         $('.reinicia').remove();
-        imprimirprendasparavender();     
-        return false;     
+        imprimirprendasparavenderdetal(); 
+        return false;
     });  
     $('#close4').on('click', function(){   
         $('#popup4').fadeOut('slow');      
@@ -117,7 +117,13 @@
     });     
     $('#agregarprendaspedido').on('click', function(){  
         var check = $("#popup4 input"); 
-        console.log(check);
+        var valor = 0;
+        for (let i = 0; i < check.length; i++) {
+            valor = valor + check[i].
+            console.log(check[i].checked);
+            console.log(check);
+        }
+        
         return false;     
     });
     /*************************** Enviar para venta (CELULAR) *******************************/

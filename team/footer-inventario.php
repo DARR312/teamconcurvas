@@ -417,11 +417,14 @@
         var usuarioCell = $('#usuarioCell').attr("name");
         console.log(usuarioCell);
         var cantidadInfo = $("#informe p").length;
+        console.log(cantidadInfo);
         for(var i = 3;i<cantidadInfo;i=i+3){
             var id = $("#informe p:eq("+i+")").text();
             var estado = $("#informe p:eq("+(i+1)+")").text();
             var notas = $("#informe p:eq("+(i+2)+")").text();
+            console.log(id);
             if(id[0]=="C"){
+                console.log(estado);
                 if(estado == "Cancelada"){
                     actualizar("cambio_nota",nota,id,usuarioCell);
                     actualizar("cambio_estado","En ruta",id.slice(1),usuarioCell);
@@ -457,6 +460,7 @@
                     $("#informe p:eq("+(i+2)+")").css('color', 'green');
                 }
             }else{
+                console.log(estado);
                 if(estado == "Cancelada"){
                     actualizar("venta_nota",notas,id,usuarioCell);
                     actualizar("venta_estado","En ruta",id,usuarioCell);
