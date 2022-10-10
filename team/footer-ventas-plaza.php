@@ -37,13 +37,17 @@
     var codigos_prendas = jsonVentas[jsonVentas.length-1].codigos_prendas;
     var jsoncodigos_prendas = JSON.parse(codigos_prendas);
     var pedido = "";
-    for (let j = 0; j < jsoncodigos_prendas.length; j++) {
+    console.log(jsoncodigos_prendas);
+    for (let j = 0; j < Object.keys(jsoncodigos_prendas).length; j++) {
+        console.log(jsoncodigos_prendas[j]);
         pedido = pedido + " " + jsoncodigos_prendas[j].codigo+" "+jsoncodigos_prendas[j].descripcion;
     }
     var metodos_pago = jsonVentas[jsonVentas.length-1].metodos_pago;
     var jsonmetodos_pagos = JSON.parse(metodos_pago);
     var vmp = "";
-    for (let j = 0; j < jsonmetodos_pagos.length; j++) {
+    console.log(jsonmetodos_pagos);
+    for (let j = 0; j < Object.keys(jsonmetodos_pagos).length; j++) {
+        console.log(jsonmetodos_pagos[j]);
         vmp = vmp + " " + jsonmetodos_pagos[j].valor+" método "+jsonmetodos_pagos[j].metodo;
     }
     var html = "<div class='col-lg-12 col-md-12 col-sm-12 col-xs-12' id='primeraventa'><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'><p class='letra18pt-pc negrillaUno'>"+jsonVentas[jsonVentas.length-1].ID+"</p></div><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'><p class='letra18pt-pc negrillaUno'>"+jsondatoscliente.nombre+"</p></div><div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'><p class='letra18pt-pc negrillaUno'>"+jsondatoscliente.telefono+"</p></div><div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'><p class='letra18pt-pc negrillaUno'>"+jsondatoscliente.correo+"</p></div><div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'> <p class='letra18pt-pc negrillaUno'>"+pedido+"</p></div><div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'><p class='letra18pt-pc negrillaUno'>"+jsonVentas[jsonVentas.length-1].valor_total+" "+vmp+"</p></div><div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'><p class='letra18pt-pc negrillaUno'>"+jsonVentas[jsonVentas.length-1].notas+"</p></div></div></div>";
@@ -53,13 +57,15 @@
         var codigos_prendas = jsonVentas[i].codigos_prendas;
         var jsoncodigos_prendas = JSON.parse(codigos_prendas);
         var pedido = "";
-        for (let j = 0; j < jsoncodigos_prendas.length; j++) {
+        console.log(jsoncodigos_prendas);
+        for (let j = 0; j < Object.keys(jsoncodigos_prendas).length; j++) {
             pedido = pedido + " " + jsoncodigos_prendas[j].codigo+" "+jsoncodigos_prendas[j].descripcion;
         }
         var metodos_pago = jsonVentas[i].metodos_pago;
         var jsonmetodos_pagos = JSON.parse(metodos_pago);
         var vmp = "";
-        for (let j = 0; j < jsonmetodos_pagos.length; j++) {
+        console.log(jsoncodigos_prendas);
+        for (let j = 0; j < Object.keys(jsonmetodos_pagos).length; j++) {
             vmp = vmp + " " + jsonmetodos_pagos[j].valor+" método "+jsonmetodos_pagos[j].metodo;
         }
         html = html +"<div class='col-lg-12 col-md-12 col-sm-12 col-xs-12'><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'><p class='letra18pt-pc negrillaUno'>"+jsonVentas[i].ID+"</p></div><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'><p class='letra18pt-pc negrillaUno'>"+jsondatoscliente.nombre+"</p></div><div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'><p class='letra18pt-pc negrillaUno'>"+jsondatoscliente.telefono+"</p></div><div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'><p class='letra18pt-pc negrillaUno'>"+jsondatoscliente.correo+"</p></div><div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'> <p class='letra18pt-pc negrillaUno'>"+pedido+"</p></div><div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'><p class='letra18pt-pc negrillaUno'>"+jsonVentas[i].valor_total+" "+vmp+"</p></div><div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'><p class='letra18pt-pc negrillaUno'>"+jsonVentas[i].notas+"</p></div></div></div>";
