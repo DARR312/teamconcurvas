@@ -82,7 +82,7 @@
     }
     $('#crearReferencia').on('click', function(){   
         $('.remover').remove();
-        $('#referenciaNueva').css('display', 'block');
+        $('#referenciaNueva').'display', 'block');
         $('#codigosNuevos').css('display', 'none');
         $('#resultados').css('display', 'none');
         $('#btnExport').css('display', 'none');

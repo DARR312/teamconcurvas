@@ -30,16 +30,44 @@
         }
     }
     
-    $('#agregarVenta').on('click', function(){         
+    $('#agregarVenta').on('click', function(){    
+        var ids = obtenerDatajson('ID,descripcion','con_t_metodospago','variasfilasunicas','0','0');
+        var jsonIds = JSON.parse(ids);
+        console.log(jsonIds);
+        var option = "";
+        for (let i = 0; i < jsonIds.length; i++) {
+            option = option + "<option value='"+jsonIds[i].ID+"'>"+jsonIds[i].descripcion+"</option>"
+        }
+        var html = "<div class='col-lg-4 col-md-4 col-sm-4 col-xs-4 metodop' id='v0'><div class='form-group pmd-textfield pmd-textfield-floating-label'><label class='control-label letra18pt-pc' for='regular1'>Valor</label><input class='form-control' type='number' id='valor0' name='valor' required='><span class='pmd-textfield-focused'></span></div></div><div class='col-lg-8 col-md-8 col-sm-8 col-xs-8 metodop' id='metodo0'><div class='form-group pmd-textfield pmd-textfield-floating-label'><label class='control-label letra18pt-pc' for='regular1'>Metodo</label><select class='form-control letra18pt-pc metodo' type='select' name='metodo' id='0' form='formularioCliente' required=''><option value='S'>Seleccione un opción de pago</option></select><span class='pmd-textfield-focused'></span></div></div>";
+        for (let i = 1; i < jsonIds.length; i++) {
+            html = html+"<div class='col-lg-4 col-md-4 col-sm-4 col-xs-4 metodop' id='v"+i+"' style='display: none;'><div class='form-group pmd-textfield pmd-textfield-floating-label'><label class='control-label letra18pt-pc' for='regular1'>Valor</label><input class='form-control' type='number' id='valor"+i+"' name='valor' required='><span class='pmd-textfield-focused'></span></div></div><div class='col-lg-8 col-md-8 col-sm-8 col-xs-8 metodop' id='metodo"+i+"' style='display: none;'><div class='form-group pmd-textfield pmd-textfield-floating-label'><label class='control-label letra18pt-pc' for='regular1'>Metodo</label><select class='form-control letra18pt-pc metodo' type='select' name='metodo' id='"+i+"' form='formularioCliente' required=''><option value='S'>Seleccione un opción de pago</option></select><span class='pmd-textfield-focused'></span></div></div>";            
+        }
+        $('#vendedordiv').after(html);
+        $('.metodo').append(option);
+        var vendedores = obtenerDatajson('ID,display_name ','con_users','variasfilasunicas','0','0');
+        var jsonvendedores = JSON.parse(vendedores);
+        console.log(jsonvendedores);
+        var vendehtml = "";
+        for (let i = 0; i < jsonvendedores.length; i++) {
+            vendehtml = vendehtml+"<option value='"+jsonvendedores[i].ID+"'>"+jsonvendedores[i].display_name+"</option>";            
+        }
+        $('#vendedorselect').append(vendehtml);
         $('#popup').fadeIn('slow');         
         $('.popup-overlay').fadeIn('slow');         
         $('.popup-overlay').height($(window).height());    
+        $('.metodo').on('change', function(){  
+            var id = parseInt(this.id)+1;
+            console.log(id);
+            $("#v"+id+"").css('display', 'block');
+            $("#metodo"+id+"").css('display', 'block');
+        });    
         return false;     
     });      
     $('#close').on('click', function(){         
         $('#popup').fadeOut('slow');         
         $('.popup-overlay').fadeOut('slow');      
         $('.reinicia').remove(); 
+        $('.metodop').remove(); 
         return false;     
     });
     $('#agregarCliente').on('click', function(){ 
@@ -55,6 +83,60 @@
         ciudad1.append(html);
         return false;     
     });      
+    $('#agregarPedido').on('click', function(){//cliente_id 	datos_cliente 	codigos_prendas 	notas 	origen 	valor_total metodos_pago 	vendedor_id 
+        var cliente_id = $('#idCliente').val();
+        var datos_cliente =  new Object();
+        datos_cliente.nombre = $('#nombreVenta').val();
+        datos_cliente.telefono  = $('#telVenta').val();
+        datos_cliente.correo = $('#correov').val();
+        datos_cliente.documento = $('#documentov').val();
+        var clienteString= JSON.stringify(datos_cliente);
+        var codigos_prendas = $('#datospedido').attr("name");  
+        var notas = $('#notas').val();
+        var valor_total = $('#valor').attr("name");
+        var divsmetodos = $('.metodop');
+        var metodospago =  new Object();
+        var valorfinal = 0;
+        var j=0;
+        for (let i = 0; i < divsmetodos.length; i=i+2) {
+            var metodopago =  new Object();
+            console.log(divsmetodos[i].children[0].children[1].valueAsNumber);
+            var valorp = divsmetodos[i].children[0].children[1].valueAsNumber;
+            if(valorp>0){
+                metodopago.valor = valorp;
+                valorfinal = valorfinal+valorp;
+                console.log(divsmetodos[i+1].children[0].children[1].value);
+                var metdodo = divsmetodos[i+1].children[0].children[1].value;
+                if(metdodo=="S"){alert("Por favor ingresa el método de pago correcto");return false;}
+                metodopago.metodo = metdodo;
+                metodospago[j]=metodopago;
+                j++;
+            }
+        }
+        var metodospagoString= JSON.stringify(metodospago);
+        var vendedor_id = $('#vendedorselect').val();
+        if(!cliente_id){alert("¿Quién es el cliente?");return false;}
+        if(!codigos_prendas){alert("¿Qué prendas quiere el "+datos_cliente.nombre+"?");return false;}  
+        var pagovsvalor = valorfinal-parseInt(valor_total);
+        if(pagovsvalor!=0){alert("El valor total del pedido no coincide con el valor de pago");return false;}  
+        var last = nuevaventatiendas(cliente_id,clienteString,codigos_prendas,notas,"Plaza de las américas",valor_total,metodospagoString,vendedor_id);
+        var lastid = JSON.parse(last);
+        console.log(lastid[0].id);
+        var jsoncodigos = JSON.parse(codigos_prendas);
+        var usuarioLevel = $('#usuarioCell').attr('name');
+        console.log(jsoncodigos);
+        console.log(usuarioLevel);
+        console.log(Object.keys(jsoncodigos).length);
+        for (let i = 0; i < Object.keys(jsoncodigos).length; i++) {      
+            console.log(jsoncodigos[i]);      
+            actualizarPrendas(usuarioLevel,"Venta local","PA-"+lastid[0].id,jsoncodigos[i].codigo);
+            actualizar("con_t_prendasplaza","-",jsoncodigos[i].codigo,"-");
+        }
+        $('#popup').fadeOut('slow');         
+        $('.popup-overlay').fadeOut('slow');      
+        $('.reinicia').remove(); 
+        $('.metodop').remove(); 
+    });      
     $('#close2').on('click', function(){         
         $('#popup2').fadeOut('slow');      
         $('#popup').fadeIn('slow');
@@ -63,33 +145,33 @@
     $('#clienteGuardado').on('click', function(){ 
         if(!$('#nombre').val()){alert("Ingresa el nombre del cliente :)");return false;}
         if(!$('#telefono').val()){alert("Ingresa el teléfono del cliente :)");return false;}
-        if(!$('#dir1').val()){alert("Ingresa la dirección del cliente :)");return false;}
-        var direccion = $('#dir1').val().replace('#', 'No');
-        var complemento = $('#comp1').val().replace('#', 'No');
+        if(!$('#correo').val()){alert("Ingresa el correo del cliente :)");return false;}
+        if(!$('#documento').val()){alert("Ingresa el documento del cliente :)");return false;}
         var telef = $('#telefono').val().replace(' ', '');
-        var id = guardarCliente( $('#nombre').val(),telef,direccion,complemento,$('#ciudad1').val());
+        var id = guardarCliente( $('#nombre').val(),telef,"-","-","-",$('#correo').val(),$('#documento').val());
         $('#popup2').fadeOut('slow');      
         $('#popup').fadeIn('slow');
         $('#nombreVenta').val($('#nombre').val());
-        $('#dirVenta').val($('#dir1').val());
+        $('#correov').val($('#correo').val());
         $('#telVenta').val($('#telefono').val());
         $('#idCliente').val(id);
-        $('#complementoCliente').val($('#comp1').val());
-        $('#ciudadCliente').val($('#ciudad1').val());
+        $('#documentov').val($('#documento').val());
         return false;     
     });
     $('#clienteBuscar').on('click', function(){ 
         $('#popup').fadeOut('slow');         
         $('#popup3').fadeIn('slow'); 
         var html = "";
-        var clientes = clientesBuscar($('#tele').val());
-        if(clientes == "NA"){
+        var clientes = clientesBuscarjson($('#tele').val());        
+        var jsonclientes = JSON.parse(clientes);
+        console.log(jsonclientes.length);
+        if(jsonclientes.length==0){
             html = "<p class='col-lg-6 col-md-6 col-sm-6 col-xs-6 cliente'>Sin resultados</p>"
         }else{
-            var items = clientes.split('$');
-            for(i=1;i<items.length;i++){
+            console.log(jsonclientes);
+            for(i=0;i<jsonclientes.length;i++){
                 var datos = items[i].split('%');
-                html=html+"<p id='nombre"+i+"' class='col-lg-4 col-md-4 col-sm-4 col-xs-4 remover'>"+datos[0]+"</p><p id='direccion"+i+"' class='col-lg-5 col-md-5 col-sm-5 col-xs-5 remover'>"+datos[1]+"</p><p class='off remover' id='clienteid"+i+"' >"+datos[2]+"</p><p class='off remover' id='complemento"+i+"' >"+datos[3]+"</p><p class='off remover' id='clienteCiudad"+i+"' >"+datos[4]+"</p><button class='botonmodal remover' id='cliente"+i+"' onclick='seleccionCliente("+i+")'>Cargar</button>";
+                html=html+"<p class='off remover' id='clienteid"+i+"' >"+jsonclientes[i].cliente_id+"</p><p id='nombre"+i+"' class='col-lg-2 col-md-2 col-sm-2 col-xs-2 remover'>"+jsonclientes[i].nombre+"</p><p id='telefono"+i+"' class='col-lg-2 col-md-2 col-sm-2 col-xs-2 remover'>"+jsonclientes[i].telefono+"</p><p class='col-lg-2 col-md-2 col-sm-2 col-xs-2 remover' id='documento"+i+"' >"+jsonclientes[i].documento+"</p><p class='col-lg-4 col-md-4 col-sm-4 col-xs-4 remover' id='correo"+i+"' >"+jsonclientes[i].correo+"</p><div class='col-lg-2 col-md-2 col-sm-2 col-xs-2 remover'><button class='botonmodal' id='"+i+"' onclick='seleccionCliente("+i+")' style='width: 100%;'>Cargar</button></div>";
             }
         }
         var clientesEncontrados = $('#clientesEncontrados');
@@ -116,14 +198,32 @@
         return false;     
     });     
     $('#agregarprendaspedido').on('click', function(){  
+        $('.removeprendavender').remove();
         var check = $("#popup4 input"); 
         var valor = 0;
+        var html = "";
+        var jsonPrendas = new Object();
         for (let i = 0; i < check.length; i++) {
-            valor = valor + check[i].
             console.log(check[i].checked);
-            console.log(check);
+            if(check[i].checked){
+                valor = valor + parseInt(check[i].value);
+                var codigoDescr = check[i].name.split("/");
+                var jsonPrenda = new Object();
+                jsonPrenda.codigo = codigoDescr[0];
+                jsonPrenda.descripcion = codigoDescr[1];
+                jsonPrenda.valor = check[i].value;
+                jsonPrendas[i] = jsonPrenda;
+                html=html+"<div class='col-lg-12 col-md-12 col-sm-12 col-xs-12  removeprendavender' id='"+check[i].id+"'><p class='letra3pt-mv letra16pt-pc'>"+codigoDescr[0]+" "+codigoDescr[1]+" "+check[i].value+"</p></div>";
+                console.log(check[i]);
+            }            
         }
-        
+        console.log(jsonPrendas);
+        var prendaString= JSON.stringify(jsonPrendas);
+        html=html+"<div class='col-lg-12 col-md-12 col-sm-12 col-xs-12  removeprendavender' id='datospedido' name='"+prendaString+"'><p class='letra3pt-mv letra16pt-pc' id='valor' name='"+valor+"'>Precio total: "+valor+"</p></div>";
+        $('#pedido').append(html);
+        $('#popup4').fadeOut('slow');      
+        $('#popup').fadeIn('slow');
+        $('.removerprendasparaventa').remove();
         return false;     
     });
     /*************************** Enviar para venta (CELULAR) *******************************/
@@ -146,11 +246,10 @@
 <script>
 function seleccionCliente(id) {
         $('#nombreVenta').val($('#nombre'+id).text());
-        $('#dirVenta').val($('#direccion'+id).text());
-        $('#telVenta').val($('#tele').val());
+        $('#correov').val($('#correo'+id).text());
+        $('#telVenta').val($('#telefono'+id).text());
         $('#idCliente').val($('#clienteid'+id).text());
-        $('#complementoCliente').val($('#complemento'+id).text());
-        $('#ciudadCliente').val($('#clienteCiudad'+id).text());
+        $('#documentov').val($('#documento'+id).text());        
         $('#popup3').fadeOut('slow');      
         $('#popup').fadeIn('slow');
         $('.cliente').remove();

@@ -102,6 +102,22 @@ function clientesBuscar(telefono) {
 	return client;
 };
 	
+function clientesBuscarjson(telefono) {
+	var enviar = "funcion=clientesBuscarjson&telefono="+telefono;
+	var client = 'no';
+	$.ajax({
+		url: urlhost,
+		headers: {'Access-Control-Allow-Origin': urlhost},
+		type: "GET",
+		async: false,
+		data: enviar,
+		success: function(data){
+			client = data;
+		}						
+	});	
+	//alert(habilitados);
+	return client;
+};	
 
 function clientesEncontrados(telefono) {
 	var enviar = "funcion=clientesEncontrados&telefono="+telefono;
@@ -120,8 +136,8 @@ function clientesEncontrados(telefono) {
 	return client;
 };
 
-function guardarCliente(nombre,telefono,dir1,comp1,ciudad1) {
-	var enviar = "funcion=guardarCliente&nombre="+nombre+"&telefono="+telefono+"&dir1="+dir1+"&comp1="+comp1+"&ciudad1="+ciudad1;
+function guardarCliente(nombre,telefono,dir1,comp1,ciudad1,correo,documento) {
+	var enviar = "funcion=guardarCliente&nombre="+nombre+"&telefono="+telefono+"&dir1="+dir1+"&comp1="+comp1+"&ciudad1="+ciudad1+"&valor="+correo+"&valor2="+documento;
 	var id;
 	$.ajax({
 		url: urlhost,
@@ -188,6 +204,24 @@ function referenciaNueva(nombre,color,talla,link,detal,mayor,categoria) {
 function obtenerData(columna,tabla,tipo,valor,valor2) {
     if(!valor){valor=0;}if(!valor2){valor2=0;}
 	var enviar = "funcion=obtenerData&columna="+columna+"&tabla="+tabla+"&tipo="+tipo+"&valor="+valor+"&valor2="+valor2;
+	var obtenidos = "no";
+	//alert(enviar);
+	$.ajax({
+		url: urlhost,
+		headers: {'Access-Control-Allow-Origin': urlhost},
+		type: "GET",
+		async: false,
+		data: enviar,
+		success: function(data){
+			obtenidos = data;
+		}						
+	});
+	return obtenidos;
+};
+
+function obtenerDatajson(columna,tabla,tipo,columnacondicion,condicion) {
+    if(!columnacondicion){columnacondicion=0;}if(!condicion){condicion=0;}
+	var enviar = "funcion=obtenerDatajson&columna="+columna+"&tabla="+tabla+"&tipo="+tipo+"&valor="+columnacondicion+"&valor2="+condicion;
 	var obtenidos = "no";
 	//alert(enviar);
 	$.ajax({
@@ -1174,8 +1208,31 @@ function imprimirprendasparavenderdetal(valor) {
 	var pventamayorista = JSON.parse(obtenidos);  
     var html = "";
 	for (let i = 0; i < pventamayorista.length; i++) {
-		html = html + "<div class='col-lg-12 col-md-12 col-sm-12 col-xs-12 removerprendasparaventa'><div class='col-lg-3 col-md-3 col-sm-3 col-xs-3'><p type='submit' class='letra18pt-pc' > "+pventamayorista[i].codigo+" </p></div><div class='col-lg-3 col-md-3 col-sm-3 col-xs-3'><p type='submit' class='letra18pt-pc'>"+pventamayorista[i].descripcion+"</p></div><div class='col-lg-3 col-md-3 col-sm-3 col-xs-3'><p type='submit' class='letra18pt-pc'> "+pventamayorista[i].valor+" </p></div><div class='col-lg-3 col-md-3 col-sm-3 col-xs-3 form-check'><input class='form-check-input' type='checkbox' value='"+pventamayorista[i].valor+"' id='"+pventamayorista[i].ID+"' name='"+pventamayorista[i].codigo+"'><label class='form-check-label' for='flexCheckDefault"+pventamayorista[i].ID+"'>Agregar</label></div></div>";
+		html = html + "<div class='col-lg-12 col-md-12 col-sm-12 col-xs-12 removerprendasparaventa'><div class='col-lg-3 col-md-3 col-sm-3 col-xs-3'><p type='submit' class='letra18pt-pc' > "+pventamayorista[i].codigo+" </p></div><div class='col-lg-3 col-md-3 col-sm-3 col-xs-3'><p type='submit' class='letra18pt-pc'>"+pventamayorista[i].descripcion+"</p></div><div class='col-lg-3 col-md-3 col-sm-3 col-xs-3'><p type='submit' class='letra18pt-pc'> "+pventamayorista[i].valor+" </p></div><div class='col-lg-3 col-md-3 col-sm-3 col-xs-3 form-check'><input class='form-check-input' type='checkbox' value='"+pventamayorista[i].valor+"' id='"+pventamayorista[i].ID+"' name='"+pventamayorista[i].codigo+"/"+pventamayorista[i].descripcion+"'><label class='form-check-label' for='flexCheckDefault"+pventamayorista[i].ID+"'>Agregar</label></div></div>";
 	}
 	var primeraPrendas = $('#primeraPrendas');
 	primeraPrendas.after(html);
+};
+
+function nuevaventatiendas(cliente_id,clienteString,codigos_prendas,notas,origen,valor_total,metodospagoString,vendedor_id) {
+	var envia = "funcion=nuevaventatiendas&valor="+cliente_id+"&valor2="+clienteString+"&valor3="+codigos_prendas+"&valor4="+notas+"&valor5="+origen+"&valor6="+valor_total+"&valor7="+metodospagoString+"&valor8="+vendedor_id;
+	console.log(envia);
+	var envio = envia.replaceAll("<","");  
+    var enviando = envio.replaceAll(">","");
+	console.log(enviando);
+	var env = enviando.replaceAll("{","<");  
+	var enviar = env.replaceAll("}",">");    
+	console.log(enviar);
+	var obtenidos = "no";
+    $.ajax({
+    	url: urlhost,
+    	headers: {'Access-Control-Allow-Origin': urlhost},
+    	type: "GET",
+    	async: false,
+    	data: enviar,
+    	success: function(data){
+    		obtenidos = data;
+    	}						
+    });
+    return obtenidos;
 };

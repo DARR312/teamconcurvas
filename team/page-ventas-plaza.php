@@ -28,14 +28,15 @@
             				<input class="form-control" type="text" id="nombreVenta" name="nombreVenta" required="" disabled="disabled"><span class="pmd-textfield-focused"></span>
             			</div>
             			<div class="form-group pmd-textfield pmd-textfield-floating-label">
-            				<input class="form-control" type="text" id="dirVenta" name="dirVenta" required="" disabled="disabled"><span class="pmd-textfield-focused"></span>
-            			</div>
-            			<div class="form-group pmd-textfield pmd-textfield-floating-label">
             				<input class="form-control" type="number" id="telVenta" name="telVenta" required="" disabled="disabled"><span class="pmd-textfield-focused"></span>
             			</div>
+            			<div class="form-group pmd-textfield pmd-textfield-floating-label">
+            				<input class="form-control" type="text" id="correov" name="correov" required="" disabled="disabled"><span class="pmd-textfield-focused"></span>
+            			</div>
+            			<div class="form-group pmd-textfield pmd-textfield-floating-label">
+            				<input class="form-control" type="number" id="documentov" name="documentov" required="" disabled="disabled"><span class="pmd-textfield-focused"></span>
+            			</div>
             	        <input class="off" type="number" id="idCliente" name="idCliente" required="" type="hidden">
-            	        <input class="off" type="text" id="ciudadCliente" name="ciudadCliente" required="" type="hidden">
-            	        <input class="off" type="text" id="complementoCliente" name="complementoCliente" required="" type="hidden">
             		</div>
             	</div> 
             	<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="datosPrendas">
@@ -48,29 +49,17 @@
                     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 letra3pt-mv letra16pt-pc" id="pedido">
                         
                     </div> 
+            	</div>				
+            	<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 form-group pmd-textfield pmd-textfield-floating-label" id="notasdiv">
+					<label class="control-label letra18pt-pc" for="regular1">Notas</label>
+            		<input class="form-control" type="text" id="notas" name="notas" required=""><span class="pmd-textfield-focused"></span>
+            	</div>						
+            	<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 form-group pmd-textfield pmd-textfield-floating-label" id="vendedordiv">
+					<label class="control-label letra18pt-pc" for="vendedorselect">Vendedor</label>
+            		<select class="form-control letra18pt-pc" type="select" id="vendedorselect" name="vendedorselect" form="formularioCliente" required="">
+            		    <option value='6'>Francisco Arrieta</option>
+					</select><span class="pmd-textfield-focused"></span>
             	</div>
-            	<div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" id="fechaEntrega">
-            	    <div class="form-group pmd-textfield pmd-textfield-floating-label pmd-textfield-floating-label-completed">
-                    	<label class="control-label letra18pt-pc" for="regular1">Fecha de entrega</label>
-                    	<input type="text" id="datetimepicker-entrega" class="form-control" style='display: none;'/>
-                    </div>
-            	</div> 
-            	<div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" id="fechaEntrega">
-            	    <div class="form-group pmd-textfield pmd-textfield-floating-label">
-            	        <label class="control-label letra18pt-pc" for="regular1">Notas</label>
-            			<input class="form-control" type="text" id="notas" name="notas" required=""><span class="pmd-textfield-focused"></span>
-            		</div>
-            	</div>
-            	<div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" id="fechaEntrega">
-            	    <div class="form-group pmd-textfield pmd-textfield-floating-label">
-            	        <label class="control-label letra18pt-pc" for="regular1">Origen</label>
-            			<select class="form-control letra18pt-pc" type="select" id="origen" name="origen" form="formularioCliente" required="">
-            			    <option value='Facebook'>Facebook</option>
-            			    <option value='Instagram'>Instagram</option>
-            			    <option value='Whatsapp'>Whatsapp</option>
-						</select><span class="pmd-textfield-focused"></span>
-            		</div>
-            	</div> 
             	<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
             	    <button class='botonmodal letra18pt-pc' type='button' id='agregarPedido'> Agregar pedido </button>
             	</div>
@@ -96,20 +85,14 @@
 						
 					</div>
 					<div class="form-group pmd-textfield pmd-textfield-floating-label">
-						<label for="telefono" class="control-label letra18pt-pc"> Dirección 1 </label>
-						<input class="form-control" type="text" id="dir1" name="dir1" required=""><span class="pmd-textfield-focused"></span>
+						<label for="telefono" class="control-label letra18pt-pc"> Correo electrónico </label>
+						<input class="form-control" type="text" id="correo" name="correo" required=""><span class="pmd-textfield-focused"></span>
 						
 					</div>
 					<div class="form-group pmd-textfield pmd-textfield-floating-label">
-						<label for="correo" class="control-label letra18pt-pc"> Complemento 1 </label>
-						<input class="form-control" type="text" id="comp1" name="comp1" required=""><span class="pmd-textfield-focused"></span>
-						
+						<label for="correo" class="control-label letra18pt-pc"> Documento </label>
+						<input class="form-control" type="number" id="documento" name="documento" required=""><span class="pmd-textfield-focused"></span>
 					</div>	
-					<div class="form-group pmd-textfield pmd-textfield-floating-label">
-						<label for="correo" class="control-label letra18pt-pc"> Ciudad 1 </label>
-						<select class="form-control" type="select" id="ciudad1" name="ciudad1" form="formularioCliente" required="">
-						</select><span class="pmd-textfield-focused"></span>
-					</div>
 					
 				</div>
 				<button type="submit" class="botonmodal letra18pt-pc" id="clienteGuardado"> Guardar cliente </button>
@@ -156,7 +139,7 @@
             </div>
         </div>
     </div>
-    <div id='popup5' style='display: none;' class="pc tablet">
+    <!-- <div id='popup5' style='display: none;' class="pc tablet">
           <div class='content-popup'>
             <div class='close'><a href='#' id='close5'>
                <img src='<?php echo get_template_directory_uri(); ?>/imagenes/iconos/close.png'/></a>
@@ -344,15 +327,12 @@
                 </div>
             </div>
         </div>
-    </div>      
+    </div>       -->
     <div class='popup-overlay pc tablet'></div>
 	    <div class="container-fluid pc tablet" id="bloquePrincipal">
 	       <div class='col-lg-12 col-md-12 col-sm-12 col-xs-12' id='primeraFila'>
-	           <div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'>
-    	           <p class='letra18pt-pc negrillaUno'>Estado</p>
-    	       </div> 
     	       <div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'>
-    	           <p class='letra18pt-pc negrillaUno'>Orden</p>
+    	           <p class='letra18pt-pc negrillaUno'>PA</p>
     	       </div>
     	       <div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'>
     	           <p class='letra18pt-pc negrillaUno'>Cliente</p>

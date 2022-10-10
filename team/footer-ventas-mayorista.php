@@ -67,7 +67,7 @@
         var direccion = $('#dir1').val().replace('#', 'No');
         var complemento = $('#comp1').val().replace('#', 'No');
         var telef = $('#telefono').val().replace(' ', '');
-        var id = guardarCliente( $('#nombre').val(),telef,direccion,complemento,$('#ciudad1').val());
+        var id = guardarCliente( $('#nombre').val(),telef,direccion,complemento,$('#ciudad1').val(),"-",0);
         $('#popup2').fadeOut('slow');      
         $('#popup').fadeIn('slow');
         $('#nombreVenta').val($('#nombre').val());

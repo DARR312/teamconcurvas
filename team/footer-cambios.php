@@ -158,7 +158,7 @@
                 if($('#dir1').val()){
                     var direccion = $('#dir1').val().replace('#', 'No');
                     var complemento = $('#comp1').val().replace('#', 'No');
-                    var id = guardarCliente( $('#nombre').val(),$('#telefono').val(),direccion,complemento,$('#ciudad1').val());
+                    var id = guardarCliente( $('#nombre').val(),$('#telefono').val(),direccion,complemento,$('#ciudad1').val(),"-",0);
                     $('#popup2').fadeOut('slow');      
                     $('#popup').fadeIn('slow');
                     $('#nombreVenta').val($('#nombre').val());

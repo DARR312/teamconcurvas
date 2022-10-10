@@ -9,6 +9,8 @@ $valor3=$_GET['valor3'];
 $valor4=$_GET['valor4'];
 $valor5=$_GET['valor5'];
 $valor6=$_GET['valor6'];
+$valor7=$_GET['valor7'];
+$valor8=$_GET['valor8'];
 $id=$_GET['id'];
 $nombre=$_GET['nombre'];
 $telefono=$_GET['telefono'];
@@ -85,9 +87,9 @@ function ciudades(){
     echo $todas;     
 }
 
-function guardarCliente($nombre,$telefono,$dir1,$comp1,$ciudad1){
+function guardarCliente($nombre,$telefono,$dir1,$comp1,$ciudad1,$correo,$documento){
     $tele = intval($telefono);
-    $valores = array("nombre" => $nombre , "telefono" => $tele , "direccion_1" => $dir1 , "complemento_1" => $comp1 , "ciudad_1" => $ciudad1);
+    $valores = array("nombre" => $nombre , "telefono" => $tele , "direccion_1" => $dir1 , "complemento_1" => $comp1 , "ciudad_1" => $ciudad1 , "correo" => $correo , "documento" => $documento);
     global $wpdb;
     $wpdb->insert("con_t_clientes", $valores);
     $lastId = $wpdb->get_results( "SELECT MAX(cliente_id) as id FROM con_t_clientes");
@@ -135,6 +137,30 @@ function referenciaNueva($nombre,$color,$talla,$link,$detal,$mayor,$categoria){
     //echo $lastId[0]->id;
     //print_r($valores);
     echo $rows;
+}
+
+function obtenerDatajson($columna,$tabla,$tipo,$columnacondicion,$condicion){
+    $obtenidos = "";
+    global $wpdb;
+    if($tipo == "unico"){
+       
+    }
+    if($tipo == "variasfilasunicas"){
+        $obtenidosArray = $wpdb->get_results( "SELECT ".$columna." FROM ".$tabla."", ARRAY_A);
+        echo json_encode($obtenidosArray);
+    }
+    if($tipo=="row"){
+        
+    }
+    if($tipo=="rowVarios"){
+       
+    }
+    if($tipo=="ultimo"){
+        
+    }
+    if($tipo=="todas"){
+        
+    }
 }
 
 function obtenerData($columna,$tabla,$tipo,$valor,$valor2){
@@ -987,6 +1013,10 @@ function  actualizar($tabla,$columna,$valor,$valor2){
     if($tabla == "actualizar_satelite" ){        
         $datos="UPDATE `con_t_trprendas` SET `fecha_cambio`='".$fecha."' WHERE (`estado`='En satélite') AND (`cual` = ".$columna.")";
         $wpdb->query($datos);
+    }          
+    if($tabla == "con_t_prendasplaza" ){        
+        $datos="UPDATE `con_t_prendasplaza` SET `agregada`=1 WHERE (`codigo`='".$valor."')";
+        $wpdb->query($datos);
     }
 }
 
@@ -1393,7 +1423,7 @@ function enviarparaventamayorista($valor){////C1145RB7D13S64°C1145RB4D13S64°
 function enviarparaventa($valor){////C1145RB7D13S64°C1145RB4D13S64°
     global $wpdb;
     $prendas = explode("°",$valor);
-    for($j=0;$j<(sizeof($prendas)-1);$j++){     
+    for($j=1;$j<(sizeof($prendas));$j++){     
         $ref = $wpdb->get_results( "SELECT referencia_id,descripcion FROM con_t_trprendas WHERE codigo = '".$prendas[$j]."'", ARRAY_A  );
         $valor = $wpdb->get_results( "SELECT precio_detal FROM con_t_resumen WHERE referencia_id = ".$ref[0]['referencia_id']."", ARRAY_A  );
         $insertado = $wpdb->insert("con_t_prendasplaza", array("codigo" => $prendas[$j], "descripcion" => $ref[0]['descripcion'],  'valor' => $valor[0]['precio_detal']));
@@ -1411,6 +1441,13 @@ function imprimirprendasparavenderdetal(){////C1145RB7D13S64°C1145RB4D13S64°
     global $wpdb;
     $agregagos = $wpdb->get_results( "SELECT `ID`, `codigo`, `valor`, `descripcion` FROM con_t_prendasplaza WHERE agregada = 0", ARRAY_A);//133
     echo json_encode($agregagos);
+}
+
+
+function clientesBuscarjson($telefono){
+    global $wpdb;
+    $clientesTodas= $wpdb->get_results( "SELECT * FROM con_t_clientes  WHERE telefono = ".$telefono."", ARRAY_A  );
+    echo json_encode($clientesTodas);
 }
 
 
@@ -1441,6 +1478,21 @@ function consultarsatelite($valor){////C1145RB7D13S64°C1145RB4D13S64°
     </div>";
 }
 
+function nuevaventatiendas($cliente_id,$clienteString,$codigos_prendas,$notas,$origen,$valor_total,$metodospagoString,$vendedor_id){
+    //echo $cliente_id."---------------".$clienteString."---------------".$codigos_prendas."---------------".$notas."---------------".$origen."---------------".$valor_total."---------------".$metodospagoString."---------------".$vendedor_id;
+    global $wpdb;
+    $timezone = new DateTimeZone( 'America/Bogota' );
+    $fecha = wp_date('Y-m-d H:i:s', null, $timezone );
+    $clientest= json_decode($clienteString);
+    $datoss = "INSERT INTO con_t_ventasplaza ( fecha_creada,cliente_id,datos_cliente,codigos_prendas,notas,origen,valor_total,metodos_pago,vendedor_id) VALUES ('".$fecha."','".$cliente_id."', '".$clienteString."', '".$codigos_prendas."','".$notas."', '".$origen."','".$valor_total."','".$metodospagoString."',".$vendedor_id.")";
+    $datosss = str_replace("\\","",$datoss);
+    $datosssss = str_replace("<","{",$datosss);
+    $datos = str_replace(">","}",$datosssss);
+    $wpdb->query($datos);
+    $lastId = $wpdb->get_results( "SELECT MAX(ID) as id FROM con_t_ventasplaza");
+    echo json_encode($lastId);
+}
+
 if($funcion == "permisosPrincipales"){
     permisosPrincipales();
 }if($funcion == "permisosVentas"){
@@ -1448,7 +1500,7 @@ if($funcion == "permisosPrincipales"){
 }if($funcion == "ciudades"){
     ciudades();
 }if($funcion == "guardarCliente"){
-    guardarCliente($nombre,$telefono,$dir1,$comp1,$ciudad1);
+    guardarCliente($nombre,$telefono,$dir1,$comp1,$ciudad1,$valor,$valor2);
 }if($funcion == "clientesEncontrados"){
     clientesEncontrados($telefono);
 }if($funcion == "permisosInventario"){
@@ -1457,6 +1509,8 @@ if($funcion == "permisosPrincipales"){
     referenciaNueva($nombre,$color,$talla,$link,$detal,$mayor,$categoria);
 }if($funcion == "obtenerData"){
     obtenerData($columna,$tabla,$tipo,$valor,$valor2);
+}if($funcion == "obtenerDatajson"){
+    obtenerDatajson($columna,$tabla,$tipo,$valor,$valor2);
 }if($funcion == "nuevocodigo"){
     nuevoCodigo($tipo,$valor);
 }if($funcion == "nuevaMarquilla"){
@@ -1539,5 +1593,9 @@ if($funcion == "permisosPrincipales"){
     enviarparaventa($valor);
 }if($funcion == "consultarsatelite"){
     consultarsatelite($valor);
+}if($funcion == "clientesBuscarjson"){
+    clientesBuscarjson($telefono);
+}if($funcion == "nuevaventatiendas"){
+    nuevaventatiendas($valor,$valor2,$valor3,$valor4,$valor5,$valor6,$valor7,$valor8);
 }
 ?>
