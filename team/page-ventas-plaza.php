@@ -337,29 +337,20 @@
     	       <div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'>
     	           <p class='letra18pt-pc negrillaUno'>Cliente</p>
     	       </div>
-    	       <div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'>
-    	           <p class='letra18pt-pc negrillaUno'>Dirección</p>
+    	       <div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'>
+    	           <p class='letra18pt-pc negrillaUno'>Teléfono</p>
     	       </div>
     	       <div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'>
-    	           <p class='letra18pt-pc negrillaUno'>Adición</p>
+    	           <p class='letra18pt-pc negrillaUno'>Correo</p>
     	       </div>
-    	       <div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'>
-    	           <p class='letra18pt-pc negrillaUno'>Ciudad</p>
+    	       <div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'>
+    	           <p class='letra18pt-pc negrillaUno'>Compra</p>
     	       </div>
-    	       <div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'>
-    	           <p class='letra18pt-pc negrillaUno'>Pedido</p>
+    	       <div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'>
+    	           <p class='letra18pt-pc negrillaUno'>Valor y método de pago</p>
     	       </div>
-    	       <div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'>
-    	           <p class='letra18pt-pc negrillaUno'>Precio</p>
-    	       </div>
-    	       <div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'>
-    	           <p class="letra18pt-pc negrillaUno">Entrega</p>
-    	       </div>
-    	       <div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'>
+    	       <div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'>
     	           <p class='letra18pt-pc negrillaUno'>Notas</p>
-    	       </div>
-    	       <div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'>
-    	           <p class='letra18pt-pc negrillaUno'>Origen</p>
     	       </div>
 	       </div>	       
 	   </div>
