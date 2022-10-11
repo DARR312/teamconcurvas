@@ -125,6 +125,7 @@
         return false;     
     });      
     $('#agregarPedido').on('click', function(){//cliente_id 	datos_cliente 	codigos_prendas 	notas 	origen 	valor_total metodos_pago 	vendedor_id 
+        $('#agregarPedido').remove(); 
         var cliente_id = $('#idCliente').val();
         var datos_cliente =  new Object();
         datos_cliente.nombre = $('#nombreVenta').val();
