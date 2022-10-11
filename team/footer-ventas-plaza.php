@@ -96,6 +96,7 @@
         $('#popup').fadeIn('slow');         
         $('.popup-overlay').fadeIn('slow');         
         $('.popup-overlay').height($(window).height());    
+        $('#agregarPedido').csss('display','block'); 
         $('.metodo').on('change', function(){  
             var id = parseInt(this.id)+1;
             console.log(id);
@@ -125,7 +126,7 @@
         return false;     
     });      
     $('#agregarPedido').on('click', function(){//cliente_id 	datos_cliente 	codigos_prendas 	notas 	origen 	valor_total metodos_pago 	vendedor_id 
-        $('#agregarPedido').remove(); 
+        $('#agregarPedido').csss('display','none'); 
         var cliente_id = $('#idCliente').val();
         var datos_cliente =  new Object();
         datos_cliente.nombre = $('#nombreVenta').val();
