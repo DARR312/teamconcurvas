@@ -245,6 +245,7 @@
         var valor = 0;
         var html = "";
         var jsonPrendas = new Object();
+        var j=0;
         for (let i = 0; i < check.length; i++) {
             console.log(check[i].checked);
             if(check[i].checked){
@@ -254,7 +255,8 @@
                 jsonPrenda.codigo = codigoDescr[0];
                 jsonPrenda.descripcion = codigoDescr[1];
                 jsonPrenda.valor = check[i].value;
-                jsonPrendas[i] = jsonPrenda;
+                jsonPrendas[j] = jsonPrenda;
+                j++;
                 html=html+"<div class='col-lg-12 col-md-12 col-sm-12 col-xs-12  removeprendavender' id='"+check[i].id+"'><p class='letra3pt-mv letra16pt-pc'>"+codigoDescr[0]+" "+codigoDescr[1]+" "+check[i].value+"</p></div>";
                 console.log(check[i]);
             }            
