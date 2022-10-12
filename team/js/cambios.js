@@ -102,9 +102,9 @@ function cambios() {
         var ids = $('#idClienteUpdate').text();
         var idcliente = obtenerData("cliente_id","con_t_ventas","row","venta_id",ids);
         var columna = "°"+$('#nombreUpdate').val()+"°"+$('#telefonoUpdate').val()+"°"+dir1Update+"°"+comp1Update+"°"+$('#ciudad1Update').val();
-        actualizar("con_t_clientes",columna,idcliente,usuarioCell);
+        actualizar("con_t_clientes",columna,idcliente,usuarioCell,"-");
         var cambioId = obtenerData("cambio_id","con_t_cambios","row","venta_id",ids);
-        actualizar("cambio_cliente",columna+"%",cambioId,usuarioCell);
+        actualizar("cambio_cliente",columna+"%",cambioId,usuarioCell,"-");
         $('#popup5').fadeOut('slow');      
         $('.popup-overlay').fadeOut('slow'); 
         return false;     
@@ -207,12 +207,12 @@ function cambios() {
             }
             var prendasEntranIDSArray = prendasEntranName.split("%");
             var prendasSalenIDSArray = prendasSalenName.split("%");
-            actualizar("cambioitem_estado",idCambio,'Cancelado',0);
+            actualizar("cambioitem_estado",idCambio,'Cancelado',0,"-");
             for(var i = 0;i<(prendasEntranIDSArray.length-1);i++){
                 cambioitem(prendasSalenIDSArray[i],prendasEntranIDSArray[i],idCambio,venta_id);
                 //alert(prendasSalenIDSArray[i]+"-"+prendasEntranIDSArray[i]+"-"+idCambio+"-"+venta_id);
             }
-            actualizar("cambio_pedido",idCambio,prendasSalen+"°"+prendasEntran,diferencia);
+            actualizar("cambio_pedido",idCambio,prendasSalen+"°"+prendasEntran,diferencia,"-");
             $('.removeUpdate').remove();
             $(".removecero").val(0);
             $('#popup6').fadeOut('slow');       
@@ -251,7 +251,7 @@ function cambios() {
             var fecha = $("#datetimepicker-update").val();
             var id =  $("#tituloFecha").attr("name");
             var usuarioCell = $('#usuarioCell').attr("name");
-            actualizar("cambio_fecha",fecha,id,usuarioCell);
+            actualizar("cambio_fecha",fecha,id,usuarioCell,"-");
             $('#popup7').fadeOut('slow');       
             $('.popup-overlay').fadeOut('slow');
         }else{alert("Inserta una fecha");}
@@ -280,7 +280,7 @@ function cambios() {
         var nota = $("#notasUpdate").val();
         var id =  $("#tituloNotas").attr("name");
         var usuarioCell = $('#usuarioCell').attr("name");
-        actualizar("cambio_nota",nota,id,usuarioCell);
+        actualizar("cambio_nota",nota,id,usuarioCell,"-");
         $('#popup8').fadeOut('slow');       
         $('.popup-overlay').fadeOut('slow');
         return false;     
@@ -295,7 +295,7 @@ function cambios() {
 	    var notasUpdate = htmlUpdateArray[2];
 	    var usuarioUpdate = htmlUpdateArray[3];
 	    var botonrevisar = htmlUpdateArray[4];
-        actualizar("venta_estado","Revisar Pago",ids,usuarioCell);
+        actualizar("venta_estado","Revisar Pago",ids,usuarioCell,"-");
         $('.removerVentas').remove();
 	    var ordenesVenta = ordenesventa($('#bscar').val(),$('#estadoFiltro').val(),$('#transportador').val(),$('#datetimepicker-creadacambios').val(),$('#datetimepicker-entregacambios').val());
         var arrayOrdenes = ordenesVenta.split('&');
@@ -345,7 +345,7 @@ function cambios() {
         $('#popup9').fadeOut('slow');       
         $('.popup-overlay').fadeOut('slow'); 
         $('.removeUpdate').remove();
-        actualizar("venta_clienteok",pago,ids,usuarioCell);//(tabla,columna,id,usuarioCell)
+        actualizar("venta_clienteok",pago,ids,usuarioCell,"-");//(tabla,columna,id,usuarioCell)
         var ordenesVenta = ordenesventa($('#bscar').val(),$('#estadoFiltro').val(),$('#transportador').val(),$('#datetimepicker-creadacambios').val(),$('#datetimepicker-entregacambios').val());
         var arrayOrdenes = ordenesVenta.split('&');
         var itemsVentas = $('#itemsVentas');

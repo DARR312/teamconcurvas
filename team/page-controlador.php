@@ -142,8 +142,9 @@ function referenciaNueva($nombre,$color,$talla,$link,$detal,$mayor,$categoria){
 function obtenerDatajson($columna,$tabla,$tipo,$columnacondicion,$condicion){
     $obtenidos = "";
     global $wpdb;
-    if($tipo == "unico"){
-       
+    if($tipo == "valoresconcondicion"){
+        $obtenidosArray = $wpdb->get_results( "SELECT ".$columna." FROM ".$tabla." WHERE ".$columnacondicion." = ".$condicion."", ARRAY_A);
+        echo json_encode($obtenidosArray);
     }
     if($tipo == "variasfilasunicas"){
         $obtenidosArray = $wpdb->get_results( "SELECT ".$columna." FROM ".$tabla."", ARRAY_A);
@@ -910,7 +911,7 @@ function ordenesventajson($valor,$estadoFiltro,$tipoenvio,$datetimepicker_defaul
     }
 }
 
-function  actualizar($tabla,$columna,$valor,$valor2){
+function  actualizar($tabla,$columna,$valor,$valor2,$valor3){
     //10,Diego,1--venta_id	cambio	usuario_id	fecha_hora	campo_cambio
     $valores = explode(",",$valor2);
     $fecha = wp_date('Y-m-d H:i:s');
@@ -950,6 +951,20 @@ function  actualizar($tabla,$columna,$valor,$valor2){
         $updated = $wpdb->update( "con_t_ventas", array('estado' => $columna), array( 'venta_id' => $valor ) );
         $datos = array("venta_id" => $valor , "cambio" => $columna , "usuario_id" => $valores[2] , "fecha_hora" => $fecha , "campo_cambio" => "estado");
         $wpdb->insert("con_t_ventastr", $datos);
+        if($columna=='Empacado'){
+            $codigos = explode("°",$valor3);
+            for ($i=1; $i < sizeof($codigos) ; $i++) {                     
+                $datos = array("venta_id" => $valor , "cambio" => $codigos[$i] , "usuario_id" => $valores[2] , "fecha_hora" => $fecha , "campo_cambio" => "empacado");
+                $wpdb->insert("con_t_ventastr", $datos);                
+            }
+        }
+        if($columna=='Despachado'){
+            $codigos = explode("°",$valor3);
+            for ($i=1; $i < sizeof($codigos) ; $i++) {                     
+                $datos = array("venta_id" => $valor , "cambio" => $codigos[$i] , "usuario_id" => $valores[2] , "fecha_hora" => $fecha , "campo_cambio" => "despachado");
+                $wpdb->insert("con_t_ventastr", $datos);                
+            }
+        }
     }
     if($tabla == "venta_clienteok" ){
         $updated = $wpdb->update( "con_t_ventas", array('cliente_ok' => $columna), array( 'venta_id' => $valor ) );
@@ -1530,7 +1545,7 @@ if($funcion == "permisosPrincipales"){
 }if($funcion == "ordenesventajson"){
     ordenesventajson($valor,$valor2,$valor3,$valor4,$valor5,$valor6);
  }if($funcion == "actualizar"){
-   actualizar($tabla,$columna,$valor,$valor2);
+   actualizar($tabla,$columna,$valor,$valor2,$valor3);
 }if($funcion == "restar"){
    restar($id,$valor,$valor2);
 }if($funcion == "permisos"){

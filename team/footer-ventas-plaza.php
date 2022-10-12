@@ -96,7 +96,7 @@
         $('#popup').fadeIn('slow');         
         $('.popup-overlay').fadeIn('slow');         
         $('.popup-overlay').height($(window).height());    
-        $('#agregarPedido').csss('display','block'); 
+        $('#agregarPedido').css('display','block'); 
         $('.metodo').on('change', function(){  
             var id = parseInt(this.id)+1;
             console.log(id);
@@ -126,7 +126,7 @@
         return false;     
     });      
     $('#agregarPedido').on('click', function(){//cliente_id 	datos_cliente 	codigos_prendas 	notas 	origen 	valor_total metodos_pago 	vendedor_id 
-        $('#agregarPedido').csss('display','none'); 
+        $('#agregarPedido').css('display','none'); 
         var cliente_id = $('#idCliente').val();
         var datos_cliente =  new Object();
         datos_cliente.nombre = $('#nombreVenta').val();
@@ -173,7 +173,7 @@
         for (let i = 0; i < Object.keys(jsoncodigos).length; i++) {      
             console.log(jsoncodigos[i]);      
             actualizarPrendas(usuarioLevel,"Venta local","PA-"+lastid[0].id,jsoncodigos[i].codigo);
-            actualizar("con_t_prendasplaza","-",jsoncodigos[i].codigo,"-");
+            actualizar("con_t_prendasplaza","-",jsoncodigos[i].codigo,"-","-");
         }
         $('#popup').fadeOut('slow');         
         $('.popup-overlay').fadeOut('slow');      

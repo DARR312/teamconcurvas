@@ -42,7 +42,7 @@ function satelites(){
 			return false;		//const ook = array[i];				
 		}
 		alert('function call actualizarfechas '+$('#bscar').val());
-		actualizar("actualizar_satelite",$('#bscar').val(),0,0);//	
+		actualizar("actualizar_satelite",$('#bscar').val(),0,0,"-");//	
 	});
 
 };

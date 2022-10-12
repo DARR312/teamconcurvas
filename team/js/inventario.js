@@ -33,7 +33,7 @@ function inventario(){
         $('.removerMadurgones').remove(); 
         var id = $('#editarValorVenta').attr("name");
         var valor = $('#valorDinero').val();
-        actualizar("dinero_madrugon",valor,id,0);//
+        actualizar("dinero_madrugon",valor,id,0,"-");//
         var madrugones = madru();//principal.js      
         var madrugos = JSON.parse(madrugones);     
         var primeraFila = $('#primeraMadrugones');
@@ -63,7 +63,7 @@ function inventario(){
         $('.removerMadurgones').remove(); 
         var id = $('#editarValorCambios').attr("name");
         var valor = $('#valorDineroCambio').val();
-        actualizar("dinero_madrugonCambio",valor,id,0);//
+        actualizar("dinero_madrugonCambio",valor,id,0,"-");//
         var madrugones = madru();//principal.js      
         var madrugos = JSON.parse(madrugones);     
         var primeraFila = $('#primeraMadrugones');
@@ -185,7 +185,7 @@ function imrpimirlotes(){
     $('.cambiarfechaentrega').on('click', function() {   
         var id = this.id;
         var fen = $("#fe"+id+"").val();
-        actualizar("fechalotes",fen,id);//$tabla,$columna,$valor,$valor2
+        actualizar("fechalotes",fen,id,"-");//$tabla,$columna,$valor,$valor2
         imrpimirlotes();
     });
     //     var codigo = codigosArray[i].replace("°","");
@@ -195,4 +195,12 @@ function imrpimirlotes(){
     // var nombresReferencias = referenciasrodas();
     // $('.referenciasCodigos').append(nombresReferencias);
     // inventarioPrendas();
+};
+
+function verificarinforme(id,tipo){
+    if(tipo=='venta'){
+        var venta = obtenerDatajson("cliente_ok,estado","con_t_ventas","valoresconcondicion","venta_id",id);
+        var venta_items = obtenerDatajson("prenda_id,valor,estado_id","con_t_ventaitem","valoresconcondicion","venta_id",id);
+        var venta_items = obtenerDatajson("prenda_id,valor,estado_id","con_t_trprendas","valoresconcondicion","cual","V"+id);
+    }else{}
 };
