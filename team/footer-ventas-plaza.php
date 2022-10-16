@@ -94,7 +94,7 @@
         }
         $('#vendedorselect').append(vendehtml);
         $('#popup').fadeIn('slow');         
-        $('.popup-overlay').fadeIn('slow');         
+        $('.popup-overlay').fadeIn('slow');
         $('.popup-overlay').height($(window).height());    
         $('#agregarPedido').css('display','block'); 
         $('.metodo').on('change', function(){  

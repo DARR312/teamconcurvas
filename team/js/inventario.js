@@ -201,6 +201,13 @@ function verificarinforme(id,tipo){
     if(tipo=='venta'){
         var venta = obtenerDatajson("cliente_ok,estado","con_t_ventas","valoresconcondicion","venta_id",id);
         var venta_items = obtenerDatajson("prenda_id,valor,estado_id","con_t_ventaitem","valoresconcondicion","venta_id",id);
-        var venta_items = obtenerDatajson("prenda_id,valor,estado_id","con_t_trprendas","valoresconcondicion","cual","V"+id);
+        var tr_prendas = obtenerDatajson("referencia_id,descripcion,codigo,estado,cual","con_t_trprendas","valoresconcondicion","cual","V"+id);
+        if(venta.estado == 'Sin empacar'){}
+        if(venta.estado == 'No empacado'){}
+        if(venta.estado == 'Cancelado'){}
+        if(venta.estado == 'Empacado'){}
+        if(venta.estado == 'Despachado'){}
+        if(venta.estado == 'Empacado'){}
+        if(venta.estado == 'Empacado'){}
     }else{}
 };
