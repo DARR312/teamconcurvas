@@ -938,11 +938,12 @@
 					    $("#datetimepicker-default").val(" ");
 					    $('#bscar').val(" ");
 					    $('.removerVentas').remove();
-					    var ordenesVenta = ordenesventa($('#bscar').val(),$('#estadoFiltro').val(),$('#transportador').val(),$('#datetimepicker-default').val(),$('#datetimepicker-defaultFiltro').val());
-                        var arrayOrdenes = ordenesVenta.split('&');
+                        var ordenesVenta = ordenesventajson($('#bscar').val(),$('#estadoFiltro').val(),$('#transportador').val(),$('#datetimepicker-default').val(),$('#datetimepicker-defaultFiltro').val(),$('#bscartelefono').val());
+                        var jsonVenta = JSON.parse(ordenesVenta); 
+                        console.log(jsonVenta);
                         var primeraFila = $('#primeraFila');
-                        var html = imprimirVentas(arrayOrdenes,botonrevisar,pedidoUpdate,fechaUpdate,notasUpdate,usuarioUpdate);
-                    	primeraFila.after(html);
+                        var html = imprimirVentasjson(jsonVenta,botonrevisar,pedidoUpdate,fechaUpdate,notasUpdate,usuarioUpdate);
+                        primeraFila.after(html);
                     	ventas();
 					}
 					if(e.delegateTarget.ownerDocument.activeElement.id == "datetimepicker-default"){
@@ -956,11 +957,12 @@
 					    $("#datetimepicker-defaultFiltro").val(" ");
 					    $('#bscar').val(" ");
 					    $('.removerVentas').remove();
-					    var ordenesVenta = ordenesventa($('#bscar').val(),$('#estadoFiltro').val(),$('#transportador').val(),$('#datetimepicker-default').val(),$('#datetimepicker-defaultFiltro').val());
-                        var arrayOrdenes = ordenesVenta.split('&');
+                        var ordenesVenta = ordenesventajson($('#bscar').val(),$('#estadoFiltro').val(),$('#transportador').val(),$('#datetimepicker-default').val(),$('#datetimepicker-defaultFiltro').val(),$('#bscartelefono').val());
+                        var jsonVenta = JSON.parse(ordenesVenta); 
+                        console.log(jsonVenta);
                         var primeraFila = $('#primeraFila');
-                        var html = imprimirVentas(arrayOrdenes,botonrevisar,pedidoUpdate,fechaUpdate,notasUpdate,usuarioUpdate);
-                    	primeraFila.after(html);
+                        var html = imprimirVentasjson(jsonVenta,botonrevisar,pedidoUpdate,fechaUpdate,notasUpdate,usuarioUpdate);
+                        primeraFila.after(html);
                     	ventas();
 					}
                     if(e.delegateTarget.ownerDocument.activeElement.id == "datetimepicker-creadacambios"){

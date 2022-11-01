@@ -592,50 +592,50 @@
             }else{
                 var recaudo = $("#informeD p:eq("+(i+1)+")").text();
                 actualizar("venta_clienteok",recaudo,id,usuarioCell,"-");//(tabla,columna,id,usuarioCell)
-                var resultado = verificarinforme(id,"venta");
-                // if(dif<0){
-                //     $("#informeD p:eq("+(i+2)+")").text("Para auditar");
-                //     actualizar("venta_estado","Auditar",id,usuarioCell,"-");
-                //     var cualVentaItem = obtenerData("complemento_estado","con_t_trprendas","rowVarios","cual","V"+id);//°Diego 1°137%°Diego 1°138%
-                //     var cualArry = cualVentaItem.split("%");
-                //     for(var j = 0;j<(cualArry.length-1);j++){
-                //         var idVentaItmeArray = cualArry[j].split("°");
-                //         var idVentaItem = idVentaItmeArray[2];
-                //         actualizarVentaitem("Auditar",idVentaItem);
-                //     }
-                // }if(dif==0){
-                //     $("#informeD p:eq("+(i+2)+")").text("Pedido ok");
-                //     var prendasPedido = obtenerData("codigo,complemento_estado","con_t_trprendas","rowVarios","cual","V"+id);//°C1145RB5D13S64°Diego 1°138%
-                //     var items = obtenerData("prenda_id,valor,descuento_id,estado_id","con_t_ventaitem","rowVarios","venta_id",id);//°44°120000°0°5%°113°140000°0°Despachado%
-                //     var itemArray = items.split("%");
-                //     var precio = 0;
-                //     var cantidadItem = 0;
-                //     for(var h = 0; h<(itemArray.length-1);h++){
-                //         var item = itemArray[h].split("°");
-                //         if(item[4]!=5){
-                //             precio = precio + item[2];
-                //             cantidadItem = cantidadItem +1;
-                //         }
-                //     }
-                //     var prendas = prendasPedido.split("%");
-                //     if((prendas.length-1) == cantidadItem){
-                //         for(var v =0 ;v < (prendas.length-1); v++ ){
-                //             var prendaArray = prendas[v].split("°");
-                //             var prenda = prendaArray[1];
-                //             actualizar("venta_estado","Entregado",id,usuarioCell,"-");
-                //             actualizarPrendas(usuarioCell+prendaArray[2]+"°"+prendaArray[3],"Entregado","V"+id,prenda);
-                //             actualizarVentaitem("Entregado",prendaArray[3]);
-                //         }
-                //     }else{
-                //         for(var v =0 ;v < (prendas.length-1); v++ ){
-                //             var prenda = prendas[v].replace("°","");
-                //             actualizar("venta_estado","Auditar",id,usuarioCell,"-");
-                //         }
-                //     }
-                // }if(dif>0){
-                //     $("#informeD p:eq("+(i+2)+")").text("Faltan prendas");
-                //     actualizar("venta_estado","Auditar",id,usuarioCell,"-");
-                // }
+                //var resultado = verificarinforme(id,"venta");
+                if(dif<0){
+                    $("#informeD p:eq("+(i+2)+")").text("Para auditar");
+                    actualizar("venta_estado","Auditar",id,usuarioCell,"-");
+                    var cualVentaItem = obtenerData("complemento_estado","con_t_trprendas","rowVarios","cual","V"+id);//°Diego 1°137%°Diego 1°138%
+                    var cualArry = cualVentaItem.split("%");
+                    for(var j = 0;j<(cualArry.length-1);j++){
+                        var idVentaItmeArray = cualArry[j].split("°");
+                        var idVentaItem = idVentaItmeArray[2];
+                        actualizarVentaitem("Auditar",idVentaItem);
+                    }
+                }if(dif==0){
+                    $("#informeD p:eq("+(i+2)+")").text("Pedido ok");
+                    var prendasPedido = obtenerData("codigo,complemento_estado","con_t_trprendas","rowVarios","cual","V"+id);//°C1145RB5D13S64°Diego 1°138%
+                    var items = obtenerData("prenda_id,valor,descuento_id,estado_id","con_t_ventaitem","rowVarios","venta_id",id);//°44°120000°0°5%°113°140000°0°Despachado%
+                    var itemArray = items.split("%");
+                    var precio = 0;
+                    var cantidadItem = 0;
+                    for(var h = 0; h<(itemArray.length-1);h++){
+                        var item = itemArray[h].split("°");
+                        if(item[4]!=5){
+                            precio = precio + item[2];
+                            cantidadItem = cantidadItem +1;
+                        }
+                    }
+                    var prendas = prendasPedido.split("%");
+                    if((prendas.length-1) == cantidadItem){
+                        for(var v =0 ;v < (prendas.length-1); v++ ){
+                            var prendaArray = prendas[v].split("°");
+                            var prenda = prendaArray[1];
+                            actualizar("venta_estado","Entregado",id,usuarioCell,"-");
+                            actualizarPrendas(usuarioCell+prendaArray[2]+"°"+prendaArray[3],"Entregado","V"+id,prenda);
+                            actualizarVentaitem("Entregado",prendaArray[3]);
+                        }
+                    }else{
+                        for(var v =0 ;v < (prendas.length-1); v++ ){
+                            var prenda = prendas[v].replace("°","");
+                            actualizar("venta_estado","Auditar",id,usuarioCell,"-");
+                        }
+                    }
+                }if(dif>0){
+                    $("#informeD p:eq("+(i+2)+")").text("Faltan prendas");
+                    actualizar("venta_estado","Auditar",id,usuarioCell,"-");
+                }
             }
         }
     });

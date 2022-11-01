@@ -200,14 +200,31 @@ function imrpimirlotes(){
 function verificarinforme(id,tipo){
     if(tipo=='venta'){
         var venta = obtenerDatajson("cliente_ok,estado","con_t_ventas","valoresconcondicion","venta_id",id);
-        var venta_items = obtenerDatajson("prenda_id,valor,estado_id","con_t_ventaitem","valoresconcondicion","venta_id",id);
-        var tr_prendas = obtenerDatajson("referencia_id,descripcion,codigo,estado,cual","con_t_trprendas","valoresconcondicion","cual","V"+id);
-        if(venta.estado == 'Sin empacar'){}
+        var tr_prendas = obtenerDatajson("referencia_id,descripcion,codigo,estado,cual,complemento_estado","con_t_trprendas","valoresconcondicion","cual","V"+id);
+        var diferencia =0;
+        var dineroreal =  parseInt(venta.cliente_ok);
+        var dineroprendas = 0;
+        for (let i = 0; i < array.length; i++) {
+            var complemento = tr_prendas[i].complemento_estado.split('°');  
+            var venta_item = obtenerDatajson("prenda_id,valor,estado_id","con_t_ventaitem","valoresconcondicion","ordenitem_id",complemento[1]);
+            dineroprendas = dineroprendas + parseInt(venta_item.valor);
+        }
+        diferencia=dineroreal-dineroprendas;
+        if(venta.estado == 'Sin empacar'){
+            if(diferencia<0){
+                
+            }
+        }
         if(venta.estado == 'No empacado'){}
         if(venta.estado == 'Cancelado'){}
         if(venta.estado == 'Empacado'){}
         if(venta.estado == 'Despachado'){}
-        if(venta.estado == 'Empacado'){}
-        if(venta.estado == 'Empacado'){}
+        if(venta.estado == 'Con transportadora'){}
+        if(venta.estado == 'Entregado'){}
+        if(venta.estado == 'Entregado sin dinero'){}
+        if(venta.estado == 'Pedido con excedente'){}
+        if(venta.estado == 'Prendas por volver'){}
+        if(venta.estado == 'Ya pago'){}
+        if(venta.estado == 'Ya pago escoge'){}        
     }else{}
 };

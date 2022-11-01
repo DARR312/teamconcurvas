@@ -178,12 +178,19 @@
         var html = "";
         var ventaItems = obtenerData("complemento_estado,descripcion","con_t_trprendas","rowVarios","cual","V"+$('#ventaIdentificacion').val());
         //°Diego 1°137°Londres Rosa Bebé SM%°Diego 1°138°Londres Rosa Bebé SM%
-        var ventaCliente = obtenerData("datos_cliente","con_t_ventas","row","venta_id",$('#ventaIdentificacion').val());
+        var ventaCliente = obtenerDatajson("datos_cliente","con_t_ventas","valoresconcondicion","venta_id",$('#ventaIdentificacion').val());
+        var jsonVentaCliente = JSON.parse(ventaCliente); 
+        var jsonDatosCliente = JSON.parse(jsonVentaCliente[0].datos_cliente); 
+        console.log(jsonDatosCliente);
         var ventaItemsArray = ventaItems.split("%");
         if(ventaItemsArray.length==0){
             alert("El pedido no tiene prendas asociadas para ser cambiadas");
         }else{
-            var html = "<h1  style='display: none;' class='remover' id='ventaCliente' name='"+$('#ventaIdentificacion').val()+"'>"+ventaCliente+"</h1>";
+            var html = "<h1  style='display: none;' class='remover' id='nombreCliente' name='"+$('#ventaIdentificacion').val()+"'>"+jsonDatosCliente.nombre+"</h1>";
+            html =html+ "<h1  style='display: none;' class='remover' id='telefonoCliente' name='"+$('#ventaIdentificacion').val()+"'>"+jsonDatosCliente.telefono+"</h1>";
+            html =html+ "<h1  style='display: none;' class='remover' id='direccionCliente' name='"+$('#ventaIdentificacion').val()+"'>"+jsonDatosCliente.direccion+"</h1>";
+            html =html+ "<h1  style='display: none;' class='remover' id='complementoCliente' name='"+$('#ventaIdentificacion').val()+"'>"+jsonDatosCliente.complemento+"</h1>";
+            html =html+ "<h1  style='display: none;' class='remover' id='ciudadCliente' name='"+$('#ventaIdentificacion').val()+"'>"+jsonDatosCliente.ciudad+"</h1>";
             for(var k = 0;k<(ventaItemsArray.length-1);k++){
                 var splt = ventaItemsArray[k].split("°");
                 var itemId = splt[2];
@@ -261,7 +268,15 @@
         var fecha_entrega = $('#datetimepicker-entrega').val();
         var idUsuario = $('#usuario').attr("name");
         var venta_id = $('#datosCliente').attr("name");
-        var datos_cliente = $('#clienteDirecc').text();
+        // var datos_cliente = $('#clienteDirecc').text();
+        var datos_cliente =  new Object();
+        datos_cliente.nombre = $('#clienteNombre').val();
+        datos_cliente.telefono  = $('#clienteTelefono').val();
+        datos_cliente.direccion = $('#clienteDireccion').val();
+        datos_cliente.complemento = $('#clienteComplemento').val();
+        datos_cliente.ciudad = $('#clienteCiudad').val();
+        var clienteString= JSON.stringify(datos_cliente);
+        // 
         var prendasEntran = $("#prendasEntran").text();
         var prendasEntranIDS = $("#prendasEntran").attr("name");
         var prendasSalen = $("#prendasSalen").text();
@@ -269,7 +284,7 @@
         var excedente = $('#diferencia').attr("name");
         if(venta_id){
             if(fecha_entrega){
-                var idCambio = agregarcambio(venta_id,datos_cliente,prendasSalen,prendasEntran,notas,excedente,fecha_entrega,idUsuario,idUsuario);
+                var idCambio = agregarcambio(venta_id,clienteString,prendasSalen,prendasEntran,notas,excedente,fecha_entrega,idUsuario,idUsuario);
                 var prendasEntranIDSArray = prendasEntranIDS.split("%");
                 var prendasSalenIDSArray = prendasSalenIDS.split("%");
                 for(var i = 0;i<(prendasEntranIDSArray.length-1);i++){

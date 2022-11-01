@@ -285,7 +285,41 @@
         var prendas = ($('#escaneados p'));
         enviarparaventa(prendas);
         $('.remover').remove();
-    });           
+    });       
+    $('#agregarVentaCell').on('click', function() {
+        var ids = obtenerDatajson('ID,descripcion','con_t_metodospago','variasfilasunicas','0','0');
+        var jsonIds = JSON.parse(ids);
+        console.log(jsonIds);
+        var option = "";
+        for (let i = 0; i < jsonIds.length; i++) {
+            option = option + "<option value='"+jsonIds[i].ID+"'>"+jsonIds[i].descripcion+"</option>"
+        }
+        var html = "<div class='col-lg-4 col-md-4 col-sm-4 col-xs-4 metodop' id='v0'><div class='form-group pmd-textfield pmd-textfield-floating-label'><label class='control-label letra18pt-pc' for='regular1'>Valor</label><input class='form-control' type='number' id='valor0' name='valor' required='><span class='pmd-textfield-focused'></span></div></div><div class='col-lg-8 col-md-8 col-sm-8 col-xs-8 metodop' id='metodo0'><div class='form-group pmd-textfield pmd-textfield-floating-label'><label class='control-label letra18pt-pc' for='regular1'>Metodo</label><select class='form-control letra18pt-pc metodo' type='select' name='metodo' id='0' form='formularioCliente' required=''><option value='S'>Seleccione un opción de pago</option></select><span class='pmd-textfield-focused'></span></div></div>";
+        for (let i = 1; i < jsonIds.length; i++) {
+            html = html+"<div class='col-lg-4 col-md-4 col-sm-4 col-xs-4 metodop' id='v"+i+"' style='display: none;'><div class='form-group pmd-textfield pmd-textfield-floating-label'><label class='control-label letra18pt-pc' for='regular1'>Valor</label><input class='form-control' type='number' id='valor"+i+"' name='valor' required='><span class='pmd-textfield-focused'></span></div></div><div class='col-lg-8 col-md-8 col-sm-8 col-xs-8 metodop' id='metodo"+i+"' style='display: none;'><div class='form-group pmd-textfield pmd-textfield-floating-label'><label class='control-label letra18pt-pc' for='regular1'>Metodo</label><select class='form-control letra18pt-pc metodo' type='select' name='metodo' id='"+i+"' form='formularioCliente' required=''><option value='S'>Seleccione un opción de pago</option></select><span class='pmd-textfield-focused'></span></div></div>";            
+        }
+        $('#vendedordiv').after(html);
+        $('.metodo').append(option);
+        var vendedores = obtenerDatajson('ID,display_name ','con_users','variasfilasunicas','0','0');
+        var jsonvendedores = JSON.parse(vendedores);
+        console.log(jsonvendedores);
+        var vendehtml = "";
+        for (let i = 0; i < jsonvendedores.length; i++) {
+            vendehtml = vendehtml+"<option value='"+jsonvendedores[i].ID+"'>"+jsonvendedores[i].display_name+"</option>";            
+        }
+        $('#vendedorselect').append(vendehtml);
+        $('#pop').fadeIn('slow');         
+        $('.popup-overlay').fadeIn('slow');
+        $('.popup-overlay').height($(window).height());    
+        $('#agregarPedido').css('display','block'); 
+        $('.metodo').on('change', function(){  
+            var id = parseInt(this.id)+1;
+            console.log(id);
+            $("#v"+id+"").css('display', 'block');
+            $("#metodo"+id+"").css('display', 'block');
+        });    
+        return false;     
+    });       
 })
 </script>
 <script>

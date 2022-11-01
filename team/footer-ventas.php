@@ -74,20 +74,22 @@
         }
         transportador.append(htmlll);
         $('#filtroFE').attr("name",pedidoUpdate+","+fechaUpdate+","+notasUpdate+","+usuarioUpdate+","+botonrevisar);
-        var ordenesVenta = ordenesventa($('#bscar').val(),$('#estadoFiltro').val(),$('#transportador').val(),$('#datetimepicker-default').val(),$('#datetimepicker-defaultFiltro').val());
-        var arrayOrdenes = ordenesVenta.split('&');
+        var ordenesVenta = ordenesventajson($('#bscar').val(),$('#estadoFiltro').val(),$('#transportador').val(),$('#datetimepicker-default').val(),$('#datetimepicker-defaultFiltro').val(),$('#bscartelefono').val());
+        var jsonVenta = JSON.parse(ordenesVenta); 
+        console.log(jsonVenta);
         var primeraFila = $('#primeraFila');
-        var html = imprimirVentas(arrayOrdenes,botonrevisar,pedidoUpdate,fechaUpdate,notasUpdate,usuarioUpdate);
+        var html = imprimirVentasjson(jsonVenta,botonrevisar,pedidoUpdate,fechaUpdate,notasUpdate,usuarioUpdate);
     	primeraFila.after(html);
     }
     ventas();
 
 	$('#bscar').on('change',function(){
 	    $('.removerVentas').remove();
-	    var ordenesVenta = ordenesventa($('#bscar').val(),$('#estadoFiltro').val(),$('#transportador').val(),$('#datetimepicker-default').val(),$('#datetimepicker-defaultFiltro').val());
-        var arrayOrdenes = ordenesVenta.split('&');
+	    var ordenesVenta = ordenesventajson($('#bscar').val(),$('#estadoFiltro').val(),$('#transportador').val(),$('#datetimepicker-default').val(),$('#datetimepicker-defaultFiltro').val(),$('#bscartelefono').val());
+        var jsonVenta = JSON.parse(ordenesVenta); 
+        console.log(jsonVenta);
         var primeraFila = $('#primeraFila');
-        var html = imprimirVentas(arrayOrdenes,botonrevisar,pedidoUpdate,fechaUpdate,notasUpdate,usuarioUpdate);
+        var html = imprimirVentasjson(jsonVenta,botonrevisar,pedidoUpdate,fechaUpdate,notasUpdate,usuarioUpdate);
     	primeraFila.after(html);
     	ventas();
 	});
@@ -95,6 +97,7 @@
 	$('#buscadortelefono').on('change',function(){
 	    $('.removerVentas').remove();
 	    var ordenesVenta = ordenesventajson($('#bscar').val(),$('#estadoFiltro').val(),$('#transportador').val(),$('#datetimepicker-default').val(),$('#datetimepicker-defaultFiltro').val(),$('#bscartelefono').val());
+        console.log(ordenesVenta);
         var jsonVentaCambio = JSON.parse(ordenesVenta); 
         console.log(jsonVentaCambio);
         var primeraFila = $('#primeraFila');
@@ -105,30 +108,33 @@
 
 	$('#estadoFiltro').on('change',function(){
 	    $('.removerVentas').remove();
-	    var ordenesVenta = ordenesventa($('#bscar').val(),$('#estadoFiltro').val(),$('#transportador').val(),$('#datetimepicker-default').val(),$('#datetimepicker-defaultFiltro').val());
-        var arrayOrdenes = ordenesVenta.split('&');
+        var ordenesVenta = ordenesventajson($('#bscar').val(),$('#estadoFiltro').val(),$('#transportador').val(),$('#datetimepicker-default').val(),$('#datetimepicker-defaultFiltro').val(),$('#bscartelefono').val());
+        var jsonVenta = JSON.parse(ordenesVenta); 
+        console.log(jsonVenta);
         var primeraFila = $('#primeraFila');
-        var html = imprimirVentas(arrayOrdenes,botonrevisar,pedidoUpdate,fechaUpdate,notasUpdate,usuarioUpdate);
+        var html = imprimirVentasjson(jsonVenta,botonrevisar,pedidoUpdate,fechaUpdate,notasUpdate,usuarioUpdate);
     	primeraFila.after(html);
     	ventas();
 	});
 
 	$('#transportador').on('change',function(){
 	    $('.removerVentas').remove();
-	    var ordenesVenta = ordenesventa($('#bscar').val(),$('#estadoFiltro').val(),$('#transportador').val(),$('#datetimepicker-default').val(),$('#datetimepicker-defaultFiltro').val());
-        var arrayOrdenes = ordenesVenta.split('&');
+        var ordenesVenta = ordenesventajson($('#bscar').val(),$('#estadoFiltro').val(),$('#transportador').val(),$('#datetimepicker-default').val(),$('#datetimepicker-defaultFiltro').val(),$('#bscartelefono').val());
+        var jsonVenta = JSON.parse(ordenesVenta); 
+        console.log(jsonVenta);
         var primeraFila = $('#primeraFila');
-        var html = imprimirVentas(arrayOrdenes,botonrevisar,pedidoUpdate,fechaUpdate,notasUpdate,usuarioUpdate);
+        var html = imprimirVentasjson(jsonVenta,botonrevisar,pedidoUpdate,fechaUpdate,notasUpdate,usuarioUpdate);
     	primeraFila.after(html);
     	ventas();
 	});	
 
 	$('#tipoenvio').on('change',function(){
 	    $('.removerVentas').remove();
-	    var ordenesVenta = ordenesventa($('#bscar').val(),$('#estadoFiltro').val(),$('#transportador').val(),$('#datetimepicker-default').val(),$('#datetimepicker-defaultFiltro').val());
-        var arrayOrdenes = ordenesVenta.split('&');
+        var ordenesVenta = ordenesventajson($('#bscar').val(),$('#estadoFiltro').val(),$('#transportador').val(),$('#datetimepicker-default').val(),$('#datetimepicker-defaultFiltro').val(),$('#bscartelefono').val());
+        var jsonVenta = JSON.parse(ordenesVenta); 
+        console.log(jsonVenta);
         var primeraFila = $('#primeraFila');
-        var html = imprimirVentas(arrayOrdenes,botonrevisar,pedidoUpdate,fechaUpdate,notasUpdate,usuarioUpdate);
+        var html = imprimirVentasjson(jsonVenta,botonrevisar,pedidoUpdate,fechaUpdate,notasUpdate,usuarioUpdate);
     	primeraFila.after(html);
     	ventas();
 	});
@@ -414,10 +420,11 @@
                                         var itemVenta = cantidad1+"/"+id1+","+cantidad2+"/"+id2+","+cantidad3+"/"+id3+","+cantidad4+"/"+id4+","+cantidad5+"/"+id5+","+cantidad6+"/"+id6;
                                         ventaitem(idVenta,itemVenta);
                                         $('.removerVentas').remove();
-                                	    var ordenesVenta = ordenesventa($('#bscar').val(),$('#estadoFiltro').val(),$('#transportador').val(),$('#datetimepicker-default').val(),$('#datetimepicker-defaultFiltro').val());
-                                        var arrayOrdenes = ordenesVenta.split('&');
+                                        var ordenesVenta = ordenesventajson($('#bscar').val(),$('#estadoFiltro').val(),$('#transportador').val(),$('#datetimepicker-default').val(),$('#datetimepicker-defaultFiltro').val(),$('#bscartelefono').val());
+                                        var jsonVenta = JSON.parse(ordenesVenta); 
+                                        console.log(jsonVenta);
                                         var primeraFila = $('#primeraFila');
-                                        var html = imprimirVentas(arrayOrdenes,botonrevisar,pedidoUpdate,fechaUpdate,notasUpdate,usuarioUpdate);
+                                        var html = imprimirVentasjson(jsonVenta,botonrevisar,pedidoUpdate,fechaUpdate,notasUpdate,usuarioUpdate);
                                     	primeraFila.after(html);
                                     	ventas();
                                     }else{
@@ -431,10 +438,11 @@
                                         var itemVenta = cantidad1+"/"+id1+","+cantidad2+"/"+id2+","+cantidad3+"/"+id3+","+cantidad4+"/"+id4+","+cantidad5+"/"+id5;
                                         ventaitem(idVenta,itemVenta);
                                         $('.removerVentas').remove();
-                                	    var ordenesVenta = ordenesventa($('#bscar').val(),$('#estadoFiltro').val(),$('#transportador').val(),$('#datetimepicker-default').val(),$('#datetimepicker-defaultFiltro').val());
-                                        var arrayOrdenes = ordenesVenta.split('&');
+                                	    var ordenesVenta = ordenesventajson($('#bscar').val(),$('#estadoFiltro').val(),$('#transportador').val(),$('#datetimepicker-default').val(),$('#datetimepicker-defaultFiltro').val(),$('#bscartelefono').val());
+                                        var jsonVenta = JSON.parse(ordenesVenta); 
+                                        console.log(jsonVenta);
                                         var primeraFila = $('#primeraFila');
-                                        var html = imprimirVentas(arrayOrdenes,botonrevisar,pedidoUpdate,fechaUpdate,notasUpdate,usuarioUpdate);
+                                        var html = imprimirVentasjson(jsonVenta,botonrevisar,pedidoUpdate,fechaUpdate,notasUpdate,usuarioUpdate);
                                     	primeraFila.after(html);
                                     	ventas();
                                     }
@@ -449,10 +457,11 @@
                                     var itemVenta = cantidad1+"/"+id1+","+cantidad2+"/"+id2+","+cantidad3+"/"+id3+","+cantidad4+"/"+id4;
                                     ventaitem(idVenta,itemVenta);
                                     $('.removerVentas').remove();
-                            	    var ordenesVenta = ordenesventa($('#bscar').val(),$('#estadoFiltro').val(),$('#transportador').val(),$('#datetimepicker-default').val(),$('#datetimepicker-defaultFiltro').val());
-                                    var arrayOrdenes = ordenesVenta.split('&');
+                                    var ordenesVenta = ordenesventajson($('#bscar').val(),$('#estadoFiltro').val(),$('#transportador').val(),$('#datetimepicker-default').val(),$('#datetimepicker-defaultFiltro').val(),$('#bscartelefono').val());
+                                    var jsonVenta = JSON.parse(ordenesVenta); 
+                                    console.log(jsonVenta);
                                     var primeraFila = $('#primeraFila');
-                                    var html = imprimirVentas(arrayOrdenes,botonrevisar,pedidoUpdate,fechaUpdate,notasUpdate,usuarioUpdate);
+                                    var html = imprimirVentasjson(jsonVenta,botonrevisar,pedidoUpdate,fechaUpdate,notasUpdate,usuarioUpdate);
                                 	primeraFila.after(html);
                                 	ventas();
                                 }
@@ -467,10 +476,11 @@
                                 var itemVenta = cantidad1+"/"+id1+","+cantidad2+"/"+id2+","+cantidad3+"/"+id3;
                                 ventaitem(idVenta,itemVenta);
                                 $('.removerVentas').remove();
-                        	    var ordenesVenta = ordenesventa($('#bscar').val(),$('#estadoFiltro').val(),$('#transportador').val(),$('#datetimepicker-default').val(),$('#datetimepicker-defaultFiltro').val());
-                                var arrayOrdenes = ordenesVenta.split('&');
+                                var ordenesVenta = ordenesventajson($('#bscar').val(),$('#estadoFiltro').val(),$('#transportador').val(),$('#datetimepicker-default').val(),$('#datetimepicker-defaultFiltro').val(),$('#bscartelefono').val());
+                                var jsonVenta = JSON.parse(ordenesVenta); 
+                                console.log(jsonVenta);
                                 var primeraFila = $('#primeraFila');
-                                var html = imprimirVentas(arrayOrdenes,botonrevisar,pedidoUpdate,fechaUpdate,notasUpdate,usuarioUpdate);
+                                var html = imprimirVentasjson(jsonVenta,botonrevisar,pedidoUpdate,fechaUpdate,notasUpdate,usuarioUpdate);
                             	primeraFila.after(html);
                             	ventas();
                             }
@@ -485,10 +495,11 @@
                             var itemVenta = cantidad1+"/"+id1+","+cantidad2+"/"+id2;
                             ventaitem(idVenta,itemVenta);
                             $('.removerVentas').remove();
-                    	    var ordenesVenta = ordenesventa($('#bscar').val(),$('#estadoFiltro').val(),$('#transportador').val(),$('#datetimepicker-default').val(),$('#datetimepicker-defaultFiltro').val());
-                            var arrayOrdenes = ordenesVenta.split('&');
+                            var ordenesVenta = ordenesventajson($('#bscar').val(),$('#estadoFiltro').val(),$('#transportador').val(),$('#datetimepicker-default').val(),$('#datetimepicker-defaultFiltro').val(),$('#bscartelefono').val());
+                            var jsonVenta = JSON.parse(ordenesVenta); 
+                            console.log(jsonVenta);
                             var primeraFila = $('#primeraFila');
-                            var html = imprimirVentas(arrayOrdenes,botonrevisar,pedidoUpdate,fechaUpdate,notasUpdate,usuarioUpdate);
+                            var html = imprimirVentasjson(jsonVenta,botonrevisar,pedidoUpdate,fechaUpdate,notasUpdate,usuarioUpdate);
                         	primeraFila.after(html);
                         	ventas();
                         }
@@ -503,10 +514,11 @@
                         var itemVenta = cantidad1+"/"+id1;
                         ventaitem(idVenta,itemVenta);
                         $('.removerVentas').remove();
-                	    var ordenesVenta = ordenesventa($('#bscar').val(),$('#estadoFiltro').val(),$('#transportador').val(),$('#datetimepicker-default').val(),$('#datetimepicker-defaultFiltro').val());
-                        var arrayOrdenes = ordenesVenta.split('&');
+                        var ordenesVenta = ordenesventajson($('#bscar').val(),$('#estadoFiltro').val(),$('#transportador').val(),$('#datetimepicker-default').val(),$('#datetimepicker-defaultFiltro').val(),$('#bscartelefono').val());
+                        var jsonVenta = JSON.parse(ordenesVenta); 
+                        console.log(jsonVenta);
                         var primeraFila = $('#primeraFila');
-                        var html = imprimirVentas(arrayOrdenes,botonrevisar,pedidoUpdate,fechaUpdate,notasUpdate,usuarioUpdate);
+                        var html = imprimirVentasjson(jsonVenta,botonrevisar,pedidoUpdate,fechaUpdate,notasUpdate,usuarioUpdate);
                     	primeraFila.after(html);
                     	ventas();
                     }

@@ -1,5 +1,5 @@
-//const urlhost = "http://localhost/wordpress/index.php/controlador" ;
-const urlhost = "https://concurvas.com/team/controlador/" ; 
+const urlhost = "http://localhost/wordpress/index.php/controlador" ;
+//const urlhost = "https://concurvas.com/team/controlador/" ; 
 function formatoPrecio(precio){
 	var pre = Math.sqrt(precio*precio);
     let myFunc = num => Number(num);
@@ -641,6 +641,7 @@ function ordenesventajson(bscar,estadoFiltro,transportador,datetimepicker_defaul
     if(!transportador || transportador == " "){transportador="0";}
     if(!datetimepicker_default || datetimepicker_default == " "){datetimepicker_default="0";}
     if(!datetimepicker_defaultFiltro || datetimepicker_defaultFiltro == " "){datetimepicker_defaultFiltro="0";}
+    if(!buscadortelefono || buscadortelefono == " "){buscadortelefono="0";}
     var enviar = "funcion=ordenesventajson&valor="+bscar+"&valor2="+estadoFiltro+"&valor3="+transportador+"&valor4="+datetimepicker_default+"&valor5="+datetimepicker_defaultFiltro+"&valor6="+buscadortelefono;
     var obtenidos = "no";
     $.ajax({

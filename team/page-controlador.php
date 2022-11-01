@@ -144,11 +144,11 @@ function obtenerDatajson($columna,$tabla,$tipo,$columnacondicion,$condicion){
     global $wpdb;
     if($tipo == "valoresconcondicion"){
         $obtenidosArray = $wpdb->get_results( "SELECT ".$columna." FROM ".$tabla." WHERE ".$columnacondicion." = ".$condicion."", ARRAY_A);
-        echo json_encode($obtenidosArray);
+        echo json_encode($obtenidosArray,JSON_UNESCAPED_UNICODE);
     }
     if($tipo == "variasfilasunicas"){
         $obtenidosArray = $wpdb->get_results( "SELECT ".$columna." FROM ".$tabla."", ARRAY_A);
-        echo json_encode($obtenidosArray);
+        echo json_encode($obtenidosArray,JSON_UNESCAPED_UNICODE);
     }
     if($tipo=="row"){
         
@@ -858,57 +858,63 @@ function ordenesventajson($valor,$estadoFiltro,$tipoenvio,$datetimepicker_defaul
     global $wpdb;
     if($valor != "0"){ 
         $ventas = $wpdb->get_results( "SELECT venta_id,fecha_creada,datos_cliente,pedido,cliente_ok,notas,fecha_entrega,estado FROM con_t_ventas  WHERE venta_id =".$valor."", ARRAY_A  );
-        echo json_encode($ventas);       
+        echo json_encode($ventas);    
+        return false;   
     }if($telefono != "0"){ 
         $ventascambios = [];
         $clienteId = $wpdb->get_results( "SELECT `cliente_id` FROM `con_t_clientes` WHERE `telefono`=".$telefono."", ARRAY_A  );
-        $ventasTodos = $wpdb->get_results( "SELECT venta_id,fecha_creada,datos_cliente,pedido,cliente_ok,notas,fecha_entrega,estado FROM con_t_ventas  WHERE cliente_id =".$clienteId[0]['cliente_id']."", ARRAY_A  );
+        //print_r($clienteId);
+        $ventasTodos = $wpdb->get_results( "SELECT venta_id,fecha_creada,datos_cliente,pedido,cliente_ok,notas,fecha_entrega,estado,origen FROM con_t_ventas  WHERE cliente_id =".$clienteId[0]['cliente_id']."", ARRAY_A  );
+        //print_r($ventasTodos);
         $consultaCambio = "";
         if(sizeof($ventasTodos)>1){                
             foreach ($ventasTodos as $v1){
                 $consultaCambio = $consultaCambio." OR ".$v1['venta_id'];
+                $v1['datos_cliente'] = json_encode($v1['datos_cliente']);
+                $v1['pedido'] = json_encode($v1['pedido']);
             }
         }
         $cambiosTodos = $wpdb->get_results( "SELECT cambio_id,fecha_creada,venta_id,datos_cliente,pedido,prendas_por_regresar,cliente_ok,notas,excedente,fecha_entrega,estado FROM con_t_cambios  WHERE venta_id = ".$ventasTodos[0]['venta_id']." ".$consultaCambio."", ARRAY_A  );
+        //print_r($ventasTodos);
         $ventascambios['ventas'] = $ventasTodos;
         $ventascambios['cambios'] = $cambiosTodos;
-        echo json_encode($ventascambios);       
-    }else{ 
-        $where = "";
-        $est="";
-        $tra="";
-        $tip="";
-        $cre="";
-        $ent="";
-        if($estadoFiltro != "0" || $transportador != "0" || $tipoenvio != "0" || $datetimepicker_default != "0" || $datetimepicker_defaultFiltro != "0"){
-            $where=" WHERE cambio_id > 10";
-        }
-        if($estadoFiltro != "0"){
-            $est=" AND (estado = '".$estadoFiltro."')";
-        }
-        if($transportador != "0"){
-            $tra="";
-        }
-        if($tipoenvio != "0"){
-            $tip="";
-        }
-        if($datetimepicker_default != "0"){
-            $fechaventagaarray = explode("/",$datetimepicker_default);
-            $fechaventa = $fechaventagaarray[2]."-".$fechaventagaarray[0]."-".$fechaventagaarray[1]." 00:00:00";
-            $fechaventaup = $fechaventagaarray[2]."-".$fechaventagaarray[0]."-".$fechaventagaarray[1]." 23:59:59";            
-            $cre=" AND (fecha_creada  BETWEEN  '".$fechaventa."' AND '".$fechaventaup."')";
-        }
-        if($datetimepicker_defaultFiltro != "0"){
-            $cre="";
-            $fechaventagaarray = explode("/",$datetimepicker_defaultFiltro);
-            $fechaventa = $fechaventagaarray[2]."-".$fechaventagaarray[0]."-".$fechaventagaarray[1]." 00:00:00";
-            $fechaventaup = $fechaventagaarray[2]."-".$fechaventagaarray[0]."-".$fechaventagaarray[1]." 23:59:59";    
-            $ent=" AND (fecha_entrega BETWEEN  '".$fechaventa."' AND '".$fechaventaup."')";
-        }
-        //echo "SELECT cambio_id,fecha_creada,venta_id,datos_cliente,pedido,prendas_por_regresar,cliente_ok,notas,excedente,fecha_entrega,estado FROM con_t_cambios".$where.$est.$tra.$tip.$ent.$ent."";
-        $cambiosTodos = $wpdb->get_results("SELECT cambio_id,fecha_creada,venta_id,datos_cliente,pedido,prendas_por_regresar,cliente_ok,notas,excedente,fecha_entrega,estado FROM con_t_cambios".$where.$est.$tra.$tip.$ent.$ent."", ARRAY_A);
-        echo json_encode($cambiosTodos);
+        echo json_encode($ventascambios);    
+        return false;   
     }
+    $where = "";
+    $est="";
+    $tra="";
+    $tip="";
+    $cre="";
+    $ent="";
+    if($estadoFiltro != "0" || $transportador != "0" || $tipoenvio != "0" || $datetimepicker_default != "0" || $datetimepicker_defaultFiltro != "0"){
+        $where=" WHERE venta_id > 40";
+    }
+    if($estadoFiltro != "0"){
+        $est=" AND (estado = '".$estadoFiltro."')";
+    }
+    if($transportador != "0"){
+        $tra="";
+    }
+    if($tipoenvio != "0"){
+        $tip="";
+    }
+    if($datetimepicker_default != "0"){
+        $fechaventagaarray = explode("/",$datetimepicker_default);
+        $fechaventa = $fechaventagaarray[2]."-".$fechaventagaarray[0]."-".$fechaventagaarray[1]." 00:00:00";
+        $fechaventaup = $fechaventagaarray[2]."-".$fechaventagaarray[0]."-".$fechaventagaarray[1]." 23:59:59";            
+        $cre=" AND (fecha_creada  BETWEEN  '".$fechaventa."' AND '".$fechaventaup."')";
+    }
+    if($datetimepicker_defaultFiltro != "0"){
+        $cre="";
+        $fechaventagaarray = explode("/",$datetimepicker_defaultFiltro);
+        $fechaventa = $fechaventagaarray[2]."-".$fechaventagaarray[0]."-".$fechaventagaarray[1]." 00:00:00";
+        $fechaventaup = $fechaventagaarray[2]."-".$fechaventagaarray[0]."-".$fechaventagaarray[1]." 23:59:59";    
+        $ent=" AND (fecha_entrega BETWEEN  '".$fechaventa."' AND '".$fechaventaup."')";
+    }
+    //echo "SELECT cambio_id,fecha_creada,venta_id,datos_cliente,pedido,prendas_por_regresar,cliente_ok,notas,excedente,fecha_entrega,estado FROM con_t_cambios".$where.$est.$tra.$tip.$ent.$ent."";
+    $ventastodas = $wpdb->get_results("SELECT venta_id,fecha_creada,datos_cliente,pedido,cliente_ok,notas,fecha_entrega,estado FROM con_t_ventas".$where.$est.$tra.$tip.$ent.$ent."", ARRAY_A);
+    echo json_encode($ventastodas);
 }
 
 function  actualizar($tabla,$columna,$valor,$valor2,$valor3){
@@ -971,6 +977,10 @@ function  actualizar($tabla,$columna,$valor,$valor2,$valor3){
         $datos = array("venta_id" => $valor , "cambio" => $columna , "usuario_id" => $valores[2] , "fecha_hora" => $fecha , "campo_cambio" => "cliente_ok");
         $wpdb->insert("con_t_ventastr", $datos);
     }
+    if($tabla == "ventaitem_estado_idcambio"){
+        $datos = "UPDATE con_t_ventaitem SET estado='".$valor."' WHERE venta_id  = ".$columna."";
+        $wpdb->query($datos);
+    }
     if($tabla == "cambio_cliente" ){
         $updated = $wpdb->update( "con_t_cambios", array('datos_cliente' => $columna), array( 'cambio_id' => $valor ) );
         $datos = array("cambio_id" => $valor , "cambio" => $columna , "usuario_id" => $valores[2] , "fecha_hora" => $fecha , "campo_cambio" => "datos_cliente");
@@ -986,6 +996,15 @@ function  actualizar($tabla,$columna,$valor,$valor2,$valor3){
     }
     if($tabla == "cambioitem_estado"){
         $datos = "UPDATE con_t_cambioitem SET estado='".$valor."' WHERE cambioitem_id  = ".$columna."";
+        $wpdb->query($datos);
+    }
+    if($tabla == "cambioitem_estado_idcambio"){
+        $datos = "UPDATE con_t_cambioitem SET estado='".$valor."' WHERE cambio_id  = ".$columna."";
+        $wpdb->query($datos);
+    }
+    if($tabla == "estado_prenda"){
+        $datos = "UPDATE con_t_trprendas SET estado='".$valor."' WHERE ".$valor2."  = '".$columna."'";
+        echo $datos;
         $wpdb->query($datos);
     }
     if($tabla == "cambio_fecha" ){
@@ -1162,7 +1181,7 @@ function auditprendas($valor,$valor2,$valor3,$valor4){
         $obtenidosArray = $wpdb->get_results( "SELECT fecha FROM con_t_auditoriasinventario WHERE ID = ".$last[0]->id."", ARRAY_A);
         if($valor4 == "Empacado" || $valor4 == "Despachado"){
             $timezone = new DateTimeZone( 'America/Bogota' );
-            $fecha = wp_date('Y-m-d H:i:s', strtotime('-2 week'), $timezone );
+            $fecha = wp_date('Y-m-d H:i:s', strtotime('-1 week'), $timezone );
             $codigos = $wpdb->get_results( "SELECT codigo, estado, cual, complemento_estado, fecha_cambio, descripcion FROM con_t_trprendas WHERE (fecha_cambio < '".$fecha."') AND (estado = '".$valor4."') ", ARRAY_A  );           
         }else{
             if($valor2 == 10){
