@@ -547,8 +547,7 @@ function escanerventamayorista(decodedText, decodedResult) {
 };
 
 function agregarventa(idCliente,datosCliente,pedido,precio,notas,origen,fecha,idUsuario,idUsuario) {
-    var datos = idCliente+"¬"+notas+"¬"+origen+"¬"+fecha+"¬"+idUsuario+"¬"+idUsuario+"¬"+datosCliente+"¬"+pedido+"¬"+precio;
-    var enviar = "funcion=agregarventa&valor="+datos;
+    var enviar = "funcion=agregarventa&valor="+idCliente+"&valor2="+datosCliente+"&valor3="+pedido+"&valor4="+precio+"&valor5="+notas+"&valor6="+origen+"&valor7="+fecha+"&valor8="+idUsuario;
 	var obtenidos = "0";
     $.ajax({
     	url: urlhost,

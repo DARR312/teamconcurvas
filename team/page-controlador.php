@@ -499,14 +499,20 @@ function referenciasrodas(){
     echo $datos;
 }
 
-function agregarventa($valor){
+function agregarventa($idCliente,$datosCliente,$pedido,$precio,$notas,$origen,$fecha,$idUsuario){
     $vals = explode("¬",$valor);
-    $fechaentregaarray = explode("/",$vals[3]);
+    $fechaentregaarray = explode("/",$fecha);
     $fechaentrega = $fechaentregaarray[2]."-".$fechaentregaarray[0]."-".$fechaentregaarray[1]." 00:00:00";
     $timezone = new DateTimeZone( 'America/Bogota' );
     $fechacreada = wp_date('Y-m-d H:i:s', null, $timezone );
-    $pedir = $vals[7]."%".$vals[8];
-    $valores = array("fecha_creada" => $fechacreada , "cliente_id" => $vals[0] , "notas" => $vals[1] , "origen" => $vals[2] , "fecha_entrega" => $fechaentrega, "estado" => "Sin empacar", "vendedor_id" => $vals[4], "usuario_id" => $vals[5], "datos_cliente" => $vals[6], "pedido" => $pedir);
+    $pedir = $vals[7];
+    $datosss = str_replace("\\","",$datosCliente);
+    $datosssss = str_replace("<","{",$datosss);
+    $datosCliente = str_replace(">","}",$datosssss);
+    $datosss = str_replace("\\","",$pedido);
+    $datosssss = str_replace("<","{",$datosss);
+    $pedido = str_replace(">","}",$datosssss);
+    $valores = array("fecha_creada" => $fechacreada , "cliente_id" => $idCliente , "notas" => $notas , "origen" => $origen , "fecha_entrega" => $fechaentrega, "estado" => "Sin empacar", "vendedor_id" => $idUsuario, "usuario_id" => $idUsuario, "datos_cliente" => $datosCliente, "pedido" => $pedido);
     global $wpdb;
     $wpdb->insert("con_t_ventas", $valores);
     $lastId = $wpdb->get_results( "SELECT MAX(venta_id) as id FROM con_t_ventas");
@@ -857,7 +863,7 @@ function ordenescambiojson($valor,$estadoFiltro,$transportador,$tipoenvio,$datet
 function ordenesventajson($valor,$estadoFiltro,$tipoenvio,$datetimepicker_default,$datetimepicker_defaultFiltro,$telefono){
     global $wpdb;
     if($valor != "0"){ 
-        $ventas = $wpdb->get_results( "SELECT venta_id,fecha_creada,datos_cliente,pedido,cliente_ok,notas,fecha_entrega,estado FROM con_t_ventas  WHERE venta_id =".$valor."", ARRAY_A  );
+        $ventas = $wpdb->get_results( "SELECT venta_id,fecha_creada,datos_cliente,pedido,cliente_ok,notas,fecha_entrega,estado,origen FROM con_t_ventas  WHERE venta_id =".$valor."", ARRAY_A  );
         echo json_encode($ventas);    
         return false;   
     }if($telefono != "0"){ 
@@ -913,7 +919,7 @@ function ordenesventajson($valor,$estadoFiltro,$tipoenvio,$datetimepicker_defaul
         $ent=" AND (fecha_entrega BETWEEN  '".$fechaventa."' AND '".$fechaventaup."')";
     }
     //echo "SELECT cambio_id,fecha_creada,venta_id,datos_cliente,pedido,prendas_por_regresar,cliente_ok,notas,excedente,fecha_entrega,estado FROM con_t_cambios".$where.$est.$tra.$tip.$ent.$ent."";
-    $ventastodas = $wpdb->get_results("SELECT venta_id,fecha_creada,datos_cliente,pedido,cliente_ok,notas,fecha_entrega,estado FROM con_t_ventas".$where.$est.$tra.$tip.$ent.$ent."", ARRAY_A);
+    $ventastodas = $wpdb->get_results("SELECT venta_id,fecha_creada,datos_cliente,pedido,cliente_ok,notas,fecha_entrega,estado,origen FROM con_t_ventas".$where.$est.$tra.$tip.$ent.$ent."", ARRAY_A);
     echo json_encode($ventastodas);
 }
 
@@ -1556,7 +1562,7 @@ if($funcion == "permisosPrincipales"){
 }if($funcion == "disponibles"){
     disponibles();
 }if($funcion == "agregarventa"){
-    agregarventa($valor);
+    agregarventa($valor,$valor2,$valor3,$valor4,$valor5,$valor6,$valor7,$valor8);
 }if($funcion == "ventaitem"){
    ventaitem($valor,$valor2);
 }if($funcion == "ordenesventa"){

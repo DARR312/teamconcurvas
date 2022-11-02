@@ -402,129 +402,115 @@
         var precio6 = $('#precio6').text();
         var fecha = $('#datetimepicker-entrega').val();
         var idUsuario = $('#usuario').attr("name");
-        if(idCliente){
-            if(fecha){
-                if(id1){
-                    if(id2){
-                        if(id3){
-                            if(id4){
-                                if(id5){
-                                    if(id6){
-                                        $('#popup').fadeOut('slow');         
-                                        $('.popup-overlay').fadeOut('slow');      
-                                        $('.reinicia').remove(); 
-                                        var pedido = cantidad1+" "+refe1+" "+cantidad2+" "+refe2+" "+cantidad3+" "+refe3+" "+cantidad4+" "+refe4+" "+cantidad5+" "+refe5+" "+cantidad6+" "+refe6;
-                                        var datosCliente = "°"+nombreVenta+"°"+telVenta+"°"+dirVenta+"°"+complementoCliente+"°"+ciudadCliente+"%";
-                                        var precio = (cantidad1 * parseInt(precio1))+ (cantidad2 * parseInt(precio2))+ (cantidad3 * parseInt(precio3))+ (cantidad4 * parseInt(precio4))+ (cantidad5 * parseInt(precio5))+ (cantidad6 * parseInt(precio6));
-                                        var idVenta = agregarventa(idCliente,datosCliente,pedido,precio,notas,origen,fecha,idUsuario,idUsuario);
-                                        var itemVenta = cantidad1+"/"+id1+","+cantidad2+"/"+id2+","+cantidad3+"/"+id3+","+cantidad4+"/"+id4+","+cantidad5+"/"+id5+","+cantidad6+"/"+id6;
-                                        ventaitem(idVenta,itemVenta);
-                                        $('.removerVentas').remove();
-                                        var ordenesVenta = ordenesventajson($('#bscar').val(),$('#estadoFiltro').val(),$('#transportador').val(),$('#datetimepicker-default').val(),$('#datetimepicker-defaultFiltro').val(),$('#bscartelefono').val());
-                                        var jsonVenta = JSON.parse(ordenesVenta); 
-                                        console.log(jsonVenta);
-                                        var primeraFila = $('#primeraFila');
-                                        var html = imprimirVentasjson(jsonVenta,botonrevisar,pedidoUpdate,fechaUpdate,notasUpdate,usuarioUpdate);
-                                    	primeraFila.after(html);
-                                    	ventas();
-                                    }else{
-                                        $('#popup').fadeOut('slow');         
-                                        $('.popup-overlay').fadeOut('slow');      
-                                        $('.reinicia').remove();
-                                        var pedido = cantidad1+" "+refe1+" "+cantidad2+" "+refe2+" "+cantidad3+" "+refe3+" "+cantidad4+" "+refe4+" "+cantidad5+" "+refe5;
-                                        var datosCliente = "°"+nombreVenta+"°"+telVenta+"°"+dirVenta+"°"+complementoCliente+"°"+ciudadCliente+"%";
-                                        var precio = (cantidad1 * parseInt(precio1))+ (cantidad2 * parseInt(precio2))+ (cantidad3 * parseInt(precio3))+ (cantidad4 * parseInt(precio4))+ (cantidad5 * parseInt(precio5));
-                                        var idVenta = agregarventa(idCliente,datosCliente,pedido,notas,origen,fecha,idUsuario,idUsuario);
-                                        var itemVenta = cantidad1+"/"+id1+","+cantidad2+"/"+id2+","+cantidad3+"/"+id3+","+cantidad4+"/"+id4+","+cantidad5+"/"+id5;
-                                        ventaitem(idVenta,itemVenta);
-                                        $('.removerVentas').remove();
-                                	    var ordenesVenta = ordenesventajson($('#bscar').val(),$('#estadoFiltro').val(),$('#transportador').val(),$('#datetimepicker-default').val(),$('#datetimepicker-defaultFiltro').val(),$('#bscartelefono').val());
-                                        var jsonVenta = JSON.parse(ordenesVenta); 
-                                        console.log(jsonVenta);
-                                        var primeraFila = $('#primeraFila');
-                                        var html = imprimirVentasjson(jsonVenta,botonrevisar,pedidoUpdate,fechaUpdate,notasUpdate,usuarioUpdate);
-                                    	primeraFila.after(html);
-                                    	ventas();
-                                    }
-                                }else{
-                                    $('#popup').fadeOut('slow');         
-                                    $('.popup-overlay').fadeOut('slow');      
-                                    $('.reinicia').remove();
-                                    var pedido = cantidad1+" "+refe1+" "+cantidad2+" "+refe2+" "+cantidad3+" "+refe3+" "+cantidad4+" "+refe4;
-                                    var datosCliente = "°"+nombreVenta+"°"+telVenta+"°"+dirVenta+"°"+complementoCliente+"°"+ciudadCliente+"%";
-                                    var precio = (cantidad1 * parseInt(precio1))+ (cantidad2 * parseInt(precio2))+ (cantidad3 * parseInt(precio3))+ (cantidad4 * parseInt(precio4));
-                                    var idVenta = agregarventa(idCliente,datosCliente,pedido,precio,notas,origen,fecha,idUsuario,idUsuario);
-                                    var itemVenta = cantidad1+"/"+id1+","+cantidad2+"/"+id2+","+cantidad3+"/"+id3+","+cantidad4+"/"+id4;
-                                    ventaitem(idVenta,itemVenta);
-                                    $('.removerVentas').remove();
-                                    var ordenesVenta = ordenesventajson($('#bscar').val(),$('#estadoFiltro').val(),$('#transportador').val(),$('#datetimepicker-default').val(),$('#datetimepicker-defaultFiltro').val(),$('#bscartelefono').val());
-                                    var jsonVenta = JSON.parse(ordenesVenta); 
-                                    console.log(jsonVenta);
-                                    var primeraFila = $('#primeraFila');
-                                    var html = imprimirVentasjson(jsonVenta,botonrevisar,pedidoUpdate,fechaUpdate,notasUpdate,usuarioUpdate);
-                                	primeraFila.after(html);
-                                	ventas();
-                                }
-                            }else{
-                                $('#popup').fadeOut('slow');         
-                                $('.popup-overlay').fadeOut('slow');      
-                                $('.reinicia').remove();
-                                var pedido = cantidad1+" "+refe1+" "+cantidad2+" "+refe2+" "+cantidad3+" "+refe3;
-                                var datosCliente = "°"+nombreVenta+"°"+telVenta+"°"+dirVenta+"°"+complementoCliente+"°"+ciudadCliente+"%";
-                                var precio = (cantidad1 * parseInt(precio1))+ (cantidad2 * parseInt(precio2))+ (cantidad3 * parseInt(precio3));
-                                var idVenta = agregarventa(idCliente,datosCliente,pedido,precio,notas,origen,fecha,idUsuario,idUsuario);
-                                var itemVenta = cantidad1+"/"+id1+","+cantidad2+"/"+id2+","+cantidad3+"/"+id3;
-                                ventaitem(idVenta,itemVenta);
-                                $('.removerVentas').remove();
-                                var ordenesVenta = ordenesventajson($('#bscar').val(),$('#estadoFiltro').val(),$('#transportador').val(),$('#datetimepicker-default').val(),$('#datetimepicker-defaultFiltro').val(),$('#bscartelefono').val());
-                                var jsonVenta = JSON.parse(ordenesVenta); 
-                                console.log(jsonVenta);
-                                var primeraFila = $('#primeraFila');
-                                var html = imprimirVentasjson(jsonVenta,botonrevisar,pedidoUpdate,fechaUpdate,notasUpdate,usuarioUpdate);
-                            	primeraFila.after(html);
-                            	ventas();
-                            }
-                        }else{
-                            $('#popup').fadeOut('slow');         
-                            $('.popup-overlay').fadeOut('slow');      
-                            $('.reinicia').remove();
-                            var pedido = cantidad1+" "+refe1+" "+cantidad2+" "+refe2;
-                            var datosCliente = "°"+nombreVenta+"°"+telVenta+"°"+dirVenta+"°"+complementoCliente+"°"+ciudadCliente+"%";
-                            var precio = (cantidad1 * parseInt(precio1))+ (cantidad2 * parseInt(precio2));
-                            var idVenta = agregarventa(idCliente,datosCliente,pedido,precio,notas,origen,fecha,idUsuario,idUsuario);
-                            var itemVenta = cantidad1+"/"+id1+","+cantidad2+"/"+id2;
-                            ventaitem(idVenta,itemVenta);
-                            $('.removerVentas').remove();
-                            var ordenesVenta = ordenesventajson($('#bscar').val(),$('#estadoFiltro').val(),$('#transportador').val(),$('#datetimepicker-default').val(),$('#datetimepicker-defaultFiltro').val(),$('#bscartelefono').val());
-                            var jsonVenta = JSON.parse(ordenesVenta); 
-                            console.log(jsonVenta);
-                            var primeraFila = $('#primeraFila');
-                            var html = imprimirVentasjson(jsonVenta,botonrevisar,pedidoUpdate,fechaUpdate,notasUpdate,usuarioUpdate);
-                        	primeraFila.after(html);
-                        	ventas();
-                        }
-                    }else{
-                        $('#popup').fadeOut('slow');         
-                        $('.popup-overlay').fadeOut('slow');      
-                        $('.reinicia').remove();
-                        var pedido = cantidad1+" "+refe1;
-                        var datosCliente = "°"+nombreVenta+"°"+telVenta+"°"+dirVenta+"°"+complementoCliente+"°"+ciudadCliente+"%";
-                        var precio = (cantidad1 * parseInt(precio1));
-                        var idVenta = agregarventa(idCliente,datosCliente,pedido,precio,notas,origen,fecha,idUsuario,idUsuario);
-                        var itemVenta = cantidad1+"/"+id1;
-                        ventaitem(idVenta,itemVenta);
-                        $('.removerVentas').remove();
-                        var ordenesVenta = ordenesventajson($('#bscar').val(),$('#estadoFiltro').val(),$('#transportador').val(),$('#datetimepicker-default').val(),$('#datetimepicker-defaultFiltro').val(),$('#bscartelefono').val());
-                        var jsonVenta = JSON.parse(ordenesVenta); 
-                        console.log(jsonVenta);
-                        var primeraFila = $('#primeraFila');
-                        var html = imprimirVentasjson(jsonVenta,botonrevisar,pedidoUpdate,fechaUpdate,notasUpdate,usuarioUpdate);
-                    	primeraFila.after(html);
-                    	ventas();
-                    }
-                }else{alert("Ingresa referencias al pedido")}
-            }else{alert("Ingresa una fecha de entrega");}
-        }else{alert("Por favor ingresa un cliente");}
+        if(!idCliente){
+            alert("Por favor ingresa un cliente");
+            return false;
+        }
+        var objeto = {};
+        objeto.nombre = nombreVenta;
+        objeto.telefono = telVenta;
+        objeto.direccion = dirVenta;
+        objeto.complemento = complementoCliente;
+        objeto.ciudad = ciudadCliente;            
+        var datosCliente=JSON.stringify(objeto);
+        var datosCliente1 = datosCliente.replaceAll("<","");  
+        var datosCliente2 = datosCliente1.replaceAll(">","");
+        var datosCliente3 = datosCliente2.replaceAll("{","<");  
+        datosCliente = datosCliente3.replaceAll("}",">");   
+        if(!fecha){
+            alert("Por favor ingresa una fecha");
+            return false;
+        }
+        if(id6){
+            var pedido = cantidad1+" "+refe1+" "+cantidad2+" "+refe2+" "+cantidad3+" "+refe3+" "+cantidad4+" "+refe4+" "+cantidad5+" "+refe5+" "+cantidad6+" "+refe6;
+            var objetopedido = {};
+            objetopedido.prendas = cantidad1+" "+refe1+" "+cantidad2+" "+refe2+" "+cantidad3+" "+refe3+" "+cantidad4+" "+refe4+" "+cantidad5+" "+refe5+" "+cantidad6+" "+refe6;
+            var precio = (cantidad1 * parseInt(precio1))+ (cantidad2 * parseInt(precio2))+ (cantidad3 * parseInt(precio3))+ (cantidad4 * parseInt(precio4))+ (cantidad5 * parseInt(precio5))+ (cantidad6 * parseInt(precio6));
+            objetopedido.precio = precio;
+            var pedido=JSON.stringify(objetopedido);
+            var pedido1 = pedido.replaceAll("<","");  
+            var pedido2 = pedido1.replaceAll(">","");
+            var pedido3 = pedido2.replaceAll("{","<");  
+            pedido = pedido3.replaceAll("}",">");       
+            var itemVenta = cantidad1+"/"+id1+","+cantidad2+"/"+id2+","+cantidad3+"/"+id3+","+cantidad4+"/"+id4+","+cantidad5+"/"+id5+","+cantidad6+"/"+id6;
+            agregandotodo(idCliente,datosCliente,pedido,precio,notas,origen,fecha,idUsuario,idUsuario,itemVenta,botonrevisar,pedidoUpdate,fechaUpdate,notasUpdate,usuarioUpdate);       
+            return false;
+        }
+        if(id5){
+            var pedido = cantidad1+" "+refe1+" "+cantidad2+" "+refe2+" "+cantidad3+" "+refe3+" "+cantidad4+" "+refe4+" "+cantidad5+" "+refe5;
+            var objetopedido = {};
+            objetopedido.prendas = cantidad1+" "+refe1+" "+cantidad2+" "+refe2+" "+cantidad3+" "+refe3+" "+cantidad4+" "+refe4+" "+cantidad5+" "+refe5;
+            var precio = (cantidad1 * parseInt(precio1))+ (cantidad2 * parseInt(precio2))+ (cantidad3 * parseInt(precio3))+ (cantidad4 * parseInt(precio4))+ (cantidad5 * parseInt(precio5));
+            objetopedido.precio = precio;
+            var pedido=JSON.stringify(objetopedido);
+            var pedido1 = pedido.replaceAll("<","");  
+            var pedido2 = pedido1.replaceAll(">","");
+            var pedido3 = pedido2.replaceAll("{","<");  
+            pedido = pedido3.replaceAll("}",">");   
+            var itemVenta = cantidad1+"/"+id1+","+cantidad2+"/"+id2+","+cantidad3+"/"+id3+","+cantidad4+"/"+id4+","+cantidad5+"/"+id5;    
+            agregandotodo(idCliente,datosCliente,pedido,precio,notas,origen,fecha,idUsuario,idUsuario,itemVenta,botonrevisar,pedidoUpdate,fechaUpdate,notasUpdate,usuarioUpdate);       
+            return false;
+        }
+        if(id4){
+            var pedido = cantidad1+" "+refe1+" "+cantidad2+" "+refe2+" "+cantidad3+" "+refe3+" "+cantidad4+" "+refe4;
+            var objetopedido = {};
+            objetopedido.prendas = cantidad1+" "+refe1+" "+cantidad2+" "+refe2+" "+cantidad3+" "+refe3+" "+cantidad4+" "+refe4;
+            var precio = (cantidad1 * parseInt(precio1))+ (cantidad2 * parseInt(precio2))+ (cantidad3 * parseInt(precio3))+ (cantidad4 * parseInt(precio4));
+            objetopedido.precio = precio;
+            var pedido=JSON.stringify(objetopedido);
+            var pedido1 = pedido.replaceAll("<","");  
+            var pedido2 = pedido1.replaceAll(">","");
+            var pedido3 = pedido2.replaceAll("{","<");  
+            pedido = pedido3.replaceAll("}",">");       
+            var itemVenta = cantidad1+"/"+id1+","+cantidad2+"/"+id2+","+cantidad3+"/"+id3+","+cantidad4+"/"+id4;
+            agregandotodo(idCliente,datosCliente,pedido,precio,notas,origen,fecha,idUsuario,idUsuario,itemVenta,botonrevisar,pedidoUpdate,fechaUpdate,notasUpdate,usuarioUpdate);       
+            return false;
+        }
+        if(id3){
+            var pedido = cantidad1+" "+refe1+" "+cantidad2+" "+refe2+" "+cantidad3+" "+refe3;
+            var objetopedido = {};
+            objetopedido.prendas = cantidad1+" "+refe1+" "+cantidad2+" "+refe2+" "+cantidad3+" "+refe3;
+            var precio = (cantidad1 * parseInt(precio1))+ (cantidad2 * parseInt(precio2))+ (cantidad3 * parseInt(precio3));
+            objetopedido.precio = precio;
+            var pedido=JSON.stringify(objetopedido);
+            var pedido1 = pedido.replaceAll("<","");  
+            var pedido2 = pedido1.replaceAll(">","");
+            var pedido3 = pedido2.replaceAll("{","<");  
+            pedido = pedido3.replaceAll("}",">");       
+            var itemVenta = cantidad1+"/"+id1+","+cantidad2+"/"+id2+","+cantidad3+"/"+id3;
+            agregandotodo(idCliente,datosCliente,pedido,precio,notas,origen,fecha,idUsuario,idUsuario,itemVenta,botonrevisar,pedidoUpdate,fechaUpdate,notasUpdate,usuarioUpdate);        
+            return false;
+        }
+        if(id2){
+            var pedido = cantidad1+" "+refe1+" "+cantidad2+" "+refe2;
+            var objetopedido = {};
+            objetopedido.prendas = cantidad1+" "+refe1+" "+cantidad2+" "+refe2;
+            var precio = (cantidad1 * parseInt(precio1))+ (cantidad2 * parseInt(precio2));
+            objetopedido.precio = precio;
+            var pedido=JSON.stringify(objetopedido);
+            var pedido1 = pedido.replaceAll("<","");  
+            var pedido2 = pedido1.replaceAll(">","");
+            var pedido3 = pedido2.replaceAll("{","<");  
+            pedido = pedido3.replaceAll("}",">");       
+            var itemVenta = cantidad1+"/"+id1+","+cantidad2+"/"+id2;
+            agregandotodo(idCliente,datosCliente,pedido,precio,notas,origen,fecha,idUsuario,idUsuario,itemVenta,botonrevisar,pedidoUpdate,fechaUpdate,notasUpdate,usuarioUpdate);        
+            return false;
+        }
+        if(id1){
+            var pedido = cantidad1+" "+refe1;
+            var objetopedido = {};
+            objetopedido.prendas = cantidad1+" "+refe1;
+            var precio = (cantidad1 * parseInt(precio1));
+            objetopedido.precio = precio;
+            var pedido=JSON.stringify(objetopedido);
+            var pedido1 = pedido.replaceAll("<","");  
+            var pedido2 = pedido1.replaceAll(">","");
+            var pedido3 = pedido2.replaceAll("{","<");  
+            pedido = pedido3.replaceAll("}",">");       
+            var itemVenta = cantidad1+"/"+id1;
+            agregandotodo(idCliente,datosCliente,pedido,precio,notas,origen,fecha,idUsuario,idUsuario,itemVenta,botonrevisar,pedidoUpdate,fechaUpdate,notasUpdate,usuarioUpdate);      
+            return false;
+        }
         return false;         
     });
     
@@ -590,6 +576,23 @@ function seleccionCliente(id) {
         $('.remover').remove();
         return false;  
     }
+function agregandotodo(idCliente,datosCliente,pedido,precio,notas,origen,fecha,idUsuario,idUsuario,itemVenta,botonrevisar,pedidoUpdate,fechaUpdate,notasUpdate,usuarioUpdate) {       
+    console.log(datosCliente); 
+    $('#popup').fadeOut('slow');         
+    $('.popup-overlay').fadeOut('slow');      
+    $('.reinicia').remove(); 
+    var idVenta = agregarventa(idCliente,datosCliente,pedido,precio,notas,origen,fecha,idUsuario,idUsuario);    
+    ventaitem(idVenta,itemVenta);
+    $('.removerVentas').remove();
+    var ordenesVenta = ordenesventajson($('#bscar').val(),$('#estadoFiltro').val(),$('#transportador').val(),$('#datetimepicker-default').val(),$('#datetimepicker-defaultFiltro').val(),$('#bscartelefono').val());
+    var jsonVenta = JSON.parse(ordenesVenta); 
+    console.log(jsonVenta);
+    var primeraFila = $('#primeraFila');
+    var html = imprimirVentasjson(jsonVenta,botonrevisar,pedidoUpdate,fechaUpdate,notasUpdate,usuarioUpdate);
+    primeraFila.after(html);
+    ventas();
+    return false;  
+}
 </script>
 <!-- Propeller textfield js --> 
 <script type="text/javascript" src="https://opensource.propeller.in/components/textfield/js/textfield.js"></script>
