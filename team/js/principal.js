@@ -715,8 +715,8 @@ function actualizar(tabla,columna,id,usuarioCell,valorextra) {
     return obtenidos;
 };
    
-function restar(id,valor,valor2) {
-   var enviar = "funcion=restar&id="+id+"&valor="+valor+"&valor2="+valor2;
+function sumarinventario(id) {
+   var enviar = "funcion=sumarinventario&id="+id;
    var obtenidos = "no";
     $.ajax({
     	url: urlhost,
@@ -1223,6 +1223,22 @@ function nuevaventatiendas(cliente_id,clienteString,codigos_prendas,notas,origen
 	var env = enviando.replaceAll("{","<");  
 	var enviar = env.replaceAll("}",">");    
 	console.log(enviar);
+	var obtenidos = "no";
+    $.ajax({
+    	url: urlhost,
+    	headers: {'Access-Control-Allow-Origin': urlhost},
+    	type: "GET",
+    	async: false,
+    	data: enviar,
+    	success: function(data){
+    		obtenidos = data;
+    	}						
+    });
+    return obtenidos;
+};
+
+function borrarfilas(tabla,condicion,valor_condicion) {
+	var enviar = "funcion=borrarfilas&tabla="+tabla+"&valor="+condicion+"&valor2="+valor_condicion;
 	var obtenidos = "no";
     $.ajax({
     	url: urlhost,

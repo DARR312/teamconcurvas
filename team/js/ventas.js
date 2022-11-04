@@ -81,6 +81,7 @@ function ventas() {
 
     $('.usuarioUpdate').on('click', function(){  
         var ids = $(this).attr("name");
+        console.log(ids);
         var idsArray = ids.split("%");
         var estado = obtenerData("estado","con_t_ventas","row","venta_id",idsArray[1]);
         if(estado == "Sin empacar" || estado == "Empacado"){
@@ -119,9 +120,55 @@ function ventas() {
         var idsArray = ids.split("%");
         var columna = "°"+$('#nombreUpdate').val()+"°"+$('#telefonoUpdate').val()+"°"+dir1Update+"°"+comp1Update+"°"+$('#ciudad1Update').val();
         actualizar("con_t_clientes",columna,idsArray[0],usuarioCell,"-");
-        actualizar("venta_cliente",columna+"%",idsArray[1],usuarioCell,"-");
+        var objeto = {};
+        objeto.nombre = $('#nombreUpdate').val();
+        objeto.telefono = $('#telefonoUpdate').val();
+        objeto.direccion = dir1Update;
+        objeto.complemento = comp1Update;
+        objeto.ciudad = $('#ciudad1Update').val();            
+        var datosCliente=JSON.stringify(objeto);
+        var datosCliente1 = datosCliente.replaceAll("<","");  
+        var datosCliente2 = datosCliente1.replaceAll(">","");
+        var datosCliente3 = datosCliente2.replaceAll("{","<");  
+        datosCliente = datosCliente3.replaceAll("}",">");
+        actualizar("venta_cliente",datosCliente,idsArray[1],usuarioCell,"-");
         $('#popup5').fadeOut('slow');       
         $('.popup-overlay').fadeOut('slow'); 
+        $('.reinicia').remove(); 
+        $('.removerVentas').remove();
+        var ordenesVenta = ordenesventajson($('#bscar').val(),$('#estadoFiltro').val(),$('#transportador').val(),$('#datetimepicker-default').val(),$('#datetimepicker-defaultFiltro').val(),$('#bscartelefono').val());
+        var jsonVenta = JSON.parse(ordenesVenta); 
+        console.log(jsonVenta);
+        var primeraFila = $('#primeraFila');
+        var permisoVentas = permisosVentas();
+        var items = permisoVentas.split(',');
+        var pedidoUpdate = "";
+        var usuarioUpdate = "";
+        var fechaUpdate = "";
+        var notasUpdate = "";
+        var verPedidos = 0;
+        var botonrevisar ="";
+        for(var k = (items.length-1); k>0;k--){
+            if(items[k]==5){
+                botonrevisar = "botonrevisar";
+            }
+            if(items[k]==6){
+                pedidoUpdate = "pedidoUpdate"; 
+            }
+            if(items[k]==7){
+                fechaUpdate = "fechaUpdate"; 
+                notasUpdate = "notasUpdate";
+            }
+            if(items[k]==26){
+                usuarioUpdate = "usuarioUpdate"; 
+            }
+            if(items[k]==9){
+               verPedidos = 1;
+            }
+        }
+        var html = imprimirVentasjson(jsonVenta,botonrevisar,pedidoUpdate,fechaUpdate,notasUpdate,usuarioUpdate);
+        primeraFila.after(html);
+        ventas();
         return false;     
     });
     $('.pedidoUpdate').on('click', function(){  
@@ -129,55 +176,23 @@ function ventas() {
         var estado = obtenerData("estado","con_t_ventas","row","venta_id",ids);
         if(estado == "Sin empacar" || estado == "No empacado"){
             $("#prendasGuardadasUpdate").attr('name', ids);
-            var datosVenta = obtenerData("ordenitem_id,prenda_id,valor,descuento_id,estado_id","con_t_ventaitem","rowVarios","venta_id",ids);
-            //°34°5°89900°0°1%°35°7°130000°0°1%°36°8°89900°0°1%°37°11°89900°0°1%°38°34°130000°0°1%°39°34°130000°0°1%
-            var datosArray = datosVenta.split("%");
-            var datosOrdenados = new Array(6);
-            for (var i = 0; i < 6; i++) {
-               datosOrdenados[i] = new Array(3);
-            }
-            for(var i=0;i<datosArray.length;i++){
-                var arrrayItem = datosArray[i].split("°");
-                //alert(arrrayItem[5]+" "+arrrayItem[2]);
-                if(arrrayItem[5] < 5){
-                    for(var j=0;j<6;j++){
-                        //alert(datosOrdenados[j][0]);
-                        if(datosOrdenados[j][0]){
-                            if(arrrayItem[2] == datosOrdenados[j][0]){
-                                datosOrdenados[j][1] = datosOrdenados[j][1]+1;
-                                j=6;
-                            }
-                        }else{
-                            datosOrdenados[j][0] = arrrayItem[2];
-                            datosOrdenados[j][1] = 1;
-                            datosOrdenados[j][2] = arrrayItem[3];
-                            j=6;
-                        }
-                        //alert(datosOrdenados);
-                    } 
-                }
-            }
-            var datosIniciales = "";
-            for(var i=0;i<6;i++){
-                if(datosOrdenados[i][0]){
+            var datosVentaJson = obtenerDatajson("ordenitem_id,prenda_id,valor,descuento_id,estado_id,venta_id","con_t_ventaitem","valoresconcondicion","venta_id",ids);
+            var jsonVentaItem = JSON.parse(datosVentaJson);
+            console.log(jsonVentaItem);
+            for (let i = 0; i < jsonVentaItem.length; i++) {
+                if(jsonVentaItem[i].estado_id==1){
                     var p = i+1;
-                    var datosPrenda =  obtenerData("nombre,color,talla","con_t_resumen","rowVarios","referencia_id",datosOrdenados[i][0]);
-                    var datosPrendaArray = datosPrenda.split("°");
+                    var datosPrenda = obtenerDatajson("nombre,color,talla","con_t_resumen","valoresconcondicion","referencia_id",jsonVentaItem[i].prenda_id);
+                    var jsondatosPrenda = JSON.parse(datosPrenda);
+                    console.log(jsondatosPrenda);
                     var seleccion = $("#prenda"+p+"Update");
-                    var talla = datosPrendaArray[3].split("%");
                     $(".s"+p).css('display', 'block');
-                    seleccion.append("<option class='removeUpdate' value='"+datosOrdenados[i][0]+"%"+datosPrendaArray[1]+" "+datosPrendaArray[2]+" "+datosPrendaArray[3]+datosOrdenados[i][2]+"'>"+datosPrendaArray[1]+" "+datosPrendaArray[2]+" "+talla[0]+"</option>");
+                    seleccion.append("<option class='removeUpdate' value='"+jsonVentaItem[i].prenda_id+"%"+jsondatosPrenda[0].nombre+" "+jsondatosPrenda[0].color+" "+jsondatosPrenda[0].talla+"%"+jsonVentaItem[i].valor+"'>"+jsondatosPrenda[0].nombre+" "+jsondatosPrenda[0].color+" "+jsondatosPrenda[0].talla+"</option>");
                     var cant = "#cantidad"+p+"Update";
-                   $(cant).val(datosOrdenados[i][1]);
-                   datosIniciales = datosIniciales+"°"+datosOrdenados[i][0]+"-"+datosOrdenados[i][1]+"-"+datosOrdenados[i][2];
-                   /*  
-                    //alert(datosOrdenados[i][0]+"-"+datosOrdenados[i][1]+"-"+datosOrdenados[i][2]);
-                    <option value="5%Beisbolera Mostaza XL%89900">Beisbolera Mostaza XL</option>
-                    °Beisbolera°Mostaza°XL%
-                    */
+                    $(cant).val(1);
                 }
-            }
-            $('#popup6').attr("name",datosIniciales);    
+            }            
+            $('#popup6').attr("name",datosVentaJson);    
             $('#popup6').fadeIn('slow'); 
             $('.popup-overlay').fadeIn('slow');         
             $('.popup-overlay').height($(window).height());
@@ -203,68 +218,77 @@ function ventas() {
     $('#prendasGuardadasUpdate').on('click', function(){   
         ids = $(this).attr("name");
         var datosInicialesString = $('#popup6').attr("name"); 
-        var datosNuevos = new Array(6);
-        for (var i = 0; i < 6; i++) {datosNuevos[i] = new Array(4);}
+        var jsonVentasItem = JSON.parse(datosInicialesString);
+        console.log(jsonVentasItem);
+        var pedido = "";
+        var precio = 0;    
+        var itemVenta = "";    
         for (let k = 1; k < 7; k++) {
-            if(k==6){
-                if($('#cantidad6Update').val() <= 0){
-                    alert("Ingresa la cantidad para la referencia 6");
-                    break;
-                }
-                for (let i = 1; i < 7; i++) {
-                    var datos = $('#prenda'+i+'Update').val();var items = datos.split('%');
-                    datosNuevos[i-1][0] = items[0];
-                    datosNuevos[i-1][1] = $('#cantidad'+i+'Update').val();
-                    datosNuevos[i-1][2] = items[2];
-                    datosNuevos[i-1][3] = items[1];        
-                }        
-                var datosInicialesArray = datosInicialesString.split('°');
-                var datosIniciales = new Array(6);
-                for (var i = 0; i < 6; i++) {datosIniciales[i] = new Array(3);}
-                for (var i = 1; i < datosInicialesArray.length; i++) {
-                    var itemArray = datosInicialesArray[i].split('-');
-                    datosIniciales[i-1][0] = itemArray[0];
-                    datosIniciales[i-1][1] = itemArray[1];
-                    datosIniciales[i-1][2] = itemArray[2];
-                }
-                sumarRestarpedido(datosIniciales,datosNuevos);                
-                $('.removeUpdate').remove();
-                $(".removecero").val(0);
-                $('#popup6').fadeOut('slow');       
-                $('.popup-overlay').fadeOut('slow');
-
-            }
-            if($('#prenda'+k+'Update').val() == "NA"){
-                if(k==1){alert("Ingresa cantidades para la referencia 1 "+k);console.log(datosNuevos);break;}
-                for (let i = 1; i < k; i++) {
-                    var datos = $('#prenda'+i+'Update').val();var items = datos.split('%');
-                    datosNuevos[i-1][0] = items[0];
-                    datosNuevos[i-1][1] = $('#cantidad'+i+'Update').val();
-                    datosNuevos[i-1][2] = items[2];
-                    datosNuevos[i-1][3] = items[1]; 
-                }        
-                var datosInicialesArray = datosInicialesString.split('°');
-                var datosIniciales = new Array(6);
-                for (var i = 0; i < 6; i++) {datosIniciales[i] = new Array(3);}
-                for (var i = 1; i < datosInicialesArray.length; i++) {
-                    var itemArray = datosInicialesArray[i].split('-');
-                    datosIniciales[i-1][0] = itemArray[0];
-                    datosIniciales[i-1][1] = itemArray[1];
-                    datosIniciales[i-1][2] = itemArray[2];
-                }
-                sumarRestarpedido(datosIniciales,datosNuevos);                
-                $('.removeUpdate').remove();
-                $(".removecero").val(0);
-                $('#popup6').fadeOut('slow');       
-                $('.popup-overlay').fadeOut('slow'); 
-                break;
-            }            
+            if($('#prenda'+k+'Update').val() == "NA"){break;}
             if($('#cantidad'+k+'Update').val() <= 0){
                 alert("Ingresa la cantidad para la referencia "+k+" ");
                 break;
-            }          
-        }      
-        return false;    
+            }
+            var dateos = $('#prenda'+k+'Update').val().split("%");
+            pedido = pedido +$('#cantidad'+k+'Update').val()+" "+dateos[1]+" ";
+            precio = precio + ($('#cantidad'+k+'Update').val() * parseInt(dateos[2]));
+            itemVenta = itemVenta + $('#cantidad'+k+'Update').val()+"/"+dateos[0]+",";
+        }
+        if(precio == 0){alert("Agrega al menos una referencia al pedido");return false;}
+        var objetopedido = {};
+        objetopedido.prendas = pedido;
+        objetopedido.precio = precio;
+        var pedido=JSON.stringify(objetopedido);
+        var pedido1 = pedido.replaceAll("<","");  
+        var pedido2 = pedido1.replaceAll(">","");
+        var pedido3 = pedido2.replaceAll("{","<");  
+        pedidojson = pedido3.replaceAll("}",">");
+        console.log(pedidojson);
+        console.log(itemVenta.substring(0, itemVenta.length - 1));
+        var usuarioCell = $('#usuarioCell').attr("name");
+        actualizar("venta_pedido",pedidojson,jsonVentasItem[0].venta_id,usuarioCell,"-");
+        sumarinventario(jsonVentasItem[0].venta_id);
+        borrarfilas("con_t_ventaitem","venta_id",jsonVentasItem[0].venta_id);
+        ventaitem(jsonVentasItem[0].venta_id,itemVenta.substring(0, itemVenta.length - 1));
+        $('.removeUpdate').remove();
+        $(".removecero").val(0);
+        $('#popup6').fadeOut('slow');       
+        $('.popup-overlay').fadeOut('slow'); 
+        $('.reinicia').remove(); 
+        $('.removerVentas').remove();
+        var ordenesVenta = ordenesventajson($('#bscar').val(),$('#estadoFiltro').val(),$('#transportador').val(),$('#datetimepicker-default').val(),$('#datetimepicker-defaultFiltro').val(),$('#bscartelefono').val());
+        var jsonVenta = JSON.parse(ordenesVenta); 
+        console.log(jsonVenta);
+        var primeraFila = $('#primeraFila');
+        var permisoVentas = permisosVentas();
+        var items = permisoVentas.split(',');
+        var pedidoUpdate = "";
+        var usuarioUpdate = "";
+        var fechaUpdate = "";
+        var notasUpdate = "";
+        var verPedidos = 0;
+        var botonrevisar ="";
+        for(var k = (items.length-1); k>0;k--){
+            if(items[k]==5){
+                botonrevisar = "botonrevisar";
+            }
+            if(items[k]==6){
+                pedidoUpdate = "pedidoUpdate"; 
+            }
+            if(items[k]==7){
+                fechaUpdate = "fechaUpdate"; 
+                notasUpdate = "notasUpdate";
+            }
+            if(items[k]==26){
+                usuarioUpdate = "usuarioUpdate"; 
+            }
+            if(items[k]==9){
+               verPedidos = 1;
+            }
+        }
+        var html = imprimirVentasjson(jsonVenta,botonrevisar,pedidoUpdate,fechaUpdate,notasUpdate,usuarioUpdate);
+        primeraFila.after(html);
+        ventas();
     }); 
     $('.fechaUpdate').on('click', function(){  
         var ids = $(this).attr("name"); 
@@ -291,6 +315,42 @@ function ventas() {
             actualizar("venta_fecha",fecha,id,usuarioCell,"-");
             $('#popup7').fadeOut('slow');       
             $('.popup-overlay').fadeOut('slow');
+            $('.reinicia').remove(); 
+            $('.removerVentas').remove();
+            var ordenesVenta = ordenesventajson($('#bscar').val(),$('#estadoFiltro').val(),$('#transportador').val(),$('#datetimepicker-default').val(),$('#datetimepicker-defaultFiltro').val(),$('#bscartelefono').val());
+            var jsonVenta = JSON.parse(ordenesVenta); 
+            console.log(jsonVenta);
+            var primeraFila = $('#primeraFila');
+            var permisoVentas = permisosVentas();
+            var items = permisoVentas.split(',');
+            var pedidoUpdate = "";
+            var usuarioUpdate = "";
+            var fechaUpdate = "";
+            var notasUpdate = "";
+            var verPedidos = 0;
+            var botonrevisar ="";
+            for(var k = (items.length-1); k>0;k--){
+                if(items[k]==5){
+                    botonrevisar = "botonrevisar";
+                }
+                if(items[k]==6){
+                    pedidoUpdate = "pedidoUpdate"; 
+                }
+                if(items[k]==7){
+                    fechaUpdate = "fechaUpdate"; 
+                    notasUpdate = "notasUpdate";
+                }
+                if(items[k]==26){
+                    usuarioUpdate = "usuarioUpdate"; 
+                }
+                if(items[k]==9){
+                   verPedidos = 1;
+                }
+            }
+            var html = imprimirVentasjson(jsonVenta,botonrevisar,pedidoUpdate,fechaUpdate,notasUpdate,usuarioUpdate);
+            primeraFila.after(html);
+            ventas();
+            return false; 
         }else{alert("Inserta una fecha");}
         return false;     
     }); 
@@ -320,6 +380,41 @@ function ventas() {
         actualizar("venta_nota",nota,id,usuarioCell,"-");
         $('#popup8').fadeOut('slow');       
         $('.popup-overlay').fadeOut('slow');
+        $('.reinicia').remove(); 
+        $('.removerVentas').remove();
+        var ordenesVenta = ordenesventajson($('#bscar').val(),$('#estadoFiltro').val(),$('#transportador').val(),$('#datetimepicker-default').val(),$('#datetimepicker-defaultFiltro').val(),$('#bscartelefono').val());
+        var jsonVenta = JSON.parse(ordenesVenta); 
+        console.log(jsonVenta);
+        var primeraFila = $('#primeraFila');
+        var permisoVentas = permisosVentas();
+        var items = permisoVentas.split(',');
+        var pedidoUpdate = "";
+        var usuarioUpdate = "";
+        var fechaUpdate = "";
+        var notasUpdate = "";
+        var verPedidos = 0;
+        var botonrevisar ="";
+        for(var k = (items.length-1); k>0;k--){
+            if(items[k]==5){
+                botonrevisar = "botonrevisar";
+            }
+            if(items[k]==6){
+                pedidoUpdate = "pedidoUpdate"; 
+            }
+            if(items[k]==7){
+                fechaUpdate = "fechaUpdate"; 
+                notasUpdate = "notasUpdate";
+            }
+            if(items[k]==26){
+                usuarioUpdate = "usuarioUpdate"; 
+            }
+            if(items[k]==9){
+               verPedidos = 1;
+            }
+        }
+        var html = imprimirVentasjson(jsonVenta,botonrevisar,pedidoUpdate,fechaUpdate,notasUpdate,usuarioUpdate);
+        primeraFila.after(html);
+        ventas();
         return false;     
     });
     $('.botonrevisar').on('click', function(){  

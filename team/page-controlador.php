@@ -863,14 +863,14 @@ function ordenescambiojson($valor,$estadoFiltro,$transportador,$tipoenvio,$datet
 function ordenesventajson($valor,$estadoFiltro,$tipoenvio,$datetimepicker_default,$datetimepicker_defaultFiltro,$telefono){
     global $wpdb;
     if($valor != "0"){ 
-        $ventas = $wpdb->get_results( "SELECT venta_id,fecha_creada,datos_cliente,pedido,cliente_ok,notas,fecha_entrega,estado,origen FROM con_t_ventas  WHERE venta_id =".$valor."", ARRAY_A  );
+        $ventas = $wpdb->get_results( "SELECT venta_id,fecha_creada,datos_cliente,pedido,cliente_ok,notas,fecha_entrega,estado,origen,cliente_id FROM con_t_ventas  WHERE venta_id =".$valor."", ARRAY_A  );
         echo json_encode($ventas);    
         return false;   
     }if($telefono != "0"){ 
         $ventascambios = [];
         $clienteId = $wpdb->get_results( "SELECT `cliente_id` FROM `con_t_clientes` WHERE `telefono`=".$telefono."", ARRAY_A  );
         //print_r($clienteId);
-        $ventasTodos = $wpdb->get_results( "SELECT venta_id,fecha_creada,datos_cliente,pedido,cliente_ok,notas,fecha_entrega,estado,origen FROM con_t_ventas  WHERE cliente_id =".$clienteId[0]['cliente_id']."", ARRAY_A  );
+        $ventasTodos = $wpdb->get_results( "SELECT venta_id,fecha_creada,datos_cliente,pedido,cliente_ok,notas,fecha_entrega,estado,origen,cliente_id FROM con_t_ventas  WHERE cliente_id =".$clienteId[0]['cliente_id']."", ARRAY_A  );
         //print_r($ventasTodos);
         $consultaCambio = "";
         if(sizeof($ventasTodos)>1){                
@@ -919,7 +919,7 @@ function ordenesventajson($valor,$estadoFiltro,$tipoenvio,$datetimepicker_defaul
         $ent=" AND (fecha_entrega BETWEEN  '".$fechaventa."' AND '".$fechaventaup."')";
     }
     //echo "SELECT cambio_id,fecha_creada,venta_id,datos_cliente,pedido,prendas_por_regresar,cliente_ok,notas,excedente,fecha_entrega,estado FROM con_t_cambios".$where.$est.$tra.$tip.$ent.$ent."";
-    $ventastodas = $wpdb->get_results("SELECT venta_id,fecha_creada,datos_cliente,pedido,cliente_ok,notas,fecha_entrega,estado,origen FROM con_t_ventas".$where.$est.$tra.$tip.$ent.$ent."", ARRAY_A);
+    $ventastodas = $wpdb->get_results("SELECT venta_id,fecha_creada,datos_cliente,pedido,cliente_ok,notas,fecha_entrega,estado,origen,cliente_id FROM con_t_ventas".$where.$est.$tra.$tip.$ent.$ent."", ARRAY_A);
     echo json_encode($ventastodas);
 }
 
@@ -933,15 +933,20 @@ function  actualizar($tabla,$columna,$valor,$valor2,$valor3){
         $updated = $wpdb->update( "con_t_clientes", array('nombre' => $datos[1], 'telefono' => $datos[2], 'direccion_1' => $datos[3], 'complemento_1' => $datos[4], 'ciudad_1' => $datos[5] ), array( 'cliente_id' => $valor ) );
     }
     if($tabla == "venta_cliente" ){
-        $updated = $wpdb->update( "con_t_ventas", array('datos_cliente' => $columna), array( 'venta_id' => $valor ) );
-        $datos = array("venta_id" => $valor , "cambio" => $columna , "usuario_id" => $valores[2] , "fecha_hora" => $fecha , "campo_cambio" => "datos_cliente");
+        $datosss = str_replace("\\","",$columna);
+        $datosssss = str_replace("<","{",$datosss);
+        $datosCliente = str_replace(">","}",$datosssss);
+        $updated = $wpdb->update( "con_t_ventas", array('datos_cliente' => $datosCliente), array( 'venta_id' => $valor ) );
+        $datos = array("venta_id" => $valor , "cambio" => $datosCliente , "usuario_id" => $valores[2] , "fecha_hora" => $fecha , "campo_cambio" => "datos_cliente");
         echo $datos;
         $wpdb->insert("con_t_ventastr", $datos);
     }
     if($tabla == "venta_pedido" ){
-        $columnareal = str_replace("°","%",$columna);
-        $updated = $wpdb->update( "con_t_ventas", array('pedido' => $columnareal), array( 'venta_id' => $valor ) );
-        $datos = array("venta_id" => $valor , "cambio" => $columnareal , "usuario_id" => $valores[2] , "fecha_hora" => $fecha , "campo_cambio" => "pedido");
+        $datosss = str_replace("\\","",$columna);
+        $datosssss = str_replace("<","{",$datosss);
+        $columna = str_replace(">","}",$datosssss);
+        $updated = $wpdb->update( "con_t_ventas", array('pedido' => $columna), array( 'venta_id' => $valor ) );
+        $datos = array("venta_id" => $valor , "cambio" => $columna , "usuario_id" => $valores[2] , "fecha_hora" => $fecha , "campo_cambio" => "pedido");
         echo $datos;
         $wpdb->insert("con_t_ventastr", $datos);
     }
@@ -1060,14 +1065,15 @@ function  actualizar($tabla,$columna,$valor,$valor2,$valor3){
     }
 }
 
-function  restar($id,$valor,$valor2){
+function  sumarinventario($id){
     global $wpdb;
-    $idref = $wpdb->get_results( "SELECT ordenitem_id FROM con_t_ventaitem  WHERE venta_id = ".$id." AND prenda_id = ".$valor." AND estado_id not IN ('5')", ARRAY_A  );
-    for($i=0;$i<$valor2;$i++){
-        $wpdb->update( "con_t_ventaitem", array('estado_id' => 5), array( 'ordenitem_id' => $idref[$i]['ordenitem_id']) );
-        $cantidadRefere = $wpdb->get_results( "SELECT cantidad FROM con_t_resumen WHERE referencia_id = '".$valor."'", ARRAY_A);
+    $idref = $wpdb->get_results( "SELECT prenda_id FROM con_t_ventaitem  WHERE venta_id = ".$id."", ARRAY_A  );
+    print_r($idref);
+    for($i=0;$i<sizeof($idref);$i++){
+        $cantidadRefere = $wpdb->get_results( "SELECT cantidad FROM con_t_resumen WHERE referencia_id = '".$idref[$i]['prenda_id']."'", ARRAY_A);
+        print_r($cantidadRefere);
         $cantidadNueva = $cantidadRefere[0]['cantidad']+1;
-        $updated = $wpdb->update( "con_t_resumen", array('cantidad' => $cantidadNueva), array( 'referencia_id' => $valor ) );
+        $updated = $wpdb->update( "con_t_resumen", array('cantidad' => $cantidadNueva), array( 'referencia_id' => $idref[$i]['prenda_id'] ) );
     }
 }
 
@@ -1533,6 +1539,11 @@ function nuevaventatiendas($cliente_id,$clienteString,$codigos_prendas,$notas,$o
     echo json_encode($lastId);
 }
 
+function borrarfilas($tabla,$condicion,$valor_condicion){
+    global $wpdb;
+    $wpdb->delete( $tabla, [ $condicion => $valor_condicion ]);
+}
+
 if($funcion == "permisosPrincipales"){
     permisosPrincipales();
 }if($funcion == "permisosVentas"){
@@ -1571,8 +1582,8 @@ if($funcion == "permisosPrincipales"){
     ordenesventajson($valor,$valor2,$valor3,$valor4,$valor5,$valor6);
  }if($funcion == "actualizar"){
    actualizar($tabla,$columna,$valor,$valor2,$valor3);
-}if($funcion == "restar"){
-   restar($id,$valor,$valor2);
+}if($funcion == "sumarinventario"){
+    sumarinventario($id);
 }if($funcion == "permisos"){
     permisos($valor);
 }if($funcion == "codigosprendas"){
@@ -1637,5 +1648,7 @@ if($funcion == "permisosPrincipales"){
     clientesBuscarjson($telefono);
 }if($funcion == "nuevaventatiendas"){
     nuevaventatiendas($valor,$valor2,$valor3,$valor4,$valor5,$valor6,$valor7,$valor8);
+}if($funcion == "borrarfilas"){
+    borrarfilas($tabla,$valor,$valor2);
 }
 ?>
