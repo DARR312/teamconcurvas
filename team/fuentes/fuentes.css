@@ -1,0 +1,121 @@
+html{font-family: 'Lato', sans-serif!important;}
+/******************************************************************************* PÁGINA DE INICIO **************************************************************************************************************************************/
+/*******************letra del menú principal PC*****************************/
+.menu_principal_titulo{
+    font-family: inherit !important;
+    font-weight:700 !important;
+    color:#e5ceaf  !important;
+    
+    padding:0 !important;
+}
+/*******************letra del menú principal PC*****************************/
+/*******************letra del primer título*****************************/
+.primer_titulo{
+    font-family: inherit !important;
+    font-weight: 700!important;
+    color:#7f7e7e !important;
+    line-height: 1 !important;
+}
+/*******************letra del primer título*****************************/
+/************letra de los tres botones del primer bloque **************/
+.botones_tres{
+    font-family: inherit !important;
+    font-weight: 500!important;
+    color: #FFFFFF !important;
+    background: #ba007c !important;
+}
+/************letra de los tres botones del primer bloque **************/
+/*******************letra del título bloque 3*****************************/
+.titulo_bloque3{
+    font-family: inherit !important;
+    font-weight: 900 !important;
+    color: #f4f5f7 !important;
+}
+/*******************letra del título bloque 3*****************************/
+/*******************letra del texto bloque 3*****************************/
+.texto_bloque3{
+    font-family: inherit !important;
+    font-weight: 400 !important;
+    color: #f4f5f7  !important;
+}
+/*******************letra del texto bloque 3*****************************/
+/*******************letra de preguntas bloque 3*****************************/
+.preguntas_bloque3{
+    font-family: inherit !important;
+    font-weight: 400 !important;
+    color: #f4f5f7  !important;
+}
+/*******************letra de preguntas bloque 3*****************************/
+/*******************letra de preguntas bloque 3*****************************/
+.respuestas_bloque3{
+    font-family: inherit !important;
+    font-weight: 300 !important;
+    color: #f4f5f7  !important;
+}
+/*******************letra de preguntas bloque 3*****************************/
+/**********************flecha del formulario*****************************/
+.next {color: #f3f1f2!important;}
+.next:hover {color: #e4b66d!important;}
+/**********************flecha del formulario*****************************/
+/**********************progreso del formulario*****************************/
+.progress{background-color: #9c3a49!important;}
+/**********************progreso del formulario*****************************/
+/**********************base del formulario*****************************/
+.simform .progress::before{background: #e9c9a2 !important;}
+/**********************base del formulario*****************************/
+/**********************slash "/" del formulario*****************************/
+.simform .number:after{color: #ead3aa !important;}
+/**********************slash "/" del formulario*****************************/
+/**************blog  llamado de acción bloque 4*****************************/
+.blog_llamado{
+	font-family: inherit !important;
+    font-weight: 400 !important;
+    color: #9FA3A7  !important;
+}
+/**************blog  llamado de acción bloque 4*****************************/
+/******************blog  títulos blog bloque 4*****************************/
+.blog_titulos{
+	font-family: inherit !important;
+    font-weight: 400 !important;
+    color: #9FA3A7  !important;
+}
+/******************blog  títulos blog bloque 4*****************************/
+/******************blog  textos blog bloque 4*****************************/
+.blog_textos{
+	font-family: inherit !important;
+    font-weight: 400;
+    color: #7c7c7c !important;
+	font-style: italic;
+}
+/******************blog  textos blog bloque 4*****************************/
+/******************************************************************************* PÁGINA DE INICIO **************************************************************************************************************************************/
+/******************************************************************************* PÁGINA DE BOTON **************************************************************************************************************************************/
+/*******************botón principal************************/
+.botonmodal{
+    font-family: 'Lato', sans-serif!important;
+    font-weight: 700!important;   
+}
+/******************************************************************************* PÁGINA DE BOTON **************************************************************************************************************************************/
+/******************************************************************************* FOOTER  PRÍNCIPAL **************************************************************************************************************************************/
+/*******************encabezados footer************************/
+.footerh3 {
+    font-family: inherit !important;
+    font-weight: 700 !important;
+    color: #7c7c7c !important;
+}
+/*******************encabezados footer************************/
+/*******************textos footer************************/
+.textos_footer {
+    font-family: inherit !important;
+    font-weight: 400 !important;
+    color: #7c7c7c !important;
+}
+/*******************textos footer************************/
+/*******************ultimos textos footer************************/
+.ultimos_footer{
+    font-family: inherit !important;
+    font-weight: 200 !important;
+    color: #7c7c7c !important;
+}
+/*******************ultimos textos footer************************/
+/******************************************************************************* FOOTER  PRÍNCIPAL  **************************************************************************************************************************************/

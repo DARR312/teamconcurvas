@@ -1,0 +1,72 @@
+#barraMenu{
+    height: 100%;
+    width: 15%;
+    position: fixed;
+    border-right: #cdcdcd solid thin;
+    background: white;
+}
+.accesos{
+    width: 83%;
+    margin: 16%;
+    text-align: center !important;
+}
+.accesos img {
+    width: 40%;
+    margin: 5% 20% 5% 20%;
+}
+.iconosprincipales{
+    padding: 0 !important;
+}
+.nombresiconos{
+    color:rgb(193, 46, 114) !important;
+    margin: 20% 0 20% 0 !important;
+}
+.nombresiconos a{color:rgb(193, 46, 114) !important;}
+#usuario{
+    margin-top: 70% !important;
+}
+@media only screen and (max-width:767px) {
+    .accesos {
+        width: 14%;
+        margin: 1%;
+        text-align: center !important;
+        float: left;
+    }
+    .logo_pc img{
+        width: 85%;
+        margin: 13%;
+    }
+    .logo_pc {
+        position: inherit !important;
+    }
+    #barraCelu{
+        border-bottom: #cdcdcd solid thin;
+        background: white;
+        height: 120px;
+    }
+    .botonmodal{
+        width: 80% !important;
+        margin: 5% 10% !important;
+    }
+    #reader__scan_region, #reader__scan_region video{
+        width:100% !important;
+    }
+    #reader__dashboard_section_fsr{
+        display: none !important;
+    }
+    #reader__dashboard_section_csr span button{
+        width: 80% !important;
+        margin: 5% 10% !important;
+    }
+}
+
+@media only screen and (min-width:1550px){
+    #primeraFila{margin-top: 270px;}
+    #primeraVenta{margin-top: 370px;}   
+    .funcionamiento{margin-top: 315px;}
+}
+@media only screen and (max-width:1549px){
+    #primeraFila{margin-top: 235px;}
+    #primeraVenta{margin-top: 315px;}
+    .funcionamiento{margin-top: 270px;}
+}
