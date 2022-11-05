@@ -307,7 +307,22 @@
     });
     
     $('#bscar').on('change', function(){          
+        $('.remover').remove();
         $('.removerCodigos').remove();
+        $('#codigosNuevos').css('display', 'none');
+        $('#referenciaNueva').css('display', 'none');
+        $('#resultados').css('display', 'none');
+        $('#btnExport').css('display', 'none');
+        $('#verCodigo').css('display', 'block');
+        $('#verResumenprendas').css('display', 'none');
+        $('#auditoriaInventario').css('display', 'none');
+        $('#subirInformes').css('display', 'none');
+        $('#informeDinero').css('display', 'none');         
+        $('#ventasVSinventario').css('display', 'none');
+        $('#inventarioInicialPc').css('display', 'none');
+        $('#liberarEmpacados').css('display', 'none');
+        $('#madrugonDiv').css('display', 'none'); 
+        $('#fechaslotesdiv').css('display', 'none');
         var codigosprenda = codigosprendasjson($('#bscar').val(),"0","0","0");
         var tituloscodigos = $('#tituloscodigos');
         var html = imprimirCodigosjson(codigosprenda);
