@@ -195,7 +195,8 @@
                 }              
             }            
         }
-        var html = "<h1  style='display: none;' class='remover' id='datoscliente' name='"+$('#ventaIdentificacion').val()+"'>"+jsonVentaCliente.datos_cliente+"</h1>";
+        var html = "<h1  style='display: none;' class='remover' id='datoscliente' name='"+$('#ventaIdentificacion').val()+"'>"+jsonVentaCliente[0].datos_cliente+"</h1>";
+        html = html + "<h1  style='display: none;' class='remover' id='clienteok' name='"+$('#ventaIdentificacion').val()+"'>"+jsonVentaCliente[0].cliente_ok+"</h1>";
         $('#popup').fadeOut('slow');         
         $('#popup3').fadeIn('slow'); 
         html = html+"<div class='col-lg-3 col-md-3 col-sm-3 col-xs-3 remover'><button class='botonmodal remover botoncargar' id='botonCargacambios' >Cargar</button></div><div class='form-group pmd-textfield pmd-textfield-floating-label col-lg-8 col-md-8 col-sm-8 col-xs-8 remover'><label for='cantidad6' class='control-label letra18pt-pc'> Valor de envío a pagar por el cliente</label><input class='form-control' type='number' id='costosEnvio' name='costosEnvio' min='1'><span class='pmd-textfield-focused'></span></div>";
@@ -291,48 +292,50 @@
         var notas= $('#notas').val().replace('#', 'No');
         var fecha_entrega = $('#datetimepicker-entrega').val();
         var idUsuario = $('#usuario').attr("name");
-        var venta_id = $('#datosCliente').attr("name");
-        // var datos_cliente = $('#clienteDirecc').text();
-        var datos_cliente =  new Object();
-        datos_cliente.nombre = $('#clienteNombre').val();
-        datos_cliente.telefono  = $('#clienteTelefono').val();
-        datos_cliente.direccion = $('#clienteDireccion').val();
-        datos_cliente.complemento = $('#clienteComplemento').val();
-        datos_cliente.ciudad = $('#clienteCiudad').val();
-        var clienteString= JSON.stringify(datos_cliente);
-        // 
-        var prendasEntran = $("#prendasEntran").text();
-        var prendasEntranIDS = $("#prendasEntran").attr("name");
-        var prendasSalen = $("#prendasSalen").text();
-        var prendasSalenIDS = $("#prendasSalen").attr("name");
-        var excedente = $('#diferencia').attr("name");
-        if(venta_id){
-            if(fecha_entrega){
-                var idCambio = agregarcambio(venta_id,clienteString,prendasSalen,prendasEntran,notas,excedente,fecha_entrega,idUsuario,idUsuario);
-                var prendasEntranIDSArray = prendasEntranIDS.split("%");
-                var prendasSalenIDSArray = prendasSalenIDS.split("%");
-                for(var i = 0;i<(prendasEntranIDSArray.length-1);i++){
-                    cambioitem(prendasSalenIDSArray[i],prendasEntranIDSArray[i],idCambio,venta_id);
-                }
-                $('#popup').fadeOut('slow');         
-                $('.popup-overlay').fadeOut('slow');      
-                $('.reinicia').remove();
-                $('.removeCambio').remove();
-                var ordenescambio = ordenescambio($('#bscar').val(),$('#estadoFiltro').val(),$('#transportador').val(),$('#datetimepicker-creadacambios').val(),$('#datetimepicker-entregacambios').val());
-                var arrayOrdenes = ordenescambio.split('&');
-                //alert(ordenescambio);
-                var primeraFila = $('#primeraFila');
-                var html = imprimirCambios(arrayOrdenes,botonrevisar,pedidoUpdate,fechaUpdate,notasUpdate,usuarioUpdate);
-            	primeraFila.after(html);
-            	ventas();
-            }else{
-                alert("Por favor agrega una fecha de entrega :)");
-            }
-        }else{
+        var venta_id = $('#tpedido').attr("name");
+        if(!venta_id){
             alert("No se han agregado cambios");
+            return false;
         }
-        
-        //cambioitem(prenda_idsale	prenda_idregresa	cambio_id	ventainicial_id	cliente_ok	estado);
+        if(!fecha_entrega){
+            alert("Por favor agrega una fecha de entrega :)");
+            return false;
+        }
+        var datos_cliente =  new Object();
+        datos_cliente.nombre = $('#clienteNombre').text();
+        datos_cliente.telefono  = $('#clienteTelefono').text();
+        datos_cliente.direccion = $('#clienteDireccion').text();
+        datos_cliente.complemento = $('#clienteComplemento').text();
+        datos_cliente.ciudad = $('#clienteCiudad').text();
+        console.log(datos_cliente);
+        var clienteString= JSON.stringify(datos_cliente);
+        var pedido = $("#pedido").text();
+        var pedidoitems = $("#pedido").attr("name");
+        var excedente = $('#diferencia').attr("name");
+        var cliente1 = clienteString.replaceAll("<","");  
+        var cliente2 = cliente1.replaceAll(">","");
+        var cliente3 = cliente2.replaceAll("{","<");  
+        clienteString = cliente3.replaceAll("}",">");   
+        console.log(excedente);
+        var idCambio = agregarcambio(venta_id,clienteString,pedido,"-",notas,excedente,fecha_entrega,idUsuario,idUsuario);
+        var pedidoitemsArray = pedidoitems.split(",");
+        console.log(pedidoitemsArray);
+        for(var i = 0;i<(pedidoitemsArray.length-1);i++){            
+            var prendasIDSArray = pedidoitemsArray[i].split("/");
+            console.log(prendasIDSArray);
+            for (let k = 0; k < prendasIDSArray[0]; k++) { 
+            //    cambioitem(prendasIDSArray[1],0,idCambio,venta_id);               
+            }
+        }
+        $('#popup').fadeOut('slow');         
+        $('.popup-overlay').fadeOut('slow');      
+        $('.reinicia').remove();
+        $('.removeCambio').remove();
+        var ordenesCambio = ordenescambiojson($('#bscar').val(),$('#estadoFiltro').val(),$('#transportador').val(),$('#tipoenvio').val(),$('#datetimepicker-creadacambios').val(),$('#datetimepicker-entregacambios').val());
+        var html = imprimirCambiosjson(ordenesCambio,pedidoUpdate,fechaUpdate,notasUpdate,usuarioUpdate);
+        console.log(html);
+        var primeraFila = $('#primeraFila');
+        primeraFila.after(html);
         return false;         
     });
     

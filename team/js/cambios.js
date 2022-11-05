@@ -11,61 +11,117 @@ function formatoPrecio(precio){
 
 function cambios() {   
     $('#botonCargacambios').on('click', function(){ 
+        var idventa = $("#datoscliente").attr("name");
+        var pedido = "";
+        var precio = 0;    
+        var itemCambio = "";    
+        for (let k = 1; k < 7; k++) {
+            console.log($('#prenda'+k).val());
+            console.log($('#cantidad'+k).val());
+            if($('#prenda'+k).val() == "NA"){continue;}
+            if($('#cantidad'+k).val() <= 0){
+                alert("Ingresa la cantidad para la referencia "+k+" ");
+                break;
+            }
+            var dateos = $('#prenda'+k).val().split("%");
+            pedido = pedido +$('#cantidad'+k).val()+" "+dateos[1]+" ";
+            precio = precio + ($('#cantidad'+k).val() * parseInt(dateos[2]));
+            itemCambio = itemCambio + $('#cantidad'+k).val()+"/"+dateos[0]+",";
+        }
+        if(precio == 0){alert("Agrega al menos una referencia al pedido");return false;}
+        var envio = 0;
+        if($("#costosEnvio").val()){
+            envio = parseInt($("#costosEnvio").val());
+        }
+        var valorsaliente = precio + envio;
+        var datoscliente = $("#datoscliente").text();
+        var cliente_ok = parseInt($("#clienteok").text());
+        var diferencia = valorsaliente - cliente_ok;
+        var jsondatoscliente = JSON.parse(datoscliente); 
+        var clienteAjuste = "";
+        if(diferencia<0){                        
+            var fefren = -1*diferencia;
+            var formatopre = formatoPrecio(fefren);
+            clienteAjuste = "El cliente queda con saldo a favor de: "+formatopre;
+        }if(diferencia==0){
+            clienteAjuste = "El cliente no queda con saldo";
+        }if(diferencia>0){
+            var formatopre = formatoPrecio(diferencia);
+            clienteAjuste = "El cliente queda debe pagar de más: "+formatopre;
+        }
+        console.log(precio);
+        console.log(envio);
+        console.log(valorsaliente);
+        console.log(cliente_ok);
+        console.log(diferencia);
+        console.log(itemCambio);
+        var html = "<div class='col-lg-4 col-md-4 col-sm-4 col-xs-4 removeCambio'><p class='letra18pt-pc' id='clienteNombre'>"+jsondatoscliente.nombre+"</p></div>";     
+        html =html+ "<div class='col-lg-4 col-md-4 col-sm-4 col-xs-4 removeCambio'><p class='letra18pt-pc' id='clienteTelefono'>"+jsondatoscliente.telefono+"</p></div>";
+        html =html+ "<div class='col-lg-4 col-md-4 col-sm-4 col-xs-4 removeCambio'><p class='letra18pt-pc' id='clienteDireccion'>"+jsondatoscliente.direccion+"</p></div>";
+        html =html+ "<div class='col-lg-8 col-md-8 col-sm-8 col-xs-8 removeCambio'><p class='letra18pt-pc' id='clienteComplemento'>"+jsondatoscliente.complemento+"</p></div>";
+        html =html+ "<div class='col-lg-3 col-md-3 col-sm-3 col-xs-3 removeCambio'><p class='letra18pt-pc' id='clienteCiudad'>"+jsondatoscliente.ciudad+"</p></div>";
+        html = html+"<div class='col-lg-12 col-md-12 col-sm-12 col-xs-12 removeCambio'><div class='col-lg-12 col-md-12 col-sm-12 col-xs-12'><p class='letra18pt-pc' id='tpedido' name='"+idventa+"'>Pedido</p></div>";
+        html = html+"<div class='col-lg-12 col-md-12 col-sm-12 col-xs-12 removeCambio'><div class='col-lg-12 col-md-12 col-sm-12 col-xs-12'><p class='letra18pt-pc' id='pedido' name='"+itemCambio+"'>"+pedido+"</p></div>";
+        html = html+"<div class='col-lg-12 col-md-12 col-sm-12 col-xs-12 removeCambio'><p class='letra18pt-pc' id='diferencia' name='"+diferencia+"'>"+clienteAjuste+"</p></div>";   
+        $('#popup3').fadeOut('slow');      
+        $('#popup').fadeIn('slow');
+        $('.removeCambio').remove();
+        $('#cambiosPrendas').append(html);
         //$("#prendasEncontradas select:eq("+(i+2)+")")
-        var html = "<div class='col-lg-4 col-md-4 col-sm-4 col-xs-4 removeCambio'><p class='letra18pt-pc' id='clienteNombre'>"+$('#nombreCliente').text()+"</p></div>";
-        html =html+ "<div class='col-lg-4 col-md-4 col-sm-4 col-xs-4 removeCambio'><p class='letra18pt-pc' id='clienteTelefono'>"+$('#telefonoCliente').text()+"</p></div>";
-        html =html+ "<div class='col-lg-4 col-md-4 col-sm-4 col-xs-4 removeCambio'><p class='letra18pt-pc' id='clienteDireccion'>"+$('#direccionCliente').text()+"</p></div>";
-        html =html+ "<div class='col-lg-8 col-md-8 col-sm-8 col-xs-8 removeCambio'><p class='letra18pt-pc' id='clienteComplemento'>"+$('#complementoCliente').text()+"</p></div>";
-        html =html+ "<div class='col-lg-4 col-md-4 col-sm-4 col-xs-4 removeCambio'><p class='letra18pt-pc' id='clienteCiudad'>"+$('#ciudadCliente').text()+"</p></div>";
-        html = html+"<div class='col-lg-12 col-md-12 col-sm-12 col-xs-12 removeCambio'><div class='col-lg-6 col-md-6 col-sm-6 col-xs-6'><p class='letra18pt-pc'>Prendas que entran</p></div><div class='col-lg-6 col-md-6 col-sm-6 col-xs-6'><p class='letra18pt-pc'>Prendas que salen</p></div></div>";
-        var flag = 0;
-        var prendasSalen = "";
-        var prendasSalenName = "";
-        var prendasEntran = "";
-        var prendasEntranName = "";
-        var diferencia = 0;
-        for(var i = 0;i<$("#prendasEncontradas select").length;i++){
-            var datosNueva = $("#prendasEncontradas select:eq("+(i)+")").val();//192%Abbie Camel SM%120000
-            if(datosNueva != "NA"){
-                flag = 1;
-                var precioViejo = $("#prendasEncontradas p:eq("+(i)+")").attr("name");
-                var nuevoArray = datosNueva.split("%");
-                diferencia =parseInt(diferencia)+ parseInt(precioViejo)-parseInt(nuevoArray[2]);
-                prendasEntran = prendasEntran+$("#prendasEncontradas p:eq("+(i)+")").text()+", "
-                prendasEntranName = prendasEntranName+$("#prendasEncontradas select:eq("+(i)+")").attr("name")+"%";
-                prendasSalen = prendasSalen+nuevoArray[1]+",";
-                prendasSalenName = prendasSalenName+nuevoArray[0]+"%";
-            }
-        }
-        if(flag == 1){
-            $('#popup3').fadeOut('slow');      
-            $('#popup').fadeIn('slow');
-            $('.removeCambio').remove();
-            var clienteAjuste = "";
-            var costoEnvio = $('#costosEnvio').val();
-            var cstasd = parseInt(costoEnvio)+0;
-            diferencia = diferencia + cstasd;
-            if(diferencia<0){
-                var fefren = -1*diferencia;
-                var formatopre = formatoPrecio(fefren);
-                clienteAjuste = "El cliente queda con saldo a favor de: "+formatopre;
-            }if(diferencia==0){
-                clienteAjuste = "El cliente no queda con saldo";
-            }if(diferencia>0){
-                var formatopre = formatoPrecio(diferencia);
-                clienteAjuste = "El cliente queda debe pagar de más: "+formatopre;
-            }
-            html = html+"<div class='col-lg-12 col-md-12 col-sm-12 col-xs-12 removeCambio'><div class='col-lg-6 col-md-6 col-sm-6 col-xs-6'><p class='letra18pt-pc' id='prendasEntran' name='"+prendasEntranName+"'>"+prendasEntran+"</p></div><div class='col-lg-6 col-md-6 col-sm-6 col-xs-6'><p class='letra18pt-pc' id='prendasSalen' name='"+prendasSalenName+"'>"+prendasSalen+"</p></div></div>";
-            html = html+"<div class='col-lg-12 col-md-12 col-sm-12 col-xs-12 removeCambio'><p class='letra18pt-pc' id='diferencia' name='"+diferencia+"'>"+clienteAjuste+"</p></div>";
-            $('#cambiosPrendas').append(html);
-            $('#datosCliente').attr("name",$('#ventaCliente').attr("name"));
-        }else{
-            alert("No hay cambios realizados");
-            $('#popup3').fadeOut('slow');      
-            $('#popup').fadeIn('slow');
-            $('.removeCambio').remove();
-        }
-        return false;     
+        // var html = "<div class='col-lg-4 col-md-4 col-sm-4 col-xs-4 removeCambio'><p class='letra18pt-pc' id='clienteNombre'>"+$('#nombreCliente').text()+"</p></div>";
+        // html =html+ "<div class='col-lg-4 col-md-4 col-sm-4 col-xs-4 removeCambio'><p class='letra18pt-pc' id='clienteTelefono'>"+$('#telefonoCliente').text()+"</p></div>";
+        // html =html+ "<div class='col-lg-4 col-md-4 col-sm-4 col-xs-4 removeCambio'><p class='letra18pt-pc' id='clienteDireccion'>"+$('#direccionCliente').text()+"</p></div>";
+        // html =html+ "<div class='col-lg-8 col-md-8 col-sm-8 col-xs-8 removeCambio'><p class='letra18pt-pc' id='clienteComplemento'>"+$('#complementoCliente').text()+"</p></div>";
+        // html =html+ "<div class='col-lg-4 col-md-4 col-sm-4 col-xs-4 removeCambio'><p class='letra18pt-pc' id='clienteCiudad'>"+$('#ciudadCliente').text()+"</p></div>";
+        // html = html+"<div class='col-lg-12 col-md-12 col-sm-12 col-xs-12 removeCambio'><div class='col-lg-6 col-md-6 col-sm-6 col-xs-6'><p class='letra18pt-pc'>Prendas que entran</p></div><div class='col-lg-6 col-md-6 col-sm-6 col-xs-6'><p class='letra18pt-pc'>Prendas que salen</p></div></div>";
+        // var flag = 0;
+        // var prendasSalen = "";
+        // var prendasSalenName = "";
+        // var prendasEntran = "";
+        // var prendasEntranName = "";
+        // var diferencia = 0;
+        // for(var i = 0;i<$("#prendasEncontradas select").length;i++){
+        //     var datosNueva = $("#prendasEncontradas select:eq("+(i)+")").val();//192%Abbie Camel SM%120000
+        //     if(datosNueva != "NA"){
+        //         flag = 1;
+        //         var precioViejo = $("#prendasEncontradas p:eq("+(i)+")").attr("name");
+        //         var nuevoArray = datosNueva.split("%");
+        //         diferencia =parseInt(diferencia)+ parseInt(precioViejo)-parseInt(nuevoArray[2]);
+        //         prendasEntran = prendasEntran+$("#prendasEncontradas p:eq("+(i)+")").text()+", "
+        //         prendasEntranName = prendasEntranName+$("#prendasEncontradas select:eq("+(i)+")").attr("name")+"%";
+        //         prendasSalen = prendasSalen+nuevoArray[1]+",";
+        //         prendasSalenName = prendasSalenName+nuevoArray[0]+"%";
+        //     }
+        // }
+        // if(flag == 1){
+        //     $('#popup3').fadeOut('slow');      
+        //     $('#popup').fadeIn('slow');
+        //     $('.removeCambio').remove();
+        //     var clienteAjuste = "";
+        //     var costoEnvio = $('#costosEnvio').val();
+        //     var cstasd = parseInt(costoEnvio)+0;
+        //     diferencia = diferencia + cstasd;
+        //     if(diferencia<0){
+        //         var fefren = -1*diferencia;
+        //         var formatopre = formatoPrecio(fefren);
+        //         clienteAjuste = "El cliente queda con saldo a favor de: "+formatopre;
+        //     }if(diferencia==0){
+        //         clienteAjuste = "El cliente no queda con saldo";
+        //     }if(diferencia>0){
+        //         var formatopre = formatoPrecio(diferencia);
+        //         clienteAjuste = "El cliente queda debe pagar de más: "+formatopre;
+        //     }
+        //     html = html+"<div class='col-lg-12 col-md-12 col-sm-12 col-xs-12 removeCambio'><div class='col-lg-6 col-md-6 col-sm-6 col-xs-6'><p class='letra18pt-pc' id='prendasEntran' name='"+prendasEntranName+"'>"+prendasEntran+"</p></div><div class='col-lg-6 col-md-6 col-sm-6 col-xs-6'><p class='letra18pt-pc' id='prendasSalen' name='"+prendasSalenName+"'>"+prendasSalen+"</p></div></div>";
+        //     html = html+"<div class='col-lg-12 col-md-12 col-sm-12 col-xs-12 removeCambio'><p class='letra18pt-pc' id='diferencia' name='"+diferencia+"'>"+clienteAjuste+"</p></div>";
+        //     $('#cambiosPrendas').append(html);
+        //     $('#datosCliente').attr("name",$('#ventaCliente').attr("name"));
+        // }else{
+        //     alert("No hay cambios realizados");
+        //     $('#popup3').fadeOut('slow');      
+        //     $('#popup').fadeIn('slow');
+        //     $('.removeCambio').remove();
+        // }
+        // return false;     
     });
     $('.usuarioUpdate').on('click', function(){  
         var ids = $(this).attr("name");

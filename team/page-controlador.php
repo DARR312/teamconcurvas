@@ -520,13 +520,16 @@ function agregarventa($idCliente,$datosCliente,$pedido,$precio,$notas,$origen,$f
 }
 
 
-function agregarcambio($valor){// venta_id+"¬"+direccion+"¬"+pedido+"¬"+notas+"¬"+excedente+"¬"+fecha_entrega+"¬"+vendedor_id+"¬"+usuarioactual_id
-    $vals = explode("¬",$valor);//Array ( [0] => 40 [1] => °Natalia Arrieta°3017209186°Calle 16 sur 10 45°Casa 4°Bogotá% [2] => Abbie Negro SM,Naori Verde Menta 3XL, [3] => Beisbolera rojo L, Beisbolera Azul Oscuro L, [4] => Gi  [5] => -89900 [6] => 08/30/2022 [7] => 1 [8] => 1 )
-    $fechaentregaarray = explode("/",$vals[6]);
+function agregarcambio($venta_id,$datos_cliente,$prendasSalen,$prendasEntran,$notas,$excedente,$fecha_entrega,$idUsuario){// venta_id+"¬"+direccion+"¬"+pedido+"¬"+notas+"¬"+excedente+"¬"+fecha_entrega+"¬"+vendedor_id+"¬"+usuarioactual_id
+    $fechaentregaarray = explode("/",$fecha_entrega);
     $fechaentrega = $fechaentregaarray[2]."-".$fechaentregaarray[0]."-".$fechaentregaarray[1]." 00:00:00";
     $timezone = new DateTimeZone( 'America/Bogota' );
     $fechacreada = wp_date('Y-m-d H:i:s', null, $timezone );
-    $valores = array("fecha_creada" => $fechacreada , "venta_id" => $vals[0] , "datos_cliente" => $vals[1] , "pedido" => $vals[2] , "prendas_por_regresar" => $vals[3], "cliente_ok" => "0", "notas" => $vals[4], "excedente" => $vals[5], "fecha_entrega" => $fechaentrega, "estado" => "Sin empacar", "vendedor_id" => $vals[7], "usuarioactual_id" => $vals[8]);
+    $datosss = str_replace("\\","",$datos_cliente);
+    $datosssss = str_replace("<","{",$datosss);
+    $datos_cliente = str_replace(">","}",$datosssss);
+    $valores = array("fecha_creada" => $fechacreada , "venta_id" => $venta_id , "datos_cliente" => $datos_cliente , "pedido" => $prendasSalen, "prendas_por_regresar" => $prendasEntran, "cliente_ok" => "0", "notas" => $notas, "excedente" => $excedente, "fecha_entrega" => $fechaentrega, "estado" => "Sin empacar", "vendedor_id" => $idUsuario, "usuarioactual_id" => $idUsuario);
+    print_r($valores);
     global $wpdb;
     $wpdb->insert("con_t_cambios", $valores);
     $lastId = $wpdb->get_results( "SELECT MAX(cambio_id) as id FROM con_t_cambios");
@@ -1597,7 +1600,7 @@ if($funcion == "permisosPrincipales"){
 }if($funcion == "auditprendas"){
     auditprendas($valor,$valor2,$valor3,$valor4);
 }if($funcion == "agregarcambio"){
-    agregarcambio($valor);
+    agregarcambio($valor,$valor2,$valor3,$valor4,$valor5,$valor6,$valor7,$valor8);
 }if($funcion == "enviarEmpacados"){
     enviarEmpacados($valor,$valor2,$valor3,$valor4);
 }if($funcion == "actualizarVentaitem"){

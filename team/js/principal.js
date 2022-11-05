@@ -565,8 +565,7 @@ function agregarventa(idCliente,datosCliente,pedido,precio,notas,origen,fecha,id
 function agregarcambio(venta_id,datos_cliente,prendasSalen,prendasEntran,notas,excedente,fecha_entrega,idUsuario,idUsuario){
     if(!notas || notas == " "){notas="0";}
     if(!excedente || excedente == " "){excedente="0";}
-    var datos = venta_id+"¬"+datos_cliente+"¬"+prendasSalen+"¬"+prendasEntran+"¬"+notas+"¬"+excedente+"¬"+fecha_entrega+"¬"+idUsuario+"¬"+idUsuario;
-    var enviar = "funcion=agregarcambio&valor="+datos;
+    var enviar = "funcion=agregarcambio&valor="+venta_id+"&valor2="+datos_cliente+"&valor3="+prendasSalen+"&valor4="+prendasEntran+"&valor5="+notas+"&valor6="+excedente+"&valor7="+fecha_entrega+"&valor8="+idUsuario;
 	var obtenidos = "0";
     $.ajax({
     	url: urlhost,

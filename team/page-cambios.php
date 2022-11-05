@@ -149,7 +149,7 @@
         </div>
        
     </div>
-    <div id='popup4' style='display: none;' class="pc tablet">
+    <!-- <div id='popup4' style='display: none;' class="pc tablet">
         <div class='content-popup'>
             <div class='close'><a href='#' id='close4'>
                <img src='<?php echo get_template_directory_uri(); ?>/imagenes/iconos/close.png'/></a>
@@ -217,7 +217,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> -->
     <div id='popup5' style='display: none;' class="pc tablet">
           <div class='content-popup'>
             <div class='close'><a href='#' id='close5'>
