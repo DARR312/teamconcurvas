@@ -404,18 +404,18 @@ function imprimirCambiosjson(ordenesCambio,pedidoUpdate,fechaUpdate,notasUpdate,
     console.log(jsonCambios);
     var ok = 0;
     var signo = "";
-    if(jsonCambios[0].excedente < 0){
-        jsonCambios[0].excedente = -1*jsonCambios[0].excedente;
+    if(jsonCambios[jsonCambios.length-1].excedente < 0){
+        jsonCambios[jsonCambios.length-1].excedente = -1*jsonCambios[jsonCambios.length-1].excedente;
         signo = "-";
     }
-    var precioFormato = formatoPrecio(jsonCambios[0].excedente);
+    var precioFormato = formatoPrecio(jsonCambios[jsonCambios.length-1].excedente);
     precioFormato = signo+precioFormato;
-    var jsonDatosCliente = JSON.parse(jsonCambios[0].datos_cliente);
+    var jsonDatosCliente = JSON.parse(jsonCambios[jsonCambios.length-1].datos_cliente);
     var html = "<div class='col-lg-12 col-md-12 col-sm-12 col-xs-12 removerCambios' id='primeraVenta'> <div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'><p class='letra18pt-pc'>"+jsonCambios[0].estado+"</p></div><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'><p class='letra18pt-pc'>C"+jsonCambios[0].cambio_id+"</p></div><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'><p class='letra18pt-pc'>"+jsonCambios[0].venta_id+"</p></div><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'><p class='letra18pt-pc "+usuarioUpdate+"' name='"+jsonCambios[0].venta_id+"'>"+jsonDatosCliente.nombre+" "+jsonDatosCliente.telefono+"</p></div><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'><p class='letra18pt-pc'>"+jsonDatosCliente.direccion+"</p></div><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'><p class='letra18pt-pc'>"+jsonDatosCliente.complemento+"</p></div><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'><p class='letra18pt-pc'>"+jsonDatosCliente.ciudad+"</p></div><div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'><p class='letra18pt-pc "+pedidoUpdate+"' name='"+jsonCambios[0].cambio_id+"'>"+jsonCambios[0].pedido+"</p></div><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'><p class='letra18pt-pc dinerook"+ok+"'>"+precioFormato+"</p></div><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'><p class='letra18pt-pc "+fechaUpdate+"' name='"+jsonCambios[0].cambio_id+"'>"+jsonCambios[0].fecha_entrega+"</p></div><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'><p class='letra18pt-pc "+notasUpdate+"' name='"+jsonCambios[0].cambio_id+"'>."+jsonCambios[0].notas+"</p></div></div>";
     var imprimir = "<div id='impresionParaempacar' style='display: none;' class='removerCambios'><table border='1'><tr><th>Cambio</th><th>Cliente</th><th>Dirección</th><th>Complemento</th><th>Ciudad</th><th>Teléfono</th><th>Pedido</th><th>Notas</th><th>Excedente</th></tr><tr><td>C"+jsonCambios[0].cambio_id+"</td><td>"+jsonDatosCliente.nombre+"</td><td>"+jsonDatosCliente.direccion+"</td><td>"+jsonDatosCliente.complemento+"</td><td>"+jsonDatosCliente.ciudad+"</td><td>"+jsonDatosCliente.telefono+"</td><td>"+jsonCambios[0].pedido+"</td><td>"+jsonCambios[0].notas+"</td><td>"+precioFormato+"</td></tr>";
     
     if(jsonCambios.length>0){
-        for(i=1;i<jsonCambios.length;i++){
+        for(i=jsonCambios.length-2;i>=0;i--){
             console.log(jsonCambios[i]);
             var ok = 0;
             var signo = "";
