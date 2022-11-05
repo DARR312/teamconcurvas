@@ -90,9 +90,62 @@
             <div class='close'><a href='#' id='close3'>
                <img src='<?php echo get_template_directory_uri(); ?>/imagenes/iconos/close.png'/></a>
             </div> 
-            <div id="prendasEncontradas">
-            
-            </div>
+            <div action="" method="get" accept-charset="UTF-8" autocomplete="off" class="" id="formularioPedido">
+				<div class="form-group pmd-textfield pmd-textfield-floating-label col-lg-2 col-md-2 col-sm-2 col-xs-2">
+					<label for="cantidad1" class="control-label letra18pt-pc"> Cantidad</label>
+					<input class="form-control" type="number" id="cantidad1" name="cantidad1" required=""><span class="pmd-textfield-focused"></span>
+				</div> 
+				<div class="form-group pmd-textfield pmd-textfield-floating-label col-lg-4 col-md-4 col-sm-4 col-xs-4">
+					<label for="prenda1" class="control-label letra18pt-pc"> Prenda </label>
+					<select class="form-control disponibles " type="select" id="prenda1" name="prenda1" form="formularioCliente" required="">
+					</select><span class="pmd-textfield-focused"></span>
+				</div>
+				<div class="form-group pmd-textfield pmd-textfield-floating-label col-lg-2 col-md-2 col-sm-2 col-xs-2">
+					<label for="cantidad2" class="control-label letra18pt-pc"> Cantidad</label>
+					<input class="form-control" type="number" id="cantidad2" name="cantidad2" required=""><span class="pmd-textfield-focused"></span>
+				</div>
+				<div class="form-group pmd-textfield pmd-textfield-floating-label col-lg-4 col-md-4 col-sm-4 col-xs-4">
+					<label for="prenda2" class="control-label letra18pt-pc"> Prenda </label>
+					<select class="form-control disponibles " type="select" id="prenda2" name="prenda2" form="formularioCliente" required="">
+					</select><span class="pmd-textfield-focused"></span>
+				</div>
+				<div class="form-group pmd-textfield pmd-textfield-floating-label col-lg-2 col-md-2 col-sm-2 col-xs-2">
+					<label for="cantida31" class="control-label letra18pt-pc"> Cantidad</label>
+					<input class="form-control" type="number" id="cantidad3" name="cantidad3" required=""><span class="pmd-textfield-focused"></span>
+				</div>
+				<div class="form-group pmd-textfield pmd-textfield-floating-label col-lg-4 col-md-4 col-sm-4 col-xs-4">
+					<label for="prenda3" class="control-label letra18pt-pc"> Prenda </label>
+					<select class="form-control disponibles" type="select" id="prenda3" name="prenda3" form="formularioCliente" required="">
+					</select><span class="pmd-textfield-focused"></span>
+				</div>
+				<div class="form-group pmd-textfield pmd-textfield-floating-label col-lg-2 col-md-2 col-sm-2 col-xs-2">
+					<label for="cantidad4" class="control-label letra18pt-pc"> Cantidad</label>
+					<input class="form-control" type="number" id="cantidad4" name="cantidad4" required=""><span class="pmd-textfield-focused"></span>
+				</div>
+				<div class="form-group pmd-textfield pmd-textfield-floating-label col-lg-4 col-md-4 col-sm-4 col-xs-4">
+					<label for="prenda4" class="control-label letra18pt-pc"> Prenda </label>
+					<select class="form-control disponibles" type="select" id="prenda4" name="prenda4" form="formularioCliente" required="">
+					</select><span class="pmd-textfield-focused"></span>
+				</div>
+				<div class="form-group pmd-textfield pmd-textfield-floating-label col-lg-2 col-md-2 col-sm-2 col-xs-2">
+					<label for="cantidad5" class="control-label letra18pt-pc"> Cantidad</label>
+					<input class="form-control" type="number" id="cantidad5" name="cantidad5" required=""><span class="pmd-textfield-focused"></span>
+				</div>
+				<div class="form-group pmd-textfield pmd-textfield-floating-label col-lg-4 col-md-4 col-sm-4 col-xs-4">
+					<label for="prenda5" class="control-label letra18pt-pc"> Prenda </label>
+					<select class="form-control disponibles" type="select" id="prenda5" name="prenda5" form="formularioCliente" required="">
+					</select><span class="pmd-textfield-focused"></span>
+				</div>
+				<div class="form-group pmd-textfield pmd-textfield-floating-label col-lg-2 col-md-2 col-sm-2 col-xs-2">
+					<label for="cantidad6" class="control-label letra18pt-pc"> Cantidad</label>
+					<input class="form-control" type="number" id="cantidad6" name="cantidad6" required=""><span class="pmd-textfield-focused"></span>
+				</div>
+				<div class="form-group pmd-textfield pmd-textfield-floating-label col-lg-4 col-md-4 col-sm-4 col-xs-4">
+					<label for="prenda6" class="control-label letra18pt-pc"> Prenda </label>
+					<select class="form-control disponibles" type="select" id="prenda6" name="prenda6" form="formularioCliente" required="">
+					</select><span class="pmd-textfield-focused"></span>
+				</div>
+			</div>
         </div>
        
     </div>
@@ -108,7 +161,7 @@
 						<label for="cantidad1" class="control-label letra18pt-pc"> Cantidad</label>
 						<input class="form-control" type="number" id="cantidad1" name="cantidad1" required=""><span class="pmd-textfield-focused"></span>
 					</div> 
-					<div class="form-group pmd-textfield pmd-textfield-floating-label col-lg-4 col-md-4 col-sm-4 col-xs-4">
+					<div class="form-group pmd-textfield pmd-textfield-floating-label col-lg-10 col-md-10 col-sm-10 col-xs-10">
 						<label for="prenda1" class="control-label letra18pt-pc"> Prenda </label>
 						<select class="form-control disponibles " type="select" id="prenda1" name="prenda1" form="formularioCliente" required="">
 						</select><span class="pmd-textfield-focused"></span>
@@ -117,7 +170,7 @@
 						<label for="cantidad2" class="control-label letra18pt-pc"> Cantidad</label>
 						<input class="form-control" type="number" id="cantidad2" name="cantidad2" required=""><span class="pmd-textfield-focused"></span>
 					</div>
-					<div class="form-group pmd-textfield pmd-textfield-floating-label col-lg-4 col-md-4 col-sm-4 col-xs-4">
+					<div class="form-group pmd-textfield pmd-textfield-floating-label col-lg-10 col-md-10 col-sm-10 col-xs-10">
 						<label for="prenda2" class="control-label letra18pt-pc"> Prenda </label>
 						<select class="form-control disponibles " type="select" id="prenda2" name="prenda2" form="formularioCliente" required="">
 						</select><span class="pmd-textfield-focused"></span>
@@ -126,7 +179,7 @@
 						<label for="cantida31" class="control-label letra18pt-pc"> Cantidad</label>
 						<input class="form-control" type="number" id="cantidad3" name="cantidad3" required=""><span class="pmd-textfield-focused"></span>
 					</div>
-					<div class="form-group pmd-textfield pmd-textfield-floating-label col-lg-4 col-md-4 col-sm-4 col-xs-4">
+					<div class="form-group pmd-textfield pmd-textfield-floating-label col-lg-10 col-md-10 col-sm-10 col-xs-10">
 						<label for="prenda3" class="control-label letra18pt-pc"> Prenda </label>
 						<select class="form-control disponibles" type="select" id="prenda3" name="prenda3" form="formularioCliente" required="">
 						</select><span class="pmd-textfield-focused"></span>
@@ -135,7 +188,7 @@
 						<label for="cantidad4" class="control-label letra18pt-pc"> Cantidad</label>
 						<input class="form-control" type="number" id="cantidad4" name="cantidad4" required=""><span class="pmd-textfield-focused"></span>
 					</div>
-					<div class="form-group pmd-textfield pmd-textfield-floating-label col-lg-4 col-md-4 col-sm-4 col-xs-4">
+					<div class="form-group pmd-textfield pmd-textfield-floating-label col-lg-10 col-md-10 col-sm-10 col-xs-10">
 						<label for="prenda4" class="control-label letra18pt-pc"> Prenda </label>
 						<select class="form-control disponibles" type="select" id="prenda4" name="prenda4" form="formularioCliente" required="">
 						</select><span class="pmd-textfield-focused"></span>
@@ -144,7 +197,7 @@
 						<label for="cantidad5" class="control-label letra18pt-pc"> Cantidad</label>
 						<input class="form-control" type="number" id="cantidad5" name="cantidad5" required=""><span class="pmd-textfield-focused"></span>
 					</div>
-					<div class="form-group pmd-textfield pmd-textfield-floating-label col-lg-4 col-md-4 col-sm-4 col-xs-4">
+					<div class="form-group pmd-textfield pmd-textfield-floating-label col-lg-10 col-md-10 col-sm-10 col-xs-10">
 						<label for="prenda5" class="control-label letra18pt-pc"> Prenda </label>
 						<select class="form-control disponibles" type="select" id="prenda5" name="prenda5" form="formularioCliente" required="">
 						</select><span class="pmd-textfield-focused"></span>
@@ -153,7 +206,7 @@
 						<label for="cantidad6" class="control-label letra18pt-pc"> Cantidad</label>
 						<input class="form-control" type="number" id="cantidad6" name="cantidad6" required=""><span class="pmd-textfield-focused"></span>
 					</div>
-					<div class="form-group pmd-textfield pmd-textfield-floating-label col-lg-4 col-md-4 col-sm-4 col-xs-4">
+					<div class="form-group pmd-textfield pmd-textfield-floating-label col-lg-10 col-md-10 col-sm-10 col-xs-10">
 						<label for="prenda6" class="control-label letra18pt-pc"> Prenda </label>
 						<select class="form-control disponibles" type="select" id="prenda6" name="prenda6" form="formularioCliente" required="">
 						</select><span class="pmd-textfield-focused"></span>

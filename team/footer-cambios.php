@@ -172,69 +172,93 @@
         }else{alert("Ingresa el nombre del cliente :)");}
         return false;     
     });
-    $('#ventaBuscarId').on('click', function(){ 
+    $('#ventaBuscarId').on('click', function(){
         $('.remover').remove();
-        var flag = 0; 
-        var html = "";
-        var ventaItems = obtenerData("complemento_estado,descripcion","con_t_trprendas","rowVarios","cual","V"+$('#ventaIdentificacion').val());
-        //°Diego 1°137°Londres Rosa Bebé SM%°Diego 1°138°Londres Rosa Bebé SM%
-        var ventaCliente = obtenerDatajson("datos_cliente","con_t_ventas","valoresconcondicion","venta_id",$('#ventaIdentificacion').val());
-        var jsonVentaCliente = JSON.parse(ventaCliente); 
-        var jsonDatosCliente = JSON.parse(jsonVentaCliente[0].datos_cliente); 
-        console.log(jsonDatosCliente);
-        var ventaItemsArray = ventaItems.split("%");
-        if(ventaItemsArray.length==0){
-            alert("El pedido no tiene prendas asociadas para ser cambiadas");
-        }else{
-            var html = "<h1  style='display: none;' class='remover' id='nombreCliente' name='"+$('#ventaIdentificacion').val()+"'>"+jsonDatosCliente.nombre+"</h1>";
-            html =html+ "<h1  style='display: none;' class='remover' id='telefonoCliente' name='"+$('#ventaIdentificacion').val()+"'>"+jsonDatosCliente.telefono+"</h1>";
-            html =html+ "<h1  style='display: none;' class='remover' id='direccionCliente' name='"+$('#ventaIdentificacion').val()+"'>"+jsonDatosCliente.direccion+"</h1>";
-            html =html+ "<h1  style='display: none;' class='remover' id='complementoCliente' name='"+$('#ventaIdentificacion').val()+"'>"+jsonDatosCliente.complemento+"</h1>";
-            html =html+ "<h1  style='display: none;' class='remover' id='ciudadCliente' name='"+$('#ventaIdentificacion').val()+"'>"+jsonDatosCliente.ciudad+"</h1>";
-            for(var k = 0;k<(ventaItemsArray.length-1);k++){
-                var splt = ventaItemsArray[k].split("°");
-                var itemId = splt[2];
-                var datosVenta = obtenerData("ordenitem_id,prenda_id,valor,descuento_id,estado_id","con_t_ventaitem","rowVarios","ordenitem_id",itemId);
-                //°137°113°140000°0°En ruta%
-                var datosArray = datosVenta.split("°");
-                var estado = datosArray[5].replace('%', '');
-                var precio = datosArray[3];
-                var prendaItemId = datosArray[2];
-                if(estado == "Entregado"){
-                    flag = 1;
-                    html = html+"<div class='col-lg-12 col-md-12 col-sm-12 col-xs-12 remover'><div class='col-lg-6 col-md-6 col-sm-6 col-xs-6'><p class='letra18pt-pc' name='"+precio+"'>"+splt[3]+"</p></div><div class='form-group pmd-textfield pmd-textfield-floating-label col-lg-6 col-md-6 col-sm-6 col-xs-6'><label for='prenda1' class='control-label letra18pt-pc'> Prenda </label><select class='form-control disponibles' type='select' id='"+itemId+"' name='"+prendaItemId+"' form='formularioCliente'></select><span class='pmd-textfield-focused'></span></div></div>";
-                }
-            }
-            if(flag == 1){
-                $('#popup').fadeOut('slow');         
-                $('#popup3').fadeIn('slow'); 
-                html = html+"<div class='col-lg-3 col-md-3 col-sm-3 col-xs-3 remover'><button class='botonmodal remover botoncargar' id='botonCargacambios' >Cargar</button></div><div class='form-group pmd-textfield pmd-textfield-floating-label col-lg-8 col-md-8 col-sm-8 col-xs-8 remover'><label for='cantidad6' class='control-label letra18pt-pc'> Valor de envío a pagar por el cliente</label><input class='form-control' type='number' id='costosEnvio' name='costosEnvio' min='1'><span class='pmd-textfield-focused'></span></div>";
-                $("#prendasEncontradas").append(html);
-                html = "<option value='NA'>NA</option>";
-                var disponibl = disponibles();
-                var items = disponibl.split(',');
-                for(i=0;i<(items.length-1);i++){
-                    var item = items[i].split('!');
-                    html=html+"<option value='"+item[0]+"%"+item[1]+"%"+item[2]+"'>"+item[1]+"</option>";
-                }
-                var disp = $('.disponibles');
-                disp.append(html);
-                cambios();
-            }
+        var venta = obtenerDatajson("cliente_ok,datos_cliente","con_t_ventas","valoresconcondicion","venta_id",$('#ventaIdentificacion').val());
+        var jsonVentaCliente = JSON.parse(venta); 
+        console.log(jsonVentaCliente);
+        var prendav = obtenerDatajson("cual,estado,codigo","con_t_trprendas","valoresconcondicion","cual","V"+$('#ventaIdentificacion').val());
+        var jsonprendav = JSON.parse(prendav); 
+        if(jsonprendav.length>0){
+            alert("El cliente todavía tiene prendas no se puede agendar el cambio");
+            return false;
         }
-        
-        //°34°5°89900°0°1%°35°7°130000°0°1%°36°8°89900°0°1%°37°11°89900°0°1%°38°34°130000°0°1%°39°34°130000°0°1%
-        /*if(clientes == "NA"){
-            html = "<p class='col-lg-6 col-md-6 col-sm-6 col-xs-6 cliente'>Sin resultados</p>"
-        }else{
-            var items = clientes.split('$');
-            for(i=1;i<items.length;i++){
-                var datos = items[i].split('%');
-                html=html+"<p id='nombre"+i+"' class='col-lg-4 col-md-4 col-sm-4 col-xs-4 remover'>"+datos[0]+"</p><p id='direccion"+i+"' class='col-lg-5 col-md-5 col-sm-5 col-xs-5 remover'>"+datos[1]+"</p><p class='off remover' id='clienteid"+i+"' >"+datos[2]+"</p><p class='off remover' id='complemento"+i+"' >"+datos[3]+"</p><p class='off remover' id='clienteCiudad"+i+"' >"+datos[4]+"</p><button class='botonmodal remover' id='cliente"+i+"' onclick='seleccionCliente("+i+")'>Cargar</button>";
-            }
+        var cambiosantiguos = obtenerDatajson("excedente,cambio_id","con_t_cambios","valoresconcondicion","venta_id",$('#ventaIdentificacion').val());
+        var jsoncambiosantiguos = JSON.parse(cambiosantiguos); 
+        if(jsoncambiosantiguos.length>0){
+            for (let i = 0; i < jsoncambiosantiguos.length; i++) {
+                var cambiosantiguosprendas = obtenerDatajson("cual,estado,codigo","con_t_trprendas","valoresconcondicion","cual","C"+jsoncambiosantiguos[i].cambio_id);
+                var jsoncambiosantiguosprendas = JSON.parse(cambiosantiguosprendas);  
+                if(jsoncambiosantiguosprendas.length>0){
+                    alert("El cliente todavía tiene prendas no se puede agendar el cambio");
+                    return false;
+                }              
+            }            
         }
-        var clientesEncontrados = $('#clientesEncontrados');
-        clientesEncontrados.append(html);*/
+        var html = "<h1  style='display: none;' class='remover' id='datoscliente' name='"+$('#ventaIdentificacion').val()+"'>"+jsonVentaCliente.datos_cliente+"</h1>";
+        $('#popup').fadeOut('slow');         
+        $('#popup3').fadeIn('slow'); 
+        html = html+"<div class='col-lg-3 col-md-3 col-sm-3 col-xs-3 remover'><button class='botonmodal remover botoncargar' id='botonCargacambios' >Cargar</button></div><div class='form-group pmd-textfield pmd-textfield-floating-label col-lg-8 col-md-8 col-sm-8 col-xs-8 remover'><label for='cantidad6' class='control-label letra18pt-pc'> Valor de envío a pagar por el cliente</label><input class='form-control' type='number' id='costosEnvio' name='costosEnvio' min='1'><span class='pmd-textfield-focused'></span></div>";
+        $("#formularioPedido").after(html);
+        html = "<option value='NA'>NA</option>";
+        var disponibl = disponibles();
+        var items = disponibl.split(',');
+        for(i=0;i<(items.length-1);i++){
+            var item = items[i].split('!');
+            html=html+"<option value='"+item[0]+"%"+item[1]+"%"+item[2]+"'>"+item[1]+"</option>";
+        }
+        var disp = $('.disponibles');
+        disp.append(html);
+        cambios();
+        //prendasEncontradas.append(html);
+        // var flag = 0; 
+        // var html = "";
+        // var ventaItems = obtenerData("complemento_estado,descripcion","con_t_trprendas","rowVarios","cual","V"+$('#ventaIdentificacion').val());
+        // //°Diego 1°137°Londres Rosa Bebé SM%°Diego 1°138°Londres Rosa Bebé SM%
+        // var ventaCliente = obtenerDatajson("datos_cliente","con_t_ventas","valoresconcondicion","venta_id",$('#ventaIdentificacion').val());
+        // var jsonVentaCliente = JSON.parse(ventaCliente); 
+        // var jsonDatosCliente = JSON.parse(jsonVentaCliente[0].datos_cliente); 
+        // console.log(jsonDatosCliente);
+        // var ventaItemsArray = ventaItems.split("%");
+        // if(ventaItemsArray.length==0){
+        //     alert("El pedido no tiene prendas asociadas para ser cambiadas");
+        // }else{
+        //     var html = "<h1  style='display: none;' class='remover' id='nombreCliente' name='"+$('#ventaIdentificacion').val()+"'>"+jsonDatosCliente.nombre+"</h1>";
+        //     html =html+ "<h1  style='display: none;' class='remover' id='telefonoCliente' name='"+$('#ventaIdentificacion').val()+"'>"+jsonDatosCliente.telefono+"</h1>";
+        //     html =html+ "<h1  style='display: none;' class='remover' id='direccionCliente' name='"+$('#ventaIdentificacion').val()+"'>"+jsonDatosCliente.direccion+"</h1>";
+        //     html =html+ "<h1  style='display: none;' class='remover' id='complementoCliente' name='"+$('#ventaIdentificacion').val()+"'>"+jsonDatosCliente.complemento+"</h1>";
+        //     html =html+ "<h1  style='display: none;' class='remover' id='ciudadCliente' name='"+$('#ventaIdentificacion').val()+"'>"+jsonDatosCliente.ciudad+"</h1>";
+        //     for(var k = 0;k<(ventaItemsArray.length-1);k++){
+        //         var splt = ventaItemsArray[k].split("°");
+        //         var itemId = splt[2];
+        //         var datosVenta = obtenerData("ordenitem_id,prenda_id,valor,descuento_id,estado_id","con_t_ventaitem","rowVarios","ordenitem_id",itemId);
+        //         //°137°113°140000°0°En ruta%
+        //         var datosArray = datosVenta.split("°");
+        //         var estado = datosArray[5].replace('%', '');
+        //         var precio = datosArray[3];
+        //         var prendaItemId = datosArray[2];
+        //         if(estado == "Entregado"){
+        //             flag = 1;
+        //             html = html+"<div class='col-lg-12 col-md-12 col-sm-12 col-xs-12 remover'><div class='col-lg-6 col-md-6 col-sm-6 col-xs-6'><p class='letra18pt-pc' name='"+precio+"'>"+splt[3]+"</p></div><div class='form-group pmd-textfield pmd-textfield-floating-label col-lg-6 col-md-6 col-sm-6 col-xs-6'><label for='prenda1' class='control-label letra18pt-pc'> Prenda </label><select class='form-control disponibles' type='select' id='"+itemId+"' name='"+prendaItemId+"' form='formularioCliente'></select><span class='pmd-textfield-focused'></span></div></div>";
+        //         }
+        //     }
+        //     if(flag == 1){
+        //         $('#popup').fadeOut('slow');         
+        //         $('#popup3').fadeIn('slow'); 
+        //         html = html+"<div class='col-lg-3 col-md-3 col-sm-3 col-xs-3 remover'><button class='botonmodal remover botoncargar' id='botonCargacambios' >Cargar</button></div><div class='form-group pmd-textfield pmd-textfield-floating-label col-lg-8 col-md-8 col-sm-8 col-xs-8 remover'><label for='cantidad6' class='control-label letra18pt-pc'> Valor de envío a pagar por el cliente</label><input class='form-control' type='number' id='costosEnvio' name='costosEnvio' min='1'><span class='pmd-textfield-focused'></span></div>";
+        //         $("#prendasEncontradas").append(html);
+        //         html = "<option value='NA'>NA</option>";
+        //         var disponibl = disponibles();
+        //         var items = disponibl.split(',');
+        //         for(i=0;i<(items.length-1);i++){
+        //             var item = items[i].split('!');
+        //             html=html+"<option value='"+item[0]+"%"+item[1]+"%"+item[2]+"'>"+item[1]+"</option>";
+        //         }
+        //         var disp = $('.disponibles');
+        //         disp.append(html);
+        //         cambios();
+        //     }
+        // }
         return false;     
     }); 
      $('#close3').on('click', function(){   
