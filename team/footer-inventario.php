@@ -330,6 +330,54 @@
     	tituloscodigos.after(html);
     });
 
+    $('#bscardescripcion').on('change', function(){          
+        $('.remover').remove();
+        $('.removerCodigos').remove();
+        $('#codigosNuevos').css('display', 'none');
+        $('#referenciaNueva').css('display', 'none');
+        $('#resultados').css('display', 'none');
+        $('#btnExport').css('display', 'none');
+        $('#verCodigo').css('display', 'block');
+        $('#verResumenprendas').css('display', 'none');
+        $('#auditoriaInventario').css('display', 'none');
+        $('#subirInformes').css('display', 'none');
+        $('#informeDinero').css('display', 'none');         
+        $('#ventasVSinventario').css('display', 'none');
+        $('#inventarioInicialPc').css('display', 'none');
+        $('#liberarEmpacados').css('display', 'none');
+        $('#madrugonDiv').css('display', 'none'); 
+        $('#fechaslotesdiv').css('display', 'none');
+        var codigosprenda = codigosprendasjson("0","0","0",$('#bscardescripcion').val());
+        var tituloscodigos = $('#tituloscodigos');
+        var html = imprimirCodigosjson(codigosprenda);
+        console.log(html);
+    	tituloscodigos.after(html);
+    });
+
+    $('#bscarcual').on('change', function(){          
+        $('.remover').remove();
+        $('.removerCodigos').remove();
+        $('#codigosNuevos').css('display', 'none');
+        $('#referenciaNueva').css('display', 'none');
+        $('#resultados').css('display', 'none');
+        $('#btnExport').css('display', 'none');
+        $('#verCodigo').css('display', 'block');
+        $('#verResumenprendas').css('display', 'none');
+        $('#auditoriaInventario').css('display', 'none');
+        $('#subirInformes').css('display', 'none');
+        $('#informeDinero').css('display', 'none');         
+        $('#ventasVSinventario').css('display', 'none');
+        $('#inventarioInicialPc').css('display', 'none');
+        $('#liberarEmpacados').css('display', 'none');
+        $('#madrugonDiv').css('display', 'none'); 
+        $('#fechaslotesdiv').css('display', 'none');
+        var codigosprenda = codigosprendasjson("0","0",$('#bscarcual').val(),"0");//bscar,estadoFiltro,cual,descripcion
+        var tituloscodigos = $('#tituloscodigos');
+        var html = imprimirCodigosjson(codigosprenda);
+        console.log(html);
+    	tituloscodigos.after(html);
+    });
+
     $('#verResumen').on('click', function(){   
         $('.remover').remove();
         $('.removerCodigos').remove();

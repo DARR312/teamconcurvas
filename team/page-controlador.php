@@ -1130,11 +1130,24 @@ function codigosprendasjson($valor,$valor2,$valor3,$valor4){
         $todas = "";
         $codigos = $wpdb->get_results( "SELECT codigo, estado, cual, complemento_estado, fecha_cambio, descripcion FROM con_t_trprendas  WHERE codigo ='".$valor."'", ARRAY_A  );
         echo json_encode($codigos);
-    }else{ 
-        $todas = "";
-        $codigos = $wpdb->get_results( "SELECT codigo, estado, cual, complemento_estado, fecha_cambio, descripcion FROM con_t_trprendas WHERE estado <> 'Entregado'", ARRAY_A  );
-        echo json_encode($codigos);
+        return false;
     }
+    if($valor4 != "0"){ 
+        $todas = "";
+        $codigos = $wpdb->get_results( "SELECT codigo, estado, cual, complemento_estado, fecha_cambio, descripcion FROM con_t_trprendas  WHERE descripcion ='".$valor4."'", ARRAY_A  );
+        echo json_encode($codigos);
+        return false;
+    }
+    if($valor3 != "0"){ 
+        $todas = "";
+        $codigos = $wpdb->get_results( "SELECT codigo, estado, cual, complemento_estado, fecha_cambio, descripcion FROM con_t_trprendas  WHERE cual ='".$valor3."'", ARRAY_A  );
+        echo json_encode($codigos);
+        return false;
+    } 
+    $todas = "";
+    $codigos = $wpdb->get_results( "SELECT codigo, estado, cual, complemento_estado, fecha_cambio, descripcion FROM con_t_trprendas WHERE estado <> 'Entregado'", ARRAY_A  );
+    echo json_encode($codigos);
+    
 }
 
 function resumenprendas($valor,$valor2,$valor3,$valor4){

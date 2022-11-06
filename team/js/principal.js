@@ -1,5 +1,5 @@
-//const urlhost = "http://localhost/wordpress/index.php/controlador" ;
-const urlhost = "https://concurvas.com/team/controlador/";
+const urlhost = "http://localhost/wordpress/index.php/controlador" ;
+//const urlhost = "https://concurvas.com/team/controlador/";
 function formatoPrecio(precio){
 	var pre = Math.sqrt(precio*precio);
     let myFunc = num => Number(num);
@@ -751,12 +751,12 @@ function codigosprendas(bscar,estadoFiltro,cual,notas) {
 };
 
 
-function codigosprendasjson(bscar,estadoFiltro,cual,notas) {
+function codigosprendasjson(bscar,estadoFiltro,cual,descripcion) {
     if(!bscar || bscar == " "){bscar="0";}
     if(!estadoFiltro || estadoFiltro == " "){estadoFiltro="0";}
     if(!cual || cual == " "){cual="0";}
-    if(!notas || notas == " "){notas="0";}
-    var enviar = "funcion=codigosprendasjson&valor="+bscar+"&valor2="+estadoFiltro+"&valor3="+cual+"&valor4="+notas;
+    if(!descripcion || descripcion == " "){descripcion="0";}
+    var enviar = "funcion=codigosprendasjson&valor="+bscar+"&valor2="+estadoFiltro+"&valor3="+cual+"&valor4="+descripcion;
     var obtenidos = "no";
     $.ajax({
     	url: urlhost,

@@ -8,19 +8,33 @@
             			<input class="form-control" type="text" id="bscar" name="bscar" required=""><span class="pmd-textfield-focused"></span>
     			    </div>
     			</div>
+                <?php if(get_the_title() == "Inventario"){ ?> 
                 <div class="form-group pmd-textfield pmd-textfield-floating-label">
-                    <div class='col-lg-2 col-md-2 col-sm-2 col-xs-12' id='buscadortelefono'>
-            			<label for="nombre" class="control-label letra18pt-pc">Buscar por teléfono</label>
-            			<input class="form-control" type="text" id="bscartelefono" name="bscar" required=""><span class="pmd-textfield-focused"></span>
+                    <div class='col-lg-3 col-md-3 col-sm-3 col-xs-3' id='buscadordescripcion'>
+            			<label for="nombre" class="control-label letra18pt-pc">Buscar por descripcion</label>
+            			<input class="form-control" type="text" id="bscardescripcion" name="bscar" required=""><span class="pmd-textfield-focused"></span>
     			    </div>
-    			</div>
+    			</div> 
+                <div class="form-group pmd-textfield pmd-textfield-floating-label">
+                    <div class='col-lg-2 col-md-2 col-sm-2 col-xs-12' id='buscadorcual'>
+            			<label for="nombre" class="control-label letra18pt-pc">Buscar por cual</label>
+            			<input class="form-control" type="text" id="bscarcual" name="bscar" required=""><span class="pmd-textfield-focused"></span>
+    			    </div>
+    			</div> 
+                 <?php } ?>
     			 <?php if(get_the_title() == "Ventas" || get_the_title() == "Cambios" || get_the_title() == "Ventas mayorista"){ 
     			    $user_info = get_users( array( 'role__in' => array( 'transportador') ) );
                     $transport = $user_info[0]->ID;
                     for($i = 1;$i < sizeof($user_info);$i++){
                          $transport = $transport.",".$user_info[$i]->ID;
                     }
-    			 ?>
+    			 ?>                 
+                <div class="form-group pmd-textfield pmd-textfield-floating-label">
+                    <div class='col-lg-2 col-md-2 col-sm-2 col-xs-12' id='buscadortelefono'>
+            			<label for="nombre" class="control-label letra18pt-pc">Buscar por teléfono</label>
+            			<input class="form-control" type="text" id="bscartelefono" name="bscar" required=""><span class="pmd-textfield-focused"></span>
+    			    </div>
+    			</div>
     			<div class="form-group pmd-textfield pmd-textfield-floating-label">
                     <div class='col-lg-2 col-md-2 col-sm-2 col-xs-12'>
                         <label class="control-label letra18pt-pc" for="estadoFiltro">Estado</label>
