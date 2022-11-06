@@ -529,7 +529,6 @@ function agregarcambio($venta_id,$datos_cliente,$prendasSalen,$prendasEntran,$no
     $datosssss = str_replace("<","{",$datosss);
     $datos_cliente = str_replace(">","}",$datosssss);
     $valores = array("fecha_creada" => $fechacreada , "venta_id" => $venta_id , "datos_cliente" => $datos_cliente , "pedido" => $prendasSalen, "prendas_por_regresar" => $prendasEntran, "cliente_ok" => "0", "notas" => $notas, "excedente" => $excedente, "fecha_entrega" => $fechaentrega, "estado" => "Sin empacar", "vendedor_id" => $idUsuario, "usuarioactual_id" => $idUsuario);
-    print_r($valores);
     global $wpdb;
     $wpdb->insert("con_t_cambios", $valores);
     $lastId = $wpdb->get_results( "SELECT MAX(cambio_id) as id FROM con_t_cambios");
@@ -996,15 +995,17 @@ function  actualizar($tabla,$columna,$valor,$valor2,$valor3){
         $wpdb->query($datos);
     }
     if($tabla == "cambio_cliente" ){
-        $updated = $wpdb->update( "con_t_cambios", array('datos_cliente' => $columna), array( 'cambio_id' => $valor ) );
-        $datos = array("cambio_id" => $valor , "cambio" => $columna , "usuario_id" => $valores[2] , "fecha_hora" => $fecha , "campo_cambio" => "datos_cliente");
+        $datosss = str_replace("\\","",$columna);
+        $datosssss = str_replace("<","{",$datosss);
+        $datosCliente = str_replace(">","}",$datosssss);
+        $updated = $wpdb->update( "con_t_cambios", array('datos_cliente' => $datosCliente), array( 'cambio_id' => $valor ) );
+        $datos = array("cambio_id" => $valor , "cambio" => $datosCliente , "usuario_id" => $valores[2] , "fecha_hora" => $fecha , "campo_cambio" => "datos_cliente");
         echo $datos;
         $wpdb->insert("con_t_cambiostr", $datos);
     }
     if($tabla == "cambio_pedido"){
-        $arraySalenEntran = explode("°",$valor);
-        $updated = $wpdb->update( "con_t_cambios", array('pedido' => $arraySalenEntran[0], 'prendas_por_regresar' => $arraySalenEntran[1], 'excedente' => $valor2), array( 'cambio_id' => $columna ) );
-        $datos = array("cambio_id" => $columna , "cambio" => $valor.$valor2 , "usuario_id" => $valores[2] , "fecha_hora" => $fecha , "campo_cambio" => "datos_cliente");
+        $updated = $wpdb->update( "con_t_cambios", array('pedido' => $valor, 'prendas_por_regresar' => "--", 'excedente' => $valor2), array( 'cambio_id' => $columna ) );
+        $datos = array("cambio_id" => $columna , "cambio" => $valor." ".$valor2 , "usuario_id" => $valore3 , "fecha_hora" => $fecha , "campo_cambio" => "pedido");
         echo $datos;
         $wpdb->insert("con_t_cambiostr", $datos);
     }
@@ -1065,7 +1066,17 @@ function  actualizar($tabla,$columna,$valor,$valor2,$valor3){
     if($tabla == "con_t_prendasplaza" ){        
         $datos="UPDATE `con_t_prendasplaza` SET `agregada`=1 WHERE (`codigo`='".$valor."')";
         $wpdb->query($datos);
+    }        
+    if($tabla == "inventario_items_cambios" ){        
+        $idref = $wpdb->get_results( "SELECT prenda_idsale FROM con_t_cambioitem  WHERE cambio_id = ".$valor."", ARRAY_A  );
+        for($i=0;$i<sizeof($idref);$i++){
+            $cantidadRefere = $wpdb->get_results( "SELECT cantidad FROM con_t_resumen WHERE referencia_id = '".$idref[$i]['prenda_id']."'", ARRAY_A);
+            print_r($cantidadRefere);
+            $cantidadNueva = $cantidadRefere[0]['cantidad']+1;
+            $updated = $wpdb->update( "con_t_resumen", array('cantidad' => $cantidadNueva), array( 'referencia_id' => $idref[$i]['prenda_id'] ) );
+        }
     }
+
 }
 
 function  sumarinventario($id){

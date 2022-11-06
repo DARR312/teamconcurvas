@@ -10,6 +10,95 @@ function formatoPrecio(precio){
 };
 
 function cambios() {   
+    $('#botonCargacambiopedido').on('click', function(){ 
+        var idventa = $("#ventainfo").text();
+        var cliente_ok = $("#ventainfo").attr("name");
+        var idcambio = $("#cambioinfo").text();
+        var pedido = "";
+        var precio = 0;    
+        var itemCambio = "";    
+        for (let k = 1; k < 7; k++) {
+            console.log($('#updateprenda'+k).val());
+            console.log($('#updatecantidad'+k).val());
+            if($('#updateprenda'+k).val() == "NA"){continue;}
+            if($('#updatecantidad'+k).val() <= 0){
+                alert("Ingresa la cantidad para la referencia "+k+" ");
+                break;
+            }
+            var dateos = $('#updateprenda'+k).val().split("%");
+            pedido = pedido +$('#updatecantidad'+k).val()+" "+dateos[1]+" ";
+            precio = precio + ($('#updatecantidad'+k).val() * parseInt(dateos[2]));
+            itemCambio = itemCambio + $('#updatecantidad'+k).val()+"/"+dateos[0]+",";
+        }
+        if(precio == 0){alert("Agrega al menos una referencia al pedido");return false;}
+        var envio = 0;
+        if($("#costosEnvioupdate").val()){
+            envio = parseInt($("#costosEnvioupdate").val());
+        }
+        var valorsaliente = precio + envio;
+        var diferencia = valorsaliente - cliente_ok; 
+        var clienteAjuste = "";
+        if(diferencia<0){                        
+            var fefren = -1*diferencia;
+            var formatopre = formatoPrecio(fefren);
+            clienteAjuste = "El cliente queda con saldo a favor de: "+formatopre;
+        }if(diferencia==0){
+            clienteAjuste = "El cliente no queda con saldo";
+        }if(diferencia>0){
+            var formatopre = formatoPrecio(diferencia);
+            clienteAjuste = "El cliente queda debe pagar de más: "+formatopre;
+        }
+        var venta = obtenerDatajson("cliente_ok,datos_cliente","con_t_ventas","valoresconcondicion","venta_id",idventa);
+        var jsonVentaCliente = JSON.parse(venta); 
+        console.log(jsonVentaCliente);
+        var prendav = obtenerDatajson("cual,estado,codigo","con_t_trprendas","valoresconcondicion","cual","V"+idventa);
+        var jsonprendav = JSON.parse(prendav); 
+        if(jsonprendav.length>0){
+            alert("El cliente todavía tiene prendas no se puede agendar el cambio");
+            return false;
+        }
+        var cambiosantiguos = obtenerDatajson("excedente,cambio_id","con_t_cambios","valoresconcondicion","venta_id",idventa);
+        var jsoncambiosantiguos = JSON.parse(cambiosantiguos); 
+        if(jsoncambiosantiguos.length>0){
+            for (let i = 0; i < jsoncambiosantiguos.length; i++) {
+                var cambiosantiguosprendas = obtenerDatajson("cual,estado,codigo","con_t_trprendas","valoresconcondicion","cual","C"+jsoncambiosantiguos[i].cambio_id);
+                var jsoncambiosantiguosprendas = JSON.parse(cambiosantiguosprendas);  
+                if(jsoncambiosantiguosprendas.length>0){
+                    alert("El cliente todavía tiene prendas no se puede agendar el cambio");
+                    return false;
+                }              
+            }            
+        }        
+        console.log(precio);
+        console.log(envio);
+        console.log(valorsaliente);
+        console.log(cliente_ok);
+        console.log(diferencia);
+        console.log(itemCambio);
+        actualizar("cambio_pedido",idcambio,pedido,diferencia,usuarioCell);
+        actualizar("inventario_items_cambios","-",idcambio,"-","-");
+        borrarfilas("con_t_cambioitem","cambio_id",idcambio);
+        var pedidoitemsArray = itemCambio.split(",");
+        console.log(pedidoitemsArray);
+        for(var i = 0;i<(pedidoitemsArray.length-1);i++){            
+            var prendasIDSArray = pedidoitemsArray[i].split("/");
+            console.log(prendasIDSArray);
+            for (let k = 0; k < prendasIDSArray[0]; k++) { 
+               cambioitem(prendasIDSArray[1],0,idcambio,idventa);               
+            }
+        }
+        $('#popup6').fadeOut('slow');
+        $('.popup-overlay').fadeOut('slow');      
+        $('.reinicia').remove();
+        $('.removeCambio').remove();
+        var ordenesCambio = ordenescambiojson("0","0","0","0","0");
+        var html = imprimirCambiosjson(ordenesCambio,"pedidoUpdate","fechaUpdate","notasUpdate","usuarioUpdate");
+        console.log(html);
+        var primeraFila = $('#primeraFila');
+        primeraFila.after(html);
+        cambios();  
+        return false;
+    });
     $('#botonCargacambios').on('click', function(){ 
         var idventa = $("#datoscliente").attr("name");
         var pedido = "";
@@ -125,24 +214,24 @@ function cambios() {
     });
     $('.usuarioUpdate').on('click', function(){  
         var ids = $(this).attr("name");
-        var estado = obtenerData("estado","con_t_cambios","row","venta_id",ids);
+        var estado = obtenerData("estado","con_t_cambios","row","cambio_id",ids);
         if(estado == "Sin empacar" || estado == "Empacado"){
-            var idcliente = obtenerData("cliente_id","con_t_ventas","row","venta_id",ids);
-            var clienteDatos = obtenerData("nombre,telefono,direccion_1,complemento_1,ciudad_1","con_t_clientes","rowVarios","cliente_id",idcliente);
+            var cambio = obtenerDatajson("datos_cliente","con_t_cambios","valoresconcondicion","cambio_id",ids);
+            var jsoncambioCliente = JSON.parse(cambio); 
+            var jsondatosCliente = JSON.parse(jsoncambioCliente[0].datos_cliente); 
+            console.log(jsondatosCliente);
             var ciuddes = ciudades();
             var items = ciuddes.split(',');
-            var clienteArray = clienteDatos.split('°');
-            var ciudadActual = clienteArray[5].split('%');
-            html = "<option value='"+ciudadActual[0]+"'>"+ciudadActual[0]+"</option>";
+            var html = "<option value='"+jsondatosCliente.ciudad+"'>"+jsondatosCliente.ciudad+"</option>";
             for(i=1;i<items.length;i++){
                 html=html+"<option value='"+items[i]+"'>"+items[i]+"</option>";
             }
             var ciudad1Update = $('#ciudad1Update');
             ciudad1Update.append(html);
-            $('#nombreUpdate').val(clienteArray[1]);
-            $('#telefonoUpdate').val(clienteArray[2]);
-            $('#dir1Update').val(clienteArray[3]);
-            $('#comp1Update').val(clienteArray[4]);
+            $('#nombreUpdate').val(jsondatosCliente.nombre);
+            $('#telefonoUpdate').val(jsondatosCliente.telefono);
+            $('#dir1Update').val(jsondatosCliente.direccion);
+            $('#comp1Update').val(jsondatosCliente.complemento);
             $('#idClienteUpdate').text(ids);
             $('#popup5').fadeIn('slow');         
             $('.popup-overlay').fadeIn('slow');         
@@ -160,14 +249,33 @@ function cambios() {
         var dir1Update= $('#dir1Update').val().replace('#', 'No');
         var comp1Update= $('#comp1Update').val().replace('#', 'No');
         var ids = $('#idClienteUpdate').text();
-        var idcliente = obtenerData("cliente_id","con_t_ventas","row","venta_id",ids);
+        var idventa = obtenerData("venta_id","con_t_cambios","row","cambio_id",ids);
+        var idcliente = obtenerData("cliente_id","con_t_ventas","row","venta_id",idventa);
         var columna = "°"+$('#nombreUpdate').val()+"°"+$('#telefonoUpdate').val()+"°"+dir1Update+"°"+comp1Update+"°"+$('#ciudad1Update').val();
         actualizar("con_t_clientes",columna,idcliente,usuarioCell,"-");
-        var cambioId = obtenerData("cambio_id","con_t_cambios","row","venta_id",ids);
-        actualizar("cambio_cliente",columna+"%",cambioId,usuarioCell,"-");
+        var objeto = {};
+        objeto.nombre = $('#nombreUpdate').val();
+        objeto.telefono = $('#telefonoUpdate').val();
+        objeto.direccion = dir1Update;
+        objeto.complemento = comp1Update;
+        objeto.ciudad = $('#ciudad1Update').val();            
+        var datosCliente=JSON.stringify(objeto);
+        var datosCliente1 = datosCliente.replaceAll("<","");  
+        var datosCliente2 = datosCliente1.replaceAll(">","");
+        var datosCliente3 = datosCliente2.replaceAll("{","<");  
+        datosCliente = datosCliente3.replaceAll("}",">"); 
+        actualizar("cambio_cliente",datosCliente,ids,usuarioCell,"-");
         $('#popup5').fadeOut('slow');      
         $('.popup-overlay').fadeOut('slow'); 
-        return false;     
+        $('.reinicia').remove();
+        $('.removerCambios').remove();
+        var ordenesCambio = ordenescambiojson("0","0","0","0","0");
+        var html = imprimirCambiosjson(ordenesCambio,"pedidoUpdate","fechaUpdate","notasUpdate","usuarioUpdate");
+        console.log(html);
+        var primeraFila = $('#primeraFila');
+        primeraFila.after(html);
+        cambios();
+        return false;         
     });
     $('.pedidoUpdate').on('click', function(){  
         var ids = $(this).attr("name");
@@ -175,44 +283,15 @@ function cambios() {
         if(estado == "Sin empacar" || estado == "No empacado"){
             $('.remover').remove();
             $("#prendasGuardadasUpdate").attr('name', ids);
-            var datosCambio = obtenerData("cambioitem_id,prenda_idsale,ventainicial_id,estado","con_t_cambioitem","rowVarios","cambio_id",ids);
-            //°34°5°89900°0°1%°35°7°130000°0°1%°36°8°89900°0°1%°37°11°89900°0°1%°38°34°130000°0°1%°39°34°130000°0°1%
-            //°1°250°40°Sin empacar%°2°72°40°Sin empacar%
-            var datosArray = datosCambio.split("%");    
-            var datoArray = datosArray[0].split("°");
-            var ventaItems = obtenerData("complemento_estado,descripcion","con_t_trprendas","rowVarios","cual","V"+datoArray[3]);
-            //°Diego Rodríguez°116°Beisbolera rojo L%°Diego Rodríguez°117°Beisbolera Azul Oscuro L%
-            //var ventaCliente = obtenerData("datos_cliente","con_t_ventas","row","venta_id",datoArray[3]);
-            var ventaCliente = obtenerDatajson("datos_cliente","con_t_ventas","valoresconcondicion","venta_id",datoArray[3]);
-            var ventaItemsArray = ventaItems.split("%");
-            //°Diego 1Diego 1°144°Beisbolera rojo L,°Diego 1Diego 1°145°Beisbolera Azul Oscuro L,
-            //var html = "<h1  style='display: none;' class='remover' id='ventaCliente' name='"+$('#ventaIdentificacion').val()+"'>"+ventaCliente+"</h1>";
-            var html = "<h1  style='display: none;' class='remover' id='nombreCliente' name='"+$('#ventaIdentificacion').val()+"'>"+jsonDatosCliente.nombre+"</h1>";
-            html =html+ "<h1  style='display: none;' class='remover' id='telefonoCliente' name='"+$('#ventaIdentificacion').val()+"'>"+jsonDatosCliente.telefono+"</h1>";
-            html =html+ "<h1  style='display: none;' class='remover' id='direccionCliente' name='"+$('#ventaIdentificacion').val()+"'>"+jsonDatosCliente.direccion+"</h1>";
-            html =html+ "<h1  style='display: none;' class='remover' id='complementoCliente' name='"+$('#ventaIdentificacion').val()+"'>"+jsonDatosCliente.complemento+"</h1>";
-            html =html+ "<h1  style='display: none;' class='remover' id='ciudadCliente' name='"+$('#ventaIdentificacion').val()+"'>"+jsonDatosCliente.ciudad+"</h1>";
-            html = html + "<h1  style='display: none;' class='remover' id='cambioIdUpdate' name='"+ids+"'></h1>";
-            html = html + "<h1  style='display: none;' class='remover' id='ventaIdUpdate' name='"+datoArray[3]+"'></h1>";
-            for(var k = 0;k<(ventaItemsArray.length-1);k++){
-                var splt = ventaItemsArray[k].split("°");
-                var itemId = splt[2];
-                var datosVenta = obtenerData("ordenitem_id,prenda_id,valor,descuento_id,estado_id","con_t_ventaitem","rowVarios","ordenitem_id",itemId);
-                //°137°113°140000°0°En ruta%
-                var datosArray = datosVenta.split("°");
-                var estado = datosArray[5].replace('%', '');
-                var precio = datosArray[3];
-                var prendaItemId = datosArray[2];
-                if(estado == "Entregado"){
-                    flag = 1;
-                    html = html+"<div class='col-lg-12 col-md-12 col-sm-12 col-xs-12 remover'><div class='col-lg-6 col-md-6 col-sm-6 col-xs-6'><p class='letra18pt-pc' name='"+precio+"'>"+splt[3]+"</p></div><div class='form-group pmd-textfield pmd-textfield-floating-label col-lg-6 col-md-6 col-sm-6 col-xs-6'><label for='prenda1' class='control-label letra18pt-pc'> Prenda </label><select class='form-control disponibles' type='select' id='"+itemId+"' name='"+prendaItemId+"' form='formularioCliente'></select><span class='pmd-textfield-focused'></span></div></div>";
-                }
-            }      
             $('#popup6').fadeIn('slow'); 
             $('.popup-overlay').fadeIn('slow');         
             $('.popup-overlay').height($(window).height());
-            html = html+"<div class='col-lg-3 col-md-3 col-sm-3 col-xs-3 remover'><button class='botonmodal remover botoncargar' id='botonCargacambiosEncontrados' >Cargar</button></div><div class='form-group pmd-textfield pmd-textfield-floating-label col-lg-8 col-md-8 col-sm-8 col-xs-8 remover'><label for='cantidad6' class='control-label letra18pt-pc'> Valor de envío a pagar por el cliente</label><input class='form-control' type='number' id='costosEnvioEncontrado' name='costosEnvio' min='1'><span class='pmd-textfield-focused'></span></div>";
-            $("#prendasCambiosEncontradas").append(html);
+            var venta_id = obtenerData("venta_id","con_t_cambios","row","cambio_id",ids);
+            var clienteok = obtenerData("cliente_ok","con_t_ventas","row","venta_id",venta_id);          
+            var html = "<h1  style='display: none;' class='remover' id='cambioinfo' name='"+ids+"'>"+ids+"</h1>";
+            html =html+ "<h1  style='display: none;' class='remover' id='ventainfo' name='"+clienteok+"'>"+venta_id+"</h1>";
+            html = html+"<div class='col-lg-3 col-md-3 col-sm-3 col-xs-3 remover'><button class='botonmodal remover botoncargar' id='botonCargacambiopedido' >Cambiar pedido</button></div><div class='form-group pmd-textfield pmd-textfield-floating-label col-lg-8 col-md-8 col-sm-8 col-xs-8 remover'><label for='cantidad6' class='control-label letra18pt-pc'> Valor de envío a pagar por el cliente</label><input class='form-control' type='number' id='costosEnvioupdate' name='costosEnvio' min='1'><span class='pmd-textfield-focused'></span></div>";
+            $("#updateformularioPedido").after(html);
             html = "<option value='NA'>NA</option>";
             var disponibl = disponibles();
             var items = disponibl.split(',');
@@ -222,7 +301,7 @@ function cambios() {
             }
             var disp = $('.disponibles');
             disp.append(html);
-            cambios();            
+            cambios();       
         }else{alert("No puedes modificar este pedido porque ya salio");}
         return false;      
     }); 
@@ -320,6 +399,15 @@ function cambios() {
             actualizar("cambio_fecha",fecha,id,usuarioCell,"-");
             $('#popup7').fadeOut('slow');       
             $('.popup-overlay').fadeOut('slow');
+            $('.popup-overlay').fadeOut('slow');      
+            $('.reinicia').remove();
+            $('.removeCambio').remove();
+            var ordenesCambio = ordenescambiojson("0","0","0","0","0");
+            var html = imprimirCambiosjson(ordenesCambio,"pedidoUpdate","fechaUpdate","notasUpdate","usuarioUpdate");
+            console.log(html);
+            var primeraFila = $('#primeraFila');
+            primeraFila.after(html);
+            cambios();
         }else{alert("Inserta una fecha");}
         return false;     
     }); 
@@ -348,7 +436,15 @@ function cambios() {
         var usuarioCell = $('#usuarioCell').attr("name");
         actualizar("cambio_nota",nota,id,usuarioCell,"-");
         $('#popup8').fadeOut('slow');       
-        $('.popup-overlay').fadeOut('slow');
+        $('.popup-overlay').fadeOut('slow');   
+        $('.reinicia').remove();
+        $('.removeCambio').remove();
+        var ordenesCambio = ordenescambiojson("0","0","0","0","0");
+        var html = imprimirCambiosjson(ordenesCambio,"pedidoUpdate","fechaUpdate","notasUpdate","usuarioUpdate");
+        console.log(html);
+        var primeraFila = $('#primeraFila');
+        primeraFila.after(html);
+        cambios();
         return false;     
     });
     $('.botonrevisar').on('click', function(){  
@@ -467,8 +563,8 @@ function imprimirCambiosjson(ordenesCambio,pedidoUpdate,fechaUpdate,notasUpdate,
     var precioFormato = formatoPrecio(jsonCambios[jsonCambios.length-1].excedente);
     precioFormato = signo+precioFormato;
     var jsonDatosCliente = JSON.parse(jsonCambios[jsonCambios.length-1].datos_cliente);
-    var html = "<div class='col-lg-12 col-md-12 col-sm-12 col-xs-12 removerCambios' id='primeraVenta'> <div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'><p class='letra18pt-pc'>"+jsonCambios[0].estado+"</p></div><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'><p class='letra18pt-pc'>C"+jsonCambios[0].cambio_id+"</p></div><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'><p class='letra18pt-pc'>"+jsonCambios[0].venta_id+"</p></div><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'><p class='letra18pt-pc "+usuarioUpdate+"' name='"+jsonCambios[0].venta_id+"'>"+jsonDatosCliente.nombre+" "+jsonDatosCliente.telefono+"</p></div><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'><p class='letra18pt-pc'>"+jsonDatosCliente.direccion+"</p></div><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'><p class='letra18pt-pc'>"+jsonDatosCliente.complemento+"</p></div><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'><p class='letra18pt-pc'>"+jsonDatosCliente.ciudad+"</p></div><div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'><p class='letra18pt-pc "+pedidoUpdate+"' name='"+jsonCambios[0].cambio_id+"'>"+jsonCambios[0].pedido+"</p></div><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'><p class='letra18pt-pc dinerook"+ok+"'>"+precioFormato+"</p></div><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'><p class='letra18pt-pc "+fechaUpdate+"' name='"+jsonCambios[0].cambio_id+"'>"+jsonCambios[0].fecha_entrega+"</p></div><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'><p class='letra18pt-pc "+notasUpdate+"' name='"+jsonCambios[0].cambio_id+"'>."+jsonCambios[0].notas+"</p></div></div>";
-    var imprimir = "<div id='impresionParaempacar' style='display: none;' class='removerCambios'><table border='1'><tr><th>Cambio</th><th>Cliente</th><th>Dirección</th><th>Complemento</th><th>Ciudad</th><th>Teléfono</th><th>Pedido</th><th>Notas</th><th>Excedente</th></tr><tr><td>C"+jsonCambios[0].cambio_id+"</td><td>"+jsonDatosCliente.nombre+"</td><td>"+jsonDatosCliente.direccion+"</td><td>"+jsonDatosCliente.complemento+"</td><td>"+jsonDatosCliente.ciudad+"</td><td>"+jsonDatosCliente.telefono+"</td><td>"+jsonCambios[0].pedido+"</td><td>"+jsonCambios[0].notas+"</td><td>"+precioFormato+"</td></tr>";
+    var html = "<div class='col-lg-12 col-md-12 col-sm-12 col-xs-12 removerCambios' id='primeraVenta'> <div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'><p class='letra18pt-pc'>"+jsonCambios[jsonCambios.length-1].estado+"</p></div><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'><p class='letra18pt-pc'>C"+jsonCambios[jsonCambios.length-1].cambio_id+"</p></div><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'><p class='letra18pt-pc'>"+jsonCambios[jsonCambios.length-1].venta_id+"</p></div><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'><p class='letra18pt-pc "+usuarioUpdate+"' name='"+jsonCambios[jsonCambios.length-1].cambio_id+"'>"+jsonDatosCliente.nombre+" "+jsonDatosCliente.telefono+"</p></div><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'><p class='letra18pt-pc'>"+jsonDatosCliente.direccion+"</p></div><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'><p class='letra18pt-pc'>"+jsonDatosCliente.complemento+"</p></div><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'><p class='letra18pt-pc'>"+jsonDatosCliente.ciudad+"</p></div><div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'><p class='letra18pt-pc "+pedidoUpdate+"' name='"+jsonCambios[jsonCambios.length-1].cambio_id+"'>"+jsonCambios[jsonCambios.length-1].pedido+"</p></div><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'><p class='letra18pt-pc dinerook"+ok+"'>"+precioFormato+"</p></div><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'><p class='letra18pt-pc "+fechaUpdate+"' name='"+jsonCambios[jsonCambios.length-1].cambio_id+"'>"+jsonCambios[jsonCambios.length-1].fecha_entrega+"</p></div><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'><p class='letra18pt-pc "+notasUpdate+"' name='"+jsonCambios[jsonCambios.length-1].cambio_id+"'>."+jsonCambios[jsonCambios.length-1].notas+"</p></div></div>";
+    var imprimir = "<div id='impresionParaempacar' style='display: none;' class='removerCambios'><table border='1'><tr><th>Cambio</th><th>Cliente</th><th>Dirección</th><th>Complemento</th><th>Ciudad</th><th>Teléfono</th><th>Pedido</th><th>Notas</th><th>Excedente</th></tr><tr><td>C"+jsonCambios[jsonCambios.length-1].cambio_id+"</td><td>"+jsonDatosCliente.nombre+"</td><td>"+jsonDatosCliente.direccion+"</td><td>"+jsonDatosCliente.complemento+"</td><td>"+jsonDatosCliente.ciudad+"</td><td>"+jsonDatosCliente.telefono+"</td><td>"+jsonCambios[jsonCambios.length-1].pedido+"</td><td>"+jsonCambios[jsonCambios.length-1].notas+"</td><td>"+precioFormato+"</td></tr>";
     
     if(jsonCambios.length>0){
         for(i=jsonCambios.length-2;i>=0;i--){
@@ -482,7 +578,7 @@ function imprimirCambiosjson(ordenesCambio,pedidoUpdate,fechaUpdate,notasUpdate,
             var precioFormato = formatoPrecio(jsonCambios[i].excedente);
             precioFormato = signo+precioFormato;
             var jsonDatosCliente = JSON.parse(jsonCambios[i].datos_cliente);
-            html = html+"<div class='col-lg-12 col-md-12 col-sm-12 col-xs-12 removerCambios'> <div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'><p class='letra18pt-pc'>"+jsonCambios[i].estado+"</p></div><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'><p class='letra18pt-pc'>C"+jsonCambios[i].cambio_id+"</p></div><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'><p class='letra18pt-pc'>"+jsonCambios[i].venta_id+"</p></div><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'><p class='letra18pt-pc "+usuarioUpdate+"' name='"+jsonCambios[i].venta_id+"'>"+jsonDatosCliente.nombre+" "+jsonDatosCliente.telefono+"</p></div><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'><p class='letra18pt-pc'>"+jsonDatosCliente.direccion+"</p></div><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'><p class='letra18pt-pc'>"+jsonDatosCliente.complemento+"</p></div><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'><p class='letra18pt-pc'>"+jsonDatosCliente.ciudad+"</p></div><div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'><p class='letra18pt-pc "+pedidoUpdate+"' name='"+jsonCambios[i].cambio_id+"'>"+jsonCambios[i].pedido+"</p></div><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'><p class='letra18pt-pc dinerook"+ok+"'>"+precioFormato+"</p></div><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'><p class='letra18pt-pc "+fechaUpdate+"' name='"+jsonCambios[i].cambio_id+"'>"+jsonCambios[i].fecha_entrega+"</p></div><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'><p class='letra18pt-pc "+notasUpdate+"' name='"+jsonCambios[i].cambio_id+"'>."+jsonCambios[i].notas+"</p></div></div>";
+            html = html+"<div class='col-lg-12 col-md-12 col-sm-12 col-xs-12 removerCambios'> <div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'><p class='letra18pt-pc'>"+jsonCambios[i].estado+"</p></div><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'><p class='letra18pt-pc'>C"+jsonCambios[i].cambio_id+"</p></div><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'><p class='letra18pt-pc'>"+jsonCambios[i].venta_id+"</p></div><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'><p class='letra18pt-pc "+usuarioUpdate+"' name='"+jsonCambios[i].cambio_id+"'>"+jsonDatosCliente.nombre+" "+jsonDatosCliente.telefono+"</p></div><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'><p class='letra18pt-pc'>"+jsonDatosCliente.direccion+"</p></div><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'><p class='letra18pt-pc'>"+jsonDatosCliente.complemento+"</p></div><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'><p class='letra18pt-pc'>"+jsonDatosCliente.ciudad+"</p></div><div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'><p class='letra18pt-pc "+pedidoUpdate+"' name='"+jsonCambios[i].cambio_id+"'>"+jsonCambios[i].pedido+"</p></div><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'><p class='letra18pt-pc dinerook"+ok+"'>"+precioFormato+"</p></div><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'><p class='letra18pt-pc "+fechaUpdate+"' name='"+jsonCambios[i].cambio_id+"'>"+jsonCambios[i].fecha_entrega+"</p></div><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'><p class='letra18pt-pc "+notasUpdate+"' name='"+jsonCambios[i].cambio_id+"'>."+jsonCambios[i].notas+"</p></div></div>";
             imprimir = imprimir+"<tr><td>C"+jsonCambios[i].cambio_id+"</td><td>"+jsonDatosCliente.nombre+"</td><td>"+jsonDatosCliente.direccion+"</td><td>"+jsonDatosCliente.complemento+"</td><td>"+jsonDatosCliente.ciudad+"</td><td>"+jsonDatosCliente.telefono+"</td><td>"+jsonCambios[i].pedido+"</td><td>"+jsonCambios[i].notas+"</td><td>"+precioFormato+"</td></tr>";
         }        
     }

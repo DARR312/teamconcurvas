@@ -80,6 +80,6 @@ width:5%;
     color:rgb(193, 46, 114) !important;
     cursor: pointer;
 }
-#formularioPedido{
+#formularioPedido, #updateformularioPedido{
     padding-top: 50px;
 }

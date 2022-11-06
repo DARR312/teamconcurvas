@@ -210,56 +210,7 @@
         }
         var disp = $('.disponibles');
         disp.append(html);
-        cambios();
-        //prendasEncontradas.append(html);
-        // var flag = 0; 
-        // var html = "";
-        // var ventaItems = obtenerData("complemento_estado,descripcion","con_t_trprendas","rowVarios","cual","V"+$('#ventaIdentificacion').val());
-        // //°Diego 1°137°Londres Rosa Bebé SM%°Diego 1°138°Londres Rosa Bebé SM%
-        // var ventaCliente = obtenerDatajson("datos_cliente","con_t_ventas","valoresconcondicion","venta_id",$('#ventaIdentificacion').val());
-        // var jsonVentaCliente = JSON.parse(ventaCliente); 
-        // var jsonDatosCliente = JSON.parse(jsonVentaCliente[0].datos_cliente); 
-        // console.log(jsonDatosCliente);
-        // var ventaItemsArray = ventaItems.split("%");
-        // if(ventaItemsArray.length==0){
-        //     alert("El pedido no tiene prendas asociadas para ser cambiadas");
-        // }else{
-        //     var html = "<h1  style='display: none;' class='remover' id='nombreCliente' name='"+$('#ventaIdentificacion').val()+"'>"+jsonDatosCliente.nombre+"</h1>";
-        //     html =html+ "<h1  style='display: none;' class='remover' id='telefonoCliente' name='"+$('#ventaIdentificacion').val()+"'>"+jsonDatosCliente.telefono+"</h1>";
-        //     html =html+ "<h1  style='display: none;' class='remover' id='direccionCliente' name='"+$('#ventaIdentificacion').val()+"'>"+jsonDatosCliente.direccion+"</h1>";
-        //     html =html+ "<h1  style='display: none;' class='remover' id='complementoCliente' name='"+$('#ventaIdentificacion').val()+"'>"+jsonDatosCliente.complemento+"</h1>";
-        //     html =html+ "<h1  style='display: none;' class='remover' id='ciudadCliente' name='"+$('#ventaIdentificacion').val()+"'>"+jsonDatosCliente.ciudad+"</h1>";
-        //     for(var k = 0;k<(ventaItemsArray.length-1);k++){
-        //         var splt = ventaItemsArray[k].split("°");
-        //         var itemId = splt[2];
-        //         var datosVenta = obtenerData("ordenitem_id,prenda_id,valor,descuento_id,estado_id","con_t_ventaitem","rowVarios","ordenitem_id",itemId);
-        //         //°137°113°140000°0°En ruta%
-        //         var datosArray = datosVenta.split("°");
-        //         var estado = datosArray[5].replace('%', '');
-        //         var precio = datosArray[3];
-        //         var prendaItemId = datosArray[2];
-        //         if(estado == "Entregado"){
-        //             flag = 1;
-        //             html = html+"<div class='col-lg-12 col-md-12 col-sm-12 col-xs-12 remover'><div class='col-lg-6 col-md-6 col-sm-6 col-xs-6'><p class='letra18pt-pc' name='"+precio+"'>"+splt[3]+"</p></div><div class='form-group pmd-textfield pmd-textfield-floating-label col-lg-6 col-md-6 col-sm-6 col-xs-6'><label for='prenda1' class='control-label letra18pt-pc'> Prenda </label><select class='form-control disponibles' type='select' id='"+itemId+"' name='"+prendaItemId+"' form='formularioCliente'></select><span class='pmd-textfield-focused'></span></div></div>";
-        //         }
-        //     }
-        //     if(flag == 1){
-        //         $('#popup').fadeOut('slow');         
-        //         $('#popup3').fadeIn('slow'); 
-        //         html = html+"<div class='col-lg-3 col-md-3 col-sm-3 col-xs-3 remover'><button class='botonmodal remover botoncargar' id='botonCargacambios' >Cargar</button></div><div class='form-group pmd-textfield pmd-textfield-floating-label col-lg-8 col-md-8 col-sm-8 col-xs-8 remover'><label for='cantidad6' class='control-label letra18pt-pc'> Valor de envío a pagar por el cliente</label><input class='form-control' type='number' id='costosEnvio' name='costosEnvio' min='1'><span class='pmd-textfield-focused'></span></div>";
-        //         $("#prendasEncontradas").append(html);
-        //         html = "<option value='NA'>NA</option>";
-        //         var disponibl = disponibles();
-        //         var items = disponibl.split(',');
-        //         for(i=0;i<(items.length-1);i++){
-        //             var item = items[i].split('!');
-        //             html=html+"<option value='"+item[0]+"%"+item[1]+"%"+item[2]+"'>"+item[1]+"</option>";
-        //         }
-        //         var disp = $('.disponibles');
-        //         disp.append(html);
-        //         cambios();
-        //     }
-        // }
+        cambios();        
         return false;     
     }); 
      $('#close3').on('click', function(){   
@@ -324,7 +275,7 @@
             var prendasIDSArray = pedidoitemsArray[i].split("/");
             console.log(prendasIDSArray);
             for (let k = 0; k < prendasIDSArray[0]; k++) { 
-            //    cambioitem(prendasIDSArray[1],0,idCambio,venta_id);               
+               cambioitem(prendasIDSArray[1],0,idCambio,venta_id);               
             }
         }
         $('#popup').fadeOut('slow');         
@@ -336,6 +287,7 @@
         console.log(html);
         var primeraFila = $('#primeraFila');
         primeraFila.after(html);
+        cambios();  
         return false;         
     });
     
