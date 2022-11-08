@@ -13,6 +13,8 @@
     for(var k = (items.length-1); k>0;k--){
         if(items[k]==5){
             segundo.append("<div class='col-lg-2 col-md-2 col-sm-2 col-xs-12' id='accion'><button class='botonmodal' type='button' id='agregarVenta'>+ Agregar venta </button></div>");
+            segundo.append("<div class='col-lg-2 col-md-2 col-sm-2 col-xs-12' id='accion'><button class='botonmodal' type='button' id='agregarApartado'>+ Agregar apartado </button></div>");
+            segundo.append("<div class='col-lg-2 col-md-2 col-sm-2 col-xs-12' id='accion'><button class='botonmodal' type='button' id='verApartados'>-> Ver apartados </button></div>");
             botonrevisar = "botonrevisar";
         }
         if(items[k]==6){
@@ -271,6 +273,124 @@
         $('.removerprendasparaventa').remove();
         return false;     
     });
+    // ******************************************************************APARTADOS
+    $('#agregarApartado').on('click', function(){    
+        var vendedores = obtenerDatajson('ID,display_name ','con_users','variasfilasunicas','0','0');
+        var jsonvendedores = JSON.parse(vendedores);
+        console.log(jsonvendedores);
+        var vendehtml = "";
+        for (let i = 0; i < jsonvendedores.length; i++) {
+            vendehtml = vendehtml+"<option value='"+jsonvendedores[i].ID+"'>"+jsonvendedores[i].display_name+"</option>";            
+        }
+        $('#vendedorselectapartado').append(vendehtml);
+        $('#popup5').fadeIn('slow');         
+        $('.popup-overlay').fadeIn('slow');
+        $('.popup-overlay').height($(window).height());    
+        $('#agregarPedidoApartado').css('display','block'); 
+        return false;     
+    });      
+    $('#close5').on('click', function(){         
+        $('#popup5').fadeOut('slow');         
+        $('.popup-overlay').fadeOut('slow');      
+        $('.reinicia').remove(); 
+        return false;     
+    });        
+    $('#agregarClienteapartado').on('click', function(){ 
+        $('#popup5').fadeOut('slow');         
+        $('#popup6').fadeIn('slow'); 
+        return false;     
+    });      
+    $('#close6').on('click', function(){         
+        $('#popup6').fadeOut('slow');      
+        $('#popup5').fadeIn('slow');
+        return false;     
+    });
+    $('#clienteGuardadoApartado').on('click', function(){ 
+        if(!$('#nombreapartado').val()){alert("Ingresa el nombre del cliente :)");return false;}
+        if(!$('#telefonoapartado').val()){alert("Ingresa el teléfono del cliente :)");return false;}
+        if(!$('#correoapartado').val()){alert("Ingresa el correo del cliente :)");return false;}
+        if(!$('#documentoapartado').val()){alert("Ingresa el documento del cliente :)");return false;}
+        var telef = $('#telefonoapartado').val().replace(' ', '');
+        var id = guardarCliente( $('#nombreapartado').val(),telef,"-","-","-",$('#correoapartado').val(),$('#documentoapartado').val());
+        $('#popup6').fadeOut('slow');      
+        $('#popup5').fadeIn('slow');
+        $('#nombreVentaapartado').val($('#nombreapartado').val());
+        $('#correovapartado').val($('#correoapartado').val());
+        $('#telVentaapartado').val($('#telefonoapartado').val());
+        $('#idClienteapartado').val(id);
+        $('#documentovapartado').val($('#documentoapartado').val());
+        return false;     
+    });
+    $('#clienteBuscarapartado').on('click', function(){ 
+        $('#popup5').fadeOut('slow');         
+        $('#popup7').fadeIn('slow'); 
+        var html = "";
+        var clientes = clientesBuscarjson($('#teleapartado').val());        
+        var jsonclientes = JSON.parse(clientes);
+        console.log(jsonclientes.length);
+        if(jsonclientes.length==0){
+            html = "<p class='col-lg-6 col-md-6 col-sm-6 col-xs-6 cliente'>Sin resultados</p>"
+        }else{
+            console.log(jsonclientes);
+            for(i=0;i<jsonclientes.length;i++){
+                var datos = items[i].split('%');
+                html=html+"<p class='off remover' id='clienteid"+i+"' >"+jsonclientes[i].cliente_id+"</p><p id='nombre"+i+"' class='col-lg-2 col-md-2 col-sm-2 col-xs-2 remover'>"+jsonclientes[i].nombre+"</p><p id='telefono"+i+"' class='col-lg-2 col-md-2 col-sm-2 col-xs-2 remover'>"+jsonclientes[i].telefono+"</p><p class='col-lg-2 col-md-2 col-sm-2 col-xs-2 remover' id='documento"+i+"' >"+jsonclientes[i].documento+"</p><p class='col-lg-4 col-md-4 col-sm-4 col-xs-4 remover' id='correo"+i+"' >"+jsonclientes[i].correo+"</p><div class='col-lg-2 col-md-2 col-sm-2 col-xs-2 remover'><button class='botonmodal' id='"+i+"' onclick='seleccionClienteApartado("+i+")' style='width: 100%;'>Cargar</button></div>";
+            }
+        }
+        var clientesEncontrados = $('#clientesEncontradosapartado');
+        clientesEncontrados.append(html);
+        return false;     
+    }); 
+     $('#close7').on('click', function(){   
+        $('#popup7').fadeOut('slow');      
+        $('#popup5').fadeIn('slow');
+        $('.cliente').remove();
+        return false;     
+    });
+    $('#agregarPrendaapartado').on('click', function(){ 
+        $('#popup5').fadeOut('slow');         
+        $('#popup8').fadeIn('slow'); 
+        $('.reinicia').remove();
+        imprimirprendasparavenderdetal(); 
+        return false;
+    });  
+    $('#close8').on('click', function(){   
+        $('#popup8').fadeOut('slow');      
+        $('#popup5').fadeIn('slow');
+        $('.removerprendasparaventa').remove();
+        return false;     
+    });        
+    $('#agregarprendaspedidoapartado').on('click', function(){  
+        $('.removeprendavender').remove();
+        var check = $("#popup8 input"); 
+        var valor = 0;
+        var html = "";
+        var jsonPrendas = new Object();
+        var j=0;
+        for (let i = 0; i < check.length; i++) {
+            console.log(check[i].checked);
+            if(check[i].checked){
+                valor = valor + parseInt(check[i].value);
+                var codigoDescr = check[i].name.split("/");
+                var jsonPrenda = new Object();
+                jsonPrenda.codigo = codigoDescr[0];
+                jsonPrenda.descripcion = codigoDescr[1];
+                jsonPrenda.valor = check[i].value;
+                jsonPrendas[j] = jsonPrenda;
+                j++;
+                html=html+"<div class='col-lg-12 col-md-12 col-sm-12 col-xs-12  removeprendavender' id='"+check[i].id+"'><p class='letra3pt-mv letra16pt-pc'>"+codigoDescr[0]+" "+codigoDescr[1]+" "+check[i].value+"</p></div>";
+                console.log(check[i]);
+            }            
+        }
+        console.log(jsonPrendas);
+        var prendaString= JSON.stringify(jsonPrendas);
+        html=html+"<div class='col-lg-12 col-md-12 col-sm-12 col-xs-12  removeprendavender' id='datospedido' name='"+prendaString+"'><p class='letra3pt-mv letra16pt-pc' id='valor' name='"+valor+"'>Precio total: "+valor+"</p></div>";
+        $('#pedidoapartado').append(html);
+        $('#popup8').fadeOut('slow');      
+        $('#popup5').fadeIn('slow');
+        $('.removerprendasparaventa').remove();
+        return false;     
+    });
     /*************************** Enviar para venta (CELULAR) *******************************/
     $('#empezarEscaner').on('click', function() {
         $('#escaneados').css('display', 'block');
@@ -331,6 +451,18 @@ function seleccionCliente(id) {
         $('#documentov').val($('#documento'+id).text());        
         $('#popup3').fadeOut('slow');      
         $('#popup').fadeIn('slow');
+        $('.cliente').remove();
+        $('.remover').remove();
+        return false;  
+    }
+function seleccionClienteApartado(id) {
+        $('#nombreVentaapartado').val($('#nombre'+id).text());
+        $('#correovapartado').val($('#correo'+id).text());
+        $('#telVentaapartado').val($('#telefono'+id).text());
+        $('#idClienteapartado').val($('#clienteid'+id).text());
+        $('#documentovapartado').val($('#documento'+id).text());        
+        $('#popup7').fadeOut('slow');      
+        $('#popup5').fadeIn('slow');
         $('.cliente').remove();
         $('.remover').remove();
         return false;  

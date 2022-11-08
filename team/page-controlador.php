@@ -11,6 +11,9 @@ $valor5=$_GET['valor5'];
 $valor6=$_GET['valor6'];
 $valor7=$_GET['valor7'];
 $valor8=$_GET['valor8'];
+$valor9=$_GET['valor9'];
+$valor10=$_GET['valor10'];
+$valor11=$_GET['valor11'];
 $id=$_GET['id'];
 $nombre=$_GET['nombre'];
 $telefono=$_GET['telefono'];
@@ -150,8 +153,9 @@ function obtenerDatajson($columna,$tabla,$tipo,$columnacondicion,$condicion){
         $obtenidosArray = $wpdb->get_results( "SELECT ".$columna." FROM ".$tabla."", ARRAY_A);
         echo json_encode($obtenidosArray,JSON_UNESCAPED_UNICODE);
     }
-    if($tipo=="row"){
-        
+    if($tipo=="filasunicas"){
+        $obtenidosArray = $wpdb->get_results( "SELECT DISTINCT ".$columna." FROM ".$tabla." ORDER BY ".$columna." ASC", ARRAY_A);
+        echo json_encode($obtenidosArray,JSON_UNESCAPED_UNICODE);
     }
     if($tipo=="rowVarios"){
        
@@ -1571,6 +1575,58 @@ function borrarfilas($tabla,$condicion,$valor_condicion){
     $wpdb->delete( $tabla, [ $condicion => $valor_condicion ]);
 }
 
+function insertarfila($tabla,$valor,$valor2,$valor3,$valor4,$valor5,$valor6,$valor7,$valor8,$valor9,$valor10,$valor11){
+    global $wpdb;
+    if($valor != "0"){
+        $valoru = str_replace("\\","",$valor);
+        $valord = str_replace("<","{",$valoru);
+        $valor = str_replace(">","}",$valord);
+        $valorjson = json_decode($valor);
+        $valorarray = convertidor($valorjson -> tipo,$valorjson -> valor,$valorjson -> columna);
+    }else{$valorarray = array( "valor" => "", "columna" => "");}
+    /// OK
+    $finalcolumna = $valorarray["columna"];
+    $finalvalor = $valorarray["valor"];
+    $valores = array( "valor2" => $valor2,"valor3" => $valor3,"valor4" => $valor4,"valor5" => $valor5,"valor6" => $valor6,"valor7" => $valor7,"valor8" => $valor8,"valor9" => $valor9,"valor10" => $valor10,"valor11" => $valor11);
+    //print_r($valores);
+    foreach($valores as $x => $val) {    
+        if($val != "0"){
+            $valoru = str_replace("\\","",$val);
+            $valord = str_replace("<","{",$valoru);
+            $valor = str_replace(">","}",$valord);
+            $valorjson = json_decode($valor);
+            $valorarray2 = convertidor($valorjson -> tipo,$valorjson -> valor,$valorjson -> columna);
+            $valorarray2["valor"] = ",".$valorarray2["valor"];
+            $valorarray2["columna"] = ",".$valorarray2["columna"];
+        }else{$valorarray2 = array( "valor" => "", "columna" => "");}
+        $finalcolumna =$finalcolumna.$valorarray2["columna"];
+        $finalvalor = $finalvalor.$valorarray2["valor"];        
+    }
+    $datos = "INSERT INTO ".$tabla." ( ".$finalcolumna.") VALUES (".$finalvalor.")";
+    $wpdb->query($datos);
+    $lastId = $wpdb->get_results( "SELECT MAX(ID) as id FROM ".$tabla."");
+    echo json_encode($lastId);
+    //echo $tabla."--".$valor."--".$valor2."--".$valor3."--".$valor4."--".$valor5."--".$valor6."--".$valor7."--".$valor8."--".$valor9."--".$valor10."--".$valor11;
+}
+
+function convertidor($tipo,$valor,$columna){
+    if($tipo == 'string'){
+        $vuno = "'".$valor."'";
+        $cuno = $columna;
+    }
+    if($tipo == 'int'){
+        $vuno = intval($valor);
+        $cuno = $columna;
+    }        
+    if($tipo == 'json'){
+        $vunojson = json_encode($valor);
+        $vuno = "'".$vunojson."'";
+        $cuno = $columna;
+    }
+    $objeto = array( "valor" => $vuno, "columna" => $cuno);
+    return($objeto);
+}
+
 if($funcion == "permisosPrincipales"){
     permisosPrincipales();
 }if($funcion == "permisosVentas"){
@@ -1677,5 +1733,7 @@ if($funcion == "permisosPrincipales"){
     nuevaventatiendas($valor,$valor2,$valor3,$valor4,$valor5,$valor6,$valor7,$valor8);
 }if($funcion == "borrarfilas"){
     borrarfilas($tabla,$valor,$valor2);
+}if($funcion == "insertarfila"){
+    insertarfila($tabla,$valor,$valor2,$valor3,$valor4,$valor5,$valor6,$valor7,$valor8,$valor9,$valor10,$valor11);
 }
 ?>

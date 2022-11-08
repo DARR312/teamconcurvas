@@ -1,5 +1,5 @@
-//const urlhost = "http://localhost/wordpress/index.php/controlador" ;
-const urlhost = "https://concurvas.com/team/controlador/";
+const urlhost = "http://localhost/wordpress/index.php/controlador" ;
+//const urlhost = "https://concurvas.com/team/controlador/";
 function formatoPrecio(precio){
 	var pre = Math.sqrt(precio*precio);
     let myFunc = num => Number(num);
@@ -1211,6 +1211,8 @@ function imprimirprendasparavenderdetal(valor) {
 	}
 	var primeraPrendas = $('#primeraPrendas');
 	primeraPrendas.after(html);
+	var primeraPrendas = $('#primeraPrendasapartados');
+	primeraPrendas.after(html);
 };
 
 function nuevaventatiendas(cliente_id,clienteString,codigos_prendas,notas,origen,valor_total,metodospagoString,vendedor_id) {
@@ -1238,6 +1240,37 @@ function nuevaventatiendas(cliente_id,clienteString,codigos_prendas,notas,origen
 
 function borrarfilas(tabla,condicion,valor_condicion) {
 	var enviar = "funcion=borrarfilas&tabla="+tabla+"&valor="+condicion+"&valor2="+valor_condicion;
+	var obtenidos = "no";
+    $.ajax({
+    	url: urlhost,
+    	headers: {'Access-Control-Allow-Origin': urlhost},
+    	type: "GET",
+    	async: false,
+    	data: enviar,
+    	success: function(data){
+    		obtenidos = data;
+    	}						
+    });
+    return obtenidos;
+};
+
+function prepararjson(json){
+	var stringJson1=JSON.stringify(json);
+	var stringJson2 = stringJson1.replaceAll("<","");  
+	var stringJson3 = stringJson2.replaceAll(">","");
+	var stringJson4 = stringJson3.replaceAll("{","<"); 
+	// var stringJson5 = stringJson4.replaceAll("[","<"); 
+	// var stringJson6 = stringJson5.replaceAll("]",">");  
+	stringJson1 = stringJson4.replaceAll("}",">");
+	return stringJson1;
+};
+
+function insertarfila(tabla,valor,valor2,valor3,valor4,valor5,valor6,valor7,valor8,valor9,valor10,valor11) {
+	if(valor == "0" || !valor){
+		alert("El valor uno de la función no puede quedar vacio");
+		return false;
+	}
+	var enviar = "funcion=insertarfila&tabla="+tabla+"&valor="+valor+"&valor2="+valor2+"&valor3="+valor3+"&valor4="+valor4+"&valor5="+valor5+"&valor6="+valor6+"&valor7="+valor7+"&valor8="+valor8+"&valor9="+valor9+"&valor10="+valor10+"&valor11="+valor11;
 	var obtenidos = "no";
     $.ajax({
     	url: urlhost,

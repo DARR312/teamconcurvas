@@ -139,6 +139,144 @@
             </div>
         </div>
     </div>
+		<!-- APARTADOS -->
+	<div id='popup5' style='display: none;' class="pc tablet">
+        <div class='content-popup'>
+            <div class='close'><a href='#' id='close5'>
+                <img src='<?php echo get_template_directory_uri(); ?>/imagenes/iconos/close.png'/></a>
+            </div>
+            <div>
+                <h2 class="letra18pt-pc" id="apartadoNuevaTitulo" name="2020-09-14">Apartado nuevo</h2>
+            	<div action="https://concurvas.com/team/controlador/" method="get"  autocomplete="off" class="col-lg-4 col-md-4 col-sm-4 col-xs-12" id="buscarCliente">
+        		    <div class="form-group pmd-textfield pmd-textfield-floating-label">
+        		        <label for="nombre" class="control-label letra18pt-pc"> Teléfono</label>
+        			    <input class="form-control" type="number" id="teleapartado" name="tele" required=""><span class="pmd-textfield-focused"></span>
+        		    </div>
+            	 </div>
+            	 <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+            	    <button type="submit" class="botonmodal letra18pt-pc" id="clienteBuscarapartado"> Buscar cliente </button>
+            	</div>
+            	<div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+            	    <button class='botonmodal botonenmodal letra18pt-pc' type='button' id='agregarClienteapartado'> Agregar cliente </button>
+            	</div>
+            	<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="datosClienteapartado">
+            	<h2 class="letra18pt-pc">Datos Cliente</h2>            	
+                    <div action="" method="get" accept-charset="UTF-8" autocomplete="off" class="" id="guardarVentaapartado">
+            			<div class="form-group pmd-textfield pmd-textfield-floating-label">
+            				<input class="form-control" type="text" id="nombreVentaapartado" name="nombreVenta" required="" disabled="disabled"><span class="pmd-textfield-focused"></span>
+            			</div>
+            			<div class="form-group pmd-textfield pmd-textfield-floating-label">
+            				<input class="form-control" type="number" id="telVentaapartado" name="telVenta" required="" disabled="disabled"><span class="pmd-textfield-focused"></span>
+            			</div>
+            			<div class="form-group pmd-textfield pmd-textfield-floating-label">
+            				<input class="form-control" type="text" id="correovapartado" name="correov" required="" disabled="disabled"><span class="pmd-textfield-focused"></span>
+            			</div>
+            			<div class="form-group pmd-textfield pmd-textfield-floating-label">
+            				<input class="form-control" type="number" id="documentovapartado" name="documentov" required="" disabled="disabled"><span class="pmd-textfield-focused"></span>
+            			</div>
+            	        <input class="off" type="number" id="idCliente" name="idClienteapartado" required="" type="hidden">
+            		</div>
+            	</div> 
+            	<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="datosPrendasapartado">
+                	<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                	    <h2 class="letra18pt-pc">Prendas del pedido</h2>
+                	</div>
+                	<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                	    <button class='botonmodal botonenmodal letra18pt-pc' type='button' id='agregarPrendaapartado'> Agregar prendas </button>
+                	</div>
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 letra3pt-mv letra16pt-pc" id="pedidoapartado">
+                        
+                    </div> 
+            	</div>				
+            	<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 form-group pmd-textfield pmd-textfield-floating-label" id="notasdivapartado">
+					<label class="control-label letra18pt-pc" for="regular1">Notas</label>
+            		<input class="form-control" type="text" id="notasapartado" name="notas" required=""><span class="pmd-textfield-focused"></span>
+            	</div>						
+            	<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 form-group pmd-textfield pmd-textfield-floating-label" id="vendedordivapartado">
+					<label class="control-label letra18pt-pc" for="vendedorselect">Vendedor</label>
+            		<select class="form-control letra18pt-pc" type="select" id="vendedorselectapartado" name="vendedorselect" form="formularioCliente" required="">
+            		    <option value='6'>Francisco Arrieta</option>
+					</select><span class="pmd-textfield-focused"></span>
+            	</div>
+            	<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            	    <button class='botonmodal letra18pt-pc' type='button' id='agregarPedidoApartado'> Agregar pedido </button>
+            	</div>
+            </div>
+        </div>
+    </div>
+    <div id='popup6' style='display: none;' class="pc tablet">
+          <div class='content-popup'>
+            <div class='close'><a href='#' id='close6'>
+               <img src='<?php echo get_template_directory_uri(); ?>/imagenes/iconos/close.png'/></a>
+            </div>
+            <div>
+                <h2 class="letra18pt-pc">Cliente nuevo</h2>
+                <div action="" method="get" accept-charset="UTF-8" autocomplete="off" class="" id="formularioClienteapartado">
+					<div class="form-group pmd-textfield pmd-textfield-floating-label">
+						<label for="nombre" class="control-label letra18pt-pc"> Nombre</label>
+						<input class="form-control" type="text" id="nombreapartado" name="nombre" required=""><span class="pmd-textfield-focused"></span>
+						
+					</div>
+					<div class="form-group pmd-textfield pmd-textfield-floating-label">
+						<label for="documento" class="control-label letra18pt-pc"> Teléfono </label>
+						<input class="form-control" type="text" id="telefonoapartado" name="telefono" required=""><span class="pmd-textfield-focused"></span>
+						
+					</div>
+					<div class="form-group pmd-textfield pmd-textfield-floating-label">
+						<label for="telefono" class="control-label letra18pt-pc"> Correo electrónico </label>
+						<input class="form-control" type="text" id="correoapartado" name="correo" required=""><span class="pmd-textfield-focused"></span>
+						
+					</div>
+					<div class="form-group pmd-textfield pmd-textfield-floating-label">
+						<label for="correo" class="control-label letra18pt-pc"> Documento </label>
+						<input class="form-control" type="number" id="documentoapartado" name="documento" required=""><span class="pmd-textfield-focused"></span>
+					</div>	
+					
+				</div>
+				<button type="submit" class="botonmodal letra18pt-pc" id="clienteGuardadoApartado"> Guardar cliente </button>
+                <div style='float:left; width:100%;'>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id='popup7' style='display: none;' class="pc tablet">
+        <div class='content-popup'>
+            <div class='close'><a href='#' id='close7'>
+               <img src='<?php echo get_template_directory_uri(); ?>/imagenes/iconos/close.png'/></a>
+            </div> 
+            <div id="clientesEncontradosapartado">
+            
+            </div>
+        </div>
+       
+    </div>
+    <div id='popup8' style='display: none;' class="pc tablet">
+        <div class='content-popup'>
+            <div class='close'><a href='#' id='close8'>
+               <img src='<?php echo get_template_directory_uri(); ?>/imagenes/iconos/close.png'/></a>
+            </div> 
+            <div>
+                <h2>Pedido</h2>
+				<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" >
+					<button class='botonmodal letra18pt-pc' type='button' id='agregarprendaspedidoapartado'> Agregar prendas </button>
+				</div>
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="primeraPrendasapartados">
+					<div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+						<p type="submit" class="letra18pt-pc" > Prenda </p>
+					</div>
+					<div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+						<p type="submit" class="letra18pt-pc">Descripción</p>
+					</div>
+					<div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+						<p type="submit" class="letra18pt-pc" > Valor </p>
+					</div>
+					<div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+						<p type="submit" class="letra18pt-pc" > Agregar </p>
+					</div>
+				</div>
+            </div>
+        </div>
+    </div>
     <!-- <div id='popup5' style='display: none;' class="pc tablet">
           <div class='content-popup'>
             <div class='close'><a href='#' id='close5'>
@@ -503,6 +641,8 @@
             </div>
         </div>
     </div>
+		
+
 	</div>
 <?php
 	   get_footer("ventas-plaza"); 
