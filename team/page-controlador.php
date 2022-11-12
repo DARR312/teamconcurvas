@@ -29,6 +29,7 @@ $categoria=$_GET['categoria'];
 $columna=$_GET['columna'];
 $tabla=$_GET['tabla'];
 $tipo=$_GET['tipo'];
+$condicion=$_GET['condicion'];
 function permisosPrincipales(){
     $user_info = wp_get_current_user();
     $user_level = $user_info->user_level;
@@ -146,6 +147,8 @@ function obtenerDatajson($columna,$tabla,$tipo,$columnacondicion,$condicion){
     $obtenidos = "";
     global $wpdb;
     if($tipo == "valoresconcondicion"){
+        $condicion =str_replace('\\', '', $condicion);
+         //echo "SELECT ".$columna." FROM ".$tabla." WHERE ".$columnacondicion." = ".$condicion."";
         $obtenidosArray = $wpdb->get_results( "SELECT ".$columna." FROM ".$tabla." WHERE ".$columnacondicion." = ".$condicion."", ARRAY_A);
         echo json_encode($obtenidosArray,JSON_UNESCAPED_UNICODE);
     }
@@ -1226,6 +1229,7 @@ function auditprendas($valor,$valor2,$valor3,$valor4){
             $timezone = new DateTimeZone( 'America/Bogota' );
             $fecha = wp_date('Y-m-d H:i:s', strtotime('-1 week'), $timezone );
             $codigos = $wpdb->get_results( "SELECT codigo, estado, cual, complemento_estado, fecha_cambio, descripcion FROM con_t_trprendas WHERE (fecha_cambio < '".$fecha."') AND (estado = '".$valor4."') ", ARRAY_A  );           
+            echo "SELECT codigo, estado, cual, complemento_estado, fecha_cambio, descripcion FROM con_t_trprendas WHERE (fecha_cambio < '".$fecha."') AND (estado = '".$valor4."') ";
         }else{
             if($valor2 == 10){
                 $codigos = $wpdb->get_results( "SELECT codigo, estado, cual, complemento_estado, fecha_cambio, descripcion FROM con_t_trprendas WHERE (fecha_cambio < '".$obtenidosArray[0]['fecha']." ') AND (estado != 'En satélite')  AND (estado != 'Madrugón')  AND (estado != 'Entregado')  AND (estado != 'Venta local')  AND (estado != 'Venta mayorista')    ORDER BY cual ASC", ARRAY_A  );
@@ -1576,26 +1580,27 @@ function borrarfilas($tabla,$condicion,$valor_condicion){
 }
 
 function insertarfila($tabla,$valor,$valor2,$valor3,$valor4,$valor5,$valor6,$valor7,$valor8,$valor9,$valor10,$valor11){
+    echo $tabla."--".$valor."--".$valor2."--".$valor3."--".$valor4."--".$valor5."--".$valor6."--".$valor7."--".$valor8."--".$valor9."--".$valor10."--".$valor11;
     global $wpdb;
     if($valor != "0"){
         $valoru = str_replace("\\","",$valor);
         $valord = str_replace("<","{",$valoru);
         $valor = str_replace(">","}",$valord);
-        $valorjson = json_decode($valor);
-        $valorarray = convertidor($valorjson -> tipo,$valorjson -> valor,$valorjson -> columna);
+        $valorjson = json_decode($valor,JSON_UNESCAPED_UNICODE);
+        $valorarray = convertidor($valorjson["tipo"],$valorjson["valor"],$valorjson["columna"]);
     }else{$valorarray = array( "valor" => "", "columna" => "");}
     /// OK
     $finalcolumna = $valorarray["columna"];
     $finalvalor = $valorarray["valor"];
     $valores = array( "valor2" => $valor2,"valor3" => $valor3,"valor4" => $valor4,"valor5" => $valor5,"valor6" => $valor6,"valor7" => $valor7,"valor8" => $valor8,"valor9" => $valor9,"valor10" => $valor10,"valor11" => $valor11);
-    //print_r($valores);
+    // print_r($valores);
     foreach($valores as $x => $val) {    
         if($val != "0"){
             $valoru = str_replace("\\","",$val);
             $valord = str_replace("<","{",$valoru);
             $valor = str_replace(">","}",$valord);
-            $valorjson = json_decode($valor);
-            $valorarray2 = convertidor($valorjson -> tipo,$valorjson -> valor,$valorjson -> columna);
+            $valorjson = json_decode($valor,JSON_UNESCAPED_UNICODE);
+            $valorarray2 = convertidor($valorjson["tipo"],$valorjson["valor"],$valorjson["columna"]);
             $valorarray2["valor"] = ",".$valorarray2["valor"];
             $valorarray2["columna"] = ",".$valorarray2["columna"];
         }else{$valorarray2 = array( "valor" => "", "columna" => "");}
@@ -1603,6 +1608,7 @@ function insertarfila($tabla,$valor,$valor2,$valor3,$valor4,$valor5,$valor6,$val
         $finalvalor = $finalvalor.$valorarray2["valor"];        
     }
     $datos = "INSERT INTO ".$tabla." ( ".$finalcolumna.") VALUES (".$finalvalor.")";
+    echo $datos;
     $wpdb->query($datos);
     $lastId = $wpdb->get_results( "SELECT MAX(ID) as id FROM ".$tabla."");
     echo json_encode($lastId);
@@ -1610,6 +1616,7 @@ function insertarfila($tabla,$valor,$valor2,$valor3,$valor4,$valor5,$valor6,$val
 }
 
 function convertidor($tipo,$valor,$columna){
+    
     if($tipo == 'string'){
         $vuno = "'".$valor."'";
         $cuno = $columna;
@@ -1619,12 +1626,59 @@ function convertidor($tipo,$valor,$columna){
         $cuno = $columna;
     }        
     if($tipo == 'json'){
-        $vunojson = json_encode($valor);
+        $vunojson = json_encode($valor,JSON_UNESCAPED_UNICODE);
         $vuno = "'".$vunojson."'";
+        $cuno = $columna;
+    }       
+    if($tipo == 'date'){
+        $fecha = explode("/",$valor);
+        $vuno = "'".$fecha[0]."-".$fecha[1]."-".$fecha[2]." 00:00:00"."'";
         $cuno = $columna;
     }
     $objeto = array( "valor" => $vuno, "columna" => $cuno);
     return($objeto);
+}
+
+function actualizarregistros($tabla,$condicion,$valor,$valor2,$valor3,$valor4,$valor5,$valor6,$valor7,$valor8,$valor9,$valor10,$valor11){
+    //echo $tabla."--".$condicion."--".$valor."--".$valor2."--".$valor3."--".$valor4."--".$valor5."--".$valor6."--".$valor7."--".$valor8."--".$valor9."--".$valor10."--".$valor11;
+    global $wpdb;
+    if($valor != "0"){
+        $valoru = str_replace("\\","",$valor);
+        $valord = str_replace("<","{",$valoru);
+        $valor = str_replace(">","}",$valord);
+        $valorjson = json_decode($valor);
+        $valorarray = convertidor($valorjson -> tipo,$valorjson -> valor,$valorjson -> columna);
+        $valorarray["columna"] = $valorarray["columna"]."=";
+    }else{$valorarray = array( "valor" => "", "columna" => "");}
+    /// OK
+    $final = $valorarray["columna"].$valorarray["valor"];
+    $valores = array( "valor2" => $valor2,"valor3" => $valor3,"valor4" => $valor4,"valor5" => $valor5,"valor6" => $valor6,"valor7" => $valor7,"valor8" => $valor8,"valor9" => $valor9,"valor10" => $valor10,"valor11" => $valor11);
+    foreach($valores as $x => $val) {   
+        echo "</br>Valores</br>"; 
+        echo  $x."=>".$val;
+        if($val != "0"){
+            $valoru = str_replace("\\","",$val);
+            $valord = str_replace("<","{",$valoru);
+            $valor = str_replace(">","}",$valord);
+            $valorjson = json_decode($valor);
+            $valorarray2 = convertidor($valorjson -> tipo,$valorjson -> valor,$valorjson -> columna);
+            $valorarray2["columna"] = ",".$valorarray2["columna"]."=";
+        }else{$valorarray2 = array( "valor" => "", "columna" => "");}
+        $final = $final.$valorarray2["columna"].$valorarray2["valor"];      
+        echo "</br>Final</br>";
+        echo $final; 
+    }
+    echo "</br>";
+    echo $final;
+    $valoru = str_replace("\\","",$condicion);
+    $valord = str_replace("<","{",$valoru);
+    $valor = str_replace(">","}",$valord);
+    $condicionjson = json_decode($valor);
+    $datos = "UPDATE ".$tabla." SET ".$final." WHERE ".$condicionjson -> columna." = ".$condicionjson -> valor."";
+    echo $datos;
+    $wpdb->query($datos);
+    // $lastId = $wpdb->get_results( "SELECT MAX(ID) as id FROM ".$tabla."");
+    // echo json_encode($lastId);
 }
 
 if($funcion == "permisosPrincipales"){
@@ -1735,5 +1789,7 @@ if($funcion == "permisosPrincipales"){
     borrarfilas($tabla,$valor,$valor2);
 }if($funcion == "insertarfila"){
     insertarfila($tabla,$valor,$valor2,$valor3,$valor4,$valor5,$valor6,$valor7,$valor8,$valor9,$valor10,$valor11);
+}if($funcion == "actualizarregistros"){
+    actualizarregistros($tabla,$condicion,$valor,$valor2,$valor3,$valor4,$valor5,$valor6,$valor7,$valor8,$valor9,$valor10,$valor11);
 }
 ?>

@@ -2,6 +2,7 @@
     //<script>
     var segundo = $('#segundo');
     segundo.append("<div class='col-lg-2 col-md-2 col-sm-2 col-xs-12' id='accion'><button class='botonmodal' type='button' id='reglaNueva'>+ Agregar regla nueva </button></div>");
+    impresionreglas();
     $('#close').on('click', function(){         
         $('#popup').fadeOut('slow');         
         $('.popup-overlay').fadeOut('slow');      
@@ -101,6 +102,13 @@
             var regla_activa = prepararjson(objeto);
             var idregla = insertarfila("con_t_reglasdescuentos",nombre_regla,descripcion,tipo_regla,prendas_condicion,prendas_descuento,referencias,porcentaje_descuento,regla_activa,"0","0","0");
             console.log(idregla);
+            $('#popup').fadeOut('slow');         
+            $('.popup-overlay').fadeOut('slow');      
+            $('.reinicia').remove(); 
+            $('.regla').remove(); 
+            $('.reiniciaregla').css('display', 'none');
+            $(".removiendoreglas").remove();
+            impresionreglas();
         }
         if(tipo == 2){
             var todas_porcentaje = $("#todas_porcentaje").val()
@@ -140,6 +148,13 @@
             var regla_activa = prepararjson(objeto);
             var idregla = insertarfila("con_t_reglasdescuentos",nombre_regla,descripcion,tipo_regla,prendas_condicion,prendas_descuento,referencias,todas_porcentaje,regla_activa,"0","0","0");
             console.log(idregla);
+            $('#popup').fadeOut('slow');         
+            $('.popup-overlay').fadeOut('slow');      
+            $('.reinicia').remove(); 
+            $('.regla').remove(); 
+            $('.reiniciaregla').css('display', 'none');
+            $(".removiendoreglas").remove();
+            impresionreglas();
         }
         if(tipo == 3){
             var cantidadSelect = $("#referencia select");
@@ -199,7 +214,15 @@
             var regla_activa = prepararjson(objeto);
             var idregla = insertarfila("con_t_reglasdescuentos",nombre_regla,descripcion,tipo_regla,prendas_condicion,prendas_descuento,referenciias,referencia_porcentaje,regla_activa,"0","0","0");
             console.log(idregla);
+            $('#popup').fadeOut('slow');         
+            $('.popup-overlay').fadeOut('slow');      
+            $('.reinicia').remove(); 
+            $('.regla').remove(); 
+            $('.reiniciaregla').css('display', 'none');
+            $(".removiendoreglas").remove();
+            impresionreglas();
         }
+        
         return false;     
     });  
 })
@@ -238,6 +261,50 @@ function seleccionTiporegla() {
         $("#refere"+id).after(html);
         return false;  
     }
+    
+    function impresionreglas() {  
+        var reglas_totales = obtenerDatajson("ID,descripcion,prendas_condicion,prendas_descuento,referencias,porcentaje_descuento,regla_activa","con_t_reglasdescuentos","variasfilasunicas","0","0");
+        var reglas_totalesJSON = JSON.parse(reglas_totales);
+        console.log(reglas_totalesJSON);
+        var claseactiva = "activa";  
+        var textoactiva = "Desactivar";  
+        if(reglas_totalesJSON[0].regla_activa == 0){claseactiva = "desactiva";textoactiva = "Activar";    }
+        var html = "<div class='col-lg-12 col-md-12 col-sm-12 col-xs-12 removiendoreglas' id='primeraregla'><div class='col-lg-3 col-md-3 col-sm-3 col-xs-3'><p class='letra18pt-pc negrillaUno'>"+reglas_totalesJSON[0].descripcion+"</p></div><div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'><p class='letra18pt-pc negrillaUno'>"+reglas_totalesJSON[0].prendas_condicion+"</p></div><div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'><p class='letra18pt-pc negrillaUno'>"+reglas_totalesJSON[0].prendas_descuento+"</p></div><div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'><p class='letra18pt-pc negrillaUno'>"+reglas_totalesJSON[0].porcentaje_descuento+"</p></div><div class='col-lg-3 col-md-3 col-sm-3 col-xs-3'><button class='botonmodal letra18pt-pc "+claseactiva+"' type='button' id='"+reglas_totalesJSON[0].ID+"' onclick=\"activarRegla("+reglas_totalesJSON[0].ID+",\'"+claseactiva+"\')\">"+textoactiva+"</button></div></div>";
+        for(i=1;i<reglas_totalesJSON.length;i++){
+            var claseactiva = "activa";  
+            var textoactiva = "Desactivar";  
+            if(reglas_totalesJSON[i].regla_activa == 0){claseactiva = "desactiva";textoactiva = "Activar";    }
+            html=html+"<div class='col-lg-12 col-md-12 col-sm-12 col-xs-12 removiendoreglas'><div class='col-lg-3 col-md-3 col-sm-3 col-xs-3'><p class='letra18pt-pc negrillaUno'>"+reglas_totalesJSON[i].descripcion+"</p></div><div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'><p class='letra18pt-pc negrillaUno'>"+reglas_totalesJSON[i].prendas_condicion+"</p></div><div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'><p class='letra18pt-pc negrillaUno'>"+reglas_totalesJSON[i].prendas_descuento+"</p></div><div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'><p class='letra18pt-pc negrillaUno'>"+reglas_totalesJSON[i].porcentaje_descuento+"</p></div><div class='col-lg-3 col-md-3 col-sm-3 col-xs-3'><button class='botonmodal letra18pt-pc "+claseactiva+"' type='button' id='"+reglas_totalesJSON[i].ID+"' onclick=\"activarRegla("+reglas_totalesJSON[i].ID+",\'"+claseactiva+"\')\">"+textoactiva+"</button></div></div>";
+        }
+        console.log(html);
+        $("#primeraFila").after(html);
+        return false;  
+    }
+
+    function activarRegla(id,claseactiva) {
+        console.log(id); 
+        var objeto = {};
+        objeto.columna = "ID";
+        objeto.valor = id;
+        var condicion = prepararjson(objeto);
+        var regla_activa = "";
+        if(claseactiva == "activa"){
+            var objeto = {};
+            objeto.tipo = "int";
+            objeto.columna = "regla_activa";
+            objeto.valor = 0;
+            regla_activa = prepararjson(objeto);
+        }else{
+            var objeto = {};
+            objeto.tipo = "int";
+            objeto.columna = "regla_activa";
+            objeto.valor = 1;
+            regla_activa = prepararjson(objeto);
+        }        
+        actualizarregistros("con_t_reglasdescuentos",condicion,regla_activa,"0","0","0","0","0","0","0","0","0","0");
+        $(".removiendoreglas").remove();
+        impresionreglas();
+     }
 </script>
 <!-- Propeller textfield js --> 
 <script type="text/javascript" src="https://opensource.propeller.in/components/textfield/js/textfield.js"></script>

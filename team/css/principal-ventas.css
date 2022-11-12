@@ -17,13 +17,13 @@ margin:0px auto;
 margin-top:60px;     
 position:fixed;     
 padding:10px;     
-width:900px;     
+width:90%;     
 min-height:250px;     
 border-radius:4px;     
 background-color:#FFFFFF;     
 box-shadow: 0 2px 5px #666666; 
 height:650px;
-margin-left: 20%;
+margin-left: 5%;
 }   
 .content-pop {    
     margin:0px auto;     
@@ -57,8 +57,9 @@ opacity: 0.7;
 }   
 .close {     
 position: absolute;     
-right: 15px; 
-width:5%;
+right: 5px;
+width: 3%;
+top: 5px;
 } 
 .close a img{
     width:85%;
@@ -90,7 +91,7 @@ width:5%;
 
 .cliente_ok1{display:none;}
 .dinerook1{color:#1a7a1c;}
-.pedidoUpdate, .fechaUpdate, .notasUpdate, .usuarioUpdate{
+.pedidoUpdate, .fechaUpdate, .notasUpdate, .usuarioUpdate, .agregarabono{
     color:rgb(193, 46, 114) !important;
     cursor: pointer;
 }
@@ -99,4 +100,7 @@ width:5%;
 }
 #primeraventa{
     margin-top: 340px;
+}
+#agregarabonodiv{
+    margin: 5%;
 }

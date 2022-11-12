@@ -52,7 +52,7 @@
         console.log(jsonmetodos_pagos[j]);
         vmp = vmp + " " + jsonmetodos_pagos[j].valor+" método "+jsonmetodos_pagos[j].metodo;
     }
-    var html = "<div class='col-lg-12 col-md-12 col-sm-12 col-xs-12' id='primeraventa'><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'><p class='letra18pt-pc negrillaUno'>"+jsonVentas[jsonVentas.length-1].ID+"</p></div><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'><p class='letra18pt-pc negrillaUno'>"+jsondatoscliente.nombre+"</p></div><div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'><p class='letra18pt-pc negrillaUno'>"+jsondatoscliente.telefono+"</p></div><div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'><p class='letra18pt-pc negrillaUno'>"+jsondatoscliente.correo+"</p></div><div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'> <p class='letra18pt-pc negrillaUno'>"+pedido+"</p></div><div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'><p class='letra18pt-pc negrillaUno'>"+jsonVentas[jsonVentas.length-1].valor_total+" "+vmp+"</p></div><div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'><p class='letra18pt-pc negrillaUno'>"+jsonVentas[jsonVentas.length-1].notas+"</p></div></div></div>";
+    var html = "<div class='col-lg-12 col-md-12 col-sm-12 col-xs-12 ventasplaza' id='primeraventa'><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'><p class='letra18pt-pc negrillaUno'>"+jsonVentas[jsonVentas.length-1].ID+"</p></div><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'><p class='letra18pt-pc negrillaUno'>"+jsondatoscliente.nombre+"</p></div><div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'><p class='letra18pt-pc negrillaUno'>"+jsondatoscliente.telefono+"</p></div><div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'><p class='letra18pt-pc negrillaUno'>"+jsondatoscliente.correo+"</p></div><div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'> <p class='letra18pt-pc negrillaUno'>"+pedido+"</p></div><div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'><p class='letra18pt-pc negrillaUno'>"+jsonVentas[jsonVentas.length-1].valor_total+" "+vmp+"</p></div><div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'><p class='letra18pt-pc negrillaUno'>"+jsonVentas[jsonVentas.length-1].notas+"</p></div></div></div>";
     for (let i = (jsonVentas.length-2); i >=0; i--) {
         var datoscliente = jsonVentas[i].datos_cliente;
         var jsondatoscliente = JSON.parse(datoscliente);
@@ -70,7 +70,7 @@
         for (let j = 0; j < Object.keys(jsonmetodos_pagos).length; j++) {
             vmp = vmp + " " + jsonmetodos_pagos[j].valor+" método "+jsonmetodos_pagos[j].metodo;
         }
-        html = html +"<div class='col-lg-12 col-md-12 col-sm-12 col-xs-12'><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'><p class='letra18pt-pc negrillaUno'>"+jsonVentas[i].ID+"</p></div><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'><p class='letra18pt-pc negrillaUno'>"+jsondatoscliente.nombre+"</p></div><div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'><p class='letra18pt-pc negrillaUno'>"+jsondatoscliente.telefono+"</p></div><div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'><p class='letra18pt-pc negrillaUno'>"+jsondatoscliente.correo+"</p></div><div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'> <p class='letra18pt-pc negrillaUno'>"+pedido+"</p></div><div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'><p class='letra18pt-pc negrillaUno'>"+jsonVentas[i].valor_total+" "+vmp+"</p></div><div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'><p class='letra18pt-pc negrillaUno'>"+jsonVentas[i].notas+"</p></div></div></div>";
+        html = html +"<div class='col-lg-12 col-md-12 col-sm-12 col-xs-12 ventasplaza'><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'><p class='letra18pt-pc negrillaUno'>"+jsonVentas[i].ID+"</p></div><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'><p class='letra18pt-pc negrillaUno'>"+jsondatoscliente.nombre+"</p></div><div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'><p class='letra18pt-pc negrillaUno'>"+jsondatoscliente.telefono+"</p></div><div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'><p class='letra18pt-pc negrillaUno'>"+jsondatoscliente.correo+"</p></div><div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'> <p class='letra18pt-pc negrillaUno'>"+pedido+"</p></div><div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'><p class='letra18pt-pc negrillaUno'>"+jsonVentas[i].valor_total+" "+vmp+"</p></div><div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'><p class='letra18pt-pc negrillaUno'>"+jsonVentas[i].notas+"</p></div></div></div>";
     }
     $('#primeraFila').after(html);
     $('#agregarVenta').on('click', function(){    
@@ -275,6 +275,19 @@
     });
     // ******************************************************************APARTADOS
     $('#agregarApartado').on('click', function(){    
+        var con_t_reglasdescuentos = obtenerDatajson("*","con_t_reglasdescuentos","valoresconcondicion","regla_activa",1);
+        var jsoncon_t_reglasdescuentos = JSON.parse(con_t_reglasdescuentos); 
+        console.log(jsoncon_t_reglasdescuentos);
+        if(jsoncon_t_reglasdescuentos.length >0){
+            var html = "<div id='descuentosr' class='removertodo'>";
+            for (let i = 0; i < jsoncon_t_reglasdescuentos.length; i++) {
+                html = html + "<div class='col-lg-12 col-md-12 col-sm-12 col-xs-12 removertodo'><div class='col-lg-3 col-md-3 col-sm-3 col-xs-3'><p type='submit' class='letra18pt-pc'>"+jsoncon_t_reglasdescuentos[i].nombre_regla+"</p></div><div class='col-lg-7 col-md-7 col-sm-7 col-xs-7'><p type='submit' class='letra18pt-pc'>"+jsoncon_t_reglasdescuentos[i].descripcion+"</p></div><div class='col-lg-1 col-md-1 col-sm-1 col-xs-3'><p type='submit' class='letra18pt-pc'>"+jsoncon_t_reglasdescuentos[i].porcentaje_descuento+"</p></div><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1 form-check'><input class='form-check-input checkregla' type='checkbox' value='"+jsoncon_t_reglasdescuentos[i].ID+"'></div></div>"; 
+            }
+            html = html +'</div>';
+            console.log(html);
+            $("#datosPrendasapartado").after(html);
+        }
+        
         var vendedores = obtenerDatajson('ID,display_name ','con_users','variasfilasunicas','0','0');
         var jsonvendedores = JSON.parse(vendedores);
         console.log(jsonvendedores);
@@ -287,12 +300,14 @@
         $('.popup-overlay').fadeIn('slow');
         $('.popup-overlay').height($(window).height());    
         $('#agregarPedidoApartado').css('display','block'); 
+        funcionespagina();
         return false;     
     });      
     $('#close5').on('click', function(){         
         $('#popup5').fadeOut('slow');         
         $('.popup-overlay').fadeOut('slow');      
         $('.reinicia').remove(); 
+        $('.removertodo').remove(); 
         return false;     
     });        
     $('#agregarClienteapartado').on('click', function(){ 
@@ -376,9 +391,10 @@
                 jsonPrenda.codigo = codigoDescr[0];
                 jsonPrenda.descripcion = codigoDescr[1];
                 jsonPrenda.valor = check[i].value;
+                jsonPrenda.id = check[i].id;
                 jsonPrendas[j] = jsonPrenda;
                 j++;
-                html=html+"<div class='col-lg-12 col-md-12 col-sm-12 col-xs-12  removeprendavender' id='"+check[i].id+"'><p class='letra3pt-mv letra16pt-pc'>"+codigoDescr[0]+" "+codigoDescr[1]+" "+check[i].value+"</p></div>";
+                html=html+"<div class='col-lg-3 col-md-3 col-sm-3 col-xs-3  removeprendavender' id='"+check[i].id+"'><p class='letra3pt-mv letra16pt-pc'>"+codigoDescr[0]+" "+codigoDescr[1]+" "+check[i].value+"</p></div>";
                 console.log(check[i]);
             }            
         }
@@ -391,6 +407,90 @@
         $('.removerprendasparaventa').remove();
         return false;     
     });
+    $('#agregarPedidoApartado').on('click', function(){ 
+        var nombreVentaapartado = $('#nombreVentaapartado').val();
+        var correovapartado = $('#correovapartado').val();
+        var telVentaapartado = $('#telVentaapartado').val();
+        var idClienteapartado = $('#idClienteapartado').val();
+        var documentovapartado = $('#documentovapartado').val();  
+        console.log(idClienteapartado);
+        if(!idClienteapartado){alert("¿Cuál es el cliente?");return false;}
+        var datoscliente = {};
+        datoscliente.nombre= nombreVentaapartado;
+        datoscliente.correo = correovapartado;
+        datoscliente.telefono = telVentaapartado;
+        datoscliente.documento = documentovapartado;
+        var datospedido = $("#datospedido").attr("name");
+        if(!datospedido){alert("¿Qué quiere "+nombreVentaapartado+"?");return false;}
+        var valor = $("#valor").attr("name");
+        var datospedidoDescuentos = $("#datospedidoDescuentos").attr("name");
+        if(datospedidoDescuentos){datospedido = $("#datospedidoDescuentos").attr("name");valor = $("#valorDescuentos").attr("name");}
+        var jsondatospedido= JSON.parse(datospedido);
+        var notasapartado = $("#notasapartado").val();
+        var vendedorselectapartado = $("#vendedorselectapartado").val();
+        var objeto = {};
+        objeto.tipo = "int";
+        objeto.columna = "cliente_id";
+        objeto.valor = idClienteapartado;
+        var cliente_id = prepararjson(objeto);
+        var objeto = {};
+        objeto.tipo = "json";
+        objeto.columna = "datos_cliente";
+        objeto.valor = datoscliente;
+        var datos_cliente = prepararjson(objeto);
+        var objeto = {};
+        objeto.tipo = "json";
+        objeto.columna = "pedido";
+        objeto.valor = jsondatospedido;
+        var pedido = prepararjson(objeto);
+        var objeto = {};
+        objeto.tipo = "int";
+        objeto.columna = "valor_total";
+        objeto.valor = valor;
+        var valor_total = prepararjson(objeto);
+        var objeto = {};
+        objeto.tipo = "string";
+        objeto.columna = "estado";
+        objeto.valor = "Apartado";
+        var estado = prepararjson(objeto);
+        var objeto = {};
+        objeto.tipo = "string";
+        objeto.columna = "notas";
+        objeto.valor = notasapartado;
+        var notas = prepararjson(objeto);
+        var objeto = {};
+        objeto.tipo = "int";
+        objeto.columna = "id_vendedor";
+        objeto.valor = vendedorselectapartado;
+        var id_vendedor = prepararjson(objeto);
+        var idapartado = insertarfila("con_t_apartados",cliente_id,datos_cliente,pedido,valor_total,estado,notas,id_vendedor,"0","0","0","0");
+        console.log(jsondatospedido);
+        for (let i = 0; i < Object.keys(jsondatospedido).length; i++) {
+            console.log(jsondatospedido[i]);
+            var objeto = {};
+            objeto.columna = "ID";
+            objeto.valor = jsondatospedido[i].id;
+            var condicion = prepararjson(objeto);
+            var regla_activa = "";
+            var objeto = {};
+            objeto.tipo = "int";
+            objeto.columna = "agregada";
+            objeto.valor = 1;
+            agregada = prepararjson(objeto);
+            actualizarregistros("con_t_prendasplaza",condicion,agregada,"0","0","0","0","0","0","0","0","0","0");            
+        }
+        $('#popup5').fadeOut('slow');         
+        $('.popup-overlay').fadeOut('slow');      
+        $('.reinicia').remove(); 
+        $('.removertodo').remove(); 
+        return false;     
+    });    
+    $('#verApartados').on('click', function(){        
+        $('.ventasplaza').remove();
+        imprimirapartados();
+        funcionespagina();
+        return false;     
+    });    
     /*************************** Enviar para venta (CELULAR) *******************************/
     $('#empezarEscaner').on('click', function() {
         $('#escaneados').css('display', 'block');
@@ -439,7 +539,7 @@
             $("#metodo"+id+"").css('display', 'block');
         });    
         return false;     
-    });       
+    });      
 })
 </script>
 <script>
@@ -465,6 +565,132 @@ function seleccionClienteApartado(id) {
         $('#popup5').fadeIn('slow');
         $('.cliente').remove();
         $('.remover').remove();
+        return false;  
+    }
+    function funcionespagina() {
+        $(".checkregla").change(function() {
+            if(this.checked) {
+                var descuentosr = $("#descuentosr input");
+                for (let i = 0; i < descuentosr.length; i++) {
+                    if(descuentosr[i].value != this.value){
+                        $(descuentosr[i]).attr('checked', false);
+                    }   
+                }
+                var con_t_reglasdescuentos = obtenerDatajson("*","con_t_reglasdescuentos","valoresconcondicion","ID",this.value);
+                var jsoncon_t_reglasdescuentos = JSON.parse(con_t_reglasdescuentos); 
+                var valor_total = $('#valor').attr("name");
+                if(!valor_total){console.log("esta vacio");return false;}
+                $(".removeresumendescuento").remove();
+                var datospedido = JSON.parse($("#datospedido").attr("name"));
+                var jsonData = calculardescuentos(datospedido,valor_total,jsoncon_t_reglasdescuentos);
+                console.log(jsonData);        
+                $("#datosPrendasapartado").after(jsonData.html);
+            }
+        });
+        $('.agregarabono').on('click', function() {
+            console.log(this.id);
+            $('#popup9').fadeIn('slow');         
+            $('.popup-overlay').fadeIn('slow');
+            $('.popup-overlay').height($(window).height()); 
+            $("#agregarabonodiv").attr("name",this.id);
+        });   
+        $('#close9').on('click', function(){         
+            $('#popup9').fadeOut('slow');         
+            $('.popup-overlay').fadeOut('slow');       
+            return false;     
+        });
+        $("#abonoguardado").on('click', function(){   
+            var id = $("#agregarabonodiv").attr("name");
+            var arrayid = id.split("_");
+            var idapartado = arrayid[1];
+            var abonovalor = $("#abonovalor").val();
+            if(!abonovalor){alert("Ingresa un valor para este abono");return false;}
+            var con_t_apartados = obtenerDatajson("*","con_t_apartados","valoresconcondicion","ID",idapartado);
+            var jsoncon_t_apartados = JSON.parse(con_t_apartados); 
+            console.log(jsoncon_t_apartados);
+            var numeroabono = "";
+            if(jsoncon_t_apartados[0].abono_3 == "0"){
+                numeroabono = "abono_3";
+                fechaabono = "fecha_abono_3";
+            }
+            if(jsoncon_t_apartados[0].abono_2 == "0"){
+                numeroabono = "abono_2";
+                fechaabono = "fecha_abono_2";
+            }
+            if(jsoncon_t_apartados[0].abono_1 == "0"){
+                numeroabono = "abono_1";
+                fechaabono = "fecha_abono_1";
+            }
+            var objeto = {};
+            objeto.columna = "ID";
+            objeto.valor = idapartado;
+            var condicion = prepararjson(objeto);
+            var objeto = {};
+            objeto.tipo = "int";
+            objeto.columna = numeroabono;
+            objeto.valor = abonovalor;
+            var abonoenviar  = prepararjson(objeto);
+            const date = new Date();
+            let day = date.getDate();
+            let month = date.getMonth() + 1;
+            let year = date.getFullYear();
+            let currentDate = `${year}/${month}/${day}`;//2022-08-08 13:58:58 	
+            var objeto = {};
+            objeto.tipo = "date";
+            objeto.columna = fechaabono;
+            objeto.valor = currentDate;
+            var fecha_abono  = prepararjson(objeto);
+            var resultado = actualizarregistros("con_t_apartados",condicion,abonoenviar,fecha_abono,"0","0","0","0","0","0","0","0","0");
+            console.log(resultado);
+            var objeto = {};
+            objeto.tipo = "int";
+            objeto.columna = "id_apartado";
+            objeto.valor = idapartado;
+            var id_apartado = prepararjson(objeto);
+            var objeto = {};
+            objeto.tipo = "string";
+            objeto.columna = "cambio";
+            objeto.valor = "Agregando un abono";
+            var cambio = prepararjson(objeto);
+            var objeto = {};
+            objeto.tipo = "string";
+            objeto.columna = "campo_cambiado";
+            objeto.valor = numeroabono;
+            var campo_cambiado = prepararjson(objeto);
+            var objeto = {};
+            objeto.tipo = "date";
+            objeto.columna = "fehca_cambio";
+            objeto.valor = currentDate;
+            var fehca_cambio  = prepararjson(objeto);
+            var objeto = {};
+            objeto.tipo = "int";
+            objeto.columna = "id_usuario";
+            objeto.valor = 1;
+            var id_usuario  = prepararjson(objeto);
+            var idapartadotr = insertarfila("con_t_apartadostr",id_apartado,cambio,campo_cambiado,fehca_cambio,id_usuario,"0","0","0","0","0","0");
+            $('#popup9').fadeOut('slow');         
+            $('.popup-overlay').fadeOut('slow');       
+            return false;     
+        });
+        return false;  
+    }
+    function imprimirapartados() {
+        var html  = "<div class='col-lg-12 col-md-12 col-sm-12 col-xs-12 ventasplaza' id='primeraFila'><div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'><p class='letra18pt-pc negrillaUno'>Cliente</p></div><div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'><p class='letra18pt-pc negrillaUno'>Pedido</p></div><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'><p class='letra18pt-pc negrillaUno'>Abono 1</p></div><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'><p class='letra18pt-pc negrillaUno'>Fecha 1</p></div><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'><p class='letra18pt-pc negrillaUno'>Abono 2</p></div><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'><p class='letra18pt-pc negrillaUno'>Fecha 2</p></div><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'><p class='letra18pt-pc negrillaUno'>Abono 3</p></div><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'><p class='letra18pt-pc negrillaUno'>Fecha 3</p></div><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'><p class='letra18pt-pc negrillaUno'>Notas</p></div><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'><p class='letra18pt-pc negrillaUno'>Valor total</p></div></div>"
+        var apartados = obtenerDatajson('*','con_t_apartados','variasfilasunicas','0','0');
+        var jsonapartados = JSON.parse(apartados);
+        console.log(jsonapartados);
+        var primeraventa = "primeraventa";
+        for (let i = ( Object.keys(jsonapartados).length-1); i >= 0; i--) {
+            var datos_cliente = JSON.parse(jsonapartados[i].datos_cliente);
+            var pedido = JSON.parse(jsonapartados[i].pedido);
+            var pedidohtml = "";
+            for (let j = 0; j < pedido.length; j++) {
+                pedidohtml = pedidohtml + pedido[j].codigo + " " + pedido[j].descripcion + " - ";
+            }
+            html = html + "<div class='col-lg-12 col-md-12 col-sm-12 col-xs-12 ventasplaza' id='"+primeraventa+"'><div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'><p class='letra18pt-pc negrillaUno' id='cliente"+jsonapartados[i].ID+"'>"+datos_cliente.nombre+" "+datos_cliente.telefono+"</p></div><div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'><p class='letra18pt-pc negrillaUno' id='pedido"+jsonapartados[i].ID+"'>"+pedidohtml+"</p></div><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'><p class='letra18pt-pc negrillaUno agregarabono' id='abono1_"+jsonapartados[i].ID+"'>"+jsonapartados[i].abono_1+"</p></div><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'><p class='letra18pt-pc negrillaUno' id='fecha3_"+jsonapartados[i].ID+"'>"+jsonapartados[i].fecha_abono_1+"</p></div><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'><p class='letra18pt-pc negrillaUno agregarabono' id='abono2_"+jsonapartados[i].ID+"'>"+jsonapartados[i].abono_2+"</p></div><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'><p class='letra18pt-pc negrillaUno' id='fecha3_"+jsonapartados[i].ID+"'>"+jsonapartados[i].fecha_abono_2+"</p></div><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'><p class='letra18pt-pc negrillaUno agregarabono' id='abono3_"+jsonapartados[i].ID+"'>"+jsonapartados[i].abono_3+"</p></div><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'><p class='letra18pt-pc negrillaUno' id='fecha3_"+jsonapartados[i].ID+"'>"+jsonapartados[i].fecha_abono_3+"</p></div><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'><p class='letra18pt-pc negrillaUno' id='notas"+jsonapartados[i].ID+"'>"+jsonapartados[i].notas+"</p></div><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'><p class='letra18pt-pc negrillaUno' id='valortotal"+jsonapartados[i].ID+"'>"+jsonapartados[i].valor_total+"</p></div></div>";
+            primeraventa = i+1;
+        }
+        $("#bloquePrincipal").append(html);
         return false;  
     }
 </script>
