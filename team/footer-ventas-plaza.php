@@ -131,7 +131,6 @@
         return false;     
     });      
     $('#agregarPedido').on('click', function(){//cliente_id 	datos_cliente 	codigos_prendas 	notas 	origen 	valor_total metodos_pago 	vendedor_id 
-        $('#agregarPedido').css('display','none'); 
         var cliente_id = $('#idCliente').val();
         var datos_cliente =  new Object();
         datos_cliente.nombre = $('#nombreVenta').val();
@@ -139,9 +138,14 @@
         datos_cliente.correo = $('#correov').val();
         datos_cliente.documento = $('#documentov').val();
         var clienteString= JSON.stringify(datos_cliente);
-        var codigos_prendas = $('#datospedido').attr("name");  
+        var codigos_prendas = $('#datospedidoDescuentos').attr("name");  
+        var valor_total = $('#valorDescuentos').attr("name");
+        if(!valor_total){
+            valor_total = $('#valor').attr("name");
+            codigos_prendas = $('#datospedido').attr("name");  
+        }
+        console.log(valor_total);        
         var notas = $('#notas').val();
-        var valor_total = $('#valor').attr("name");
         var divsmetodos = $('.metodop');
         var metodospago =  new Object();
         var valorfinal = 0;
