@@ -21,8 +21,7 @@
             	<div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
             	    <button class='botonmodal botonenmodal letra18pt-pc' type='button' id='agregarCliente'> Agregar cliente </button>
             	</div>
-            	<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="datosCliente">
-            	<h2 class="letra18pt-pc">Datos Cliente</h2>            	
+            	<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="datosCliente">     	
                     <div action="" method="get" accept-charset="UTF-8" autocomplete="off" class="" id="guardarVenta">
             			<div class="form-group pmd-textfield pmd-textfield-floating-label">
             				<input class="form-control" type="text" id="nombreVenta" name="nombreVenta" required="" disabled="disabled"><span class="pmd-textfield-focused"></span>

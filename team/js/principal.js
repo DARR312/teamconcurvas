@@ -1331,7 +1331,7 @@ function calculardescuentos(datospedido,valor_total,jsoncon_t_reglasdescuentos){
 			menor.valor =  parseInt(menor.valor) -  (parseInt(menor.valor)*parseInt(porcentaje_descuento)/100);
 			objetoReferencias.push(menor);                
 		}
-		var html = "<div class='col-lg-12 col-md-12 col-sm-12 col-xs-12  removeresumendescuento removeprendavender'><p class='letra3pt-mv letra18pt-pc'>Las siguientes unidades quedan con el precio: </p></div>"
+		var html = "<div class='col-lg-3 col-md-3 col-sm-3 col-xs-3  removeresumendescuento removeprendavender'><p class='letra3pt-mv letra18pt-pc'>Las siguientes unidades quedan con el precio: </p></div>"
 		for (let i = 0; i < objetoReferencias.length; i++) {
 			html=html+"<div class='col-lg-3 col-md-3 col-sm-3 col-xs-3  removeresumendescuento removeprendavender'><p class='letra3pt-mv letra16pt-pc'>"+objetoReferencias[i].codigo+" "+objetoReferencias[i].descripcion+" "+objetoReferencias[i].valor+"</p></div>";
 			for (let j = 0; j < prendas_pedido; j++) {
@@ -1355,12 +1355,12 @@ function calculardescuentos(datospedido,valor_total,jsoncon_t_reglasdescuentos){
 		var porcentaje_descuento = jsoncon_t_reglasdescuentos[0].porcentaje_descuento;
 		var valor_nuevo =  parseInt(valor_total) - (parseInt(valor_total)*parseInt(porcentaje_descuento)/100);
 		var prendas_pedido = Object.keys(datospedido).length;
-		var html = "<div class='col-lg-12 col-md-12 col-sm-12 col-xs-12  removeresumendescuento removeprendavender'><p class='letra3pt-mv letra18pt-pc'>Todas las prendas tienen un descuento del "+porcentaje_descuento+"% </p></div>"
+		var html = "<div class='col-lg-5 col-md-5 col-sm-5 col-xs-5  removeresumendescuento removeprendavender'><p class='letra3pt-mv letra18pt-pc'>Todas las prendas tienen un descuento del "+porcentaje_descuento+"% </p></div>"
 		for (let i = 0; i < prendas_pedido; i++) {
 			datospedido[i].valor = parseInt(datospedido[i].valor) -( parseInt(datospedido[i].valor)*parseInt(porcentaje_descuento)/100 );
 		}
 		var prendaString= JSON.stringify(datospedido);
-		html=html+"<div class='col-lg-12 col-md-12 col-sm-12 col-xs-12  removeresumendescuento removeprendavender' id='datospedidoDescuentos' name='"+prendaString+"'><p class='letra3pt-mv letra16pt-pc' id='valorDescuentos' name='"+valor_nuevo+"'>Precio final: "+valor_nuevo+"</p></div>";
+		html=html+"<div class='col-lg-5 col-md-5 col-sm-5 col-xs-5  removeresumendescuento removeprendavender' id='datospedidoDescuentos' name='"+prendaString+"'><p class='letra3pt-mv letra16pt-pc' id='valorDescuentos' name='"+valor_nuevo+"'>Precio final: "+valor_nuevo+"</p></div>";
 		var jsonData = {};
         jsonData.datosnuevos = datospedido;
         jsonData.datosdescuento = "todas las referencias";
@@ -1374,7 +1374,7 @@ function calculardescuentos(datospedido,valor_total,jsoncon_t_reglasdescuentos){
 		var objetoReferencias = [];
 		var prendas_pedido = Object.keys(datospedido).length;
 		var valor_descuento = 0;
-		var html = "<div class='col-lg-12 col-md-12 col-sm-12 col-xs-12  removeresumendescuento removeprendavender'><p class='letra3pt-mv letra18pt-pc'>Las siguientes unidades quedan con el precio: </p></div>"
+		var html = "<div class='col-lg-3 col-md-3 col-sm-3 col-xs-3  removeresumendescuento removeprendavender'><p class='letra3pt-mv letra18pt-pc'>Las siguientes unidades quedan con el precio: </p></div>"
 		for (let i = 0; i < referencias.length; i++) {
 			for (let j = 0; j < prendas_pedido; j++) {
 				var referencia_id = obtenerDatajson("referencia_id","con_t_trprendas","valoresconcondicion","codigo","'"+datospedido[j].codigo+"'");
@@ -1408,4 +1408,20 @@ function calculardescuentos(datospedido,valor_total,jsoncon_t_reglasdescuentos){
 		return jsonData;
 	}
 
+};
+
+function apartados() {
+	var con_t_reglasdescuentos = obtenerDatajson("*","con_t_reglasdescuentos","valoresconcondicion","regla_activa",1);
+	var jsoncon_t_reglasdescuentos = JSON.parse(con_t_reglasdescuentos); 
+	console.log(jsoncon_t_reglasdescuentos);
+	if(jsoncon_t_reglasdescuentos.length >0){
+		var html = "<div id='descuentosr' class='removertodo'>";
+		for (let i = 0; i < jsoncon_t_reglasdescuentos.length; i++) {
+			html = html + "<div class='col-lg-12 col-md-12 col-sm-12 col-xs-12 removertodo'><div class='col-lg-3 col-md-3 col-sm-3 col-xs-3'><p type='submit' class='letra18pt-pc'>"+jsoncon_t_reglasdescuentos[i].nombre_regla+"</p></div><div class='col-lg-7 col-md-7 col-sm-7 col-xs-7'><p type='submit' class='letra18pt-pc'>"+jsoncon_t_reglasdescuentos[i].descripcion+"</p></div><div class='col-lg-1 col-md-1 col-sm-1 col-xs-3'><p type='submit' class='letra18pt-pc'>"+jsoncon_t_reglasdescuentos[i].porcentaje_descuento+"</p></div><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1 form-check'><input class='form-check-input checkregla' type='checkbox' value='"+jsoncon_t_reglasdescuentos[i].ID+"'></div></div>"; 
+		}
+		html = html +'</div>';
+		console.log(html);
+		return html;
+	}
+    return "<div class='col-lg-12 col-md-12 col-sm-12 col-xs-12 removertodo'><p type='submit' class='letra18pt-pc'>No hay descuentos activos</p></div>";
 };

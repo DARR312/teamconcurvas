@@ -21,6 +21,12 @@
     color:rgb(193, 46, 114) !important;
     margin: 20% 0 20% 0 !important;
 }
+#cerrarsesion{
+    color:rgb(193, 46, 114) !important;
+    cursor: pointer;
+    position: absolute;
+    margin: 200% 20%;
+}
 .nombresiconos a{color:rgb(193, 46, 114) !important;}
 #usuario{
     margin-top: 70% !important;
