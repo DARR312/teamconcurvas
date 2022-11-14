@@ -460,7 +460,9 @@
         objeto.valor = vendedorselectapartado;
         var id_vendedor = prepararjson(objeto);
         var idapartado = insertarfila("con_t_apartados",cliente_id,datos_cliente,pedido,valor_total,estado,notas,id_vendedor,"0","0","0","0");
-        console.log(jsondatospedido);
+        var jsonidapartado= JSON.parse(idapartado);
+        console.log(jsonidapartado);
+        var usuarioLevel = $('#usuarioCell').attr('name');
         for (let i = 0; i < Object.keys(jsondatospedido).length; i++) {
             console.log(jsondatospedido[i]);
             var objeto = {};
@@ -473,7 +475,8 @@
             objeto.columna = "agregada";
             objeto.valor = 1;
             agregada = prepararjson(objeto);
-            actualizarregistros("con_t_prendasplaza",condicion,agregada,"0","0","0","0","0","0","0","0","0","0");            
+            actualizarregistros("con_t_prendasplaza",condicion,agregada,"0","0","0","0","0","0","0","0","0","0"); 
+            actualizarPrendas(usuarioLevel,"Apartado local","AP-"+jsonidapartado[0].id,jsondatospedido[i].codigo);           
         }
         $('#popup5').fadeOut('slow');         
         $('.popup-overlay').fadeOut('slow');      
