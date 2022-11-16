@@ -28,6 +28,7 @@ for (let i = (jsonVenta.length-2); i >= 0; i--) {
     var valor_confirmado =jsonVenta[i].valor_confirmado;
     if(!valor_confirmado){valor_confirmado=0;}
     else{ver_resumen="ver_resumen";}
+    if(valor_confirmado==0){ver_resumen="ajustar_resumen";}
     valor_confirmado = formatoPrecio(valor_confirmado);
     var valor_mercancia = formatoPrecio(jsonVenta[i].valor_mercancia);
     html = html + "<div class='col-lg-12 col-md-12 col-sm-12 col-xs-12 removerventasmayorista'><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'><p class='letra18pt-pc negrillaUno'>"+jsonVenta[i].ID+"</p></div><div class='col-lg-5 col-md-5 col-sm-5 col-xs-5'><p class='letra18pt-pc negrillaUno editarcliente' id='VM-"+jsonVenta[i].ID+"'>"+cliente+"</p></div><div class='col-lg-3 col-md-3 col-sm-3 col-xs-3'><p class='letra18pt-pc negrillaUno "+ver_resumen+"' id='RM-"+jsonVenta[i].ID+"'>"+valor_mercancia+"</p></div><div class='col-lg-3 col-md-3 col-sm-3 col-xs-3'><p class='letra18pt-pc negrillaUno "+confirmarvalor+"' id='PM-"+jsonVenta[i].ID+"'>"+valor_confirmado+"</p></div></div>";
