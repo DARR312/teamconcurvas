@@ -1,0 +1,8 @@
+.editarcliente, .ajustar_resumen, .confirmarvalor{
+    color:rgb(193, 46, 114) !important;
+    cursor: pointer;
+}
+.ver_resumen{
+    color:rgb(46, 193, 159) !important;
+    cursor: pointer;
+}

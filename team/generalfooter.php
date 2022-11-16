@@ -11,7 +11,7 @@
 <?php if(get_the_title() == "Inventario"){ ?>
 <script src="<?php echo get_template_directory_uri(); ?>/js/inventario.js"></script>
 <?php } ?>
-<?php if(get_the_title() == "Ventas plaza"){ ?>
+<?php if(get_the_title() == "Ventas mayorista"){ ?>
 <script src="<?php echo get_template_directory_uri(); ?>/js/ventas-mayorista.js"></script>
 <?php } ?>
 <script>

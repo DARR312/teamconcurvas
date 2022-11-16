@@ -1,14 +1,17 @@
 <?php
 	if(is_user_logged_in()){
 	    get_header("ventas");
+		$current_user = wp_get_current_user();
+		$user = get_userdata( $current_user->ID );
+		$user_roles = $user->roles;		
 ?>
-    <div id='popup' style='display: none;' class="pc tablet">
+     <div id='popup' style='display: none;' class="pc tablet">
         <div class='content-popup'>
             <div class='close'><a href='#' id='close'>
                 <img src='<?php echo get_template_directory_uri(); ?>/imagenes/iconos/close.png'/></a>
             </div>
             <div>
-                <h2 class="letra18pt-pc" id="ventaNuevaTitulo" name="2020-09-14">Venta nueva</h2>
+                <h2 class="letra18pt-pc" id="ventaNuevaTitulo" name="2020-09-14"></h2>
             	<div action="https://concurvas.com/team/controlador/" method="get"  autocomplete="off" class="col-lg-4 col-md-4 col-sm-4 col-xs-12" id="buscarCliente">
         		    <div class="form-group pmd-textfield pmd-textfield-floating-label">
         		        <label for="nombre" class="control-label letra18pt-pc"> Teléfono</label>
@@ -20,64 +23,33 @@
             	</div>
             	<div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
             	    <button class='botonmodal botonenmodal letra18pt-pc' type='button' id='agregarCliente'> Agregar cliente </button>
-            	</div>
-            	<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="datosCliente">
-            	<h2 class="letra18pt-pc">Datos Cliente</h2>            	
-                    <div action="" method="get" accept-charset="UTF-8" autocomplete="off" class="" id="guardarVenta">
-            			<div class="form-group pmd-textfield pmd-textfield-floating-label">
+            	</div>  	
+                    <div action="" method="get" accept-charset="UTF-8" autocomplete="off" class="" id="guardarVenta" >
+            			<div class="form-group pmd-textfield pmd-textfield-floating-label col-lg-4 col-md-4 col-sm-4 col-xs-12">
             				<input class="form-control" type="text" id="nombreVenta" name="nombreVenta" required="" disabled="disabled"><span class="pmd-textfield-focused"></span>
             			</div>
-            			<div class="form-group pmd-textfield pmd-textfield-floating-label">
+            			<div class="form-group pmd-textfield pmd-textfield-floating-label col-lg-4 col-md-4 col-sm-4 col-xs-12">
+            				<input class="form-control" type="number" id="telVenta" name="telVenta" required="" disabled="disabled"><span class="pmd-textfield-focused"></span>
+            			</div>							
+            			<div class="form-group pmd-textfield pmd-textfield-floating-label col-lg-4 col-md-4 col-sm-4 col-xs-12">
             				<input class="form-control" type="text" id="dirVenta" name="dirVenta" required="" disabled="disabled"><span class="pmd-textfield-focused"></span>
             			</div>
-            			<div class="form-group pmd-textfield pmd-textfield-floating-label">
-            				<input class="form-control" type="number" id="telVenta" name="telVenta" required="" disabled="disabled"><span class="pmd-textfield-focused"></span>
-            			</div>
-            	        <input class="off" type="number" id="idCliente" name="idCliente" required="" type="hidden">
-            	        <input class="off" type="text" id="ciudadCliente" name="ciudadCliente" required="" type="hidden">
-            	        <input class="off" type="text" id="complementoCliente" name="complementoCliente" required="" type="hidden">
+            			<div class="form-group pmd-textfield pmd-textfield-floating-label col-lg-4 col-md-4 col-sm-4 col-xs-12">
+            				<input class="form-control" type="text" id="complementoCliente" name="complementoCliente" required="" disabled="disabled"><span class="pmd-textfield-focused"></span>
+            			</div>	
+						<div class="form-group pmd-textfield pmd-textfield-floating-label col-lg-4 col-md-4 col-sm-4 col-xs-12">
+							<input  type="text" id="ciudadCliente" name="ciudadCliente" required="" disabled="disabled">
+						</div>
+						<input class="off" type="number" id="idCliente" name="idCliente" required="" type="hidden">
             		</div>
-            	</div> 
-            	<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="datosPrendas">
-                	<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-                	    <h2 class="letra18pt-pc">Prendas del pedido</h2>
-                	</div>
-                	<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-                	    <button class='botonmodal botonenmodal letra18pt-pc' type='button' id='agregarPrenda'> Agregar prendas </button>
-                	</div>
-                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 letra3pt-mv letra16pt-pc" id="pedido">
-                        
-                    </div> 
-            	</div>
-            	<div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" id="fechaEntrega">
-            	    <div class="form-group pmd-textfield pmd-textfield-floating-label pmd-textfield-floating-label-completed">
-                    	<label class="control-label letra18pt-pc" for="regular1">Fecha de entrega</label>
-                    	<input type="text" id="datetimepicker-entrega" class="form-control" style='display: none;'/>
-                    </div>
-            	</div> 
-            	<div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" id="fechaEntrega">
-            	    <div class="form-group pmd-textfield pmd-textfield-floating-label">
-            	        <label class="control-label letra18pt-pc" for="regular1">Notas</label>
-            			<input class="form-control" type="text" id="notas" name="notas" required=""><span class="pmd-textfield-focused"></span>
-            		</div>
-            	</div>
-            	<div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" id="fechaEntrega">
-            	    <div class="form-group pmd-textfield pmd-textfield-floating-label">
-            	        <label class="control-label letra18pt-pc" for="regular1">Origen</label>
-            			<select class="form-control letra18pt-pc" type="select" id="origen" name="origen" form="formularioCliente" required="">
-            			    <option value='Facebook'>Facebook</option>
-            			    <option value='Instagram'>Instagram</option>
-            			    <option value='Whatsapp'>Whatsapp</option>
-						</select><span class="pmd-textfield-focused"></span>
-            		</div>
-            	</div> 
+            	</div>             	
             	<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-            	    <button class='botonmodal letra18pt-pc' type='button' id='agregarPedido'> Agregar pedido </button>
+            	    <button class='botonmodal letra18pt-pc' type='button' id='actualizarCliente'> Actualizar cliente </button>
             	</div>
             </div>
         </div>
     </div>
-    <div id='popup2' style='display: none;' class="pc tablet">
+   <div id='popup2' style='display: none;' class="pc tablet">
           <div class='content-popup'>
             <div class='close'><a href='#' id='close2'>
                <img src='<?php echo get_template_directory_uri(); ?>/imagenes/iconos/close.png'/></a>
@@ -136,21 +108,30 @@
             </div> 
             <div>
                 <h2>Pedido</h2>
-				<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" >
-					<button class='botonmodal letra18pt-pc' type='button' id='agregarprendaspedido'> Agregar prendas </button>
-				</div>
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="primeraPrendas">
-					<div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+					<div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">
 						<p type="submit" class="letra18pt-pc" > Prenda </p>
 					</div>
-					<div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+					<div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
 						<p type="submit" class="letra18pt-pc">Descripción</p>
 					</div>
-					<div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
-						<p type="submit" class="letra18pt-pc" > Valor </p>
+					<div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">
+						<p type="submit" class="letra18pt-pc" > Prenda </p>
 					</div>
-					<div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
-						<p type="submit" class="letra18pt-pc" > Agregar </p>
+					<div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+						<p type="submit" class="letra18pt-pc">Descripción</p>
+					</div>
+					<div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">
+						<p type="submit" class="letra18pt-pc" > Prenda </p>
+					</div>
+					<div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+						<p type="submit" class="letra18pt-pc">Descripción</p>
+					</div>
+					<div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">
+						<p type="submit" class="letra18pt-pc" > Prenda </p>
+					</div>
+					<div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+						<p type="submit" class="letra18pt-pc">Descripción</p>
 					</div>
 				</div>
             </div>
@@ -162,35 +143,15 @@
                <img src='<?php echo get_template_directory_uri(); ?>/imagenes/iconos/close.png'/></a>
             </div>
             <div>
-                <h2>Cliente nuevo</h2>
+                <h2 id="tituloconfirmarpago">Confirmar pago</h2>
                 <div action="" method="get" accept-charset="UTF-8" autocomplete="off" class="" id="formularioCliente">
 					<div class="form-group pmd-textfield pmd-textfield-floating-label pmd-textfield-floating-label-completed">
-						<label for="nombreUpdate" class="control-label letra18pt-pc"> Nombre</label>
-						<input class="form-control" type="text" id="nombreUpdate" name="nombreUpdate" required=""><span class="pmd-textfield-focused"></span>
-					</div>
-					<div class="form-group pmd-textfield pmd-textfield-floating-label pmd-textfield-floating-label-completed">
-						<label for="documentoUpdate" class="control-label letra18pt-pc"> Teléfono </label>
-						<input class="form-control" type="text" id="telefonoUpdate" name="telefonoUpdate" required=""><span class="pmd-textfield-focused"></span>
+						<label for="documentoUpdate" class="control-label letra18pt-pc"> Valor pago </label>
+						<input class="form-control" type="text" id="valorpago" name="valorpago" required=""><span class="pmd-textfield-focused"></span>
 						
 					</div>
-					<div class="form-group pmd-textfield pmd-textfield-floating-label pmd-textfield-floating-label-completed">
-						<label for="dirUpdate" class="control-label letra18pt-pc"> Dirección 1 </label>
-						<input class="form-control" type="text" id="dir1Update" name="dir1Update" required=""><span class="pmd-textfield-focused"></span>
-						
-					</div>
-					<div class="form-group pmd-textfield pmd-textfield-floating-label pmd-textfield-floating-label-completed">
-						<label for="correoUpdate" class="control-label letra18pt-pc"> Complemento 1 </label>
-						<input class="form-control" type="text" id="comp1Update" name="comp1Update" required=""><span class="pmd-textfield-focused"></span>
-						
-					</div>	
-					<div class="form-group pmd-textfield pmd-textfield-floating-label pmd-textfield-floating-label-completed">
-						<label for="ciudad1" class="control-label letra18pt-pc"> Ciudad 1 </label>
-						<select class="form-control" type="select" id="ciudad1Update" name="ciudad1Update" form="formularioCliente" required="">
-						</select><span class="pmd-textfield-focused"></span>
-					</div>
-					<input class="off" type="number" id="idClienteUpdate" name="idClienteUpdate" required="" type="hidden">
 				</div>
-				<button type="submit" class="botonmodal letra18pt-pc" id="clienteUpdate"> Actualizar cliente </button>
+				<button type="submit" class="botonmodal letra18pt-pc" id="confirmarpago"> Confirmar pago </button>
                 <div style='float:left; width:100%;'>
                 </div>
             </div>
@@ -203,69 +164,37 @@
             </div> 
             <div>
                 <h2>Pedido</h2>
-                <div action="" method="get" accept-charset="UTF-8" autocomplete="off" class="" id="formularioPedido">
-					<div class="form-group pmd-textfield pmd-textfield-floating-label col-lg-2 col-md-2 col-sm-2 col-xs-2 pmd-textfield-floating-label-completed s1">
-						<label for="cantidad1Update" class="control-label letra18pt-pc"> Cantidad</label>
-						<input class="form-control removecero" type="number" id="cantidad1Update" name="cantidad1Update" required=""><span class="pmd-textfield-focused"></span>
-					</div> 
-					<div class="form-group pmd-textfield pmd-textfield-floating-label col-lg-10 col-md-10 col-sm-10 col-xs-10 s1">
-						<label for="prenda1Update" class="control-label letra18pt-pc"> Prenda </label>
-						<select class="form-control disponiblesUpdate " onchange="minmaxupdate(this.id)" type="select" id="prenda1Update" name="prenda1Update" form="formularioCliente" required="">
-						</select><span class="pmd-textfield-focused"></span>
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="primeraPrendasNuevas">
+					<div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">
+						<p type="submit" class="letra18pt-pc" > Prenda </p>
 					</div>
-					<div class="form-group pmd-textfield pmd-textfield-floating-label col-lg-2 col-md-2 col-sm-2 col-xs-2 pmd-textfield-floating-label-completed s2" style='display: none;'>
-						<label for="cantidad2Update" class="control-label letra18pt-pc"> Cantidad</label>
-						<input class="form-control removecero" type="number" id="cantidad2Update" name="cantidad2Update" required=""><span class="pmd-textfield-focused"></span>
+					<div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+						<p type="submit" class="letra18pt-pc">Descripción</p>
 					</div>
-					<div class="form-group pmd-textfield pmd-textfield-floating-label col-lg-10 col-md-10 col-sm-10 col-xs-10 s2" style='display: none;'>
-						<label for="prenda2Update" class="control-label letra18pt-pc"> Prenda </label>
-						<select class="form-control disponiblesUpdate " onchange="minmaxupdate(this.id)" type="select" id="prenda2Update" name="prenda2Update" form="formularioCliente" required="">
-						</select><span class="pmd-textfield-focused"></span>
+					<div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">
+						<p type="submit" class="letra18pt-pc" > Prenda </p>
 					</div>
-					<div class="form-group pmd-textfield pmd-textfield-floating-label col-lg-2 col-md-2 col-sm-2 col-xs-2 pmd-textfield-floating-label-completed s3" style='display: none;'>
-						<label for="cantida31Update" class="control-label letra18pt-pc"> Cantidad</label>
-						<input class="form-control removecero" type="number" id="cantidad3Update" name="cantidad3Update" required=""><span class="pmd-textfield-focused"></span>
+					<div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+						<p type="submit" class="letra18pt-pc">Descripción</p>
 					</div>
-					<div class="form-group pmd-textfield pmd-textfield-floating-label col-lg-10 col-md-10 col-sm-10 col-xs-10 s3" style='display: none;'>
-						<label for="prenda3Update" class="control-label letra18pt-pc"> Prenda </label>
-						<select class="form-control disponiblesUpdate" onchange="minmaxupdate(this.id)" type="select" id="prenda3Update" name="prenda3Update" form="formularioCliente" required="">
-						</select><span class="pmd-textfield-focused"></span>
+					<div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">
+						<p type="submit" class="letra18pt-pc" > Prenda </p>
 					</div>
-					<div class="form-group pmd-textfield pmd-textfield-floating-label col-lg-2 col-md-2 col-sm-2 col-xs-2 pmd-textfield-floating-label-completed s4" style='display: none;'>
-						<label for="cantidad4Update" class="control-label letra18pt-pc"> Cantidad</label>
-						<input class="form-control removecero" type="number" id="cantidad4Update" name="cantidad4Update" required=""><span class="pmd-textfield-focused"></span>
+					<div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+						<p type="submit" class="letra18pt-pc">Descripción</p>
 					</div>
-					<div class="form-group pmd-textfield pmd-textfield-floating-label col-lg-10 col-md-10 col-sm-10 col-xs-10 s4" style='display: none;'>
-						<label for="prenda4Update" class="control-label letra18pt-pc"> Prenda </label>
-						<select class="form-control disponiblesUpdate" onchange="minmaxupdate(this.id)" type="select" id="prenda4Update" name="prenda4Update" form="formularioCliente" required="">
-						</select><span class="pmd-textfield-focused"></span>
+					<div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">
+						<p type="submit" class="letra18pt-pc" > Prenda </p>
 					</div>
-					<div class="form-group pmd-textfield pmd-textfield-floating-label col-lg-2 col-md-2 col-sm-2 col-xs-2 pmd-textfield-floating-label-completed s5" style='display: none;'>
-						<label for="cantidad5Update" class="control-label letra18pt-pc"> Cantidad</label>
-						<input class="form-control removecero" type="number" id="cantidad5Update" name="cantidad5Update" required=""><span class="pmd-textfield-focused"></span>
-					</div>
-					<div class="form-group pmd-textfield pmd-textfield-floating-label col-lg-10 col-md-10 col-sm-10 col-xs-10 s5" style='display: none;'>
-						<label for="prenda5Update" class="control-label letra18pt-pc"> Prenda </label>
-						<select class="form-control disponiblesUpdate" onchange="minmaxupdate(this.id)" type="select" id="prenda5Update" name="prenda5Update" form="formularioCliente" required="">
-						</select><span class="pmd-textfield-focused"></span>
-					</div>
-					<div class="form-group pmd-textfield pmd-textfield-floating-label col-lg-2 col-md-2 col-sm-2 col-xs-2 pmd-textfield-floating-label-completed s6" style='display: none;'>
-						<label for="cantidad6Update" class="control-label letra18pt-pc"> Cantidad</label>
-						<input class="form-control removecero" type="number" id="cantidad6Update" name="cantidad6Update" required=""><span class="pmd-textfield-focused"></span>
-					</div>
-					<div class="form-group pmd-textfield pmd-textfield-floating-label col-lg-10 col-md-10 col-sm-10 col-xs-10 s6" style='display: none;'>
-						<label for="prenda6Update" class="control-label letra18pt-pc"> Prenda </label>
-						<select class="form-control disponiblesUpdate" onchange="minmaxupdate(this.id)" type="select" id="prenda6Update" name="prenda6Update" form="formularioCliente" required="">
-						</select><span class="pmd-textfield-focused"></span>
+					<div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+						<p type="submit" class="letra18pt-pc">Descripción</p>
 					</div>
 				</div>
-				<button type="submit" class="botonmodal letra18pt-pc" id="prendasGuardadasUpdate"> Guardar prendas </button>
-                <div style='float:left; width:100%;'>
                 </div>
             </div>
         </div>
     </div>
-    <div id='popup7' style='display: none;' class="pc tablet">
+    <!-- <div id='popup7' style='display: none;' class="pc tablet">
         <div class='content-popup'>
             <div class='close'><a href='#' id='close7'>
                <img src='<?php echo get_template_directory_uri(); ?>/imagenes/iconos/close.png'/></a>
@@ -344,43 +273,22 @@
                 </div>
             </div>
         </div>
-    </div>      
+    </div>       -->
     <div class='popup-overlay pc tablet'></div>
 	    <div class="container-fluid pc tablet" id="bloquePrincipal">
 	       <div class='col-lg-12 col-md-12 col-sm-12 col-xs-12' id='primeraFila'>
 	           <div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'>
-    	           <p class='letra18pt-pc negrillaUno'>Estado</p>
+    	           <p class='letra18pt-pc negrillaUno'>VM</p>
     	       </div> 
-    	       <div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'>
-    	           <p class='letra18pt-pc negrillaUno'>Orden</p>
-    	       </div>
-    	       <div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'>
+    	       <div class='col-lg-5 col-md-5 col-sm-5 col-xs-5'>
     	           <p class='letra18pt-pc negrillaUno'>Cliente</p>
     	       </div>
-    	       <div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'>
-    	           <p class='letra18pt-pc negrillaUno'>Dirección</p>
+    	       <div class='col-lg-3 col-md-3 col-sm-3 col-xs-3'>
+    	           <p class='letra18pt-pc negrillaUno'>Valor mercancía</p>
     	       </div>
-    	       <div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'>
-    	           <p class='letra18pt-pc negrillaUno'>Adición</p>
-    	       </div>
-    	       <div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'>
-    	           <p class='letra18pt-pc negrillaUno'>Ciudad</p>
-    	       </div>
-    	       <div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'>
-    	           <p class='letra18pt-pc negrillaUno'>Pedido</p>
-    	       </div>
-    	       <div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'>
-    	           <p class='letra18pt-pc negrillaUno'>Precio</p>
-    	       </div>
-    	       <div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'>
-    	           <p class="letra18pt-pc negrillaUno">Entrega</p>
-    	       </div>
-    	       <div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'>
-    	           <p class='letra18pt-pc negrillaUno'>Notas</p>
-    	       </div>
-    	       <div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'>
-    	           <p class='letra18pt-pc negrillaUno'>Origen</p>
-    	       </div>
+    	       <div class='col-lg-3 col-md-3 col-sm-3 col-xs-3'>
+    	           <p class='letra18pt-pc negrillaUno'>Valor confirmado</p>
+    	       </div>    	      
 	       </div>
 	       
 	   </div>
