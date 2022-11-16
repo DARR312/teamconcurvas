@@ -378,26 +378,26 @@
         primeraFila.after(html);
         return false; 
     });  
-    /*************************** Enviar para venta (CELULAR) *******************************/
-    $('#empezarEscaner').on('click', function() {
-        $('#escaneados').css('display', 'block');
-        $('#inicialEscaner').css('display', 'block');
-        $('#escanerInvInicial').css('display', 'block');
-        $('#botonesEscaner').css('display', 'none');
-        var html5QrcodeScanner = new Html5QrcodeScanner(
-    	"inicialReader", { fps: 10, qrbox: 250 });
-        html5QrcodeScanner.render(enviarVentamayorista);//principal.js
-    });
-    $('#enviarParaventa').on('click', function() {
-        var prendasCantidad = ($('#escaneados p').length);
-        var pr = "";
-        for(var i = 0;i<prendasCantidad;i++){
-            var prenda = $("#escaneados p:eq("+i+")").text();
-            pr = pr+prenda+"°";
-        }//C1145RB4D13S64°C1145RB7D13S64°
-        enviarparaventamayorista(pr);
-        $('.remover').remove();
-    });           
+    // /*************************** Enviar para venta (CELULAR) *******************************/
+    // $('#empezarEscaner').on('click', function() {
+    //     $('#escaneados').css('display', 'block');
+    //     $('#inicialEscaner').css('display', 'block');
+    //     $('#escanerInvInicial').css('display', 'block');
+    //     $('#botonesEscaner').css('display', 'none');
+    //     var html5QrcodeScanner = new Html5QrcodeScanner(
+    // 	"inicialReader", { fps: 10, qrbox: 250 });
+    //     html5QrcodeScanner.render(enviarVentamayorista);//principal.js
+    // });
+    // $('#enviarParaventa').on('click', function() {
+    //     var prendasCantidad = ($('#escaneados p').length);
+    //     var pr = "";
+    //     for(var i = 0;i<prendasCantidad;i++){
+    //         var prenda = $("#escaneados p:eq("+i+")").text();
+    //         pr = pr+prenda+"°";
+    //     }//C1145RB4D13S64°C1145RB7D13S64°
+    //     enviarparaventamayorista(pr);
+    //     $('.remover').remove();
+    // });           
 })
 </script>
 <script>

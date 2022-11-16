@@ -2,7 +2,7 @@
 //<script>
     var permisoInventario = permisosInventario();
     var botonesEscaner = $('#botonesEscaner');
-    botonesEscaner.append("<div class='col-lg-6 col-md-6 col-sm-6 col-xs-12' id='accion01'><button class='botonmodal' type='button' id='inicialInventario'>Inventario inicial</button></div>");
+    // botonesEscaner.append("<div class='col-lg-6 col-md-6 col-sm-6 col-xs-12' id='accion01'><button class='botonmodal' type='button' id='inicialInventario'>Inventario inicial</button></div>");
     var segundo = $('#segundo');
     segundo.append("<div class='col-lg-2 col-md-2 col-sm-2 col-xs-12' id='accion1'><button class='botonmodal botonesInventario' type='button' id='registrarCodigos'>Inventario inicial </button></div>");
     var items = permisoInventario.split(',');    
