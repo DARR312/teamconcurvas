@@ -301,7 +301,7 @@ function escanearInventa(decodedText, decodedResult) {
         // Handle on success condition with the decoded text or result.
         //console.log(`Scan result: ${decodedText}`, decodedResult);
 		var verificado = verificarinv(decodedText);
-		if(verificado!="ok"){alert("Este código quedó en el inventario inicial, por favor dirigirse e ingreso ALERTA ESTO QUEDA A NOMBRE DE "+verificado);return false;}
+		if(verificado!="ok"){alert("Este código quedó en el inventario inicial, por favor al botón de inventario inicial desde un computador y dirigirse a una bogeda para ingresarlo. ALERTA ESTO QUEDA A NOMBRE DE "+verificado+" PARA AUDITORIA DE INVENTARIO ");return false;}
         var escaneados = $('#escanerInv');
         escaneados.append(decodedText+",");
 };
@@ -309,7 +309,7 @@ function readerPrendaEmpacada(decodedText, decodedResult) {
         // Handle on success condition with the decoded text or result.
         //console.log(`Scan result: ${decodedText}`, decodedResult);
 		var verificado = verificarinv(decodedText);
-		if(verificado!="ok"){alert("Este código quedó en el inventario inicial, por favor dirigirse e ingreso ALERTA ESTO QUEDA A NOMBRE DE "+verificado);return false;}
+		if(verificado!="ok"){alert("Este código quedó en el inventario inicial, por favor al botón de inventario inicial desde un computador y dirigirse a una bogeda para ingresarlo. ALERTA ESTO QUEDA A NOMBRE DE "+verificado+" PARA AUDITORIA DE INVENTARIO ");return false;}
         var prendasCantidad = ($('#funcionesEmpacar p').length-1)/2;
         var item = obtenerData("referencia_id","con_t_trprendas","row","codigo",decodedText);
         var referencia = obtenerData("nombre,color,talla","con_t_resumen","rowVarios","referencia_id",item);//°Londres°Rosa Bebé°SM%
@@ -526,7 +526,7 @@ function escanearDanados(decodedText, decodedResult) {
 	// Handle on success condition with the decoded text or result.
 	//console.log(`Scan result: ${decodedText}`, decodedResult);
 	var verificado = verificarinv(decodedText);
-	if(verificado!="ok"){alert("Este código quedó en el inventario inicial, por favor dirigirse e ingreso ALERTA ESTO QUEDA A NOMBRE DE "+verificado);return false;}
+	if(verificado!="ok"){alert("Este código quedó en el inventario inicial, por favor al botón de inventario inicial desde un computador y dirigirse a una bogeda para ingresarlo. ALERTA ESTO QUEDA A NOMBRE DE "+verificado+" PARA AUDITORIA DE INVENTARIO ");return false;}
 	var escaneados = $('#escanerDan');
 	escaneados.append("<p class='removerr'>"+decodedText+"</p>");
 };
@@ -535,7 +535,7 @@ function escanerventaplaza(decodedText, decodedResult) {
 	// Handle on success condition with the decoded text or result.
 	//console.log(`Scan result: ${decodedText}`, decodedResult);
 	var verificado = verificarinv(decodedText);
-	if(verificado!="ok"){alert("Este código quedó en el inventario inicial, por favor dirigirse e ingreso ALERTA ESTO QUEDA A NOMBRE DE "+verificado);return false;}
+	if(verificado!="ok"){alert("Este código quedó en el inventario inicial, por favor al botón de inventario inicial desde un computador y dirigirse a una bogeda para ingresarlo. ALERTA ESTO QUEDA A NOMBRE DE "+verificado+" PARA AUDITORIA DE INVENTARIO ");return false;}
 	var escaneados = $('#ventaPlazaenviar');
 	escaneados.append("<p class='removerr'>"+decodedText+"</p>");
 };
@@ -544,7 +544,7 @@ function escanearmarugon(decodedText, decodedResult) {
 	// Handle on success condition with the decoded text or result.
 	//console.log(`Scan result: ${decodedText}`, decodedResult);
 	var verificado = verificarinv(decodedText);
-	if(verificado!="ok"){alert("Este código quedó en el inventario inicial, por favor dirigirse e ingreso ALERTA ESTO QUEDA A NOMBRE DE "+verificado);return false;}
+	if(verificado!="ok"){alert("Este código quedó en el inventario inicial, por favor al botón de inventario inicial desde un computador y dirigirse a una bogeda para ingresarlo. ALERTA ESTO QUEDA A NOMBRE DE "+verificado+" PARA AUDITORIA DE INVENTARIO ");return false;}
 	var escaneados = $('#escanerMadru');
 	escaneados.append("<p class='removerr'>"+decodedText+"</p>");
 };
@@ -553,7 +553,7 @@ function escanerventamayorista(decodedText, decodedResult) {
 	// Handle on success condition with the decoded text or result.
 	//console.log(`Scan result: ${decodedText}`, decodedResult);
 	var verificado = verificarinv(decodedText);
-	if(verificado!="ok"){alert("Este código quedó en el inventario inicial, por favor dirigirse e ingreso ALERTA ESTO QUEDA A NOMBRE DE "+verificado);return false;}
+	if(verificado!="ok"){alert("Este código quedó en el inventario inicial, por favor al botón de inventario inicial desde un computador y dirigirse a una bogeda para ingresarlo. ALERTA ESTO QUEDA A NOMBRE DE "+verificado+" PARA AUDITORIA DE INVENTARIO ");return false;}
 	var escaneados = $('#ventaMayoristaenviar');
 	escaneados.append("<p class='removerr'>"+decodedText+"</p>");
 };
@@ -1097,7 +1097,7 @@ function enviarVentamayorista(decodedText, decodedResult) {
 	// Handle on success condition with the decoded text or result.
 	//console.log(`Scan result: ${decodedText}`, decodedResult);
 	var verificado = verificarinv(decodedText);
-	if(verificado!="ok"){alert("Este código quedó en el inventario inicial, por favor dirigirse e ingreso ALERTA ESTO QUEDA A NOMBRE DE "+verificado);return false;}
+	if(verificado!="ok"){alert("Este código quedó en el inventario inicial, por favor al botón de inventario inicial desde un computador y dirigirse a una bogeda para ingresarlo. ALERTA ESTO QUEDA A NOMBRE DE "+verificado+" PARA AUDITORIA DE INVENTARIO ");return false;}
 	var prendasCant = ($('#escaneados p').length);
 	if(prendasCant==0){
 		var escaneados = $('#escaneados');
