@@ -491,20 +491,20 @@
         return false;     
     });    
     /*************************** Enviar para venta (CELULAR) *******************************/
-    // $('#empezarEscaner').on('click', function() {
-    //     $('#escaneados').css('display', 'block');
-    //     $('#inicialEscaner').css('display', 'block');
-    //     $('#escanerInvInicial').css('display', 'block');
-    //     $('#botonesEscaner').css('display', 'none');
-    //     var html5QrcodeScanner = new Html5QrcodeScanner(
-    // 	"inicialReader", { fps: 10, qrbox: 250 });
-    //     html5QrcodeScanner.render(enviarVentamayorista);//principal.js
-    // });
-    // $('#enviarParaventa').on('click', function() {
-    //     var prendas = ($('#escaneados p'));
-    //     enviarparaventa(prendas);
-    //     $('.remover').remove();
-    // });       
+    $('#empezarEscaner').on('click', function() {
+        $('#escaneados').css('display', 'block');
+        $('#inicialEscaner').css('display', 'block');
+        $('#escanerInvInicial').css('display', 'block');
+        $('#botonesEscaner').css('display', 'none');
+        var html5QrcodeScanner = new Html5QrcodeScanner(
+    	"inicialReader", { fps: 10, qrbox: 250 });
+        html5QrcodeScanner.render(enviarVentamayorista);//principal.js
+    });
+    $('#enviarParaventa').on('click', function() {
+        var prendas = ($('#escaneados p'));
+        enviarparaventa(prendas);
+        $('.remover').remove();
+    });       
     $('#agregarVentaCell').on('click', function() {
         var ids = obtenerDatajson('ID,descripcion','con_t_metodospago','variasfilasunicas','0','0');
         var jsonIds = JSON.parse(ids);
