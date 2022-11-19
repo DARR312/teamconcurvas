@@ -108,7 +108,8 @@ function mayoristafunciones() {
         objeto.tipo = "json";
         objeto.columna = "datos_cliente";
         objeto.valor = objetoCliente;
-        var datos_cliente = prepararjson(objeto);
+        var datos_clientea = prepararjson(objeto);
+        var datos_cliente = datos_clientea.replace('#', 'No')
         console.log(datos_cliente);
         actualizarregistros("con_t_mayorista",condicion,datos_cliente,"0","0","0","0","0","0","0","0","0","0"); 
         $(".removerventasmayorista").remove();
