@@ -86,7 +86,7 @@ function mayoristafunciones() {
         var idCliente = $("#idCliente").val();
         var idVenta = this.name;
         console.log(nombreVenta,telVenta,dirVenta,complementoCliente,ciudadCliente,idCliente,idVenta);
-        if(!idCliente){alert("¿Quién es el cliente?");return false;}
+        if(!nombreVenta){alert("¿Quién es el cliente?");return false;}
         var objetoCliente = {};
         objetoCliente.nombreVenta = nombreVenta;
         objetoCliente.telVenta = telVenta;
