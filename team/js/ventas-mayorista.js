@@ -86,13 +86,7 @@ function mayoristafunciones() {
         var idCliente = $("#idCliente").val();
         var idVenta = this.name;
         console.log(nombreVenta,telVenta,dirVenta,complementoCliente,ciudadCliente,idCliente,idVenta);
-        if(!nombreVenta){alert("¿Quién es el cliente?");return false;}
-        if(!telVenta){alert("¿Quién es el cliente?");return false;}
-        if(!dirVenta){alert("¿Quién es el cliente?");return false;}
-        if(!complementoCliente){alert("¿Quién es el cliente?");return false;}
-        if(!ciudadCliente){alert("¿Quién es el cliente?");return false;}
         if(!idCliente){alert("¿Quién es el cliente?");return false;}
-        if(!idVenta){alert("¿Quién es el cliente?");return false;}
         var objetoCliente = {};
         objetoCliente.nombreVenta = nombreVenta;
         objetoCliente.telVenta = telVenta;
