@@ -144,13 +144,29 @@
             </div>
             <div>
                 <h2 id="tituloconfirmarpago">Confirmar pago</h2>
-                <div action="" method="get" accept-charset="UTF-8" autocomplete="off" class="" id="formularioCliente">
+                <!-- <div action="" method="get" accept-charset="UTF-8" autocomplete="off" class="" id="formularioCliente">
 					<div class="form-group pmd-textfield pmd-textfield-floating-label pmd-textfield-floating-label-completed">
 						<label for="documentoUpdate" class="control-label letra18pt-pc"> Valor pago </label>
 						<input class="form-control" type="text" id="valorpago" name="valorpago" required=""><span class="pmd-textfield-focused"></span>
 						
 					</div>
+				</div> -->
+				<!-- <div class='col-lg-4 col-md-4 col-sm-4 col-xs-4 metodop' id='v0'>
+					<div class='form-group pmd-textfield pmd-textfield-floating-label'>
+						<label class='control-label letra18pt-pc' for='regular1'>Valor</label>
+						<input class='form-control' type='number' id='valor0' name='valor' required=''>
+						<span class='pmd-textfield-focused'></span>
+					</div>
 				</div>
+				<div class='col-lg-8 col-md-8 col-sm-8 col-xs-8 metodop' id='metodo0'>
+					<div class='form-group pmd-textfield pmd-textfield-floating-label'>
+						<label class='control-label letra18pt-pc' for='regular1'>Metodo</label>
+						<select class='form-control letra18pt-pc metodo' type='select' name='metodo' id='0' form='formularioCliente' required=''>
+							<option value='S'>Seleccione un opción de pago</option>
+						</select>
+						<span class='pmd-textfield-focused'></span>
+					</div>
+				</div> -->
 				<button type="submit" class="botonmodal letra18pt-pc" id="confirmarpago"> Confirmar pago </button>
                 <div style='float:left; width:100%;'>
                 </div>
