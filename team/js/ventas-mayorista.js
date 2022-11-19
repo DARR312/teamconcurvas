@@ -85,7 +85,7 @@ function mayoristafunciones() {
         var ciudadCliente = $("#ciudadCliente").val();
         var idCliente = $("#idCliente").val();
         var idVenta = this.name;
-        console.log(nombreVenta,telVenta,dirVenta,complementoCliente,ciudadCliente,idCliente,idVenta);
+        //console.log(nombreVenta,telVenta,dirVenta,complementoCliente,ciudadCliente,idCliente,idVenta);
         if(!nombreVenta){alert("¿Quién es el cliente?");return false;}
         if(!telVenta){alert("¿Quién es el cliente?");return false;}
         if(!dirVenta){alert("¿Quién es el cliente?");return false;}
@@ -109,6 +109,7 @@ function mayoristafunciones() {
         objeto.columna = "datos_cliente";
         objeto.valor = objetoCliente;
         var datos_cliente = prepararjson(objeto);
+        console.log(datos_cliente);
         actualizarregistros("con_t_mayorista",condicion,datos_cliente,"0","0","0","0","0","0","0","0","0","0"); 
         $(".removerventasmayorista").remove();
         var ventasmayoristas = obtenerDatajson("*","con_t_mayorista","variasfilasunicas","0","0");
