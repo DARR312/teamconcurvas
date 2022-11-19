@@ -85,7 +85,7 @@ function mayoristafunciones() {
         var ciudadCliente = $("#ciudadCliente").val();
         var idCliente = $("#idCliente").val();
         var idVenta = this.name;
-        //console.log(nombreVenta,telVenta,dirVenta,complementoCliente,ciudadCliente,idCliente,idVenta);
+        console.log(nombreVenta,telVenta,dirVenta,complementoCliente,ciudadCliente,idCliente,idVenta);
         if(!nombreVenta){alert("¿Quién es el cliente?");return false;}
         if(!telVenta){alert("¿Quién es el cliente?");return false;}
         if(!dirVenta){alert("¿Quién es el cliente?");return false;}
