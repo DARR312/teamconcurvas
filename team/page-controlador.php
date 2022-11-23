@@ -59,7 +59,7 @@ function permisosVentas(){
                 $permi = $permi.",".$v2;
             }
         }
-    }
+    }  
     echo $permi;
 }
 
@@ -148,7 +148,7 @@ function obtenerDatajson($columna,$tabla,$tipo,$columnacondicion,$condicion){
     global $wpdb;
     if($tipo == "valoresconcondicion"){
         $condicion =str_replace('\\', '', $condicion);
-         //echo "SELECT ".$columna." FROM ".$tabla." WHERE ".$columnacondicion." = ".$condicion."";
+        //echo "SELECT ".$columna." FROM ".$tabla." WHERE ".$columnacondicion." = ".$condicion."";
         $obtenidosArray = $wpdb->get_results( "SELECT ".$columna." FROM ".$tabla." WHERE ".$columnacondicion." = ".$condicion."", ARRAY_A);
         echo json_encode($obtenidosArray,JSON_UNESCAPED_UNICODE);
     }
@@ -160,8 +160,10 @@ function obtenerDatajson($columna,$tabla,$tipo,$columnacondicion,$condicion){
         $obtenidosArray = $wpdb->get_results( "SELECT DISTINCT ".$columna." FROM ".$tabla." ORDER BY ".$columna." ASC", ARRAY_A);
         echo json_encode($obtenidosArray,JSON_UNESCAPED_UNICODE);
     }
-    if($tipo=="rowVarios"){
-       
+    if($tipo=="Between"){
+        $condicion =str_replace('\\', '', $condicion);
+        $obtenidosArray = $wpdb->get_results( "SELECT ".$columna." FROM ".$tabla." WHERE ".$columnacondicion." BETWEEN ".$condicion."", ARRAY_A);
+        echo json_encode($obtenidosArray,JSON_UNESCAPED_UNICODE);       
     }
     if($tipo=="ultimo"){
         
@@ -169,6 +171,7 @@ function obtenerDatajson($columna,$tabla,$tipo,$columnacondicion,$condicion){
     if($tipo=="todas"){
         
     }
+    
 }
 
 function obtenerData($columna,$tabla,$tipo,$valor,$valor2){
@@ -1608,7 +1611,7 @@ function insertarfila($tabla,$valor,$valor2,$valor3,$valor4,$valor5,$valor6,$val
         $finalvalor = $finalvalor.$valorarray2["valor"];        
     }
     $datos = "INSERT INTO ".$tabla." ( ".$finalcolumna.") VALUES (".$finalvalor.")";
-    //echo $datos;
+    echo $datos;
     $wpdb->query($datos);
     $lastId = $wpdb->get_results( "SELECT MAX(ID) as id FROM ".$tabla."");
     echo json_encode($lastId);
@@ -1635,6 +1638,7 @@ function convertidor($tipo,$valor,$columna){
         $vuno = "'".$fecha[0]."-".$fecha[1]."-".$fecha[2]." 00:00:00"."'";
         $cuno = $columna;
     }
+    
     $objeto = array( "valor" => $vuno, "columna" => $cuno);
     return($objeto);
 }
