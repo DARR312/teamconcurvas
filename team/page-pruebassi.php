@@ -39,53 +39,53 @@
 //     echo "</br>";
 //     echo "</br>";
 // }
-// global $wpdb;
-// $dia = 10;
-// $mes = 11;
+global $wpdb;
+$dia = 10;
+$mes = 11;
 
-// for ($i=3; $i < 14; $i++) { 
-//     $fecha = "2022-".$mes."-".$i;
-//     $fechamenor = $fecha." 00:00:00";
-//     $fechamayor = $fecha." 23:00:00";
-//     $ventas = $wpdb->get_results( "SELECT * FROM `con_t_ventasplaza` WHERE `fecha_creada` BETWEEN '".$fechamenor."' AND '".$fechamayor."'", ARRAY_A  );
-//     echo "SELECT * FROM `con_t_ventasplaza` WHERE `fecha_creada` BETWEEN '".$fechamenor."' AND '".$fechamayor."'";
-//     print_r($ventas);
-//     echo "</br>";
-//     $valor_mercancia = 0;
-//     $metodospago = array( "Efectivo" =>0, "Datafono" => 0, "Nequi" => 0, "Daviplata" => 0);
-//     for ($j=0; $j < sizeof($ventas); $j++) { 
-//         $valor_mercancia = $valor_mercancia + intval($ventas[$j]["valor_total"]);
-//         $jsonmetodos_pago = json_decode($ventas[$j]["metodos_pago"], true);
-//         $efectivo = 0;
-//         $datafono = 0;
-//         $nequi = 0;
-//         $daviplata = 0;
-//         for ($k=0; $k < sizeof($jsonmetodos_pago); $k++) { 
-//             $metodo = "";
-//             if($jsonmetodos_pago[$k]["metodo"] == "1"){$efectivo = $efectivo + intval($jsonmetodos_pago[$k]["valor"]);}
-//             if($jsonmetodos_pago[$k]["metodo"] == "2"){$datafono = $datafono + intval($jsonmetodos_pago[$k]["valor"]);}
-//             if($jsonmetodos_pago[$k]["metodo"] == "3"){$nequi = $nequi + intval($jsonmetodos_pago[$k]["valor"]);}
-//             if($jsonmetodos_pago[$k]["metodo"] == "4"){$daviplata = $daviplata + intval($jsonmetodos_pago[$k]["valor"]);}
-//         } 
-//         $metodospago["Efectivo"] = intval($metodospago["Efectivo"])+ $efectivo;
-//         $metodospago["Datafono"] = intval($metodospago["Datafono"])+ $datafono;
-//         $metodospago["Nequi"] = intval($metodospago["Nequi"])+ $nequi;
-//         $metodospago["Daviplata"] = intval($metodospago["Daviplata"])+ $daviplata;
-//     }
-//     echo $fecha;
-//     echo " -----> ";
-//     echo $valor_mercancia;
-//     echo " -----> ";
-//     $metodojs = json_encode($metodospago);
-//     echo $metodojs;
-//     $datos = "INSERT INTO con_t_resumenplaza ( fecha,valor_mercancia,metodos_pago ) VALUES ('".$fecha."',".$valor_mercancia.",'".$metodojs."')";
-//     echo " -----> ";
-//     echo $datos;
-//     //$wpdb->query($datos);
-//     echo "</br>";
-//     echo "</br>";
-//     echo "Siguiente";
-//     echo "</br>";
-//}
+for ($i=1; $i < 15; $i++) { 
+    $fecha = "2022-".$mes."-".$i;
+    $fechamenor = $fecha." 00:00:00";
+    $fechamayor = $fecha." 23:00:00";
+    $ventas = $wpdb->get_results( "SELECT * FROM `con_t_ventasplaza` WHERE `fecha_creada` BETWEEN '".$fechamenor."' AND '".$fechamayor."'", ARRAY_A  );
+    echo "SELECT * FROM `con_t_ventasplaza` WHERE `fecha_creada` BETWEEN '".$fechamenor."' AND '".$fechamayor."'";
+    print_r($ventas);
+    echo "</br>";
+    $valor_mercancia = 0;
+    $metodospago = array( "Efectivo" =>0, "Datafono" => 0, "Nequi" => 0, "Daviplata" => 0);
+    for ($j=0; $j < sizeof($ventas); $j++) { 
+        $valor_mercancia = $valor_mercancia + intval($ventas[$j]["valor_total"]);
+        $jsonmetodos_pago = json_decode($ventas[$j]["metodos_pago"], true);
+        $efectivo = 0;
+        $datafono = 0;
+        $nequi = 0;
+        $daviplata = 0;
+        for ($k=0; $k < sizeof($jsonmetodos_pago); $k++) { 
+            $metodo = "";
+            if($jsonmetodos_pago[$k]["metodo"] == "1"){$efectivo = $efectivo + intval($jsonmetodos_pago[$k]["valor"]);}
+            if($jsonmetodos_pago[$k]["metodo"] == "2"){$datafono = $datafono + intval($jsonmetodos_pago[$k]["valor"]);}
+            if($jsonmetodos_pago[$k]["metodo"] == "3"){$nequi = $nequi + intval($jsonmetodos_pago[$k]["valor"]);}
+            if($jsonmetodos_pago[$k]["metodo"] == "4"){$daviplata = $daviplata + intval($jsonmetodos_pago[$k]["valor"]);}
+        } 
+        $metodospago["Efectivo"] = intval($metodospago["Efectivo"])+ $efectivo;
+        $metodospago["Datafono"] = intval($metodospago["Datafono"])+ $datafono;
+        $metodospago["Nequi"] = intval($metodospago["Nequi"])+ $nequi;
+        $metodospago["Daviplata"] = intval($metodospago["Daviplata"])+ $daviplata;
+    }
+    echo $fecha;
+    echo " -----> ";
+    echo $valor_mercancia;
+    echo " -----> ";
+    $metodojs = json_encode($metodospago);
+    echo $metodojs;
+    $datos = "INSERT INTO con_t_resumenplaza ( fecha,valor_mercancia,metodos_pago ) VALUES ('".$fecha."',".$valor_mercancia.",'".$metodojs."')";
+    echo " -----> ";
+    echo $datos;
+    $wpdb->query($datos);
+    echo "</br>";
+    echo "</br>";
+    echo "Siguiente";
+    echo "</br>";
+}
 
 ?>
