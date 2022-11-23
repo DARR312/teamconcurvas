@@ -26,6 +26,9 @@
 	<!-------------------botones---------------->
 	<link rel="stylesheet" href="<?php echo get_template_directory_uri(); ?>/css/botones.css" async>
 	<!-------------------botones---------------->
+	<!-------------------loader---------------->
+	<link rel="stylesheet" href="<?php echo get_template_directory_uri(); ?>/css/loader.css" async>
+	<!-------------------loader---------------->
 	<!-------------------form---------------->
 	<link rel="stylesheet" href="<?php echo get_template_directory_uri(); ?>/css/form.css" async>
 	<!-------------------form---------------->

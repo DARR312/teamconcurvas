@@ -2,6 +2,9 @@
 	if(is_user_logged_in()){
 	    get_header("ventas");
 ?>
+	<div style='display: none;' class="contenedor_loader">
+		<div class="loader"></div>
+	</div>
     <div id='popup' style='display: none;' class="pc tablet">
         <div class='content-popup'>
             <div class='close'><a href='#' id='close'>
@@ -479,9 +482,39 @@
             </div>
         </div>
     </div>       -->
+	
     <div class='popup-overlay pc tablet'></div>
 	    <div class="container-fluid pc tablet" id="bloquePrincipal">
 	       <div class='col-lg-12 col-md-12 col-sm-12 col-xs-12 ventasplaza' id='primeraFila'>
+    	       <div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'>
+    	           <p class='letra18pt-pc negrillaUno'>Fecha</p>
+    	       </div>
+    	       <div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'>
+    	           <p class='letra18pt-pc negrillaUno'>Valor en mercancía</p>
+    	       </div>
+    	       <div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'>
+    	           <p class='letra18pt-pc negrillaUno'>Valor en dinero</p>
+    	       </div>
+    	       <div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'>
+    	           <p class='letra18pt-pc negrillaUno'>Datafono</p>
+    	       </div>
+    	       <div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'>
+    	           <p class='letra18pt-pc negrillaUno'>Nequi</p>
+    	       </div>
+    	       <div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'>
+    	           <p class='letra18pt-pc negrillaUno'>Daviplata</p>
+    	       </div>
+			   <div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'>
+    	           <p class='letra18pt-pc negrillaUno'>PayU</p>
+    	       </div>
+    	       <div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'>
+    	           <p class='letra18pt-pc negrillaUno'>Otro</p>
+    	       </div>
+    	       <div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'>
+    	           <p class='letra18pt-pc negrillaUno'>Ver prendas de este día</p>
+    	       </div>
+	       </div>	
+		   <div class='col-lg-12 col-md-12 col-sm-12 col-xs-12 ventasplaza primeraFilaDia'style='display: none;' id='primeraFila' >
     	       <div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'>
     	           <p class='letra18pt-pc negrillaUno'>PA</p>
     	       </div>
@@ -505,6 +538,9 @@
     	       </div>
 	       </div>	       
 	   </div>
+	  
+
+	   
 	<div id='cuerpoCell' class="container-fluid celular">
 		<div id='botonesEscaner' >
 			<div class='col-lg-6 col-md-6 col-sm-6 col-xs-12' id='accion01'><button class='botonmodal' type='button' id='empezarEscaner'>Iniciar escaner</button></div>
