@@ -2,7 +2,7 @@
 //<script>
     var permisoInventario = permisosInventario();
     var botonesEscaner = $('#botonesEscaner');
-    botonesEscaner.append("<div class='col-lg-6 col-md-6 col-sm-6 col-xs-12' id='accion01'><button class='botonmodal' type='button' id='inicialInventario'>Inventario inicial</button></div>");
+    // botonesEscaner.append("<div class='col-lg-6 col-md-6 col-sm-6 col-xs-12' id='accion01'><button class='botonmodal' type='button' id='inicialInventario'>Inventario inicial</button></div>");
     var segundo = $('#segundo');
     segundo.append("<div class='col-lg-2 col-md-2 col-sm-2 col-xs-12' id='accion1'><button class='botonmodal botonesInventario' type='button' id='registrarCodigos'>Inventario inicial </button></div>");
     var items = permisoInventario.split(',');    
@@ -582,8 +582,10 @@
     $('#cargarInformeDineroButton').on('click', function(){
         var usuarioCell = $('#usuarioCell').attr("name");
         var cantidadInfo = $("#informeD p").length;
+        console.log($("#informeD p"));
         for(var i = 3;i<cantidadInfo;i=i+3){
             var id = $("#informeD p:eq("+i+")").text();
+            console.log(id);
             if(id[0]=="C" || id[0]=="c"){
                 var recaudo = $("#informeD p:eq("+(i+1)+")").text();
                 var excedente = obtenerData("excedente","con_t_cambios","row","cambio_id",id.slice(1));

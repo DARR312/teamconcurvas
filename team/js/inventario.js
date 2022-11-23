@@ -115,10 +115,12 @@ function imrpimirinicialcodigos(){
     $('.removerInicial').remove();
     var codigos = obtenerData("codigo","con_t_invinicial","rowVarios","ok",0);//°C1145RB7D13S64%°C1145RB6D13S64%°C1145RB2D13S64%°C1145RB5D13S64%°C1145RB1D13S64%°C1145RB3D13S64%
     var codigosArray = codigos.split("%");
+    var codigosids = obtenerDatajson('codigo,usuario','con_t_invinicial',"valoresconcondicion","ok",0);
+    var jsoncodigosids = JSON.parse(codigosids);
+    console.log(jsoncodigosids);
     var html = "";
-    for(var i = 0; i<(codigosArray.length-1);i++){
-        var codigo = codigosArray[i].replace("°","");
-        html = html+"<div class='col-lg-12 col-md-12 col-sm-12 col-xs-12 removerInicial'><div class='col-lg-4 col-md-4 col-sm-4 col-xs-4'><p class='letra18pt-pc negrillaUno' id='"+i+"prenda'>"+codigo+"</p></div><div class='form-group pmd-textfield pmd-textfield-floating-label col-lg-4 col-md-4 col-sm-4 col-xs-4'><label for='prenda"+i+"' class='control-label letra18pt-pc'> Referencia </label><select class='form-control referenciasCodigos' type='select' id='prenda"+i+"' name='prenda"+i+"' form='formularioCliente'></select><span class='pmd-textfield-focused'></span></div><div class='col-lg-4 col-md-4 col-sm-4 col-xs-4'><button class='botonmodal botonenmodal letra18pt-pc insertCodigo' type='button' name='"+i+"'> Insertar Código </button></div></div>";
+    for(var i = 0; i<(jsoncodigosids.length);i++){
+        html = html+"<div class='col-lg-12 col-md-12 col-sm-12 col-xs-12 removerInicial'><div class='col-lg-3 col-md-3 col-sm-3 col-xs-3'><p class='letra18pt-pc negrillaUno'> A nombre de"+jsoncodigosids[i].usuario+"</p></div><div class='col-lg-3 col-md-3 col-sm-3 col-xs-3'><p class='letra18pt-pc negrillaUno' id='"+i+"prenda'>"+jsoncodigosids[i].codigo+"</p></div><div class='form-group pmd-textfield pmd-textfield-floating-label col-lg-4 col-md-4 col-sm-4 col-xs-4'><label for='prenda"+i+"' class='control-label letra18pt-pc'> Referencia </label><select class='form-control referenciasCodigos' type='select' id='prenda"+i+"' name='prenda"+i+"' form='formularioCliente'></select><span class='pmd-textfield-focused'></span></div><div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'><button class='botonmodal botonenmodal letra18pt-pc insertCodigo' type='button' name='"+i+"'> Insertar Código </button></div></div>";
     }
     $('#codigosInicalesPc').append(html);
     var nombresReferencias = referenciasrodas();

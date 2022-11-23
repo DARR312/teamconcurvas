@@ -55,7 +55,7 @@ function permisosVentas(){
     $permisos = $wpdb->get_results( "SELECT permiso_id FROM con_t_rolespermisos WHERE level = ".$user_level."", ARRAY_A  );
     foreach ($permisos as $v1) {
         foreach ($v1 as $v2) {
-            if($v2 == 3 || $v2 == 5 || $v2 == 6 || $v2 == 7 || $v2 == 8 || $v2 == 9 || $v2 == 10 || $v2 == 11 || $v2 == 12 || $v2 == 13 || $v2 == 14 || $v2 == 15 || $v2 == 16 || $v2 == 26){
+            if($v2 == 3 || $v2 == 5 || $v2 == 6 || $v2 == 7 || $v2 == 8 || $v2 == 9 || $v2 == 10 || $v2 == 11 || $v2 == 12 || $v2 == 13 || $v2 == 14 || $v2 == 15 || $v2 == 16 || $v2 == 26  || $v2 == 27 ){
                 $permi = $permi.",".$v2;
             }
         }

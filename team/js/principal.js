@@ -1,5 +1,5 @@
-//const urlhost = "http://localhost/wordpress/index.php/controlador" ;
-const urlhost = "https://concurvas.com/team/controlador/";
+const urlhost = "http://localhost/wordpress/index.php/controlador" ;
+//const urlhost = "https://concurvas.com/team/controlador/";
 function formatoPrecio(precio){
 	var pre = Math.sqrt(precio*precio);
     let myFunc = num => Number(num);
@@ -300,12 +300,16 @@ function escanerInicialInv(decodedText, decodedResult) {
 function escanearInventa(decodedText, decodedResult) {
         // Handle on success condition with the decoded text or result.
         //console.log(`Scan result: ${decodedText}`, decodedResult);
+		var verificado = verificarinv(decodedText);
+		if(verificado!="ok"){alert("Este código quedó en el inventario inicial, por favor al botón de inventario inicial desde un computador y dirigirse a una bogeda para ingresarlo. ALERTA ESTO QUEDA A NOMBRE DE "+verificado+" PARA AUDITORIA DE INVENTARIO ");return false;}
         var escaneados = $('#escanerInv');
         escaneados.append(decodedText+",");
 };
 function readerPrendaEmpacada(decodedText, decodedResult) {
         // Handle on success condition with the decoded text or result.
         //console.log(`Scan result: ${decodedText}`, decodedResult);
+		var verificado = verificarinv(decodedText);
+		if(verificado!="ok"){alert("Este código quedó en el inventario inicial, por favor al botón de inventario inicial desde un computador y dirigirse a una bogeda para ingresarlo. ALERTA ESTO QUEDA A NOMBRE DE "+verificado+" PARA AUDITORIA DE INVENTARIO ");return false;}
         var prendasCantidad = ($('#funcionesEmpacar p').length-1)/2;
         var item = obtenerData("referencia_id","con_t_trprendas","row","codigo",decodedText);
         var referencia = obtenerData("nombre,color,talla","con_t_resumen","rowVarios","referencia_id",item);//°Londres°Rosa Bebé°SM%
@@ -521,6 +525,8 @@ function readerDespachar(decodedText, decodedResult) {
 function escanearDanados(decodedText, decodedResult) {
 	// Handle on success condition with the decoded text or result.
 	//console.log(`Scan result: ${decodedText}`, decodedResult);
+	var verificado = verificarinv(decodedText);
+	if(verificado!="ok"){alert("Este código quedó en el inventario inicial, por favor al botón de inventario inicial desde un computador y dirigirse a una bogeda para ingresarlo. ALERTA ESTO QUEDA A NOMBRE DE "+verificado+" PARA AUDITORIA DE INVENTARIO ");return false;}
 	var escaneados = $('#escanerDan');
 	escaneados.append("<p class='removerr'>"+decodedText+"</p>");
 };
@@ -528,6 +534,8 @@ function escanearDanados(decodedText, decodedResult) {
 function escanerventaplaza(decodedText, decodedResult) {
 	// Handle on success condition with the decoded text or result.
 	//console.log(`Scan result: ${decodedText}`, decodedResult);
+	var verificado = verificarinv(decodedText);
+	if(verificado!="ok"){alert("Este código quedó en el inventario inicial, por favor al botón de inventario inicial desde un computador y dirigirse a una bogeda para ingresarlo. ALERTA ESTO QUEDA A NOMBRE DE "+verificado+" PARA AUDITORIA DE INVENTARIO ");return false;}
 	var escaneados = $('#ventaPlazaenviar');
 	escaneados.append("<p class='removerr'>"+decodedText+"</p>");
 };
@@ -535,6 +543,8 @@ function escanerventaplaza(decodedText, decodedResult) {
 function escanearmarugon(decodedText, decodedResult) {
 	// Handle on success condition with the decoded text or result.
 	//console.log(`Scan result: ${decodedText}`, decodedResult);
+	var verificado = verificarinv(decodedText);
+	if(verificado!="ok"){alert("Este código quedó en el inventario inicial, por favor al botón de inventario inicial desde un computador y dirigirse a una bogeda para ingresarlo. ALERTA ESTO QUEDA A NOMBRE DE "+verificado+" PARA AUDITORIA DE INVENTARIO ");return false;}
 	var escaneados = $('#escanerMadru');
 	escaneados.append("<p class='removerr'>"+decodedText+"</p>");
 };
@@ -542,6 +552,8 @@ function escanearmarugon(decodedText, decodedResult) {
 function escanerventamayorista(decodedText, decodedResult) {
 	// Handle on success condition with the decoded text or result.
 	//console.log(`Scan result: ${decodedText}`, decodedResult);
+	var verificado = verificarinv(decodedText);
+	if(verificado!="ok"){alert("Este código quedó en el inventario inicial, por favor al botón de inventario inicial desde un computador y dirigirse a una bogeda para ingresarlo. ALERTA ESTO QUEDA A NOMBRE DE "+verificado+" PARA AUDITORIA DE INVENTARIO ");return false;}
 	var escaneados = $('#ventaMayoristaenviar');
 	escaneados.append("<p class='removerr'>"+decodedText+"</p>");
 };
@@ -1084,6 +1096,8 @@ function  revisarfechasatelite(arraItem){
 function enviarVentamayorista(decodedText, decodedResult) {
 	// Handle on success condition with the decoded text or result.
 	//console.log(`Scan result: ${decodedText}`, decodedResult);
+	var verificado = verificarinv(decodedText);
+	if(verificado!="ok"){alert("Este código quedó en el inventario inicial, por favor al botón de inventario inicial desde un computador y dirigirse a una bogeda para ingresarlo. ALERTA ESTO QUEDA A NOMBRE DE "+verificado+" PARA AUDITORIA DE INVENTARIO ");return false;}
 	var prendasCant = ($('#escaneados p').length);
 	if(prendasCant==0){
 		var escaneados = $('#escaneados');
@@ -1424,4 +1438,37 @@ function apartados() {
 		return html;
 	}
     return "<div class='col-lg-12 col-md-12 col-sm-12 col-xs-12 removertodo'><p type='submit' class='letra18pt-pc'>No hay descuentos activos</p></div>";
+};
+
+function verificarinv(decodedText) {
+	console.log(decodedText);
+	var prendainfo = obtenerDatajson("*","con_t_trprendas","valoresconcondicion","codigo ","'"+decodedText+"'");
+	var jsonprendainfo= JSON.parse(prendainfo); 
+	console.log(jsonprendainfo);
+	if(jsonprendainfo.length==0){		
+		var  rectificar = obtenerDatajson("*","con_t_invinicial","valoresconcondicion","codigo ","'"+decodedText+"'");
+		var jsonrectificar= JSON.parse(rectificar); 
+		console.log(jsonrectificar);
+		if(jsonrectificar.length==0){	
+			var usuario =  obtenerDatajson("user_login ","con_users","valoresconcondicion","ID ",$("#usuario").attr("name"));
+			var jsonusuario = JSON.parse(usuario); 
+			console.log(jsonusuario[0].user_login);
+			var objeto = {};
+			objeto.tipo = "string";
+			objeto.columna = "codigo";
+			objeto.valor = decodedText;
+			var codigo = prepararjson(objeto);
+			var objeto = {};
+			objeto.tipo = "string";
+			objeto.columna = "usuario";
+			objeto.valor = jsonusuario[0].user_login;
+			var usuario = prepararjson(objeto);
+			var idventanueva = insertarfila("con_t_invinicial",codigo,usuario,"0","0","0","0","0","0","0","0","0");
+       		console.log(idventanueva);
+			return jsonusuario[0].user_login;
+		}
+		return jsonrectificar[0].usuario;
+		
+	}
+	return "ok";
 };
