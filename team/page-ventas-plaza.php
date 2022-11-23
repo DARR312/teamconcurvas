@@ -508,7 +508,7 @@
     	           <p class='letra18pt-pc negrillaUno'>PayU</p>
     	       </div>
     	       <div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'>
-    	           <p class='letra18pt-pc negrillaUno'>Otro</p>
+    	           <p class='letra18pt-pc negrillaUno'>Bancolombia</p>
     	       </div>
     	       <div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'>
     	           <p class='letra18pt-pc negrillaUno'>Ver prendas de este día</p>

@@ -182,7 +182,7 @@
         let nequi = 0;
         let daviplata = 0;
         let PayU = 0;
-        let Otro = 0;
+        let Bancolombia = 0;
         let valorTotal = 0;
         var existe  = obtenerDatajson('ID,valor_mercancia,metodos_pago','con_t_resumenplaza','valoresconcondicion','fecha',"'"+currentDateConsulta+"'");
         var jsonExiste = JSON.parse(existe);
@@ -200,15 +200,15 @@
             nequi = jsonMetodosPago2.Nequi;
             daviplata = jsonMetodosPago2.Daviplata;
             PayU = jsonMetodosPago2.PayU;
-            Otro = jsonMetodosPago2.Otro;
+            Bancolombia = jsonMetodosPago2.Bancolombia;
             for (let i = 0; i < Object.keys(jsonMetodosPago).length; i++) {    
                 if(jsonMetodosPago[i].metodo == "1"){efectivo = efectivo + jsonMetodosPago[i].valor }
                 if(jsonMetodosPago[i].metodo == "2"){datafono = datafono + jsonMetodosPago[i].valor }
                 if(jsonMetodosPago[i].metodo == "3"){nequi = nequi + jsonMetodosPago[i].valor }
                 if(jsonMetodosPago[i].metodo == "4"){daviplata = daviplata + jsonMetodosPago[i].valor }      
                 if(jsonMetodosPago[i].metodo == "5"){PayU = PayU + jsonMetodosPago[i].valor }
-                if(jsonMetodosPago[i].metodo == "6"){Otro = Otro + jsonMetodosPago[i].valor }  
-                valorTotal = efectivo + datafono + nequi + daviplata + PayU + Otro;
+                if(jsonMetodosPago[i].metodo == "6"){Bancolombia = Bancolombia + jsonMetodosPago[i].valor }  
+                valorTotal = efectivo + datafono + nequi + daviplata + PayU + Bancolombia;
             }
             var objetoMetodo = {};
             objetoMetodo.Efectivo = efectivo;
@@ -216,7 +216,7 @@
             objetoMetodo.Nequi = nequi;
             objetoMetodo.Daviplata = daviplata;
             objetoMetodo.PayU = PayU;
-            objetoMetodo.Otro = Otro; 
+            objetoMetodo.Bancolombia = Bancolombia; 
             var objeto = {};
             objeto.tipo = "json";
             objeto.columna = "metodos_pago";
@@ -242,8 +242,8 @@
                 if(jsonMetodosPago[i].metodo == "3"){nequi = nequi + jsonMetodosPago[i].valor }
                 if(jsonMetodosPago[i].metodo == "4"){daviplata = daviplata + jsonMetodosPago[i].valor }      
                 if(jsonMetodosPago[i].metodo == "5"){PayU = PayU + jsonMetodosPago[i].valor }
-                if(jsonMetodosPago[i].metodo == "6"){Otro = Otro + jsonMetodosPago[i].valor }  
-                valorTotal = efectivo + datafono + nequi + daviplata + PayU + Otro;
+                if(jsonMetodosPago[i].metodo == "6"){Bancolombia = Bancolombia + jsonMetodosPago[i].valor }  
+                valorTotal = efectivo + datafono + nequi + daviplata + PayU + Bancolombia;
             }
             var objetoMetodo = {};
             objetoMetodo.Efectivo = efectivo;
@@ -251,7 +251,7 @@
             objetoMetodo.Nequi = nequi;
             objetoMetodo.Daviplata = daviplata;
             objetoMetodo.PayU = PayU;
-            objetoMetodo.Otro = Otro; 	
+            objetoMetodo.Bancolombia = Bancolombia; 	
             let currentDate = `${year}/${month}/${day}`;//2022-08-08 13:58:58
             var objeto = {};
             objeto.tipo = "date";
@@ -801,7 +801,7 @@ function seleccionClienteApartado(id) {
         +formatoPrecio(jsonMetodosPago.Nequi)+"</p></div><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'><p class='letra18pt-pc negrillaUno'>"
         +formatoPrecio(jsonMetodosPago.Daviplata)+"</p></div><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'><p class='letra18pt-pc negrillaUno'>"
         +formatoPrecio(jsonMetodosPago.PayU)+"</p></div><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'><p class='letra18pt-pc negrillaUno'>"
-        +formatoPrecio(jsonMetodosPago.Otro)+"</p></div><div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'><button class='botonmodal botonenmodal letra18pt-pc verDia' type='button' name='"+jsonResumen[jsonResumen.length-1].fecha+"'> Ver Día </button></div>";
+        +formatoPrecio(jsonMetodosPago.Bancolombia)+"</p></div><div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'><button class='botonmodal botonenmodal letra18pt-pc verDia' type='button' name='"+jsonResumen[jsonResumen.length-1].fecha+"'> Ver Día </button></div>";
         for (let i = (jsonResumen.length-2); i >=0; i--) {
             var jsonMetodosPago2 = JSON.parse(jsonResumen[i].metodos_pago);
             html = html + "<div class='col-lg-12 col-md-12 col-sm-12 col-xs-12 ventasplazaResumen'><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'><p class='letra18pt-pc negrillaUno'>"
@@ -812,7 +812,7 @@ function seleccionClienteApartado(id) {
             +formatoPrecio(jsonMetodosPago2.Nequi)+"</p></div><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'><p class='letra18pt-pc negrillaUno'>"
             +formatoPrecio(jsonMetodosPago2.Daviplata)+"</p></div><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'><p class='letra18pt-pc negrillaUno'>"
             +formatoPrecio(jsonMetodosPago2.PayU)+"</p></div><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'><p class='letra18pt-pc negrillaUno'>"
-            +formatoPrecio(jsonMetodosPago2.Otro)+"</p></div><div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'><button class='botonmodal botonenmodal letra18pt-pc verDia' type='button' name='"
+            +formatoPrecio(jsonMetodosPago2.Bancolombia)+"</p></div><div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'><button class='botonmodal botonenmodal letra18pt-pc verDia' type='button' name='"
             +jsonResumen[i].fecha+"'> Ver Día </button></div></div>";
         }
         return html;
