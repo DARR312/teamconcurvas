@@ -37,7 +37,7 @@
 
     var resumen = obtenerDatajson('ID,fecha,valor_mercancia,metodos_pago','con_t_resumenplaza','variasfilasunicas','0','0');
     var jsonResumen = JSON.parse(resumen);
-    var html = imprimirResumen(jsonResumen);
+    var html = imprimirResumen2(jsonResumen);
 
     $('#primeraFila').after(html);
 
@@ -272,7 +272,7 @@
         }
         var resumen = obtenerDatajson('ID,fecha,valor_mercancia,metodos_pago','con_t_resumenplaza','variasfilasunicas','0','0');
         var jsonResumen = JSON.parse(resumen);
-        var html = imprimirResumen(jsonResumen);
+        var html = imprimirResumen2(jsonResumen);
         $('#primeraFila').after(html);
         $('#popup').fadeOut('slow');         
         $('.popup-overlay').fadeOut('slow');      
@@ -791,7 +791,7 @@ function seleccionClienteApartado(id) {
         $("#bloquePrincipal").append(html);
         return false;  
     }
-    function imprimirResumen(jsonResumen){
+    function imprimirResumen2(jsonResumen){
         var jsonMetodosPago = JSON.parse(jsonResumen[jsonResumen.length-1].metodos_pago);
         var html = "<div class='col-lg-12 col-md-12 col-sm-12 col-xs-12 ventasplazaResumen' id='primeraventa'><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'><p class='letra18pt-pc negrillaUno'>"
         +jsonResumen[jsonResumen.length-1].fecha+"</p></div><div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'><p class='letra18pt-pc negrillaUno'>"
