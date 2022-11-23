@@ -582,8 +582,10 @@
     $('#cargarInformeDineroButton').on('click', function(){
         var usuarioCell = $('#usuarioCell').attr("name");
         var cantidadInfo = $("#informeD p").length;
+        console.log($("#informeD p"));
         for(var i = 3;i<cantidadInfo;i=i+3){
             var id = $("#informeD p:eq("+i+")").text();
+            console.log(id);
             if(id[0]=="C" || id[0]=="c"){
                 var recaudo = $("#informeD p:eq("+(i+1)+")").text();
                 var excedente = obtenerData("excedente","con_t_cambios","row","cambio_id",id.slice(1));

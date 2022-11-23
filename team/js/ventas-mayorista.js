@@ -239,12 +239,19 @@ function mayoristafunciones() {
         console.log(jsonIds);
         var option = "";
         for (let i = 0; i < jsonIds.length; i++) {
-            option = option + "<option value='"+jsonIds[i].ID+"'>"+jsonIds[i].descripcion+"</option>"
+            option = option + "<option value='"+jsonIds[i].descripcion+"'>"+jsonIds[i].descripcion+"</option>"
         }
         var html = "<div class='col-lg-4 col-md-4 col-sm-4 col-xs-4 metodop' id='v0'>"+
             "<div class='form-group pmd-textfield  pmd-textfield-floating-label'>"+
                 "<label class='control-label letra18pt-pc' for='regular1'>Valor</label>"+
-                "<input class='form-control' type='number' id='valor0' name='valor' required='><span class='pmd-textfield-focused'></span></div></div><div class='col-lg-8 col-md-8 col-sm-8 col-xs-8 metodop' id='metodo0'><div class='form-group pmd-textfield pmd-textfield-floating-label'><label class='control-label letra18pt-pc' for='regular1'>Metodo</label><select class='form-control letra18pt-pc metodo' type='select' name='metodo' id='0' form='formularioCliente' required=''><option value='S'>Seleccione un opción de pago</option></select><span class='pmd-textfield-focused'></span></div></div>";
+                "<input class='form-control' type='number' id='valor0' name='valor' required='>"+
+                "<span class='pmd-textfield-focused'></span>"+
+                "</div></div>"+
+                "<div class='col-lg-8 col-md-8 col-sm-8 col-xs-8 metodop' id='metodo0'>"+
+                "<div class='form-group pmd-textfield pmd-textfield-floating-label'>"+
+                "<label class='control-label letra18pt-pc' for='regular1'>Metodo</label>"+
+                "<select class='form-control letra18pt-pc metodo' type='select' name='metodo' id='0' form='formularioCliente' required=''>"+
+                "<option value='S'>Seleccione un opción de pago</option></select><span class='pmd-textfield-focused'></span></div></div>";
         for (let i = 1; i < jsonIds.length; i++) {
             html = html+"<div class='col-lg-4 col-md-4 col-sm-4 col-xs-4 metodop' id='v"+i+"' style='display: none;'><div class='form-group pmd-textfield pmd-textfield-floating-label'><label class='control-label letra18pt-pc' for='regular1'>Valor</label><input class='form-control' type='number' id='valor"+i+"' name='valor' required='><span class='pmd-textfield-focused'></span></div></div><div class='col-lg-8 col-md-8 col-sm-8 col-xs-8 metodop' id='metodo"+i+"' style='display: none;'><div class='form-group pmd-textfield pmd-textfield-floating-label'><label class='control-label letra18pt-pc' for='regular1'>Metodo</label><select class='form-control letra18pt-pc metodo' type='select' name='metodo' id='"+i+"' form='formularioCliente' required=''><option value='S'>Seleccione un opción de pago</option></select><span class='pmd-textfield-focused'></span></div></div>";            
         }
@@ -266,30 +273,41 @@ function mayoristafunciones() {
     $('#confirmarpago').on('click', function(){  
         // $('#popup5').fadeOut('slow');      
         // $('.popup-overlay').fadeOut('slow'); 
+        let precio = 0;
         var metodos = $(".metodo");
-        for (let i = 0; i < metodos.length; i++) {
-            console.log(metodos[i]);
-            
+        var metodosarray = [];
+        for (let i = 0; i < metodos.length; i++){
+            var metodo = {};
+            if(metodos[i].value != "S"){
+                metodo.metodo =metodos[i].value;
+                metodo.valor =$("#valor"+i).val();
+                precio = precio + parseInt($("#valor"+i).val());
+                metodosarray.push(metodo);
+            }            
         }
-        // var valor = $("#valorpago").val();
-        // var id = $("#confirmarpago").attr("name");
-        // var objeto = {};
-        // objeto.columna = "ID";
-        // objeto.valor = id;
-        // var condicion = prepararjson(objeto);
-        // var objeto = {};
-        // objeto.tipo = "int";
-        // objeto.columna = "valor_confirmado";
-        // objeto.valor = valor;
-        // var valor_confirmado = prepararjson(objeto);
-        // actualizarregistros("con_t_mayorista",condicion,valor_confirmado,"0","0","0","0","0","0","0","0","0","0"); 
-        // var ventasmayoristas = obtenerDatajson("*","con_t_mayorista","variasfilasunicas","0","0");
-        // var jsonVenta = JSON.parse(ventasmayoristas); 
-        // console.log(jsonVenta);
-        // var html = imprimirVentasMayoristajson(jsonVenta);
-        // var primeraFila = $('#primeraFila');
-        // primeraFila.after(html);
-    //mayoristafunciones();
+        var id = $("#confirmarpago").attr("name");
+        var objeto = {};
+        objeto.columna = "ID";
+        objeto.valor = id;
+        var condicion = prepararjson(objeto);
+        var objeto = {};
+        objeto.tipo = "int";
+        objeto.columna = "valor_confirmado";
+        objeto.valor = precio;
+        var valor_confirmado = prepararjson(objeto);
+        var objeto = {};
+        objeto.tipo = "json";
+        objeto.columna = "metodos_pago";
+        objeto.valor = metodosarray;
+        var metodos_pago = prepararjson(objeto);
+        actualizarregistros("con_t_mayorista",condicion,valor_confirmado,metodos_pago,"0","0","0","0","0","0","0","0","0"); 
+        var ventasmayoristas = obtenerDatajson("*","con_t_mayorista","variasfilasunicas","0","0");
+        var jsonVenta = JSON.parse(ventasmayoristas); 
+        console.log(jsonVenta);
+        var html = imprimirVentasMayoristajson(jsonVenta);
+        var primeraFila = $('#primeraFila');
+        primeraFila.after(html);
+        mayoristafunciones();
         return false; 
     }); 
     $('#agregarVenta').on('click', function(){ 
