@@ -1,5 +1,7 @@
 <?php get_template_part('generalfooter'); ?>
+
     //<script>
+        
     var html = "";
     var permisoVentas = permisosVentas();
     var items = permisoVentas.split(',');
@@ -31,48 +33,34 @@
            verPedidos = 1;
         }
     }
-    var ventas = obtenerDatajson('ID,cliente_id,datos_cliente,codigos_prendas,notas,metodos_pago,valor_total','con_t_ventasplaza','variasfilasunicas','0','0');
-    var jsonVentas = JSON.parse(ventas);
-    console.log(jsonVentas);
-    var datoscliente = jsonVentas[jsonVentas.length-1].datos_cliente;
-    var jsondatoscliente = JSON.parse(datoscliente);
-    var codigos_prendas = jsonVentas[jsonVentas.length-1].codigos_prendas;
-    var jsoncodigos_prendas = JSON.parse(codigos_prendas);
-    var pedido = "";
-    console.log(jsoncodigos_prendas);
-    for (let j = 0; j < Object.keys(jsoncodigos_prendas).length; j++) {
-        console.log(jsoncodigos_prendas[j]);
-        pedido = pedido + " " + jsoncodigos_prendas[j].codigo+" "+jsoncodigos_prendas[j].descripcion;
-    }
-    var metodos_pago = jsonVentas[jsonVentas.length-1].metodos_pago;
-    var jsonmetodos_pagos = JSON.parse(metodos_pago);
-    var vmp = "";
-    console.log(jsonmetodos_pagos);
-    for (let j = 0; j < Object.keys(jsonmetodos_pagos).length; j++) {
-        console.log(jsonmetodos_pagos[j]);
-        vmp = vmp + " " + jsonmetodos_pagos[j].valor+" método "+jsonmetodos_pagos[j].metodo;
-    }
-    var html = "<div class='col-lg-12 col-md-12 col-sm-12 col-xs-12 ventasplaza' id='primeraventa'><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'><p class='letra18pt-pc negrillaUno'>"+jsonVentas[jsonVentas.length-1].ID+"</p></div><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'><p class='letra18pt-pc negrillaUno'>"+jsondatoscliente.nombre+"</p></div><div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'><p class='letra18pt-pc negrillaUno'>"+jsondatoscliente.telefono+"</p></div><div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'><p class='letra18pt-pc negrillaUno'>"+jsondatoscliente.correo+"</p></div><div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'> <p class='letra18pt-pc negrillaUno'>"+pedido+"</p></div><div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'><p class='letra18pt-pc negrillaUno'>"+jsonVentas[jsonVentas.length-1].valor_total+" "+vmp+"</p></div><div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'><p class='letra18pt-pc negrillaUno'>"+jsonVentas[jsonVentas.length-1].notas+"</p></div></div></div>";
-    for (let i = (jsonVentas.length-2); i >=0; i--) {
-        var datoscliente = jsonVentas[i].datos_cliente;
-        var jsondatoscliente = JSON.parse(datoscliente);
-        var codigos_prendas = jsonVentas[i].codigos_prendas;
-        var jsoncodigos_prendas = JSON.parse(codigos_prendas);
-        var pedido = "";
-        console.log(jsoncodigos_prendas);
-        for (let j = 0; j < Object.keys(jsoncodigos_prendas).length; j++) {
-            pedido = pedido + " " + jsoncodigos_prendas[j].codigo+" "+jsoncodigos_prendas[j].descripcion;
-        }
-        var metodos_pago = jsonVentas[i].metodos_pago;
-        var jsonmetodos_pagos = JSON.parse(metodos_pago);
-        var vmp = "";
-        console.log(jsoncodigos_prendas);
-        for (let j = 0; j < Object.keys(jsonmetodos_pagos).length; j++) {
-            vmp = vmp + " " + jsonmetodos_pagos[j].valor+" método "+jsonmetodos_pagos[j].metodo;
-        }
-        html = html +"<div class='col-lg-12 col-md-12 col-sm-12 col-xs-12 ventasplaza'><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'><p class='letra18pt-pc negrillaUno'>"+jsonVentas[i].ID+"</p></div><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'><p class='letra18pt-pc negrillaUno'>"+jsondatoscliente.nombre+"</p></div><div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'><p class='letra18pt-pc negrillaUno'>"+jsondatoscliente.telefono+"</p></div><div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'><p class='letra18pt-pc negrillaUno'>"+jsondatoscliente.correo+"</p></div><div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'> <p class='letra18pt-pc negrillaUno'>"+pedido+"</p></div><div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'><p class='letra18pt-pc negrillaUno'>"+jsonVentas[i].valor_total+" "+vmp+"</p></div><div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'><p class='letra18pt-pc negrillaUno'>"+jsonVentas[i].notas+"</p></div></div></div>";
-    }
+
+
+    var resumen = obtenerDatajson('ID,fecha,valor_mercancia,metodos_pago','con_t_resumenplaza','variasfilasunicas','0','0');
+    var jsonResumen = JSON.parse(resumen);
+    var html = imprimirResumen(jsonResumen);
+
     $('#primeraFila').after(html);
+
+    $('.verDia').on('click', function(){ 
+        
+        // $('.contenedor_loader').show();
+        console.log("inicie"); 
+        $('.ventasplazaResumen').remove(); 
+        $('#primeraFila').css('display', 'none');
+        $('.primeraFilaDia').css('display', 'block');
+        var id = $(this).attr("name");
+        var horaMenor = " 00:00:00";
+        var horaMayor = " 23:00:00";
+        var fecha = "'"+id+horaMenor+"' AND '"+id+horaMayor+"'";
+        console.log('inicio');
+        var resumenDia = obtenerDatajson('ID,cliente_id,datos_cliente,codigos_prendas,notas,metodos_pago,valor_total','con_t_ventasplaza','Between','fecha_creada',fecha);
+        var jsonResumenDia = JSON.parse(resumenDia);
+        console.log(jsonResumenDia);
+        $('#primeraFila').after(imprimi(jsonResumenDia));
+        // $('.contenedor_loader').css('display', 'none');
+        console.log('fin');
+        return false;     
+    });    
     $('#agregarVenta').on('click', function(){    
         var htmll = apartados();
         $("#datosPrendas").after(htmll); 
@@ -184,6 +172,108 @@
             actualizarPrendas(usuarioLevel,"Venta local","PA-"+lastid[0].id,jsoncodigos[i].codigo);
             actualizar("con_t_prendasplaza","-",jsoncodigos[i].codigo,"-","-");
         }
+        const date = new Date();
+        let day = date.getDate();
+        let month = date.getMonth() + 1;
+        let year = date.getFullYear();
+        let currentDateConsulta = `${year}-${month}-${day}`;//2022-08-08 13:58:58
+        let efectivo = 0;
+        let datafono = 0;
+        let nequi = 0;
+        let daviplata = 0;
+        let PayU = 0;
+        let Otro = 0;
+        let valorTotal = 0;
+        var existe  = obtenerDatajson('ID,valor_mercancia,metodos_pago','con_t_resumenplaza','valoresconcondicion','fecha',"'"+currentDateConsulta+"'");
+        var jsonExiste = JSON.parse(existe);
+        console.log(typeof jsonExiste,jsonExiste.length, jsonExiste, "Informacion Importante");
+        var jsonMetodosPago = JSON.parse(metodospagoString);
+        console.log(jsonMetodosPago,Object.keys(jsonMetodosPago).length,"metodos selecionados");
+        if(jsonExiste.length !== 0){
+            console.log("se actualizo el dia 21 a la tabla");
+            console.log(jsonExiste[0].metodos_pago);
+            var jsonMetodosPago2 = JSON.parse(jsonExiste[0].metodos_pago);
+            console.log(jsonMetodosPago2,"aqui");
+            valorTotal = jsonExiste[0].valor_mercancia;
+            efectivo = jsonMetodosPago2.Efectivo;
+            datafono = jsonMetodosPago2.Datafono;
+            nequi = jsonMetodosPago2.Nequi;
+            daviplata = jsonMetodosPago2.Daviplata;
+            PayU = jsonMetodosPago2.PayU;
+            Otro = jsonMetodosPago2.Otro;
+            for (let i = 0; i < Object.keys(jsonMetodosPago).length; i++) {    
+                if(jsonMetodosPago[i].metodo == "1"){efectivo = efectivo + jsonMetodosPago[i].valor }
+                if(jsonMetodosPago[i].metodo == "2"){datafono = datafono + jsonMetodosPago[i].valor }
+                if(jsonMetodosPago[i].metodo == "3"){nequi = nequi + jsonMetodosPago[i].valor }
+                if(jsonMetodosPago[i].metodo == "4"){daviplata = daviplata + jsonMetodosPago[i].valor }      
+                if(jsonMetodosPago[i].metodo == "5"){PayU = PayU + jsonMetodosPago[i].valor }
+                if(jsonMetodosPago[i].metodo == "6"){Otro = Otro + jsonMetodosPago[i].valor }  
+                valorTotal = efectivo + datafono + nequi + daviplata + PayU + Otro;
+            }
+            var objetoMetodo = {};
+            objetoMetodo.Efectivo = efectivo;
+            objetoMetodo.Datafono = datafono;
+            objetoMetodo.Nequi = nequi;
+            objetoMetodo.Daviplata = daviplata;
+            objetoMetodo.PayU = PayU;
+            objetoMetodo.Otro = Otro; 
+            var objeto = {};
+            objeto.tipo = "json";
+            objeto.columna = "metodos_pago";
+            objeto.valor = objetoMetodo;
+            var metodos_pago_insert = prepararjson(objeto);
+            var objeto = {};
+            objeto.tipo = "int";
+            objeto.columna = "valor_mercancia";
+            objeto.valor = valorTotal;
+            var valorTotal_insert = prepararjson(objeto);
+            console.log(valorTotal,metodos_pago_insert,"Lo que se enviaa ");
+            var objeto = {};
+            objeto.columna = "ID";
+            objeto.valor = jsonExiste[0].ID;
+            var condicion = prepararjson(objeto);
+            actualizarregistros("con_t_resumenplaza",condicion,valorTotal_insert,metodos_pago_insert,"0","0","0","0","0","0","0","0","0");
+        }else{
+
+            console.log("se Aagrego el dia 21 a la tabla");
+            for (let i = 0; i < Object.keys(jsonMetodosPago).length; i++) {    
+                if(jsonMetodosPago[i].metodo == "1"){efectivo = efectivo + jsonMetodosPago[i].valor }
+                if(jsonMetodosPago[i].metodo == "2"){datafono = datafono + jsonMetodosPago[i].valor }
+                if(jsonMetodosPago[i].metodo == "3"){nequi = nequi + jsonMetodosPago[i].valor }
+                if(jsonMetodosPago[i].metodo == "4"){daviplata = daviplata + jsonMetodosPago[i].valor }      
+                if(jsonMetodosPago[i].metodo == "5"){PayU = PayU + jsonMetodosPago[i].valor }
+                if(jsonMetodosPago[i].metodo == "6"){Otro = Otro + jsonMetodosPago[i].valor }  
+                valorTotal = efectivo + datafono + nequi + daviplata + PayU + Otro;
+            }
+            var objetoMetodo = {};
+            objetoMetodo.Efectivo = efectivo;
+            objetoMetodo.Datafono = datafono;
+            objetoMetodo.Nequi = nequi;
+            objetoMetodo.Daviplata = daviplata;
+            objetoMetodo.PayU = PayU;
+            objetoMetodo.Otro = Otro; 	
+            let currentDate = `${year}/${month}/${day}`;//2022-08-08 13:58:58
+            var objeto = {};
+            objeto.tipo = "date";
+            objeto.columna = "fecha";
+            objeto.valor = currentDate;
+            var fecha_inser  = prepararjson(objeto);
+            var objeto = {};
+            objeto.tipo = "json";
+            objeto.columna = "metodos_pago";
+            objeto.valor = objetoMetodo;
+            var metodos_pago_insert = prepararjson(objeto);
+            var objeto = {};
+            objeto.tipo = "int";
+            objeto.columna = "valor_mercancia";
+            objeto.valor = valorTotal;
+            var valorTotal_insert = prepararjson(objeto);
+            var idregla = insertarfila("con_t_resumenplaza",fecha_inser,metodos_pago_insert,valorTotal_insert,"0","0","0","0","0","0","0","0");
+        }
+        var resumen = obtenerDatajson('ID,fecha,valor_mercancia,metodos_pago','con_t_resumenplaza','variasfilasunicas','0','0');
+        var jsonResumen = JSON.parse(resumen);
+        var html = imprimirResumen(jsonResumen);
+        $('#primeraFila').after(html);
         $('#popup').fadeOut('slow');         
         $('.popup-overlay').fadeOut('slow');      
         $('.reinicia').remove(); 
@@ -700,6 +790,86 @@ function seleccionClienteApartado(id) {
         }
         $("#bloquePrincipal").append(html);
         return false;  
+    }
+    function imprimirResumen(jsonResumen){
+        var jsonMetodosPago = JSON.parse(jsonResumen[jsonResumen.length-1].metodos_pago);
+        var html = "<div class='col-lg-12 col-md-12 col-sm-12 col-xs-12 ventasplazaResumen' id='primeraventa'><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'><p class='letra18pt-pc negrillaUno'>"
+        +jsonResumen[jsonResumen.length-1].fecha+"</p></div><div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'><p class='letra18pt-pc negrillaUno'>"
+        +formatoPrecio(jsonResumen[jsonResumen.length-1].valor_mercancia)+"</p></div><div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'><p class='letra18pt-pc negrillaUno'>"
+        +formatoPrecio(jsonMetodosPago.Efectivo)+"</p></div><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'><p class='letra18pt-pc negrillaUno'>"
+        +formatoPrecio(jsonMetodosPago.Datafono)+"</p></div><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'> <p class='letra18pt-pc negrillaUno'>"
+        +formatoPrecio(jsonMetodosPago.Nequi)+"</p></div><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'><p class='letra18pt-pc negrillaUno'>"
+        +formatoPrecio(jsonMetodosPago.Daviplata)+"</p></div><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'><p class='letra18pt-pc negrillaUno'>"
+        +formatoPrecio(jsonMetodosPago.PayU)+"</p></div><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'><p class='letra18pt-pc negrillaUno'>"
+        +formatoPrecio(jsonMetodosPago.Otro)+"</p></div><div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'><button class='botonmodal botonenmodal letra18pt-pc verDia' type='button' name='"+jsonResumen[jsonResumen.length-1].fecha+"'> Ver Día </button></div>";
+        for (let i = (jsonResumen.length-2); i >=0; i--) {
+            var jsonMetodosPago2 = JSON.parse(jsonResumen[i].metodos_pago);
+            html = html + "<div class='col-lg-12 col-md-12 col-sm-12 col-xs-12 ventasplazaResumen'><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'><p class='letra18pt-pc negrillaUno'>"
+            +jsonResumen[i].fecha+"</p></div><div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'><p class='letra18pt-pc negrillaUno'>"
+            +formatoPrecio(jsonResumen[i].valor_mercancia)+"</p></div><div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'><p class='letra18pt-pc negrillaUno'>"
+            +formatoPrecio(jsonMetodosPago2.Efectivo)+"</p></div><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'><p class='letra18pt-pc negrillaUno'>"
+            +formatoPrecio(jsonMetodosPago2.Datafono)+"</p></div><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'> <p class='letra18pt-pc negrillaUno'>"
+            +formatoPrecio(jsonMetodosPago2.Nequi)+"</p></div><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'><p class='letra18pt-pc negrillaUno'>"
+            +formatoPrecio(jsonMetodosPago2.Daviplata)+"</p></div><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'><p class='letra18pt-pc negrillaUno'>"
+            +formatoPrecio(jsonMetodosPago2.PayU)+"</p></div><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'><p class='letra18pt-pc negrillaUno'>"
+            +formatoPrecio(jsonMetodosPago2.Otro)+"</p></div><div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'><button class='botonmodal botonenmodal letra18pt-pc verDia' type='button' name='"
+            +jsonResumen[i].fecha+"'> Ver Día </button></div></div>";
+        }
+        return html;
+    }
+    function imprimi(jsonVentas) {
+        console.log(jsonVentas);
+        var datoscliente = jsonVentas[jsonVentas.length-1].datos_cliente;
+        var jsondatoscliente = JSON.parse(datoscliente);
+        var codigos_prendas = jsonVentas[jsonVentas.length-1].codigos_prendas;
+        var jsoncodigos_prendas = JSON.parse(codigos_prendas);
+        var pedido = "";
+        console.log(jsoncodigos_prendas);
+        for (let j = 0; j < Object.keys(jsoncodigos_prendas).length; j++) {
+            console.log(jsoncodigos_prendas[j]);
+            pedido = pedido + " " + jsoncodigos_prendas[j].codigo+" "+jsoncodigos_prendas[j].descripcion;
+        }
+        var metodos_pago = jsonVentas[jsonVentas.length-1].metodos_pago;
+        var jsonmetodos_pagos = JSON.parse(metodos_pago);
+        var vmp = "";
+        console.log(jsonmetodos_pagos);
+        for (let j = 0; j < Object.keys(jsonmetodos_pagos).length; j++) {
+            console.log(jsonmetodos_pagos[j] , "aqui");
+            var metodoConsultado = obtenerDatajson('descripcion','con_t_metodospago','valoresconcondicion','ID',jsonmetodos_pagos[j].metodo);
+            var metodoModificado = JSON.parse(metodoConsultado);
+            vmp = vmp + " " + jsonmetodos_pagos[j].valor+" método "+metodoModificado[0].descripcion;
+        }
+        var html = "<div class='col-lg-12 col-md-12 col-sm-12 col-xs-12 ventasplaza' id='primeraventa'><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'><p class='letra18pt-pc negrillaUno'>"+jsonVentas[jsonVentas.length-1].ID+"</p></div><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'><p class='letra18pt-pc negrillaUno'>"+jsondatoscliente.nombre+"</p></div><div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'><p class='letra18pt-pc negrillaUno'>"+jsondatoscliente.telefono+"</p></div><div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'><p class='letra18pt-pc negrillaUno'>"+jsondatoscliente.correo+"</p></div><div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'> <p class='letra18pt-pc negrillaUno'>"+pedido+"</p></div><div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'><p class='letra18pt-pc negrillaUno'>"+jsonVentas[jsonVentas.length-1].valor_total+" "+vmp+"</p></div><div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'><p class='letra18pt-pc negrillaUno'>"+jsonVentas[jsonVentas.length-1].notas+"</p></div></div></div>";
+        for (let i = (jsonVentas.length-2); i >=0; i--) {
+            var datoscliente = jsonVentas[i].datos_cliente;
+            var jsondatoscliente = JSON.parse(datoscliente);
+            var codigos_prendas = jsonVentas[i].codigos_prendas;
+            var jsoncodigos_prendas = JSON.parse(codigos_prendas);
+            var pedido = "";
+            // console.log(jsoncodigos_prendas);
+            for (let j = 0; j < Object.keys(jsoncodigos_prendas).length; j++) {
+                pedido = pedido + " " + jsoncodigos_prendas[j].codigo+" "+jsoncodigos_prendas[j].descripcion;
+            }
+            var metodos_pago = jsonVentas[i].metodos_pago;
+            var jsonmetodos_pagos = JSON.parse(metodos_pago);
+            var vmp = "";
+            // console.log(jsoncodigos_prendas);
+            for (let j = 0; j < Object.keys(jsonmetodos_pagos).length; j++) {
+                console.log(jsonmetodos_pagos[j] , "aqui2");
+                var metodoConsultado2 = obtenerDatajson('descripcion','con_t_metodospago','valoresconcondicion','ID',jsonmetodos_pagos[j].metodo);
+                var metodoModificado2 = JSON.parse(metodoConsultado2);
+                vmp = vmp + " " + jsonmetodos_pagos[j].valor+" método "+metodoModificado2[0].descripcion;
+            }
+            html = html +"<div class='col-lg-12 col-md-12 col-sm-12 col-xs-12 ventasplaza'><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'><p class='letra18pt-pc negrillaUno'>"
+            +jsonVentas[i].ID+"</p></div><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'><p class='letra18pt-pc negrillaUno'>"
+            +jsondatoscliente.nombre+"</p></div><div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'><p class='letra18pt-pc negrillaUno'>"
+            +jsondatoscliente.telefono+"</p></div><div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'><p class='letra18pt-pc negrillaUno'>"
+            +jsondatoscliente.correo+"</p></div><div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'> <p class='letra18pt-pc negrillaUno'>"
+            +pedido+"</p></div><div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'><p class='letra18pt-pc negrillaUno'>"
+            +jsonVentas[i].valor_total+" "+vmp+"</p></div><div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'><p class='letra18pt-pc negrillaUno'>"
+            +jsonVentas[i].notas+"</p></div></div></div>";
+        }
+        return html;
     }
 </script>
 <!-- Propeller textfield js --> 
