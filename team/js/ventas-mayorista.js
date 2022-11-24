@@ -127,7 +127,7 @@ function mayoristafunciones() {
         var jsonVM_tr_mayoristas = JSON.parse(VM_tr_mayoristas);
         console.log(jsonVM_tr_mayoristas[0].VM_tr_mayoristas);
         var vmnumero = jsonVM_tr_mayoristas[0].VM_tr_mayoristas;
-        if(!jsonVM_tr_mayoristas[0].VM_tr_mayoristas){alert("No hay venta anterior");return false;}
+        if(jsonVM_tr_mayoristas[0].VM_tr_mayoristas==0){vmnumero=arraid[1];}
         var prendasmayorista = obtenerDatajson("codigo,descripcion,referencia_id","con_t_trprendas","valoresconcondicion","cual","'VM-"+vmnumero+"'");
         var jsonprendasmayorista = JSON.parse(prendasmayorista);
         console.log(jsonprendasmayorista);
