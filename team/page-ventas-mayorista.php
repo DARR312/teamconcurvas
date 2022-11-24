@@ -299,12 +299,15 @@
     	       <div class='col-lg-5 col-md-5 col-sm-5 col-xs-5'>
     	           <p class='letra18pt-pc negrillaUno'>Cliente</p>
     	       </div>
-    	       <div class='col-lg-3 col-md-3 col-sm-3 col-xs-3'>
+    	       <div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'>
     	           <p class='letra18pt-pc negrillaUno'>Valor mercancía</p>
     	       </div>
-    	       <div class='col-lg-3 col-md-3 col-sm-3 col-xs-3'>
+    	       <div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'>
     	           <p class='letra18pt-pc negrillaUno'>Valor confirmado</p>
-    	       </div>    	      
+    	       </div> 
+    	       <div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'>
+    	           <p class='letra18pt-pc negrillaUno'>Resumen pago</p>
+    	       </div>      	      
 	       </div>
 	       
 	   </div>
