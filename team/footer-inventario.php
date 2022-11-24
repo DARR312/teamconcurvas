@@ -582,7 +582,6 @@
     $('#cargarInformeDineroButton').on('click', function(){
         var usuarioCell = $('#usuarioCell').attr("name");
         var cantidadInfo = $("#informeD p").length;
-        console.log($("#informeD p"));
         for(var i = 3;i<cantidadInfo;i=i+3){
             var id = $("#informeD p:eq("+i+")").text();
             console.log(id);
