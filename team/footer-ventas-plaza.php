@@ -44,6 +44,7 @@
     $('.verDia').on('click', function(){ 
         
         // $('.contenedor_loader').show();
+        
         console.log("inicie"); 
         $('.ventasplazaResumen').remove(); 
         $('#primeraFila').css('display', 'none');
@@ -61,6 +62,34 @@
         console.log('fin');
         return false;     
     });    
+
+    $('#BuscarEtiqueta').on('change',function(){
+	    $('.ventasplaza').remove();
+        var resumenDia = obtenerDatajson('ID,cliente_id,datos_cliente,codigos_prendas,notas,metodos_pago,valor_total','con_t_ventasplaza','valoresconcondicion','fecha_creada',fecha);
+        var jsonResumenDia = JSON.parse(resumenDia);
+        console.log(jsonResumenDia);
+        $('#primeraFila').after(imprimi(jsonResumenDia));
+	    // var ordenesCambio = ordenescambiojson($('#bscar').val(),$('#estadoFiltro').val(),$('#transportador').val(),$('#tipoenvio').val(),$('#datetimepicker-creadacambios').val(),$('#datetimepicker-entregacambios').val());
+        // var html = imprimirCambiosjson(ordenesCambio,pedidoUpdate,fechaUpdate,notasUpdate,usuarioUpdate);
+        // console.log(html);
+        // var primeraFila = $('#primeraFila');
+        // primeraFila.after(html);
+    	// cambios();
+	}); 
+    $('#BuscarTelefono').on('change',function(){
+	    var resumen = obtenerDatajson('ID,fecha,valor_mercancia,metodos_pago','con_t_resumenplaza','variasfilasunicas','0','0');
+        var jsonResumen = JSON.parse(resumen);
+        var html = imprimirResumen2(jsonResumen);
+        $('#primeraFila').after(html);
+	    // var ordenesCambio = ordenescambiojson($('#bscar').val(),$('#estadoFiltro').val(),$('#transportador').val(),$('#tipoenvio').val(),$('#datetimepicker-creadacambios').val(),$('#datetimepicker-entregacambios').val());
+        // var html = imprimirCambiosjson(ordenesCambio,pedidoUpdate,fechaUpdate,notasUpdate,usuarioUpdate);
+        // console.log(html);
+        // var primeraFila = $('#primeraFila');
+        // primeraFila.after(html);
+    	// cambios();
+	});
+
+
     $('#agregarVenta').on('click', function(){    
         var htmll = apartados();
         $("#datosPrendas").after(htmll); 
@@ -284,6 +313,16 @@
         $('#popup').fadeIn('slow');
         return false;     
     });
+    $('#bscar').on('change',function(){
+	    $('.removerCambios').remove();
+        $('.ventasplazaResumen').remove(); 
+	    var ordenesCambio = ordenescambiojson($('#bscar').val(),$('#estadoFiltro').val(),$('#transportador').val(),$('#tipoenvio').val(),$('#datetimepicker-creadacambios').val(),$('#datetimepicker-entregacambios').val());
+        var html = imprimirCambiosjson(ordenesCambio,pedidoUpdate,fechaUpdate,notasUpdate,usuarioUpdate);
+        console.log(html);
+        var primeraFila = $('#primeraFila');
+        primeraFila.after(html);
+    	cambios();
+	}); 
     $('#clienteGuardado').on('click', function(){ 
         if(!$('#nombre').val()){alert("Ingresa el nombre del cliente :)");return false;}
         if(!$('#telefono').val()){alert("Ingresa el teléfono del cliente :)");return false;}
@@ -572,9 +611,11 @@
         $('.popup-overlay').fadeOut('slow');      
         $('.reinicia').remove(); 
         $('.removertodo').remove(); 
+        $('.ventasplazaResumen').remove();
         return false;     
     });    
-    $('#verApartados').on('click', function(){        
+    $('#verApartados').on('click', function(){    
+        $('.ventasplazaResumen').remove();     
         $('.ventasplaza').remove();
         imprimirapartados();
         funcionespagina();
