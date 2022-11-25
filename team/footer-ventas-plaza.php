@@ -879,7 +879,6 @@ function seleccionClienteApartado(id) {
             var datoscliente = jsonVentas[i].datos_cliente;
             var jsondatoscliente = JSON.parse(datoscliente);
             var codigos_prendas = jsonVentas[i].codigos_prendas;
-            console.log(codigos_prendas, 'Estos son los codigos de las prendas');
             var jsoncodigos_prendas = JSON.parse(codigos_prendas);
             var pedido = "";
             // console.log(jsoncodigos_prendas);
