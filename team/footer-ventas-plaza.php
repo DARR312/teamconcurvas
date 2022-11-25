@@ -874,10 +874,12 @@ function seleccionClienteApartado(id) {
             vmp = vmp + " " + jsonmetodos_pagos[j].valor+" método "+metodoModificado[0].descripcion;
         }
         var html = "<div class='col-lg-12 col-md-12 col-sm-12 col-xs-12 ventasplaza' id='primeraventa'><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'><p class='letra18pt-pc negrillaUno'>"+jsonVentas[jsonVentas.length-1].ID+"</p></div><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'><p class='letra18pt-pc negrillaUno'>"+jsondatoscliente.nombre+"</p></div><div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'><p class='letra18pt-pc negrillaUno'>"+jsondatoscliente.telefono+"</p></div><div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'><p class='letra18pt-pc negrillaUno'>"+jsondatoscliente.correo+"</p></div><div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'> <p class='letra18pt-pc negrillaUno'>"+pedido+"</p></div><div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'><p class='letra18pt-pc negrillaUno'>"+jsonVentas[jsonVentas.length-1].valor_total+" "+vmp+"</p></div><div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'><p class='letra18pt-pc negrillaUno'>"+jsonVentas[jsonVentas.length-1].notas+"</p></div></div></div>";
+        
         for (let i = (jsonVentas.length-2); i >=0; i--) {
             var datoscliente = jsonVentas[i].datos_cliente;
             var jsondatoscliente = JSON.parse(datoscliente);
             var codigos_prendas = jsonVentas[i].codigos_prendas;
+            console.log(codigos_prendas, 'Estos son los codigos de las prendas');
             var jsoncodigos_prendas = JSON.parse(codigos_prendas);
             var pedido = "";
             // console.log(jsoncodigos_prendas);
