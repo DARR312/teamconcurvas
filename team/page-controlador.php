@@ -165,8 +165,11 @@ function obtenerDatajson($columna,$tabla,$tipo,$columnacondicion,$condicion){
         $obtenidosArray = $wpdb->get_results( "SELECT ".$columna." FROM ".$tabla." WHERE ".$columnacondicion." BETWEEN ".$condicion."", ARRAY_A);
         echo json_encode($obtenidosArray,JSON_UNESCAPED_UNICODE);       
     }
-    if($tipo=="ultimo"){
-        
+    if($tipo=="Like"){
+        $condicion =str_replace('\\', '', $condicion);
+        // echo "SELECT ".$columna." FROM ".$tabla." WHERE ".$columnacondicion." LIKE  ".$condicion."";
+        $obtenidosArray = $wpdb->get_results( "SELECT ".$columna." FROM ".$tabla." WHERE ".$columnacondicion." LIKE  ".$condicion."", ARRAY_A);
+        echo json_encode($obtenidosArray,JSON_UNESCAPED_UNICODE); 
     }
     if($tipo=="todas"){
         

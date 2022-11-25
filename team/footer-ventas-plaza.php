@@ -64,29 +64,22 @@
     });    
 
     $('#BuscarEtiqueta').on('change',function(){
-	    $('.ventasplaza').remove();
-        var resumenDia = obtenerDatajson('ID,cliente_id,datos_cliente,codigos_prendas,notas,metodos_pago,valor_total','con_t_ventasplaza','valoresconcondicion','fecha_creada',fecha);
-        var jsonResumenDia = JSON.parse(resumenDia);
-        console.log(jsonResumenDia);
-        $('#primeraFila').after(imprimi(jsonResumenDia));
-	    // var ordenesCambio = ordenescambiojson($('#bscar').val(),$('#estadoFiltro').val(),$('#transportador').val(),$('#tipoenvio').val(),$('#datetimepicker-creadacambios').val(),$('#datetimepicker-entregacambios').val());
-        // var html = imprimirCambiosjson(ordenesCambio,pedidoUpdate,fechaUpdate,notasUpdate,usuarioUpdate);
-        // console.log(html);
-        // var primeraFila = $('#primeraFila');
-        // primeraFila.after(html);
-    	// cambios();
+        $('.ventasplazaResumen').remove();
+        var Etiqueta = "'%"+$('#BuscarEtiqueta').val()+"%'";
+        var ventasFiltro = obtenerDatajson('ID,cliente_id,datos_cliente,codigos_prendas,notas,metodos_pago,valor_total','con_t_ventasplaza','Like','codigos_prendas',Etiqueta);
+        var jsonVentasFiltro = JSON.parse(ventasFiltro);
+        console.log(ventasFiltro);
+        $('#primeraFila').after(imprimi(jsonVentasFiltro));
 	}); 
+    
     $('#BuscarTelefono').on('change',function(){
-	    var resumen = obtenerDatajson('ID,fecha,valor_mercancia,metodos_pago','con_t_resumenplaza','variasfilasunicas','0','0');
-        var jsonResumen = JSON.parse(resumen);
-        var html = imprimirResumen2(jsonResumen);
-        $('#primeraFila').after(html);
-	    // var ordenesCambio = ordenescambiojson($('#bscar').val(),$('#estadoFiltro').val(),$('#transportador').val(),$('#tipoenvio').val(),$('#datetimepicker-creadacambios').val(),$('#datetimepicker-entregacambios').val());
-        // var html = imprimirCambiosjson(ordenesCambio,pedidoUpdate,fechaUpdate,notasUpdate,usuarioUpdate);
-        // console.log(html);
-        // var primeraFila = $('#primeraFila');
-        // primeraFila.after(html);
-    	// cambios();
+        $('.ventasplazaResumen').remove();
+	    var telefono = "'%"+$('#BuscarTelefono').val()+"%'";
+        console.log($('#BuscarTelefono').val());
+        var ventasFiltro = obtenerDatajson('ID,cliente_id,datos_cliente,codigos_prendas,notas,metodos_pago,valor_total','con_t_ventasplaza','Like','datos_cliente',telefono);
+        var jsonVentasFiltro = JSON.parse(ventasFiltro);
+        console.log(ventasFiltro);
+        $('#primeraFila').after(imprimi(jsonVentasFiltro));
 	});
 
 
