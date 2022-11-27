@@ -1,8 +1,49 @@
 function ventas() { 
-
+    
+    $(".disponibles").change(function() {
+        if($("#formularioPedido")[0].children[$("#formularioPedido")[0].children.length-1].children[1].value=='NA'){
+            return false;
+        }
+        var html = "<option class='removerdisponibles' value='NA'>NA</option>";
+        var disponibl = disponibles();
+        var items = disponibl.split(',');
+        for(i=0;i<(items.length-1);i++){
+            var item = items[i].split('!');
+            html=html+"<option class='removerdisponibles' value='"+item[0]+"%"+item[1]+"%"+item[2]+"'>"+item[1]+"</option>";
+        }
+       var namenueva = parseInt($("#formularioPedido")[0].children[$("#formularioPedido")[0].children.length-1].children[1].name)+1;
+        var htmll = "<div class='form-group pmd-textfield pmd-textfield-floating-label col-lg-2 col-md-2 col-sm-2 col-xs-2 s"+namenueva+" removerinputprendas'>"+
+        "<label for='cantidad"+namenueva+"' class='control-label letra18pt-pc'> Cantidad</label>"+
+        "<input class='form-control' type='number' id='cantidad"+namenueva+"' name='cantidad"+namenueva+"' min='1'>"+
+        "<span class='pmd-textfield-focused'></span></div>"+
+        "<div class='form-group pmd-textfield pmd-textfield-floating-label col-lg-10 col-md-10 col-sm-10 col-xs-10 s"+namenueva+" removerinputprendas'  id='div"+namenueva+"'>"+
+        "<label for='prenda"+namenueva+"' class='control-label letra18pt-pc'> Prenda </label>"+
+        "<select class='form-control disponibles' type='select' id='prenda"+namenueva+"' name='"+namenueva+"' form='formularioCliente' onchange='minmax(this.id)' >"+html+
+        "</select><span class='pmd-textfield-focused'></span></div>";
+        var actual = namenueva-1;
+        $("#div"+actual).after(htmll);
+        ventas();
+    });
+    $(".checkregla").change(function() {
+        if(this.checked) {
+            var descuentosr = $("#descuentosr input");
+            for (let i = 0; i < descuentosr.length; i++) {
+                if(descuentosr[i].value != this.value){
+                    $(descuentosr[i]).attr('checked', false);
+                }   
+            }
+            var con_t_reglasdescuentos = obtenerDatajson("*","con_t_reglasdescuentos","valoresconcondicion","ID",this.value);
+            var jsoncon_t_reglasdescuentos = JSON.parse(con_t_reglasdescuentos); 
+            var valor_total = $('#valor_total').attr("name");
+            if(!valor_total){console.log("esta vacio");return false;}
+            $(".removeresumendescuento").remove();
+            var datospedido = JSON.parse($("#datospedido").attr("name"));
+            var jsonData = calculardescuentos(datospedido,valor_total,jsoncon_t_reglasdescuentos);  
+            $("#datosPrendasapartado").after(jsonData.html);
+            $("#datosPrendas").after(jsonData.html);
+        }
+    });
     function sumarRestarpedido(datosIniciales,datosNuevos) {
-        console.log(datosIniciales);
-        console.log(datosNuevos);
         var arrayResta = new Array(6);var arraySuma = new Array(6);
         for (var i = 0; i < 6; i++) {arrayResta[i] = new Array(2);arraySuma[i] = new Array(2);}
         var r = 0;var s = 0;           
@@ -52,8 +93,6 @@ function ventas() {
         var itemVenta = arraySuma[0][1]+"/"+arraySuma[0][0];
         var usuarioCell = $('#usuarioCell').attr("name");
         actualizar("venta_pedido",pedido,ids,usuarioCell,"-");
-        console.log("Suma");console.log(arraySuma);
-        console.log("Resta");console.log(arrayResta);
         for (var i = 1; i < arraySuma.length; i++){
             if(arraySuma[i][0]){
                 itemVenta = itemVenta+","+arraySuma[i][1]+"/"+arraySuma[i][0];
@@ -66,13 +105,11 @@ function ventas() {
         }
         ventaitem(ids,itemVenta);
         revisarfechasatelite(arrayItems);
-        //console.log(ids);
         var fechaActual = obtenerData("fecha_entrega","con_t_ventas","row","venta_id",ids);
         var fecha_restriccion = $('#ventaNuevaTitulo').attr("name");
         var actual = new Date(fechaActual); 
         var restriccion = new Date(fecha_restriccion); 
         if(actual<restriccion){
-            console.log("se debe cambiar la fecha del pedido "+fechaActual+"<"+fecha_restriccion);
             var frarray = fecha_restriccion.split('-');
             var fr = frarray[1]+"/"+frarray[2]+"/"+frarray[0];
             actualizar("venta_fecha",fr,ids,usuarioCell,"-");
@@ -81,7 +118,6 @@ function ventas() {
 
     $('.usuarioUpdate').on('click', function(){  
         var ids = $(this).attr("name");
-        console.log(ids);
         var idsArray = ids.split("%");
         var estado = obtenerData("estado","con_t_ventas","row","venta_id",idsArray[1]);
         if(estado == "Sin empacar" || estado == "Empacado"){
@@ -137,8 +173,7 @@ function ventas() {
         $('.reinicia').remove(); 
         $('.removerVentas').remove();
         var ordenesVenta = ordenesventajson($('#bscar').val(),$('#estadoFiltro').val(),$('#transportador').val(),$('#datetimepicker-default').val(),$('#datetimepicker-defaultFiltro').val(),$('#bscartelefono').val());
-        var jsonVenta = JSON.parse(ordenesVenta); 
-        console.log(jsonVenta);
+        var jsonVenta = JSON.parse(ordenesVenta);
         var primeraFila = $('#primeraFila');
         var permisoVentas = permisosVentas();
         var items = permisoVentas.split(',');
@@ -178,13 +213,11 @@ function ventas() {
             $("#prendasGuardadasUpdate").attr('name', ids);
             var datosVentaJson = obtenerDatajson("ordenitem_id,prenda_id,valor,descuento_id,estado_id,venta_id","con_t_ventaitem","valoresconcondicion","venta_id",ids);
             var jsonVentaItem = JSON.parse(datosVentaJson);
-            console.log(jsonVentaItem);
             for (let i = 0; i < jsonVentaItem.length; i++) {
                 if(jsonVentaItem[i].estado_id==1){
                     var p = i+1;
                     var datosPrenda = obtenerDatajson("nombre,color,talla","con_t_resumen","valoresconcondicion","referencia_id",jsonVentaItem[i].prenda_id);
                     var jsondatosPrenda = JSON.parse(datosPrenda);
-                    console.log(jsondatosPrenda);
                     var seleccion = $("#prenda"+p+"Update");
                     $(".s"+p).css('display', 'block');
                     seleccion.append("<option class='removeUpdate' value='"+jsonVentaItem[i].prenda_id+"%"+jsondatosPrenda[0].nombre+" "+jsondatosPrenda[0].color+" "+jsondatosPrenda[0].talla+"%"+jsonVentaItem[i].valor+"'>"+jsondatosPrenda[0].nombre+" "+jsondatosPrenda[0].color+" "+jsondatosPrenda[0].talla+"</option>");
@@ -219,7 +252,6 @@ function ventas() {
         ids = $(this).attr("name");
         var datosInicialesString = $('#popup6').attr("name"); 
         var jsonVentasItem = JSON.parse(datosInicialesString);
-        console.log(jsonVentasItem);
         var pedido = "";
         var precio = 0;    
         var itemVenta = "";    
@@ -243,8 +275,6 @@ function ventas() {
         var pedido2 = pedido1.replaceAll(">","");
         var pedido3 = pedido2.replaceAll("{","<");  
         pedidojson = pedido3.replaceAll("}",">");
-        console.log(pedidojson);
-        console.log(itemVenta.substring(0, itemVenta.length - 1));
         var usuarioCell = $('#usuarioCell').attr("name");
         actualizar("venta_pedido",pedidojson,jsonVentasItem[0].venta_id,usuarioCell,"-");
         sumarinventario(jsonVentasItem[0].venta_id);
@@ -258,7 +288,6 @@ function ventas() {
         $('.removerVentas').remove();
         var ordenesVenta = ordenesventajson($('#bscar').val(),$('#estadoFiltro').val(),$('#transportador').val(),$('#datetimepicker-default').val(),$('#datetimepicker-defaultFiltro').val(),$('#bscartelefono').val());
         var jsonVenta = JSON.parse(ordenesVenta); 
-        console.log(jsonVenta);
         var primeraFila = $('#primeraFila');
         var permisoVentas = permisosVentas();
         var items = permisoVentas.split(',');
@@ -319,7 +348,6 @@ function ventas() {
             $('.removerVentas').remove();
             var ordenesVenta = ordenesventajson($('#bscar').val(),$('#estadoFiltro').val(),$('#transportador').val(),$('#datetimepicker-default').val(),$('#datetimepicker-defaultFiltro').val(),$('#bscartelefono').val());
             var jsonVenta = JSON.parse(ordenesVenta); 
-            console.log(jsonVenta);
             var primeraFila = $('#primeraFila');
             var permisoVentas = permisosVentas();
             var items = permisoVentas.split(',');
@@ -384,7 +412,6 @@ function ventas() {
         $('.removerVentas').remove();
         var ordenesVenta = ordenesventajson($('#bscar').val(),$('#estadoFiltro').val(),$('#transportador').val(),$('#datetimepicker-default').val(),$('#datetimepicker-defaultFiltro').val(),$('#bscartelefono').val());
         var jsonVenta = JSON.parse(ordenesVenta); 
-        console.log(jsonVenta);
         var primeraFila = $('#primeraFila');
         var permisoVentas = permisosVentas();
         var items = permisoVentas.split(',');
@@ -566,24 +593,8 @@ function imprimiritemventas(ventaItems){
     return html;*/
 };
 function imprimirVentasjson(jsonVenta,botonrevisar,pedidoUpdate,fechaUpdate,notasUpdate,usuarioUpdate){
-    // {
-    //     "0": {
-    //         "venta_id": "41",
-    //         "fecha_creada": "2022-08-08 16:55:39",
-    //         "datos_cliente": "{\"nombre\":\"Diego Rodríguez\",\"telefono\":\"3229261615\",\"direccion\":\"Cll 33 No 6 - 9\",\"complemento\":\"Apto 1005\",\"ciudad\":\"Bogotá\"}",
-    //         "pedido": "{\"prendas\":\"1 Alaska Negro XS\",\"precio\":\"140000\"}",
-    //         "cliente_ok": "0",
-    //         "notas": "",
-    //         "fecha_entrega": "2022-08-09",
-    //         "estado": "Cancelado"
-    //     }
-    // }
-    // { nombre: "Diego Rodríguez", telefono: "3229261615", direccion: "Cll 33 No 6 - 9", complemento: "Apto 1005", ciudad: "Bogotá" }
-    //{   "prendas": "1 Alaska Negro XS",    "precio": "140000"    }
     var jsonDatosCliente = JSON.parse(jsonVenta[jsonVenta.length-1].datos_cliente);
-    console.log(jsonDatosCliente);
     var jsonPedido = JSON.parse(jsonVenta[jsonVenta.length-1].pedido);
-    console.log(jsonPedido);
     var ok = 0;
     var press = 0;
     if(jsonVenta[jsonVenta.length-1].cliente_ok>0){
@@ -600,7 +611,6 @@ function imprimirVentasjson(jsonVenta,botonrevisar,pedidoUpdate,fechaUpdate,nota
     var html = "<div class='col-lg-12 col-md-12 col-sm-12 col-xs-12 removerVentas' id='primeraVenta'><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1' name='Estado'><p class='letra18pt-pc'>"+estado+"</p></div><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1' name='Orden'><p class='letra18pt-pc'>"+jsonVenta[jsonVenta.length-1].venta_id+"</p></div><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1' name='Cliente'><p class='letra18pt-pc "+usuarioUpdate+"' name='"+jsonVenta[jsonVenta.length-1].cliente_id+"%"+jsonVenta[jsonVenta.length-1].venta_id+"'>"+jsonDatosCliente.nombre+" "+jsonDatosCliente.telefono+"</p></div><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1' name='Dirección'><p class='letra18pt-pc'>"+jsonDatosCliente.direccion+"</p></div><div class='col-lg-2 col-md-2 col-sm-2 col-xs-2' name='Adición'><p class='letra18pt-pc'>"+jsonDatosCliente.complemento+"</p></div><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1' name='Ciudad'><p class='letra18pt-pc'>"+jsonDatosCliente.ciudad+"</p></div><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1' name='Pedido'><p class='letra18pt-pc "+pedidoUpdate+"' name='"+jsonVenta[jsonVenta.length-1].venta_id+"'>"+jsonPedido.prendas+"</p></div><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1' name='Precio'><p class='letra18pt-pc dinerook"+ok+"'>"+precioFormato+"</p></div><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1' name='Entrega'><p class='letra18pt-pc "+fechaUpdate+"' name='"+jsonVenta[jsonVenta.length-1].venta_id+"'>"+jsonVenta[jsonVenta.length-1].fecha_entrega+"</p></div><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1' name='Notas'><p class='letra18pt-pc "+notasUpdate+"' name='"+jsonVenta[jsonVenta.length-1].venta_id+"'>."+notas+"</p></div><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1' name='Origen'><p class='letra18pt-pc'>"+jsonVenta[jsonVenta.length-1].origen+"</p></div></div>";
     var imprimir = "<div id='impresionParaempacar' style='display: none;' class='removerVentas'><table border='1'><tr><th>Orden</th><th>Cliente</th><th>Dirección</th><th>Complemento</th><th>Ciudad</th><th>Teléfono</th><th>Pedido</th><th>Notas</th><th>Precio</th><th>Pedido pago</th></tr><tr><td>"+jsonVenta[jsonVenta.length-1].venta_id+"</td><td>"+jsonDatosCliente.nombre+"</td><td>"+jsonDatosCliente.direccion+"</td><td>"+jsonDatosCliente.complemento+"</td><td>"+jsonDatosCliente.ciudad+"</td><td>"+jsonDatosCliente.telefono+"</td><td>"+jsonPedido.prendas+"</td><td>"+jsonVenta[jsonVenta.length-1].notas+"</td><td>"+precioFormato+"</td><td>"+jsonPedido.precio+"</td></tr>";
     for(i=(jsonVenta.length-2);i>=0;i--){
-        console.log(jsonVenta[i]);
         var jsonDatosCliente = JSON.parse(jsonVenta[i].datos_cliente);        
         var jsonPedido = JSON.parse(jsonVenta[i].pedido);  
         var ok = 0;
@@ -620,16 +630,11 @@ function imprimirVentasjson(jsonVenta,botonrevisar,pedidoUpdate,fechaUpdate,nota
         imprimir = imprimir+"<tr><td>"+jsonVenta[i].venta_id+"</td><td>"+jsonDatosCliente.nombre+"</td><td>"+jsonDatosCliente.direccion+"</td><td>"+jsonDatosCliente.complemento+"</td><td>"+jsonDatosCliente.ciudad+"</td><td>"+jsonDatosCliente.telefono+"</td><td>"+jsonPedido.prendas+"</td><td>"+jsonVenta[i].notas+"</td><td>"+precioFormato+"</td><td>"+jsonPedido.precio+"</td></tr>";
     }
     html = html + imprimir +"</table></div>";
-    console.log(html);
     return html;
 };
 function imprimirVentasCambiosjson(jsonVentaCambio,botonrevisar,pedidoUpdate,fechaUpdate,notasUpdate,usuarioUpdate){
     var jsonVentas = jsonVentaCambio.ventas; 
     var jsonCambios = jsonVentaCambio.cambios; 
-    console.log("jsventas");
-    console.log(jsonVentas);
-    console.log("jscambios");
-    console.log(jsonCambios);
     var jsonDatosCliente = JSON.parse(jsonVentas[0].datos_cliente);
     var jsonPedido = JSON.parse(jsonVentas[0].pedido);
     var ok = 0;
@@ -683,7 +688,6 @@ function imprimirVentasCambiosjson(jsonVentaCambio,botonrevisar,pedidoUpdate,fec
         //imprimir = "<div id='impresionParaempacar' style='display: none;' class='removerCambios'><table border='1'><tr><th>Cambio</th><th>Cliente</th><th>Dirección</th><th>Complemento</th><th>Ciudad</th><th>Teléfono</th><th>Pedido</th><th>Notas</th><th>Excedente</th></tr><tr><td>C"+jsonCambios[0].cambio_id+"</td><td>"+datosdelcliente[1]+"</td><td>"+datosdelcliente[3]+"</td><td>"+datosdelcliente[4]+"</td><td>"+datosdelcliente[5].substr(0, datosdelcliente[5].length - 1)+"</td><td>"+datosdelcliente[2]+"</td><td>"+jsonCambios[0].pedido+"</td><td>"+jsonCambios[0].notas+"</td><td>"+precioFormato+"</td></tr>";
         if(jsonCambios.length>0){
             for(i=1;i<jsonCambios.length;i++){
-                console.log(jsonCambios[i]);
                 var ok = 0;
                 var signo = "";
                 if(jsonCambios[i].excedente < 0){
