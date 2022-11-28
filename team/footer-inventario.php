@@ -598,8 +598,8 @@
                 var valor = 0;
                 var itemsArray = items.split("%");
                 var itemVentas = [];
-                for(var i = 0;i < (itemsArray.length-1);i++){
-                    var val = itemsArray[i].split("°");
+                for(var j = 0;j < (itemsArray.length-1);j++){
+                    var val = itemsArray[j].split("°");
                     if(val[3]=="Entregado"){
                         valor = obtenerData("valor","con_t_ventaitem","row","ordenitem_id",val[2]);
                         valorSalida = parseInt(valorSalida) + parseInt(valor);
@@ -608,8 +608,8 @@
                 }
                 var itemsCambioArray = itemsCambio.split("%");
                 var itemCambios =[];
-                for(var i = 0;i < (itemsCambioArray.length-1);i++){
-                    var val = itemsCambioArray[i].split("°");
+                for(var j = 0;j < (itemsCambioArray.length-1);j++){
+                    var val = itemsCambioArray[j].split("°");
                     itemCambios.push(val[2]);
                 }
                 var ok = parseInt(excedente)-parseInt(recaudo);

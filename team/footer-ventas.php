@@ -76,7 +76,6 @@
         $('#filtroFE').attr("name",pedidoUpdate+","+fechaUpdate+","+notasUpdate+","+usuarioUpdate+","+botonrevisar);
         var ordenesVenta = ordenesventajson($('#bscar').val(),$('#estadoFiltro').val(),$('#transportador').val(),$('#datetimepicker-default').val(),$('#datetimepicker-defaultFiltro').val(),$('#bscartelefono').val());
         var jsonVenta = JSON.parse(ordenesVenta); 
-        console.log(jsonVenta);
         var primeraFila = $('#primeraFila');
         var html = imprimirVentasjson(jsonVenta,botonrevisar,pedidoUpdate,fechaUpdate,notasUpdate,usuarioUpdate);
     	primeraFila.after(html);
@@ -87,7 +86,6 @@
 	    $('.removerVentas').remove();
 	    var ordenesVenta = ordenesventajson($('#bscar').val(),$('#estadoFiltro').val(),$('#transportador').val(),$('#datetimepicker-default').val(),$('#datetimepicker-defaultFiltro').val(),$('#bscartelefono').val());
         var jsonVenta = JSON.parse(ordenesVenta); 
-        console.log(jsonVenta);
         var primeraFila = $('#primeraFila');
         var html = imprimirVentasjson(jsonVenta,botonrevisar,pedidoUpdate,fechaUpdate,notasUpdate,usuarioUpdate);
     	primeraFila.after(html);
@@ -97,9 +95,7 @@
 	$('#buscadortelefono').on('change',function(){
 	    $('.removerVentas').remove();
 	    var ordenesVenta = ordenesventajson($('#bscar').val(),$('#estadoFiltro').val(),$('#transportador').val(),$('#datetimepicker-default').val(),$('#datetimepicker-defaultFiltro').val(),$('#bscartelefono').val());
-        console.log(ordenesVenta);
         var jsonVentaCambio = JSON.parse(ordenesVenta); 
-        console.log(jsonVentaCambio);
         var primeraFila = $('#primeraFila');
         var html = imprimirVentasCambiosjson(jsonVentaCambio,botonrevisar,pedidoUpdate,fechaUpdate,notasUpdate,usuarioUpdate);
     	primeraFila.after(html);
@@ -110,7 +106,6 @@
 	    $('.removerVentas').remove();
         var ordenesVenta = ordenesventajson($('#bscar').val(),$('#estadoFiltro').val(),$('#transportador').val(),$('#datetimepicker-default').val(),$('#datetimepicker-defaultFiltro').val(),$('#bscartelefono').val());
         var jsonVenta = JSON.parse(ordenesVenta); 
-        console.log(jsonVenta);
         var primeraFila = $('#primeraFila');
         var html = imprimirVentasjson(jsonVenta,botonrevisar,pedidoUpdate,fechaUpdate,notasUpdate,usuarioUpdate);
     	primeraFila.after(html);
@@ -121,7 +116,6 @@
 	    $('.removerVentas').remove();
         var ordenesVenta = ordenesventajson($('#bscar').val(),$('#estadoFiltro').val(),$('#transportador').val(),$('#datetimepicker-default').val(),$('#datetimepicker-defaultFiltro').val(),$('#bscartelefono').val());
         var jsonVenta = JSON.parse(ordenesVenta); 
-        console.log(jsonVenta);
         var primeraFila = $('#primeraFila');
         var html = imprimirVentasjson(jsonVenta,botonrevisar,pedidoUpdate,fechaUpdate,notasUpdate,usuarioUpdate);
     	primeraFila.after(html);
@@ -132,7 +126,6 @@
 	    $('.removerVentas').remove();
         var ordenesVenta = ordenesventajson($('#bscar').val(),$('#estadoFiltro').val(),$('#transportador').val(),$('#datetimepicker-default').val(),$('#datetimepicker-defaultFiltro').val(),$('#bscartelefono').val());
         var jsonVenta = JSON.parse(ordenesVenta); 
-        console.log(jsonVenta);
         var primeraFila = $('#primeraFila');
         var html = imprimirVentasjson(jsonVenta,botonrevisar,pedidoUpdate,fechaUpdate,notasUpdate,usuarioUpdate);
     	primeraFila.after(html);
@@ -143,7 +136,10 @@
     $('#agregarVenta').on('click', function(){         
         $('#popup').fadeIn('slow');         
         $('.popup-overlay').fadeIn('slow');         
-        $('.popup-overlay').height($(window).height());         
+        $('.popup-overlay').height($(window).height());   
+        var htmll = apartados();
+        $("#datosPrendas").after(htmll);  
+        ventas();    
         return false;     
     });      
     $('#close').on('click', function(){         
@@ -219,149 +215,57 @@
         $('#popup').fadeOut('slow');         
         $('#popup4').fadeIn('slow'); 
         $('.reinicia').remove();
-        var html = "<option value='NA'>NA</option>";
+        var html = "<option class='removerdisponibles' value='NA'>NA</option>";
         var disponibl = disponibles();
         var items = disponibl.split(',');
         for(i=0;i<(items.length-1);i++){
             var item = items[i].split('!');
-            html=html+"<option value='"+item[0]+"%"+item[1]+"%"+item[2]+"'>"+item[1]+"</option>";
+            html=html+"<option class='removerdisponibles' value='"+item[0]+"%"+item[1]+"%"+item[2]+"'>"+item[1]+"</option>";
         }
         var disp = $('.disponibles');
         disp.append(html);
+        ventas();
         return false;     
     });  
-    $('#prendasGuardadas').on('click', function(){ 
-        if($('#prenda1').val() != "NA"){
-            if($('#cantidad1').val() > 0){
-                if($('#prenda2').val() != "NA"){
-                    if($('#cantidad2').val() > 0){
-                        if($('#prenda3').val() != "NA"){
-                            if($('#cantidad3').val() > 0){
-                                if($('#prenda4').val() != "NA"){
-                                    if($('#cantidad4').val() > 0){
-                                        if($('#prenda5').val() != "NA"){
-                                            if($('#cantidad5').val() > 0){
-                                                if($('#prenda6').val() != "NA"){
-                                                    if($('#cantidad6').val() > 0){
-                                                        $('#popup4').fadeOut('slow');      
-                                                        $('#popup').fadeIn('slow');
-                                                        var datos = $('#prenda1').val();
-                                                        var items = datos.split('%');
-                                                        var datos = $('#prenda2').val();
-                                                        var items2 = datos.split('%');
-                                                        var datos = $('#prenda3').val();
-                                                        var items3 = datos.split('%');
-                                                        var datos = $('#prenda4').val();
-                                                        var items4 = datos.split('%');
-                                                        var datos = $('#prenda5').val();
-                                                        var items5 = datos.split('%');
-                                                        var datos = $('#prenda6').val();
-                                                        var items6 = datos.split('%');
-                                                        var html = "<p class='col-lg-2 col-md-2 col-sm-2 col-xs-2 reinicia' id='cantidadV1'>"+$('#cantidad1').val()+"</p><p class='col-lg-4 col-md-4 col-sm-4 col-xs-4 reinicia' id='refe1'>"+items[1]+"</p><p class='reinicia' style='display: none;' id='idref1'>"+items[0]+"</p><p class='reinicia' style='display: none;' id='precio1'>"+items[2]+"</p>";
-                                                        var html = html+"<p class='col-lg-2 col-md-2 col-sm-2 col-xs-2 reinicia' id='cantidadV2'>"+$('#cantidad2').val()+"</p><p class='col-lg-4 col-md-4 col-sm-4 col-xs-4 reinicia' id='refe2'>"+items2[1]+"</p><p class='reinicia' style='display: none;' id='idref2'>"+items2[0]+"</p><p class='reinicia' style='display: none;' id='precio2'>"+items2[2]+"</p>";
-                                                        var html = html+"<p class='col-lg-2 col-md-2 col-sm-2 col-xs-2 reinicia' id='cantidadV3'>"+$('#cantidad3').val()+"</p><p class='col-lg-4 col-md-4 col-sm-4 col-xs-4 reinicia' id='refe3'>"+items3[1]+"</p><p class='reinicia' style='display: none;' id='idref3'>"+items3[0]+"</p><p class='reinicia' style='display: none;' id='precio3'>"+items3[2]+"</p>";
-                                                        var html = html+"<p class='col-lg-2 col-md-2 col-sm-2 col-xs-2 reinicia' id='cantidadV4'>"+$('#cantidad4').val()+"</p><p class='col-lg-4 col-md-4 col-sm-4 col-xs-4 reinicia' id='refe4'>"+items4[1]+"</p><p class='reinicia' style='display: none;' id='idref4'>"+items4[0]+"</p><p class='reinicia' style='display: none;' id='precio4'>"+items4[2]+"</p>";
-                                                        var html = html+"<p class='col-lg-2 col-md-2 col-sm-2 col-xs-2 reinicia' id='cantidadV5'>"+$('#cantidad5').val()+"</p><p class='col-lg-4 col-md-4 col-sm-4 col-xs-4 reinicia' id='refe5'>"+items5[1]+"</p><p class='reinicia' style='display: none;' id='idref5'>"+items5[0]+"</p><p class='reinicia' style='display: none;' id='precio5'>"+items5[2]+"</p>";
-                                                        var html = html+"<p class='col-lg-2 col-md-2 col-sm-2 col-xs-2 reinicia' id='cantidadV6'>"+$('#cantidad6').val()+"</p><p class='col-lg-4 col-md-4 col-sm-4 col-xs-4 reinicia' id='refe6'>"+items6[1]+"</p><p class='reinicia' style='display: none;' id='idref6'>"+items6[0]+"</p><p class='reinicia' style='display: none;' id='precio6'>"+items6[2]+"</p>";
-                                                        var pedido = $('#pedido');
-                                                        var arraItems = [items[0],items2[0],items3[0],items4[0],items5[0],items6[0]];
-                                                        revisarfechasatelite(arraItems);
-                                                        pedido.append(html);
-                                                    }else{alert("Ingresa la cantidad para la referencia 6");}
-                                                }else{
-                                                    $('#popup4').fadeOut('slow');      
-                                                    $('#popup').fadeIn('slow');
-                                                    var datos = $('#prenda1').val();
-                                                    var items = datos.split('%');
-                                                    var datos = $('#prenda2').val();
-                                                    var items2 = datos.split('%');
-                                                    var datos = $('#prenda3').val();
-                                                    var items3 = datos.split('%');
-                                                    var datos = $('#prenda4').val();
-                                                    var items4 = datos.split('%');
-                                                    var datos = $('#prenda5').val();
-                                                    var items5 = datos.split('%');
-                                                    var html = "<p class='col-lg-2 col-md-2 col-sm-2 col-xs-2 reinicia' id='cantidadV1'>"+$('#cantidad1').val()+"</p><p class='col-lg-4 col-md-4 col-sm-4 col-xs-4 reinicia' id='refe1'>"+items[1]+"</p><p class='reinicia' style='display: none;' id='idref1'>"+items[0]+"</p><p class='reinicia' style='display: none;' id='precio1'>"+items[2]+"</p>";
-                                                    var html = html+"<p class='col-lg-2 col-md-2 col-sm-2 col-xs-2 reinicia' id='cantidadV2'>"+$('#cantidad2').val()+"</p><p class='col-lg-4 col-md-4 col-sm-4 col-xs-4 reinicia' id='refe2'>"+items2[1]+"</p><p class='reinicia' style='display: none;' id='idref2'>"+items2[0]+"</p><p class='reinicia' style='display: none;' id='precio2'>"+items2[2]+"</p>";
-                                                    var html = html+"<p class='col-lg-2 col-md-2 col-sm-2 col-xs-2 reinicia' id='cantidadV3'>"+$('#cantidad3').val()+"</p><p class='col-lg-4 col-md-4 col-sm-4 col-xs-4 reinicia' id='refe3'>"+items3[1]+"</p><p class='reinicia' style='display: none;' id='idref3'>"+items3[0]+"</p><p class='reinicia' style='display: none;' id='precio3'>"+items3[2]+"</p>";
-                                                    var html = html+"<p class='col-lg-2 col-md-2 col-sm-2 col-xs-2 reinicia' id='cantidadV4'>"+$('#cantidad4').val()+"</p><p class='col-lg-4 col-md-4 col-sm-4 col-xs-4 reinicia' id='refe4'>"+items4[1]+"</p><p class='reinicia' style='display: none;' id='idref4'>"+items4[0]+"</p><p class='reinicia' style='display: none;' id='precio4'>"+items4[2]+"</p>";
-                                                    var html = html+"<p class='col-lg-2 col-md-2 col-sm-2 col-xs-2 reinicia' id='cantidadV5'>"+$('#cantidad5').val()+"</p><p class='col-lg-4 col-md-4 col-sm-4 col-xs-4 reinicia' id='refe5'>"+items5[1]+"</p><p class='reinicia' style='display: none;' id='idref5'>"+items5[0]+"</p><p class='reinicia' style='display: none;' id='precio5'>"+items5[2]+"</p>";
-                                                    var pedido = $('#pedido');
-                                                        var arraItems = [items[0],items2[0],items3[0],items4[0],items5[0]];
-                                                        revisarfechasatelite(arraItems);
-                                                    pedido.append(html);
-                                                }
-                                            }else{alert("Ingresa la cantidad para la referencia 5");}
-                                        }else{
-                                            $('#popup4').fadeOut('slow');      
-                                            $('#popup').fadeIn('slow');
-                                            var datos = $('#prenda1').val();
-                                            var items = datos.split('%');
-                                            var datos = $('#prenda2').val();
-                                            var items2 = datos.split('%');
-                                            var datos = $('#prenda3').val();
-                                            var items3 = datos.split('%');
-                                            var datos = $('#prenda4').val();
-                                            var items4 = datos.split('%');
-                                            var html = "<p class='col-lg-2 col-md-2 col-sm-2 col-xs-2 reinicia' id='cantidadV1'>"+$('#cantidad1').val()+"</p><p class='col-lg-4 col-md-4 col-sm-4 col-xs-4 reinicia' id='refe1'>"+items[1]+"</p><p class='reinicia' style='display: none;' id='idref1'>"+items[0]+"</p><p class='reinicia' style='display: none;' id='precio1'>"+items[2]+"</p>";
-                                            var html = html+"<p class='col-lg-2 col-md-2 col-sm-2 col-xs-2 reinicia' id='cantidadV2'>"+$('#cantidad2').val()+"</p><p class='col-lg-4 col-md-4 col-sm-4 col-xs-4 reinicia' id='refe2'>"+items2[1]+"</p><p class='reinicia' style='display: none;' id='idref2'>"+items2[0]+"</p><p class='reinicia' style='display: none;' id='precio2'>"+items2[2]+"</p>";
-                                            var html = html+"<p class='col-lg-2 col-md-2 col-sm-2 col-xs-2 reinicia' id='cantidadV3'>"+$('#cantidad3').val()+"</p><p class='col-lg-4 col-md-4 col-sm-4 col-xs-4 reinicia' id='refe3'>"+items3[1]+"</p><p class='reinicia' style='display: none;' id='idref3'>"+items3[0]+"</p><p class='reinicia' style='display: none;' id='precio3'>"+items3[2]+"</p>";
-                                            var html = html+"<p class='col-lg-2 col-md-2 col-sm-2 col-xs-2 reinicia' id='cantidadV4'>"+$('#cantidad4').val()+"</p><p class='col-lg-4 col-md-4 col-sm-4 col-xs-4 reinicia' id='refe4'>"+items4[1]+"</p><p class='reinicia' style='display: none;' id='idref4'>"+items4[0]+"</p><p class='reinicia' style='display: none;' id='precio4'>"+items4[2]+"</p>";
-                                            var pedido = $('#pedido');
-                                                        var arraItems = [items[0],items2[0],items3[0],items4[0]];
-                                                        revisarfechasatelite(arraItems);
-                                            pedido.append(html);
-                                        }
-                                    }else{alert("Ingresa la cantidad para la referencia 4");}
-                                }else{
-                                    $('#popup4').fadeOut('slow');      
-                                    $('#popup').fadeIn('slow');
-                                    var datos = $('#prenda1').val();
-                                    var items = datos.split('%');
-                                    var datos = $('#prenda2').val();
-                                    var items2 = datos.split('%');
-                                    var datos = $('#prenda3').val();
-                                    var items3 = datos.split('%');
-                                    var html = "<p class='col-lg-2 col-md-2 col-sm-2 col-xs-2 reinicia' id='cantidadV1'>"+$('#cantidad1').val()+"</p><p class='col-lg-4 col-md-4 col-sm-4 col-xs-4 reinicia' id='refe1'>"+items[1]+"</p><p class='reinicia' style='display: none;' id='idref1'>"+items[0]+"</p><p class='reinicia' style='display: none;' id='precio1'>"+items[2]+"</p>";
-                                    var html = html+"<p class='col-lg-2 col-md-2 col-sm-2 col-xs-2 reinicia' id='cantidadV2'>"+$('#cantidad2').val()+"</p><p class='col-lg-4 col-md-4 col-sm-4 col-xs-4 reinicia' id='refe2'>"+items2[1]+"</p><p class='reinicia' style='display: none;' id='idref2'>"+items2[0]+"</p><p class='reinicia' style='display: none;' id='precio2'>"+items2[2]+"</p>";
-                                    var html = html+"<p class='col-lg-2 col-md-2 col-sm-2 col-xs-2 reinicia' id='cantidadV3'>"+$('#cantidad3').val()+"</p><p class='col-lg-4 col-md-4 col-sm-4 col-xs-4 reinicia' id='refe3'>"+items3[1]+"</p><p class='reinicia' style='display: none;' id='idref3'>"+items3[0]+"</p><p class='reinicia' style='display: none;' id='precio3'>"+items3[2]+"</p>";
-                                    var pedido = $('#pedido');
-                                                        var arraItems = [items[0],items2[0],items3[0]];
-                                                        revisarfechasatelite(arraItems);
-                                    pedido.append(html);
-                                }
-                            }else{alert("Ingresa la cantidad para la referencia 3");}
-                        }else{
-                            $('#popup4').fadeOut('slow');      
-                            $('#popup').fadeIn('slow');
-                            var datos = $('#prenda1').val();
-                            var items = datos.split('%');
-                            var datos = $('#prenda2').val();
-                            var items2 = datos.split('%');
-                            var html = "<p class='col-lg-2 col-md-2 col-sm-2 col-xs-2 reinicia' id='cantidadV1'>"+$('#cantidad1').val()+"</p><p class='col-lg-4 col-md-4 col-sm-4 col-xs-4 reinicia' id='refe1'>"+items[1]+"</p><p class='reinicia' style='display: none;' id='idref1'>"+items[0]+"</p><p class='reinicia' style='display: none;' id='precio1'>"+items[2]+"</p>";
-                            var html = html+"<p class='col-lg-2 col-md-2 col-sm-2 col-xs-2 reinicia' id='cantidadV2'>"+$('#cantidad2').val()+"</p><p class='col-lg-4 col-md-4 col-sm-4 col-xs-4 reinicia' id='refe2'>"+items2[1]+"</p><p class='reinicia' style='display: none;' id='idref2'>"+items2[0]+"</p><p class='reinicia' style='display: none;' id='precio2'>"+items2[2]+"</p>";
-                            var pedido = $('#pedido');
-                                                        var arraItems = [items[0],items2[0]];
-                                                        revisarfechasatelite(arraItems);
-                            pedido.append(html);
-                        }
-                    }else{alert("Ingresa la cantidad para la referencia 2");}
-                }else{
-                    $('#popup4').fadeOut('slow');      
-                    $('#popup').fadeIn('slow');
-                    var datos = $('#prenda1').val();
-                    var items = datos.split('%');
-                    var html = "<p class='col-lg-2 col-md-2 col-sm-2 col-xs-2 reinicia' id='cantidadV1'>"+$('#cantidad1').val()+"</p><p class='col-lg-4 col-md-4 col-sm-4 col-xs-4 reinicia' id='refe1'>"+items[1]+"</p><p class='reinicia' style='display: none;' id='idref1'>"+items[0]+"</p><p class='reinicia' style='display: none;' id='precio1'>"+items[2]+"</p>";
-                    var pedido = $('#pedido');
-                                                        var arraItems = [items[0]];
-                                                        revisarfechasatelite(arraItems);
-                    pedido.append(html);
-                }
-            }else{alert("Ingresa la cantidad para la referencia 1");}
-        }else{alert("Ingresa al menos una referencia para el pedido");}
-        return false;     
+    $('#prendasGuardadas').on('click', function(){         
+        var html = ""; 
+        var j = 1;
+        var l=0;
+        var arraItems = [];
+        var precio =0;
+        var jsonPrendas = new Object();
+        for (let i = 1; i < $("#formularioPedido")[0].children.length; i=i+2) {
+            if($("#formularioPedido")[0].children[i].children[1].value == 'NA'){break;}
+            var items = $("#formularioPedido")[0].children[i].children[1].value.split('%');
+            html = html + "<p class='col-lg-2 col-md-2 col-sm-2 col-xs-2 reinicia' id='cantidadV"+j+"'>"+$("#cantidad"+j+"").val()+"</p>"+
+            "<p class='col-lg-4 col-md-4 col-sm-4 col-xs-4 reinicia' id='refe"+j+"'>"+items[1]+"</p>"+
+            "<p class='reinicia' style='display: none;' id='idref"+j+"'>"+items[0]+"</p>"+
+            "<p class='reinicia' style='display: none;' id='precio"+j+"'>"+items[2]+"</p>";
+            arraItems.push[items[0]];
+            precio = precio + (parseInt($("#cantidad"+j+"").val())*parseInt(items[2]));
+            var jsonPrenda = new Object();
+            jsonPrenda.codigo = items[0];
+            jsonPrenda.descripcion = items[1];
+            jsonPrenda.valor = items[2];
+            for (let k = 0; k < $("#cantidad"+j+"").val(); k++) {
+                jsonPrendas[l] = jsonPrenda;
+                l++;
+            }            
+            j++;
+        }
+        var prendaString= JSON.stringify(jsonPrendas);
+        html=html+"<div class='col-lg-12 col-md-12 col-sm-12 col-xs-12  removeprendavender' id='datospedido' name='"+prendaString+"'>"+
+        "<p class='letra3pt-mv letra16pt-pc' id='valor_total' name='"+precio+"'>Precio total: "+precio+"</p></div>";
+        revisarfechasatelite(arraItems);
+        $('#popup4').fadeOut('slow');      
+        $('#popup').fadeIn('slow');
+        var pedido = $('#pedido');
+        pedido.append(html);
+        $(".removerinputprendas").remove();
+        return false;
     });
-    $('#close4').on('click', function(){   
+    $('#close4').on('click', function(){ 
+        $(".removerinputprendas").remove();  
         $('#popup4').fadeOut('slow');      
         $('#popup').fadeIn('slow');
         return false;     
@@ -375,31 +279,7 @@
         var complementoCliente= $('#complementoCliente').val().replace('#', 'No');
         var not= $('#notas').val().replace('#', 'No');
         var notas = not.replace('%', 'porciento');
-        var origen= $('#origen').val();
-        var cantidad1 = $('#cantidadV1').text();
-        var id1 = $('#idref1').text();
-        var refe1 = $('#refe1').text();
-        var precio1 = $('#precio1').text();
-        var cantidad2 = $('#cantidadV2').text();
-        var id2 = $('#idref2').text();
-        var refe2 = $('#refe2').text();
-        var precio2 = $('#precio2').text();
-        var cantidad3 = $('#cantidadV3').text();
-        var id3 = $('#idref3').text();
-        var refe3 = $('#refe3').text();
-        var precio3 = $('#precio3').text();
-        var cantidad4 = $('#cantidadV4').text();
-        var id4 = $('#idref4').text();
-        var refe4 = $('#refe4').text();
-        var precio4 = $('#precio4').text();
-        var cantidad5 = $('#cantidadV5').text();
-        var id5 = $('#idref5').text();
-        var refe5 = $('#refe5').text();
-        var precio5 = $('#precio5').text();
-        var cantidad6 = $('#cantidadV6').text();
-        var id6 = $('#idref6').text();
-        var refe6 = $('#refe6').text();
-        var precio6 = $('#precio6').text();
+        var origen= $('#origen').val();        
         var fecha = $('#datetimepicker-entrega').val();
         var idUsuario = $('#usuario').attr("name");
         if(!idCliente){
@@ -420,98 +300,61 @@
         if(!fecha){
             alert("Por favor ingresa una fecha");
             return false;
-        }
-        if(id6){
-            var pedido = cantidad1+" "+refe1+" "+cantidad2+" "+refe2+" "+cantidad3+" "+refe3+" "+cantidad4+" "+refe4+" "+cantidad5+" "+refe5+" "+cantidad6+" "+refe6;
+        }        
+        if($("#valorDescuentos").attr("name")){
+            var datospedidoDescuentos = $("#datospedidoDescuentos").attr("name");
+            var datospedidoDescuentosJson = JSON.parse(datospedidoDescuentos);
+            var pedido = "";
             var objetopedido = {};
-            objetopedido.prendas = cantidad1+" "+refe1+" "+cantidad2+" "+refe2+" "+cantidad3+" "+refe3+" "+cantidad4+" "+refe4+" "+cantidad5+" "+refe5+" "+cantidad6+" "+refe6;
-            var precio = (cantidad1 * parseInt(precio1))+ (cantidad2 * parseInt(precio2))+ (cantidad3 * parseInt(precio3))+ (cantidad4 * parseInt(precio4))+ (cantidad5 * parseInt(precio5))+ (cantidad6 * parseInt(precio6));
-            objetopedido.precio = precio;
+            objetopedido.prendas = '';
+            var precio =0;
+            var itemVenta = "";
+            for (let i = 0; i < Object.keys(datospedidoDescuentosJson).length; i++) {
+                var cantidad = 1;
+                var id = datospedidoDescuentosJson[i].codigo;
+                var refe = datospedidoDescuentosJson[i].descripcion;
+                var precio1 = datospedidoDescuentosJson[i].valor;
+                pedido = pedido + cantidad+" "+refe + " ";
+                objetopedido.prendas = objetopedido.prendas + cantidad+" "+refe+" ";//voy aqui
+                itemVenta = itemVenta + cantidad+"/"+id+",";
+            }     
+            objetopedido.precio = $("#valorDescuentos").attr("name");
             var pedido=JSON.stringify(objetopedido);
             var pedido1 = pedido.replaceAll("<","");  
             var pedido2 = pedido1.replaceAll(">","");
             var pedido3 = pedido2.replaceAll("{","<");  
             pedido = pedido3.replaceAll("}",">");       
-            var itemVenta = cantidad1+"/"+id1+","+cantidad2+"/"+id2+","+cantidad3+"/"+id3+","+cantidad4+"/"+id4+","+cantidad5+"/"+id5+","+cantidad6+"/"+id6;
-            agregandotodo(idCliente,datosCliente,pedido,precio,notas,origen,fecha,idUsuario,idUsuario,itemVenta,botonrevisar,pedidoUpdate,fechaUpdate,notasUpdate,usuarioUpdate);       
+            let cadenaCorregida = itemVenta.substring(0, itemVenta.length - 1);
+            console.log(idCliente,datosCliente,pedido,precio,notas,origen,fecha,idUsuario,idUsuario,cadenaCorregida,botonrevisar,pedidoUpdate,fechaUpdate,notasUpdate,usuarioUpdate);       
+            agregandotodo(idCliente,datosCliente,pedido,precio,notas,origen,fecha,idUsuario,idUsuario,cadenaCorregida,botonrevisar,pedidoUpdate,fechaUpdate,notasUpdate,usuarioUpdate);       
             return false;
         }
-        if(id5){
-            var pedido = cantidad1+" "+refe1+" "+cantidad2+" "+refe2+" "+cantidad3+" "+refe3+" "+cantidad4+" "+refe4+" "+cantidad5+" "+refe5;
-            var objetopedido = {};
-            objetopedido.prendas = cantidad1+" "+refe1+" "+cantidad2+" "+refe2+" "+cantidad3+" "+refe3+" "+cantidad4+" "+refe4+" "+cantidad5+" "+refe5;
-            var precio = (cantidad1 * parseInt(precio1))+ (cantidad2 * parseInt(precio2))+ (cantidad3 * parseInt(precio3))+ (cantidad4 * parseInt(precio4))+ (cantidad5 * parseInt(precio5));
-            objetopedido.precio = precio;
-            var pedido=JSON.stringify(objetopedido);
-            var pedido1 = pedido.replaceAll("<","");  
-            var pedido2 = pedido1.replaceAll(">","");
-            var pedido3 = pedido2.replaceAll("{","<");  
-            pedido = pedido3.replaceAll("}",">");   
-            var itemVenta = cantidad1+"/"+id1+","+cantidad2+"/"+id2+","+cantidad3+"/"+id3+","+cantidad4+"/"+id4+","+cantidad5+"/"+id5;    
-            agregandotodo(idCliente,datosCliente,pedido,precio,notas,origen,fecha,idUsuario,idUsuario,itemVenta,botonrevisar,pedidoUpdate,fechaUpdate,notasUpdate,usuarioUpdate);       
-            return false;
+        var numprendas = $("#pedido")[0].children.length/4;
+        var pedido = "";
+        var objetopedido = {};
+        objetopedido.prendas = '';
+        var precio =0;
+        var itemVenta = "";
+        for (let i = 1; i <= numprendas; i++) {
+            var cantidad = $("#cantidadV"+i).text();
+            var id = $("#idref"+i).text();
+            var refe = $("#refe"+i).text();
+            var precio1 = $("#precio"+i).text();
+            pedido = pedido + cantidad+" "+refe + " ";
+            objetopedido.prendas = objetopedido.prendas + cantidad+" "+refe+" ";
+            precio = parseInt(precio) + (parseInt(cantidad) * parseInt(precio1));
+            itemVenta = itemVenta + cantidad+"/"+id+",";
         }
-        if(id4){
-            var pedido = cantidad1+" "+refe1+" "+cantidad2+" "+refe2+" "+cantidad3+" "+refe3+" "+cantidad4+" "+refe4;
-            var objetopedido = {};
-            objetopedido.prendas = cantidad1+" "+refe1+" "+cantidad2+" "+refe2+" "+cantidad3+" "+refe3+" "+cantidad4+" "+refe4;
-            var precio = (cantidad1 * parseInt(precio1))+ (cantidad2 * parseInt(precio2))+ (cantidad3 * parseInt(precio3))+ (cantidad4 * parseInt(precio4));
-            objetopedido.precio = precio;
-            var pedido=JSON.stringify(objetopedido);
-            var pedido1 = pedido.replaceAll("<","");  
-            var pedido2 = pedido1.replaceAll(">","");
-            var pedido3 = pedido2.replaceAll("{","<");  
-            pedido = pedido3.replaceAll("}",">");       
-            var itemVenta = cantidad1+"/"+id1+","+cantidad2+"/"+id2+","+cantidad3+"/"+id3+","+cantidad4+"/"+id4;
-            agregandotodo(idCliente,datosCliente,pedido,precio,notas,origen,fecha,idUsuario,idUsuario,itemVenta,botonrevisar,pedidoUpdate,fechaUpdate,notasUpdate,usuarioUpdate);       
-            return false;
-        }
-        if(id3){
-            var pedido = cantidad1+" "+refe1+" "+cantidad2+" "+refe2+" "+cantidad3+" "+refe3;
-            var objetopedido = {};
-            objetopedido.prendas = cantidad1+" "+refe1+" "+cantidad2+" "+refe2+" "+cantidad3+" "+refe3;
-            var precio = (cantidad1 * parseInt(precio1))+ (cantidad2 * parseInt(precio2))+ (cantidad3 * parseInt(precio3));
-            objetopedido.precio = precio;
-            var pedido=JSON.stringify(objetopedido);
-            var pedido1 = pedido.replaceAll("<","");  
-            var pedido2 = pedido1.replaceAll(">","");
-            var pedido3 = pedido2.replaceAll("{","<");  
-            pedido = pedido3.replaceAll("}",">");       
-            var itemVenta = cantidad1+"/"+id1+","+cantidad2+"/"+id2+","+cantidad3+"/"+id3;
-            agregandotodo(idCliente,datosCliente,pedido,precio,notas,origen,fecha,idUsuario,idUsuario,itemVenta,botonrevisar,pedidoUpdate,fechaUpdate,notasUpdate,usuarioUpdate);        
-            return false;
-        }
-        if(id2){
-            var pedido = cantidad1+" "+refe1+" "+cantidad2+" "+refe2;
-            var objetopedido = {};
-            objetopedido.prendas = cantidad1+" "+refe1+" "+cantidad2+" "+refe2;
-            var precio = (cantidad1 * parseInt(precio1))+ (cantidad2 * parseInt(precio2));
-            objetopedido.precio = precio;
-            var pedido=JSON.stringify(objetopedido);
-            var pedido1 = pedido.replaceAll("<","");  
-            var pedido2 = pedido1.replaceAll(">","");
-            var pedido3 = pedido2.replaceAll("{","<");  
-            pedido = pedido3.replaceAll("}",">");       
-            var itemVenta = cantidad1+"/"+id1+","+cantidad2+"/"+id2;
-            agregandotodo(idCliente,datosCliente,pedido,precio,notas,origen,fecha,idUsuario,idUsuario,itemVenta,botonrevisar,pedidoUpdate,fechaUpdate,notasUpdate,usuarioUpdate);        
-            return false;
-        }
-        if(id1){
-            var pedido = cantidad1+" "+refe1;
-            var objetopedido = {};
-            objetopedido.prendas = cantidad1+" "+refe1;
-            var precio = (cantidad1 * parseInt(precio1));
-            objetopedido.precio = precio;
-            var pedido=JSON.stringify(objetopedido);
-            var pedido1 = pedido.replaceAll("<","");  
-            var pedido2 = pedido1.replaceAll(">","");
-            var pedido3 = pedido2.replaceAll("{","<");  
-            pedido = pedido3.replaceAll("}",">");       
-            var itemVenta = cantidad1+"/"+id1;
-            agregandotodo(idCliente,datosCliente,pedido,precio,notas,origen,fecha,idUsuario,idUsuario,itemVenta,botonrevisar,pedidoUpdate,fechaUpdate,notasUpdate,usuarioUpdate);      
-            return false;
-        }
-        return false;         
+        objetopedido.precio = precio;
+        var pedido=JSON.stringify(objetopedido);
+        var pedido1 = pedido.replaceAll("<","");  
+        var pedido2 = pedido1.replaceAll(">","");
+        var pedido3 = pedido2.replaceAll("{","<");  
+        pedido = pedido3.replaceAll("}",">");       
+        let cadenaCorregida = itemVenta.substring(0, itemVenta.length - 1);
+        agregandotodo(idCliente,datosCliente,pedido,precio,notas,origen,fecha,idUsuario,idUsuario,cadenaCorregida,botonrevisar,pedidoUpdate,fechaUpdate,notasUpdate,usuarioUpdate);       
+        return false;
+        
     });
     
     $('#imprimirEmpaques').on('click', function() {
@@ -577,7 +420,6 @@ function seleccionCliente(id) {
         return false;  
     }
 function agregandotodo(idCliente,datosCliente,pedido,precio,notas,origen,fecha,idUsuario,idUsuario,itemVenta,botonrevisar,pedidoUpdate,fechaUpdate,notasUpdate,usuarioUpdate) {       
-    console.log(datosCliente); 
     $('#popup').fadeOut('slow');         
     $('.popup-overlay').fadeOut('slow');      
     $('.reinicia').remove(); 
@@ -586,7 +428,6 @@ function agregandotodo(idCliente,datosCliente,pedido,precio,notas,origen,fecha,i
     $('.removerVentas').remove();
     var ordenesVenta = ordenesventajson($('#bscar').val(),$('#estadoFiltro').val(),$('#transportador').val(),$('#datetimepicker-default').val(),$('#datetimepicker-defaultFiltro').val(),$('#bscartelefono').val());
     var jsonVenta = JSON.parse(ordenesVenta); 
-    console.log(jsonVenta);
     var primeraFila = $('#primeraFila');
     var html = imprimirVentasjson(jsonVenta,botonrevisar,pedidoUpdate,fechaUpdate,notasUpdate,usuarioUpdate);
     primeraFila.after(html);

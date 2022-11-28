@@ -273,7 +273,6 @@ function nuevaMarquilla(datos) {
 
 function escanerInicialInv(decodedText, decodedResult) {
         // Handle on success condition with the decoded text or result.
-        //console.log(`Scan result: ${decodedText}`, decodedResult);
         var prendasCant = ($('#escanerInvInicial p').length);
         if(prendasCant==0){
             var escanerInvInicial = $('#escanerInvInicial');
@@ -299,7 +298,6 @@ function escanerInicialInv(decodedText, decodedResult) {
 
 function escanearInventa(decodedText, decodedResult) {
         // Handle on success condition with the decoded text or result.
-        //console.log(`Scan result: ${decodedText}`, decodedResult);
 		var verificado = verificarinv(decodedText);
 		if(verificado!="ok"){alert("Este código quedó en el inventario inicial, por favor al botón de inventario inicial desde un computador y dirigirse a una bogeda para ingresarlo. ALERTA ESTO QUEDA A NOMBRE DE "+verificado+" PARA AUDITORIA DE INVENTARIO ");return false;}
         var escaneados = $('#escanerInv');
@@ -307,7 +305,6 @@ function escanearInventa(decodedText, decodedResult) {
 };
 function readerPrendaEmpacada(decodedText, decodedResult) {
         // Handle on success condition with the decoded text or result.
-        //console.log(`Scan result: ${decodedText}`, decodedResult);
 		var verificado = verificarinv(decodedText);
 		if(verificado!="ok"){alert("Este código quedó en el inventario inicial, por favor al botón de inventario inicial desde un computador y dirigirse a una bogeda para ingresarlo. ALERTA ESTO QUEDA A NOMBRE DE "+verificado+" PARA AUDITORIA DE INVENTARIO ");return false;}
         var prendasCantidad = ($('#funcionesEmpacar p').length-1)/2;
@@ -340,7 +337,6 @@ function readerPrendaEmpacada(decodedText, decodedResult) {
 };
 function escanearEmpacar(decodedText, decodedResult) {
         // Handle on success condition with the decoded text or result.
-        //console.log(`Scan result: ${decodedText}`, decodedResult);
 		var estad = "";
 		if(decodedText[0] == "C"){estad = obtenerData("estado","con_t_cambios","row","cambio_id",decodedText.slice(1));
 		}else{estad = obtenerData("estado","con_t_ventas","row","venta_id",decodedText);}        
@@ -492,7 +488,6 @@ function cambiarEstadoprenda(valor,valor2,nombre,id) {
 
 function readerDespachar(decodedText, decodedResult) {
         // Handle on success condition with the decoded text or result.
-        //console.log(`Scan result: ${decodedText}`, decodedResult);
         $('.removerPrendasdesp').remove();
 		if(decodedText[0] == "C"){estadoVenta = obtenerData("estado","con_t_cambios","row","cambio_id",decodedText.slice(1));
 		}else{estadoVenta = obtenerData("estado","con_t_ventas","row","venta_id",decodedText);} 
@@ -524,7 +519,6 @@ function readerDespachar(decodedText, decodedResult) {
 
 function escanearDanados(decodedText, decodedResult) {
 	// Handle on success condition with the decoded text or result.
-	//console.log(`Scan result: ${decodedText}`, decodedResult);
 	var verificado = verificarinv(decodedText);
 	if(verificado!="ok"){alert("Este código quedó en el inventario inicial, por favor al botón de inventario inicial desde un computador y dirigirse a una bogeda para ingresarlo. ALERTA ESTO QUEDA A NOMBRE DE "+verificado+" PARA AUDITORIA DE INVENTARIO ");return false;}
 	var escaneados = $('#escanerDan');
@@ -533,7 +527,6 @@ function escanearDanados(decodedText, decodedResult) {
 
 function escanerventaplaza(decodedText, decodedResult) {
 	// Handle on success condition with the decoded text or result.
-	//console.log(`Scan result: ${decodedText}`, decodedResult);
 	var verificado = verificarinv(decodedText);
 	if(verificado!="ok"){alert("Este código quedó en el inventario inicial, por favor al botón de inventario inicial desde un computador y dirigirse a una bogeda para ingresarlo. ALERTA ESTO QUEDA A NOMBRE DE "+verificado+" PARA AUDITORIA DE INVENTARIO ");return false;}
 	var escaneados = $('#ventaPlazaenviar');
@@ -542,7 +535,6 @@ function escanerventaplaza(decodedText, decodedResult) {
 
 function escanearmarugon(decodedText, decodedResult) {
 	// Handle on success condition with the decoded text or result.
-	//console.log(`Scan result: ${decodedText}`, decodedResult);
 	var verificado = verificarinv(decodedText);
 	if(verificado!="ok"){alert("Este código quedó en el inventario inicial, por favor al botón de inventario inicial desde un computador y dirigirse a una bogeda para ingresarlo. ALERTA ESTO QUEDA A NOMBRE DE "+verificado+" PARA AUDITORIA DE INVENTARIO ");return false;}
 	var escaneados = $('#escanerMadru');
@@ -551,7 +543,6 @@ function escanearmarugon(decodedText, decodedResult) {
 
 function escanerventamayorista(decodedText, decodedResult) {
 	// Handle on success condition with the decoded text or result.
-	//console.log(`Scan result: ${decodedText}`, decodedResult);
 	var verificado = verificarinv(decodedText);
 	if(verificado!="ok"){alert("Este código quedó en el inventario inicial, por favor al botón de inventario inicial desde un computador y dirigirse a una bogeda para ingresarlo. ALERTA ESTO QUEDA A NOMBRE DE "+verificado+" PARA AUDITORIA DE INVENTARIO ");return false;}
 	var escaneados = $('#ventaMayoristaenviar');
@@ -1095,7 +1086,6 @@ function  revisarfechasatelite(arraItem){
 
 function enviarVentamayorista(decodedText, decodedResult) {
 	// Handle on success condition with the decoded text or result.
-	//console.log(`Scan result: ${decodedText}`, decodedResult);
 	var verificado = verificarinv(decodedText);
 	if(verificado!="ok"){alert("Este código quedó en el inventario inicial, por favor al botón de inventario inicial desde un computador y dirigirse a una bogeda para ingresarlo. ALERTA ESTO QUEDA A NOMBRE DE "+verificado+" PARA AUDITORIA DE INVENTARIO ");return false;}
 	var prendasCant = ($('#escaneados p').length);
@@ -1139,7 +1129,6 @@ function enviarparaventamayorista(valor) {
 
 function enviarVentaplaza(decodedText, decodedResult) {
 	// Handle on success condition with the decoded text or result.
-	//console.log(`Scan result: ${decodedText}`, decodedResult);
 	var prendasCant = ($('#escaneados p').length);
 	if(prendasCant==0){
 		var escaneados = $('#escaneados');
@@ -1164,7 +1153,6 @@ function enviarVentaplaza(decodedText, decodedResult) {
 };
 
 function enviarparaventa(prendas) {
-	console.log(prendas);
 	var valor='';
 	for (let i = 0; i < prendas.length; i++){valor = valor+'°'+prendas[i].innerText;}
     var enviar = "funcion=enviarparaventa&valor="+valor;
@@ -1231,13 +1219,10 @@ function imprimirprendasparavenderdetal(valor) {
 
 function nuevaventatiendas(cliente_id,clienteString,codigos_prendas,notas,origen,valor_total,metodospagoString,vendedor_id) {
 	var envia = "funcion=nuevaventatiendas&valor="+cliente_id+"&valor2="+clienteString+"&valor3="+codigos_prendas+"&valor4="+notas+"&valor5="+origen+"&valor6="+valor_total+"&valor7="+metodospagoString+"&valor8="+vendedor_id;
-	console.log(envia);
 	var envio = envia.replaceAll("<","");  
     var enviando = envio.replaceAll(">","");
-	console.log(enviando);
 	var env = enviando.replaceAll("{","<");  
 	var enviar = env.replaceAll("}",">");    
-	console.log(enviar);
 	var obtenidos = "no";
     $.ajax({
     	url: urlhost,
@@ -1399,9 +1384,6 @@ function calculardescuentos(datospedido,valor_total,jsoncon_t_reglasdescuentos){
 				if(referencias[i] == nombrereferencia[0].nombre){
 					menor = datospedido[j];
 					var nuevo_valor = parseInt(menor.valor)-(parseInt(menor.valor)*parseInt(porcentaje_descuento)/100);
-					console.log(menor);
-					console.log("Nuevo valor");
-					console.log(nuevo_valor);
 					valor_descuento = valor_descuento + (parseInt(menor.valor)*parseInt(porcentaje_descuento)/100);
 					menor.valor =  nuevo_valor;
 					datospedido[j].valor =  nuevo_valor;
@@ -1418,7 +1400,6 @@ function calculardescuentos(datospedido,valor_total,jsoncon_t_reglasdescuentos){
         jsonData.datosdescuento =objetoReferencias;
         jsonData.valornuevo = valor_nuevo;
         jsonData.html = html;
-		console.log(jsonData);
 		return jsonData;
 	}
 
@@ -1427,32 +1408,26 @@ function calculardescuentos(datospedido,valor_total,jsoncon_t_reglasdescuentos){
 function apartados() {
 	var con_t_reglasdescuentos = obtenerDatajson("*","con_t_reglasdescuentos","valoresconcondicion","regla_activa",1);
 	var jsoncon_t_reglasdescuentos = JSON.parse(con_t_reglasdescuentos); 
-	console.log(jsoncon_t_reglasdescuentos);
 	if(jsoncon_t_reglasdescuentos.length >0){
 		var html = "<div id='descuentosr' class='removertodo'>";
 		for (let i = 0; i < jsoncon_t_reglasdescuentos.length; i++) {
 			html = html + "<div class='col-lg-12 col-md-12 col-sm-12 col-xs-12 removertodo'><div class='col-lg-3 col-md-3 col-sm-3 col-xs-3'><p type='submit' class='letra18pt-pc'>"+jsoncon_t_reglasdescuentos[i].nombre_regla+"</p></div><div class='col-lg-7 col-md-7 col-sm-7 col-xs-7'><p type='submit' class='letra18pt-pc'>"+jsoncon_t_reglasdescuentos[i].descripcion+"</p></div><div class='col-lg-1 col-md-1 col-sm-1 col-xs-3'><p type='submit' class='letra18pt-pc'>"+jsoncon_t_reglasdescuentos[i].porcentaje_descuento+"</p></div><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1 form-check'><input class='form-check-input checkregla' type='checkbox' value='"+jsoncon_t_reglasdescuentos[i].ID+"'></div></div>"; 
 		}
 		html = html +'</div>';
-		console.log(html);
 		return html;
 	}
     return "<div class='col-lg-12 col-md-12 col-sm-12 col-xs-12 removertodo'><p type='submit' class='letra18pt-pc'>No hay descuentos activos</p></div>";
 };
 
 function verificarinv(decodedText) {
-	console.log(decodedText);
 	var prendainfo = obtenerDatajson("*","con_t_trprendas","valoresconcondicion","codigo ","'"+decodedText+"'");
 	var jsonprendainfo= JSON.parse(prendainfo); 
-	console.log(jsonprendainfo);
 	if(jsonprendainfo.length==0){		
 		var  rectificar = obtenerDatajson("*","con_t_invinicial","valoresconcondicion","codigo ","'"+decodedText+"'");
 		var jsonrectificar= JSON.parse(rectificar); 
-		console.log(jsonrectificar);
 		if(jsonrectificar.length==0){	
 			var usuario =  obtenerDatajson("user_login ","con_users","valoresconcondicion","ID ",$("#usuario").attr("name"));
 			var jsonusuario = JSON.parse(usuario); 
-			console.log(jsonusuario[0].user_login);
 			var objeto = {};
 			objeto.tipo = "string";
 			objeto.columna = "codigo";
@@ -1464,7 +1439,6 @@ function verificarinv(decodedText) {
 			objeto.valor = jsonusuario[0].user_login;
 			var usuario = prepararjson(objeto);
 			var idventanueva = insertarfila("con_t_invinicial",codigo,usuario,"0","0","0","0","0","0","0","0","0");
-       		console.log(idventanueva);
 			return jsonusuario[0].user_login;
 		}
 		return jsonrectificar[0].usuario;

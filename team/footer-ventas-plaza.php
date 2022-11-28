@@ -396,7 +396,6 @@
         var jsonPrendas = new Object();
         var j=0;
         for (let i = 0; i < check.length; i++) {
-            console.log(check[i].checked);
             if(check[i].checked){
                 valor = valor + parseInt(check[i].value);
                 var codigoDescr = check[i].name.split("/");
@@ -407,10 +406,8 @@
                 jsonPrendas[j] = jsonPrenda;
                 j++;
                 html=html+"<div class='col-lg-3 col-md-3 col-sm-3 col-xs-3  removeprendavender' id='"+check[i].id+"'><p class='letra3pt-mv letra16pt-pc'>"+codigoDescr[0]+" "+codigoDescr[1]+" "+check[i].value+"</p></div>";
-                console.log(check[i]);
             }            
         }
-        console.log(jsonPrendas);
         var prendaString= JSON.stringify(jsonPrendas);
         html=html+"<div class='col-lg-12 col-md-12 col-sm-12 col-xs-12  removeprendavender' id='datospedido' name='"+prendaString+"'><p class='letra3pt-mv letra16pt-pc' id='valor' name='"+valor+"'>Precio total: "+valor+"</p></div>";
         $('#pedido').append(html);

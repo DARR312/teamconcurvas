@@ -85,7 +85,6 @@ function mayoristafunciones() {
         var ciudadCliente = $("#ciudadCliente").val();
         var idCliente = $("#idCliente").val();
         var idVenta = this.name;
-        console.log(nombreVenta,telVenta,dirVenta,complementoCliente,ciudadCliente,idCliente,idVenta);
         if(!nombreVenta){alert("¿Quién es el cliente?");return false;}
         var objetoCliente = {};
         objetoCliente.nombreVenta = nombreVenta;
@@ -103,13 +102,11 @@ function mayoristafunciones() {
         objeto.columna = "datos_cliente";
         objeto.valor = objetoCliente;
         var datos_clientea = prepararjson(objeto);
-        var datos_cliente = datos_clientea.replace('#', 'No')
-        console.log(datos_cliente);
+        var datos_cliente = datos_clientea.replace('#', 'No');
         actualizarregistros("con_t_mayorista",condicion,datos_cliente,"0","0","0","0","0","0","0","0","0","0"); 
         $(".removerventasmayorista").remove();
         var ventasmayoristas = obtenerDatajson("*","con_t_mayorista","variasfilasunicas","0","0");
         var jsonVenta = JSON.parse(ventasmayoristas); 
-        console.log(jsonVenta);
         var html = imprimirVentasMayoristajson(jsonVenta);
         var primeraFila = $('#primeraFila');
         primeraFila.after(html);
@@ -125,7 +122,6 @@ function mayoristafunciones() {
         var arraid = id.split("-");
         var VM_tr_mayoristas = obtenerDatajson("VM_tr_mayoristas","con_t_mayorista","valoresconcondicion","ID",arraid[1]);
         var jsonVM_tr_mayoristas = JSON.parse(VM_tr_mayoristas);
-        console.log(jsonVM_tr_mayoristas[0].VM_tr_mayoristas);
         var vmnumero = jsonVM_tr_mayoristas[0].VM_tr_mayoristas;
         if(jsonVM_tr_mayoristas[0].VM_tr_mayoristas==0){vmnumero=arraid[1];}
         var prendasmayorista = obtenerDatajson("codigo,descripcion,referencia_id","con_t_trprendas","valoresconcondicion","cual","'VM-"+vmnumero+"'");
