@@ -292,6 +292,7 @@
             var valorTotal_insert = prepararjson(objeto);
             var idregla = insertarfila("con_t_resumenplaza",fecha_inser,metodos_pago_insert,valorTotal_insert,"0","0","0","0","0","0","0","0");
         }
+        $('.ventasplazaResumen').remove(); 
         var resumen = obtenerDatajson('ID,fecha,valor_mercancia,metodos_pago','con_t_resumenplaza','variasfilasunicas','0','0');
         var jsonResumen = JSON.parse(resumen);
         var html = imprimirResumen2(jsonResumen);
@@ -300,6 +301,22 @@
         $('.popup-overlay').fadeOut('slow');      
         $('.reinicia').remove(); 
         $('.metodop').remove(); 
+        $('.verDia').on('click', function(){ 
+        $('.ventasplazaResumen').remove(); 
+        $('#primeraFila').css('display', 'none');
+        $('.primeraFilaDia').css('display', 'block');
+        var id = $(this).attr("name");
+        var horaMenor = " 00:00:00";
+        var horaMayor = " 23:00:00";
+        var fecha = "'"+id+horaMenor+"' AND '"+id+horaMayor+"'";
+        console.log('inicio');
+        var resumenDia = obtenerDatajson('ID,cliente_id,datos_cliente,codigos_prendas,notas,metodos_pago,valor_total','con_t_ventasplaza','Between','fecha_creada',fecha);
+        var jsonResumenDia = JSON.parse(resumenDia);
+        console.log(jsonResumenDia);
+        $('#primeraFila').after(imprimi(jsonResumenDia));
+        console.log('fin');
+        return false;     
+    }); 
     });      
     $('#close2').on('click', function(){         
         $('#popup2').fadeOut('slow');      
