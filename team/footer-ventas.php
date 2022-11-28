@@ -230,6 +230,7 @@
     $('#prendasGuardadas').on('click', function(){         
         var html = ""; 
         var j = 1;
+        var l=0;
         var arraItems = [];
         var precio =0;
         var jsonPrendas = new Object();
@@ -243,10 +244,13 @@
             arraItems.push[items[0]];
             precio = precio + (parseInt($('#cantidad1').val())*parseInt(items[2]));
             var jsonPrenda = new Object();
-            jsonPrenda.codigo = items[1];
+            jsonPrenda.codigo = items[0];
             jsonPrenda.descripcion = items[1];
             jsonPrenda.valor = items[2];
-            jsonPrendas[j-1] = jsonPrenda;
+            for (let k = 0; k < $('#cantidad1').val(); k++) {
+                jsonPrendas[l] = jsonPrenda;
+                l++;
+            }            
             j++;
         }
         var prendaString= JSON.stringify(jsonPrendas);
@@ -300,32 +304,30 @@
         if($("#valorDescuentos").attr("name")){
             var datospedidoDescuentos = $("#datospedidoDescuentos").attr("name");
             var datospedidoDescuentosJson = JSON.parse(datospedidoDescuentos);
-            console.log(Object.keys(datospedidoDescuentosJson).length);
-            // var numprendas = $("#pedido")[0].children.length/4;
-            // var pedido = "";
-            // var objetopedido = {};
-            // objetopedido.prendas = '';
-            // var precio =0;
-            // var itemVenta = "";
-            // for (let i = 1; i <= numprendas; i++) {
-            //     var cantidad = $("#cantidadV"+i).text();
-            //     var id = $("#idref"+i).text();
-            //     var refe = $("#refe"+i).text();
-            //     var precio1 = $("#precio"+i).text();
-            //     pedido = pedido + cantidad+" "+refe + " ";
-            //     objetopedido.prendas = objetopedido.prendas + cantidad+" "+refe+" ";
-            //     precio = parseInt(precio) + (parseInt(cantidad) * parseInt(precio1));
-            //     itemVenta = itemVenta + cantidad+"/"+id+",";
-            // }
-            // objetopedido.precio = precio;
-            // var pedido=JSON.stringify(objetopedido);
-            // var pedido1 = pedido.replaceAll("<","");  
-            // var pedido2 = pedido1.replaceAll(">","");
-            // var pedido3 = pedido2.replaceAll("{","<");  
-            // pedido = pedido3.replaceAll("}",">");       
-            // let cadenaCorregida = itemVenta.substring(0, itemVenta.length - 1);
-            // agregandotodo(idCliente,datosCliente,pedido,precio,notas,origen,fecha,idUsuario,idUsuario,cadenaCorregida,botonrevisar,pedidoUpdate,fechaUpdate,notasUpdate,usuarioUpdate);       
-            // return false;
+            var pedido = "";
+            var objetopedido = {};
+            objetopedido.prendas = '';
+            var precio =0;
+            var itemVenta = "";
+            for (let i = 0; i < Object.keys(datospedidoDescuentosJson).length; i++) {
+                var cantidad = 1;
+                var id = datospedidoDescuentosJson.codigo;
+                var refe = datospedidoDescuentosJson.descripcion;
+                var precio1 = datospedidoDescuentosJson.valor;
+                pedido = pedido + cantidad+" "+refe + " ";
+                objetopedido.prendas = objetopedido.prendas + cantidad+" "+refe+" ";//voy aqui
+                precio = parseInt(precio) + (parseInt(cantidad) * parseInt(precio1));
+                itemVenta = itemVenta + cantidad+"/"+id+",";
+            }     
+            objetopedido.precio = $("#valorDescuentos").attr("name");
+            var pedido=JSON.stringify(objetopedido);
+            var pedido1 = pedido.replaceAll("<","");  
+            var pedido2 = pedido1.replaceAll(">","");
+            var pedido3 = pedido2.replaceAll("{","<");  
+            pedido = pedido3.replaceAll("}",">");       
+            let cadenaCorregida = itemVenta.substring(0, itemVenta.length - 1);
+            agregandotodo(idCliente,datosCliente,pedido,precio,notas,origen,fecha,idUsuario,idUsuario,cadenaCorregida,botonrevisar,pedidoUpdate,fechaUpdate,notasUpdate,usuarioUpdate);       
+            return false;
         }
         var numprendas = $("#pedido")[0].children.length/4;
         var pedido = "";
