@@ -141,12 +141,12 @@
 						<label for="cantidad1" class="control-label letra18pt-pc"> Cantidad</label>
 						<input class="form-control" type="number" id="cantidad1" name="cantidad1" min="1"><span class="pmd-textfield-focused"></span>
 					</div> 
-					<div class="form-group pmd-textfield pmd-textfield-floating-label col-lg-10 col-md-10 col-sm-10 col-xs-10 s1">
+					<div class="form-group pmd-textfield pmd-textfield-floating-label col-lg-10 col-md-10 col-sm-10 col-xs-10 s1" id="div1">
 						<label for="prenda1" class="control-label letra18pt-pc"> Prenda </label>
-						<select class="form-control disponibles " type="select" id="prenda1" name="prenda1" form="formularioCliente" onchange="minmax(this.id)" >
+						<select class="form-control disponibles " type="select" id="prenda1" name="1" form="formularioCliente" onchange="minmax(this.id)" >
 						</select><span class="pmd-textfield-focused"></span>
 					</div>
-					<div class="form-group pmd-textfield pmd-textfield-floating-label col-lg-2 col-md-2 col-sm-2 col-xs-2 s2" style='display: none;'>
+					<!-- <div class="form-group pmd-textfield pmd-textfield-floating-label col-lg-2 col-md-2 col-sm-2 col-xs-2 s2" style='display: none;'>
 						<label for="cantidad2" class="control-label letra18pt-pc"> Cantidad</label>
 						<input class="form-control" type="number" id="cantidad2" name="cantidad2" min="1"><span class="pmd-textfield-focused"></span>
 					</div>
@@ -190,7 +190,7 @@
 						<label for="prenda6" class="control-label letra18pt-pc"> Prenda </label>
 						<select class="form-control disponibles" type="select" id="prenda6" name="prenda6" form="formularioCliente" onchange="minmax(this.id)">
 						</select><span class="pmd-textfield-focused"></span>
-					</div>
+					</div> -->
 				</div>
 				<button type="submit" class="botonmodal letra18pt-pc" id="prendasGuardadas"> Guardar prendas </button>
                 <div style='float:left; width:100%;'>
