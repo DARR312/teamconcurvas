@@ -296,6 +296,36 @@
         if(!fecha){
             alert("Por favor ingresa una fecha");
             return false;
+        }        
+        if($("#valorDescuentos").attr("name")){
+            var datospedidoDescuentos = $("#datospedidoDescuentos").attr("name");
+            var datospedidoDescuentosJson = JSON.parse(datospedidoDescuentos);
+            console.log(Object.keys(datospedidoDescuentosJson).length);
+            // var numprendas = $("#pedido")[0].children.length/4;
+            // var pedido = "";
+            // var objetopedido = {};
+            // objetopedido.prendas = '';
+            // var precio =0;
+            // var itemVenta = "";
+            // for (let i = 1; i <= numprendas; i++) {
+            //     var cantidad = $("#cantidadV"+i).text();
+            //     var id = $("#idref"+i).text();
+            //     var refe = $("#refe"+i).text();
+            //     var precio1 = $("#precio"+i).text();
+            //     pedido = pedido + cantidad+" "+refe + " ";
+            //     objetopedido.prendas = objetopedido.prendas + cantidad+" "+refe+" ";
+            //     precio = parseInt(precio) + (parseInt(cantidad) * parseInt(precio1));
+            //     itemVenta = itemVenta + cantidad+"/"+id+",";
+            // }
+            // objetopedido.precio = precio;
+            // var pedido=JSON.stringify(objetopedido);
+            // var pedido1 = pedido.replaceAll("<","");  
+            // var pedido2 = pedido1.replaceAll(">","");
+            // var pedido3 = pedido2.replaceAll("{","<");  
+            // pedido = pedido3.replaceAll("}",">");       
+            // let cadenaCorregida = itemVenta.substring(0, itemVenta.length - 1);
+            // agregandotodo(idCliente,datosCliente,pedido,precio,notas,origen,fecha,idUsuario,idUsuario,cadenaCorregida,botonrevisar,pedidoUpdate,fechaUpdate,notasUpdate,usuarioUpdate);       
+            // return false;
         }
         var numprendas = $("#pedido")[0].children.length/4;
         var pedido = "";
@@ -320,7 +350,7 @@
         var pedido3 = pedido2.replaceAll("{","<");  
         pedido = pedido3.replaceAll("}",">");       
         let cadenaCorregida = itemVenta.substring(0, itemVenta.length - 1);
-        agregandotodo(idCliente,datosCliente,pedido,precio,notas,origen,fecha,idUsuario,idUsuario,cadenaCorregida,botonrevisar,pedidoUpdate,fechaUpdate,notasUpdate,usuarioUpdate);       
+        //agregandotodo(idCliente,datosCliente,pedido,precio,notas,origen,fecha,idUsuario,idUsuario,cadenaCorregida,botonrevisar,pedidoUpdate,fechaUpdate,notasUpdate,usuarioUpdate);       
         return false;
         
     });
