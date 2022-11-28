@@ -237,17 +237,17 @@
         for (let i = 1; i < $("#formularioPedido")[0].children.length; i=i+2) {
             if($("#formularioPedido")[0].children[i].children[1].value == 'NA'){break;}
             var items = $("#formularioPedido")[0].children[i].children[1].value.split('%');
-            html = html + "<p class='col-lg-2 col-md-2 col-sm-2 col-xs-2 reinicia' id='cantidadV"+j+"'>"+$('#cantidad1').val()+"</p>"+
+            html = html + "<p class='col-lg-2 col-md-2 col-sm-2 col-xs-2 reinicia' id='cantidadV"+j+"'>"+$("#cantidad"+j+"").val()+"</p>"+
             "<p class='col-lg-4 col-md-4 col-sm-4 col-xs-4 reinicia' id='refe"+j+"'>"+items[1]+"</p>"+
             "<p class='reinicia' style='display: none;' id='idref"+j+"'>"+items[0]+"</p>"+
             "<p class='reinicia' style='display: none;' id='precio"+j+"'>"+items[2]+"</p>";
             arraItems.push[items[0]];
-            precio = precio + (parseInt($('#cantidad1').val())*parseInt(items[2]));
+            precio = precio + (parseInt($("#cantidad"+j+"").val())*parseInt(items[2]));
             var jsonPrenda = new Object();
             jsonPrenda.codigo = items[0];
             jsonPrenda.descripcion = items[1];
             jsonPrenda.valor = items[2];
-            for (let k = 0; k < $('#cantidad1').val(); k++) {
+            for (let k = 0; k < $("#cantidad"+j+"").val(); k++) {
                 jsonPrendas[l] = jsonPrenda;
                 l++;
             }            
@@ -311,12 +311,11 @@
             var itemVenta = "";
             for (let i = 0; i < Object.keys(datospedidoDescuentosJson).length; i++) {
                 var cantidad = 1;
-                var id = datospedidoDescuentosJson.codigo;
-                var refe = datospedidoDescuentosJson.descripcion;
-                var precio1 = datospedidoDescuentosJson.valor;
+                var id = datospedidoDescuentosJson[i].codigo;
+                var refe = datospedidoDescuentosJson[i].descripcion;
+                var precio1 = datospedidoDescuentosJson[i].valor;
                 pedido = pedido + cantidad+" "+refe + " ";
                 objetopedido.prendas = objetopedido.prendas + cantidad+" "+refe+" ";//voy aqui
-                precio = parseInt(precio) + (parseInt(cantidad) * parseInt(precio1));
                 itemVenta = itemVenta + cantidad+"/"+id+",";
             }     
             objetopedido.precio = $("#valorDescuentos").attr("name");
@@ -326,6 +325,7 @@
             var pedido3 = pedido2.replaceAll("{","<");  
             pedido = pedido3.replaceAll("}",">");       
             let cadenaCorregida = itemVenta.substring(0, itemVenta.length - 1);
+            console.log(idCliente,datosCliente,pedido,precio,notas,origen,fecha,idUsuario,idUsuario,cadenaCorregida,botonrevisar,pedidoUpdate,fechaUpdate,notasUpdate,usuarioUpdate);       
             agregandotodo(idCliente,datosCliente,pedido,precio,notas,origen,fecha,idUsuario,idUsuario,cadenaCorregida,botonrevisar,pedidoUpdate,fechaUpdate,notasUpdate,usuarioUpdate);       
             return false;
         }
@@ -352,7 +352,7 @@
         var pedido3 = pedido2.replaceAll("{","<");  
         pedido = pedido3.replaceAll("}",">");       
         let cadenaCorregida = itemVenta.substring(0, itemVenta.length - 1);
-        //agregandotodo(idCliente,datosCliente,pedido,precio,notas,origen,fecha,idUsuario,idUsuario,cadenaCorregida,botonrevisar,pedidoUpdate,fechaUpdate,notasUpdate,usuarioUpdate);       
+        agregandotodo(idCliente,datosCliente,pedido,precio,notas,origen,fecha,idUsuario,idUsuario,cadenaCorregida,botonrevisar,pedidoUpdate,fechaUpdate,notasUpdate,usuarioUpdate);       
         return false;
         
     });
