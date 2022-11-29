@@ -264,6 +264,7 @@ function mayoristafunciones() {
     $('#close5').on('click', function(){  
         $('#popup5').fadeOut('slow');      
         $('.popup-overlay').fadeOut('slow');   
+        $(".metodop").remove();
         return false; 
     });  
     $('#confirmarpago').on('click', function(){  
@@ -303,6 +304,7 @@ function mayoristafunciones() {
         var html = imprimirVentasMayoristajson(jsonVenta);
         var primeraFila = $('#primeraFila');
         primeraFila.after(html);
+        $(".metodop").remove();
         mayoristafunciones();
         return false; 
     }); 
