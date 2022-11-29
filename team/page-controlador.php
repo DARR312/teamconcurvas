@@ -162,13 +162,16 @@ function obtenerDatajson($columna,$tabla,$tipo,$columnacondicion,$condicion){
     }
     if($tipo=="Between"){
         $condicion =str_replace('\\', '', $condicion);
+        //echo
         $obtenidosArray = $wpdb->get_results( "SELECT ".$columna." FROM ".$tabla." WHERE ".$columnacondicion." BETWEEN ".$condicion."", ARRAY_A);
         echo json_encode($obtenidosArray,JSON_UNESCAPED_UNICODE);       
-    }
+    } 
     if($tipo=="Like"){
+        // echo $condicion;
         $condicion =str_replace('\\', '', $condicion);
-        // echo "SELECT ".$columna." FROM ".$tabla." WHERE ".$columnacondicion." LIKE  ".$condicion."";
-        $obtenidosArray = $wpdb->get_results( "SELECT ".$columna." FROM ".$tabla." WHERE ".$columnacondicion." LIKE  ".$condicion."", ARRAY_A);
+        // echo $condicion;
+        // echo "SELECT ".$columna." FROM ".$tabla." WHERE ".$columnacondicion." LIKE  '%".$condicion."%'"
+        $obtenidosArray = $wpdb->get_results( "SELECT ".$columna." FROM ".$tabla." WHERE ".$columnacondicion." LIKE  '%".$condicion."%'", ARRAY_A);
         echo json_encode($obtenidosArray,JSON_UNESCAPED_UNICODE); 
     }
     if($tipo=="todas"){

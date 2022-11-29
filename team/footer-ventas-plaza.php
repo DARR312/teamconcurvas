@@ -64,22 +64,32 @@
     });    
 
     $('#BuscarEtiqueta').on('change',function(){
-        $('.ventasplazaResumen').remove();
-        var Etiqueta = "'%"+$('#BuscarEtiqueta').val()+"%'";
-        var ventasFiltro = obtenerDatajson('ID,cliente_id,datos_cliente,codigos_prendas,notas,metodos_pago,valor_total','con_t_ventasplaza','Like','codigos_prendas',Etiqueta);
-        var jsonVentasFiltro = JSON.parse(ventasFiltro);
-        console.log(ventasFiltro);
-        $('#primeraFila').after(imprimi(jsonVentasFiltro));
+        $('.removerCambios').remove();
+        $('.ventasplazaResumen').remove(); 
+        $('#primeraFila').css('display', 'none');
+        $('.primeraFilaDia').css('display', 'block');
+        var Etiqueta = $('#BuscarEtiqueta').val();
+        if(Etiqueta){
+            var ventasFiltro = obtenerDatajson('ID,cliente_id,datos_cliente,codigos_prendas,notas,metodos_pago,valor_total','con_t_ventasplaza','Like','codigos_prendas',Etiqueta);
+            var jsonVentasFiltro = JSON.parse(ventasFiltro);
+            console.log(ventasFiltro);
+            $('#primeraFila').after(imprimi(jsonVentasFiltro));
+        }
 	}); 
     
     $('#BuscarTelefono').on('change',function(){
-        $('.ventasplazaResumen').remove();
-	    var telefono = "'%"+$('#BuscarTelefono').val()+"%'";
-        console.log($('#BuscarTelefono').val());
-        var ventasFiltro = obtenerDatajson('ID,cliente_id,datos_cliente,codigos_prendas,notas,metodos_pago,valor_total','con_t_ventasplaza','Like','datos_cliente',telefono);
-        var jsonVentasFiltro = JSON.parse(ventasFiltro);
-        console.log(ventasFiltro);
-        $('#primeraFila').after(imprimi(jsonVentasFiltro));
+        $('.removerCambios').remove();
+        $('.ventasplazaResumen').remove(); 
+        $('#primeraFila').css('display', 'none');
+        $('.primeraFilaDia').css('display', 'block');
+	    var telefono = $('#BuscarTelefono').val();
+        if(telefono){
+            console.log($('#BuscarTelefono').val());
+            var ventasFiltro = obtenerDatajson('ID,cliente_id,datos_cliente,codigos_prendas,notas,metodos_pago,valor_total','con_t_ventasplaza','Like','datos_cliente',telefono);
+            var jsonVentasFiltro = JSON.parse(ventasFiltro);
+            console.log(ventasFiltro);
+            $('#primeraFila').after(imprimi(jsonVentasFiltro));
+        }
 	});
 
 
