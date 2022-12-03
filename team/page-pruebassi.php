@@ -93,4 +93,50 @@
 //     echo "Siguiente";
 //     echo "</br>";
 // }
+// $referencias = $wpdb->get_results( "SELECT referencia_id ,nombre,color,talla FROM con_t_resumen WHERE 1", ARRAY_A  );
+// for ($i=0; $i < sizeof($referencias); $i++) { 
+//    $ref = $referencias[$i]['nombre']." ".$referencias[$i]['color']." ".$referencias[$i]['talla'];
+//    echo $ref."</br>";
+//    $pedidos = $wpdb->get_results( "SELECT pedido,venta_id,pedido_item FROM con_t_ventas WHERE pedido LIKE '%".$ref."%'", ARRAY_A  );
+//    for ($j=0; $j < sizeof($pedidos) ; $j++) { 
+//         // $updated = $wpdb->update( "con_t_ventas", array('pedido_item' => " "), array( 'venta_id' => $pedidos[$j]['venta_id'] ) );
+//         if ($pedidos[$j]['pedido_item']) {
+//             $jsonPedido =  json_decode($pedidos[$j]['pedido_item']);
+//             echo $jsonPedido[0];
+//             echo $pedidos[$j]['pedido_item']."</br>";
+//             echo $pedidos[$j]['venta_id']."</br>";
+            
+//         }else{
+//             $pedido_itemarray = array($referencias[$i]['referencia_id']);
+//             $jsonPedido =  json_encode($pedido_itemarray);
+//             echo $jsonPedido;
+//             //$updated = $wpdb->update( "con_t_ventas", array('pedido_item' => $jsonPedido), array( 'venta_id' => $pedidos[$j]['venta_id'] ) );
+//         }
+//    }
+//    //print_r($pedidos);
+//    echo "</br>";
+// }
+// $pedidos = $wpdb->get_results( "SELECT venta_id FROM con_t_ventas WHERE 1", ARRAY_A  );//1
+// for ($i=0; $i < sizeof($pedidos); $i++) { 
+//     echo $pedidos[$i]['venta_id'];
+//     echo "</br>";
+//     $pedido_itemarray = array(0);
+//     $jsonPedido =  json_encode($pedido_itemarray);
+//     $updated = $wpdb->update( "con_t_ventas", array('pedido_item' => $jsonPedido), array( 'venta_id' => $pedidos[$i]['venta_id'] ) );
+// }//1
+
+
+// $items = $wpdb->get_results( "SELECT venta_id,prenda_id FROM con_t_ventaitem WHERE 1", ARRAY_A  );//2
+// for ($i=0; $i < sizeof($items) ; $i++) { 
+//     echo $items[$i]['venta_id'];
+//     $pedidoitems = $wpdb->get_results( "SELECT venta_id,pedido_item FROM con_t_ventas WHERE venta_id = ".$items[$i]['venta_id']."", ARRAY_A  );
+//     $jsonPedidon =  json_decode($pedidoitems[0]['pedido_item']);
+//     array_push($jsonPedidon, $items[$i]['prenda_id']);
+//     print_r($jsonPedidon);
+//     $jsonPedido =  json_encode($jsonPedidon);
+//     echo $jsonPedido;
+//     $updated = $wpdb->update( "con_t_ventas", array('pedido_item' => $jsonPedido), array( 'venta_id' => $items[$i]['venta_id'] ) );
+//     echo "</br>";
+// }//2
+
 ?>
