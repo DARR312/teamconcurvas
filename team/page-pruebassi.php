@@ -116,23 +116,24 @@
 //    //print_r($pedidos);
 //    echo "</br>";
 // }
-// $pedidos = $wpdb->get_results( "SELECT venta_id FROM con_t_ventas WHERE 1", ARRAY_A  );//1
-// for ($i=0; $i < sizeof($pedidos); $i++) { 
-//     echo $pedidos[$i]['venta_id'];
-//     echo "</br>";
-//     $pedido_itemarray = array(0);
-//     $jsonPedido =  json_encode($pedido_itemarray);
-//     $updated = $wpdb->update( "con_t_ventas", array('pedido_item' => $jsonPedido), array( 'venta_id' => $pedidos[$i]['venta_id'] ) );
-// }//1
+$pedidos = $wpdb->get_results( "SELECT venta_id FROM con_t_ventas WHERE 1", ARRAY_A  );//1
+for ($i=0; $i < sizeof($pedidos); $i++) { 
+    echo $pedidos[$i]['venta_id'];
+    echo "</br>";
+    $pedido_itemarra = array("comision"=>0,"cantidad"=>0);
+    $pedido_itemarray = array($pedido_itemarra);
+    $jsonPedido =  json_encode($pedido_itemarray);
+    $updated = $wpdb->update( "con_t_ventas", array('pedido_item' => $jsonPedido), array( 'venta_id' => $pedidos[$i]['venta_id'] ) );
+}//1
 
 
-// $items = $wpdb->get_results( "SELECT venta_id,prenda_id FROM con_t_ventaitem WHERE 1", ARRAY_A  );//2
+// $items = $wpdb->get_results( "SELECT venta_id,prenda_id,valor FROM con_t_ventaitem WHERE 1", ARRAY_A  );//2
 // for ($i=0; $i < sizeof($items) ; $i++) { 
 //     echo $items[$i]['venta_id'];
 //     $pedidoitems = $wpdb->get_results( "SELECT venta_id,pedido_item FROM con_t_ventas WHERE venta_id = ".$items[$i]['venta_id']."", ARRAY_A  );
 //     $jsonPedidon =  json_decode($pedidoitems[0]['pedido_item']);
-//     array_push($jsonPedidon, $items[$i]['prenda_id']);
-//     print_r($jsonPedidon);
+//     $pedido_itemarray = array("referencia" => $items[$i]['prenda_id'], "valor"=>$items[$i]['valor']);
+//     array_push($jsonPedidon, $pedido_itemarray);
 //     $jsonPedido =  json_encode($jsonPedidon);
 //     echo $jsonPedido;
 //     $updated = $wpdb->update( "con_t_ventas", array('pedido_item' => $jsonPedido), array( 'venta_id' => $items[$i]['venta_id'] ) );
