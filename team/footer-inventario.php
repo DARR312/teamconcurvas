@@ -592,7 +592,6 @@
                 var idVenta = obtenerData("venta_id","con_t_cambios","row","cambio_id",id.slice(1));
                 var clienteokVenta = obtenerData("cliente_ok","con_t_ventas","row","venta_id",idVenta);
                 var items = obtenerData("complemento_estado,estado,codigo","con_t_trprendas","rowVarios","cual","V"+idVenta);
-                //°Diego Rodríguez 2Diego Rodríguez 2°787°Entregado°C1212NA12D31S1%-------El 787 es el ordenitem_id en con_t_ventaitem
                 var itemsCambio = obtenerData("complemento_estado,estado","con_t_trprendas","rowVarios","cual",id);
                 var valorSalida = 0;
                 var valor = 0;
@@ -925,7 +924,6 @@
                 var codigosArray = codigosPrendas.split("°");
                 var idItemsArray = idItems.split("°");
                 for(var i = 1; i<codigosArray.length;i++){
-                    actualizar("cambioitem_estado",idItemsArray[i],'Empacado',0,"-");//
                     actualizarPrendas(usuarioLevel+"°"+idItemsArray[i],"Empacado",ventaId,codigosArray[i]);//$valor="10,Diego,1";$valor2="Empacado";$valor3=29;$valor4="C1132AO6D20S2";
                 } 
             }else{
@@ -933,7 +931,6 @@
                 var codigosArray = codigosPrendas.split("°");
                 var idItemsArray = idItems.split("°");
                 for(var i = 1; i<codigosArray.length;i++){
-                    actualizarVentaitem("Empacado",idItemsArray[i]);
                     actualizarPrendas(usuarioLevel+"°"+idItemsArray[i],"Empacado","V"+ventaId,codigosArray[i]);//$valor="10,Diego,1";$valor2="Empacado";$valor3=29;$valor4="C1132AO6D20S2";
                 }
             }        
@@ -982,13 +979,11 @@
                     var codigoPrenda = codigoPrendaArray[1];
                     var name = $("#funcionesDespachar p:eq("+(i+1)+")").attr("name");
                     actualizarPrendas(usuarioLevel+"°"+name,"Despachado",ventaId,codigoPrenda);
-                    actualizar("cambioitem_estado",name,'Despachado',0,"-");//
                 }
             }
 
         }else{
             var codigoscosito = codigos.replace("%","°");
-            console.log(codigoscosito);
             actualizar("venta_estado","Despachado",ventaId,usuarioLevel,codigoscosito);//$tabla,$columna,$valor,$valor2
             for(var i = 0;i<(codigosArray.length-1);i++){
                 var codigoPrendaArray = codigosArray[i].split("°");
@@ -996,7 +991,6 @@
                     var codigoPrenda = codigoPrendaArray[1];
                     var name = $("#funcionesDespachar p:eq("+(i+1)+")").attr("name");
                     actualizarPrendas(usuarioLevel+"°"+name,"Despachado","V"+ventaId,codigoPrenda);
-                    actualizarVentaitem("Despachado",name);
                 }
             }
         }
@@ -1020,6 +1014,7 @@
         var flag = 0;        
         var codigos = [];
         var escaneadosEnviar = "";
+        var inventario = "";
         for(var i = 0;i<cantidadInfo;i++){
             var id = $("#escanerDan p:eq("+i+")").text();
             var flag1 = 0;
@@ -1029,12 +1024,17 @@
             if(flag1==0){
                 codigos.push(id);
                 escaneadosEnviar=escaneadosEnviar+id+",";
+                var idref = obtenerDatajson("referencia_id,estado","con_t_trprendas","valoresconcondicion","codigo","'"+id+"'");
+                var jsonidref = JSON.parse(idref); 
+                if(jsonidref[0]['estado'] != 'Dañada'){
+                    inventario=inventario+jsonidref[0]['referencia_id']+",";
+                }
             }
         }
         var usuarioLevel = $('#usuarioCell').attr('name');//10,Diego Rodríguez,2
         var usuarioArray = usuarioLevel.split(",");
         cambiarEstadoprenda(escaneadosEnviar,16,usuarioArray[1],usuarioArray[2]);
-        restarInventario(escaneadosEnviar);
+        restarInventario(inventario);
         $('.removerr').remove();
     });
     /*************************** Venta plaza *******************************/
@@ -1052,6 +1052,7 @@
         var flag = 0;        
         var codigos = [];
         var escaneadosEnviar = "";
+        var inventario = "";
         for(var i = 0;i<cantidadInfo;i++){
             var id = $("#ventaPlazaenviar p:eq("+i+")").text();
             var flag1 = 0;
@@ -1061,6 +1062,11 @@
             if(flag1==0){
                 codigos.push(id);
                 escaneadosEnviar=escaneadosEnviar+id+",";
+                var idref = obtenerDatajson("referencia_id,estado","con_t_trprendas","valoresconcondicion","codigo","'"+id+"'");
+                var jsonidref = JSON.parse(idref); 
+                if(jsonidref[0]['estado'] != 'Dañada'){
+                    inventario=inventario+jsonidref[0]['referencia_id']+",";
+                }
             }
         }
         var usuarioLevel = $('#usuarioCell').attr('name');//10,Diego Rodríguez,2
@@ -1068,7 +1074,7 @@
         var usuarioArray = usuarioLevel.split(",");
         if(pa){               
             cambiarEstadoprenda(escaneadosEnviar,17,'PA-'+pa,usuarioArray[1]);
-            restarInventario(escaneadosEnviar);
+            restarInventario(inventario);
             $('.removerr').remove();            
             alert('Vendido(s): PA-'+pa); 
         }else{alert('Por favor ingresa el PA de la venta');}
@@ -1088,6 +1094,7 @@
         var flag = 0;        
         var codigos = [];
         var escaneadosEnviar = "";
+        var inventario = "";
         for(var i = 0;i<cantidadInfo;i++){
             var id = $("#escanerMadru p:eq("+i+")").text();
             var flag1 = 0;
@@ -1097,12 +1104,17 @@
             if(flag1==0){
                 codigos.push(id);
                 escaneadosEnviar=escaneadosEnviar+id+",";
+                var idref = obtenerDatajson("referencia_id,estado","con_t_trprendas","valoresconcondicion","codigo","'"+id+"'");
+                var jsonidref = JSON.parse(idref); 
+                if(jsonidref[0]['estado'] != 'Dañada'){
+                    inventario=inventario+jsonidref[0]['referencia_id']+",";
+                }
             }
         }
         var usuarioLevel = $('#usuarioCell').attr('name');//10,Diego Rodríguez,2
         var usuarioArray = usuarioLevel.split(",");
         cambiarEstadoprenda(escaneadosEnviar,18,usuarioArray[1],usuarioArray[2]);
-        restarInventario(escaneadosEnviar);
+        restarInventario(inventario);
         $('.removerr').remove();
     });
     /*************************** Venta mayorista *******************************/
@@ -1120,6 +1132,7 @@
         var flag = 0;        
         var codigos = [];
         var escaneadosEnviar = "";
+        var inventario = "";
         for(var i = 0;i<cantidadInfo;i++){
             var id = $("#ventaMayoristaenviar p:eq("+i+")").text();
             var flag1 = 0;
@@ -1129,6 +1142,11 @@
             if(flag1==0){
                 codigos.push(id);
                 escaneadosEnviar=escaneadosEnviar+id+",";
+                var idref = obtenerDatajson("referencia_id,estado","con_t_trprendas","valoresconcondicion","codigo","'"+id+"'");
+                var jsonidref = JSON.parse(idref); 
+                if(jsonidref[0]['estado'] != 'Dañada'){
+                    inventario=inventario+jsonidref[0]['referencia_id']+",";
+                }
             }
         }
         var usuarioLevel = $('#usuarioCell').attr('name');//10,Diego Rodríguez,2
@@ -1136,7 +1154,7 @@
         var usuarioArray = usuarioLevel.split(",");
         if(pa){               
             cambiarEstadoprenda(escaneadosEnviar,19,'VM-'+pa,usuarioArray[1]);
-            restarInventario(escaneadosEnviar);
+            restarInventario(inventario);
             $('.removerr').remove();            
             alert('Vendido(s): VM-'+pa); 
         }else{alert('Por favor ingresa el VM de la venta');}

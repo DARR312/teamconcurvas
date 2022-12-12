@@ -75,7 +75,6 @@
         $('#filtroFE').attr("name",pedidoUpdate+","+fechaUpdate+","+notasUpdate+","+usuarioUpdate+","+botonrevisar);
         var ordenesCambio = ordenescambiojson($('#bscar').val(),$('#estadoFiltro').val(),$('#transportador').val(),$('#tipoenvio').val(),$('#datetimepicker-creadacambios').val(),$('#datetimepicker-entregacambios').val());
         var html = imprimirCambiosjson(ordenesCambio,pedidoUpdate,fechaUpdate,notasUpdate,usuarioUpdate);
-        console.log(html);
         var primeraFila = $('#primeraFila');
         primeraFila.after(html);
     }
@@ -84,7 +83,6 @@
 	    $('.removerCambios').remove();
 	    var ordenesCambio = ordenescambiojson($('#bscar').val(),$('#estadoFiltro').val(),$('#transportador').val(),$('#tipoenvio').val(),$('#datetimepicker-creadacambios').val(),$('#datetimepicker-entregacambios').val());
         var html = imprimirCambiosjson(ordenesCambio,pedidoUpdate,fechaUpdate,notasUpdate,usuarioUpdate);
-        console.log(html);
         var primeraFila = $('#primeraFila');
         primeraFila.after(html);
     	cambios();
@@ -95,7 +93,6 @@
 	    $('.removerCambios').remove();
         var ordenesCambio = ordenescambiojson($('#bscar').val(),$('#estadoFiltro').val(),$('#transportador').val(),$('#tipoenvio').val(),$('#datetimepicker-creadacambios').val(),$('#datetimepicker-entregacambios').val());
         var html = imprimirCambiosjson(ordenesCambio,pedidoUpdate,fechaUpdate,notasUpdate,usuarioUpdate);
-        console.log(html);
         var primeraFila = $('#primeraFila');
         primeraFila.after(html);
     	cambios();
@@ -174,27 +171,19 @@
     });
     $('#ventaBuscarId').on('click', function(){
         $('.remover').remove();
-        var venta = obtenerDatajson("cliente_ok,datos_cliente","con_t_ventas","valoresconcondicion","venta_id",$('#ventaIdentificacion').val());
+        var venta = obtenerDatajson("cliente_ok,datos_cliente,pedido_item","con_t_ventas","valoresconcondicion","venta_id",$('#ventaIdentificacion').val());
         var jsonVentaCliente = JSON.parse(venta); 
-        console.log(jsonVentaCliente);
-        var prendav = obtenerDatajson("cual,estado,codigo","con_t_trprendas","valoresconcondicion","cual","V"+$('#ventaIdentificacion').val());
+        var prendav = obtenerDatajson("cual,estado,codigo,referencia_id","con_t_trprendas","valoresconcondicion","cual","'V"+$('#ventaIdentificacion').val()+"'");
         var jsonprendav = JSON.parse(prendav); 
-        if(jsonprendav.length>0){
-            alert("El cliente todavía tiene prendas no se puede agendar el cambio");
-            return false;
-        }
-        var cambiosantiguos = obtenerDatajson("excedente,cambio_id","con_t_cambios","valoresconcondicion","venta_id",$('#ventaIdentificacion').val());
+        var cambiosantiguos = obtenerDatajson("excedente,cambio_id,pedido_item,cliente_ok","con_t_cambios","valoresconcondicion","venta_id",$('#ventaIdentificacion').val());
         var jsoncambiosantiguos = JSON.parse(cambiosantiguos); 
-        if(jsoncambiosantiguos.length>0){
-            for (let i = 0; i < jsoncambiosantiguos.length; i++) {
-                var cambiosantiguosprendas = obtenerDatajson("cual,estado,codigo","con_t_trprendas","valoresconcondicion","cual","C"+jsoncambiosantiguos[i].cambio_id);
-                var jsoncambiosantiguosprendas = JSON.parse(cambiosantiguosprendas);  
-                if(jsoncambiosantiguosprendas.length>0){
-                    alert("El cliente todavía tiene prendas no se puede agendar el cambio");
-                    return false;
-                }              
-            }            
-        }
+        var cantidaddecambjos = jsoncambiosantiguos.length;
+        var jsonpedidoitemventa = JSON.parse(jsonVentaCliente[0]['pedido_item']);
+        var canttrprendas = jsonprendav.length;
+        var cantventas = jsonpedidoitemventa[0]['cantidad'];
+        if(cantidaddecambjos>0){alert('No se puede hacer el cambio porque la venta ya tiene un cambio asociado');return false;}
+        var primeraverificación = canttrprendas -cantventas;
+        if(primeraverificación>=0){alert('No se puede hacer el cambio porque el cliente aún tiene prendas a su nombre');return false;}        
         var html = "<h1  style='display: none;' class='remover' id='datoscliente' name='"+$('#ventaIdentificacion').val()+"'>"+jsonVentaCliente[0].datos_cliente+"</h1>";
         html = html + "<h1  style='display: none;' class='remover' id='clienteok' name='"+$('#ventaIdentificacion').val()+"'>"+jsonVentaCliente[0].cliente_ok+"</h1>";
         $('#popup').fadeOut('slow');         
@@ -258,7 +247,6 @@
         datos_cliente.direccion = $('#clienteDireccion').text();
         datos_cliente.complemento = $('#clienteComplemento').text();
         datos_cliente.ciudad = $('#clienteCiudad').text();
-        console.log(datos_cliente);
         var clienteString= JSON.stringify(datos_cliente);
         var pedido = $("#pedido").text();
         var pedidoitems = $("#pedido").attr("name");
@@ -266,25 +254,39 @@
         var cliente1 = clienteString.replaceAll("<","");  
         var cliente2 = cliente1.replaceAll(">","");
         var cliente3 = cliente2.replaceAll("{","<");  
-        clienteString = cliente3.replaceAll("}",">");   
-        console.log(excedente);
-        var idCambio = agregarcambio(venta_id,clienteString,pedido,"-",notas,excedente,fecha_entrega,idUsuario,idUsuario);
+        clienteString = cliente3.replaceAll("}",">");           
         var pedidoitemsArray = pedidoitems.split(",");
-        console.log(pedidoitemsArray);
+        var objetopedidoitem = {};
+        objetopedidoitem.venta = 0;
+        objetopedidoitem.cantidad = 0;
+        let arraypedidoitem = [objetopedidoitem]; 
+        var arrayItems = [];
+        var refrestar = "";
         for(var i = 0;i<(pedidoitemsArray.length-1);i++){            
             var prendasIDSArray = pedidoitemsArray[i].split("/");
-            console.log(prendasIDSArray);
-            for (let k = 0; k < prendasIDSArray[0]; k++) { 
-               cambioitem(prendasIDSArray[1],0,idCambio,venta_id);               
+            for (let k = 0; k < prendasIDSArray[0]; k++) {   
+               var objetopedidoitem = {};
+                objetopedidoitem.referencia = prendasIDSArray[1];
+                objetopedidoitem.ventainicial = venta_id;   
+                arraypedidoitem.push(objetopedidoitem);  
+                refrestar = refrestar+prendasIDSArray[1]+",";   
+                arrayItems.push(prendasIDSArray[1]);           
             }
         }
+        var pedidoitemString= JSON.stringify(arraypedidoitem);
+        var pedidoitem1 = pedidoitemString.replaceAll("<","");  
+        var pedidoitem2 = pedidoitem1.replaceAll(">","");
+        var pedidoitem3 = pedidoitem2.replaceAll("{","<");  
+        pedidoitemString = pedidoitem3.replaceAll("}",">"); 
+        revisarfechasatelite(arrayItems);
+        restarInventario(refrestar);
+        var idCambio = agregarcambio(venta_id,clienteString,pedido,pedidoitemString,notas,excedente,fecha_entrega,idUsuario,idUsuario);
         $('#popup').fadeOut('slow');         
         $('.popup-overlay').fadeOut('slow');      
         $('.reinicia').remove();
         $('.removeCambio').remove();
         var ordenesCambio = ordenescambiojson($('#bscar').val(),$('#estadoFiltro').val(),$('#transportador').val(),$('#tipoenvio').val(),$('#datetimepicker-creadacambios').val(),$('#datetimepicker-entregacambios').val());
         var html = imprimirCambiosjson(ordenesCambio,pedidoUpdate,fechaUpdate,notasUpdate,usuarioUpdate);
-        console.log(html);
         var primeraFila = $('#primeraFila');
         primeraFila.after(html);
         cambios();  

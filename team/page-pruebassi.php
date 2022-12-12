@@ -143,10 +143,18 @@
 // $pedidos = $wpdb->get_results( "SELECT venta_id,cliente_ok,pedido_item FROM con_t_ventas WHERE cliente_ok > 0", ARRAY_A  );//3
 // for ($i=0; $i < sizeof($pedidos) ; $i++) {      
 //     $jsonPedidon =  json_decode($pedidos[$i]['pedido_item']);
+//     $jsonclienteok =  json_decode($pedidos[$i]['cliente_ok']);
 //     $vant = (array)$jsonPedidon[0];
-//     $prendas = $wpdb->get_results( "SELECT descripcion FROM con_t_trprendas WHERE cual = 'V".$pedidos[$i]['venta_id']."'", ARRAY_A  );
-//     echo $pedidos[$i]['venta_id']." ".$pedidos[$i]['cliente_ok']." prendas: ".sizeof($prendas); 
-//     $vant['cantidad']=sizeof($prendas);
+//     $prendas = 0;
+//     for ($j=1; $j < sizeof($jsonPedidon); $j++) { 
+//        $item = (array)$jsonPedidon[$j];
+//        $jsonclienteok =  intval($jsonclienteok)-intval($item['valor']);
+//        if($jsonclienteok>=0){
+//             $prendas++;
+//        }
+//     }
+//     echo $pedidos[$i]['venta_id']." ".$pedidos[$i]['cliente_ok']." prendas: ".$prendas; 
+//     $vant['cantidad']=$prendas;
 //     $jsonPedidon[0] = $vant;
 //     $pedidos[$i]['pedido_item'] = json_encode($jsonPedidon);
 //     echo "</br>";
@@ -181,14 +189,4 @@
 // }//5
 // $obtenidosArray = $wpdb->get_results( "SELECT COUNT(*),vendedor_id FROM con_t_ventas WHERE cliente_ok > 0 GROUP BY vendedor_id", ARRAY_A);
 // print_r($obtenidosArray);
-$valor='Beisbolera';
-$referenciasArray = $wpdb->get_results( "SELECT referencia_id FROM con_t_resumen WHERE nombre = '".$valor."'", ARRAY_A);//133
-$descripcion = $wpdb->get_results( "SELECT nombre,color,talla,precio_detal FROM con_t_resumen WHERE referencia_id = ".$referenciasArray[0]['referencia_id']."", ARRAY_A);
-$separados = $wpdb->get_results( "SELECT COUNT(*) FROM con_t_ventaitem WHERE (prenda_id = ".$referenciasArray[0]['referencia_id'].") AND (estado_id = 1)", ARRAY_A);//133
-echo $descripcion[0]['nombre']." ".$descripcion[0]['color']." ".$descripcion[0]['talla']." Separados: ".$separados[0]['COUNT(*)']."</br>";
-for($j=1;$j<sizeof($referenciasArray);$j++){
-    $descripcion = $wpdb->get_results( "SELECT nombre,color,talla,precio_detal FROM con_t_resumen WHERE referencia_id = ".$referenciasArray[$j]['referencia_id']."", ARRAY_A);
-    $separados = $wpdb->get_results( "SELECT COUNT(*) FROM con_t_ventaitem WHERE (prenda_id = ".$referenciasArray[$j]['referencia_id'].") AND (estado_id = 1)", ARRAY_A);//133
-    echo $descripcion[0]['nombre']." ".$descripcion[0]['color']." ".$descripcion[0]['talla']." Separados: ".$separados[0]['COUNT(*)']."</br>";
-}
 ?>

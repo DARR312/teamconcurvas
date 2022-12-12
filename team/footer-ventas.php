@@ -241,7 +241,7 @@
             "<p class='col-lg-4 col-md-4 col-sm-4 col-xs-4 reinicia' id='refe"+j+"'>"+items[1]+"</p>"+
             "<p class='reinicia' style='display: none;' id='idref"+j+"'>"+items[0]+"</p>"+
             "<p class='reinicia' style='display: none;' id='precio"+j+"'>"+items[2]+"</p>";
-            arraItems.push[items[0]];
+            arraItems.push(items[0]);
             precio = precio + (parseInt($("#cantidad"+j+"").val())*parseInt(items[2]));
             var jsonPrenda = new Object();
             jsonPrenda.codigo = items[0];
@@ -297,6 +297,7 @@
         var datosCliente2 = datosCliente1.replaceAll(">","");
         var datosCliente3 = datosCliente2.replaceAll("{","<");  
         datosCliente = datosCliente3.replaceAll("}",">");   
+        var refrestar = "";
         if(!fecha){
             alert("Por favor ingresa una fecha");
             return false;
@@ -308,7 +309,8 @@
             var objetopedido = {};
             objetopedido.prendas = '';
             var precio =0;
-            var itemVenta = "";
+            let arraypedidoitem = [objetopedidoitem];
+            
             for (let i = 0; i < Object.keys(datospedidoDescuentosJson).length; i++) {
                 var cantidad = 1;
                 var id = datospedidoDescuentosJson[i].codigo;
@@ -316,7 +318,13 @@
                 var precio1 = datospedidoDescuentosJson[i].valor;
                 pedido = pedido + cantidad+" "+refe + " ";
                 objetopedido.prendas = objetopedido.prendas + cantidad+" "+refe+" ";//voy aqui
-                itemVenta = itemVenta + cantidad+"/"+id+",";
+                for (let j = 0; j < cantidad; j++) {
+                    var objetopedidoitem = {};
+                    objetopedidoitem.referencia = id;
+                    objetopedidoitem.valor = precio1;   
+                    arraypedidoitem.push(objetopedidoitem);        
+                    refrestar = refrestar+id+",";     
+                }            
             }     
             objetopedido.precio = $("#valorDescuentos").attr("name");
             var pedido=JSON.stringify(objetopedido);
@@ -324,17 +332,24 @@
             var pedido2 = pedido1.replaceAll(">","");
             var pedido3 = pedido2.replaceAll("{","<");  
             pedido = pedido3.replaceAll("}",">");       
-            let cadenaCorregida = itemVenta.substring(0, itemVenta.length - 1);
-            console.log(idCliente,datosCliente,pedido,precio,notas,origen,fecha,idUsuario,idUsuario,cadenaCorregida,botonrevisar,pedidoUpdate,fechaUpdate,notasUpdate,usuarioUpdate);       
-            agregandotodo(idCliente,datosCliente,pedido,precio,notas,origen,fecha,idUsuario,idUsuario,cadenaCorregida,botonrevisar,pedidoUpdate,fechaUpdate,notasUpdate,usuarioUpdate);       
+            var items=JSON.stringify(arraypedidoitem);
+            var items1 = items.replaceAll("<","");  
+            var items2 = items1.replaceAll(">","");
+            var items3 = items2.replaceAll("{","<");  
+            items = items3.replaceAll("}",">");   
+            agregandotodo(idCliente,datosCliente,pedido,precio,notas,origen,fecha,idUsuario,idUsuario,items,botonrevisar,pedidoUpdate,fechaUpdate,notasUpdate,usuarioUpdate);       
+            restarInventario(refrestar);
             return false;
         }
         var numprendas = $("#pedido")[0].children.length/4;
         var pedido = "";
         var objetopedido = {};
         objetopedido.prendas = '';
+        var objetopedidoitem = {};
+        objetopedidoitem.comision = 0;
+        objetopedidoitem.cantidad = 0;
+        let arraypedidoitem = [objetopedidoitem];
         var precio =0;
-        var itemVenta = "";
         for (let i = 1; i <= numprendas; i++) {
             var cantidad = $("#cantidadV"+i).text();
             var id = $("#idref"+i).text();
@@ -343,7 +358,13 @@
             pedido = pedido + cantidad+" "+refe + " ";
             objetopedido.prendas = objetopedido.prendas + cantidad+" "+refe+" ";
             precio = parseInt(precio) + (parseInt(cantidad) * parseInt(precio1));
-            itemVenta = itemVenta + cantidad+"/"+id+",";
+            for (let j = 0; j < cantidad; j++) {
+                var objetopedidoitem = {};
+                objetopedidoitem.referencia = id;
+                objetopedidoitem.valor = precio1;   
+                arraypedidoitem.push(objetopedidoitem);  
+                refrestar = refrestar+id+",";            
+            }            
         }
         objetopedido.precio = precio;
         var pedido=JSON.stringify(objetopedido);
@@ -351,10 +372,14 @@
         var pedido2 = pedido1.replaceAll(">","");
         var pedido3 = pedido2.replaceAll("{","<");  
         pedido = pedido3.replaceAll("}",">");       
-        let cadenaCorregida = itemVenta.substring(0, itemVenta.length - 1);
-        agregandotodo(idCliente,datosCliente,pedido,precio,notas,origen,fecha,idUsuario,idUsuario,cadenaCorregida,botonrevisar,pedidoUpdate,fechaUpdate,notasUpdate,usuarioUpdate);       
-        return false;
-        
+        var items=JSON.stringify(arraypedidoitem);
+        var items1 = items.replaceAll("<","");  
+        var items2 = items1.replaceAll(">","");
+        var items3 = items2.replaceAll("{","<");  
+        items = items3.replaceAll("}",">");   
+        agregandotodo(idCliente,datosCliente,pedido,precio,notas,origen,fecha,idUsuario,idUsuario,items,botonrevisar,pedidoUpdate,fechaUpdate,notasUpdate,usuarioUpdate);       
+        restarInventario(refrestar);
+        return false;        
     });
     
     $('#imprimirEmpaques').on('click', function() {
@@ -373,36 +398,6 @@
         $('.reinicia').remove(); 
         return false;     
     });
-       /*°34°5°89900°0°1%°35°7°130000°0°1%°36°8°89900°0°1%°37°11°89900°0°1%°38°34°130000°0°1%°39°34°130000°0°1%
-        var idsArray = ids.split("%");
-        var clienteDatos = obtenerData("nombre,telefono,direccion_1,complemento_1,ciudad_1","con_t_clientes","rowVarios","cliente_id",idsArray[0]);
-        var ciuddes = ciudades();
-        var items = ciuddes.split(',');
-        var clienteArray = clienteDatos.split('°');
-        var ciudadActual = clienteArray[5].split('%');
-        html = "<option value='"+ciudadActual[0]+"'>"+ciudadActual[0]+"</option>";
-        for(i=1;i<items.length;i++){
-            html=html+"<option value='"+items[i]+"'>"+items[i]+"</option>";
-        }
-        var ciudad1Update = $('#ciudad1Update');
-        ciudad1Update.append(html);
-        $('#nombreUpdate').val(clienteArray[1]);
-        $('#telefonoUpdate').val(clienteArray[2]);
-        $('#dir1Update').val(clienteArray[3]);
-        $('#comp1Update').val(clienteArray[4]);
-        $('#idClienteUpdate').text(ids);
-        $('#popup5').fadeIn('slow');         
-        $('.popup-overlay').fadeIn('slow');         
-        $('.popup-overlay').height($(window).height());  */    
-    
-   /* for(i=1;i<items.length;i++){°Andrés°3229261615°Cll San martín°°Bogotá%
-        if(i==5){
-           html =html+ "<a href='https://concurvas.com/team/usuarios'><div class='accesos'><img src='<?php echo get_template_directory_uri(); ?>/imagenes/iconos/usuarios.png' alt='Avatar'></div></a>";
-       }
-    }
-    var html = "<div class='col-lg-4 col-md-4 col-sm-4 col-xs-12' id='filtro'><select name='fecha' onchange='location = this.value;' id='fiktroFecha'><option value='0'>  Hoy  </option></select></div>"; 
-    var bscador = $('#bscdor');
-    bscador.after(html);*/
 })
 </script>
 <script>
@@ -423,8 +418,7 @@ function agregandotodo(idCliente,datosCliente,pedido,precio,notas,origen,fecha,i
     $('#popup').fadeOut('slow');         
     $('.popup-overlay').fadeOut('slow');      
     $('.reinicia').remove(); 
-    var idVenta = agregarventa(idCliente,datosCliente,pedido,precio,notas,origen,fecha,idUsuario,idUsuario);    
-    ventaitem(idVenta,itemVenta);
+    var idVenta = agregarventa(idCliente,datosCliente,pedido,precio,notas,origen,fecha,idUsuario,idUsuario,itemVenta);    
     $('.removerVentas').remove();
     var ordenesVenta = ordenesventajson($('#bscar').val(),$('#estadoFiltro').val(),$('#transportador').val(),$('#datetimepicker-default').val(),$('#datetimepicker-defaultFiltro').val(),$('#bscartelefono').val());
     var jsonVenta = JSON.parse(ordenesVenta); 

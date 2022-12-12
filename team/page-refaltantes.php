@@ -64,25 +64,25 @@ $dia8 = wp_date('Y-m-d', strtotime('+8 day'), $timezone );
 $dia9 = wp_date('Y-m-d', strtotime('+9 day'), $timezone );
 $dia10 = wp_date('Y-m-d', strtotime('+10 day'), $timezone );
 global $wpdb;
-$obtenidosArray = $wpdb->get_results( "SELECT COUNT(*),prenda_id FROM con_t_ventaitem WHERE estado_id = 1 GROUP BY prenda_id", ARRAY_A);
-$venta0 = $wpdb->get_results( "SELECT venta_id FROM con_t_ventas WHERE (fecha_entrega <= '".$fechactual."') AND ((estado = 'Sin empacar') OR (estado = 'No empacado'))", ARRAY_A);
-$venta1 = $wpdb->get_results( "SELECT venta_id FROM con_t_ventas WHERE (fecha_entrega = '".$dia1."') AND ((estado = 'Sin empacar'))", ARRAY_A);
-$venta2 = $wpdb->get_results( "SELECT venta_id FROM con_t_ventas WHERE (fecha_entrega = '".$dia2."') AND ((estado = 'Sin empacar'))", ARRAY_A);
-$venta3 = $wpdb->get_results( "SELECT venta_id FROM con_t_ventas WHERE (fecha_entrega = '".$dia3."') AND ((estado = 'Sin empacar'))", ARRAY_A);
-$venta4 = $wpdb->get_results( "SELECT venta_id FROM con_t_ventas WHERE (fecha_entrega = '".$dia4."') AND ((estado = 'Sin empacar'))", ARRAY_A);
-$venta5 = $wpdb->get_results( "SELECT venta_id FROM con_t_ventas WHERE (fecha_entrega = '".$dia5."') AND ((estado = 'Sin empacar'))", ARRAY_A);
-$venta6 = $wpdb->get_results( "SELECT venta_id FROM con_t_ventas WHERE (fecha_entrega = '".$dia6."') AND ((estado = 'Sin empacar'))", ARRAY_A);
-$venta7 = $wpdb->get_results( "SELECT venta_id FROM con_t_ventas WHERE (fecha_entrega = '".$dia7."') AND ((estado = 'Sin empacar'))", ARRAY_A);
-$venta8 = $wpdb->get_results( "SELECT venta_id FROM con_t_ventas WHERE (fecha_entrega = '".$dia8."') AND ((estado = 'Sin empacar'))", ARRAY_A);
-$venta9 = $wpdb->get_results( "SELECT venta_id FROM con_t_ventas WHERE (fecha_entrega = '".$dia9."') AND ((estado = 'Sin empacar'))", ARRAY_A);
-$venta10 = $wpdb->get_results( "SELECT venta_id FROM con_t_ventas WHERE (fecha_entrega = '".$dia10."') AND ((estado = 'Sin empacar'))", ARRAY_A);
+$venta0 = $wpdb->get_results( "SELECT pedido_item FROM con_t_ventas WHERE (fecha_entrega <= '".$fechactual."') AND ((estado = 'Sin empacar') OR (estado = 'No empacado'))", ARRAY_A);
+$venta1 = $wpdb->get_results( "SELECT pedido_item FROM con_t_ventas WHERE (fecha_entrega = '".$dia1."') AND ((estado = 'Sin empacar'))", ARRAY_A);
+$venta2 = $wpdb->get_results( "SELECT pedido_item FROM con_t_ventas WHERE (fecha_entrega = '".$dia2."') AND ((estado = 'Sin empacar'))", ARRAY_A);
+$venta3 = $wpdb->get_results( "SELECT pedido_item FROM con_t_ventas WHERE (fecha_entrega = '".$dia3."') AND ((estado = 'Sin empacar'))", ARRAY_A);
+$venta4 = $wpdb->get_results( "SELECT pedido_item FROM con_t_ventas WHERE (fecha_entrega = '".$dia4."') AND ((estado = 'Sin empacar'))", ARRAY_A);
+$venta5 = $wpdb->get_results( "SELECT pedido_item FROM con_t_ventas WHERE (fecha_entrega = '".$dia5."') AND ((estado = 'Sin empacar'))", ARRAY_A);
+$venta6 = $wpdb->get_results( "SELECT pedido_item FROM con_t_ventas WHERE (fecha_entrega = '".$dia6."') AND ((estado = 'Sin empacar'))", ARRAY_A);
+$venta7 = $wpdb->get_results( "SELECT pedido_item FROM con_t_ventas WHERE (fecha_entrega = '".$dia7."') AND ((estado = 'Sin empacar'))", ARRAY_A);
+$venta8 = $wpdb->get_results( "SELECT pedido_item FROM con_t_ventas WHERE (fecha_entrega = '".$dia8."') AND ((estado = 'Sin empacar'))", ARRAY_A);
+$venta9 = $wpdb->get_results( "SELECT pedido_item FROM con_t_ventas WHERE (fecha_entrega = '".$dia9."') AND ((estado = 'Sin empacar'))", ARRAY_A);
+$venta10 = $wpdb->get_results( "SELECT pedido_item FROM con_t_ventas WHERE (fecha_entrega = '".$dia10."') AND ((estado = 'Sin empacar'))", ARRAY_A);
 
 $ids = array();
 for($i=0;$i<sizeof($venta0);$i++){
-    $idPrendas = $wpdb->get_results( "SELECT prenda_id FROM con_t_ventaitem WHERE venta_id = ".$venta0[$i]['venta_id'] ."", ARRAY_N);
-    for($j=0;$j<sizeof($idPrendas);$j++){
-        array_push($ids, $idPrendas[$j][0]);
-    }
+    $jsonPedido =  json_decode($venta0[$i]['pedido_item']);
+    for ($j=1; $j < sizeof($jsonPedido) ; $j++) { 
+        $jsonPedidon =  (array)$jsonPedido[$j];;
+        array_push($ids, $jsonPedidon['referencia']);
+    }    
 }
 $vals = array_count_values($ids);
 $html= "<div class='col-lg-12 col-md-12 col-sm-12 col-xs-12'><p class='letra18pt-pc'> Prendas sin empacar hasta la fecha: </p></div>";
@@ -90,33 +90,14 @@ foreach ($vals as $key => $value){
     $ref = $wpdb->get_results( "SELECT nombre,color,talla FROM con_t_resumen WHERE referencia_id = ".$key."", ARRAY_A);
     $html = $html."<div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'><p class='letra18pt-pc'>".$ref[0]['nombre']." ".$ref[0]['color']." ".$ref[0]['talla']." : ".$value."</p></div>";
 }
-/*echo "v1**********************************";
-print_r($venta1);
-echo "v2**********************************";
-print_r($venta2);
-echo "v3**********************************";
-print_r($venta3);
-echo "v4**********************************";
-print_r($venta4);
-echo "v5**********************************";
-print_r($venta5);
-echo "v6**********************************";
-print_r($venta6);
-echo "v7**********************************";
-print_r($venta7);
-echo "v8**********************************";
-print_r($venta8);
-echo "v9**********************************";
-print_r($venta9);
-echo "v10**********************************";
-print_r($venta10);*/
 
 $ids1 = array();
 for($i=0;$i<sizeof($venta1);$i++){
-    $idPrendas = $wpdb->get_results( "SELECT prenda_id FROM con_t_ventaitem WHERE venta_id = ".$venta1[$i]['venta_id'] ."", ARRAY_N);
-    for($j=0;$j<sizeof($idPrendas);$j++){
-        array_push($ids1, $idPrendas[$j][0]);
-    }
+    $jsonPedido =  json_decode($venta1[$i]['pedido_item']);
+    for ($j=1; $j < sizeof($jsonPedido) ; $j++) { 
+        $jsonPedidon =  (array)$jsonPedido[$j];;
+        array_push($ids1, $jsonPedidon['referencia']);
+    } 
 }
 $vals1 = array_count_values($ids1);
 $html= $html."<div class='col-lg-12 col-md-12 col-sm-12 col-xs-12'><p class='letra18pt-pc'> Prendas sin empacar para la fecha: ".$dia1."</p></div>";
@@ -126,10 +107,11 @@ foreach ($vals1 as $key => $value){
 }
 $ids1 = array();
 for($i=0;$i<sizeof($venta2);$i++){
-    $idPrendas = $wpdb->get_results( "SELECT prenda_id FROM con_t_ventaitem WHERE venta_id = ".$venta2[$i]['venta_id'] ."", ARRAY_N);
-    for($j=0;$j<sizeof($idPrendas);$j++){
-        array_push($ids1, $idPrendas[$j][0]);
-    }
+    $jsonPedido =  json_decode($venta2[$i]['pedido_item']);
+    for ($j=1; $j < sizeof($jsonPedido) ; $j++) { 
+        $jsonPedidon =  (array)$jsonPedido[$j];;
+        array_push($ids1, $jsonPedidon['referencia']);
+    } 
 }
 $vals1 = array_count_values($ids1);
 $html= $html."<div class='col-lg-12 col-md-12 col-sm-12 col-xs-12'><p class='letra18pt-pc'> Prendas sin empacar para la fecha: ".$dia2."</p></div>";
@@ -139,10 +121,11 @@ foreach ($vals1 as $key => $value){
 }
 $ids1 = array();
 for($i=0;$i<sizeof($venta3);$i++){
-    $idPrendas = $wpdb->get_results( "SELECT prenda_id FROM con_t_ventaitem WHERE venta_id = ".$venta3[$i]['venta_id'] ."", ARRAY_N);
-    for($j=0;$j<sizeof($idPrendas);$j++){
-        array_push($ids1, $idPrendas[$j][0]);
-    }
+    $jsonPedido =  json_decode($venta3[$i]['pedido_item']);
+    for ($j=1; $j < sizeof($jsonPedido) ; $j++) { 
+        $jsonPedidon =  (array)$jsonPedido[$j];;
+        array_push($ids1, $jsonPedidon['referencia']);
+    } 
 }
 $vals1 = array_count_values($ids1);
 $html= $html."<div class='col-lg-12 col-md-12 col-sm-12 col-xs-12'><p class='letra18pt-pc'> Prendas sin empacar para la fecha: ".$dia3."</p></div>";
@@ -152,10 +135,11 @@ foreach ($vals1 as $key => $value){
 }
 $ids1 = array();
 for($i=0;$i<sizeof($venta4);$i++){
-    $idPrendas = $wpdb->get_results( "SELECT prenda_id FROM con_t_ventaitem WHERE venta_id = ".$venta4[$i]['venta_id'] ."", ARRAY_N);
-    for($j=0;$j<sizeof($idPrendas);$j++){
-        array_push($ids1, $idPrendas[$j][0]);
-    }
+    $jsonPedido =  json_decode($venta4[$i]['pedido_item']);
+    for ($j=1; $j < sizeof($jsonPedido) ; $j++) { 
+        $jsonPedidon =  (array)$jsonPedido[$j];;
+        array_push($ids1, $jsonPedidon['referencia']);
+    } 
 }
 $vals1 = array_count_values($ids1);
 $html= $html."<div class='col-lg-12 col-md-12 col-sm-12 col-xs-12'><p class='letra18pt-pc'> Prendas sin empacar para la fecha: ".$dia4."</p></div>";
@@ -165,10 +149,11 @@ foreach ($vals1 as $key => $value){
 }
 $ids1 = array();
 for($i=0;$i<sizeof($venta5);$i++){
-    $idPrendas = $wpdb->get_results( "SELECT prenda_id FROM con_t_ventaitem WHERE venta_id = ".$venta5[$i]['venta_id'] ."", ARRAY_N);
-    for($j=0;$j<sizeof($idPrendas);$j++){
-        array_push($ids1, $idPrendas[$j][0]);
-    }
+    $jsonPedido =  json_decode($venta5[$i]['pedido_item']);
+    for ($j=1; $j < sizeof($jsonPedido) ; $j++) { 
+        $jsonPedidon =  (array)$jsonPedido[$j];;
+        array_push($ids1, $jsonPedidon['referencia']);
+    } 
 }
 $vals1 = array_count_values($ids1);
 $html= $html."<div class='col-lg-12 col-md-12 col-sm-12 col-xs-12'><p class='letra18pt-pc'> Prendas sin empacar para la fecha: ".$dia5."</p></div>";
@@ -178,10 +163,11 @@ foreach ($vals1 as $key => $value){
 }
 $ids1 = array();
 for($i=0;$i<sizeof($venta6);$i++){
-    $idPrendas = $wpdb->get_results( "SELECT prenda_id FROM con_t_ventaitem WHERE venta_id = ".$venta6[$i]['venta_id'] ."", ARRAY_N);
-    for($j=0;$j<sizeof($idPrendas);$j++){
-        array_push($ids1, $idPrendas[$j][0]);
-    }
+    $jsonPedido =  json_decode($venta6[$i]['pedido_item']);
+    for ($j=1; $j < sizeof($jsonPedido) ; $j++) { 
+        $jsonPedidon =  (array)$jsonPedido[$j];;
+        array_push($ids1, $jsonPedidon['referencia']);
+    } 
 }
 $vals1 = array_count_values($ids1);
 $html= $html."<div class='col-lg-12 col-md-12 col-sm-12 col-xs-12'><p class='letra18pt-pc'> Prendas sin empacar para la fecha: ".$dia6."</p></div>";
@@ -191,10 +177,11 @@ foreach ($vals1 as $key => $value){
 }
 $ids1 = array();
 for($i=0;$i<sizeof($venta7);$i++){
-    $idPrendas = $wpdb->get_results( "SELECT prenda_id FROM con_t_ventaitem WHERE venta_id = ".$venta7[$i]['venta_id'] ."", ARRAY_N);
-    for($j=0;$j<sizeof($idPrendas);$j++){
-        array_push($ids1, $idPrendas[$j][0]);
-    }
+    $jsonPedido =  json_decode($venta7[$i]['pedido_item']);
+    for ($j=1; $j < sizeof($jsonPedido) ; $j++) { 
+        $jsonPedidon =  (array)$jsonPedido[$j];;
+        array_push($ids1, $jsonPedidon['referencia']);
+    } 
 }
 $vals1 = array_count_values($ids1);
 $html= $html."<div class='col-lg-12 col-md-12 col-sm-12 col-xs-12'><p class='letra18pt-pc'> Prendas sin empacar para la fecha: ".$dia7."</p></div>";
@@ -204,10 +191,11 @@ foreach ($vals1 as $key => $value){
 }
 $ids1 = array();
 for($i=0;$i<sizeof($venta8);$i++){
-    $idPrendas = $wpdb->get_results( "SELECT prenda_id FROM con_t_ventaitem WHERE venta_id = ".$venta8[$i]['venta_id'] ."", ARRAY_N);
-    for($j=0;$j<sizeof($idPrendas);$j++){
-        array_push($ids1, $idPrendas[$j][0]);
-    }
+    $jsonPedido =  json_decode($venta8[$i]['pedido_item']);
+    for ($j=1; $j < sizeof($jsonPedido) ; $j++) { 
+        $jsonPedidon =  (array)$jsonPedido[$j];;
+        array_push($ids1, $jsonPedidon['referencia']);
+    } 
 }
 $vals1 = array_count_values($ids1);
 $html= $html."<div class='col-lg-12 col-md-12 col-sm-12 col-xs-12'><p class='letra18pt-pc'> Prendas sin empacar para la fecha: ".$dia8."</p></div>";
@@ -217,10 +205,11 @@ foreach ($vals1 as $key => $value){
 }
 $ids1 = array();
 for($i=0;$i<sizeof($venta9);$i++){
-    $idPrendas = $wpdb->get_results( "SELECT prenda_id FROM con_t_ventaitem WHERE venta_id = ".$venta9[$i]['venta_id'] ."", ARRAY_N);
-    for($j=0;$j<sizeof($idPrendas);$j++){
-        array_push($ids1, $idPrendas[$j][0]);
-    }
+    $jsonPedido =  json_decode($venta9[$i]['pedido_item']);
+    for ($j=1; $j < sizeof($jsonPedido) ; $j++) { 
+        $jsonPedidon =  (array)$jsonPedido[$j];;
+        array_push($ids1, $jsonPedidon['referencia']);
+    } 
 }
 $vals1 = array_count_values($ids1);
 $html= $html."<div class='col-lg-12 col-md-12 col-sm-12 col-xs-12'><p class='letra18pt-pc'> Prendas sin empacar para la fecha: ".$dia9."</p></div>";
@@ -230,10 +219,11 @@ foreach ($vals1 as $key => $value){
 }
 $ids1 = array();
 for($i=0;$i<sizeof($venta10);$i++){
-    $idPrendas = $wpdb->get_results( "SELECT prenda_id FROM con_t_ventaitem WHERE venta_id = ".$venta10[$i]['venta_id'] ."", ARRAY_N);
-    for($j=0;$j<sizeof($idPrendas);$j++){
-        array_push($ids1, $idPrendas[$j][0]);
-    }
+    $jsonPedido =  json_decode($venta10[$i]['pedido_item']);
+    for ($j=1; $j < sizeof($jsonPedido) ; $j++) { 
+        $jsonPedidon =  (array)$jsonPedido[$j];;
+        array_push($ids1, $jsonPedidon['referencia']);
+    } 
 }
 $vals1 = array_count_values($ids1);
 $html= $html."<div class='col-lg-12 col-md-12 col-sm-12 col-xs-12'><p class='letra18pt-pc'> Prendas sin empacar para la fecha: ".$dia10."</p></div>";

@@ -271,7 +271,6 @@
             objeto.columna = "valor_mercancia";
             objeto.valor = valorTotal;
             var valorTotal_insert = prepararjson(objeto);
-            console.log(valorTotal,metodos_pago_insert,"Lo que se enviaa ");
             var objeto = {};
             objeto.columna = "ID";
             objeto.valor = jsonExiste[0].ID;
@@ -350,7 +349,6 @@
         $('.ventasplazaResumen').remove(); 
 	    var ordenesCambio = ordenescambiojson($('#bscar').val(),$('#estadoFiltro').val(),$('#transportador').val(),$('#tipoenvio').val(),$('#datetimepicker-creadacambios').val(),$('#datetimepicker-entregacambios').val());
         var html = imprimirCambiosjson(ordenesCambio,pedidoUpdate,fechaUpdate,notasUpdate,usuarioUpdate);
-        console.log(html);
         var primeraFila = $('#primeraFila');
         primeraFila.after(html);
     	cambios();

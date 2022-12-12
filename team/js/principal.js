@@ -1,5 +1,5 @@
-const urlhost = "http://localhost/wordpress/index.php/controlador" ;
-//const urlhost = "https://concurvas.com/team/controlador/";
+//const urlhost = "http://localhost/wordpress/index.php/controlador" ;
+const urlhost = "https://concurvas.com/team/controlador/";
 function formatoPrecio(precio){
 	var pre = Math.sqrt(precio*precio);
     let myFunc = num => Number(num);
@@ -309,12 +309,11 @@ function readerPrendaEmpacada(decodedText, decodedResult) {
 		if(verificado!="ok"){alert("Este código quedó en el inventario inicial, por favor al botón de inventario inicial desde un computador y dirigirse a una bogeda para ingresarlo. ALERTA ESTO QUEDA A NOMBRE DE "+verificado+" PARA AUDITORIA DE INVENTARIO ");return false;}
         var prendasCantidad = ($('#funcionesEmpacar p').length-1)/2;
         var item = obtenerData("referencia_id","con_t_trprendas","row","codigo",decodedText);
-        var referencia = obtenerData("nombre,color,talla","con_t_resumen","rowVarios","referencia_id",item);//°Londres°Rosa Bebé°SM%
         var flag = 0;
         for(var i = 1; i<=prendasCantidad;i++){
             var pa = (i*2)-1;
             var name = $("#funcionesEmpacar p:eq("+pa+")").attr("name");
-            if(name == referencia){
+            if(name == item){
                 var pp = i*2;
                 var nam = $("#funcionesEmpacar p:eq("+pp+")").attr("name");
                 if(nam=="Sin empacar"){
@@ -344,21 +343,19 @@ function escanearEmpacar(decodedText, decodedResult) {
             var items = "";
             var html= "";
             if(decodedText[0] == "C"){
-				items = obtenerData("prenda_idsale,prenda_idregresa,cliente_ok,estado,cambioitem_id","con_t_cambioitem","rowVarios","cambio_id",decodedText.slice(1));
-				//°113°140000°0°5%°113°140000°0°1%°113°140000°0°1%
+				var cambioitems = obtenerDatajson("pedido_item","con_t_cambios","valoresconcondicion","cambio_id",decodedText.slice(1));
+				var jsoncambioitem = JSON.parse(cambioitems); 
+				var jsonitems = JSON.parse(jsoncambioitem[0]['pedido_item']); 
             }else{
-               items = obtenerData("prenda_id,valor,descuento_id,estado_id,ordenitem_id","con_t_ventaitem","rowVarios","venta_id",decodedText);
-               //°113°140000°0°5%°113°140000°0°1%°113°140000°0°1%
+			   	var ventaitems = obtenerDatajson("pedido_item","con_t_ventas","valoresconcondicion","venta_id",decodedText);
+				var jsonventaitem = JSON.parse(ventaitems); 
+				var jsonitems = JSON.parse(jsonventaitem[0]['pedido_item']); 
             }
-            var itemsArray = items.split("%");
-            for(var i = 0; i<(itemsArray.length-1);i++){
-                var item = itemsArray[i].split("°");
-                if(item[4]!=5){
-                    var referencia = obtenerData("nombre,color,talla","con_t_resumen","rowVarios","referencia_id",item[1]);//°Londres°Rosa Bebé°SM%
-                    var refseparado = referencia.replaceAll('°', ' ');
-                    var refImprimir = refseparado.replace('%', '');
-                    html =html+ "<p class='col-lg-8 col-md-8 col-sm-8 col-xs-8 letra18pt-pc removerPrendasemp' name='"+referencia+"'>"+refImprimir+"</p><p class='col-lg-4 col-md-4 col-sm-4 col-xs-4 letra18pt-pc removerPrendasemp' name='Sin empacar' id='"+item[5]+"'>Sin empacar</p>";
-                }
+            for(var i = 1; i<jsonitems.length;i++){				
+				var referencia = obtenerDatajson("nombre,color,talla","con_t_resumen","valoresconcondicion","referencia_id",jsonitems[i]['referencia']);
+				var jsonreferencia= JSON.parse(referencia);
+				html =html+ "<p class='col-lg-8 col-md-8 col-sm-8 col-xs-8 letra18pt-pc removerPrendasemp' name='"+jsonitems[i]['referencia']+"'>"+jsonreferencia[0]['nombre']+" "+jsonreferencia[0]['color']+" "+jsonreferencia[0]['talla']+"</p>"+
+				"<p class='col-lg-4 col-md-4 col-sm-4 col-xs-4 letra18pt-pc removerPrendasemp' name='Sin empacar' id='"+decodedText+"'>Sin empacar</p>";
             }
             $('#readerEmpacar__dashboard_section_csr button:eq(1)').click();
             $('#readerEmpacar__scan_region').css('display', 'none');
@@ -377,9 +374,7 @@ function escanearEmpacar(decodedText, decodedResult) {
 			var usuarioLevel = $('#usuarioCell').attr('name');
 			alert("Venta o cambio: "+decodedText);
 			if(decodedText[0] == "C"){
-                actualizar("cambio_estado","Empacado",decodedText.slice(1),usuarioLevel,"-");//$tabla,$columna,$valor,$valor2
-				var items = obtenerData("prenda_idsale,prenda_idregresa,cliente_ok,estado,cambioitem_id","con_t_cambioitem","rowVarios","cambio_id",decodedText.slice(1));
-				//°113°140000°0°5%°113°140000°0°1%°113°140000°0°1%			
+                actualizar("cambio_estado","Empacado",decodedText.slice(1),usuarioLevel,"-");//$tabla,$columna,$valor,$valor2		
 				var itemsArray = items.split("%");
 				alert(items);
 				for(var i = 0; i<(itemsArray.length-1);i++){
@@ -495,22 +490,19 @@ function readerDespachar(decodedText, decodedResult) {
             var items = "";
             var html= "";
             if(decodedText[0] == "C"){
-				items = obtenerData("prenda_idsale,prenda_idregresa,cliente_ok,estado,cambioitem_id","con_t_cambioitem","rowVarios","cambio_id",decodedText.slice(1));
-				//°113°140000°0°5%°113°140000°0°1%°113°140000°0°1%
+				var items = obtenerDatajson("pedido_item","con_t_cambios","valoresconcondicion","cambio_id",decodedText.slice(1));
+				var jsonitem = JSON.parse(items); 
+				var jsonitems = JSON.parse(jsonitem[0]['pedido_item']); 
 			}else{
-               items = obtenerData("prenda_id,valor,descuento_id,estado_id,ordenitem_id","con_t_ventaitem","rowVarios","venta_id",decodedText);
-               //°113°140000°0°5%°113°140000°0°1%°113°140000°0°1%
+			   	var items = obtenerDatajson("pedido_item","con_t_ventas","valoresconcondicion","venta_id",decodedText);
+				var jsonitem = JSON.parse(items); 
+				var jsonitems = JSON.parse(jsonitem[0]['pedido_item']); 
             }
-            var itemsArray = items.split("%");
-            for(var i = 0; i<(itemsArray.length-1);i++){
-                var item = itemsArray[i].split("°");
-                if(item[4]!=5){
-                    var referencia = obtenerData("nombre,color,talla","con_t_resumen","rowVarios","referencia_id",item[1]);//°Londres°Rosa Bebé°SM%
-                    var refseparado = referencia.replaceAll('°', ' ');
-                    var refImprimir = refseparado.replace('%','');
-                    html =html+ "<p class='col-lg-8 col-md-8 col-sm-8 col-xs-8 letra18pt-pc removerPrendasdesp' name='"+item[5]+"'>"+refImprimir+"</p>";
-                }
-            }
+			for(var i = 1; i<jsonitems.length;i++){
+				var referencia = obtenerDatajson("nombre,color,talla","con_t_resumen","valoresconcondicion","referencia_id",jsonitems[i]['referencia']);
+				var jsonreferencia= JSON.parse(referencia);
+				html =html+ "<p class='col-lg-8 col-md-8 col-sm-8 col-xs-8 letra18pt-pc removerPrendasdesp' name='"+decodedText+"'>"+jsonreferencia[0]['nombre']+" "+jsonreferencia[0]['color']+" "+jsonreferencia[0]['talla']+"</p>";
+			}
             $('#escanerDespachos').text("Pedido: "+decodedText);
             $('#escanerDespachos').attr("name",decodedText);
             $('#escanerDespachos').after(html);
@@ -549,8 +541,8 @@ function escanerventamayorista(decodedText, decodedResult) {
 	escaneados.append("<p class='removerr'>"+decodedText+"</p>");
 };
 
-function agregarventa(idCliente,datosCliente,pedido,precio,notas,origen,fecha,idUsuario,idUsuario) {
-    var enviar = "funcion=agregarventa&valor="+idCliente+"&valor2="+datosCliente+"&valor3="+pedido+"&valor4="+precio+"&valor5="+notas+"&valor6="+origen+"&valor7="+fecha+"&valor8="+idUsuario;
+function agregarventa(idCliente,datosCliente,pedido,precio,notas,origen,fecha,idUsuario,idUsuario,itemVenta) {
+    var enviar = "funcion=agregarventa&valor="+idCliente+"&valor2="+datosCliente+"&valor3="+pedido+"&valor4="+precio+"&valor5="+notas+"&valor6="+origen+"&valor7="+fecha+"&valor8="+idUsuario+"&valor9="+itemVenta;
 	var obtenidos = "0";
     $.ajax({
     	url: urlhost,
@@ -565,10 +557,10 @@ function agregarventa(idCliente,datosCliente,pedido,precio,notas,origen,fecha,id
     return obtenidos;
 }; 
 //venta_id fecha_creada cliente_id datos_cliente direccion pedido cliente_ok notas origen fecha_entrega estado vendedor_id usuario_id 
-function agregarcambio(venta_id,datos_cliente,prendasSalen,prendasEntran,notas,excedente,fecha_entrega,idUsuario,idUsuario){
+function agregarcambio(venta_id,datos_cliente,prendasSalen,pedidoitem,notas,excedente,fecha_entrega,idUsuario,idUsuario){
     if(!notas || notas == " "){notas="0";}
     if(!excedente || excedente == " "){excedente="0";}
-    var enviar = "funcion=agregarcambio&valor="+venta_id+"&valor2="+datos_cliente+"&valor3="+prendasSalen+"&valor4="+prendasEntran+"&valor5="+notas+"&valor6="+excedente+"&valor7="+fecha_entrega+"&valor8="+idUsuario;
+    var enviar = "funcion=agregarcambio&valor="+venta_id+"&valor2="+datos_cliente+"&valor3="+prendasSalen+"&valor4="+pedidoitem+"&valor5="+notas+"&valor6="+excedente+"&valor7="+fecha_entrega+"&valor8="+idUsuario;
 	var obtenidos = "0";
     $.ajax({
     	url: urlhost,
@@ -1073,7 +1065,7 @@ function  revisarfechasatelite(arraItem){
 			}
 		}
 		alert("El pedido puede ser despachado hasta el: "+objetoFinal[0].fecha+" debido a que la/el "+objetoFinal[0].referencia+" está en satélite");
-		$('#ventaNuevaTitulo').attr("name",objetoFinal[0].fecha);
+		// $('#ventaNuevaTitulo').attr("name",objetoFinal[0].fecha);
 	}else{
 		$('#ventaNuevaTitulo').attr("name","2020-09-14");
 	}

@@ -210,22 +210,8 @@ function ventas() {
         var ids = $(this).attr("name");
         var estado = obtenerData("estado","con_t_ventas","row","venta_id",ids);
         if(estado == "Sin empacar" || estado == "No empacado"){
-            $("#prendasGuardadasUpdate").attr('name', ids);
-            var datosVentaJson = obtenerDatajson("ordenitem_id,prenda_id,valor,descuento_id,estado_id,venta_id","con_t_ventaitem","valoresconcondicion","venta_id",ids);
-            var jsonVentaItem = JSON.parse(datosVentaJson);
-            for (let i = 0; i < jsonVentaItem.length; i++) {
-                if(jsonVentaItem[i].estado_id==1){
-                    var p = i+1;
-                    var datosPrenda = obtenerDatajson("nombre,color,talla","con_t_resumen","valoresconcondicion","referencia_id",jsonVentaItem[i].prenda_id);
-                    var jsondatosPrenda = JSON.parse(datosPrenda);
-                    var seleccion = $("#prenda"+p+"Update");
-                    $(".s"+p).css('display', 'block');
-                    seleccion.append("<option class='removeUpdate' value='"+jsonVentaItem[i].prenda_id+"%"+jsondatosPrenda[0].nombre+" "+jsondatosPrenda[0].color+" "+jsondatosPrenda[0].talla+"%"+jsonVentaItem[i].valor+"'>"+jsondatosPrenda[0].nombre+" "+jsondatosPrenda[0].color+" "+jsondatosPrenda[0].talla+"</option>");
-                    var cant = "#cantidad"+p+"Update";
-                    $(cant).val(1);
-                }
-            }            
-            $('#popup6').attr("name",datosVentaJson);    
+            $("#prendasGuardadasUpdate").attr('name', ids);            
+            $('#popup6').attr("name",ids);    
             $('#popup6').fadeIn('slow'); 
             $('.popup-overlay').fadeIn('slow');         
             $('.popup-overlay').height($(window).height());
@@ -251,10 +237,15 @@ function ventas() {
     $('#prendasGuardadasUpdate').on('click', function(){   
         ids = $(this).attr("name");
         var datosInicialesString = $('#popup6').attr("name"); 
-        var jsonVentasItem = JSON.parse(datosInicialesString);
+        var ventaId = JSON.parse(datosInicialesString);
         var pedido = "";
-        var precio = 0;    
-        var itemVenta = "";    
+        var precio = 0; 
+        var refrestar = "";   
+        var objetopedidoitem = {};
+        objetopedidoitem.comision = 0;
+        objetopedidoitem.cantidad = 0;
+        let arraypedidoitem = [objetopedidoitem]; 
+        var arrayItems = [];
         for (let k = 1; k < 7; k++) {
             if($('#prenda'+k+'Update').val() == "NA"){break;}
             if($('#cantidad'+k+'Update').val() <= 0){
@@ -264,22 +255,47 @@ function ventas() {
             var dateos = $('#prenda'+k+'Update').val().split("%");
             pedido = pedido +$('#cantidad'+k+'Update').val()+" "+dateos[1]+" ";
             precio = precio + ($('#cantidad'+k+'Update').val() * parseInt(dateos[2]));
-            itemVenta = itemVenta + $('#cantidad'+k+'Update').val()+"/"+dateos[0]+",";
+            for (let j = 0; j < $('#cantidad'+k+'Update').val(); j++) {
+                var objetopedidoitem = {};
+                objetopedidoitem.referencia = dateos[0];
+                objetopedidoitem.valor = parseInt(dateos[2]);   
+                arraypedidoitem.push(objetopedidoitem);  
+                refrestar = refrestar+dateos[0]+",";   
+                arrayItems.push(dateos[0]);         
+            }            
         }
         if(precio == 0){alert("Agrega al menos una referencia al pedido");return false;}
         var objetopedido = {};
         objetopedido.prendas = pedido;
         objetopedido.precio = precio;
-        var pedido=JSON.stringify(objetopedido);
-        var pedido1 = pedido.replaceAll("<","");  
-        var pedido2 = pedido1.replaceAll(">","");
-        var pedido3 = pedido2.replaceAll("{","<");  
-        pedidojson = pedido3.replaceAll("}",">");
         var usuarioCell = $('#usuarioCell').attr("name");
-        actualizar("venta_pedido",pedidojson,jsonVentasItem[0].venta_id,usuarioCell,"-");
-        sumarinventario(jsonVentasItem[0].venta_id);
-        borrarfilas("con_t_ventaitem","venta_id",jsonVentasItem[0].venta_id);
-        ventaitem(jsonVentasItem[0].venta_id,itemVenta.substring(0, itemVenta.length - 1));
+        var pedidoitem = obtenerDatajson("pedido_item","con_t_ventas","valoresconcondicion","venta_id ",ventaId);
+        var jsonpedidoitems = JSON.parse(pedidoitem); 
+        var jsonpedidoitem = JSON.parse(jsonpedidoitems[0]['pedido_item']);
+        revisarfechasatelite(arrayItems);
+        var refsumar = ""; 
+        var arrayItems = [];
+        for (let index = 1; index < jsonpedidoitem.length; index++) {
+           refsumar = refsumar+jsonpedidoitem[index]['referencia']+",";     
+           arrayItems.push(jsonpedidoitem[index]['referencia']);         
+        }
+        var objeto = {};
+        objeto.tipo = "json";
+        objeto.columna = "pedido";
+        objeto.valor = objetopedido;
+        var pedido = prepararjson(objeto);
+        var objeto = {};
+        objeto.tipo = "json";
+        objeto.columna = "pedido_item";
+        objeto.valor = arraypedidoitem;
+        var pedido_item = prepararjson(objeto);
+        var objeto = {};
+        objeto.columna = "venta_id";
+        objeto.valor = ventaId;
+        var condicion = prepararjson(objeto);
+        actualizarregistros("con_t_ventas",condicion,pedido_item,pedido,"0","0","0","0","0","0","0","0","0");
+        sumarinventario(refsumar);
+        restarInventario(refrestar);
         $('.removeUpdate').remove();
         $(".removecero").val(0);
         $('#popup6').fadeOut('slow');       

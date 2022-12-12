@@ -39,16 +39,37 @@ for($i=0;$i<sizeof($obtenidosArray);$i++){
 $imprimir=$imprimir."</table></div>";
 echo $imprimir;*/
 /******************************* ACTUALIZAR INVENTARIO *******************************************************/
-$referenciasArray = $wpdb->get_results( "SELECT DISTINCT referencia_id FROM con_t_trprendas ORDER BY referencia_id ASC", ARRAY_A);
-$estadosArray = $wpdb->get_results( "SELECT DISTINCT estado FROM con_t_trprendas ORDER BY estado ASC", ARRAY_A);
-  //print_r($estadosArray); 
+    $referenciasArray = $wpdb->get_results( "SELECT DISTINCT referencia_id FROM con_t_trprendas ORDER BY referencia_id ASC", ARRAY_A);
+    $estadosArray = $wpdb->get_results( "SELECT DISTINCT estado FROM con_t_trprendas ORDER BY estado ASC", ARRAY_A);
+    $lastId = $wpdb->get_results( "SELECT MAX(referencia_id) as id FROM con_t_resumen");
+    $a = array_fill(1, $lastId[0]->id, 0);
+    $pedidos = $wpdb->get_results( "SELECT pedido_item FROM con_t_ventas WHERE (estado = 'Sin empacar') OR (estado = 'No empacado')", ARRAY_A);//133
+    for ($i=0; $i < sizeof($pedidos) ; $i++) { 
+        $jsonPedidon =  json_decode($pedidos[$i]['pedido_item']);
+        for ($j=1; $j < sizeof($jsonPedidon); $j++) { 
+            $jsonPedido =  (array)$jsonPedidon[$j];
+            $cantidadantigua = $a[$jsonPedido['referencia']];
+            $a[$jsonPedido['referencia']] = $cantidadantigua+1;
+        }
+    }
+    $lastId = $wpdb->get_results( "SELECT MAX(referencia_id) as id FROM con_t_resumen");
+    $b = array_fill(1, $lastId[0]->id, 0);
+    $pedidos = $wpdb->get_results( "SELECT pedido_item FROM con_t_ventas WHERE (estado = 'Sin empacar') OR (estado = 'No empacado')", ARRAY_A);//133
+    for ($i=0; $i < sizeof($pedidos) ; $i++) { 
+        $jsonPedidon =  json_decode($pedidos[$i]['pedido_item']);
+        for ($j=1; $j < sizeof($jsonPedidon); $j++) { 
+            $jsonPedido =  (array)$jsonPedidon[$j];
+            $cantidadantigua = $b[$jsonPedido['referencia']];
+            $b[$jsonPedido['referencia']] = $cantidadantigua+1;
+        }
+    }
   for($j = 0; $j<sizeof($referenciasArray);$j++){    
     $fabrica = $wpdb->get_results( "SELECT COUNT(*) FROM con_t_trprendas WHERE (referencia_id = ".$referenciasArray[$j]['referencia_id'].") AND  ((estado = 'En Producción')  || (estado = 'En Bodega'))", ARRAY_A);  
     $bodega = $wpdb->get_results( "SELECT COUNT(*) FROM con_t_trprendas WHERE (referencia_id = ".$referenciasArray[$j]['referencia_id'].") AND ((estado = 'En Operaciones') || (estado = 'En Empaques'))", ARRAY_A);  
     $plaza = $wpdb->get_results( "SELECT COUNT(*) FROM con_t_trprendas WHERE (referencia_id = ".$referenciasArray[$j]['referencia_id'].") AND (estado = 'En Plaza de las américas')", ARRAY_A);  
     $satel = $wpdb->get_results( "SELECT COUNT(*) FROM con_t_trprendas WHERE (referencia_id = ".$referenciasArray[$j]['referencia_id'].") AND (estado = 'En satélite')", ARRAY_A);  
-    $separados = $wpdb->get_results( "SELECT COUNT(*) FROM con_t_ventaitem WHERE (prenda_id = ".$referenciasArray[$j]['referencia_id'].") AND (estado_id = 1)", ARRAY_A);//133
-    $separadosCambios = $wpdb->get_results( "SELECT COUNT(*) FROM con_t_cambioitem WHERE (prenda_idsale = ".$referenciasArray[$j]['referencia_id'].") AND (estado_id = 'Sin empacar')", ARRAY_A);//133
+    $separados = $a[$referenciasArray[$j]['referencia_id']];//133
+    $separadosCambios = $b[$referenciasArray[$j]['referencia_id']];//133
     $cantidad = $fabrica[0]['COUNT(*)'] + $bodega[0]['COUNT(*)'] + $plaza[0]['COUNT(*)'] + $satel[0]['COUNT(*)'] - $separados[0]['COUNT(*)']- $separadosCambios[0]['COUNT(*)'];
     $updated = $wpdb->update( "con_t_resumen", array('cantidad' => $cantidad), array( 'referencia_id' => $referenciasArray[$j]['referencia_id']));
   }

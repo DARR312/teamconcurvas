@@ -16,10 +16,15 @@ function cambios() {
         var idcambio = $("#cambioinfo").text();
         var pedido = "";
         var precio = 0;    
-        var itemCambio = "";    
+        var itemCambio = "";
+        var venta_id = $('#ventainfo').text();  
+        var objetopedidoitem = {};
+        objetopedidoitem.venta = 0;
+        objetopedidoitem.cantidad = 0;
+        let arraypedidoitem = [objetopedidoitem];  
+        var arrayItems = []; 
+        var refrestar = "";  
         for (let k = 1; k < 7; k++) {
-            console.log($('#updateprenda'+k).val());
-            console.log($('#updatecantidad'+k).val());
             if($('#updateprenda'+k).val() == "NA"){continue;}
             if($('#updatecantidad'+k).val() <= 0){
                 alert("Ingresa la cantidad para la referencia "+k+" ");
@@ -28,7 +33,14 @@ function cambios() {
             var dateos = $('#updateprenda'+k).val().split("%");
             pedido = pedido +$('#updatecantidad'+k).val()+" "+dateos[1]+" ";
             precio = precio + ($('#updatecantidad'+k).val() * parseInt(dateos[2]));
-            itemCambio = itemCambio + $('#updatecantidad'+k).val()+"/"+dateos[0]+",";
+            for (let i = 0; i < $('#updatecantidad'+k).val(); i++) {
+                var objetopedidoitem = {};
+                objetopedidoitem.referencia = dateos[0];
+                objetopedidoitem.ventainicial = venta_id;   
+                arraypedidoitem.push(objetopedidoitem);  
+                refrestar = refrestar+dateos[0]+",";   
+                arrayItems.push(dateos[0]);               
+            }
         }
         if(precio == 0){alert("Agrega al menos una referencia al pedido");return false;}
         var envio = 0;
@@ -36,67 +48,64 @@ function cambios() {
             envio = parseInt($("#costosEnvioupdate").val());
         }
         var valorsaliente = precio + envio;
-        var diferencia = valorsaliente - cliente_ok; 
-        var clienteAjuste = "";
-        if(diferencia<0){                        
-            var fefren = -1*diferencia;
-            var formatopre = formatoPrecio(fefren);
-            clienteAjuste = "El cliente queda con saldo a favor de: "+formatopre;
-        }if(diferencia==0){
-            clienteAjuste = "El cliente no queda con saldo";
-        }if(diferencia>0){
-            var formatopre = formatoPrecio(diferencia);
-            clienteAjuste = "El cliente queda debe pagar de más: "+formatopre;
-        }
-        var venta = obtenerDatajson("cliente_ok,datos_cliente","con_t_ventas","valoresconcondicion","venta_id",idventa);
+        var venta = obtenerDatajson("cliente_ok,datos_cliente,pedido_item","con_t_ventas","valoresconcondicion","venta_id",venta_id);
         var jsonVentaCliente = JSON.parse(venta); 
-        console.log(jsonVentaCliente);
-        var prendav = obtenerDatajson("cual,estado,codigo","con_t_trprendas","valoresconcondicion","cual","V"+idventa);
+        var prendav = obtenerDatajson("cual,estado,codigo,referencia_id","con_t_trprendas","valoresconcondicion","cual","'V"+venta_id+"'");
         var jsonprendav = JSON.parse(prendav); 
-        if(jsonprendav.length>0){
-            alert("El cliente todavía tiene prendas no se puede agendar el cambio");
-            return false;
-        }
-        var cambiosantiguos = obtenerDatajson("excedente,cambio_id","con_t_cambios","valoresconcondicion","venta_id",idventa);
-        var jsoncambiosantiguos = JSON.parse(cambiosantiguos); 
-        if(jsoncambiosantiguos.length>0){
-            for (let i = 0; i < jsoncambiosantiguos.length; i++) {
-                var cambiosantiguosprendas = obtenerDatajson("cual,estado,codigo","con_t_trprendas","valoresconcondicion","cual","C"+jsoncambiosantiguos[i].cambio_id);
-                var jsoncambiosantiguosprendas = JSON.parse(cambiosantiguosprendas);  
-                if(jsoncambiosantiguosprendas.length>0){
-                    alert("El cliente todavía tiene prendas no se puede agendar el cambio");
-                    return false;
-                }              
-            }            
-        }        
-        console.log(precio);
-        console.log(envio);
-        console.log(valorsaliente);
-        console.log(cliente_ok);
-        console.log(diferencia);
-        console.log(itemCambio);
-        actualizar("cambio_pedido",idcambio,pedido,diferencia,usuarioCell);
-        actualizar("inventario_items_cambios","-",idcambio,"-","-");
-        borrarfilas("con_t_cambioitem","cambio_id",idcambio);
-        var pedidoitemsArray = itemCambio.split(",");
-        console.log(pedidoitemsArray);
-        for(var i = 0;i<(pedidoitemsArray.length-1);i++){            
-            var prendasIDSArray = pedidoitemsArray[i].split("/");
-            console.log(prendasIDSArray);
-            for (let k = 0; k < prendasIDSArray[0]; k++) { 
-               cambioitem(prendasIDSArray[1],0,idcambio,idventa);               
+        var jsonpedidoitemventa = JSON.parse(jsonVentaCliente[0]['pedido_item']);
+        var canttrprendas = jsonprendav.length;
+        var valormercancia = 0;
+        if(canttrprendas>0){
+            for (let i = 0; i < canttrprendas; i++) {
+                for (let j = 1; j < jsonpedidoitemventa.length; j++) {
+                    if(jsonpedidoitemventa[j]['referencia']==jsonprendav[i]['referencia_id']){
+                        jsonpedidoitemventa.splice(1, j);
+                    }
+                }                
+            }
+            for (let k = 1; k < jsonpedidoitemventa.length; k++) {
+                valormercancia = valormercancia + parseInt(jsonpedidoitemventa[k]['valor']);                
             }
         }
+        
+        var diferencia = valorsaliente - valormercancia;
+
+        var objeto = {};
+        objeto.tipo = "string";
+        objeto.columna = "pedido";
+        objeto.valor = pedido;
+        var pedido = prepararjson(objeto);
+        var objeto = {};
+        objeto.tipo = "json";
+        objeto.columna = "pedido_item";
+        objeto.valor = arraypedidoitem;
+        var pedido_item = prepararjson(objeto);
+        var objeto = {};
+        objeto.columna = "cambio_id";
+        objeto.valor = idcambio;
+        var condicion = prepararjson(objeto);
+        var pedidoitem = obtenerDatajson("pedido_item","con_t_cambios","valoresconcondicion","cambio_id ",idcambio);
+        var jsonpedidoitems = JSON.parse(pedidoitem);
+        var jsonpedidoitem = JSON.parse(jsonpedidoitems[0]['pedido_item']);
+        revisarfechasatelite(arrayItems);
+        var refsumar = ""; 
+        var arrayItems = [];
+        for (let index = 1; index < jsonpedidoitem.length; index++) {
+           refsumar = refsumar+jsonpedidoitem[index]['referencia']+",";     
+           arrayItems.push(jsonpedidoitem[index]['referencia']);         
+        }
+        actualizarregistros("con_t_cambios",condicion,pedido_item,pedido,"0","0","0","0","0","0","0","0","0");
+        sumarinventario(refsumar);
+        restarInventario(refrestar);
         $('#popup6').fadeOut('slow');
         $('.popup-overlay').fadeOut('slow');      
         $('.reinicia').remove();
         $('.removeCambio').remove();
         var ordenesCambio = ordenescambiojson("0","0","0","0","0");
         var html = imprimirCambiosjson(ordenesCambio,"pedidoUpdate","fechaUpdate","notasUpdate","usuarioUpdate");
-        console.log(html);
         var primeraFila = $('#primeraFila');
         primeraFila.after(html);
-        cambios();  
+        cambios();
         return false;
     });
     $('#botonCargacambios').on('click', function(){ 
@@ -105,8 +114,6 @@ function cambios() {
         var precio = 0;    
         var itemCambio = "";    
         for (let k = 1; k < 7; k++) {
-            console.log($('#prenda'+k).val());
-            console.log($('#cantidad'+k).val());
             if($('#prenda'+k).val() == "NA"){continue;}
             if($('#cantidad'+k).val() <= 0){
                 alert("Ingresa la cantidad para la referencia "+k+" ");
@@ -123,9 +130,35 @@ function cambios() {
             envio = parseInt($("#costosEnvio").val());
         }
         var valorsaliente = precio + envio;
+        
+        var venta = obtenerDatajson("cliente_ok,datos_cliente,pedido_item","con_t_ventas","valoresconcondicion","venta_id",$('#ventaIdentificacion').val());
+        var jsonVentaCliente = JSON.parse(venta); 
+        var prendav = obtenerDatajson("cual,estado,codigo,referencia_id","con_t_trprendas","valoresconcondicion","cual","'V"+$('#ventaIdentificacion').val()+"'");
+        var jsonprendav = JSON.parse(prendav); 
+        var cambiosantiguos = obtenerDatajson("excedente,cambio_id,pedido_item,cliente_ok","con_t_cambios","valoresconcondicion","venta_id",$('#ventaIdentificacion').val());
+        var jsoncambiosantiguos = JSON.parse(cambiosantiguos); 
+        var jsonpedidoitemventa = JSON.parse(jsonVentaCliente[0]['pedido_item']);
+        var canttrprendas = jsonprendav.length;
+        var cantventas = jsonpedidoitemventa[0]['cantidad'];
+        var cantcambios = 0;
+        var valormercancia = 0;
+        if(canttrprendas>0){
+            for (let i = 0; i < canttrprendas; i++) {
+                for (let j = 1; j < jsonpedidoitemventa.length; j++) {
+                    if(jsonpedidoitemventa[j]['referencia']==jsonprendav[i]['referencia_id']){
+                        jsonpedidoitemventa.splice(1, j);
+                    }
+                }                
+            }
+            for (let k = 1; k < jsonpedidoitemventa.length; k++) {
+                valormercancia = valormercancia + parseInt(jsonpedidoitemventa[k]['valor']);                
+            }
+        }
+        
+
+
         var datoscliente = $("#datoscliente").text();
-        var cliente_ok = parseInt($("#clienteok").text());
-        var diferencia = valorsaliente - cliente_ok;
+        var diferencia = valorsaliente - valormercancia;
         var jsondatoscliente = JSON.parse(datoscliente); 
         var clienteAjuste = "";
         if(diferencia<0){                        
@@ -138,12 +171,6 @@ function cambios() {
             var formatopre = formatoPrecio(diferencia);
             clienteAjuste = "El cliente queda debe pagar de más: "+formatopre;
         }
-        console.log(precio);
-        console.log(envio);
-        console.log(valorsaliente);
-        console.log(cliente_ok);
-        console.log(diferencia);
-        console.log(itemCambio);
         var html = "<div class='col-lg-4 col-md-4 col-sm-4 col-xs-4 removeCambio'><p class='letra18pt-pc' id='clienteNombre'>"+jsondatoscliente.nombre+"</p></div>";     
         html =html+ "<div class='col-lg-4 col-md-4 col-sm-4 col-xs-4 removeCambio'><p class='letra18pt-pc' id='clienteTelefono'>"+jsondatoscliente.telefono+"</p></div>";
         html =html+ "<div class='col-lg-4 col-md-4 col-sm-4 col-xs-4 removeCambio'><p class='letra18pt-pc' id='clienteDireccion'>"+jsondatoscliente.direccion+"</p></div>";
@@ -155,62 +182,7 @@ function cambios() {
         $('#popup3').fadeOut('slow');      
         $('#popup').fadeIn('slow');
         $('.removeCambio').remove();
-        $('#cambiosPrendas').append(html);
-        //$("#prendasEncontradas select:eq("+(i+2)+")")
-        // var html = "<div class='col-lg-4 col-md-4 col-sm-4 col-xs-4 removeCambio'><p class='letra18pt-pc' id='clienteNombre'>"+$('#nombreCliente').text()+"</p></div>";
-        // html =html+ "<div class='col-lg-4 col-md-4 col-sm-4 col-xs-4 removeCambio'><p class='letra18pt-pc' id='clienteTelefono'>"+$('#telefonoCliente').text()+"</p></div>";
-        // html =html+ "<div class='col-lg-4 col-md-4 col-sm-4 col-xs-4 removeCambio'><p class='letra18pt-pc' id='clienteDireccion'>"+$('#direccionCliente').text()+"</p></div>";
-        // html =html+ "<div class='col-lg-8 col-md-8 col-sm-8 col-xs-8 removeCambio'><p class='letra18pt-pc' id='clienteComplemento'>"+$('#complementoCliente').text()+"</p></div>";
-        // html =html+ "<div class='col-lg-4 col-md-4 col-sm-4 col-xs-4 removeCambio'><p class='letra18pt-pc' id='clienteCiudad'>"+$('#ciudadCliente').text()+"</p></div>";
-        // html = html+"<div class='col-lg-12 col-md-12 col-sm-12 col-xs-12 removeCambio'><div class='col-lg-6 col-md-6 col-sm-6 col-xs-6'><p class='letra18pt-pc'>Prendas que entran</p></div><div class='col-lg-6 col-md-6 col-sm-6 col-xs-6'><p class='letra18pt-pc'>Prendas que salen</p></div></div>";
-        // var flag = 0;
-        // var prendasSalen = "";
-        // var prendasSalenName = "";
-        // var prendasEntran = "";
-        // var prendasEntranName = "";
-        // var diferencia = 0;
-        // for(var i = 0;i<$("#prendasEncontradas select").length;i++){
-        //     var datosNueva = $("#prendasEncontradas select:eq("+(i)+")").val();//192%Abbie Camel SM%120000
-        //     if(datosNueva != "NA"){
-        //         flag = 1;
-        //         var precioViejo = $("#prendasEncontradas p:eq("+(i)+")").attr("name");
-        //         var nuevoArray = datosNueva.split("%");
-        //         diferencia =parseInt(diferencia)+ parseInt(precioViejo)-parseInt(nuevoArray[2]);
-        //         prendasEntran = prendasEntran+$("#prendasEncontradas p:eq("+(i)+")").text()+", "
-        //         prendasEntranName = prendasEntranName+$("#prendasEncontradas select:eq("+(i)+")").attr("name")+"%";
-        //         prendasSalen = prendasSalen+nuevoArray[1]+",";
-        //         prendasSalenName = prendasSalenName+nuevoArray[0]+"%";
-        //     }
-        // }
-        // if(flag == 1){
-        //     $('#popup3').fadeOut('slow');      
-        //     $('#popup').fadeIn('slow');
-        //     $('.removeCambio').remove();
-        //     var clienteAjuste = "";
-        //     var costoEnvio = $('#costosEnvio').val();
-        //     var cstasd = parseInt(costoEnvio)+0;
-        //     diferencia = diferencia + cstasd;
-        //     if(diferencia<0){
-        //         var fefren = -1*diferencia;
-        //         var formatopre = formatoPrecio(fefren);
-        //         clienteAjuste = "El cliente queda con saldo a favor de: "+formatopre;
-        //     }if(diferencia==0){
-        //         clienteAjuste = "El cliente no queda con saldo";
-        //     }if(diferencia>0){
-        //         var formatopre = formatoPrecio(diferencia);
-        //         clienteAjuste = "El cliente queda debe pagar de más: "+formatopre;
-        //     }
-        //     html = html+"<div class='col-lg-12 col-md-12 col-sm-12 col-xs-12 removeCambio'><div class='col-lg-6 col-md-6 col-sm-6 col-xs-6'><p class='letra18pt-pc' id='prendasEntran' name='"+prendasEntranName+"'>"+prendasEntran+"</p></div><div class='col-lg-6 col-md-6 col-sm-6 col-xs-6'><p class='letra18pt-pc' id='prendasSalen' name='"+prendasSalenName+"'>"+prendasSalen+"</p></div></div>";
-        //     html = html+"<div class='col-lg-12 col-md-12 col-sm-12 col-xs-12 removeCambio'><p class='letra18pt-pc' id='diferencia' name='"+diferencia+"'>"+clienteAjuste+"</p></div>";
-        //     $('#cambiosPrendas').append(html);
-        //     $('#datosCliente').attr("name",$('#ventaCliente').attr("name"));
-        // }else{
-        //     alert("No hay cambios realizados");
-        //     $('#popup3').fadeOut('slow');      
-        //     $('#popup').fadeIn('slow');
-        //     $('.removeCambio').remove();
-        // }
-        // return false;     
+        $('#cambiosPrendas').append(html);  
     });
     $('.usuarioUpdate').on('click', function(){  
         var ids = $(this).attr("name");
@@ -219,7 +191,6 @@ function cambios() {
             var cambio = obtenerDatajson("datos_cliente","con_t_cambios","valoresconcondicion","cambio_id",ids);
             var jsoncambioCliente = JSON.parse(cambio); 
             var jsondatosCliente = JSON.parse(jsoncambioCliente[0].datos_cliente); 
-            console.log(jsondatosCliente);
             var ciuddes = ciudades();
             var items = ciuddes.split(',');
             var html = "<option value='"+jsondatosCliente.ciudad+"'>"+jsondatosCliente.ciudad+"</option>";
@@ -271,7 +242,6 @@ function cambios() {
         $('.removerCambios').remove();
         var ordenesCambio = ordenescambiojson("0","0","0","0","0");
         var html = imprimirCambiosjson(ordenesCambio,"pedidoUpdate","fechaUpdate","notasUpdate","usuarioUpdate");
-        console.log(html);
         var primeraFila = $('#primeraFila');
         primeraFila.after(html);
         cambios();
@@ -312,68 +282,6 @@ function cambios() {
         $('.popup-overlay').fadeOut('slow'); 
         return false;     
     }); 
-    $('#botonCargacambiosEncontrados').on('click', function(){
-        var idUsuario = $('#usuario').attr("name");
-        var venta_id = $('#ventaIdUpdate').attr("name");
-        var idCambio = $('#cambioIdUpdate').attr("name");
-        var prendasSalen = "";
-        var prendasSalenName = "";
-        var prendasEntran = "";
-        var prendasEntranName = "";
-        var diferencia = 0;
-        var flag = 0;
-        for(var i = 0;i<$("#prendasCambiosEncontradas select").length;i++){
-            var datosNueva = $("#prendasCambiosEncontradas select:eq("+(i)+")").val();//192%Abbie Camel SM%120000
-            if(datosNueva != "NA"){
-                flag = 1;
-                var precioViejo = $("#prendasCambiosEncontradas p:eq("+(i)+")").attr("name");
-                var nuevoArray = datosNueva.split("%");
-                diferencia =parseInt(diferencia)+ parseInt(precioViejo)-parseInt(nuevoArray[2]);
-                prendasEntran = prendasEntran+$("#prendasCambiosEncontradas p:eq("+(i)+")").text()+", "
-                prendasEntranName = prendasEntranName+$("#prendasCambiosEncontradas select:eq("+(i)+")").attr("name")+"%";
-                prendasSalen = prendasSalen+nuevoArray[1]+",";
-                prendasSalenName = prendasSalenName+nuevoArray[0]+"%";
-            }
-        } 
-        if(flag == 1){
-            var clienteAjuste = "";
-            var costoEnvio = $('#costosEnvioEncontrado').val();
-            var cstasd = parseInt(costoEnvio)+0;
-            diferencia = diferencia + cstasd;
-            if(diferencia<0){
-                var fefren = -1*diferencia;
-                var formatopre = formatoPrecio(fefren);
-                clienteAjuste = "El cliente queda con saldo a favor de: "+formatopre;
-            }if(diferencia==0){
-                clienteAjuste = "El cliente no queda con saldo";
-            }if(diferencia>0){
-                var formatopre = formatoPrecio(diferencia);
-                clienteAjuste = "El cliente queda debe pagar de más: "+formatopre;
-            }
-            var prendasEntranIDSArray = prendasEntranName.split("%");
-            var prendasSalenIDSArray = prendasSalenName.split("%");
-            actualizar("cambioitem_estado",idCambio,'Cancelado',0,"-");
-            for(var i = 0;i<(prendasEntranIDSArray.length-1);i++){
-                cambioitem(prendasSalenIDSArray[i],prendasEntranIDSArray[i],idCambio,venta_id);
-                //alert(prendasSalenIDSArray[i]+"-"+prendasEntranIDSArray[i]+"-"+idCambio+"-"+venta_id);
-            }
-            actualizar("cambio_pedido",idCambio,prendasSalen+"°"+prendasEntran,diferencia,"-");
-            $('.removeUpdate').remove();
-            $(".removecero").val(0);
-            $('#popup6').fadeOut('slow');       
-            $('.popup-overlay').fadeOut('slow'); 
-            $('.removerCambios').remove();
-            var ordenesCambio = ordenescambio($('#bscar').val(),$('#estadoFiltro').val(),$('#transportador').val(),$('#datetimepicker-creadacambios').val(),$('#datetimepicker-entregacambios').val());
-            var arrayOrdenes = ordenesCambio.split('&');
-            var primeraFila = $('#primeraFila');
-            var html = imprimirCambios(arrayOrdenes,'pedidoUpdate','fechaUpdate','notasUpdate','usuarioUpdate');
-            primeraFila.after(html);
-            cantidadesinventario();
-        }else{
-            alert("No hay cambios realizados");
-        }
-        return false;     
-    });
     $('.fechaUpdate').on('click', function(){  
         var ids = $(this).attr("name"); 
         var estado = obtenerData("estado","con_t_cambios","row","cambio_id",ids);
@@ -404,7 +312,6 @@ function cambios() {
             $('.removeCambio').remove();
             var ordenesCambio = ordenescambiojson("0","0","0","0","0");
             var html = imprimirCambiosjson(ordenesCambio,"pedidoUpdate","fechaUpdate","notasUpdate","usuarioUpdate");
-            console.log(html);
             var primeraFila = $('#primeraFila');
             primeraFila.after(html);
             cambios();
@@ -441,7 +348,6 @@ function cambios() {
         $('.removeCambio').remove();
         var ordenesCambio = ordenescambiojson("0","0","0","0","0");
         var html = imprimirCambiosjson(ordenesCambio,"pedidoUpdate","fechaUpdate","notasUpdate","usuarioUpdate");
-        console.log(html);
         var primeraFila = $('#primeraFila');
         primeraFila.after(html);
         cambios();
@@ -553,7 +459,6 @@ function imprimirCambios(arrayOrdenes,pedidoUpdate,fechaUpdate,notasUpdate,usuar
 };
 function imprimirCambiosjson(ordenesCambio,pedidoUpdate,fechaUpdate,notasUpdate,usuarioUpdate){
     var jsonCambios = JSON.parse(ordenesCambio); 
-    console.log(jsonCambios);
     var ok = 0;
     var signo = "";
     if(jsonCambios[jsonCambios.length-1].excedente < 0){
@@ -568,7 +473,6 @@ function imprimirCambiosjson(ordenesCambio,pedidoUpdate,fechaUpdate,notasUpdate,
     
     if(jsonCambios.length>0){
         for(i=jsonCambios.length-2;i>=0;i--){
-            console.log(jsonCambios[i]);
             var ok = 0;
             var signo = "";
             if(jsonCambios[i].excedente < 0){
