@@ -1,0 +1,106 @@
+#agregarVenta, #imprimirEmpaques, #subirGuias, #agregarApartado, #verApartados{
+    width:100% !important;
+}
+#bloquePrincipal{
+    width:83%;
+    margin-left:16%;
+}
+#popup, #popup2, #popup3, #popup4, #popup5, #popup6, #popup7, #popup8, #popup9, #popup10, #pop{     
+left: 0;     
+position: absolute;     
+top: 0;     
+width: 100%;     
+z-index: 1001; 
+}   
+.content-popup {    
+margin:0px auto;     
+margin-top:60px;     
+position:fixed;     
+padding:10px;     
+width:90%;     
+min-height:250px;     
+border-radius:4px;     
+background-color:#FFFFFF;     
+box-shadow: 0 2px 5px #666666; 
+height:650px;
+margin-left: 5%;
+}   
+.content-pop {    
+    margin:0px auto;     
+    margin-top:15px;     
+    position:fixed;     
+    padding:10px;     
+    width:96%;     
+    min-height:250px;     
+    border-radius:4px;     
+    background-color:#FFFFFF;     
+    box-shadow: 0 2px 5px #666666; 
+    height:650px;
+    margin-left: 2%;
+    }   
+.content-popup h2 {     
+color:#48484B;     
+border-bottom: 1px solid #48484B;     
+margin-top: 0;     
+padding-bottom: 4px; 
+}   
+.popup-overlay {     
+left: 0;     
+position: fixed;     
+top: 0;     
+width: 100%;     
+z-index: 999;     
+display:none;     
+background-color: #777777;     
+cursor: pointer;     
+opacity: 0.7; 
+}   
+.close {     
+position: absolute;     
+right: 5px;
+width: 3%;
+top: 5px;
+} 
+.close a img{
+    width:85%;
+}
+#clientesEncontrados,#clientesEncontradosapartado{
+    margin-top:10%;
+}
+#guardarVenta,#guardarVentaapartado{
+    display: inline-flex;
+}
+#clienteBuscar,#clienteBuscarapartado{
+    float: right;
+    width: 100%;
+    margin-top: 10%;
+}
+.botonenmodal{
+    width:100% !important;
+}
+#agregarCliente,#agregarClienteapartado{
+    margin-top: 10% !important;
+}
+#primeraFila{
+    position: fixed;
+    z-index: 9;
+    background-color: #f8f9fa;
+    width: 83%;
+    padding-top:25px;
+}
+
+.cliente_ok1{display:none;}
+.dinerook1{color:#1a7a1c;}
+.pedidoUpdate, .fechaUpdate, .notasUpdate, .usuarioUpdate, .agregarabono{
+    color:rgb(193, 46, 114) !important;
+    cursor: pointer;
+}
+.agregarprendapedido{
+    width: 75% !important;
+}
+#primeraventa{
+    margin-top: 340px;
+}
+#agregarabonodiv{
+    margin: 5%;
+}

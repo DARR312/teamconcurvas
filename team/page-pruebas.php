@@ -54,7 +54,7 @@ echo $imprimir;*/
     }
     $lastId = $wpdb->get_results( "SELECT MAX(referencia_id) as id FROM con_t_resumen");
     $b = array_fill(1, $lastId[0]->id, 0);
-    $pedidos = $wpdb->get_results( "SELECT pedido_item FROM con_t_ventas WHERE (estado = 'Sin empacar') OR (estado = 'No empacado')", ARRAY_A);//133
+    $pedidos = $wpdb->get_results( "SELECT pedido_item FROM con_t_cambios WHERE (estado = 'Sin empacar') OR (estado = 'No empacado')", ARRAY_A);//133
     for ($i=0; $i < sizeof($pedidos) ; $i++) { 
         $jsonPedidon =  json_decode($pedidos[$i]['pedido_item']);
         for ($j=1; $j < sizeof($jsonPedidon); $j++) { 

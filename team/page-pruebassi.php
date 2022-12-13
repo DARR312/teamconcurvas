@@ -189,4 +189,21 @@
 // }//5
 // $obtenidosArray = $wpdb->get_results( "SELECT COUNT(*),vendedor_id FROM con_t_ventas WHERE cliente_ok > 0 GROUP BY vendedor_id", ARRAY_A);
 // print_r($obtenidosArray);
+// $dia = 8;
+// $diamayor = $dia+6;
+// $mes = 8;
+// $fechamenor = "2022-".$mes."-".$dia." 00:00:00";
+// $fechamayor = "2022-".$mes."-".$diamayor." 23:00:00";
+// $ventas = $wpdb->get_results("SELECT * FROM `con_t_ventas` WHERE  (`cliente_ok`=0) AND (`fecha_creada` BETWEEN '".$fechamenor."' AND '".$fechamayor."')",ARRAY_A);
+// echo sizeof($ventas)."</br>"."</br>"."</br>";
+// for ($i=0; $i < sizeof($ventas) ; $i++) { 
+//     $jsonclientedatos =  json_decode($ventas[$i]['datos_cliente']);
+//     $vant = (array)$jsonclientedatos;
+//     echo $i."</br>";
+//     if($vant['ciudad'] == 'Bogotá' || $vant['ciudad'] == 'Cajicá' || $vant['ciudad'] == 'Chia' || $vant['ciudad'] == 'Cota' || $vant['ciudad'] == 'Funza' || $vant['ciudad'] == 'Mosquera' || $vant['ciudad'] == 'Soacha' || $vant['ciudad'] == 'Usaquen' || $vant['ciudad'] == 'Usme'){
+//         echo "Local</br>";
+//     }else{echo "Nacional</br>";}
+//     echo $vant['ciudad']."</br>"."</br>";
+
+// }
 ?>
