@@ -1595,12 +1595,18 @@ function cajasemanal($id){
     $fechamayor = $rango[0]['fecha_mayor']." 23:00:000";    
     $ventas = $wpdb->get_results("SELECT * FROM `con_t_ventas` WHERE  (((`estado`<>'Entregado') AND (`estado`<>'Cancelado')) OR (`cliente_ok`=0)) AND (`fecha_creada` BETWEEN '".$fechamenor."' AND '".$fechamayor."')",ARRAY_A);
     $auditados = array();
+    $nacional = 0;
+    $local = 0 ; 
     for ($i=0; $i < sizeof($ventas) ; $i++) { 
         $jsonclientedatos =  json_decode($ventas[$i]['datos_cliente']);
         $vant = (array)$jsonclientedatos;
-        $lon = "";
-        if($vant['ciudad'] == 'Bogotá' || $vant['ciudad'] == 'Cajicá' || $vant['ciudad'] == 'Chia' || $vant['ciudad'] == 'Cota' || $vant['ciudad'] == 'Funza' || $vant['ciudad'] == 'Mosquera' || $vant['ciudad'] == 'Soacha' || $vant['ciudad'] == 'Usaquen' || $vant['ciudad'] == 'Usme'){$lon="Local";
-        }else{$lon="Nacional";}
+        $lon = "";        
+        if($vant['ciudad'] == 'Bogotá' || $vant['ciudad'] == 'Cajicá' || $vant['ciudad'] == 'Chia' || $vant['ciudad'] == 'Cota' || $vant['ciudad'] == 'Funza' || $vant['ciudad'] == 'Mosquera' || $vant['ciudad'] == 'Soacha' || $vant['ciudad'] == 'Usaquen' || $vant['ciudad'] == 'Usme'){
+            $local = $local + intval($ventas[$i]['cliente_ok']);
+            $lon="Local";
+        }else{
+            $nacional = $nacional + intval($ventas[$i]['cliente_ok']);
+            $lon="Nacional";}  
         $prendasventa = $wpdb->get_results("SELECT * FROM `con_t_trprendas` WHERE  `cual` = 'V".$ventas[$i]['venta_id']."'",ARRAY_A);
         $auditados[$ventas[$i]['venta_id']] = array("venta_id"=>$ventas[$i]['venta_id'],"prendas"=>sizeof($prendasventa),"estado"=>$ventas[$i]['estado'],"dinero"=>$ventas[$i]['cliente_ok'],"lon" => $lon);
     }
@@ -1610,8 +1616,12 @@ function cajasemanal($id){
         $vant = (array)$jsonclientedatos;
         $lon = "";
         if($vant['ciudad'] == 'Bogotá' || $vant['ciudad'] == 'Cajicá' || $vant['ciudad'] == 'Chia' || $vant['ciudad'] == 'Cota' || $vant['ciudad'] == 'Funza' || $vant['ciudad'] == 'Mosquera' || $vant['ciudad'] == 'Soacha' || $vant['ciudad'] == 'Usaquen' || $vant['ciudad'] == 'Usme'){            
+            $local = $local + intval($ventastodas[$i]['cliente_ok']);
             $lon="Local";
-        }else{$lon="Nacional";}  
+        }else{
+            $nacional = $nacional + intval($ventastodas[$i]['cliente_ok']);
+            $lon="Nacional";
+        }  
         $prendasventastodas = $wpdb->get_results("SELECT * FROM `con_t_trprendas` WHERE  `cual` = 'V".$ventastodas[$i]['venta_id']."'",ARRAY_A);
         if(sizeof($prendasventastodas) == 0){
                 if(!$auditados[$ventastodas[$i]['venta_id']]){
@@ -1621,10 +1631,17 @@ function cajasemanal($id){
         }
     }
     $arrayventas = array();
+    $cuentasporcobrar = 0;
     foreach ($auditados as $key => $value){
         array_push($arrayventas, $value);
+        $prendas = $wpdb->get_results("SELECT * FROM `con_t_trprendas` WHERE  `cual` = 'V".$key."'",ARRAY_A);        
+        for ($i=0; $i < sizeof($prendas) ; $i++) { 
+            $referencia = $wpdb->get_results("SELECT `precio_detal` FROM `con_t_resumen` WHERE  `referencia_id` = ".$prendas[$i]['referencia_id']."",ARRAY_A);
+            $cuentasporcobrar = $cuentasporcobrar + intval($referencia[0]['precio_detal']);
+        }
     }
     echo json_encode($arrayventas);
+    $cambio = $wpdb->query("UPDATE con_t_cierredigital SET `local`=".$local.",`nacional`=".$nacional.",`cuentas_cobrar`=".$cuentasporcobrar." WHERE ID = ".$id."");
 }
 
 if($funcion == "permisosPrincipales"){

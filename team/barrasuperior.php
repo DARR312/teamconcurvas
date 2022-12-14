@@ -1,5 +1,5 @@
 <div id="barrasuperior" class="pc tablet">
-    <div class="container-fluid fijo" style="width: 84%;">
+    <div class="container-fluid fijo" >
         <figure class="logo_pc"><img src="https://concurvas.com/wp-content/themes/mainteam_Concurvas/imagenes/iconos/LOGO.png" alt="Logo Concurvas"></figure>
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="bscdor">
                 <div class="form-group pmd-textfield pmd-textfield-floating-label">
