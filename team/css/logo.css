@@ -1,6 +1,6 @@
 @charset "utf-8";
 .logo_pc {position: absolute;}
-@media only screen and (min-width:992px){.logo_pc{margin-top: 6% !important;margin-left:80% !important;}}
+@media only screen and (min-width:992px){.logo_pc{margin-top: 3% !important;margin-left:70% !important;}}
 @media only screen and (max-width:991px) and (min-width:768px){.logo_pc{margin-top: 3% !important;width: 20%;margin-left: 77% !important;}}
 @media only screen and (max-width:767px) and (min-width:600px){.logo_pc{margin-top: 3% !important;right: 5% !important;width: 25%;}}
 @media only screen and (max-width:599px) and (min-width:500px){.logo_pc{margin-top: 4% !important;right: 5% !important;width: 30%;}}

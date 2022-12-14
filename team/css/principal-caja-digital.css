@@ -2,8 +2,8 @@
     width:100% !important;
 }
 #bloquePrincipal{
-    width:83%;
-    margin-left:16%;
+    width:85%;
+    margin-left:15%;
 }
 #popup, #popup2, #popup3, #popup4, #popup5, #popup6, #popup7, #popup8, #popup9, #popup10, #pop{     
 left: 0;     
@@ -84,9 +84,9 @@ top: 5px;
 #primeraFila{
     position: fixed;
     z-index: 9;
-    background-color: #f8f9fa;
-    width: 83%;
-    padding-top:25px;
+    background-color: #ffffff;
+    width: 85%;
+    margin-top:150px !important;
 }
 
 .cliente_ok1{display:none;}
@@ -98,9 +98,16 @@ top: 5px;
 .agregarprendapedido{
     width: 75% !important;
 }
-#primeraventa{
-    margin-top: 340px;
+#primerinforme{
+    margin-top: 230px;
 }
-#agregarabonodiv{
-    margin: 5%;
+.verInforme{
+    height: 25px !important;
+    border-radius: 60px !important;
 }
+#segundo {
+    margin-top: 0vh !important;
+  }
+  #bscdor {
+    height: 6vh !important;
+  }

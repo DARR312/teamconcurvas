@@ -1,5 +1,5 @@
-// const urlhost = "http://localhost/wordpress/index.php/controlador" ;
-const urlhost = "https://concurvas.com/team/controlador/";
+ const urlhost = "http://localhost/wordpress/index.php/controlador" ;
+//const urlhost = "https://concurvas.com/team/controlador/";
 function formatoPrecio(precio){
 	var pre = Math.sqrt(precio*precio);
     let myFunc = num => Number(num);
@@ -1395,6 +1395,22 @@ function calculardescuentos(datospedido,valor_total,jsoncon_t_reglasdescuentos){
 		return jsonData;
 	}
 
+};
+
+function cajadigita(id) {
+	var enviar = "funcion=cajasemanal&valor="+id;
+	var obtenidos = "no";
+    $.ajax({
+    	url: urlhost,
+    	headers: {'Access-Control-Allow-Origin': urlhost},
+    	type: "GET",
+    	async: false,
+    	data: enviar,
+    	success: function(data){
+    		obtenidos = data;
+    	}						
+    });
+    return obtenidos;
 };
 
 function apartados() {
