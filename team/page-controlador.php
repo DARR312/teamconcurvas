@@ -1637,7 +1637,7 @@ function cajasemanal($id){
         $prendas = $wpdb->get_results("SELECT * FROM `con_t_trprendas` WHERE  `cual` = 'V".$key."'",ARRAY_A);        
         for ($i=0; $i < sizeof($prendas) ; $i++) { 
             $referencia = $wpdb->get_results("SELECT `precio_detal` FROM `con_t_resumen` WHERE  `referencia_id` = ".$prendas[$i]['referencia_id']."",ARRAY_A);
-            $cuentasporcobrar = $cuentasporcobrar + intval($referencia[0]['precio_detal']);
+            $cuentasporcobrar = $cuentasporcobrar + intval($referencia[0]['precio_detal']) - intval($value['dinero']);
         }
     }
     echo json_encode($arrayventas);
