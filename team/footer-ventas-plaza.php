@@ -111,7 +111,6 @@
         funcionespagina();
         var ids = obtenerDatajson('ID,descripcion','con_t_metodospago','variasfilasunicas','0','0');
         var jsonIds = JSON.parse(ids);
-        console.log(jsonIds);
         var option = "";
         for (let i = 0; i < jsonIds.length; i++) {
             option = option + "<option value='"+jsonIds[i].ID+"'>"+jsonIds[i].descripcion+"</option>"
@@ -124,7 +123,6 @@
         $('.metodo').append(option);
         var vendedores = obtenerDatajson('ID,display_name ','con_users','variasfilasunicas','0','0');
         var jsonvendedores = JSON.parse(vendedores);
-        console.log(jsonvendedores);
         var vendehtml = "";
         for (let i = 0; i < jsonvendedores.length; i++) {
             vendehtml = vendehtml+"<option value='"+jsonvendedores[i].ID+"'>"+jsonvendedores[i].display_name+"</option>";            

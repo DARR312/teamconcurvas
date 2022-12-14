@@ -1,9 +1,9 @@
 <?php get_template_part('generalfooter'); ?>
     //<script>
-   
+   imprimirinformes();
 })
 </script>
-
+<script src="<?php echo get_template_directory_uri(); ?>/js/caja-digital.js"></script>
 <!-- Propeller textfield js --> 
 <script type="text/javascript" src="https://opensource.propeller.in/components/textfield/js/textfield.js"></script>
 

@@ -1588,6 +1588,45 @@ function actualizarregistros($tabla,$condicion,$valor,$valor2,$valor3,$valor4,$v
     // echo json_encode($lastId);
 }
 
+function cajasemanal($id){
+    global $wpdb;
+    $rango = $wpdb->get_results("SELECT `fecha_menor`,`fecha_mayor` FROM `con_t_cierredigital` WHERE  ID = '".$id."'",ARRAY_A);
+    $fechamenor = $rango[0]['fecha_menor']." 00:00:00";
+    $fechamayor = $rango[0]['fecha_mayor']." 23:00:000";    
+    $ventas = $wpdb->get_results("SELECT * FROM `con_t_ventas` WHERE  (((`estado`<>'Entregado') AND (`estado`<>'Cancelado')) OR (`cliente_ok`=0)) AND (`fecha_creada` BETWEEN '".$fechamenor."' AND '".$fechamayor."')",ARRAY_A);
+    $auditados = array();
+    for ($i=0; $i < sizeof($ventas) ; $i++) { 
+        $jsonclientedatos =  json_decode($ventas[$i]['datos_cliente']);
+        $vant = (array)$jsonclientedatos;
+        $lon = "";
+        if($vant['ciudad'] == 'Bogotá' || $vant['ciudad'] == 'Cajicá' || $vant['ciudad'] == 'Chia' || $vant['ciudad'] == 'Cota' || $vant['ciudad'] == 'Funza' || $vant['ciudad'] == 'Mosquera' || $vant['ciudad'] == 'Soacha' || $vant['ciudad'] == 'Usaquen' || $vant['ciudad'] == 'Usme'){$lon="Local";
+        }else{$lon="Nacional";}
+        $prendasventa = $wpdb->get_results("SELECT * FROM `con_t_trprendas` WHERE  `cual` = 'V".$ventas[$i]['venta_id']."'",ARRAY_A);
+        $auditados[$ventas[$i]['venta_id']] = array("venta_id"=>$ventas[$i]['venta_id'],"prendas"=>sizeof($prendasventa),"estado"=>$ventas[$i]['estado'],"dinero"=>$ventas[$i]['cliente_ok'],"lon" => $lon);
+    }
+    $ventastodas = $wpdb->get_results("SELECT * FROM `con_t_ventas` WHERE (`estado`<>'Cancelado') AND (`fecha_creada` BETWEEN '".$fechamenor."' AND '".$fechamayor."')",ARRAY_A);
+    for ($i=0; $i < sizeof($ventastodas) ; $i++) {  
+        $jsonclientedatos =  json_decode($ventastodas[$i]['datos_cliente']);
+        $vant = (array)$jsonclientedatos;
+        $lon = "";
+        if($vant['ciudad'] == 'Bogotá' || $vant['ciudad'] == 'Cajicá' || $vant['ciudad'] == 'Chia' || $vant['ciudad'] == 'Cota' || $vant['ciudad'] == 'Funza' || $vant['ciudad'] == 'Mosquera' || $vant['ciudad'] == 'Soacha' || $vant['ciudad'] == 'Usaquen' || $vant['ciudad'] == 'Usme'){            
+            $lon="Local";
+        }else{$lon="Nacional";}  
+        $prendasventastodas = $wpdb->get_results("SELECT * FROM `con_t_trprendas` WHERE  `cual` = 'V".$ventastodas[$i]['venta_id']."'",ARRAY_A);
+        if(sizeof($prendasventastodas) == 0){
+                if(!$auditados[$ventastodas[$i]['venta_id']]){
+                    $ventas = $wpdb->get_results("SELECT * FROM `con_t_ventas` WHERE  `venta_id` = ".$ventastodas[$i]['venta_id']."",ARRAY_A);
+                    $auditados[$ventastodas[$i]['venta_id']] = array("venta_id"=>$ventastodas[$i]['venta_id'],"prendas"=>0,"estado"=>$ventas[0]['estado'],"dinero"=>$ventas[0]['cliente_ok'],"lon" => $lon);
+                }
+        }
+    }
+    $arrayventas = array();
+    foreach ($auditados as $key => $value){
+        array_push($arrayventas, $value);
+    }
+    echo json_encode($arrayventas);
+}
+
 if($funcion == "permisosPrincipales"){
     permisosPrincipales();
 }if($funcion == "permisosVentas"){
@@ -1698,5 +1737,7 @@ if($funcion == "permisosPrincipales"){
     insertarfila($tabla,$valor,$valor2,$valor3,$valor4,$valor5,$valor6,$valor7,$valor8,$valor9,$valor10,$valor11);
 }if($funcion == "actualizarregistros"){
     actualizarregistros($tabla,$condicion,$valor,$valor2,$valor3,$valor4,$valor5,$valor6,$valor7,$valor8,$valor9,$valor10,$valor11);
+}if($funcion == "cajasemanal"){
+    cajasemanal($valor);
 }
 ?>

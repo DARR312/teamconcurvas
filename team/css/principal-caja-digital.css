@@ -86,7 +86,7 @@ top: 5px;
     z-index: 9;
     background-color: #f8f9fa;
     width: 83%;
-    padding-top:25px;
+    margin-top:150px !important;
 }
 
 .cliente_ok1{display:none;}
@@ -98,9 +98,10 @@ top: 5px;
 .agregarprendapedido{
     width: 75% !important;
 }
-#primeraventa{
-    margin-top: 340px;
+#primerinforme{
+    margin-top: 190px;
 }
-#agregarabonodiv{
-    margin: 5%;
+.verInforme{
+    height: 25px !important;
+    border-radius: 60px !important;
 }
