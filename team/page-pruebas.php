@@ -64,13 +64,16 @@ echo $imprimir;*/
         }
     }
   for($j = 0; $j<sizeof($referenciasArray);$j++){    
+    echo "</br></br>";
+    print_r($referenciasArray[$j]);
     $fabrica = $wpdb->get_results( "SELECT COUNT(*) FROM con_t_trprendas WHERE (referencia_id = ".$referenciasArray[$j]['referencia_id'].") AND  ((estado = 'En Producción')  || (estado = 'En Bodega'))", ARRAY_A);  
     $bodega = $wpdb->get_results( "SELECT COUNT(*) FROM con_t_trprendas WHERE (referencia_id = ".$referenciasArray[$j]['referencia_id'].") AND ((estado = 'En Operaciones') || (estado = 'En Empaques'))", ARRAY_A);  
     $plaza = $wpdb->get_results( "SELECT COUNT(*) FROM con_t_trprendas WHERE (referencia_id = ".$referenciasArray[$j]['referencia_id'].") AND (estado = 'En Plaza de las américas')", ARRAY_A);  
     $satel = $wpdb->get_results( "SELECT COUNT(*) FROM con_t_trprendas WHERE (referencia_id = ".$referenciasArray[$j]['referencia_id'].") AND (estado = 'En satélite')", ARRAY_A);  
     $separados = $a[$referenciasArray[$j]['referencia_id']];//133
     $separadosCambios = $b[$referenciasArray[$j]['referencia_id']];//133
-    $cantidad = $fabrica[0]['COUNT(*)'] + $bodega[0]['COUNT(*)'] + $plaza[0]['COUNT(*)'] + $satel[0]['COUNT(*)'] - $separados[0]['COUNT(*)']- $separadosCambios[0]['COUNT(*)'];
+    $cantidad = $fabrica[0]['COUNT(*)'] + $bodega[0]['COUNT(*)'] + $plaza[0]['COUNT(*)'] + $satel[0]['COUNT(*)'] - $separados- $separadosCambios;
+    echo "</br>Fábrica: ".$fabrica[0]['COUNT(*)']." Bodega: ".$bodega[0]['COUNT(*)']." Plaza: ".$plaza[0]['COUNT(*)']." Satélite: ".$satel[0]['COUNT(*)']." Separados: ".$separados." Separados Cambios: ".$separadosCambios;
     $updated = $wpdb->update( "con_t_resumen", array('cantidad' => $cantidad), array( 'referencia_id' => $referenciasArray[$j]['referencia_id']));
   }
 /*******************************NO EMPACADO*******************************************************/
