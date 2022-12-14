@@ -21,15 +21,15 @@
         if(items[k]==7){
             fechaUpdate = "fechaUpdate"; 
             notasUpdate = "notasUpdate";
+            usuarioUpdate = "usuarioUpdate"; 
         }
         if(items[k]==26){
-            usuarioUpdate = "usuarioUpdate"; 
+            segundo.append("<div class='col-lg-2 col-md-2 col-sm-2 col-xs-12' id='cajadigital'><a href='https://concurvas.com/team/caja-digital'> <button class='botonmodal' type='button' id='subirGuias'>Cierre de caja</button></a></div>");
         }
         if(items[k]==9){
            verPedidos = 1;
         }
     }
-    segundo.append("<div class='col-lg-2 col-md-2 col-sm-2 col-xs-12' id='cajadigital'><a href='https://concurvas.com/team/caja-digital'> <button class='botonmodal' type='button' id='subirGuias'>Cierre de caja</button></a></div>");
     var usuarioCell = $('#usuarioCell').attr("name");
     var identifi = usuarioCell.split(",");
     var level = identifi[0];
