@@ -9,7 +9,6 @@
     position: fixed;
     z-index: 10;
     width: inherit;
-    background-color: #ffffff;
     height: 150px;
 }
 p, h2{
