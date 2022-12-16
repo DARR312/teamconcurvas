@@ -13,12 +13,21 @@ for($j=0;$j<sizeof($obtenidosArray);$j++){
     $comi = 0;
     $sin = 0;
     for ($i=0; $i <sizeof($idfechaArray) ; $i++) { 
-        $jsonPedidon =  json_decode($idfechaArray[$i]['pedido_item']);
-        $vant = (array)$jsonPedidon[0];
-        if($vant['comision']==0){
-            $comi = $comi+($vant['cantidad']*$multiplicador);
-            $sin = $sin+($vant['cantidad']*1000);
-        }
+        $jsonPedidon =  json_decode($idfechaArray[$i]['pedido_item']);   
+            $vant = (array)$jsonPedidon[0];
+            if($vant['comision']=="0"){
+                $comi = $comi+(intval($vant['cantidad'])*$multiplicador);
+                $sin = $sin+(intval($vant['cantidad'])*1000);
+                $vant['comision'] = intval($vant['cantidad'])*$multiplicador;
+                $jsonPedidon[0] = $vant;
+                $pedidoitemupdate = json_encode($jsonPedidon);                
+                $valoru = str_replace("\\","",$pedidoitemupdate);
+                $valord = str_replace("<","{",$valoru);
+                $pedidoitemupdate = str_replace(">","}",$valord);
+                $datos = "UPDATE con_t_ventas SET pedido_item = '".$pedidoitemupdate."'   WHERE venta_id = ".$idfechaArray[$i]['venta_id']."";
+                $wpdb->query($datos);
+            }
+        
     }
     $comision=$comision+$comi;
     $sintecho = $sintecho+$sin;
@@ -40,6 +49,8 @@ for($j=0;$j<$tam;$j++){
         $totalventa = $totalventa + intval($ventassincomisionpaga[$i]['valor_total']);
         $comisiondia = intval($ventassincomisionpaga[$i]['valor_total'])/100;
         $htmll = $htmll."<p class='letra18pt-pc'>".$obtenidosArray[$j]['cast(fecha_creada as date)']."-> Total ventas: ".$obtenidosArray[$j]['COUNT(*)']." Total comisiones sin pagar: ".$comisiondia."</p>";
+        $datos = "UPDATE con_t_ventasplaza SET comision_paga = 'Si'   WHERE ID = ".$ventassincomisionpaga[$i]['ID']."";
+        $wpdb->query($datos);
     }   
 }
 $comision = $totalventa/100;
