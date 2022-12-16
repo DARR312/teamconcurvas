@@ -166,7 +166,7 @@ function cajadigital() {
         objeto.valor = this.name;
         var condicion = prepararjson(objeto);
         actualizarregistros("con_t_ventas",condicion,pedido_item,estado,cliente_ok,metodo_pago,"0","0","0","0","0","0","0");
-        cajadigita($("#primeraFila").attr('name'));
+        // cajadigita($("#primeraFila").attr('name'));
         $(".remover"+this.name+"").remove();
     });  
 
