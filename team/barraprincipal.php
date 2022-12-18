@@ -12,7 +12,13 @@
             ?>
            <p class="letra27pt-pc letra5pt-mv"><?php echo $user_name ; ?></p>-->
         </div>
-        <div class="col-lg-12 col-md-12 col-sm-2 col-xs-2"><div class="iconosprincipales col-lg-12 col-md-12 col-sm-12 col-xs-12"><p class="letra18pt-pc letra3pt-mv nombresiconos" id="cerrarsesion"><a href="https://concurvas.com/team/wp-login.php?action=logout">Cerrar sesión</a></p></div></div>
+        <div class="col-lg-12 col-md-12 col-sm-2 col-xs-2">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <p class="letra18pt-pc letra3pt-mv" id="cerrarsesion">
+                    <a id="cerrarsesion2" href="https://concurvas.com/team/wp-login.php?action=logout">Cerrar sesión</a>
+                </p>
+            </div>
+        </div>
        
 </div>
 <div id="barraCelu" class="celular">

@@ -1,0 +1,71 @@
+.modal-content {
+    border-radius: 30px;
+}
+#headerModal{
+    overflow:auto;
+}
+.modal-dialog{
+    max-width: 90% !important;
+    width: 889.33px!important;
+}
+.btn-close{
+    margin-right: 30px;
+    margin-top: 30px;
+    height: 5px;
+    width: 5px;
+    float:right;
+    z-index: 999;
+}
+#containerContenido{
+    margin-left: 35px;
+}
+#buscarClienteCambio{
+    width:100% !important;
+    margin-top: 85px;
+    margin-left: 25px;
+}
+#titulo{
+    margin-bottom: 20px !important;
+}
+#col1{
+    margin-top: -15px;
+    height: 116px;
+}
+#col2{
+    height: auto;
+    margin-bottom: 30px;
+    margin-top: 50px;
+}
+#col3{
+    height: auto;
+    margin-top: 63px;
+    margin-left: -14px;
+}
+.form-check{
+    margin-top: 28px;
+}
+.letra{
+    color:#757575
+}
+.letra2{
+    color:#757575;
+    margin-left: -29px;
+}
+.form-check-input:checked {
+    background-color: #abadb0;
+    border-color: #abadb0;
+  }
+  .TituloDatosCliente{
+    margin-top: 11px;
+    margin-bottom: 8px;
+  }
+  #Tituloprendas{
+    margin-bottom: 8px;
+  }
+
+  .botones {
+    width: 100% !important;
+  }
+  #Guardar{
+    width: 93% !important;
+  }
