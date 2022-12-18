@@ -4,6 +4,8 @@
     position: fixed;
     border-right: #cdcdcd solid thin;
     background: white;
+    border-radius: 0 40px 40px 0;
+    box-shadow: 2px 2px 10px 0 rgba(128, 124, 124, 0.174);
 }
 .accesos{
     width: 83%;
@@ -18,18 +20,29 @@
     padding: 0 !important;
 }
 .nombresiconos{
-    color:rgb(193, 46, 114) !important;
+    color: rgba(0, 0, 0, 0.54);
     margin: 20% 0 20% 0 !important;
 }
+
 #cerrarsesion{
-    color:rgb(193, 46, 114) !important;
-    cursor: pointer;
-    position: absolute;
-    margin: 200% 20%;
+    margin-top: 80% !important;
 }
-.nombresiconos a{color:rgb(193, 46, 114) !important;}
+#cerrarsesion2{
+    color: rgb(117, 114, 117) !important;
+    cursor: pointer;
+}
+#linkprincipales{
+    color: rgb(117, 114, 117) !important;
+    cursor: pointer;
+}
+.nombresiconos a{color: rgba(0, 0, 0, 0.54);}
 #usuario{
     margin-top: 70% !important;
+}
+
+.containerTabla{
+    display: flex;
+    justify-content:center;
 }
 @media only screen and (max-width:767px) {
     .accesos {

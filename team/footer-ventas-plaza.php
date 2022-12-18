@@ -1,7 +1,7 @@
 <?php get_template_part('generalfooter'); ?>
 
     //<script>
-        
+    var jsonPrendasglobal = new Object();
     var html = "";
     var permisoVentas = permisosVentas();
     var items = permisoVentas.split(',');
@@ -14,9 +14,10 @@
     var segundo = $('#segundo');
     for(var k = (items.length-1); k>0;k--){
         if(items[k]==5){
-            segundo.append("<div class='col-lg-2 col-md-2 col-sm-2 col-xs-12' id='accion'><button class='botonmodal' type='button' id='agregarVenta'>+ Agregar venta </button></div>");
-            segundo.append("<div class='col-lg-2 col-md-2 col-sm-2 col-xs-12' id='accion'><button class='botonmodal' type='button' id='agregarApartado'>+ Agregar apartado </button></div>");
-            segundo.append("<div class='col-lg-2 col-md-2 col-sm-2 col-xs-12' id='accion'><button class='botonmodal' type='button' id='verApartados'>-> Ver apartados </button></div>");
+            segundo.append("<div class='col-lg-2 col-md-2 col-sm-2 col-xs-12' id='accion'><button class='botonmodal' type='button' id='agregarVenta'> Agregar venta </button></div>");
+            segundo.append("<div class='col-lg-2 col-md-2 col-sm-2 col-xs-12' id='accion'><button class='botonmodal' type='button' id='agregarApartado'> Agregar apartado </button></div>");
+            segundo.append("<div class='col-lg-2 col-md-2 col-sm-2 col-xs-12' id='accion'><button class='botonmodal' type='button' id='verApartados'> Ver apartados </button></div>");
+            segundo.append("<div class='col-lg-2 col-md-2 col-sm-2 col-xs-12' id='accion'><button class='botonmodal' type='button' id='realizarCambio'> Cambios </button></div>");
             botonrevisar = "botonrevisar";
         }
         if(items[k]==6){
@@ -104,6 +105,146 @@
         }
 	});
 
+    $('#buscarClienteCambio').on('click',function(){
+        $(".ValorTotal").text(0);
+        $('#DatosClientesConatiner').empty();
+        $('#PrendasConatiner').empty();
+        $('#listaPrendasCargadas').empty();
+        
+
+        var telefono = $('#BuscarTelefono2').val();
+        if(telefono){
+            console.log($('#BuscarTelefono2').val());
+            var ventasFiltro = obtenerDatajson('ID,cliente_id,datos_cliente,codigos_prendas,notas,metodos_pago,valor_total','con_t_ventasplaza','Like','datos_cliente',telefono);
+            var jsonVentasFiltro = JSON.parse(ventasFiltro);
+            var ventasPaginaFiltro = obtenerDatajson('venta_id,datos_cliente,pedido,estado','con_t_ventas','Like','datos_cliente',telefono);
+            var jsonventasPaginaFiltroFiltro = JSON.parse(ventasPaginaFiltro);
+
+            console.log(jsonVentasFiltro,"VENTAS PLAZA");
+            console.log(jsonventasPaginaFiltroFiltro, "VENTAS PAGINA");
+        //     // console.log(jsonVentasFiltro);
+            if(jsonventasPaginaFiltroFiltro.length !== 0){
+                var datoInicial = "";
+                var nombre = "";
+                var tel = "";
+                var dire = "";
+                var prendas="";
+                for (let i = 0; i < Object.keys(jsonventasPaginaFiltroFiltro).length; i++) {
+                    // console.log(jsonVentasFiltro[i]);
+                    console.log('1');
+                    var datosclientejson = jsonventasPaginaFiltroFiltro[i].datos_cliente;
+                    var jsonDatoscliente = JSON.parse(datosclientejson);
+                    console.log(jsonDatoscliente);
+                    datoInicial = datoInicial + ' V'+jsonventasPaginaFiltroFiltro[i].venta_id;
+                    nombre = jsonDatoscliente.nombre;
+                    tel= jsonDatoscliente.telefono;
+                    dire = jsonDatoscliente.direccion;
+                    var pedido = jsonventasPaginaFiltroFiltro[i].pedido;
+                    var jsonpedido = JSON.parse(pedido);
+                    console.log(jsonpedido);
+                    var codigo = obtenerDatajson("codigo, descripcion, referencia_id","con_t_trprendas","valoresconcondicion","cual","'V"+jsonventasPaginaFiltroFiltro[i].venta_id+"'");
+                    var jsoncodigo = JSON.parse(codigo);    
+                    for (let j = 0; j < Object.keys(jsoncodigo).length; j++) {
+                        console.log('HOLAAAA');
+                        var valorPrenda = obtenerDatajson("precio_detal","con_t_resumen","valoresconcondicion","referencia_id","'"+jsoncodigo[j].referencia_id+"'");
+                        var jsonValorPrenda = JSON.parse(valorPrenda);
+                        console.log(jsonValorPrenda, 'consultaaa2');
+                        prendas = prendas + '<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 prendasIngresa" style="margin-left: -27px; margin-top: 10px;">'+
+                    						'<div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">'+
+                    							'<input class="form-check-input selectPrendas" type="checkbox" value="'+jsonValorPrenda[0].precio_detal+'" name="'+jsoncodigo[j].codigo+'/'+jsoncodigo[j].descripcion+'" id="flexCheckDefault">'+
+                    						'</div>'+
+										'<div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">'+
+											'<div class="letra18pt-pc letra2" for="flexCheckDefault">'+
+												jsoncodigo[j].codigo+
+											'</div>'+
+										'</div>'+
+										'<div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">'+
+											'<div class="letra18pt-pc letra" for="flexCheckDefault">'+
+                                                jsoncodigo[j].descripcion+
+											'</div>'+
+										'</div>'+
+										'<div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">'+
+											'<div class="letra18pt-pc letra" for="flexCheckDefault">'+
+                                            ' V'+jsonventasPaginaFiltroFiltro[i].venta_id+ 
+											'</div>'+
+										'</div>'+
+										'<div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">'+
+											'<div class="letra18pt-pc letra" for="flexCheckDefault">'+
+                                            formatoPrecio(jsonValorPrenda[0].precio_detal)+
+											'</div>'+
+										'</div>'+
+									'</div>';
+                    }
+                }
+
+                var html = '<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12"> <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 letra18pt-pc letra">'+datoInicial+'</div>'+
+                            '<div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 letra18pt-pc letra">'+nombre+'</div>'+
+                            '<div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 letra18pt-pc letra">'+tel+'</div>'+ 
+                            '<div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 letra18pt-pc letra">'+dire+'</div></div>';
+                $('#DatosClientesConatiner').append(html);
+                $('#PrendasConatiner').append(prendas);
+            }else{
+                console.log('No hay datos');
+                
+            }
+            if(jsonVentasFiltro.length !== 0){
+                // for pra las ventas de plaza
+                var datos= '';
+                var prendasDiv='';
+                for (let i = 0; i < Object.keys(jsonVentasFiltro).length; i++) {
+                    // console.log(jsonVentasFiltro[i]);
+                    var datoscliente = jsonVentasFiltro[i].datos_cliente;
+                    var jsondatoscliente = JSON.parse(datoscliente);
+                    datos = datos + ' PA-'+jsonVentasFiltro[i].ID;
+
+                    var datosPrendas = jsonVentasFiltro[i].codigos_prendas;
+                    var jsondatosPrendas = JSON.parse(datosPrendas);
+                    console.log(jsondatosPrendas);
+               
+
+                    for (let j = 0; j < Object.keys(jsondatosPrendas).length; j++) {
+                        prendasDiv = prendasDiv + '<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 prendasCon" style="margin-left: -27px; margin-top: 10px;">'+
+                                            '<div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">'+
+                                                '<input class="form-check-input selectPrendas" type="checkbox" value="'+jsondatosPrendas[j].valor+'" name="'+jsondatosPrendas[j].codigo+'/'+jsondatosPrendas[j].descripcion+'" id="flexCheckDefault">'+
+                                            '</div>'+
+                                            '<div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">'+
+                                                '<div class="letra18pt-pc letra2" for="flexCheckDefault">'+
+                                                    jsondatosPrendas[j].codigo+
+                                                '</div>'+
+                                            '</div>'+
+                                            '<div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">'+
+                                                '<div class="letra18pt-pc letra" for="flexCheckDefault">'+
+                                                    jsondatosPrendas[j].descripcion+
+                                                '</div>'+
+                                            '</div>'+
+                                            '<div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">'+
+                                                '<div class="letra18pt-pc letra" for="flexCheckDefault">'+
+                                                ' PA-'+jsonVentasFiltro[i].ID+ 
+                                                '</div>'+
+                                            '</div>'+
+                                            '<div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">'+
+                                                '<div class="letra18pt-pc letra" for="flexCheckDefault">'+
+                                                formatoPrecio(jsondatosPrendas[j].valor)+
+                                                '</div>'+
+                                            '</div>'+
+                                        '</div>';
+                    }
+                }
+                var html = '<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12"> <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 letra18pt-pc letra">'+datos+'</div>'+
+                            '<div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 letra18pt-pc letra">'+jsondatoscliente.nombre+'</div>'+
+                            '<div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 letra18pt-pc letra">'+jsondatoscliente.telefono+'</div>'+ 
+                            '<div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 letra18pt-pc letra">No aplica</div></div>';
+                $('#DatosClientesConatiner').append(html);
+                $('#PrendasConatiner').append(prendasDiv);
+            }else{
+                console.log('No hay datos');
+                
+            }
+        }
+        carga();
+	});
+
+    // aq
 
     $('#agregarVenta').on('click', function(){    
         var htmll = apartados();
@@ -160,6 +301,114 @@
         ciudad1.append(html);
         return false;     
     });      
+    
+    $('#Guardar').on('click', function(){
+        carga();
+        var jsonPrendasIngresan = new Object();
+        var divsmetodos = $('.metodop');
+        var metodospago =  new Object();
+        var valorfinal = 0;
+        var j=0;
+        var text_val = $('#ValorTotal').attr("name");
+        console.log(text_val);
+        console.log(parseInt(text_val));
+        if(parseInt(text_val)>0){
+            for (let i = 0; i < divsmetodos.length; i=i+2) {
+                var metodopago =  new Object();
+                console.log(divsmetodos[i].children[0].children[1].valueAsNumber);
+                var valorp = divsmetodos[i].children[0].children[1].valueAsNumber;
+                if(valorp>0){
+                    metodopago.valor = valorp;
+                    valorfinal = valorfinal+valorp;
+                    console.log(divsmetodos[i+1].children[0].children[1].value);
+                    var metdodo = divsmetodos[i+1].children[0].children[1].value;
+                    if(metdodo=="S"){alert("Por favor ingresa el método de pago correcto");return false;}
+                    metodopago.metodo = metdodo;
+                    metodospago[j]=metodopago;
+                    j++;
+                }
+            }
+
+
+            var check = $(".prendasCon input"); 
+            var valor = 0;
+            var valor2 = 0;
+            var html = "";
+            var j=0;
+            for (let i = 0; i < check.length; i++) {
+                if(check[i].checked){
+                    console.log(check[i],'aquies2');
+                    valor = valor + parseInt(check[i].value);
+                }            
+            }
+            for (let i = 0; i < Object.keys(jsonPrendasglobal).length; i++) {
+                valor2 =  valor2 + parseInt(jsonPrendasglobal[i].valor);    
+            }
+            console.log(jsonPrendasglobal,"lo que sale");
+
+            
+            var check = $(".prendasIngresa input"); 
+            var valor = 0;
+            var valor2 = 0;
+            var html = "";
+            var j=0;
+            for (let i = 0; i < check.length; i++) {
+                if(check[i].checked){
+                    console.log(check[i],'aquies2');
+                    valor = valor + parseInt(check[i].value);
+                }            
+            }
+            for (let i = 0; i < Object.keys(jsonPrendasIngresan).length; i++) {
+                valor2 =  valor2 + parseInt(jsonPrendasIngresan[i].valor);    
+            }
+
+            console.log(jsonPrendasIngresan,'lo que entra');
+            
+
+            // var metodospagoString= JSON.stringify(metodospago);
+            // console.log(metodospago);
+            // var pagovsvalor = valorfinal-parseInt(text_val);
+            // if(pagovsvalor!=0){alert("El valor total del pedido no coincide con el valor de pago");return false;}
+            
+            
+            // const date = new Date();
+            // let day = date.getDate();
+            // let month = date.getMonth() + 1;
+            // let year = date.getFullYear();
+            // let currentDate = `${year}/${month}/${day}`;//2022-08-08 13:58:58 	
+            // var objeto = {};
+            // objeto.tipo = "date";
+            // objeto.columna = "fecha";
+            // objeto.valor = currentDate;
+            // var fecha  = prepararjson(objeto);
+            
+            // var objeto = {};
+            // objeto.tipo = "int";
+            // objeto.columna = "excedente";
+            // objeto.valor = parseInt(text_val);
+            // var excedenteEnviar  = prepararjson(objeto);
+
+            // var objeto = {};
+            // objeto.tipo = "json";
+            // objeto.columna = "prenda_sale";
+            // objeto.valor = jsonPrendasglobal;
+            // var prenda_sale = prepararjson(objeto);
+
+             
+
+            
+
+
+            // var resultado = actualizarregistros("con_t_apartados",condicion,abonoenviar,fecha_abono,"0","0","0","0","0","0","0","0","0");
+            // console.log(resultado);
+            console.log('llegue');   
+       
+        }else{
+            console.log('se le debe al cliente');
+        }
+        
+        
+    });  
     $('#agregarPedido').on('click', function(){//cliente_id 	datos_cliente 	codigos_prendas 	notas 	origen 	valor_total metodos_pago 	vendedor_id 
         var cliente_id = $('#idCliente').val();
         var datos_cliente =  new Object();
@@ -405,7 +654,10 @@
         $('#popup').fadeIn('slow');
         $('.removerprendasparaventa').remove();
         return false;     
-    });     
+    });  
+
+       
+    // aqui
     $('#agregarprendaspedido').on('click', function(){  
         $('.removeprendavender').remove();
         var check = $("#popup4 input"); 
@@ -646,6 +898,168 @@
         funcionespagina();
         return false;     
     });    
+    // aq
+    $('#realizarCambio').on('click', function(){   
+        $('#continerMetodos').empty();  
+        $('#ventana-modal').modal("show");    
+        var ids = obtenerDatajson('ID,descripcion','con_t_metodospago','variasfilasunicas','0','0');
+        var jsonIds = JSON.parse(ids);
+        console.log(jsonIds);
+        var option = "";
+        for (let i = 0; i < jsonIds.length; i++) {
+            option = option + "<option value='"+jsonIds[i].ID+"'>"+jsonIds[i].descripcion+"</option>"
+        }
+        var html = "<div class='col-lg-4 col-md-4 col-sm-4 col-xs-4 metodop' id='v0'>"+
+                        "<div class='form-group pmd-textfield pmd-textfield-floating-label'>"+
+                            "<label class='control-label letra18pt-pc' for='regular1'>Valor</label>"+
+                            "<input class='form-control' type='number' id='valor0' name='valor' required='><span class='pmd-textfield-focused'></span>"+
+                        "</div>"+
+                    "</div>"+
+                    "<div class='col-lg-8 col-md-8 col-sm-8 col-xs-8 metodop' id='metodo0'>"+
+                        "<div class='form-group pmd-textfield pmd-textfield-floating-label'>"+
+                            "<label class='control-label letra18pt-pc' for='regular1'>Metodo</label>"+
+                            "<select class='form-control letra18pt-pc metodo' type='select' name='metodo' id='0' form='formularioCliente' required=''>"+
+                                "<option value='S'>Seleccione un opción de pago</option>"+
+                            "</select><span class='pmd-textfield-focused'></span>"+
+                        "</div>"+
+                    "</div>";
+        for (let i = 1; i < jsonIds.length; i++) {
+            html = html+"<div class='col-lg-4 col-md-4 col-sm-4 col-xs-4 metodop' id='v"+i+"' style='display: none;'><div class='form-group pmd-textfield pmd-textfield-floating-label'><label class='control-label letra18pt-pc' for='regular1'>Valor</label><input class='form-control' type='number' id='valor"+i+"' name='valor' required='><span class='pmd-textfield-focused'></span></div></div><div class='col-lg-8 col-md-8 col-sm-8 col-xs-8 metodop' id='metodo"+i+"' style='display: none;'><div class='form-group pmd-textfield pmd-textfield-floating-label'><label class='control-label letra18pt-pc' for='regular1'>Metodo</label><select class='form-control letra18pt-pc metodo' type='select' name='metodo' id='"+i+"' form='formularioCliente' required=''><option value='S'>Seleccione un opción de pago</option></select><span class='pmd-textfield-focused'></span></div></div>";            
+        }
+        $('#continerMetodos').append(html);
+        $('.metodo').append(option);
+        $('.metodo').on('change', function(){  
+            var id = parseInt(this.id)+1;
+            console.log(id);
+            $("#v"+id+"").css('display', 'block');
+            $("#metodo"+id+"").css('display', 'block');
+        }); 
+    });  
+    // $('#closeModalPrincipal').on('click', function(){    
+    //     $('#continerMetodos').empty(); 
+    // }); 
+    function carga() { 
+    $('.selectPrendas').on('change', function(){    
+        var check = $(".prendasIngresa input"); 
+        var valor = 0;
+        var valor2 = 0;
+        var html = "";
+        var j=0;
+        console.log(check,'le doy');
+        
+        for (let i = 0; i < check.length; i++) {
+            if(check[i].checked){
+                console.log(check[i],'aquies2');
+                valor = valor + parseInt(check[i].value);
+            }            
+        }
+        for (let i = 0; i < Object.keys(jsonPrendasglobal).length; i++) {
+            valor2 =  valor2 + parseInt(jsonPrendasglobal[i].valor);    
+        }
+        console.log( jsonPrendasglobal,'global');  
+
+        $("#ValorTotal").text(formatoPrecio(valor2-valor));
+        $('#ValorTotal').attr('name',valor2-valor);
+    }); 
+};
+
+    $('#cargarPrenda2').on('click', function(){  
+        $('.remuve').remove();   
+        $('#ventana-modal').modal("show");    
+        $('#modalAgregarPrendas').modal("hide");
+        var check = $("#modalAgregarPrendas input"); 
+        var valor = 0;
+        var html = "";
+        var j=0;
+        
+        for (let i = 0; i < check.length; i++) {
+            if(check[i].checked){
+                console.log(check[i],'aquies');
+                valor = valor + parseInt(check[i].value);
+                var codigoDescr = check[i].name.split("/");
+                var jsonPrenda = new Object();
+                jsonPrenda.codigo = codigoDescr[0];
+                jsonPrenda.descripcion = codigoDescr[1];
+                jsonPrenda.valor = check[i].value;
+                console.log(formatoPrecio(jsonPrenda.valor));
+                jsonPrendasglobal[j] = jsonPrenda;
+                j++;
+                html=html+'<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 remuve">'+
+							    '<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">'+
+									'<div class="letra18pt-pc letra" for="flexCheckDefault">'+
+                                        jsonPrenda.descripcion+ 
+									'</div>'+
+								'</div>'+
+								'<div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">'+
+									'<div class="letra18pt-pc letra" for="flexCheckDefault">'+
+                                        formatoPrecio(jsonPrenda.valor)+ 
+									'</div>'+
+								'</div>'+
+							'</div>';
+            }            
+        }
+        $('#listaPrendasCargadas').append(html);
+        console.log(jsonPrendasglobal);
+    });
+
+    // $('.removeprendavender').remove();
+    //     var check = $("#popup4 input"); 
+    //     var valor = 0;
+    //     var html = "";
+    //     var jsonPrendas = new Object();
+    //     var j=0;
+    //     for (let i = 0; i < check.length; i++) {
+    //         if(check[i].checked){
+    //             valor = valor + parseInt(check[i].value);
+    //             var codigoDescr = check[i].name.split("/");
+    //             var jsonPrenda = new Object();
+    //             jsonPrenda.codigo = codigoDescr[0];
+    //             jsonPrenda.descripcion = codigoDescr[1];
+    //             jsonPrenda.valor = check[i].value;
+    //             jsonPrendas[j] = jsonPrenda;
+    //             j++;
+    //             html=html+"<div class='col-lg-3 col-md-3 col-sm-3 col-xs-3  removeprendavender' id='"+check[i].id+"'><p class='letra3pt-mv letra16pt-pc'>"+codigoDescr[0]+" "+codigoDescr[1]+" "+check[i].value+"</p></div>";
+    //         }            
+    //     }
+
+    $('#cargarPrenda').on('click', function(){ 
+        $('#listaPrendasCargadas').empty();
+        $('#modalAgregarPrendas').modal("show");
+        $('.prendasCargadas').attr('checked',false);
+        var prendasjson = imprimirprendasparavenderdetal();  
+        var prendasunitario =""
+        for (let j = 0; j < Object.keys(prendasjson).length; j++) {
+            prendasunitario = prendasunitario + '<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12"style="margin-left: -14px; margin-top: 10px;">'+
+			                            '<div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">'+
+											"<input class='form-check-input prendasCargadas' type='checkbox' value='"+prendasjson[j].valor+"' name='"+prendasjson[j].codigo+"/"+prendasjson[j].descripcion+"' id='flexCheckDefault'>"+
+										'</div>'+
+										'<div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">'+
+											'<div class="letra18pt-pc letra" for="flexCheckDefault">'+
+												prendasjson[j].codigo+
+											'</div>'+
+										'</div>'+
+										'<div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">'+
+											'<div class="letra18pt-pc letra" for="flexCheckDefault">'+
+                                                prendasjson[j].descripcion+
+											'</div>'+
+										'</div>'+
+										'<div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">'+
+											'<div class="letra18pt-pc letra" for="flexCheckDefault">'+
+                                            formatoPrecio(prendasjson[j].valor)+
+											'</div>'+
+										'</div>'+
+									'</div>';
+                }   
+        $('#prendasAgregar').after(prendasunitario);
+        
+    }); 
+    $('#cierreSegundoModal').on('click', function(){
+        $('#ventana-modal').modal("show");      
+    }); 
+
+   
+    
+    
     /*************************** Enviar para venta (CELULAR) *******************************/
     $('#empezarEscaner').on('click', function() {
         $('#escaneados').css('display', 'block');
@@ -859,27 +1273,26 @@ function seleccionClienteApartado(id) {
     }
     function imprimirResumen2(jsonResumen){
         var jsonMetodosPago = JSON.parse(jsonResumen[jsonResumen.length-1].metodos_pago);
-        var html = "<div class='col-lg-12 col-md-12 col-sm-12 col-xs-12 ventasplazaResumen' id='primeraventa'><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'><p class='letra18pt-pc negrillaUno'>"
-        +jsonResumen[jsonResumen.length-1].fecha+"</p></div><div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'><p class='letra18pt-pc negrillaUno'>"
-        +formatoPrecio(jsonResumen[jsonResumen.length-1].valor_mercancia)+"</p></div><div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'><p class='letra18pt-pc negrillaUno'>"
-        +formatoPrecio(jsonMetodosPago.Efectivo)+"</p></div><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'><p class='letra18pt-pc negrillaUno'>"
-        +formatoPrecio(jsonMetodosPago.Datafono)+"</p></div><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'> <p class='letra18pt-pc negrillaUno'>"
-        +formatoPrecio(jsonMetodosPago.Nequi)+"</p></div><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'><p class='letra18pt-pc negrillaUno'>"
-        +formatoPrecio(jsonMetodosPago.Daviplata)+"</p></div><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'><p class='letra18pt-pc negrillaUno'>"
-        +formatoPrecio(jsonMetodosPago.PayU)+"</p></div><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'><p class='letra18pt-pc negrillaUno'>"
-        +formatoPrecio(jsonMetodosPago.Bancolombia)+"</p></div><div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'><button class='botonmodal botonenmodal letra18pt-pc verDia' type='button' name='"+jsonResumen[jsonResumen.length-1].fecha+"'> Ver Día </button></div>";
+        var html = "<div class='col-lg-12 col-md-12 col-sm-12 col-xs-12 ventasplazaResumen' id='primeraventa'><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1 containerTabla'><p class='letra18pt-pc negrillaUno verDia' name='"+jsonResumen[i].fecha+"' >"
+        +jsonResumen[jsonResumen.length-1].fecha+"</p></div><div class='col-lg-2 col-md-2 col-sm-2 col-xs-2 containerTabla'><p class='letra18pt-pc negrillaUno'>"
+        +formatoPrecio(jsonResumen[jsonResumen.length-1].valor_mercancia)+"</p></div><div class='col-lg-2 col-md-2 col-sm-2 col-xs-2 containerTabla'><p class='letra18pt-pc negrillaUno'>"
+        +formatoPrecio(jsonMetodosPago.Efectivo)+"</p></div><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1 containerTabla'><p class='letra18pt-pc negrillaUno'>"
+        +formatoPrecio(jsonMetodosPago.Datafono)+"</p></div><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1 containerTabla'> <p class='letra18pt-pc negrillaUno'>"
+        +formatoPrecio(jsonMetodosPago.Nequi)+"</p></div><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1 containerTabla'><p class='letra18pt-pc negrillaUno'>"
+        +formatoPrecio(jsonMetodosPago.Daviplata)+"</p></div><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1 containerTabla'><p class='letra18pt-pc negrillaUno'>"
+        +formatoPrecio(jsonMetodosPago.PayU)+"</p></div><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1 containerTabla'><p class='letra18pt-pc negrillaUno'>"
+        +formatoPrecio(jsonMetodosPago.Bancolombia)+"</p></div></div>";
         for (let i = (jsonResumen.length-2); i >=0; i--) {
             var jsonMetodosPago2 = JSON.parse(jsonResumen[i].metodos_pago);
-            html = html + "<div class='col-lg-12 col-md-12 col-sm-12 col-xs-12 ventasplazaResumen'><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'><p class='letra18pt-pc negrillaUno'>"
-            +jsonResumen[i].fecha+"</p></div><div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'><p class='letra18pt-pc negrillaUno'>"
-            +formatoPrecio(jsonResumen[i].valor_mercancia)+"</p></div><div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'><p class='letra18pt-pc negrillaUno'>"
-            +formatoPrecio(jsonMetodosPago2.Efectivo)+"</p></div><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'><p class='letra18pt-pc negrillaUno'>"
-            +formatoPrecio(jsonMetodosPago2.Datafono)+"</p></div><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'> <p class='letra18pt-pc negrillaUno'>"
-            +formatoPrecio(jsonMetodosPago2.Nequi)+"</p></div><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'><p class='letra18pt-pc negrillaUno'>"
-            +formatoPrecio(jsonMetodosPago2.Daviplata)+"</p></div><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'><p class='letra18pt-pc negrillaUno'>"
-            +formatoPrecio(jsonMetodosPago2.PayU)+"</p></div><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'><p class='letra18pt-pc negrillaUno'>"
-            +formatoPrecio(jsonMetodosPago2.Bancolombia)+"</p></div><div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'><button class='botonmodal botonenmodal letra18pt-pc verDia' type='button' name='"
-            +jsonResumen[i].fecha+"'> Ver Día </button></div></div>";
+            html = html + "<div class='col-lg-12 col-md-12 col-sm-12 col-xs-12 ventasplazaResumen'><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1 containerTabla'><p class='letra18pt-pc negrillaUno verDia' name='"+jsonResumen[i].fecha+"' >"
+            +jsonResumen[i].fecha+"</p></div><div class='col-lg-2 col-md-2 col-sm-2 col-xs-2 containerTabla'><p class='letra18pt-pc negrillaUno'>"
+            +formatoPrecio(jsonResumen[i].valor_mercancia)+"</p></div><div class='col-lg-2 col-md-2 col-sm-2 col-xs-2 containerTabla'><p class='letra18pt-pc negrillaUno'>"
+            +formatoPrecio(jsonMetodosPago2.Efectivo)+"</p></div><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1 containerTabla'><p class='letra18pt-pc negrillaUno'>"
+            +formatoPrecio(jsonMetodosPago2.Datafono)+"</p></div><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1 containerTabla'> <p class='letra18pt-pc negrillaUno'>"
+            +formatoPrecio(jsonMetodosPago2.Nequi)+"</p></div><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1 containerTabla'><p class='letra18pt-pc negrillaUno'>"
+            +formatoPrecio(jsonMetodosPago2.Daviplata)+"</p></div><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1 containerTabla'><p class='letra18pt-pc negrillaUno'>"
+            +formatoPrecio(jsonMetodosPago2.PayU)+"</p></div><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1 containerTabla'><p class='letra18pt-pc negrillaUno'>"
+            +formatoPrecio(jsonMetodosPago2.Bancolombia)+"</p></div></div>";
         }
         return html;
     }
@@ -948,17 +1361,21 @@ function seleccionClienteApartado(id) {
 <!-- Propeller Bootstrap datetimepicker -->
 <script type="text/javascript" language="javascript" src="<?php echo get_template_directory_uri(); ?>/js/bootstrap-datetimepicker.js"></script>
 
+<!-- Option 1: Bootstrap Bundle with Popper -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+
+
 <script>
-	// Default date and time picker
+    // Default date and time picker
 	$('#datetimepicker-default').datetimepicker({
-		format: 'L'
+        format: 'L'
 	});
 	$('#datetimepicker-defaultFiltro').datetimepicker({
-		format: 'L'
+        format: 'L'
 	});
 	$('#datetimepicker-update').datetimepicker({
-		format: 'L'
+        format: 'L'
 	});
-</script>
+    </script>
 </body>
 </html>

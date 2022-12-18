@@ -5,6 +5,7 @@
 #buscadorContainer{
     padding-top:2%;
 }
+
 .fijo{
     position: fixed;
     z-index: 10;
