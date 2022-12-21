@@ -26,14 +26,39 @@ $(window).load(function(){
        }if(items[i]==2){
            //html =html+ " <a href='https://concurvas.com/team/clientes'><div class='accesos' > <img src='<?php echo get_template_directory_uri(); ?>/imagenes/iconos/clientes.png' alt='Avatar'></div></a>";
        }if(items[i]==3){
-           html =html+ "<div class='col-lg-12 col-md-12 col-sm-2 col-xs-2 pc'><div class='iconosprincipales col-lg-6 col-md-6 col-sm-6 col-xs-6'><a id='linkprincipales' href='https://concurvas.com/team/ventas'><div class='accesos' > <img src='<?php echo get_template_directory_uri(); ?>/imagenes/iconos/ventas.png' alt='Avatar'></div></div><div class='col-lg-6 col-md-6 col-sm-6 col-xs-6 iconosprincipales'><p class='letra18pt-pc letra3pt-mv nombresiconos'>Digital</p></a></div></div>";
-           html =html+ "<div class='col-lg-12 col-md-12 col-sm-2 col-xs-2 pc'><div class='iconosprincipales col-lg-6 col-md-6 col-sm-6 col-xs-6'><a id='linkprincipales' href='https://concurvas.com/team/cambios'><div class='accesos' ><img src='<?php echo get_template_directory_uri(); ?>/imagenes/iconos/cambios.png' alt='Avatar'></div></div><div class='col-lg-6 col-md-6 col-sm-6 col-xs-6 iconosprincipales'><p class='letra18pt-pc letra3pt-mv nombresiconos'>Cambios</p></a></div></div>";
+           html =html+ "<div class='col-lg-12 col-md-12 col-sm-2 col-xs-2 pc'>"+
+                    "<div class='iconosprincipales col-lg-6 col-md-6 col-sm-6 col-xs-6'>"+
+                        "<a id='linkprincipales' href='https://concurvas.com/team/ventas'>"+
+                            "<div class='col-lg-6 col-md-6 col-sm-6 col-xs-6 iconosprincipales'>"+
+                                "<p class='letra18pt-pc letra3pt-mv nombresiconos'>Digital</p>"+
+                        "</a></div></div>";
+           html =html+ "<div class='col-lg-12 col-md-12 col-sm-2 col-xs-2 pc'>"+
+                    "<div class='iconosprincipales col-lg-6 col-md-6 col-sm-6 col-xs-6'>"+
+                        "<a id='linkprincipales' href='https://concurvas.com/team/cambios'>"+
+                            "<div class='col-lg-6 col-md-6 col-sm-6 col-xs-6 iconosprincipales'>"+
+                                "<p class='letra18pt-pc letra3pt-mv nombresiconos'>Cambios</p>"+
+                        "</a></div></div>";
        }if(items[i]==4){
-           html =html+ "<div class='col-lg-12 col-md-12 col-sm-2 col-xs-2'><div class='iconosprincipales col-lg-6 col-md-6 col-sm-6 col-xs-6'><a id='linkprincipales' href='https://concurvas.com/team/inventario'><div class='accesos' > <img src='<?php echo get_template_directory_uri(); ?>/imagenes/iconos/inventario.png'></div></div><div class='col-lg-6 col-md-6 col-sm-6 col-xs-6 iconosprincipales'><p class='letra18pt-pc letra3pt-mv nombresiconos'>Inventario</p></a></div></div>";
+           html =html+ "<div class='col-lg-12 col-md-12 col-sm-2 col-xs-2'>"+
+                    "<div class='iconosprincipales col-lg-6 col-md-6 col-sm-6 col-xs-6'>"+
+                        "<a id='linkprincipales' href='https://concurvas.com/team/inventario'>"+
+                            "<div class='col-lg-6 col-md-6 col-sm-6 col-xs-6 iconosprincipales'>"+
+                                "<p class='letra18pt-pc letra3pt-mv nombresiconos'>Inventario</p>"+
+                        "</a></div></div>";
        }if(items[i]==37){
-           html =html+ "<div class='col-lg-12 col-md-12 col-sm-2 col-xs-2'><div class='iconosprincipales col-lg-6 col-md-6 col-sm-6 col-xs-6'><a id='linkprincipales' href='https://concurvas.com/team/ventas-plaza'><div class='accesos' > <img src='<?php echo get_template_directory_uri(); ?>/imagenes/iconos/ventas.png'></div></div><div class='col-lg-6 col-md-6 col-sm-6 col-xs-6 iconosprincipales'><p class='letra18pt-pc letra3pt-mv nombresiconos'>Plaza</p></a></div></div>";
+           html =html+ "<div class='col-lg-12 col-md-12 col-sm-2 col-xs-2'>"+
+                    "<div class='iconosprincipales col-lg-6 col-md-6 col-sm-6 col-xs-6'>"+
+                        "<a id='linkprincipales' href='https://concurvas.com/team/ventas-plaza'>"+
+                            "<div class='col-lg-6 col-md-6 col-sm-6 col-xs-6 iconosprincipales'>"+
+                                "<p class='letra18pt-pc letra3pt-mv nombresiconos'>Plaza</p>"+
+                        "</a></div></div>";
        }if(items[i]==38){
-           html =html+ "<div class='col-lg-12 col-md-12 col-sm-2 col-xs-2'><div class='iconosprincipales col-lg-6 col-md-6 col-sm-6 col-xs-6'><a id='linkprincipales' href='https://concurvas.com/team/ventas-mayorista'><div class='accesos' > <img src='<?php echo get_template_directory_uri(); ?>/imagenes/iconos/ventas.png'></div></div><div class='col-lg-6 col-md-6 col-sm-6 col-xs-6 iconosprincipales'><p class='letra18pt-pc letra3pt-mv nombresiconos'>Mayorista</p></a></div></div>";
+           html =html+ "<div class='col-lg-12 col-md-12 col-sm-2 col-xs-2'>"+
+                    "<div class='iconosprincipales col-lg-6 col-md-6 col-sm-6 col-xs-6'>"+
+                        "<a id='linkprincipales' href='https://concurvas.com/team/ventas-mayorista'>"+
+                            "<div class='col-lg-6 col-md-6 col-sm-6 col-xs-6 iconosprincipales'>"+
+                                "<p class='letra18pt-pc letra3pt-mv nombresiconos'>Mayorista</p>"+
+                        "</a></div></div>";
        }
    }
     var usuario = $('#usuario');
