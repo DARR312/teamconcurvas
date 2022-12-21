@@ -98,7 +98,7 @@ top: 5px;
 .agregarprendapedido{
     width: 75% !important;
 }
-#primerinforme{
+.primerinforme,#primerinforme{
     margin-top: 230px;
 }
 .verInforme{

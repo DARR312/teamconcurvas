@@ -4,95 +4,109 @@ function cajadigital() {
         var cajasemanal = cajadigita(this.name);
         var jsoncajasemanal = JSON.parse(cajasemanal);
         var html = "<div class='col-lg-12 col-md-12 col-sm-12 col-xs-12' id='primeraFila' name='"+this.name+"'>"+
-            "<div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'>"+
-                "<p class='letra18pt-pc negrillaUno'>Cuentas por cobrar</p>"+
-            "</div> "+
-            "<div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'>"+
-                "<p class='letra18pt-pc negrillaUno'>Prendas</p>"+
-            "</div>"+
-            "<div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'>"+
-                "<p class='letra18pt-pc negrillaUno'>Estado</p>"+
-            "</div>"+
-            "<div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'>"+
-                "<p class='letra18pt-pc negrillaUno'></p>"+
-            "</div>	"+
-            "<div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'>"+
-                "<p class='letra18pt-pc negrillaUno'></p>"+
-            "</div>	"+
-            "<div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'>"+
-                "<p class='letra18pt-pc negrillaUno'></p>"+
-            "</div>	"+
-            "<div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'>"+
-                "<p class='letra18pt-pc negrillaUno'></p>"+
-            "</div>	"+
         "</div>	"+
         "<div class='col-lg-12 col-md-12 col-sm-12 col-xs-12 remover"+jsoncajasemanal[0].venta_id+"' id='primerinforme'>"+
-            "<div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'>"+
-                "<p class='letra18pt-pc negrillaUno'>"+jsoncajasemanal[0].venta_id+"</p>"+
-            "</div> "+
-            "<div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'>"+
-                "<p class='letra18pt-pc negrillaUno' id='prenda"+jsoncajasemanal[0].venta_id+"'>"+jsoncajasemanal[0].prendas+"</p>"+
-            "</div>"+
-            "<div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'>"+
-                "<p class='letra18pt-pc negrillaUno' id='estado"+jsoncajasemanal[0].venta_id+"'>"+jsoncajasemanal[0].estado+"</p>"+
-            "</div>"+
-            "<div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'>"+
-                "<div class='form-group pmd-textfield pmd-textfield-floating-label pmd-textfield-floating-label-completed'>"+
-                    "<label class='control-label letra18pt-pc' for='regular1'>Valor</label>"+
-                    "<input class='form-control' type='number' id='valor"+jsoncajasemanal[0].venta_id+"' name='valor' value='"+jsoncajasemanal[0].dinero+"'>"+
-                    "<span class='pmd-textfield-focused'></span>"+
+            "<div class='col-lg-6 col-md-6 col-sm-6 col-xs-6 remover"+jsoncajasemanal[0].venta_id+"'>"+
+                "<div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'>"+
+                    "<p class='letra18pt-pc negrillaDos'>"+jsoncajasemanal[0].venta_id+"</p>"+
+                "</div> "+
+                "<div class='col-lg-10 col-md-10 col-sm-10 col-xs-10'>"+
+                    "<p class='letra18pt-pc negrillaUno' id='estado"+jsoncajasemanal[0].venta_id+"'>"+jsoncajasemanal[0].estado+"</p>"+
                 "</div>"+
-            "</div>	"+
-            "<div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'>"+
-                "<div class='form-group pmd-textfield pmd-textfield-floating-label pmd-textfield-floating-label-completed'>"+
-                    "<label class='control-label letra18pt-pc' for='regular1'>Metodo</label>"+
-                    "<select class='form-control letra18pt-pc metodo' type='select' name='metodo' id='metodo"+jsoncajasemanal[0].venta_id+"' form='formularioCliente' required=''>"+
-                        "<option value='S'>Seleccione un opción de pago</option>"+
-                    "</select><span class='pmd-textfield-focused'>"+
-                    "<span class='pmd-textfield-focused'></span></span>"+
+                "<div class='col-lg-12 col-md-12 col-sm-12 col-xs-12'>"+
+                    "<p class='letra18pt-pc negrillaUno' id='prenda"+jsoncajasemanal[0].venta_id+"'>Prendas venta: "+jsoncajasemanal[0].prendas+"</p>"+
                 "</div>"+
+                "<div class='col-lg-12 col-md-12 col-sm-12 col-xs-12'>"+
+                    "<p class='letra18pt-pc negrillaUno' id='prenda"+jsoncajasemanal[0].venta_id+"'>Prendas cambio: 0</p>"+
+                "</div>"+            
+                "<div class='col-lg-12 col-md-12 col-sm-12 col-xs-12'>"+
+                    "<div class='form-group pmd-textfield pmd-textfield-floating-label pmd-textfield-floating-label-completed'>"+
+                        "<label class='control-label letra18pt-pc' for='regular1'>Valor</label>"+
+                        "<input class='form-control' type='number' id='valor"+jsoncajasemanal[0].venta_id+"' name='valor' value='"+jsoncajasemanal[0].dinero+"'>"+
+                        "<span class='pmd-textfield-focused'></span>"+
+                    "</div>"+
+                "</div>	"+
+                "<div class='col-lg-12 col-md-12 col-sm-12 col-xs-12'>"+
+                    "<div class='form-group pmd-textfield pmd-textfield-floating-label pmd-textfield-floating-label-completed'>"+
+                        "<label class='control-label letra18pt-pc' for='regular1'>Metodo</label>"+
+                        "<select class='form-control letra18pt-pc metodo' type='select' name='metodo' id='metodo"+jsoncajasemanal[0].venta_id+"' form='formularioCliente' required=''>"+
+                            "<option value='S'>Seleccione un opción de pago</option>"+
+                        "</select><span class='pmd-textfield-focused'>"+
+                        "<span class='pmd-textfield-focused'></span></span>"+
+                    "</div>"+
+                "</div>	"+
+                "<div class='col-lg-6 col-md-6 col-sm-6 col-xs-6'>"+
+                    "<button class='botonmodal botonenmodal letra18pt-pc cancelarorden' type='button' name='"+jsoncajasemanal[0].venta_id+"'> Cancelar </button>"+
+                "</div>	"+
+                "<div class='col-lg-6 col-md-6 col-sm-6 col-xs-6'>"+
+                    "<button class='botonmodal botonenmodal letra18pt-pc entregarpedido' type='button' name='"+jsoncajasemanal[0].venta_id+"'> Entregado </button>"+
+                "</div>	"+
             "</div>	"+
-            "<div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'>"+
-                "<button class='botonmodal botonenmodal letra18pt-pc cancelarorden' type='button' name='"+jsoncajasemanal[0].venta_id+"'> Cancelar </button>"+
-            "</div>	"+
-            "<div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'>"+
-                "<button class='botonmodal botonenmodal letra18pt-pc entregarpedido' type='button' name='"+jsoncajasemanal[0].venta_id+"'> Entregado </button>"+
+            "<div class='col-lg-6 col-md-6 col-sm-6 col-xs-6 remover"+jsoncajasemanal[0].venta_id+"'>"+
+                "<div class='col-lg-4 col-md-4 col-sm-4 col-xs-4'>"+
+                    "<div class='form-group pmd-textfield pmd-textfield-floating-label pmd-textfield-floating-label-completed'>"+
+                        "<label class='control-label letra18pt-pc' for='regular1'>Metodo</label>"+
+                        "<select class='form-control letra18pt-pc metodo' type='select' name='metodo' id='1tipoegreso"+jsoncajasemanal[0].venta_id+"' form='formularioCliente' required=''>"+
+                            "<option value='S'>Seleccione un opción de pago</option>"+
+                        "</select><span class='pmd-textfield-focused'>"+
+                        "<span class='pmd-textfield-focused'></span></span>"+
+                    "</div>"+
+                "</div>	"+          
+                "<div class='col-lg-4 col-md-4 col-sm-4 col-xs-4'>"+
+                    "<div class='form-group pmd-textfield pmd-textfield-floating-label pmd-textfield-floating-label-completed'>"+
+                        "<label class='control-label letra18pt-pc' for='regular1'>Valor</label>"+
+                        "<input class='form-control' type='number' id='1valor"+jsoncajasemanal[0].venta_id+"' name='valor' value='"+jsoncajasemanal[0].dinero+"'>"+
+                        "<span class='pmd-textfield-focused'></span>"+
+                    "</div>"+
+                "</div>	"+            
+                "<div class='col-lg-4 col-md-4 col-sm-4 col-xs-4'>"+
+                    "<div class='form-group pmd-textfield pmd-textfield-floating-label pmd-textfield-floating-label-completed'>"+
+                        "<label class='control-label letra18pt-pc' for='regular1'>Metodo</label>"+
+                        "<select class='form-control letra18pt-pc metodo' type='select' name='metodo' id='1metodo"+jsoncajasemanal[0].venta_id+"' form='formularioCliente' required=''>"+
+                            "<option value='S'>Seleccione un opción de pago</option>"+
+                        "</select><span class='pmd-textfield-focused'>"+
+                        "<span class='pmd-textfield-focused'></span></span>"+
+                    "</div>"+
+                "</div>	"+
             "</div>	"+
         "</div>	";
-        for (let i = 1; i < jsoncajasemanal.length; i++) {
-            html = html + "<div class='col-lg-12 col-md-12 col-sm-12 col-xs-12 remover"+jsoncajasemanal[i].venta_id+"'>"+
-            "<div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'>"+
-                "<p class='letra18pt-pc negrillaUno'>"+jsoncajasemanal[i].venta_id+"</p>"+
+        for (let j = 1; j < jsoncajasemanal.length; j++) {
+            html = html + "<div class='col-lg-6 col-md-6 col-sm-6 col-xs-6 remover"+jsoncajasemanal[i].venta_id+"'>"+
+            "<div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'>"+
+                "<p class='letra18pt-pc negrillaUno'>"+jsoncajasemanal[j].venta_id+"</p>"+
             "</div> "+
-            "<div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'>"+
-                "<p class='letra18pt-pc negrillaUno' id='prendas"+jsoncajasemanal[i].venta_id+"'>"+jsoncajasemanal[i].prendas+"</p>"+
+            "<div class='col-lg-10 col-md-10 col-sm-10 col-xs-10'>"+
+                "<p class='letra18pt-pc negrillaDos' id='estado"+jsoncajasemanal[j].venta_id+"'>"+jsoncajasemanal[j].estado+"</p>"+
             "</div>"+
-            "<div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'>"+
-                "<p class='letra18pt-pc negrillaUno' id='estado"+jsoncajasemanal[i].venta_id+"'>"+jsoncajasemanal[i].estado+"</p>"+
+            "<div class='col-lg-12 col-md-12 col-sm-12 col-xs-12'>"+
+                "<p class='letra18pt-pc negrillaUno' id='prenda"+jsoncajasemanal[j].venta_id+"'>Prendas venta: "+jsoncajasemanal[j].prendas+"</p>"+
             "</div>"+
-            "<div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'>"+
+            "<div class='col-lg-12 col-md-12 col-sm-12 col-xs-12'>"+
+                "<p class='letra18pt-pc negrillaUno' id='prenda"+jsoncajasemanal[j].venta_id+"'>Prendas cambio: 0</p>"+
+            "</div>"+            
+            "<div class='col-lg-12 col-md-12 col-sm-12 col-xs-12'>"+
                 "<div class='form-group pmd-textfield pmd-textfield-floating-label pmd-textfield-floating-label-completed'>"+
                     "<label class='control-label letra18pt-pc' for='regular1'>Valor</label>"+
-                    "<input class='form-control' type='number' id='valor"+jsoncajasemanal[i].venta_id+"' name='valor' value='"+jsoncajasemanal[i].dinero+"'>"+
+                    "<input class='form-control' type='number' id='valor"+jsoncajasemanal[j].venta_id+"' name='valor' value='"+jsoncajasemanal[j].dinero+"'>"+
                     "<span class='pmd-textfield-focused'></span>"+
                 "</div>"+
             "</div>	"+
-            "<div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'>"+
+            "<div class='col-lg-12 col-md-12 col-sm-12 col-xs-12'>"+
                 "<div class='form-group pmd-textfield pmd-textfield-floating-label pmd-textfield-floating-label-completed'>"+
                     "<label class='control-label letra18pt-pc' for='regular1'>Metodo</label>"+
-                    "<select class='form-control letra18pt-pc metodo' type='select' name='metodo' id='metodo"+jsoncajasemanal[i].venta_id+"' form='formularioCliente' required=''>"+
+                    "<select class='form-control letra18pt-pc metodo' type='select' name='metodo' id='metodo"+jsoncajasemanal[j].venta_id+"' form='formularioCliente' required=''>"+
                         "<option value='S'>Seleccione un opción de pago</option>"+
                     "</select><span class='pmd-textfield-focused'>"+
                     "<span class='pmd-textfield-focused'></span></span>"+
                 "</div>"+
             "</div>	"+
-            "<div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'>"+
-                "<button class='botonmodal botonenmodal letra18pt-pc cancelarorden' type='button' name='"+jsoncajasemanal[i].venta_id+"'> Cancelar </button>"+
+            "<div class='col-lg-6 col-md-6 col-sm-6 col-xs-6'>"+
+                "<button class='botonmodal botonenmodal letra18pt-pc cancelarorden' type='button' name='"+jsoncajasemanal[j].venta_id+"'> Cancelar </button>"+
             "</div>	"+
-            "<div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'>"+
-                "<button class='botonmodal botonenmodal letra18pt-pc entregarpedido' type='button' name='"+jsoncajasemanal[i].venta_id+"'> Entregado </button>"+
+            "<div class='col-lg-6 col-md-6 col-sm-6 col-xs-6'>"+
+                "<button class='botonmodal botonenmodal letra18pt-pc entregarpedido' type='button' name='"+jsoncajasemanal[j].venta_id+"'> Entregado </button>"+
             "</div>	"+
-            "</div>";        
+        "</div>	";     
         }
         $("#bloquePrincipal").append(html);
         var ids = obtenerDatajson('ID,descripcion','con_t_metodospago','variasfilasunicas','0','0');
