@@ -573,7 +573,7 @@
 									<div class="control-label letra18pt-pc letra col-lg-6 col-md-6 col-sm-6 col-xs-6 TituloDatosCliente ">DIFERENCIA</div>
 									<div id="ValorTotal" class="control-label letra18pt-pc letra col-lg-6 col-md-6 col-sm-6 col-xs-6 TituloDatosCliente" name='' >0</div>
 									<div class='col-lg-10 col-md-10 col-sm-10 col-xs-10' >
-										<button style="margin-top: 5px;" class='botonmodal' type='button' id='Guardar'> Guardar </button>
+										<button style="margin-top: 5px;" class='botonmodal' type='button' id='Guardar' > Guardar </button>
 									</div>
 								</div>
 								<div class='col-lg-8 col-md-8 col-sm-8 col-xs-8' id='continerMetodos'>
