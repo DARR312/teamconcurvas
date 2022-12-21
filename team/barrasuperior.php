@@ -3,10 +3,10 @@
         <figure class="logo_pc"><img src="https://concurvas.com/wp-content/themes/mainteam_Concurvas/imagenes/iconos/LOGO.png" alt="Logo Concurvas"></figure>
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="bscdor">
                 <div class="form-group pmd-textfield pmd-textfield-floating-label">
-                    <!-- <div id='BuscarVentasPlaza' class='col-lg-2 col-md-2 col-sm-2 col-xs-12' id='buscadorContainer'>
+                    <div id='BuscarVentasPlaza' class='col-lg-2 col-md-2 col-sm-2 col-xs-12' id='buscadorContainer'>
             			<label for="nombre" class="control-label letra18pt-pc">Buscar <?php wp_title(''); ?></label>
             			<input class="form-control" type="text" id="bscar" name="bscar" required=""><span class="pmd-textfield-focused"></span>
-    			    </div> -->
+    			    </div>
     			</div>
                 
                 <?php if(get_the_title() == "Ventas plaza"){ ?> 
