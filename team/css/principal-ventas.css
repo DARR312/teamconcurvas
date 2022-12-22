@@ -1,10 +1,6 @@
 #agregarVenta, #realizarCambio, #imprimirEmpaques, #subirGuias, #agregarApartado, #verApartados{
     width:100% !important;
 }
-#bloquePrincipal{
-    width:83%;
-    margin-left:16%;
-}
 #popup, #popup2, #popup3, #popup4, #popup5, #popup6, #popup7, #popup8, #popup9, #popup10, #pop{     
 left: 0;     
 position: absolute;     
@@ -81,14 +77,6 @@ top: 5px;
 #agregarCliente,#agregarClienteapartado{
     margin-top: 10% !important;
 }
-#primeraFila{
-    position: fixed;
-    z-index: 9;
-    background-color: #f8f9fa;
-    width: 83%;
-    padding-top:25px;
-}
-
 .cliente_ok1{display:none;}
 .dinerook1{color:#1a7a1c;}
 .pedidoUpdate, .fechaUpdate, .notasUpdate, .usuarioUpdate, .agregarabono{

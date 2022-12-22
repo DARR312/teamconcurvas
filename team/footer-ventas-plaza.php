@@ -16,10 +16,10 @@
     var segundo = $('#segundo');
     for(var k = (items.length-1); k>0;k--){
         if(items[k]==5){
-            segundo.append("<div class='col-lg-2 col-md-2 col-sm-2 col-xs-12' id='accion'><button class='botonmodal' type='button' id='agregarVenta'> Agregar venta </button></div>");
-            segundo.append("<div class='col-lg-2 col-md-2 col-sm-2 col-xs-12' id='accion'><button class='botonmodal' type='button' id='agregarApartado'> Agregar apartado </button></div>");
-            segundo.append("<div class='col-lg-2 col-md-2 col-sm-2 col-xs-12' id='accion'><button class='botonmodal' type='button' id='verApartados'> Ver apartados </button></div>");
-            segundo.append("<div class='col-lg-2 col-md-2 col-sm-2 col-xs-12' id='accion'><button class='botonmodal' type='button' id='realizarCambio'> Cambios </button></div>");
+            segundo.append("<div class='col-lg-2 col-md-2 col-sm-2 col-xs-12' id='accion'><button class='botonmodal botonesbarrasuperior' type='button' id='agregarVenta'> Agregar venta </button></div>");
+            segundo.append("<div class='col-lg-2 col-md-2 col-sm-2 col-xs-12' id='accion'><button class='botonmodal botonesbarrasuperior' type='button' id='agregarApartado'> Agregar apartado </button></div>");
+            segundo.append("<div class='col-lg-2 col-md-2 col-sm-2 col-xs-12' id='accion'><button class='botonmodal botonesbarrasuperior' type='button' id='verApartados'> Ver apartados </button></div>");
+            segundo.append("<div class='col-lg-2 col-md-2 col-sm-2 col-xs-12' id='accion'><button class='botonmodal botonesbarrasuperior' type='button' id='realizarCambio'> Cambios </button></div>");
             botonrevisar = "botonrevisar";
         }
         if(items[k]==6){

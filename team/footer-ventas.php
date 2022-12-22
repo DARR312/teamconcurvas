@@ -12,7 +12,7 @@
     var segundo = $('#segundo');
     for(var k = (items.length-1); k>0;k--){
         if(items[k]==5){
-            segundo.append("<div class='col-lg-2 col-md-2 col-sm-2 col-xs-12' id='accion'><button class='botonmodal' type='button' id='agregarVenta'>+ Agregar venta </button></div>");
+            segundo.append("<div class='col-lg-2 col-md-2 col-sm-2 col-xs-12' id='accion'><button class='botonmodal botonesbarrasuperior' type='button' id='agregarVenta'>+ Agregar venta </button></div>");
             botonrevisar = "botonrevisar";
         }
         if(items[k]==6){
@@ -24,7 +24,7 @@
             usuarioUpdate = "usuarioUpdate"; 
         }
         if(items[k]==26){
-            segundo.append("<div class='col-lg-2 col-md-2 col-sm-2 col-xs-12' id='cajadigital'><a href='https://concurvas.com/team/caja-digital'> <button class='botonmodal' type='button' id='subirGuias'>Cierre de caja</button></a></div>");
+            segundo.append("<div class='col-lg-2 col-md-2 col-sm-2 col-xs-12' id='cajadigital'><a href='https://concurvas.com/team/caja-digital'> <button class='botonmodal botonesbarrasuperior' type='button' id='subirGuias'>Cierre de caja</button></a></div>");
         }
         if(items[k]==9){
            verPedidos = 1;
@@ -39,7 +39,7 @@
         var levelSi = levelCheck[i].split("°");
         if(level == levelSi[1]){
             var segundo = $('#segundo');
-            segundo.append("<div class='col-lg-2 col-md-2 col-sm-2 col-xs-12' id='accionEmpaques'><button class='botonmodal' type='button' id='imprimirEmpaques'>Imprimir</button></div>");
+            segundo.append("<div class='col-lg-2 col-md-2 col-sm-2 col-xs-12' id='accionEmpaques'><button class='botonmodal botonesbarrasuperior' type='button' id='imprimirEmpaques'>Imprimir</button></div>");
             botonrevisar = "botonrevisar";
             i= levelCheck.length-1;
         }

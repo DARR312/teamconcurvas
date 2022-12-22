@@ -2,36 +2,36 @@
     <div class="container-fluid fijo" >
         <figure class="logo_pc"><img src="https://concurvas.com/wp-content/themes/mainteam_Concurvas/imagenes/iconos/LOGO.png" alt="Logo Concurvas"></figure>
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="bscdor">
-                <div class="form-group pmd-textfield pmd-textfield-floating-label">
-                    <div id='BuscarVentasPlaza' class='col-lg-2 col-md-2 col-sm-2 col-xs-12' id='buscadorContainer'>
+                <div class="form-group pmd-textfield pmd-textfield-floating-label col-lg-3 col-md-3 col-sm-3 col-xs-12">
+                    <div id='BuscarVentasPlaza' id='buscadorContainer'>
             			<label for="nombre" class="control-label letra18pt-pc">Buscar <?php wp_title(''); ?></label>
             			<input class="form-control" type="text" id="bscar" name="bscar" required=""><span class="pmd-textfield-focused"></span>
     			    </div>
     			</div>
                 
                 <?php if(get_the_title() == "Ventas plaza"){ ?> 
-                    <div class="form-group pmd-textfield pmd-textfield-floating-label">
-                    <div  class='col-lg-2 col-md-2 col-sm-2 col-xs-12' id='buscadorContainer'>
+                    <div class="form-group pmd-textfield pmd-textfield-floating-label col-lg-2 col-md-2 col-sm-2 col-xs-12">
+                    <div id='buscadorContainer'>
             			<label for="nombre" class="control-label letra18pt-pc">Buscar por Etiqueta</label>
             			<input class="form-control" type="text" id='BuscarEtiqueta' name="BuscarEtiqueta" required=""><span class="pmd-textfield-focused"></span>
     			    </div>
     			</div>
-                <div class="form-group pmd-textfield pmd-textfield-floating-label">
-                    <div  class='col-lg-3 col-md-3 col-sm-3 col-xs-12' id='buscadorContainer'>
+                <div class="form-group pmd-textfield pmd-textfield-floating-label col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                    <div  id='buscadorContainer'>
             			<label for="nombre" class="control-label letra18pt-pc">Buscar por teléfono del cliente</label>
             			<input class="form-control" type="text" id='BuscarTelefono' name="BuscarTelefono" required=""><span class="pmd-textfield-focused"></span>
     			    </div>
     			</div>
                  <?php } ?>
                 <?php if(get_the_title() == "Inventario"){ ?> 
-                <div class="form-group pmd-textfield pmd-textfield-floating-label">
-                    <div class='col-lg-3 col-md-3 col-sm-3 col-xs-3' id='buscadordescripcion'>
+                <div class="form-group pmd-textfield pmd-textfield-floating-label col-lg-3 col-md-3 col-sm-3 col-xs-12">
+                    <div  id='buscadordescripcion'>
             			<label for="nombre" class="control-label letra18pt-pc">Buscar por descripcion</label>
             			<input class="form-control" type="text" id="bscardescripcion" name="bscar" required=""><span class="pmd-textfield-focused"></span>
     			    </div>
     			</div> 
-                <div class="form-group pmd-textfield pmd-textfield-floating-label">
-                    <div class='col-lg-2 col-md-2 col-sm-2 col-xs-12' id='buscadorcual'>
+                <div class="form-group pmd-textfield pmd-textfield-floating-label col-lg-3 col-md-3 col-sm-3 col-xs-12">
+                    <div  id='buscadorcual'>
             			<label for="nombre" class="control-label letra18pt-pc">Buscar por cual</label>
             			<input class="form-control" type="text" id="bscarcual" name="bscar" required=""><span class="pmd-textfield-focused"></span>
     			    </div>
@@ -44,21 +44,21 @@
                          $transport = $transport.",".$user_info[$i]->ID;
                     }
     			 ?>                 
-                <div class="form-group pmd-textfield pmd-textfield-floating-label">
-                    <div class='col-lg-2 col-md-2 col-sm-2 col-xs-12' id='buscadortelefono'>
+                <div class="form-group pmd-textfield pmd-textfield-floating-label col-lg-2 col-md-2 col-sm-2 col-xs-12">
+                    <div id='buscadortelefono'>
             			<label for="nombre" class="control-label letra18pt-pc">Buscar por teléfono</label>
             			<input class="form-control" type="text" id="bscartelefono" name="bscar" required=""><span class="pmd-textfield-focused"></span>
     			    </div>
     			</div>
-    			<div class="form-group pmd-textfield pmd-textfield-floating-label">
-                    <div class='col-lg-2 col-md-2 col-sm-2 col-xs-12'>
+    			<div class="form-group pmd-textfield pmd-textfield-floating-label col-lg-2 col-md-2 col-sm-2 col-xs-12">
+                    <div>
                         <label class="control-label letra18pt-pc" for="estadoFiltro">Estado</label>
             			<select class="form-control letra18pt-pc" type="select" id="estadoFiltro" name="estadoFiltro" form="formularioCliente" required="">
 						</select><span class="pmd-textfield-focused"></span>
                     </div>
     			</div>
-    			<div class="form-group pmd-textfield pmd-textfield-floating-label">
-                    <div class='col-lg-2 col-md-2 col-sm-2 col-xs-12'>
+    			<div class="form-group pmd-textfield pmd-textfield-floating-label col-lg-2 col-md-2 col-sm-2 col-xs-12">
+                    <div>
                         <label class="control-label letra18pt-pc" for="tipoenvio" name="<?php echo $transport ?>" id="lTransport">Tipo de envío</label>
             			<select class="form-control letra18pt-pc" type="select" id="tipoenvio" name="tipoenvio" form="formularioCliente" required="">
             			    <option value=''></option>
@@ -70,7 +70,7 @@
     			<?php } ?>
     		
         </div>
-        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="segundo">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="segundo" style="margin-left: 2%;">
             <?php if(get_the_title() == "Ventas"){ ?>
             <div class='col-lg-3 col-md-3 col-sm-3 col-xs-12' id='filtroFV'>
                <div class="form-group pmd-textfield pmd-textfield-floating-label pmd-textfield-floating-label-completed">
