@@ -2,9 +2,6 @@
     width: 85%;
     margin: 0 0 0 15%;
 }    
-#buscadorContainer{
-    padding-top:2%;
-}
 body{background-color: #fff !important;}
 .fijo{
     position: fixed;
