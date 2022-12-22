@@ -40,7 +40,7 @@ p, h2{
 select {
     outline: none !important;
     border: none !important;
-    border-bottom: 0.05px ridge #767676 !important;
+    border-bottom:solid 1px #e6e6e6 !important;
     font-weight: 600 !important;
     color: #767676 !important;
 }

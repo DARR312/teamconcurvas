@@ -2568,7 +2568,7 @@ output {
           transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
 }
 .form-control:focus {
-  border-color: #66afe9;
+  border-color: rgb(181, 12, 76);
   outline: 0;
 }
 .form-control::-moz-placeholder {
