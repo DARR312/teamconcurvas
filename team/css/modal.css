@@ -69,3 +69,8 @@
   #Guardar{
     width: 93% !important;
   }
+
+  .verDia{
+    color: rgb(193, 46, 114) !important;
+    cursor: pointer!important;
+  }

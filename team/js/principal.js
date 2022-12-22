@@ -1215,6 +1215,7 @@ function imprimirprendasparavenderdetal(valor) {
 	primeraPrendas.after(html);
 	var primeraPrendas = $('#primeraPrendasapartados');
 	primeraPrendas.after(html);
+	return pventamayorista;
 };
 
 function nuevaventatiendas(cliente_id,clienteString,codigos_prendas,notas,origen,valor_total,metodospagoString,vendedor_id) {
