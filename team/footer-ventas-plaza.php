@@ -54,7 +54,7 @@
         $('.primeraFilaDia').css('display', 'block');
         var id = $(this).attr("name");
         var horaMenor = " 00:00:00";
-        var horaMayor = " 23:00:00";
+        var horaMayor = " 23:59:00";
         var fecha = "'"+id+horaMenor+"' AND '"+id+horaMayor+"'";
         console.log('inicio');
         var resumenDia = obtenerDatajson('ID,cliente_id,datos_cliente,codigos_prendas,notas,metodos_pago,valor_total','con_t_ventasplaza','Between','fecha_creada',fecha);
@@ -1105,7 +1105,8 @@
         $('#listaPrendasCargadas').empty();
         $('#modalAgregarPrendas').modal("show");
         $('.prendasCargadas').attr('checked',false);
-        var prendasjson = imprimirprendasparavenderdetal();  
+        var prendasjson = imprimirprendasparavenderdetal(); 
+        console.log(prendasjson); 
         var prendasunitario =""
         for (let j = 0; j < Object.keys(prendasjson).length; j++) {
             prendasunitario = prendasunitario + '<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 prendasplaza"style="margin-left: -14px; margin-top: 10px;">'+
@@ -1352,7 +1353,7 @@ function seleccionClienteApartado(id) {
     }
     function imprimirResumen2(jsonResumen){
         var jsonMetodosPago = JSON.parse(jsonResumen[jsonResumen.length-1].metodos_pago);
-        var html = "<div class='col-lg-12 col-md-12 col-sm-12 col-xs-12 ventasplazaResumen' id='primeraventa'><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1 containerTabla'><p class='letra18pt-pc negrillaUno verDia' name='"+jsonResumen[i].fecha+"' >"
+        var html = "<div class='col-lg-12 col-md-12 col-sm-12 col-xs-12 ventasplazaResumen' id='primeraventa'><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1 containerTabla'><p class='letra18pt-pc negrillaUno verDia' name='"+jsonResumen[jsonResumen.length-1].fecha+"' >"
         +jsonResumen[jsonResumen.length-1].fecha+"</p></div><div class='col-lg-2 col-md-2 col-sm-2 col-xs-2 containerTabla'><p class='letra18pt-pc negrillaUno'>"
         +formatoPrecio(jsonResumen[jsonResumen.length-1].valor_mercancia)+"</p></div><div class='col-lg-2 col-md-2 col-sm-2 col-xs-2 containerTabla'><p class='letra18pt-pc negrillaUno'>"
         +formatoPrecio(jsonMetodosPago.Efectivo)+"</p></div><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1 containerTabla'><p class='letra18pt-pc negrillaUno'>"
