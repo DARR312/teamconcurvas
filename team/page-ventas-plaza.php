@@ -287,10 +287,6 @@
             </div> 
             <div id="agregarabonodiv">
 				<h2 class="letra18pt-pc">Abono nuevo</h2>
-				<div class="form-group pmd-textfield pmd-textfield-floating-label">
-					<label for="documento" class="control-label letra18pt-pc"> Valor </label>
-					<input class="form-control" type="text" id="abonovalor" name="abonovalor" required=""><span class="pmd-textfield-focused"></span>					
-				</div>
 				<button type="submit" class="botonmodal letra18pt-pc" id="abonoguardado"> Guardar abono </button>
             </div>
         </div>       

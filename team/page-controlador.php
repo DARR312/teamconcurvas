@@ -174,8 +174,9 @@ function obtenerDatajson($columna,$tabla,$tipo,$columnacondicion,$condicion){
         $obtenidosArray = $wpdb->get_results( "SELECT ".$columna." FROM ".$tabla." WHERE ".$columnacondicion." LIKE  '%".$condicion."%'", ARRAY_A);
         echo json_encode($obtenidosArray,JSON_UNESCAPED_UNICODE); 
     }
-    if($tipo=="todas"){
-        
+    if($tipo=="maximo"){
+        $obtenidosArray = $wpdb->get_results( "SELECT MAX(".$columna.") as max FROM ".$tabla."");
+        echo json_encode($obtenidosArray,JSON_UNESCAPED_UNICODE); 
     }
     
 }
@@ -1521,7 +1522,7 @@ function insertarfila($tabla,$valor,$valor2,$valor3,$valor4,$valor5,$valor6,$val
         $finalvalor = $finalvalor.$valorarray2["valor"];        
     }
     $datos = "INSERT INTO ".$tabla." ( ".$finalcolumna.") VALUES (".$finalvalor.")";
-    echo $datos;
+    // echo $datos;
     $wpdb->query($datos);
     $lastId = $wpdb->get_results( "SELECT MAX(ID) as id FROM ".$tabla."");
     echo json_encode($lastId);

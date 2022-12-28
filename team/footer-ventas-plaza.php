@@ -929,7 +929,6 @@
         var id_vendedor = prepararjson(objeto);
         var idapartado = insertarfila("con_t_apartados",cliente_id,datos_cliente,pedido,valor_total,estado,notas,id_vendedor,"0","0","0","0");
         var jsonidapartado= JSON.parse(idapartado);
-        console.log(jsonidapartado);
         var usuarioLevel = $('#usuarioCell').attr('name');
         for (let i = 0; i < Object.keys(jsondatospedido).length; i++) {
             console.log(jsondatospedido[i]);
@@ -1216,127 +1215,143 @@ function seleccionClienteApartado(id) {
         $('.remover').remove();
         return false;  
     }
-    function funcionespagina() {
-        $(".checkregla").change(function() {
-            if(this.checked) {
-                var descuentosr = $("#descuentosr input");
-                for (let i = 0; i < descuentosr.length; i++) {
-                    if(descuentosr[i].value != this.value){
-                        $(descuentosr[i]).attr('checked', false);
-                    }   
-                }
-                var con_t_reglasdescuentos = obtenerDatajson("*","con_t_reglasdescuentos","valoresconcondicion","ID",this.value);
-                var jsoncon_t_reglasdescuentos = JSON.parse(con_t_reglasdescuentos); 
-                var valor_total = $('#valor').attr("name");
-                if(!valor_total){console.log("esta vacio");return false;}
-                $(".removeresumendescuento").remove();
-                var datospedido = JSON.parse($("#datospedido").attr("name"));
-                var jsonData = calculardescuentos(datospedido,valor_total,jsoncon_t_reglasdescuentos);
-                console.log(jsonData);        
-                $("#datosPrendasapartado").after(jsonData.html);
-                $("#datosPrendas").after(jsonData.html);
+function funcionespagina() {
+    $(".checkregla").change(function() {
+        if(this.checked) {
+            var descuentosr = $("#descuentosr input");
+            for (let i = 0; i < descuentosr.length; i++) {
+                if(descuentosr[i].value != this.value){
+                    $(descuentosr[i]).attr('checked', false);
+                }   
             }
-        });
-        $('.agregarabono').on('click', function() {
-            console.log(this.id);
-            $('#popup9').fadeIn('slow');         
-            $('.popup-overlay').fadeIn('slow');
-            $('.popup-overlay').height($(window).height()); 
-            $("#agregarabonodiv").attr("name",this.id);
-        });   
-        $('#close9').on('click', function(){         
-            $('#popup9').fadeOut('slow');         
-            $('.popup-overlay').fadeOut('slow');       
-            return false;     
-        });
-        $("#abonoguardado").on('click', function(){   
-            var id = $("#agregarabonodiv").attr("name");
-            var arrayid = id.split("_");
-            var idapartado = arrayid[1];
+            var con_t_reglasdescuentos = obtenerDatajson("*","con_t_reglasdescuentos","valoresconcondicion","ID",this.value);
+            var jsoncon_t_reglasdescuentos = JSON.parse(con_t_reglasdescuentos); 
+            var valor_total = $('#valor').attr("name");
+            if(!valor_total){console.log("esta vacio");return false;}
+            $(".removeresumendescuento").remove();
+            var datospedido = JSON.parse($("#datospedido").attr("name"));
+            var jsonData = calculardescuentos(datospedido,valor_total,jsoncon_t_reglasdescuentos);
+            console.log(jsonData);        
+            $("#datosPrendasapartado").after(jsonData.html);
+            $("#datosPrendas").after(jsonData.html);
+        }
+    });
+    $('.agregarabono').on('click', function() {
+        $('#popup9').fadeIn('slow');         
+        $('.popup-overlay').fadeIn('slow');
+        $('.popup-overlay').height($(window).height()); 
+        $("#agregarabonodiv").attr("name",this.id);
+        $(".removerabonando").remove();
+        var html = "<div class='form-group pmd-textfield pmd-textfield-floating-label removerabonando'>"+
+                        "<label for='documento' class='control-label letra18pt-pc'> Valor </label>"+
+                        "<input class='form-control' type='text' id='abonovalor' name='abonovalor'><span class='pmd-textfield-focused'></span>"+					
+                    "</div>";
+        var arrayid = this.id.split("_");
+        if(arrayid[2]=='3'){
+            var con_t_apartados = obtenerDatajson("*","con_t_apartados","valoresconcondicion","ID",arrayid[1]);
+            var jsoncon_t_apartados = JSON.parse(con_t_apartados); 
+            var abono = parseInt(jsoncon_t_apartados[0].valor_total) - (parseInt(jsoncon_t_apartados[0].abono_1) + parseInt(jsoncon_t_apartados[0].abono_2));
+            html = "<p class='letra18pt-pc negrillaUno removerabonando' id='abonoFinal' name='"+abono+"'>Cómo estas agregando el abono final el cliente tiene que pagar: "+abono+" </p>";
+        }
+        $("#abonoguardado").after(html);
+    });   
+    $('#close9').on('click', function(){         
+        $('#popup9').fadeOut('slow');         
+        $('.popup-overlay').fadeOut('slow');       
+        return false;     
+    });
+    return false;  
+}
+$("#abonoguardado").on('click', function(){   
+        var id = $("#agregarabonodiv").attr("name");
+        var arrayid = id.split("_");
+        var idapartado = arrayid[1];
+        var numeroabono = "abono_"+arrayid[2];
+        var fechaabono = "fecha_abono_"+arrayid[2];
+        if(arrayid[2]=="3"){
+            var pedido = obtenerDatajson("pedido","con_t_apartados","valoresconcondicion","ID",arrayid[1]);
+            var pedidojson = JSON.parse(pedido); 
+            var pedidoarrayjson = JSON.parse(pedidojson[0].pedido); 
+            var usuarioLevel = $('#usuarioCell').attr('name');              
+            for (let i = 0; i < pedidoarrayjson.length; i++) {
+                console.log(pedidoarrayjson[i].codigo);
+                actualizarPrendas(usuarioLevel,"Apartado entregado","AP-"+arrayid[1],pedidoarrayjson[i].codigo);  
+            }
+            console.log(pedidoarrayjson);
+            var abonovalor = $("#abonoFinal").attr("name");
+        }
+        else{    
             var abonovalor = $("#abonovalor").val();
             if(!abonovalor){alert("Ingresa un valor para este abono");return false;}
-            $('#popup9').fadeOut('slow');         
-            $('.popup-overlay').fadeOut('slow');      
-            $('.ventasplaza').remove();
-            var con_t_apartados = obtenerDatajson("*","con_t_apartados","valoresconcondicion","ID",idapartado);
-            var jsoncon_t_apartados = JSON.parse(con_t_apartados); 
-            console.log(jsoncon_t_apartados);
-            var numeroabono = "";
-            if(jsoncon_t_apartados[0].abono_3 == "0"){
-                numeroabono = "abono_3";
-                fechaabono = "fecha_abono_3";
-            }
-            if(jsoncon_t_apartados[0].abono_2 == "0"){
-                numeroabono = "abono_2";
-                fechaabono = "fecha_abono_2";
-            }
-            if(jsoncon_t_apartados[0].abono_1 == "0"){
-                numeroabono = "abono_1";
-                fechaabono = "fecha_abono_1";
-            }
-            if(numeroabono=="abono_3"){
-                var abono = parseInt(jsoncon_t_apartados[0].valor_total) - (parseInt(jsoncon_t_apartados[0].abono_1) + parseInt(jsoncon_t_apartados[0].abono_2));                
-                alert("El abono final tiene que completar el valor del pedido, se deben recibir: "+abono);
-                abonovalor = abono;
-            }
-            var objeto = {};
-            objeto.columna = "ID";
-            objeto.valor = idapartado;
-            var condicion = prepararjson(objeto);
-            var objeto = {};
-            objeto.tipo = "int";
-            objeto.columna = numeroabono;
-            objeto.valor = abonovalor;
-            var abonoenviar  = prepararjson(objeto);
-            const date = new Date();
-            let day = date.getDate();
-            let month = date.getMonth() + 1;
-            let year = date.getFullYear();
-            let currentDate = `${year}/${month}/${day}`;//2022-08-08 13:58:58 	
-            var objeto = {};
-            objeto.tipo = "date";
-            objeto.columna = fechaabono;
-            objeto.valor = currentDate;
-            var fecha_abono  = prepararjson(objeto);
-            var resultado = actualizarregistros("con_t_apartados",condicion,abonoenviar,fecha_abono,"0","0","0","0","0","0","0","0","0");
-            console.log(resultado);
-            var objeto = {};
-            objeto.tipo = "int";
-            objeto.columna = "id_apartado";
-            objeto.valor = idapartado;
-            var id_apartado = prepararjson(objeto);
-            var objeto = {};
-            objeto.tipo = "string";
-            objeto.columna = "cambio";
-            objeto.valor = "Agregando un abono";
-            var cambio = prepararjson(objeto);
-            var objeto = {};
-            objeto.tipo = "string";
-            objeto.columna = "campo_cambiado";
-            objeto.valor = numeroabono;
-            var campo_cambiado = prepararjson(objeto);
-            var objeto = {};
-            objeto.tipo = "date";
-            objeto.columna = "fehca_cambio";
-            objeto.valor = currentDate;
-            var fehca_cambio  = prepararjson(objeto);
-            var objeto = {};
-            objeto.tipo = "int";
-            objeto.columna = "id_usuario";
-            objeto.valor = 1;
-            var id_usuario  = prepararjson(objeto);
-            var idapartadotr = insertarfila("con_t_apartadostr",id_apartado,cambio,campo_cambiado,fehca_cambio,id_usuario,"0","0","0","0","0","0");                
-            imprimirapartados();
-            funcionespagina();       
-            return false;     
-        });
-        return false;  
-    }
+        }            
+        $('#popup9').fadeOut('slow');         
+        $('.popup-overlay').fadeOut('slow');      
+        $('.ventasplaza').remove();
+        var objeto = {};
+        objeto.columna = "ID";
+        objeto.valor = idapartado;
+        var condicion = prepararjson(objeto);
+        var objeto = {};
+        objeto.tipo = "int";
+        objeto.columna = numeroabono;
+        objeto.valor = abonovalor;
+        var abonoenviar  = prepararjson(objeto);
+        const date = new Date();
+        let day = date.getDate();
+        let month = date.getMonth() + 1;
+        let year = date.getFullYear();
+        let currentDate = `${year}/${month}/${day}`;//2022-08-08 13:58:58 	
+        var objeto = {};
+        objeto.tipo = "date";
+        objeto.columna = fechaabono;
+        objeto.valor = currentDate;
+        var fecha_abono  = prepararjson(objeto);
+        // var resultado = actualizarregistros("con_t_apartados",condicion,abonoenviar,fecha_abono,"0","0","0","0","0","0","0","0","0");
+        var objeto = {};
+        objeto.tipo = "int";
+        objeto.columna = "id_apartado";
+        objeto.valor = idapartado;
+        var id_apartado = prepararjson(objeto);
+        var objeto = {};
+        objeto.tipo = "string";
+        objeto.columna = "cambio";
+        objeto.valor = "Agregando un abono";
+        var cambio = prepararjson(objeto);
+        var objeto = {};
+        objeto.tipo = "string";
+        objeto.columna = "campo_cambiado";
+        objeto.valor = numeroabono;
+        var campo_cambiado = prepararjson(objeto);
+        var objeto = {};
+        objeto.tipo = "date";
+        objeto.columna = "fehca_cambio";
+        objeto.valor = currentDate;
+        var fehca_cambio  = prepararjson(objeto);
+        var objeto = {};
+        objeto.tipo = "int";
+        objeto.columna = "id_usuario";
+        objeto.valor = 1;
+        var id_usuario  = prepararjson(objeto);
+        // var idapartadotr = insertarfila("con_t_apartadostr",id_apartado,cambio,campo_cambiado,fehca_cambio,id_usuario,"0","0","0","0","0","0");                
+        imprimirapartados();
+        funcionespagina();  
+        var ultimoresumen = obtenerDatajson('ID','con_t_resumenplaza','maximo','0','0');
+        var jsonultimoresumen = JSON.parse(ultimoresumen);
+        var ultimoresumen = obtenerDatajson('*','con_t_resumenplaza','valoresconcondicion','ID',jsonultimoresumen[0].max);
+        var jsonultimoresumen = JSON.parse(ultimoresumen);
+        let tDate = `${year}-${month}-${day}`;
+        console.log(jsonultimoresumen[0].fecha,tDate);
+        if(jsonultimoresumen[0].fecha==tDate){
+            console.log("Ya hay resumen");
+        }else{
+            console.log("No hay resumen");
+        }
+        return false;     
+    });
     function imprimirapartados() {
         var html  = "<div class='col-lg-12 col-md-12 col-sm-12 col-xs-12 ventasplaza' id='primeraFila'><div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'><p class='letra18pt-pc negrillaUno'>Cliente</p></div><div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'><p class='letra18pt-pc negrillaUno'>Pedido</p></div><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'><p class='letra18pt-pc negrillaUno'>Abono 1</p></div><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'><p class='letra18pt-pc negrillaUno'>Fecha 1</p></div><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'><p class='letra18pt-pc negrillaUno'>Abono 2</p></div><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'><p class='letra18pt-pc negrillaUno'>Fecha 2</p></div><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'><p class='letra18pt-pc negrillaUno'>Abono 3</p></div><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'><p class='letra18pt-pc negrillaUno'>Fecha 3</p></div><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'><p class='letra18pt-pc negrillaUno'>Notas</p></div><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'><p class='letra18pt-pc negrillaUno'>Valor total</p></div></div>"
         var apartados = obtenerDatajson('*','con_t_apartados','variasfilasunicas','0','0');
         var jsonapartados = JSON.parse(apartados);
-        console.log(jsonapartados);
         var primeraventa = "primeraventa";
         for (let i = ( Object.keys(jsonapartados).length-1); i >= 0; i--) {
             var datos_cliente = JSON.parse(jsonapartados[i].datos_cliente);
@@ -1345,7 +1360,35 @@ function seleccionClienteApartado(id) {
             for (let j = 0; j < pedido.length; j++) {
                 pedidohtml = pedidohtml + pedido[j].codigo + " " + pedido[j].descripcion + " - ";
             }
-            html = html + "<div class='col-lg-12 col-md-12 col-sm-12 col-xs-12 ventasplaza' id='"+primeraventa+"'><div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'><p class='letra18pt-pc negrillaUno' id='cliente"+jsonapartados[i].ID+"'>"+datos_cliente.nombre+" "+datos_cliente.telefono+"</p></div><div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'><p class='letra18pt-pc negrillaUno' id='pedido"+jsonapartados[i].ID+"'>"+pedidohtml+"</p></div><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'><p class='letra18pt-pc negrillaUno agregarabono' id='abono1_"+jsonapartados[i].ID+"'>"+jsonapartados[i].abono_1+"</p></div><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'><p class='letra18pt-pc negrillaUno' id='fecha3_"+jsonapartados[i].ID+"'>"+jsonapartados[i].fecha_abono_1+"</p></div><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'><p class='letra18pt-pc negrillaUno agregarabono' id='abono2_"+jsonapartados[i].ID+"'>"+jsonapartados[i].abono_2+"</p></div><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'><p class='letra18pt-pc negrillaUno' id='fecha3_"+jsonapartados[i].ID+"'>"+jsonapartados[i].fecha_abono_2+"</p></div><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'><p class='letra18pt-pc negrillaUno agregarabono' id='abono3_"+jsonapartados[i].ID+"'>"+jsonapartados[i].abono_3+"</p></div><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'><p class='letra18pt-pc negrillaUno' id='fecha3_"+jsonapartados[i].ID+"'>"+jsonapartados[i].fecha_abono_3+"</p></div><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'><p class='letra18pt-pc negrillaUno' id='notas"+jsonapartados[i].ID+"'>"+jsonapartados[i].notas+"</p></div><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'><p class='letra18pt-pc negrillaUno' id='valortotal"+jsonapartados[i].ID+"'>"+jsonapartados[i].valor_total+"</p></div></div>";
+            html = html + "<div class='col-lg-12 col-md-12 col-sm-12 col-xs-12 ventasplaza' id='"+primeraventa+"'>"+
+                            "<div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'>"+
+                                "<p class='letra18pt-pc negrillaUno' id='cliente"+jsonapartados[i].ID+"'>"+datos_cliente.nombre+" "+datos_cliente.telefono+"</p>"+
+                            "</div>"+
+                            "<div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'>"+
+                                "<p class='letra18pt-pc negrillaUno' id='pedido"+jsonapartados[i].ID+"'>"+pedidohtml+"</p>"+
+                            "</div>"+
+                            "<div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'>"+
+                                "<p class='letra18pt-pc negrillaUno agregarabono' id='abono_"+jsonapartados[i].ID+"_1'>"+jsonapartados[i].abono_1+"</p>"+
+                            "</div>"+
+                            "<div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'>"+
+                                "<p class='letra18pt-pc negrillaUno' id='fecha3_"+jsonapartados[i].ID+"'>"+jsonapartados[i].fecha_abono_1+"</p>"+
+                            "</div>"+
+                            "<div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'>"+
+                                "<p class='letra18pt-pc negrillaUno agregarabono' id='abono_"+jsonapartados[i].ID+"_2'>"+jsonapartados[i].abono_2+"</p>"+
+                            "</div><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'>"+
+                                "<p class='letra18pt-pc negrillaUno' id='fecha3_"+jsonapartados[i].ID+"'>"+jsonapartados[i].fecha_abono_2+"</p>"+
+                            "</div><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'>"+
+                                "<p class='letra18pt-pc negrillaUno agregarabono' id='abono_"+jsonapartados[i].ID+"_3'>"+jsonapartados[i].abono_3+"</p>"+
+                            "</div>"+
+                            "<div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'>"+
+                                "<p class='letra18pt-pc negrillaUno' id='fecha3_"+jsonapartados[i].ID+"'>"+jsonapartados[i].fecha_abono_3+"</p>"+
+                            "</div>"+
+                            "<div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'>"+
+                                "<p class='letra18pt-pc negrillaUno' id='notas"+jsonapartados[i].ID+"'>"+jsonapartados[i].notas+"</p>"+
+                            "</div>"+
+                            "<div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'>"+
+                                "<p class='letra18pt-pc negrillaUno' id='valortotal"+jsonapartados[i].ID+"'>"+jsonapartados[i].valor_total+"</p>"+
+                            "</div></div>";
             primeraventa = i+1;
         }
         $("#bloquePrincipal").append(html);
