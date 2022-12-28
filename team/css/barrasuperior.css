@@ -2,15 +2,18 @@
     width: 85%;
     margin: 0 0 0 15%;
 }    
-#buscadorContainer{
-    padding-top:2%;
-}
+body{background-color: #fff !important;}
 .fijo{
     position: fixed;
-    z-index: 10;
+    z-index: 9;
     width: inherit;
     height: 150px;
+    background-color: white;
 }
+@media only screen and (max-width:2600px) and (min-width:1800px){.fijo{height: 360px;}#primeraFila{padding-top: 25px !important;}}
+@media only screen and (max-width:1799px) and (min-width:1500px){.fijo{height: 300px;}#primeraFila{padding-top: 25px !important;}}
+@media only screen and (max-width:1499px) and (min-width:1200px){.fijo{height: 275px;}#primeraFila{padding-top: 25px !important;}}
+@media only screen and (max-width:1199px) and (min-width:992px){.fijo{height: 210px;}#primeraFila{padding-top: 25px !important;}}
 p, h2{
     color: rgba(0, 0, 0, 0.54);
 }
@@ -32,12 +35,22 @@ p, h2{
 @media only screen and (max-width:399px){#bscdor{margin: 7% !important;}#segundo{margin:7%;}}
 
 select {
-    background-color: #f8f9fa  !important;
     outline: none !important;
     border: none !important;
-    border-bottom: 0.05px ridge #767676 !important;
+    border-bottom:solid 1px #e6e6e6 !important;
     font-weight: 600 !important;
     color: #767676 !important;
+}
+#bloquePrincipal{
+    width:83%;
+    margin-left:16.7%;
+}
+
+#primeraFila{
+    position: fixed;
+    z-index: 9;
+    background-color: #ffffff;
+    width: 83%;
 }
 /*@media only screen and (max-width:2600px) and (min-width:1800px){#buscador img{width: 20em;}}
 @media only screen and (max-width:1799px) and (min-width:1500px){#buscador img{width: 14em;}}

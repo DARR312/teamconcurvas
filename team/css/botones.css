@@ -1,9 +1,11 @@
 	/*------------------------BOTON-----------------------*/		
-		.botonmodal, #reader__dashboard_section_csr span button{font-family: 'Lato', sans-serif;font-weight: 400;background:#b50c4c;color:#fff;border:none;line-height:20px;padding:0px 0 0 0;text-transform:none;letter-spacing:0;width:30%;transition:.4s;-webkit-transition:.4s;display:table;}
+		.botonmodal, #reader__dashboard_section_csr span button{font-weight: 400;background:#b50c4c;color:#fff;border:none;line-height:20px;padding:0px 0 0 0;text-transform:none;letter-spacing:0;width:30%;transition:.4s;-webkit-transition:.4s;display:table;}
 		.botonmodal:hover{background:#111;color:#fff;transition:.4s;-webkit-transition:.4s;cursor:pointer;cursor:hand;}
-		@media only screen and (min-width:2001px){.botonmodal{height:75px;border-radius:25px;font-size:30px;}}
-		@media only screen and (max-width:2000px) and  (min-width:1700px){.botonmodal{height:40px;border-radius:15px;font-size:20px;}}
-		@media only screen and (max-width:1699px) and  (min-width:992px){.botonmodal{height:35px;border-radius:10px;font-size:15px;}}
+		@media only screen and (max-width:2600px) and (min-width:1800px){.botonmodal{height:55px;border-radius:20px;font-size:30px;}}
+		@media only screen and (max-width:1799px) and (min-width:1500px){.botonmodal{height:40px;border-radius:14px;font-size:17px;}.botonesbarrasuperior{margin-top: 10%;}}
+		@media only screen and (max-width:1499px) and (min-width:1200px){.botonmodal{height:30px;border-radius:10px;font-size:14px;}.botonesbarrasuperior{margin-top: 18%;}}
+		@media only screen and (max-width:1199px) and (min-width:992px){.botonmodal{height:25px;border-radius:9px;font-size:10px;}.botonesbarrasuperior{margin-top: 30%;}}
 		@media only screen and (max-width:991px) and  (min-width:530px){.botonmodal, #reader__dashboard_section_csr span button{height:35px;border-radius:20px;font-size:12px;}}
 		@media only screen and (max-width:529px){.botonmodal, #reader__dashboard_section_csr span button, #readerEmpacar__dashboard_section span button{height:35px;border-radius:20px;font-size:12px;}}
 		/*------------------------BOTON-----------------------*/
+		

@@ -5,6 +5,7 @@
 	<div style='display: none;' class="contenedor_loader">
 		<div class="loader"></div>
 	</div>
+	
     <div id='popup' style='display: none;' class="pc tablet">
         <div class='content-popup'>
             <div class='close'><a href='#' id='close'>
@@ -24,6 +25,7 @@
             	<div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
             	    <button class='botonmodal botonenmodal letra18pt-pc' type='button' id='agregarCliente'> Agregar cliente </button>
             	</div>
+
             	<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="datosCliente">     	
                     <div action="" method="get" accept-charset="UTF-8" autocomplete="off" class="" id="guardarVenta">
             			<div class="form-group pmd-textfield pmd-textfield-floating-label">
@@ -484,34 +486,154 @@
     </div>       -->
 	
     <div class='popup-overlay pc tablet'></div>
+		<!-- modal de Bootstrap -->
+		<div class="modal" tabindex="-1" id="ventana-modal">
+			<div class="modal-dialog modal-dialog-centered">
+				<div class="modal-content">
+					<div id="headerModal">
+						<button id="closeModalPrincipal" type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+					</div>
+					<div class="modal-body">
+						<div id="containerContenido" class="form-group pmd-textfield pmd-textfield-floating-label">
+							<div id="col1" class='col-lg-12 col-md-12 col-sm-12 col-xs-12' >
+								<div class='col-lg-4 col-md-4 col-sm-4 col-xs-4' id='buscadorContainer'>
+									<label id="titulo" for="nombre" class="control-label letra18pt-pc ">Cambio del local</label>
+									<label for="nombre" class="control-label letra18pt-pc">Buscar por teléfono del cliente</label>
+									<input class="form-control" type="text" id='BuscarTelefono2' name="BuscarTelefono" required=""><span class="pmd-textfield-focused"></span>
+								</div>
+								<div class='col-lg-3 col-md-3 col-sm-3 col-xs-3' id='accion'>
+									<button class='botonmodal' type='button' id='buscarClienteCambio'> Buscar cliente </button>
+								</div>
+							</div>
+							<div id="col2" class='col-lg-12 col-md-12 col-sm-12 col-xs-12' >
+								<div class='col-lg-12 col-md-12 col-sm-12 col-xs-12'>
+									<div id="TituloDatosCliente" class="control-label letra18pt-pc letra ">Datos del cliente</div>
+								</div>
+								<div class='col-lg-12 col-md-12 col-sm-12 col-xs-12' id='DatosClientesConatiner'>
+								</div>
+							</div>
+							<div id="" class='col-lg-12 col-md-12 col-sm-12 col-xs-12' >
+								<div class='col-lg-12 col-md-12 col-sm-12 col-xs-12'>
+									<div id="Tituloprendas" class="control-label letra18pt-pc letra ">Prendas</div>
+								</div>
+								
+								<div class='col-lg-12 col-md-12 col-sm-12 col-xs-12' id='PrendasConatiner'>
+							
+									<!-- EJEMPLO <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12"style="margin-left: -29px;">
+										<div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">
+											<input class="form-check-input " type="checkbox" value="" id="flexCheckDefault">
+										</div>
+										<div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+											<div class="letra18pt-pc letra2" for="flexCheckDefault">
+												C1005NE3D50S68 
+											</div>
+										</div>
+										<div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+											<div class="letra18pt-pc letra" for="flexCheckDefault">
+												BEISBOLERA NEGRA SM 
+											</div>
+										</div>
+										<div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+											<div class="letra18pt-pc letra" for="flexCheckDefault">
+												Efectivo 
+											</div>
+										</div>
+										<div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+											<div class="letra18pt-pc letra" for="flexCheckDefault">
+												$99.900 
+											</div>
+										</div>
+									</div> -->
+								</div>
+								<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12"style="margin-left: -28px; margin-top: 10px;">
+									<div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+										<div class='col-lg-12 col-md-12 col-sm-12 col-xs-12' >
+											<button style="margin-top: 5px;" class='botonmodal botones' type='button' id='cargarPrenda'> Cargar prenda </button>
+										</div>
+									</div>
+									<div class="col-lg-8 col-md-8 col-sm-8 col-xs-8" id="listaPrendasCargadas">
+										<!-- EJEMPLO <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+											<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+												<div class="letra18pt-pc letra" for="flexCheckDefault">
+													BEISBOLERA NEGRA SM 
+												</div>
+											</div>
+											<div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+												<div class="letra18pt-pc letra" for="flexCheckDefault">
+													$99.900 
+												</div>
+											</div>
+										</div> -->
+										
+									</div>
+								</div>
+							</div>
+							<div id="col3" class='col-lg-12 col-md-12 col-sm-12 col-xs-12' >
+								<div class='col-lg-4 col-md-4 col-sm-4 col-xs-4'>
+									<div class="control-label letra18pt-pc letra col-lg-6 col-md-6 col-sm-6 col-xs-6 TituloDatosCliente ">DIFERENCIA</div>
+									<div id="ValorTotal" class="control-label letra18pt-pc letra col-lg-6 col-md-6 col-sm-6 col-xs-6 TituloDatosCliente" name='' >0</div>
+									<div class='col-lg-10 col-md-10 col-sm-10 col-xs-10' >
+										<button style="margin-top: 5px;" class='botonmodal' type='button' id='Guardar' > Guardar </button>
+									</div>
+								</div>
+								<div class='col-lg-8 col-md-8 col-sm-8 col-xs-8' id='continerMetodos'>
+									
+								</div>
+							</div>
+							
+    					</div>
+					</div>
+				
+				</div>
+			</div>
+		</div>
+		<!-- modal de Bootstrap -->
+		<div class="modal" tabindex="-1" id="modalAgregarPrendas">
+			<div class="modal-dialog modal-dialog-centered">
+				<div class="modal-content">
+					<div id="headerModal">
+						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="cierreSegundoModal"></button>
+					</div>
+					<div class="modal-body">
+						<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12"style="margin-left: 15px; margin-top: 10px;">
+							<div class='col-lg-3 col-md-3 col-sm-3 col-xs-3' >
+								<button style="margin-top: 5px;" class='botonmodal botones' type='button' id='cargarPrenda2'> Cargar prenda </button>
+							</div>
+						</div>
+						<div id="containerContenido" class="form-group pmd-textfield pmd-textfield-floating-label" style="margin-top: 69px;">
+							<div id="prendasAgregar" class='col-lg-12 col-md-12 col-sm-12 col-xs-12' >
+							
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
 	    <div class="container-fluid pc tablet" id="bloquePrincipal">
 	       <div class='col-lg-12 col-md-12 col-sm-12 col-xs-12 ventasplaza' id='primeraFila'>
-    	       <div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'>
+    	       <div class='col-lg-1 col-md-1 col-sm-1 col-xs-1 containerTabla'>
     	           <p class='letra18pt-pc negrillaUno'>Fecha</p>
     	       </div>
-    	       <div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'>
-    	           <p class='letra18pt-pc negrillaUno'>Valor en mercancía</p>
+    	       <div class='col-lg-2 col-md-2 col-sm-2 col-xs-2 containerTabla'>
+    	           <p class='letra18pt-pc negrillaUno'>Mercancía</p>
     	       </div>
-    	       <div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'>
-    	           <p class='letra18pt-pc negrillaUno'>Valor en dinero</p>
+    	       <div class='col-lg-2 col-md-2 col-sm-2 col-xs-2 containerTabla'>
+    	           <p class='letra18pt-pc negrillaUno'>Efectivo</p>
     	       </div>
-    	       <div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'>
+    	       <div class='col-lg-1 col-md-1 col-sm-1 col-xs-1 containerTabla'>
     	           <p class='letra18pt-pc negrillaUno'>Datafono</p>
     	       </div>
-    	       <div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'>
+    	       <div class='col-lg-1 col-md-1 col-sm-1 col-xs-1 containerTabla'>
     	           <p class='letra18pt-pc negrillaUno'>Nequi</p>
     	       </div>
-    	       <div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'>
+    	       <div class='col-lg-1 col-md-1 col-sm-1 col-xs-1 containerTabla'>
     	           <p class='letra18pt-pc negrillaUno'>Daviplata</p>
     	       </div>
-			   <div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'>
+			   <div class='col-lg-1 col-md-1 col-sm-1 col-xs-1 containerTabla'>
     	           <p class='letra18pt-pc negrillaUno'>PayU</p>
     	       </div>
-    	       <div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'>
+    	       <div class='col-lg-1 col-md-1 col-sm-1 col-xs-1 containerTabla'>
     	           <p class='letra18pt-pc negrillaUno'>Bancolombia</p>
-    	       </div>
-    	       <div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'>
-    	           <p class='letra18pt-pc negrillaUno'>Ver prendas de este día</p>
     	       </div>
 	       </div>	
 		   <div class='col-lg-12 col-md-12 col-sm-12 col-xs-12 ventasplaza primeraFilaDia'style='display: none;' id='primeraFila' >
@@ -690,6 +812,7 @@
             </div>
         </div>
     </div>
+	
 		
 
 	</div>
