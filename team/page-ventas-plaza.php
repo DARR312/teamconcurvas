@@ -610,32 +610,103 @@
 			</div>
 		</div>
 	    <div class="container-fluid pc tablet" id="bloquePrincipal">
-	       <div class='col-lg-12 col-md-12 col-sm-12 col-xs-12 ventasplaza' id='primeraFila'>
-    	       <div class='col-lg-1 col-md-1 col-sm-1 col-xs-1 containerTabla'>
-    	           <p class='letra18pt-pc negrillaUno'>Fecha</p>
-    	       </div>
-    	       <div class='col-lg-2 col-md-2 col-sm-2 col-xs-2 containerTabla'>
-    	           <p class='letra18pt-pc negrillaUno'>Mercancía</p>
-    	       </div>
-    	       <div class='col-lg-2 col-md-2 col-sm-2 col-xs-2 containerTabla'>
-    	           <p class='letra18pt-pc negrillaUno'>Efectivo</p>
-    	       </div>
-    	       <div class='col-lg-1 col-md-1 col-sm-1 col-xs-1 containerTabla'>
-    	           <p class='letra18pt-pc negrillaUno'>Datafono</p>
-    	       </div>
-    	       <div class='col-lg-1 col-md-1 col-sm-1 col-xs-1 containerTabla'>
-    	           <p class='letra18pt-pc negrillaUno'>Nequi</p>
-    	       </div>
-    	       <div class='col-lg-1 col-md-1 col-sm-1 col-xs-1 containerTabla'>
-    	           <p class='letra18pt-pc negrillaUno'>Daviplata</p>
-    	       </div>
-			   <div class='col-lg-1 col-md-1 col-sm-1 col-xs-1 containerTabla'>
-    	           <p class='letra18pt-pc negrillaUno'>PayU</p>
-    	       </div>
-    	       <div class='col-lg-1 col-md-1 col-sm-1 col-xs-1 containerTabla'>
-    	           <p class='letra18pt-pc negrillaUno'>Bancolombia</p>
-    	       </div>
-	       </div>	
+			<div class='col-lg-12 col-md-12 col-sm-12 col-xs-12 ventasplaza' id='primeraFila'>
+			<div class="container mt-3">
+  				<div class="table-responsive" style="width: 84%;">
+  				  <table class="table table-bordered tablaResumen">
+  				    <thead>
+  				      <tr id="titulosTabla">
+  				        <th><p class='letra18pt-pc negrillaUno'>Fecha</p></th>
+  				        <th><p class='letra18pt-pc negrillaUno'>Mercancía</p></th>
+  				       <!-- <th><p class='letra18pt-pc negrillaUno'>Efectivo</p></th>
+  				        <th><p class='letra18pt-pc negrillaUno'>Datafono</p></th>
+  				        <th><p class='letra18pt-pc negrillaUno'>Nequi</p></th>
+  				        <th><p class='letra18pt-pc negrillaUno'>Daviplata</p></th>
+  				        <th><p class='letra18pt-pc negrillaUno'>PayU</p></th>
+  				        <th><p class='letra18pt-pc negrillaUno'>Bancolombia</p></th>
+  				        <th><p class='letra18pt-pc negrillaUno'>Fecha</p></th>
+  				        <th><p class='letra18pt-pc negrillaUno'>Mercancía</p></th>
+  				        <th><p class='letra18pt-pc negrillaUno'>Efectivo</p></th>
+  				        <th><p class='letra18pt-pc negrillaUno'>Datafono</p></th>
+  				        <th><p class='letra18pt-pc negrillaUno'>Nequi</p></th>
+  				        <th><p class='letra18pt-pc negrillaUno'>Daviplata</p></th>
+  				        <th><p class='letra18pt-pc negrillaUno'>PayU</p></th>
+  				        <th><p class='letra18pt-pc negrillaUno'>Bancolombia</p></th> -->
+  				      </tr>
+  				    </thead>
+  				    <tbody id="bodyTabla">
+  				      <!-- <tr>
+  				        <td>2022-10-19</td>
+  				        <td>Anna</td>
+  				        <td>Pitt</td>
+  				        <td>35</td>
+  				        <td>New York</td>
+  				        <td>USA</td>
+  				        <td>Female</td>
+  				        <td>Yes</td>
+  				        <td>Yes</td>
+  				        <td>Yes</td>
+  				        <td>Yes</td>
+  				        <td>Yes</td>
+  				        <td>Yes</td>
+  				        <td>Yes</td>
+  				        <td>Yes</td>
+  				        <td>Yes</td>
+  				        <td>Yes</td>
+  				        <td>Yes</td>
+  				        <td>Yes</td>
+  				      </tr>
+						<tr>
+  				        <td>1</td>
+  				        <td>Anna</td>
+  				        <td>Pitt</td>
+  				        <td>35</td>
+  				        <td>New York</td>
+  				        <td>USA</td>
+  				        <td>Female</td>
+  				        <td>Yes</td>
+  				        <td>Yes</td>
+  				        <td>Yes</td>
+  				        <td>Yes</td>
+  				        <td>Yes</td>
+  				        <td>Yes</td>
+  				        <td>Yes</td>
+  				        <td>Yes</td>
+  				        <td>Yes</td>
+  				        <td>Yes</td>
+  				        <td>Yes</td>
+  				        <td>Yes</td>
+  				      </tr> -->
+  				    </tbody>
+  				  </table>
+  				</div>
+			</div>	
+			<!-- <div class='col-lg-1 col-md-1 col-sm-1 col-xs-1 containerTabla'>
+					<p class='letra18pt-pc negrillaUno'>Fecha</p>
+				</div>
+				<div class='col-lg-2 col-md-2 col-sm-2 col-xs-2 containerTabla'>
+					<p class='letra18pt-pc negrillaUno'>Mercancía</p>
+				</div>
+				<div class='col-lg-2 col-md-2 col-sm-2 col-xs-2 containerTabla'>
+					<p class='letra18pt-pc negrillaUno'>Efectivo</p>
+				</div>
+				<div class='col-lg-1 col-md-1 col-sm-1 col-xs-1 containerTabla'>
+					<p class='letra18pt-pc negrillaUno'>Datafono</p>
+				</div>
+				<div class='col-lg-1 col-md-1 col-sm-1 col-xs-1 containerTabla'>
+					<p class='letra18pt-pc negrillaUno'>Nequi</p>
+				</div>
+				<div class='col-lg-1 col-md-1 col-sm-1 col-xs-1 containerTabla'>
+					<p class='letra18pt-pc negrillaUno'>Daviplata</p>
+				</div>
+				<div class='col-lg-1 col-md-1 col-sm-1 col-xs-1 containerTabla'>
+					<p class='letra18pt-pc negrillaUno'>PayU</p>
+				</div>
+				<div class='col-lg-1 col-md-1 col-sm-1 col-xs-1 containerTabla'>
+					<p class='letra18pt-pc negrillaUno'>Bancolombia</p>
+				</div> -->
+			</div>	
+			
 		   <div class='col-lg-12 col-md-12 col-sm-12 col-xs-12 ventasplaza primeraFilaDia'style='display: none;' id='primeraFila' >
     	       <div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'>
     	           <p class='letra18pt-pc negrillaUno'>PA</p>
@@ -647,7 +718,7 @@
     	           <p class='letra18pt-pc negrillaUno'>Teléfono</p>
     	       </div>
     	       <div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'>
-    	           <p class='letra18pt-pc negrillaUno'>Correo</p>
+    	           <p class='letra18pt-pc negrillaUno'>Fecha</p>
     	       </div>
     	       <div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'>
     	           <p class='letra18pt-pc negrillaUno'>Compra</p>

@@ -40,9 +40,10 @@
 
     var resumen = obtenerDatajson('ID,fecha,valor_mercancia,metodos_pago','con_t_resumenplaza','variasfilasunicas','0','0');
     var jsonResumen = JSON.parse(resumen);
-    var html = imprimirResumen2(jsonResumen);
+    // var html = 
+    imprimirResumen2(jsonResumen);
 
-    $('#primeraFila').after(html);
+    // $('#primeraFila').after(html);
 
     $('.verDia').on('click', function(){ 
         
@@ -57,7 +58,7 @@
         var horaMayor = " 23:59:00";
         var fecha = "'"+id+horaMenor+"' AND '"+id+horaMayor+"'";
         console.log('inicio');
-        var resumenDia = obtenerDatajson('ID,cliente_id,datos_cliente,codigos_prendas,notas,metodos_pago,valor_total','con_t_ventasplaza','Between','fecha_creada',fecha);
+        var resumenDia = obtenerDatajson('ID,cliente_id,datos_cliente,codigos_prendas,notas,metodos_pago,valor_total,fecha_creada','con_t_ventasplaza','Between','fecha_creada',fecha);
         var jsonResumenDia = JSON.parse(resumenDia);
         console.log(jsonResumenDia);
         $('#primeraFila').after(imprimi(jsonResumenDia));
@@ -520,16 +521,25 @@
         console.log(jsoncodigos);
         console.log(usuarioLevel);
         console.log(Object.keys(jsoncodigos).length);
-        for (let i = 0; i < Object.keys(jsoncodigos).length; i++) {      
-            console.log(jsoncodigos[i]);      
-            actualizarPrendas(usuarioLevel,"Venta local","PA-"+lastid[0].id,jsoncodigos[i].codigo);
-            actualizar("con_t_prendasplaza","-",jsoncodigos[i].codigo,"-","-");
-        }
+        // for (let i = 0; i < Object.keys(jsoncodigos).length; i++) {      
+        //     console.log(jsoncodigos[i]);      
+        //     actualizarPrendas(usuarioLevel,"Venta local","PA-"+lastid[0].id,jsoncodigos[i].codigo);
+        //     actualizar("con_t_prendasplaza","-",jsoncodigos[i].codigo,"-","-");
+        // }
         const date = new Date();
         let day = date.getDate();
         let month = date.getMonth() + 1;
         let year = date.getFullYear();
         let currentDateConsulta = `${year}-${month}-${day}`;//2022-08-08 13:58:58
+
+        var metodosPago = obtenerDatajson('ID,descripcion','con_t_metodospago','variasfilasunicas','0','0');
+        var jsonMetodosPago = JSON.parse(metodosPago);
+        console.log(jsonMetodosPago);
+        var objMetodos = [];
+        for (let i = 0; i < Object.keys(jsonMetodosPago).length; i++) {  
+            objMetodos.push(jsonMetodosPago[i].ID+':'+jsonMetodosPago[i].descripcion+':0');  
+        } 
+        console.log(objMetodos, 'Objetooo');
         let efectivo = 0;
         let datafono = 0;
         let nequi = 0;
@@ -543,33 +553,67 @@
         var jsonMetodosPago = JSON.parse(metodospagoString);
         console.log(jsonMetodosPago,Object.keys(jsonMetodosPago).length,"metodos selecionados");
         if(jsonExiste.length !== 0){
-            console.log("se actualizo el dia 21 a la tabla");
+
             console.log(jsonExiste[0].metodos_pago);
             var jsonMetodosPago2 = JSON.parse(jsonExiste[0].metodos_pago);
             console.log(jsonMetodosPago2,"aqui");
-            valorTotal = jsonExiste[0].valor_mercancia;
-            efectivo = jsonMetodosPago2.Efectivo;
-            datafono = jsonMetodosPago2.Datafono;
-            nequi = jsonMetodosPago2.Nequi;
-            daviplata = jsonMetodosPago2.Daviplata;
-            PayU = jsonMetodosPago2.PayU;
-            Bancolombia = jsonMetodosPago2.Bancolombia;
-            for (let i = 0; i < Object.keys(jsonMetodosPago).length; i++) {    
-                if(jsonMetodosPago[i].metodo == "1"){efectivo = efectivo + jsonMetodosPago[i].valor }
-                if(jsonMetodosPago[i].metodo == "2"){datafono = datafono + jsonMetodosPago[i].valor }
-                if(jsonMetodosPago[i].metodo == "3"){nequi = nequi + jsonMetodosPago[i].valor }
-                if(jsonMetodosPago[i].metodo == "4"){daviplata = daviplata + jsonMetodosPago[i].valor }      
-                if(jsonMetodosPago[i].metodo == "5"){PayU = PayU + jsonMetodosPago[i].valor }
-                if(jsonMetodosPago[i].metodo == "6"){Bancolombia = Bancolombia + jsonMetodosPago[i].valor }  
-                valorTotal = efectivo + datafono + nequi + daviplata + PayU + Bancolombia;
+
+            console.log("se actualizo el dia 21 a la tabla");
+            for (let i = 0; i < Object.keys(objMetodos).length; i++) {  
+                for (let j = 0; j < Object.keys(jsonMetodosPago).length; j++) {
+                    var datos = objMetodos[i].split(':');
+                    
+                    if(datos[0] === jsonMetodosPago[j].metodo){
+                        var valor = parseInt(datos[2]);
+                        var valorFinal = valor + jsonMetodosPago[j].valor 
+                        objMetodos[i] = datos[0]+':'+datos[1]+':'+valorFinal;
+                        console.log(objMetodos[i]);
+                        valorTotal = valorTotal + valorFinal
+                    }  
+                }
             }
-            var objetoMetodo = {};
-            objetoMetodo.Efectivo = efectivo;
-            objetoMetodo.Datafono = datafono;
-            objetoMetodo.Nequi = nequi;
-            objetoMetodo.Daviplata = daviplata;
-            objetoMetodo.PayU = PayU;
-            objetoMetodo.Bancolombia = Bancolombia; 
+            var objetoMetodo = {}; 
+            for (let i = 0; i < Object.keys(objMetodos).length; i++) {  
+                var datos = objMetodos[i].split(':');
+                if(datos[0] == "1"){objetoMetodo.Efectivo = parseInt(datos[2]) + parseInt(jsonMetodosPago2.Efectivo);}
+                if(datos[0] == "2"){objetoMetodo.Datafono = parseInt(datos[2]) + parseInt(jsonMetodosPago2.Datafono);}
+                if(datos[0] == "3"){objetoMetodo.NequiD = parseInt(datos[2]) + parseInt(jsonMetodosPago2.NequiD);}
+                if(datos[0] == "4"){objetoMetodo.DaviplataD = parseInt(datos[2]) + parseInt(jsonMetodosPago2.DaviplataD);}
+                if(datos[0] == "5"){objetoMetodo.PayU = parseInt(datos[2]) + parseInt(jsonMetodosPago2.PayU);}
+                if(datos[0] == "6"){objetoMetodo.BancolombiaD = parseInt(datos[2]) + parseInt(jsonMetodosPago2.BancolombiaD);} 	
+                if(datos[0] == "7"){objetoMetodo.DaviplataNatalia = parseInt(datos[2]) + parseInt(jsonMetodosPago2.DaviplataNatalia);}
+                if(datos[0] == "8"){objetoMetodo.DaviplataFrancisco = parseInt(datos[2]) + parseInt(jsonMetodosPago2.DaviplataFrancisco);}
+                if(datos[0] == "9"){objetoMetodo.BancolombiaNatalia = parseInt(datos[2]) + parseInt(jsonMetodosPago2.BancolombiaNatalia);}
+                if(datos[0] == "10"){objetoMetodo.BancolombiaFrancisco = parseInt(datos[2]) + parseInt(jsonMetodosPago2.BancolombiaFrancisco);}
+                if(datos[0] == "11"){objetoMetodo.BancolombiaEsperanza = parseInt(datos[2]) + parseInt(jsonMetodosPago2.BancolombiaEsperanza);}
+                if(datos[0] == "12"){objetoMetodo.NequiNatalia = parseInt(datos[2]) + parseInt(jsonMetodosPago2.NequiNatalia); }	
+                if(datos[0] == "13"){objetoMetodo.NequiFrancisco = parseInt(datos[2]) + parseInt(jsonMetodosPago2.NequiFrancisco);}
+                if(datos[0] == "14"){objetoMetodo.Davivienda = parseInt(datos[2]) + parseInt(jsonMetodosPago2.Davivienda);} 	
+            }
+            
+            valorTotal = objetoMetodo.Efectivo+objetoMetodo.Datafono+objetoMetodo.NequiD+objetoMetodo.DaviplataD+objetoMetodo.PayU+objetoMetodo.BancolombiaD+objetoMetodo.DaviplataNatalia+objetoMetodo.DaviplataFrancisco+objetoMetodo.BancolombiaNatalia+objetoMetodo.BancolombiaFrancisco+objetoMetodo.BancolombiaEsperanza+objetoMetodo.NequiNatalia+objetoMetodo.NequiFrancisco+objetoMetodo.Davivienda;
+            // efectivo = jsonMetodosPago2.Efectivo;
+            // datafono = jsonMetodosPago2.Datafono;
+            // nequi = jsonMetodosPago2.Nequi;
+            // daviplata = jsonMetodosPago2.Daviplata;
+            // PayU = jsonMetodosPago2.PayU;
+            // Bancolombia = jsonMetodosPago2.Bancolombia;
+            // for (let i = 0; i < Object.keys(jsonMetodosPago).length; i++) {    
+            //     if(jsonMetodosPago[i].metodo == "1"){efectivo = efectivo + jsonMetodosPago[i].valor }
+            //     if(jsonMetodosPago[i].metodo == "2"){datafono = datafono + jsonMetodosPago[i].valor }
+            //     if(jsonMetodosPago[i].metodo == "3"){nequi = nequi + jsonMetodosPago[i].valor }
+            //     if(jsonMetodosPago[i].metodo == "4"){daviplata = daviplata + jsonMetodosPago[i].valor }      
+            //     if(jsonMetodosPago[i].metodo == "5"){PayU = PayU + jsonMetodosPago[i].valor }
+            //     if(jsonMetodosPago[i].metodo == "6"){Bancolombia = Bancolombia + jsonMetodosPago[i].valor }  
+            //     valorTotal = efectivo + datafono + nequi + daviplata + PayU + Bancolombia;
+            // }
+            // var objetoMetodo = {};
+            // objetoMetodo.Efectivo = efectivo;
+            // objetoMetodo.Datafono = datafono;
+            // objetoMetodo.Nequi = nequi;
+            // objetoMetodo.Daviplata = daviplata;
+            // objetoMetodo.PayU = PayU;
+            // objetoMetodo.Bancolombia = Bancolombia; 
             var objeto = {};
             objeto.tipo = "json";
             objeto.columna = "metodos_pago";
@@ -585,25 +629,51 @@
             objeto.valor = jsonExiste[0].ID;
             var condicion = prepararjson(objeto);
             actualizarregistros("con_t_resumenplaza",condicion,valorTotal_insert,metodos_pago_insert,"0","0","0","0","0","0","0","0","0");
+            console.log(objMetodos);   
         }else{
 
             console.log("se Aagrego el dia 21 a la tabla");
-            for (let i = 0; i < Object.keys(jsonMetodosPago).length; i++) {    
-                if(jsonMetodosPago[i].metodo == "1"){efectivo = efectivo + jsonMetodosPago[i].valor }
-                if(jsonMetodosPago[i].metodo == "2"){datafono = datafono + jsonMetodosPago[i].valor }
-                if(jsonMetodosPago[i].metodo == "3"){nequi = nequi + jsonMetodosPago[i].valor }
-                if(jsonMetodosPago[i].metodo == "4"){daviplata = daviplata + jsonMetodosPago[i].valor }      
-                if(jsonMetodosPago[i].metodo == "5"){PayU = PayU + jsonMetodosPago[i].valor }
-                if(jsonMetodosPago[i].metodo == "6"){Bancolombia = Bancolombia + jsonMetodosPago[i].valor }  
-                valorTotal = efectivo + datafono + nequi + daviplata + PayU + Bancolombia;
+            for (let i = 0; i < Object.keys(objMetodos).length; i++) {  
+                for (let j = 0; j < Object.keys(jsonMetodosPago).length; j++) {
+                    var datos = objMetodos[i].split(':');
+                    
+                    if(datos[0] === jsonMetodosPago[j].metodo){
+                        var valor = parseInt(datos[2]);
+                        var valorFinal = valor + jsonMetodosPago[j].valor
+                        objMetodos[i] = datos[0]+':'+datos[1]+':'+valorFinal;
+                        console.log(objMetodos[i]);
+                        valorTotal = valorTotal + valorFinal
+                    }  
+                }
             }
-            var objetoMetodo = {};
-            objetoMetodo.Efectivo = efectivo;
-            objetoMetodo.Datafono = datafono;
-            objetoMetodo.Nequi = nequi;
-            objetoMetodo.Daviplata = daviplata;
-            objetoMetodo.PayU = PayU;
-            objetoMetodo.Bancolombia = Bancolombia; 	
+            // for (let i = 0; i < Object.keys(jsonMetodosPago).length; i++) {    
+            //     if(jsonMetodosPago[i].metodo == "1"){efectivo = efectivo + jsonMetodosPago[i].valor }
+            //     if(jsonMetodosPago[i].metodo == "2"){datafono = datafono + jsonMetodosPago[i].valor }
+            //     if(jsonMetodosPago[i].metodo == "3"){nequi = nequi + jsonMetodosPago[i].valor }
+            //     if(jsonMetodosPago[i].metodo == "4"){daviplata = daviplata + jsonMetodosPago[i].valor }      
+            //     if(jsonMetodosPago[i].metodo == "5"){PayU = PayU + jsonMetodosPago[i].valor }
+            //     if(jsonMetodosPago[i].metodo == "6"){Bancolombia = Bancolombia + jsonMetodosPago[i].valor }  
+            //        valorTotal = efectivo + datafono + nequi + daviplata + PayU + Bancolombia;
+            // }
+            var objetoMetodo = {}; 
+            for (let i = 0; i < Object.keys(objMetodos).length; i++) {  
+                var datos = objMetodos[i].split(':');
+                if(datos[0] == "1"){objetoMetodo.Efectivo = datos[2];}
+                if(datos[0] == "2"){objetoMetodo.Datafono = datos[2];}
+                if(datos[0] == "3"){objetoMetodo.NequiD = datos[2];}
+                if(datos[0] == "4"){objetoMetodo.DaviplataD = datos[2];}
+                if(datos[0] == "5"){objetoMetodo.PayU = datos[2];}
+                if(datos[0] == "6"){objetoMetodo.BancolombiaD = datos[2];} 	
+                if(datos[0] == "7"){objetoMetodo.DaviplataNatalia = datos[2];}
+                if(datos[0] == "8"){objetoMetodo.DaviplataFrancisco = datos[2];}
+                if(datos[0] == "9"){objetoMetodo.BancolombiaNatalia = datos[2];}
+                if(datos[0] == "10"){objetoMetodo.BancolombiaFrancisco = datos[2];}
+                if(datos[0] == "11"){objetoMetodo.BancolombiaEsperanza = datos[2];}
+                if(datos[0] == "12"){objetoMetodo.NequiNatalia = datos[2]; }	
+                if(datos[0] == "13"){objetoMetodo.NequiFrancisco = datos[2];}
+                if(datos[0] == "14"){objetoMetodo.Davivienda = datos[2];} 	
+            }
+            
             let currentDate = `${year}/${month}/${day}`;//2022-08-08 13:58:58
             var objeto = {};
             objeto.tipo = "date";
@@ -621,32 +691,36 @@
             objeto.valor = valorTotal;
             var valorTotal_insert = prepararjson(objeto);
             var idregla = insertarfila("con_t_resumenplaza",fecha_inser,metodos_pago_insert,valorTotal_insert,"0","0","0","0","0","0","0","0");
+            console.log(objMetodos);
         }
+        $('#bodyTabla').empty();
+        $('.tablaResumen').empty(); 
         $('.ventasplazaResumen').remove(); 
         var resumen = obtenerDatajson('ID,fecha,valor_mercancia,metodos_pago','con_t_resumenplaza','variasfilasunicas','0','0');
         var jsonResumen = JSON.parse(resumen);
-        var html = imprimirResumen2(jsonResumen);
-        $('#primeraFila').after(html);
+        // var html = 
+        imprimirResumen2(jsonResumen);
+        // $('#primeraFila').after(html);
         $('#popup').fadeOut('slow');         
         $('.popup-overlay').fadeOut('slow');      
         $('.reinicia').remove(); 
         $('.metodop').remove(); 
         $('.verDia').on('click', function(){ 
-        $('.ventasplazaResumen').remove(); 
-        $('#primeraFila').css('display', 'none');
-        $('.primeraFilaDia').css('display', 'block');
-        var id = $(this).attr("name");
-        var horaMenor = " 00:00:00";
-        var horaMayor = " 23:00:00";
-        var fecha = "'"+id+horaMenor+"' AND '"+id+horaMayor+"'";
-        console.log('inicio');
-        var resumenDia = obtenerDatajson('ID,cliente_id,datos_cliente,codigos_prendas,notas,metodos_pago,valor_total','con_t_ventasplaza','Between','fecha_creada',fecha);
-        var jsonResumenDia = JSON.parse(resumenDia);
-        console.log(jsonResumenDia);
-        $('#primeraFila').after(imprimi(jsonResumenDia));
-        console.log('fin');
-        return false;     
-    }); 
+            $('.tablaResumen').empty(); 
+            $('#primeraFila').css('display', 'none');
+            $('.primeraFilaDia').css('display', 'block');
+            var id = $(this).attr("name");
+            var horaMenor = " 00:00:00";
+            var horaMayor = " 23:00:00";
+            var fecha = "'"+id+horaMenor+"' AND '"+id+horaMayor+"'";
+            console.log('inicio');
+            var resumenDia = obtenerDatajson('ID,cliente_id,datos_cliente,codigos_prendas,notas,metodos_pago,valor_total','con_t_ventasplaza','Between','fecha_creada',fecha);
+            var jsonResumenDia = JSON.parse(resumenDia);
+            console.log(jsonResumenDia);
+            $('#primeraFila').after(imprimi(jsonResumenDia));
+            console.log('fin');
+            return false;     
+        }); 
     });      
     $('#close2').on('click', function(){         
         $('#popup2').fadeOut('slow');      
@@ -1352,29 +1426,80 @@ function seleccionClienteApartado(id) {
         return false;  
     }
     function imprimirResumen2(jsonResumen){
-        var jsonMetodosPago = JSON.parse(jsonResumen[jsonResumen.length-1].metodos_pago);
-        var html = "<div class='col-lg-12 col-md-12 col-sm-12 col-xs-12 ventasplazaResumen' id='primeraventa'><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1 containerTabla'><p class='letra18pt-pc negrillaUno verDia' name='"+jsonResumen[jsonResumen.length-1].fecha+"' >"
-        +jsonResumen[jsonResumen.length-1].fecha+"</p></div><div class='col-lg-2 col-md-2 col-sm-2 col-xs-2 containerTabla'><p class='letra18pt-pc negrillaUno'>"
-        +formatoPrecio(jsonResumen[jsonResumen.length-1].valor_mercancia)+"</p></div><div class='col-lg-2 col-md-2 col-sm-2 col-xs-2 containerTabla'><p class='letra18pt-pc negrillaUno'>"
-        +formatoPrecio(jsonMetodosPago.Efectivo)+"</p></div><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1 containerTabla'><p class='letra18pt-pc negrillaUno'>"
-        +formatoPrecio(jsonMetodosPago.Datafono)+"</p></div><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1 containerTabla'> <p class='letra18pt-pc negrillaUno'>"
-        +formatoPrecio(jsonMetodosPago.Nequi)+"</p></div><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1 containerTabla'><p class='letra18pt-pc negrillaUno'>"
-        +formatoPrecio(jsonMetodosPago.Daviplata)+"</p></div><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1 containerTabla'><p class='letra18pt-pc negrillaUno'>"
-        +formatoPrecio(jsonMetodosPago.PayU)+"</p></div><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1 containerTabla'><p class='letra18pt-pc negrillaUno'>"
-        +formatoPrecio(jsonMetodosPago.Bancolombia)+"</p></div></div>";
-        for (let i = (jsonResumen.length-2); i >=0; i--) {
-            var jsonMetodosPago2 = JSON.parse(jsonResumen[i].metodos_pago);
-            html = html + "<div class='col-lg-12 col-md-12 col-sm-12 col-xs-12 ventasplazaResumen'><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1 containerTabla'><p class='letra18pt-pc negrillaUno verDia' name='"+jsonResumen[i].fecha+"' >"
-            +jsonResumen[i].fecha+"</p></div><div class='col-lg-2 col-md-2 col-sm-2 col-xs-2 containerTabla'><p class='letra18pt-pc negrillaUno'>"
-            +formatoPrecio(jsonResumen[i].valor_mercancia)+"</p></div><div class='col-lg-2 col-md-2 col-sm-2 col-xs-2 containerTabla'><p class='letra18pt-pc negrillaUno'>"
-            +formatoPrecio(jsonMetodosPago2.Efectivo)+"</p></div><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1 containerTabla'><p class='letra18pt-pc negrillaUno'>"
-            +formatoPrecio(jsonMetodosPago2.Datafono)+"</p></div><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1 containerTabla'> <p class='letra18pt-pc negrillaUno'>"
-            +formatoPrecio(jsonMetodosPago2.Nequi)+"</p></div><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1 containerTabla'><p class='letra18pt-pc negrillaUno'>"
-            +formatoPrecio(jsonMetodosPago2.Daviplata)+"</p></div><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1 containerTabla'><p class='letra18pt-pc negrillaUno'>"
-            +formatoPrecio(jsonMetodosPago2.PayU)+"</p></div><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1 containerTabla'><p class='letra18pt-pc negrillaUno'>"
-            +formatoPrecio(jsonMetodosPago2.Bancolombia)+"</p></div></div>";
+
+        var metodosPago = obtenerDatajson('ID,descripcion','con_t_metodospago','variasfilasunicas','0','0');
+        var jsonMetodosPago = JSON.parse(metodosPago);
+        console.log(jsonMetodosPago);
+        var htmlTitulo='';
+        var htmlBody='';
+        for (let i = 0; i < Object.keys(jsonMetodosPago).length; i++) {    
+            htmlTitulo = htmlTitulo + "<th><p class='letra18pt-pc negrillaUno'>"+jsonMetodosPago[i].descripcion+"</p></th>"
         }
-        return html;
+        $('#titulosTabla').append(htmlTitulo);
+
+        for (let i = (jsonResumen.length-1); i >=0; i--) {
+            var jsonMetodosPago2 = JSON.parse(jsonResumen[i].metodos_pago);
+            console.log(jsonMetodosPago2,'importante');
+            var htmlBodyDentro='';
+            for (let i = 0; i < Object.keys(jsonMetodosPago).length; i++) { 
+                for (let j in jsonMetodosPago2){
+                    
+                    if(j===jsonMetodosPago[i].descripcion){
+                        htmlBodyDentro = htmlBodyDentro +"<td><p class='letra18pt-pc negrillaUno'>"+formatoPrecio(jsonMetodosPago2[j])+"</p></td>";
+
+                    }
+                    console.log(jsonMetodosPago[i].descripcion,j,jsonMetodosPago2[j]);
+                }
+                   
+    
+            }
+
+            htmlBody = htmlBody 
+            +"<tr>"
+                +"<td><p class='letra18pt-pc negrillaUno verDia' name='"+jsonResumen[i].fecha+"'>"+jsonResumen[i].fecha+"</p></td>"
+                +"<td><p class='letra18pt-pc negrillaUno'>"+formatoPrecio(jsonResumen[i].valor_mercancia)+"</p></td>"
+                +htmlBodyDentro
+            +"</tr>";
+
+            
+            
+            // "<div class='col-lg-12 col-md-12 col-sm-12 col-xs-12 ventasplazaResumen'><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1 containerTabla'><p class='letra18pt-pc negrillaUno verDia' name='"+jsonResumen[i].fecha+"' >"
+            // +jsonResumen[i].fecha+"</p></div><div class='col-lg-2 col-md-2 col-sm-2 col-xs-2 containerTabla'><p class='letra18pt-pc negrillaUno'>"
+            // +formatoPrecio(jsonResumen[i].valor_mercancia)+"</p></div><div class='col-lg-2 col-md-2 col-sm-2 col-xs-2 containerTabla'><p class='letra18pt-pc negrillaUno'>"
+            // +formatoPrecio(jsonMetodosPago2.Efectivo)+"</p></div><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1 containerTabla'><p class='letra18pt-pc negrillaUno'>"
+            // +formatoPrecio(jsonMetodosPago2.Datafono)+"</p></div><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1 containerTabla'> <p class='letra18pt-pc negrillaUno'>"
+            // +formatoPrecio(jsonMetodosPago2.Nequi)+"</p></div><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1 containerTabla'><p class='letra18pt-pc negrillaUno'>"
+            // +formatoPrecio(jsonMetodosPago2.Daviplata)+"</p></div><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1 containerTabla'><p class='letra18pt-pc negrillaUno'>"
+            // +formatoPrecio(jsonMetodosPago2.PayU)+"</p></div><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1 containerTabla'><p class='letra18pt-pc negrillaUno'>"
+            // +formatoPrecio(jsonMetodosPago2.Bancolombia)+"</p></div></div>";
+        }
+        $('#bodyTabla').append(htmlBody);
+
+
+        // var jsonMetodosPago = JSON.parse(jsonResumen[jsonResumen.length-1].metodos_pago);
+        // var html = "<div class='col-lg-12 col-md-12 col-sm-12 col-xs-12 ventasplazaResumen' id='primeraventa'><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1 containerTabla'><p class='letra18pt-pc negrillaUno verDia' name='"+jsonResumen[jsonResumen.length-1].fecha+"' >"
+        // +jsonResumen[jsonResumen.length-1].fecha+"</p></div><div class='col-lg-2 col-md-2 col-sm-2 col-xs-2 containerTabla'><p class='letra18pt-pc negrillaUno'>"
+        // +formatoPrecio(jsonResumen[jsonResumen.length-1].valor_mercancia)+"</p></div><div class='col-lg-2 col-md-2 col-sm-2 col-xs-2 containerTabla'><p class='letra18pt-pc negrillaUno'>"
+        // +formatoPrecio(jsonMetodosPago.Efectivo)+"</p></div><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1 containerTabla'><p class='letra18pt-pc negrillaUno'>"
+        // +formatoPrecio(jsonMetodosPago.Datafono)+"</p></div><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1 containerTabla'> <p class='letra18pt-pc negrillaUno'>"
+        // +formatoPrecio(jsonMetodosPago.Nequi)+"</p></div><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1 containerTabla'><p class='letra18pt-pc negrillaUno'>"
+        // +formatoPrecio(jsonMetodosPago.Daviplata)+"</p></div><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1 containerTabla'><p class='letra18pt-pc negrillaUno'>"
+        // +formatoPrecio(jsonMetodosPago.PayU)+"</p></div><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1 containerTabla'><p class='letra18pt-pc negrillaUno'>"
+        // +formatoPrecio(jsonMetodosPago.Bancolombia)+"</p></div></div>";
+        // for (let i = (jsonResumen.length-2); i >=0; i--) {
+        //     var jsonMetodosPago2 = JSON.parse(jsonResumen[i].metodos_pago);
+        //     console.log(jsonMetodosPago2);
+        //     html = html + "<div class='col-lg-12 col-md-12 col-sm-12 col-xs-12 ventasplazaResumen'><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1 containerTabla'><p class='letra18pt-pc negrillaUno verDia' name='"+jsonResumen[i].fecha+"' >"
+        //     +jsonResumen[i].fecha+"</p></div><div class='col-lg-2 col-md-2 col-sm-2 col-xs-2 containerTabla'><p class='letra18pt-pc negrillaUno'>"
+        //     +formatoPrecio(jsonResumen[i].valor_mercancia)+"</p></div><div class='col-lg-2 col-md-2 col-sm-2 col-xs-2 containerTabla'><p class='letra18pt-pc negrillaUno'>"
+        //     +formatoPrecio(jsonMetodosPago2.Efectivo)+"</p></div><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1 containerTabla'><p class='letra18pt-pc negrillaUno'>"
+        //     +formatoPrecio(jsonMetodosPago2.Datafono)+"</p></div><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1 containerTabla'> <p class='letra18pt-pc negrillaUno'>"
+        //     +formatoPrecio(jsonMetodosPago2.Nequi)+"</p></div><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1 containerTabla'><p class='letra18pt-pc negrillaUno'>"
+        //     +formatoPrecio(jsonMetodosPago2.Daviplata)+"</p></div><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1 containerTabla'><p class='letra18pt-pc negrillaUno'>"
+        //     +formatoPrecio(jsonMetodosPago2.PayU)+"</p></div><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1 containerTabla'><p class='letra18pt-pc negrillaUno'>"
+        //     +formatoPrecio(jsonMetodosPago2.Bancolombia)+"</p></div></div>";
+        // }
+        // return html;
     }
     function imprimi(jsonVentas) {
         console.log(jsonVentas);
@@ -1398,7 +1523,14 @@ function seleccionClienteApartado(id) {
             var metodoModificado = JSON.parse(metodoConsultado);
             vmp = vmp + " " + jsonmetodos_pagos[j].valor+" método "+metodoModificado[0].descripcion;
         }
-        var html = "<div class='col-lg-12 col-md-12 col-sm-12 col-xs-12 ventasplaza' id='primeraventa'><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'><p class='letra18pt-pc negrillaUno'>"+jsonVentas[jsonVentas.length-1].ID+"</p></div><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'><p class='letra18pt-pc negrillaUno'>"+jsondatoscliente.nombre+"</p></div><div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'><p class='letra18pt-pc negrillaUno'>"+jsondatoscliente.telefono+"</p></div><div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'><p class='letra18pt-pc negrillaUno'>"+jsondatoscliente.correo+"</p></div><div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'> <p class='letra18pt-pc negrillaUno'>"+pedido+"</p></div><div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'><p class='letra18pt-pc negrillaUno'>"+jsonVentas[jsonVentas.length-1].valor_total+" "+vmp+"</p></div><div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'><p class='letra18pt-pc negrillaUno'>"+jsonVentas[jsonVentas.length-1].notas+"</p></div></div></div>";
+        var html = "<div class='col-lg-12 col-md-12 col-sm-12 col-xs-12 ventasplaza' id='primeraventa'><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'><p class='letra18pt-pc negrillaUno'>"
+        +jsonVentas[jsonVentas.length-1].ID+"</p></div><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'><p class='letra18pt-pc negrillaUno'>"
+        +jsondatoscliente.nombre+"</p></div><div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'><p class='letra18pt-pc negrillaUno'>"
+        +jsondatoscliente.telefono+"</p></div><div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'><p class='letra18pt-pc negrillaUno'>"
+        +jsonVentas[jsonVentas.length-1].fecha_creada+"</p></div><div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'> <p class='letra18pt-pc negrillaUno'>"
+        +pedido+"</p></div><div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'><p class='letra18pt-pc negrillaUno'>"
+        +jsonVentas[jsonVentas.length-1].valor_total+" "+vmp+"</p></div><div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'><p class='letra18pt-pc negrillaUno'>"
+        +jsonVentas[jsonVentas.length-1].notas+"</p></div></div></div>";
         
         for (let i = (jsonVentas.length-2); i >=0; i--) {
             var datoscliente = jsonVentas[i].datos_cliente;
@@ -1424,7 +1556,7 @@ function seleccionClienteApartado(id) {
             +jsonVentas[i].ID+"</p></div><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'><p class='letra18pt-pc negrillaUno'>"
             +jsondatoscliente.nombre+"</p></div><div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'><p class='letra18pt-pc negrillaUno'>"
             +jsondatoscliente.telefono+"</p></div><div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'><p class='letra18pt-pc negrillaUno'>"
-            +jsondatoscliente.correo+"</p></div><div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'> <p class='letra18pt-pc negrillaUno'>"
+            +jsonVentas[i].fecha_creada+"</p></div><div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'> <p class='letra18pt-pc negrillaUno'>"
             +pedido+"</p></div><div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'><p class='letra18pt-pc negrillaUno'>"
             +jsonVentas[i].valor_total+" "+vmp+"</p></div><div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'><p class='letra18pt-pc negrillaUno'>"
             +jsonVentas[i].notas+"</p></div></div></div>";
