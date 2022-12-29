@@ -521,11 +521,11 @@
         console.log(jsoncodigos);
         console.log(usuarioLevel);
         console.log(Object.keys(jsoncodigos).length);
-        // for (let i = 0; i < Object.keys(jsoncodigos).length; i++) {      
-        //     console.log(jsoncodigos[i]);      
-        //     actualizarPrendas(usuarioLevel,"Venta local","PA-"+lastid[0].id,jsoncodigos[i].codigo);
-        //     actualizar("con_t_prendasplaza","-",jsoncodigos[i].codigo,"-","-");
-        // }
+        for (let i = 0; i < Object.keys(jsoncodigos).length; i++) {      
+            console.log(jsoncodigos[i]);      
+            actualizarPrendas(usuarioLevel,"Venta local","PA-"+lastid[0].id,jsoncodigos[i].codigo);
+            actualizar("con_t_prendasplaza","-",jsoncodigos[i].codigo,"-","-");
+        }
         const date = new Date();
         let day = date.getDate();
         let month = date.getMonth() + 1;
@@ -694,7 +694,7 @@
             console.log(objMetodos);
         }
         $('#bodyTabla').empty();
-        $('.tablaResumen').empty(); 
+        $('#titulosTabla').empty();
         $('.ventasplazaResumen').remove(); 
         var resumen = obtenerDatajson('ID,fecha,valor_mercancia,metodos_pago','con_t_resumenplaza','variasfilasunicas','0','0');
         var jsonResumen = JSON.parse(resumen);
