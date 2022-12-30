@@ -577,8 +577,8 @@
                 var datos = objMetodos[i].split(':');
                 if(datos[0] == "1"){objetoMetodo.Efectivo = parseInt(datos[2]) + parseInt(jsonMetodosPago2.Efectivo);}
                 if(datos[0] == "2"){objetoMetodo.Datafono = parseInt(datos[2]) + parseInt(jsonMetodosPago2.Datafono);}
-                if(datos[0] == "3"){objetoMetodo.NequiD = parseInt(datos[2]) + parseInt(jsonMetodosPago2.NequiD);}
-                if(datos[0] == "4"){objetoMetodo.DaviplataD = parseInt(datos[2]) + parseInt(jsonMetodosPago2.DaviplataD);}
+                if(datos[0] == "3"){objetoMetodo.NequiDiego = parseInt(datos[2]) + parseInt(jsonMetodosPago2.NequiD);}
+                if(datos[0] == "4"){objetoMetodo.DaviplataDiego = parseInt(datos[2]) + parseInt(jsonMetodosPago2.DaviplataD);}
                 if(datos[0] == "5"){objetoMetodo.PayU = parseInt(datos[2]) + parseInt(jsonMetodosPago2.PayU);}
                 if(datos[0] == "6"){objetoMetodo.BancolombiaD = parseInt(datos[2]) + parseInt(jsonMetodosPago2.BancolombiaD);} 	
                 if(datos[0] == "7"){objetoMetodo.DaviplataNatalia = parseInt(datos[2]) + parseInt(jsonMetodosPago2.DaviplataNatalia);}
@@ -660,10 +660,10 @@
                 var datos = objMetodos[i].split(':');
                 if(datos[0] == "1"){objetoMetodo.Efectivo = datos[2];}
                 if(datos[0] == "2"){objetoMetodo.Datafono = datos[2];}
-                if(datos[0] == "3"){objetoMetodo.NequiD = datos[2];}
-                if(datos[0] == "4"){objetoMetodo.DaviplataD = datos[2];}
+                if(datos[0] == "3"){objetoMetodo.NequiDiego = datos[2];}
+                if(datos[0] == "4"){objetoMetodo.DaviplataDiego = datos[2];}
                 if(datos[0] == "5"){objetoMetodo.PayU = datos[2];}
-                if(datos[0] == "6"){objetoMetodo.BancolombiaD = datos[2];} 	
+                if(datos[0] == "6"){objetoMetodo.BancolombiaDiego = datos[2];} 	
                 if(datos[0] == "7"){objetoMetodo.DaviplataNatalia = datos[2];}
                 if(datos[0] == "8"){objetoMetodo.DaviplataFrancisco = datos[2];}
                 if(datos[0] == "9"){objetoMetodo.BancolombiaNatalia = datos[2];}
