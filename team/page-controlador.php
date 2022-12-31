@@ -552,8 +552,9 @@ function agregarcambio($venta_id,$datos_cliente,$prendasSalen,$pedidoitem,$notas
     $datosssss = str_replace("<","{",$datosss);
     $pedido_item = str_replace(">","}",$datosssss);
     global $wpdb;
-    $datos = "INSERT INTO con_t_cambios (fecha_creada,venta_id,datos_cliente,pedido,prendas_por_regresar,pedido_item,cliente_ok,notas,excedente,fecha_entrega,estado,vendedor_id,usuarioactual_id) VALUES  ('".$fechacreada."','".$venta_id."','".$datos_cliente."','".$prendasSalen."','-','".$pedido_item."', '0',".$notas.",".$excedente.",'".$fechaentrega."','Sin empacar',".$idUsuario.",".$idUsuario.")";
+    $datos = "INSERT INTO con_t_cambios (fecha_creada,venta_id,datos_cliente,pedido,prendas_por_regresar,pedido_item,cliente_ok,notas,excedente,fecha_entrega,estado,vendedor_id,usuarioactual_id) VALUES  ('".$fechacreada."','".$venta_id."','".$datos_cliente."','".$prendasSalen."','-','".$pedido_item."', '0','".$notas."',".$excedente.",'".$fechaentrega."','Sin empacar',".$idUsuario.",".$idUsuario.")";
     $wpdb->query($datos);
+    echo $datos;
     $lastId = $wpdb->get_results( "SELECT MAX(cambio_id) as id FROM con_t_cambios");
     echo $lastId[0]->id;
 }

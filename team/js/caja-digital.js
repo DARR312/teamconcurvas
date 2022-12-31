@@ -1,4 +1,9 @@
 function cajadigital() { 
+    $('#bscar').on('change', function(){
+        console.log($('#bscar').val());
+        $('.remover').remove();  
+        
+    });
     $('.verInforme').on('click', function(){        
         $('.remover').remove();    
         var cajasemanal = cajadigita(this.name);
@@ -42,7 +47,7 @@ function cajadigital() {
                     "<button class='botonmodal botonenmodal letra18pt-pc entregarpedido' type='button' name='"+jsoncajasemanal[0].venta_id+"'> Entregado </button>"+
                 "</div>	"+
             "</div>	"+
-            "<div class='col-lg-6 col-md-6 col-sm-6 col-xs-6 remover"+jsoncajasemanal[0].venta_id+"'>"+
+            "<div class='col-lg-6 col-md-6 col-sm-6 col-xs-6 remover"+jsoncajasemanal[0].venta_id+" remover'>"+
                 "<div class='col-lg-4 col-md-4 col-sm-4 col-xs-4'>"+
                     "<div class='form-group pmd-textfield pmd-textfield-floating-label pmd-textfield-floating-label-completed'>"+
                         "<label class='control-label letra18pt-pc' for='regular1'>Metodo</label>"+
@@ -71,7 +76,7 @@ function cajadigital() {
             "</div>	"+
         "</div>	";
         for (let j = 1; j < jsoncajasemanal.length; j++) {
-            html = html + "<div class='col-lg-6 col-md-6 col-sm-6 col-xs-6 remover"+jsoncajasemanal[i].venta_id+"'>"+
+            html = html + "<div class='col-lg-6 col-md-6 col-sm-6 col-xs-6 remover"+jsoncajasemanal[i].venta_id+" remover'>"+
             "<div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'>"+
                 "<p class='letra18pt-pc negrillaUno'>"+jsoncajasemanal[j].venta_id+"</p>"+
             "</div> "+
