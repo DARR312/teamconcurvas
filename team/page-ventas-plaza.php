@@ -612,7 +612,7 @@
 	    <div class="container-fluid pc tablet" id="bloquePrincipal">
 			<div class='col-lg-12 col-md-12 col-sm-12 col-xs-12 ventasplaza' id='primeraFila'>
 			<div class="container mt-3">
-  				<div class="table-responsive" style="width: 100%; margin-left: -7%; margin-top: -7%;height: 823px;">
+  				<div class="table-responsive" style="width: 110%; margin-left: -7%; margin-top: -7%;height: 823px;">
   				  <table class="table table-bordered tablaResumen">
   				    <thead>
   				      <tr id="titulosTabla">
