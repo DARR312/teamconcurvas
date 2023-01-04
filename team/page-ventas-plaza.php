@@ -616,8 +616,7 @@
   				  <table class="table table-bordered tablaResumen">
   				    <thead>
   				      <tr id="titulosTabla">
-  				        <th><p class='letra18pt-pc negrillaUno'>Fecha</p></th>
-  				        <th><p class='letra18pt-pc negrillaUno'>Mercancía</p></th>
+  				        
   				       <!-- <th><p class='letra18pt-pc negrillaUno'>Efectivo</p></th>
   				        <th><p class='letra18pt-pc negrillaUno'>Datafono</p></th>
   				        <th><p class='letra18pt-pc negrillaUno'>Nequi</p></th>
