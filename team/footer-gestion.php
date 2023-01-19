@@ -1,40 +1,36 @@
 <?php get_template_part('generalfooter'); ?>
     //<script>
     $('#cajamadrugon').on('click', function(){  
-        var fecha = $("#datetimepicker-madrugon").val();
-        alert(fecha);
+        var fecha_insert = $("#datetimepicker-madrugon").val();
+        if(!fecha_insert){alert("Ingresa una fecha para la nueva caja de madrugón");return false;}
+        alert("Se inserto el madrugón con fecha: "+fecha_insert);
+        var objeto = {};
+        objeto.tipo = "date_sinhora";
+        objeto.columna = "fecha";
+        objeto.valor = fecha_insert;
+        var fecha = prepararjson(objeto);
         var objeto = {};
         objeto.tipo = "int";
-        objeto.columna = "tipo_regla";
-        objeto.valor = tipo;
-        var tipo_regla = prepararjson(objeto);
+        objeto.columna = "valor_mercancia";
+        objeto.valor = 0;
+        var valor_mercancia = prepararjson(objeto);
         var objeto = {};
         objeto.tipo = "int";
-        objeto.columna = "prendas_condicion";
-        objeto.valor = prendas_condicion;
-        var prendas_condicion = prepararjson(objeto);
+        objeto.columna = "valor_dinero";
+        objeto.valor = 0;
+        var valor_dinero = prepararjson(objeto);
         var objeto = {};
         objeto.tipo = "int";
-        objeto.columna = "prendas_descuento";
-        objeto.valor = prendas_descuento;
-        var prendas_descuento = prepararjson(objeto);
+        objeto.columna = "valor_cambios";
+        objeto.valor = 0;
+        var valor_cambios = prepararjson(objeto);
         var objeto = {};
         objeto.tipo = "string";
-        objeto.columna = "referencias";
-        objeto.valor = "-";
-        var referencias = prepararjson(objeto);
-        var objeto = {};
-        objeto.tipo = "int";
-        objeto.columna = "porcentaje_descuento";
-        objeto.valor = porcentaje_descuento;
-        var porcentaje_descuento = prepararjson(objeto);
-        var objeto = {};
-        objeto.tipo = "int";
-        objeto.columna = "regla_activa";
-        objeto.valor = 0;
-        var regla_activa = prepararjson(objeto);
-        var idregla = insertarfila("con_t_reglasdescuentos",nombre_regla,descripcion,tipo_regla,prendas_condicion,prendas_descuento,referencias,porcentaje_descuento,regla_activa,"0","0","0");
-        
+        objeto.columna = "madrugon_ok";
+        objeto.valor = "No";
+        var madrugon_ok = prepararjson(objeto);
+        var idmadrugon = insertarfila("con_t_madrugon",fecha,valor_mercancia,valor_dinero,valor_cambios,madrugon_ok,"0","0","0","0","0","0");
+        console.log(idmadrugon);
     });   
 })
 </script>
