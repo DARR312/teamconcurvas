@@ -19,7 +19,15 @@ $(window).load(function(){
    var permisos = permisosPrincipales();//principal.js
    var items = permisos.split(',');
    //alert(items.length);
+   
    var html = ""; 
+   <?php if(current_user_can( 'manage_options' )){ ?>
+    html="<div class='col-lg-12 col-md-12 col-sm-2 col-xs-2'>"+
+                    "<div class='iconosprincipales col-lg-6 col-md-6 col-sm-6 col-xs-6'>"+
+                        "<a id='linkprincipales' href='https://concurvas.com/team/gestion'>"+
+                                "<p class='letra18pt-pc letra3pt-mv nombresiconos'>Gestión</p>"+
+                        "</a></div></div>";
+    <?php } ?>
    for(i=1;i<items.length;i++){
        if(items[i]==1){
            //html =html+ "<a href='https://concurvas.com/team/usuarios'><div class='accesos'><img src='<?php echo get_template_directory_uri(); ?>/imagenes/iconos/usuarios.png' alt='Avatar'></div></a>";

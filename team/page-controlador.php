@@ -1547,6 +1547,11 @@ function convertidor($tipo,$valor,$columna){
         $fecha = explode("/",$valor);
         $vuno = "'".$fecha[0]."-".$fecha[1]."-".$fecha[2]." 00:00:00"."'";
         $cuno = $columna;
+    }      
+    if($tipo == 'date_sinhora'){
+        $fecha = explode("/",$valor);
+        $vuno = "'".$fecha[2]."-".$fecha[0]."-".$fecha[1]."'";
+        $cuno = $columna;
     }
     
     $objeto = array( "valor" => $vuno, "columna" => $cuno);
