@@ -184,24 +184,23 @@ function mayoristafunciones() {
         $(".removerprendas").remove();
         var id = this.id;
         var arraid = id.split("-");
-        var prendasmayorista = obtenerDatajson("resumen_mercancia","con_t_mayorista","valoresconcondicion","ID",arraid[1]);
+        var prendasmayorista = obtenerDatajson("codigo,descripcion,referencia_id","con_t_trprendas","valoresconcondicion","cual","'VM-"+arraid[1]+"'");
+        // var prendasmayorista = obtenerDatajson("resumen_mercancia","con_t_mayorista","valoresconcondicion","ID",arraid[1]);
         var jsonprendasmayoristas = JSON.parse(prendasmayorista);
-        console.log("jsonprendasmayoristas");
-        console.log(jsonprendasmayoristas);
-        console.log(jsonprendasmayoristas[0]["resumen_mercancia"]);
-        var jsonprendasmayorista = JSON.parse(jsonprendasmayoristas[0]["resumen_mercancia"]);
+        // console.log(jsonprendasmayoristas[0]["resumen_mercancia"]);
+        // var jsonprendasmayorista = JSON.parse(jsonprendasmayoristas[0]["resumen_mercancia"]);
         var html = "";
         var precio_final = 0;
-        for (let i = 0; i < (jsonprendasmayorista.length); i=i+4) {
+        for (let i = 0; i < (jsonprendasmayoristas.length); i=i+4) {
             html = html + "<div class='col-lg-12 col-md-12 col-sm-12 col-xs-12 removerprendas'>";
-            if(i<jsonprendasmayorista.length){
-                html = html + "<div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'><p type='submit' class='letra16pt-pc' > "+jsonprendasmayorista[i].codigo+" </p></div><div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'><p type='submit' class='letra16pt-pc'>"+jsonprendasmayorista[i].descripcion+"</p></div>";}
-            if((i+1)<jsonprendasmayorista.length){
-                html = html + "<div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'><p type='submit' class='letra16pt-pc' > "+jsonprendasmayorista[i+1].codigo+" </p></div><div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'><p type='submit' class='letra16pt-pc'>"+jsonprendasmayorista[i+1].descripcion+"</p></div>";}
-            if((i+2)<jsonprendasmayorista.length){
-                html = html + "<div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'><p type='submit' class='letra16pt-pc' > "+jsonprendasmayorista[i+2].codigo+" </p></div><div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'><p type='submit' class='letra16pt-pc'>"+jsonprendasmayorista[i+1].descripcion+"</p></div>";}
-            if((i+3)<jsonprendasmayorista.length){
-                html = html + "<div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'><p type='submit' class='letra16pt-pc' > "+jsonprendasmayorista[i+3].codigo+" </p></div><div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'><p type='submit' class='letra16pt-pc'>"+jsonprendasmayorista[i+1].descripcion+"</p></div>";}
+            if(i<jsonprendasmayoristas.length){
+                html = html + "<div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'><p type='submit' class='letra16pt-pc' > "+jsonprendasmayoristas[i].codigo+" </p></div><div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'><p type='submit' class='letra16pt-pc'>"+jsonprendasmayoristas[i].descripcion+"</p></div>";}
+            if((i+1)<jsonprendasmayoristas.length){
+                html = html + "<div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'><p type='submit' class='letra16pt-pc' > "+jsonprendasmayoristas[i+1].codigo+" </p></div><div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'><p type='submit' class='letra16pt-pc'>"+jsonprendasmayoristas[i+1].descripcion+"</p></div>";}
+            if((i+2)<jsonprendasmayoristas.length){
+                html = html + "<div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'><p type='submit' class='letra16pt-pc' > "+jsonprendasmayoristas[i+2].codigo+" </p></div><div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'><p type='submit' class='letra16pt-pc'>"+jsonprendasmayoristas[i+1].descripcion+"</p></div>";}
+            if((i+3)<jsonprendasmayoristas.length){
+                html = html + "<div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'><p type='submit' class='letra16pt-pc' > "+jsonprendasmayoristas[i+3].codigo+" </p></div><div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'><p type='submit' class='letra16pt-pc'>"+jsonprendasmayoristas[i+1].descripcion+"</p></div>";}
             html = html + "</div>";
         }
     $("#primeraPrendas").after(html);
@@ -354,7 +353,8 @@ function mayoristafunciones() {
         var objeto = {};
         objeto.tipo = "json";
         objeto.columna = "resumen_mercancia";
-        objeto.valor = jsonprendasmayorista;
+        // objeto.valor = jsonprendasmayorista;
+        objeto.valor = "Hay "+jsonprendasmayorista.length+" prendas en la venta";
         var resumen_mercancia = prepararjson(objeto);
         var objeto = {};
         objeto.tipo = "int";
