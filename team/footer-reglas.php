@@ -20,7 +20,6 @@
         var html = "";
         var tipos_de_reglas = obtenerDatajson("ID,nombre,descripcion","con_t_tipodereglas","variasfilasunicas","0","0");
         var tipos_de_reglasJSON = JSON.parse(tipos_de_reglas);
-        console.log(tipos_de_reglasJSON);
         for(i=0;i<tipos_de_reglasJSON.length;i++){
             html=html+"<option value='"+tipos_de_reglasJSON[i].descripcion+"' name='"+tipos_de_reglasJSON[i].ID+"' class='reiniciarreglas'>"+tipos_de_reglasJSON[i].nombre+"</option>";
         }
