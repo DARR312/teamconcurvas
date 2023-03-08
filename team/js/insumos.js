@@ -1,5 +1,4 @@
-<?php get_template_part('generalfooter'); ?>   
-//<script>
+import  { obtenerDatajson } from "./principal.js";
 var userlevel = $('#usuarioCell').attr('name');
 var permisosj = obtenerDatajson("permiso_id","con_t_rolespermisos","valoresconcondicion","level","'"+userlevel+"'");
 var permisos = JSON.parse(permisosj);     
@@ -247,69 +246,20 @@ $('#agregarFactura').on('click', function(){
     insumo1.append(html);
     return false;     
 }); 
-
-let valortotal = 0;
-let listaInsumos = [];
-let proveedor;
 $('#pasoFinalFactura').on('click', function(){   
-    proveedor = $('#proveedor').val();
+    let proveedor = $('#proveedor').val();
     if(proveedor == 'nuevo'){
         proveedor = $('#nuevoproveedor').val();
         if(!proveedor){alert('Por favor ingresa un proveedor');return false;}
     }
-    
     let insumoselec = $('.insumosselec');
-    if(insumoselec.length == 1){alert('Por favor ingresa al menos un insumo');return false;}
-    valortotal = 0;
-    listaInsumos = [];
-    for (let i = 1; i < insumoselec.length; i++) {
-        let insumo = $(`#insumo${i} option:selected`).text(); 
-        let insumoID = $(`#insumo${i}`).val(); 
-        let valor = $(`#valor${i}`).val();
-        if(!valor){alert(`Por favor agrega el valor para el insumo ${i}`);return false;}
-        let cantidad = $(`#cantidad${i}`).val();
-        if(!cantidad){alert(`Por favor agrega la cantidad para el insumo ${i}`);return false;}
-        valortotal = valortotal +  parseInt(valor);
-        var objetoinsumo = {InsumoID: insumoID, Insumo: insumo, Valor: valor, Cantidad: cantidad};
-        listaInsumos.push(objetoinsumo);
+    if(insumoselec.length == 1){alert('Por favor agrega al menos 1 insumo');return false;}
+    console.log(insumoselec);
+    for (let i = 0; i < insumoselec.length; i++) {
+        console.log(insumoselec[i]);
+        
     }
-
     $('#modalContable').modal("show");  
-    $('#valorCosto').text(`Costo: ${formatoPrecio(valortotal)}`)
-    $('#tituloFactura').text(`Factura del proveedor: ${proveedor}`);
 }); 
 //******************************************************************************++Factura nueva
     
-})
-</script>
-
-<!-- Propeller textfield js --> 
-<script type="text/javascript" src="https://opensource.propeller.in/components/textfield/js/textfield.js"></script>
-
-<!-- Datepicker moment with locales -->
-<script type="text/javascript" language="javascript" src="https://opensource.propeller.in/components/datetimepicker/js/moment-with-locales.js"></script>
-
-<!-- Propeller Bootstrap datetimepicker -->
-<script type="text/javascript" language="javascript" src="<?php echo get_template_directory_uri(); ?>/js/bootstrap-datetimepicker.js"></script>
-
-<!-- Option 1: Bootstrap Bundle with Popper -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
-
-
-<script>
-    // Default date and time picker
-	$('#datetimepicker-default').datetimepicker({
-        format: 'L'
-	});
-	$('#datetimepicker-defaultFiltro').datetimepicker({
-        format: 'L'
-	});
-	$('#datetimepicker-update').datetimepicker({
-        format: 'L'
-	});
-</script>
-<!-- https://sheetjs.com/ -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
-<script defer src="<?php echo get_template_directory_uri(); ?>/js/3a-read-array.js"></script>
-</body>
-</html>

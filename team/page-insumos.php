@@ -110,13 +110,29 @@ function is_admin_user() {
                 </div>
                 <div class="modal-body">
                     <div id="col1" class='col-lg-12 col-md-12 col-sm-12 col-xs-12' >
-                        <div class='col-lg-4 col-md-4 col-sm-4 col-xs-4' id='titulo'>
-                            <label id="titulo" for="nombre" class="control-label letra18pt-pc ">Información factura</label>
-                            <label for="nombre" class="control-label letra18pt-pc">Buscar por teléfono del cliente</label>
-                            <input class="form-control" type="text" id='BuscarTelefono2' name="BuscarTelefono" required=""><span class="pmd-textfield-focused"></span>
+                        <div class='col-lg-8 col-md-8 col-sm-8 col-xs-8' id='titulo'>
+                            <label id='tituloFactura' for="nombre" class="control-label letra18pt-pc ">Información factura</label>
                         </div>
+                        <div class='col-lg-4 col-md-4 col-sm-4 col-xs-4'>
+                            <label id='valorCosto' for="nombre" class="control-label letra18pt-pc">Costo: $0</label>
+                        </div>
+                    </div>
+                    <div class='col-lg-12 col-md-12 col-sm-12 col-xs-12' >
+                        <div class='form-group pmd-textfield pmd-textfield-floating-label col-lg-8 col-md-8 col-sm-8 col-xs-8 pmd-textfield-floating-label-completed'>
+                            <label class="control-label letra18pt-pc"> Retención 1 </label>
+                            <select class='form-control retenciones' type='select' id='retencion1' name='1' required=''>
+                                
+                            </select><span class='pmd-textfield-focused'></span>
+                        </div>
+                        <div class="form-group pmd-textfield pmd-textfield-floating-label col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                            <label for="cantidad" class="control-label letra18pt-pc"> Valor </label>
+                            <input class="form-control" type="number" id="valorrete1" name="1" required=""><span class="pmd-textfield-focused"></span>
+                        </div>
+                    </div>
+                    </div>
+                    <div class='col-lg-12 col-md-12 col-sm-12 col-xs-12' >
                         <div class='col-lg-3 col-md-3 col-sm-3 col-xs-3' id='accion'>
-                            <button class='botonmodal' type='button' id='buscarClienteCambio'> Buscar cliente </button>
+                            <button class='botonmodal' type='button' id='guardarFactura'> Guardar factura </button>
                         </div>
                     </div>
                 </div>
