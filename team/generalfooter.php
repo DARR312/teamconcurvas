@@ -62,6 +62,11 @@ $(window).load(function(){
                         "<a id='linkprincipales' href='https://concurvas.com/team/ventas-mayorista'>"+
                                 "<p class='letra18pt-pc letra3pt-mv nombresiconos'>Mayorista</p>"+
                         "</a></div></div>";
+            html =html+ "<div class='col-lg-12 col-md-12 col-sm-2 col-xs-2'>"+
+                    "<div class='iconosprincipales col-lg-6 col-md-6 col-sm-6 col-xs-6'>"+
+                        "<a id='linkprincipales' href='https://concurvas.com/team/insumos'>"+
+                                "<p class='letra18pt-pc letra3pt-mv nombresiconos'>Insumos</p>"+
+                        "</a></div></div>";
        }
    }
     var usuario = $('#usuario');
