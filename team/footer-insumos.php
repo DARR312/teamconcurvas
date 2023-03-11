@@ -735,7 +735,7 @@ $('#verInsumos').on('click', function(){
     let listadoInsumos =  JSON.parse(listado);    
     let html='';
     for (let i = 0; i < listadoInsumos.length; i++) {
-        html = `${html} <div class=' col-lg-12 col-md-12 col-sm-12 col-xs-12'>
+        html = `${html} <div class=' col-lg-12 col-md-12 col-sm-12 col-xs-12 remover'>
                     <div class=' col-lg-8 col-md-8 col-sm-8 col-xs-8'>
                         <p  class="letra18pt-pc">${listadoInsumos[i].grupo} ${listadoInsumos[i].complemento} ${listadoInsumos[i].caracteristica} ${listadoInsumos[i].complemento_caracteristica} ${listadoInsumos[i].presentacion}</p>
                     </div>
@@ -749,7 +749,31 @@ $('#verInsumos').on('click', function(){
     let cabecerasResumen  = $('#cabecerasResumen');
     cabecerasResumen.after(html);
 }); 
-
+$('#bscar').on('change', function(){          
+    $('.remover').remove();
+    $('#resumenInsumos').css('display', 'none');
+    $('#nuevoInsumo').css('display', 'none');     
+    $('#facturaNueva').css('display', 'none');       
+    $('#resumenInvInsumos').css('display', 'block');  
+    var codigosprenda = codigosprendasjson($('#bscar').val(),"0","0","0");
+    var listatodo = obtenerDatajson("grupo,complemento,caracteristica,complemento_caracteristica,presentacion,cantidad","con_t_insumos","valoresconcondicion","grupo",`'${$('#bscar').val()}'`);
+    let listadoInsumos =  JSON.parse(listatodo);    
+    let html='';
+    for (let i = 0; i < listadoInsumos.length; i++) {
+        html = `${html} <div class=' col-lg-12 col-md-12 col-sm-12 col-xs-12 remover'>
+                    <div class=' col-lg-8 col-md-8 col-sm-8 col-xs-8'>
+                        <p  class="letra18pt-pc">${listadoInsumos[i].grupo} ${listadoInsumos[i].complemento} ${listadoInsumos[i].caracteristica} ${listadoInsumos[i].complemento_caracteristica} ${listadoInsumos[i].presentacion}</p>
+                    </div>
+                    <div class=' col-lg-4 col-md-4 col-sm-4 col-xs-4'>
+                        <p  class="letra18pt-pc">${listadoInsumos[i].cantidad}</p>
+                    </div>
+                </div>
+        `;
+        
+    }
+    let cabecerasResumen  = $('#cabecerasResumen');
+    cabecerasResumen.after(html);
+});
 //******************************************************************************++Ver insumos
 })
 </script>
