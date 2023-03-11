@@ -100,6 +100,16 @@ function is_admin_user() {
             <div class='col-lg-8 col-md-8 col-sm-8 col-xs-12 esconder' id='guardarInsumoDiv'><button class='botonmodal' type='button' id='pasoFinalFactura'>Continuar</button></div>
         </div>
         <p id='facturaAgregadaOk' class='oculto avisoOk'>Factura Agregada</p>
+        <div id="resumenInvInsumos"  style='display: none;' class="funcionamiento">
+            <div class=' col-lg-12 col-md-12 col-sm-12 col-xs-12' id='cabecerasResumen'>
+                <div class=' col-lg-8 col-md-8 col-sm-8 col-xs-8'>
+                    <p  class="letra18pt-pc">Descripción</p>
+                </div>
+                <div class=' col-lg-4 col-md-4 col-sm-4 col-xs-4'>
+                    <p  class="letra18pt-pc">Cantidad</p>
+                </div>
+            </div>
+        </div>
     </div>
     <!-- modal de Bootstrap -->
     <div class="modal" tabindex="-1" id="modalContable">
