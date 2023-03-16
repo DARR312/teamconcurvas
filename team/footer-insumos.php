@@ -17,7 +17,11 @@ for(i=30;i<permisos.length;i++){
     if(permisos[i].permiso_id==40){
         var segundo = $('#segundo');
         segundo.append("<div class='col-lg-3 col-md-3 col-sm-3 col-xs-12' id='accion3'><button class='botonmodal botonesInventario' type='button' id='agregarFactura'>Agregar factura </button></div>");
-    }       
+    }   
+    if(permisos[i].permiso_id==42){
+        var segundo = $('#segundo');
+        segundo.append("<div class='col-lg-3 col-md-3 col-sm-3 col-xs-12' id='accion4'><button class='botonmodal botonesInventario' type='button' id='verFichasTecnicas'>Ver fichas técnicas </button></div>");
+    }      
 }
 //******************************************************************************++Insumo nuevo
 $('#agregarInsumo').on('click', function() {
@@ -26,6 +30,7 @@ $('#agregarInsumo').on('click', function() {
     $('#nuevoInsumo').css('display', 'block');     
     $('#facturaNueva').css('display', 'none');   
     $('#resumenInvInsumos').css('display', 'none');     
+    $('#bloqueFichas').css('display', 'none'); 
     let html = "<option class='remover' value='nuevo'>Nuevo</option>";
     let gruposj = obtenerDatajson("grupo","con_t_insumos","filasunicas","0","0");
     let grupos = JSON.parse(gruposj);
@@ -222,7 +227,8 @@ $('#agregarFactura').on('click', function(){
     $('#resumenInsumos').css('display', 'none');
     $('#nuevoInsumo').css('display', 'none');       
     $('#facturaNueva').css('display', 'block');    
-    $('#resumenInvInsumos').css('display', 'none');    
+    $('#resumenInvInsumos').css('display', 'none');
+    $('#bloqueFichas').css('display', 'none');     
     let html = "<option class='remover' value='nuevo'>Nuevo</option>";
     let proveedorj = obtenerDatajson("proveedor","con_t_facturas","filasunicas","0","0");
     let proveedor = JSON.parse(proveedorj);
@@ -730,7 +736,8 @@ $('#verInsumos').on('click', function(){
     $('#resumenInsumos').css('display', 'none');
     $('#nuevoInsumo').css('display', 'none');     
     $('#facturaNueva').css('display', 'none');       
-    $('#resumenInvInsumos').css('display', 'block');   
+    $('#resumenInvInsumos').css('display', 'block'); 
+    $('#bloqueFichas').css('display', 'none');       
     let listado = obtenerDatajson("ID,grupo,complemento,caracteristica,complemento_caracteristica,presentacion,cantidad","con_t_insumos","variasfilasunicas","0","0");
     let listadoInsumos =  JSON.parse(listado);    
     let html='';
@@ -751,6 +758,115 @@ $('#verInsumos').on('click', function(){
 }); 
 
 //******************************************************************************++Ver insumos
+
+//******************************************************************************++Ficas técnicas
+
+$('#verFichasTecnicas').on('click', function(){
+    $('.remover').remove();
+    $('#resumenInsumos').css('display', 'none');
+    $('#nuevoInsumo').css('display', 'none');     
+    $('#facturaNueva').css('display', 'none');       
+    $('#resumenInvInsumos').css('display', 'none'); 
+    $('#bloqueFichas').css('display', 'block'); 
+}); 
+
+$('#fichasTecnicasSelect').on('change', function(){
+    console.log($('#fichasTecnicasSelect').val());
+    if($('#fichasTecnicasSelect').val()=='nueva'){
+        const bloqueNuevaFicha = $('#bloqueNuevaFicha');
+        const selecciondeficha = $('#selecciondeficha');
+
+        selecciondeficha.addClass('oculto');
+        bloqueNuevaFicha.removeClass('oculto').addClass('mostrar');
+        let listadoReferenciasj = obtenerDatajson("nombre","con_t_resumen","filasunicas","0","0");
+        let listadoReferencias =  JSON.parse(listadoReferenciasj);    
+        let html='';
+        for (let i = 0; i < listadoReferencias.length; i++) {
+            html = `${html} <option class='remover'  value='${listadoReferencias[i].nombre}'>${listadoReferencias[i].nombre}</option>`;
+            
+        }
+        let referenciasParaficha  = $('#referenciasParaficha');
+        referenciasParaficha.append(html);
+        // fichaTecnica
+    }
+});   
+$('#referenciasParaficha').on('change', function(){
+    console.log(`referenciasParaficha: ${$('#referenciasParaficha').val()}`);
+    let referenciaFichaj = obtenerDatajson("referencia","con_t_fichatecnica","valoresconcondicion","referencia",$('#referenciasParaficha').val());
+    let referenciaFicha =  JSON.parse(referenciaFichaj);   
+    console.log(`referenciaFicha: ${referenciaFicha}`);
+    
+    
+    //else
+    let listadotallasj = obtenerDatajson("talla","con_t_medidasproducto","filasunicas","0","0");
+    let listadotallas =  JSON.parse(listadotallasj);
+    let html='';
+    for (let i = 0; i < listadotallas.length; i++) {
+        html = `${html} <option class='remover'  value='${listadotallas[i].talla}'>${listadotallas[i].talla}</option>`;
+        
+    }
+    let tallaMedida1  = $('#tallaMedida1');
+    tallaMedida1.append(html);
+
+    
+    let listadotipo_medidaj = obtenerDatajson("tipo_medida","con_t_medidasproducto","filasunicas","0","0");
+    let listadotipo_medida =  JSON.parse(listadotipo_medidaj);
+    html='';
+    for (let i = 0; i < listadotipo_medida.length; i++) {
+        html = `${html} <option class='remover'  value='${listadotipo_medida[i].tipo_medida}'>${listadotipo_medida[i].tipo_medida}</option>`;
+        
+    }
+    let tipo_medida1  = $('#tipo_medida1');
+    tipo_medida1.append(html);
+}); 
+$('#otraMedida').on('click', function(){
+    console.log($('.tallaMedida'));
+    let listadotallasj = obtenerDatajson("talla","con_t_medidasproducto","filasunicas","0","0");
+    let listadotallas =  JSON.parse(listadotallasj);
+    let listadotallashtml='';
+    for (let i = 0; i < listadotallas.length; i++) {
+        listadotallashtml = `${listadotallashtml} <option class='remover'  value='${listadotallas[i].talla}'>${listadotallas[i].talla}</option>`;        
+    }    
+    let listadotipo_medidaj = obtenerDatajson("tipo_medida","con_t_medidasproducto","filasunicas","0","0");
+    let listadotipo_medida =  JSON.parse(listadotipo_medidaj);
+    let listadotipo_medidahtml='';
+    for (let i = 0; i < listadotipo_medida.length; i++) {
+        listadotipo_medidahtml = `${listadotipo_medidahtml} <option class='remover'  value='${listadotipo_medida[i].tipo_medida}'>${listadotipo_medida[i].tipo_medida}</option>`;
+        
+    }
+    let html = `
+    <div class=' col-lg-12 col-md-12 col-sm-12 col-xs-12' >
+        <div class='form-group pmd-textfield pmd-textfield-floating-label col-lg-2 col-md-2 col-sm-2 col-xs-2 pmd-textfield-floating-label-completed'>
+            <label  class="control-label letra18pt-pc"> Talla </label>
+            <select class='form-control tallaMedida' type='select' id='tallaMedida${$('.tallaMedida').length}' name='${$('.tallaMedida').length}'>
+                <option  value='nueva'>Nueva</option>
+                ${listadotallashtml}
+            </select><span class='pmd-textfield-focused'></span>
+        </div>
+        <div class="form-group pmd-textfield pmd-textfield-floating-label col-lg-2 col-md-2 col-sm-2 col-xs-2">
+            <label for="cantidad" class="control-label letra18pt-pc"> Nueva talla </label>
+            <input class="form-control" type="text" id="nueva_talla${$('.tallaMedida').length}" name="${$('.tallaMedida').length}" required=""><span class="pmd-textfield-focused"></span>
+        </div>
+        <div class='form-group pmd-textfield pmd-textfield-floating-label col-lg-3 col-md-3 col-sm-3 col-xs-3 pmd-textfield-floating-label-completed'>
+            <label  class="control-label letra18pt-pc"> Tipo de medida </label>
+            <select class='form-control tipo_medida' type='select' id='tipo_medida${$('.tallaMedida').length}' name='${$('.tallaMedida').length}'>
+                <option  value='nueva'>Nueva</option>
+                ${listadotipo_medidahtml}
+            </select><span class='pmd-textfield-focused'></span>
+        </div>
+        <div class="form-group pmd-textfield pmd-textfield-floating-label col-lg-3 col-md-3 col-sm-3 col-xs-3">
+            <label for="cantidad" class="control-label letra18pt-pc"> Nuevo tipo de medida </label>
+            <input class="form-control" type="text" id="nuevo_tipo_medida${$('.tallaMedida').length}" name="${$('.tallaMedida').length}" required=""><span class="pmd-textfield-focused"></span>
+        </div>
+        <div class="form-group pmd-textfield pmd-textfield-floating-label col-lg-2 col-md-2 col-sm-2 col-xs-2">
+            <label for="cantidad" class="control-label letra18pt-pc"> Medida </label>
+            <input class="form-control" type="number" id="medida${$('.tallaMedida').length}" name="${$('.tallaMedida').length}" required=""><span class="pmd-textfield-focused"></span>
+        </div>   
+    </div>   
+    `;
+    $('#otraMedidaDiv').before(html);
+}); 
+//******************************************************************************++Ficas técnicas
 })
 </script>
 
