@@ -174,8 +174,11 @@ function obtenerDatajson($columna,$tabla,$tipo,$columnacondicion,$condicion){
         $obtenidosArray = $wpdb->get_results( "SELECT ".$columna." FROM ".$tabla." WHERE ".$columnacondicion." LIKE  '%".$condicion."%'", ARRAY_A);
         echo json_encode($obtenidosArray,JSON_UNESCAPED_UNICODE); 
     }
-    if($tipo=="todas"){
-        
+    if($tipo=="variasCondiciones"){
+        $columnacondicion =str_replace('\\', '', $columnacondicion);
+        // echo "SELECT ".$columna." FROM ".$tabla." WHERE ".$columnacondicion."";
+        $obtenidosArray = $wpdb->get_results( "SELECT ".$columna." FROM ".$tabla." WHERE ".$columnacondicion."", ARRAY_A);
+        echo json_encode($obtenidosArray,JSON_UNESCAPED_UNICODE); 
     }
     
 }
@@ -1493,7 +1496,7 @@ function borrarfilas($tabla,$condicion,$valor_condicion){
 }
 
 function insertarfila($tabla,$valor,$valor2,$valor3,$valor4,$valor5,$valor6,$valor7,$valor8,$valor9,$valor10,$valor11){
-    //echo $tabla."--".$valor."--".$valor2."--".$valor3."--".$valor4."--".$valor5."--".$valor6."--".$valor7."--".$valor8."--".$valor9."--".$valor10."--".$valor11;
+    // echo $tabla."--".$valor."--".$valor2."--".$valor3."--".$valor4."--".$valor5."--".$valor6."--".$valor7."--".$valor8."--".$valor9."--".$valor10."--".$valor11;
     global $wpdb;
     if($valor != "0"){
         $valoru = str_replace("\\","",$valor);
@@ -1506,7 +1509,7 @@ function insertarfila($tabla,$valor,$valor2,$valor3,$valor4,$valor5,$valor6,$val
     $finalcolumna = $valorarray["columna"];
     $finalvalor = $valorarray["valor"];
     $valores = array( "valor2" => $valor2,"valor3" => $valor3,"valor4" => $valor4,"valor5" => $valor5,"valor6" => $valor6,"valor7" => $valor7,"valor8" => $valor8,"valor9" => $valor9,"valor10" => $valor10,"valor11" => $valor11);
-    // print_r($valores);
+    print_r($valores);
     foreach($valores as $x => $val) {    
         if($val != "0"){
             $valoru = str_replace("\\","",$val);
@@ -1521,7 +1524,7 @@ function insertarfila($tabla,$valor,$valor2,$valor3,$valor4,$valor5,$valor6,$val
         $finalvalor = $finalvalor.$valorarray2["valor"];        
     }
     $datos = "INSERT INTO ".$tabla." ( ".$finalcolumna.") VALUES (".$finalvalor.")";
-   
+    echo $datos;
     $wpdb->query($datos);
     $lastId = $wpdb->get_results( "SELECT MAX(ID) as id FROM ".$tabla."");
     echo json_encode($lastId);
@@ -1554,6 +1557,10 @@ function convertidor($tipo,$valor,$columna){
         $vuno = "'".$fecha[2]."-".$fecha[0]."-".$fecha[1]."'";
         $cuno = $columna;
     }
+    if($tipo == 'float'){
+        $vuno = floatval($valor);
+        $cuno = $columna;
+    }     
     
     $objeto = array( "valor" => $vuno, "columna" => $cuno);
     return($objeto);
