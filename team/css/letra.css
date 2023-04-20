@@ -306,16 +306,16 @@
 /*******************.leTRa3pt-mv*****************************/
 .centrado{text-align:center !important;}
 .izquierda{text-align:left !important;}
-.tipografiaPuno{font-family: 'Lato',sans-serif;color:#655e5e !important;line-height: 1.2em;}
-.tipografiaPdos{font-family: 'Lato',sans-serif;color:#777171 !important;}
+.tipografiaPuno{font-family: 'Manrope',sans-serif;color:#655e5e !important;line-height: 1.2em;}
+.tipografiaPdos{font-family: 'Manrope',sans-serif;color:#777171 !important;}
 @media only screen and (max-width:767px) {.tipografiaPuno, .tipografiaPdos{color:#fff !important;}
 }
-.tipografiaPtres{font-family: 'Lato',sans-serif;color:#b2b2b2 !important;}
-.tipografiaHuno{font-family: 'Lato',sans-serif;color:#ffffff !important;}
-.tipografiaHdos{font-family: 'Lato',sans-serif;color:#7f7e7e !important;line-height: 1 !important;font-weight: 700;
+.tipografiaPtres{font-family: 'Manrope',sans-serif;color:#b2b2b2 !important;}
+.tipografiaHuno{font-family: 'Manrope',sans-serif;color:#ffffff !important;}
+.tipografiaHdos{font-family: 'Manrope',sans-serif;color:#7f7e7e !important;line-height: 1 !important;font-weight: 700;
 }
-.tipografiaHtres{font-family: 'Lato',Helvetica,Arial,Lucida,sans-serif;margin-left: 0px!important;}
-.tregular{ font-family: 'Lato',sans-serif; font-weight:300;}
+.tipografiaHtres{font-family: 'Manrope',Helvetica,Arial,Lucida,sans-serif;margin-left: 0px!important;}
+.tregular{ font-family: 'Manrope',sans-serif; font-weight:300;}
 .cursiva{font-style:italic !important;}
 .negrillaUno{font-weight: 500 !important;}
 .negrillaUnoCinco{font-weight: 600 !important;}

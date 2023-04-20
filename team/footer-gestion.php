@@ -30,7 +30,6 @@
         objeto.valor = "No";
         var madrugon_ok = prepararjson(objeto);
         var idmadrugon = insertarfila("con_t_madrugon",fecha,valor_mercancia,valor_dinero,valor_cambios,madrugon_ok,"0","0","0","0","0","0");
-        console.log(idmadrugon);
     });   
 })
 </script>

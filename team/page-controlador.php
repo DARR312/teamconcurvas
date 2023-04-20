@@ -148,7 +148,7 @@ function obtenerDatajson($columna,$tabla,$tipo,$columnacondicion,$condicion){
     global $wpdb;
     if($tipo == "valoresconcondicion"){
         $condicion =str_replace('\\', '', $condicion);
-        //echo "SELECT ".$columna." FROM ".$tabla." WHERE ".$columnacondicion." = ".$condicion."";
+        // echo "SELECT ".$columna." FROM ".$tabla." WHERE ".$columnacondicion." = ".$condicion."";
         $obtenidosArray = $wpdb->get_results( "SELECT ".$columna." FROM ".$tabla." WHERE ".$columnacondicion." = ".$condicion."", ARRAY_A);
         echo json_encode($obtenidosArray,JSON_UNESCAPED_UNICODE);
     }
@@ -1521,7 +1521,7 @@ function insertarfila($tabla,$valor,$valor2,$valor3,$valor4,$valor5,$valor6,$val
         $finalvalor = $finalvalor.$valorarray2["valor"];        
     }
     $datos = "INSERT INTO ".$tabla." ( ".$finalcolumna.") VALUES (".$finalvalor.")";
-    echo $datos;
+   
     $wpdb->query($datos);
     $lastId = $wpdb->get_results( "SELECT MAX(ID) as id FROM ".$tabla."");
     echo json_encode($lastId);
@@ -1550,6 +1550,7 @@ function convertidor($tipo,$valor,$columna){
     }      
     if($tipo == 'date_sinhora'){
         $fecha = explode("/",$valor);
+        print_r($fecha);
         $vuno = "'".$fecha[2]."-".$fecha[0]."-".$fecha[1]."'";
         $cuno = $columna;
     }
