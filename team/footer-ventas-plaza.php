@@ -2,7 +2,13 @@
 
     //<script>
     var jsonPrendasglobal = new Object();
-    var jsonPrendasIngresan = new Object();
+    var jsonPrendasIngresan = [];
+    var jsonPrendasSalen = [];
+    var jsonVentaId = [];
+    var metodospagoCambio =  new Object();
+    var nombre = "";
+    var tel = "";
+    var dire = "";
     var idNuevo =  new Object();
     var html = "";
     var permisoVentas = permisosVentas();
@@ -14,6 +20,8 @@
     var verPedidos = 0;
     var botonrevisar ="";
     var segundo = $('#segundo');
+    var valorDiferencia;
+    var valorfinalExcedente;
     for(var k = (items.length-1); k>0;k--){
         if(items[k]==5){
             segundo.append("<div class='col-lg-2 col-md-2 col-sm-2 col-xs-12' id='accion'><button class='botonmodal botonesbarrasuperior' type='button' id='agregarVenta'> Agregar venta </button></div>");
@@ -49,7 +57,7 @@
         
         // $('.contenedor_loader').show();
         
-        console.log("inicie"); 
+        
         $('.ventasplazaResumen').remove(); 
         $('#primeraFila').css('display', 'none');
         $('.primeraFilaDia').css('display', 'block');
@@ -57,13 +65,16 @@
         var horaMenor = " 00:00:00";
         var horaMayor = " 23:59:00";
         var fecha = "'"+id+horaMenor+"' AND '"+id+horaMayor+"'";
-        console.log('inicio');
+        
         var resumenDia = obtenerDatajson('ID,cliente_id,datos_cliente,codigos_prendas,notas,metodos_pago,valor_total,fecha_creada','con_t_ventasplaza','Between','fecha_creada',fecha);
         var jsonResumenDia = JSON.parse(resumenDia);
-        console.log(jsonResumenDia);
+        
         $('#primeraFila').after(imprimi(jsonResumenDia));
+        var resumenDiaCambios = obtenerDatajson('ID,venta_id,datos_cliente,prenda_ingresa,prenda_sale,excedente,fecha','con_t_cambiosplaza','Between','fecha',fecha);
+        var jsonResumenDiaCambios = JSON.parse(resumenDiaCambios);
+        $('#primeraFila').after(imprimirCambios(jsonResumenDiaCambios));
         // $('.contenedor_loader').css('display', 'none');
-        console.log('fin');
+       
         return false;     
     });    
 
@@ -80,7 +91,7 @@
             if(jsonVentasFiltro.length !== 0){
                 $('#primeraFila').after(imprimi(jsonVentasFiltro));
             }else{
-                console.log('si entre');
+              
                 html = "<p style='margin: 335px 23% 200px 40%;'class='col-lg-6 col-md-6 col-sm-6 col-xs-6 cliente'>Sin resultados</p>"
                 $('#primeraFila').after(html);
             }
@@ -95,18 +106,17 @@
         $('.primeraFilaDia').css('display', 'block');
 	    var telefono = $('#BuscarTelefono').val();
         if(telefono){
-            console.log($('#BuscarTelefono').val());
             var ventasFiltro = obtenerDatajson('ID,cliente_id,datos_cliente,codigos_prendas,notas,metodos_pago,valor_total','con_t_ventasplaza','Like','datos_cliente',telefono);
             var jsonVentasFiltro = JSON.parse(ventasFiltro);
             if(jsonVentasFiltro.length !== 0){
                 $('#primeraFila').after(imprimi(jsonVentasFiltro));
             }else{
-                console.log('si entre');
                 html = "<p style='margin: 335px 23% 200px 40%;' class='col-lg-6 col-md-6 col-sm-6 col-xs-6 cliente'>Sin resultados</p>"
                 $('#primeraFila').after(html);
             }
         }
 	});
+    
 
     $('#buscarClienteCambio').on('click',function(){
         $('#ValorTotal').attr("name",0); 
@@ -118,41 +128,135 @@
 
         var telefono = $('#BuscarTelefono2').val();
         if(telefono){
-            console.log($('#BuscarTelefono2').val());
             var ventasFiltro = obtenerDatajson('ID,cliente_id,datos_cliente,codigos_prendas,notas,metodos_pago,valor_total','con_t_ventasplaza','Like','datos_cliente',telefono);
             var jsonVentasFiltro = JSON.parse(ventasFiltro);
             var ventasPaginaFiltro = obtenerDatajson('venta_id,datos_cliente,pedido,estado','con_t_ventas','Like','datos_cliente',telefono);
             var jsonventasPaginaFiltroFiltro = JSON.parse(ventasPaginaFiltro);
+            var cambiosFiltro = obtenerDatajson('ID,excedente,venta_id,datos_cliente','con_t_cambiosplaza','Like','datos_cliente',telefono);
+            var jsoncambiosFiltro = JSON.parse(cambiosFiltro);
+            var cambiosPaginaFiltro = obtenerDatajson('cambio_id,datos_cliente,pedido','con_t_cambios','Like','datos_cliente',telefono);
+            var jsoncambiosPaginaFiltroFiltro = JSON.parse(cambiosPaginaFiltro);
 
-            console.log(jsonVentasFiltro,"VENTAS PLAZA");
-            console.log(jsonventasPaginaFiltroFiltro, "VENTAS PAGINA");
-        //     // console.log(jsonVentasFiltro);
+            if(jsoncambiosFiltro.length !== 0){
+                var datoInicial = "";                
+                var prendas="";
+                for (let i = 0; i < Object.keys(jsoncambiosFiltro).length; i++) {
+                   
+                    var datosclientejson = jsoncambiosFiltro[i].datos_cliente;
+                    var jsonDatoscliente = JSON.parse(datosclientejson);
+                    
+                    datoInicial = datoInicial + ' CP'+jsoncambiosFiltro[i].ID;
+                    nombre = jsonDatoscliente.nombre;
+                    tel= jsonDatoscliente.telefono;
+                    dire = jsonDatoscliente.direccion;
+                  
+                    var codigo = obtenerDatajson("codigo, descripcion, referencia_id","con_t_trprendas","valoresconcondicion","cual","'CP"+jsoncambiosFiltro[i].ID+"'");
+                    var jsoncodigo = JSON.parse(codigo);    
+                    for (let j = 0; j < Object.keys(jsoncodigo).length; j++) {
+                        var valorPrenda = obtenerDatajson("precio_detal","con_t_resumen","valoresconcondicion","referencia_id","'"+jsoncodigo[j].referencia_id+"'");
+                        var jsonValorPrenda = JSON.parse(valorPrenda);
+                    
+                        prendas = prendas + '<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 prendasIngresa" style="margin-left: -27px; margin-top: 10px;">'+
+                    						'<div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">'+
+                    							'<input class="form-check-input selectPrendas" type="checkbox" value="'+jsonValorPrenda[0].precio_detal+'" name="'+jsoncodigo[j].codigo+'/'+jsoncodigo[j].descripcion+'/CP'+jsoncambiosFiltro[i].ID+'" id="flexCheckDefault">'+
+                    						'</div>'+
+										'<div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">'+
+											'<div class="letra18pt-pc letra2" for="flexCheckDefault">'+
+												jsoncodigo[j].codigo+
+											'</div>'+
+										'</div>'+
+										'<div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">'+
+											'<div class="letra18pt-pc letra" for="flexCheckDefault">'+
+                                                jsoncodigo[j].descripcion+
+											'</div>'+
+										'</div>'+
+										'<div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">'+
+											'<div class="letra18pt-pc letra" for="flexCheckDefault">'+
+                                            ' CP'+jsoncambiosFiltro[i].ID+ 
+											'</div>'+
+										'</div>'+
+										'<div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">'+
+											'<div class="letra18pt-pc letra" for="flexCheckDefault">'+
+                                            formatoPrecio(jsonValorPrenda[0].precio_detal)+
+											'</div>'+
+										'</div>'+
+									'</div>';
+                    }
+                }
+
+                $('#PrendasConatiner').append(prendas);
+            }
+            if(jsoncambiosPaginaFiltroFiltro.length !== 0){
+                var datoInicial = "";                
+                var prendas="";
+                for (let i = 0; i < Object.keys(jsoncambiosPaginaFiltroFiltro).length; i++) {
+                   
+                    var datosclientejson = jsoncambiosPaginaFiltroFiltro[i].datos_cliente;
+                    var jsonDatoscliente = JSON.parse(datosclientejson);
+                    
+                    datoInicial = datoInicial + ' C'+jsoncambiosPaginaFiltroFiltro[i].cambio_id;
+                    nombre = jsonDatoscliente.nombre;
+                    tel= jsonDatoscliente.telefono;
+                    dire = jsonDatoscliente.direccion;
+                  
+                    var codigo = obtenerDatajson("codigo, descripcion, referencia_id","con_t_trprendas","valoresconcondicion","cual","'C"+jsoncambiosPaginaFiltroFiltro[i].cambio_id+"'");
+                    var jsoncodigo = JSON.parse(codigo);    
+                    for (let j = 0; j < Object.keys(jsoncodigo).length; j++) {
+                        var valorPrenda = obtenerDatajson("precio_detal","con_t_resumen","valoresconcondicion","referencia_id","'"+jsoncodigo[j].referencia_id+"'");
+                        var jsonValorPrenda = JSON.parse(valorPrenda);
+                    
+                        prendas = prendas + '<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 prendasIngresa" style="margin-left: -27px; margin-top: 10px;">'+
+                    						'<div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">'+
+                    							'<input class="form-check-input selectPrendas" type="checkbox" value="'+jsonValorPrenda[0].precio_detal+'" name="'+jsoncodigo[j].codigo+'/'+jsoncodigo[j].descripcion+'/C'+jsoncambiosPaginaFiltroFiltro[i].cambio_id+'" id="flexCheckDefault">'+
+                    						'</div>'+
+										'<div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">'+
+											'<div class="letra18pt-pc letra2" for="flexCheckDefault">'+
+												jsoncodigo[j].codigo+
+											'</div>'+
+										'</div>'+
+										'<div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">'+
+											'<div class="letra18pt-pc letra" for="flexCheckDefault">'+
+                                                jsoncodigo[j].descripcion+
+											'</div>'+
+										'</div>'+
+										'<div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">'+
+											'<div class="letra18pt-pc letra" for="flexCheckDefault">'+
+                                            ' C'+jsoncambiosPaginaFiltroFiltro[i].cambio_id+ 
+											'</div>'+
+										'</div>'+
+										'<div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">'+
+											'<div class="letra18pt-pc letra" for="flexCheckDefault">'+
+                                            formatoPrecio(jsonValorPrenda[0].precio_detal)+
+											'</div>'+
+										'</div>'+
+									'</div>';
+                    }
+                }
+
+                $('#PrendasConatiner').append(prendas);
+            }
+
             if(jsonventasPaginaFiltroFiltro.length !== 0){
                 var datoInicial = "";
-                var nombre = "";
-                var tel = "";
-                var dire = "";
                 var prendas="";
                 for (let i = 0; i < Object.keys(jsonventasPaginaFiltroFiltro).length; i++) {
-                    // console.log(jsonVentasFiltro[i]);
-                    console.log('1');
+                   
                     var datosclientejson = jsonventasPaginaFiltroFiltro[i].datos_cliente;
                     var jsonDatoscliente = JSON.parse(datosclientejson);
-                    console.log(jsonDatoscliente);
+                    
                     datoInicial = datoInicial + ' V'+jsonventasPaginaFiltroFiltro[i].venta_id;
                     nombre = jsonDatoscliente.nombre;
                     tel= jsonDatoscliente.telefono;
                     dire = jsonDatoscliente.direccion;
                     var pedido = jsonventasPaginaFiltroFiltro[i].pedido;
                     var jsonpedido = JSON.parse(pedido);
-                    console.log(jsonpedido);
+                  
                     var codigo = obtenerDatajson("codigo, descripcion, referencia_id","con_t_trprendas","valoresconcondicion","cual","'V"+jsonventasPaginaFiltroFiltro[i].venta_id+"'");
                     var jsoncodigo = JSON.parse(codigo);    
                     for (let j = 0; j < Object.keys(jsoncodigo).length; j++) {
-                        console.log('HOLAAAA');
                         var valorPrenda = obtenerDatajson("precio_detal","con_t_resumen","valoresconcondicion","referencia_id","'"+jsoncodigo[j].referencia_id+"'");
                         var jsonValorPrenda = JSON.parse(valorPrenda);
-                        console.log(jsonValorPrenda, 'consultaaa2');
+                    
                         prendas = prendas + '<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 prendasIngresa" style="margin-left: -27px; margin-top: 10px;">'+
                     						'<div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">'+
                     							'<input class="form-check-input selectPrendas" type="checkbox" value="'+jsonValorPrenda[0].precio_detal+'" name="'+jsoncodigo[j].codigo+'/'+jsoncodigo[j].descripcion+'/V'+jsonventasPaginaFiltroFiltro[i].venta_id+'" id="flexCheckDefault">'+
@@ -181,15 +285,8 @@
                     }
                 }
 
-                var html = '<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12"> <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 letra18pt-pc letra">'+datoInicial+'</div>'+
-                            '<div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 letra18pt-pc letra">'+nombre+'</div>'+
-                            '<div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 letra18pt-pc letra">'+tel+'</div>'+ 
-                            '<div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 letra18pt-pc letra">'+dire+'</div></div>';
-                $('#DatosClientesConatiner').append(html);
-                $('#PrendasConatiner').append(prendas);
-            }else{
-                console.log('No hay datos');
                 
+                $('#PrendasConatiner').append(prendas);
             }
             if(jsonVentasFiltro.length !== 0){
                 // for pra las ventas de plaza
@@ -197,14 +294,13 @@
                 var prendasDiv='';
                 idNuevo.codigo=jsonVentasFiltro[0].ID;
                 for (let i = 0; i < Object.keys(jsonVentasFiltro).length; i++) {
-                    // console.log(jsonVentasFiltro[i]);
+                  
                     var datoscliente = jsonVentasFiltro[i].datos_cliente;
                     var jsondatoscliente = JSON.parse(datoscliente);
                     datos = datos + ' PA-'+jsonVentasFiltro[i].ID;
 
                     var datosPrendas = jsonVentasFiltro[i].codigos_prendas;
                     var jsondatosPrendas = JSON.parse(datosPrendas);
-                    console.log(jsondatosPrendas);
                     
 
                     var codigo = obtenerDatajson("codigo, descripcion, referencia_id","con_t_trprendas","valoresconcondicion","cual","'PA-"+jsonVentasFiltro[i].ID+"'");
@@ -241,22 +337,241 @@
                                         '</div>';
                     }
                 }
-                var html = '<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12"> <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 letra18pt-pc letra codigoscuales">'+datos+'</div>'+
-                            '<div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 letra18pt-pc letra">'+jsondatoscliente.nombre+'</div>'+
-                            '<div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 letra18pt-pc letra">'+jsondatoscliente.telefono+'</div>'+ 
-                            '<div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 letra18pt-pc letra">No aplica</div></div>';
+                nombre= jsondatoscliente.nombre;
+                tel= jsondatoscliente.telefono;
                 $('#DatosClientesConatiner').append(html);
                 $('#PrendasConatiner').append(prendasDiv);
-            }else{
-                console.log('No hay datos');
-                
             }
+            var html = '<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12"> <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 letra18pt-pc letra">'+datoInicial+'</div>'+
+                            '<div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 letra18pt-pc letra">'+nombre+'</div>'+
+                            '<div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 letra18pt-pc letra">'+tel+'</div>'+ 
+                            '<div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 letra18pt-pc letra">'+dire+'</div></div>';
+            $('#DatosClientesConatiner').append(html);
         }
         carga();
 	});
 
     // aq
+    const agregarpago = (metodosdePago) =>{
+        const date = new Date();
+        let day = date.getDate();
+        let month = date.getMonth() + 1;
+        let year = date.getFullYear();
+        let currentDateConsulta = `${year}-${month}-${day}`;//2022-08-08 13:58:58
+        var existe  = obtenerDatajson('ID,valor_mercancia,metodos_pago','con_t_resumenplaza','valoresconcondicion','fecha',"'"+currentDateConsulta+"'");
+        var jsonExiste = JSON.parse(existe);
 
+        var metodosPago = obtenerDatajson('ID,descripcion','con_t_metodospago','variasfilasunicas','0','0');
+        var jsonMetodosPago = JSON.parse(metodosPago);
+
+        if(jsonExiste.length !== 0){
+            var jsonMetodosPago = JSON.parse(metodosPago);
+            var objetoDia = JSON.parse(jsonExiste[0].metodos_pago);
+            let nuevoObjetoDia = Object.assign({}, objetoDia);
+            for (let i = 0; i < jsonMetodosPago.length; i++) {
+                let descripcion = jsonMetodosPago[i].descripcion;
+                if (!(descripcion in nuevoObjetoDia)) {
+                nuevoObjetoDia[descripcion] = "0";
+                }
+            }
+            for (let i in metodosdePago) {
+                let metodo = metodosdePago[i].metodo;
+                let valor = parseInt(metodosdePago[i].valor);
+                for (let j = 0; j < jsonMetodosPago.length; j++) {
+                if (jsonMetodosPago[j].ID === metodo) {
+                    let descripcion = jsonMetodosPago[j].descripcion;
+                    if (descripcion in nuevoObjetoDia) {
+                    nuevoObjetoDia[descripcion] = (parseInt(nuevoObjetoDia[descripcion]) + valor).toString();
+                    }
+                }
+                }
+            }
+
+            valorTotal = Object.values(nuevoObjetoDia).reduce((acumulador, valor) => acumulador + parseInt(valor), 0);
+            
+            var objeto = {};
+            objeto.tipo = "json";
+            objeto.columna = "metodos_pago";
+            objeto.valor = nuevoObjetoDia;
+            var metodos_pago_insert = prepararjson(objeto);
+            var objeto = {};
+            objeto.tipo = "int";
+            objeto.columna = "valor_mercancia";
+            objeto.valor = valorTotal;
+            var valorTotal_insert = prepararjson(objeto);
+            var objeto = {};
+            objeto.columna = "ID";
+            objeto.valor = jsonExiste[0].ID;
+            var condicion = prepararjson(objeto);
+            actualizarregistros("con_t_resumenplaza",condicion,valorTotal_insert,metodos_pago_insert,"0","0","0","0","0","0","0","0","0");
+
+        }else{
+
+            let objetoMetodo = {};
+            let valorTotal = 0;
+            for (let i = 0; i < jsonMetodosPago.length; i++) {
+                let descripcion = jsonMetodosPago[i].descripcion;
+                objetoMetodo[descripcion] = 0;
+                for (let j = 0; j < Object.keys(metodosdePago).length; j++) {
+                    let metodoID = metodosdePago[j].metodo;
+                    let valor = metodosdePago[j].valor;
+                    if (jsonMetodosPago[i].ID === metodoID) {
+                        objetoMetodo[descripcion] += parseInt(valor);
+                        valorTotal = valorTotal + valor;
+                    }
+                }
+            }
+            let currentDate = `${year}/${month}/${day}`;//2022-08-08 13:58:58
+            var objeto = {};
+            objeto.tipo = "date";
+            objeto.columna = "fecha";
+            objeto.valor = currentDate;
+            var fecha_inser  = prepararjson(objeto);
+            var objeto = {};
+            objeto.tipo = "json";
+            objeto.columna = "metodos_pago";
+            objeto.valor = objetoMetodo;
+            var metodos_pago_insert = prepararjson(objeto);
+            var objeto = {};
+            objeto.tipo = "int";
+            objeto.columna = "valor_mercancia";
+            objeto.valor = valorTotal;
+            var valorTotal_insert = prepararjson(objeto);
+            var idResumen = insertarfila("con_t_resumenplaza",fecha_inser,metodos_pago_insert,valorTotal_insert,"0","0","0","0","0","0","0","0");
+        }
+
+
+        // var metodosPago = obtenerDatajson('ID,descripcion','con_t_metodospago','variasfilasunicas','0','0');
+        // var jsonMetodosPago = JSON.parse(metodosPago);
+       
+        // var objMetodos = [];
+        // for (let i = 0; i < Object.keys(jsonMetodosPago).length; i++) {  
+        //     objMetodos.push(jsonMetodosPago[i].ID+':'+jsonMetodosPago[i].descripcion+':0');  
+           
+        // } 
+      
+        // let efectivo = 0;
+        // let datafono = 0;
+        // let nequi = 0;
+        // let daviplata = 0;
+        // let PayU = 0;
+        // let Bancolombia = 0;
+        // let valorTotal = 0;
+        
+        
+        // var jsonMetodosPago = JSON.parse(metodospagoString);
+        // if(jsonExiste.length !== 0){
+
+        //     var jsonMetodosPago2 = JSON.parse(jsonExiste[0].metodos_pago);
+           
+        //     for (let i = 0; i < Object.keys(objMetodos).length; i++) {  
+        //         for (let j = 0; j < Object.keys(jsonMetodosPago).length; j++) {
+        //             var datos = objMetodos[i].split(':');
+                    
+        //             if(datos[0] === jsonMetodosPago[j].metodo){
+        //                 var valor = parseInt(datos[2]);
+        //                 var valorFinal = valor + jsonMetodosPago[j].valor 
+        //                 objMetodos[i] = datos[0]+':'+datos[1]+':'+valorFinal;
+                     
+        //                 valorTotal = valorTotal + valorFinal
+                    
+        //             }  
+        //         }
+        //     }
+        //     var objetoMetodo = {}; 
+        //     for (let i = 0; i < Object.keys(objMetodos).length; i++) {  
+        //         var datos = objMetodos[i].split(':');
+        //         if(datos[0] == "1"){objetoMetodo.Efectivo = parseInt(datos[2]) + parseInt(jsonMetodosPago2.Efectivo);}
+        //         if(datos[0] == "2"){objetoMetodo.Datafono = parseInt(datos[2]) + parseInt(jsonMetodosPago2.Datafono);}
+        //         if(datos[0] == "3"){objetoMetodo.NequiDiego = parseInt(datos[2]) + parseInt(jsonMetodosPago2.NequiDiego);}
+        //         if(datos[0] == "4"){objetoMetodo.DaviplataDiego = parseInt(datos[2]) + parseInt(jsonMetodosPago2.DaviplataDiego);}
+        //         if(datos[0] == "5"){objetoMetodo.PayU = parseInt(datos[2]) + parseInt(jsonMetodosPago2.PayU);}
+        //         if(datos[0] == "6"){objetoMetodo.BancolombiaD = parseInt(datos[2]) + parseInt(jsonMetodosPago2.BancolombiaD);} 	
+        //         if(datos[0] == "7"){objetoMetodo.DaviplataNatalia = parseInt(datos[2]) + parseInt(jsonMetodosPago2.DaviplataNatalia);}
+        //         if(datos[0] == "8"){objetoMetodo.DaviplataFrancisco = parseInt(datos[2]) + parseInt(jsonMetodosPago2.DaviplataFrancisco);}
+        //         if(datos[0] == "9"){objetoMetodo.BancolombiaNatalia = parseInt(datos[2]) + parseInt(jsonMetodosPago2.BancolombiaNatalia);}
+        //         if(datos[0] == "10"){objetoMetodo.BancolombiaFrancisco = parseInt(datos[2]) + parseInt(jsonMetodosPago2.BancolombiaFrancisco);}
+        //         if(datos[0] == "11"){objetoMetodo.BancolombiaEsperanza = parseInt(datos[2]) + parseInt(jsonMetodosPago2.BancolombiaEsperanza);}
+        //         if(datos[0] == "12"){objetoMetodo.NequiNatalia = parseInt(datos[2]) + parseInt(jsonMetodosPago2.NequiNatalia); }	
+        //         if(datos[0] == "13"){objetoMetodo.NequiFrancisco = parseInt(datos[2]) + parseInt(jsonMetodosPago2.NequiFrancisco);}
+        //         if(datos[0] == "14"){objetoMetodo.Davivienda = parseInt(datos[2]) + parseInt(jsonMetodosPago2.Davivienda);} 	
+        //     }
+            
+        //     valorTotal = parseInt(objetoMetodo.Efectivo)+parseInt(objetoMetodo.Datafono)+parseInt(objetoMetodo.NequiDiego)+parseInt(objetoMetodo.DaviplataDiego)+parseInt(objetoMetodo.PayU)+parseInt(objetoMetodo.BancolombiaD)+parseInt(objetoMetodo.DaviplataNatalia)+parseInt(objetoMetodo.DaviplataFrancisco)+parseInt(objetoMetodo.BancolombiaNatalia)+parseInt(objetoMetodo.BancolombiaFrancisco)+parseInt(objetoMetodo.BancolombiaEsperanza)+parseInt(objetoMetodo.NequiNatalia)+parseInt(objetoMetodo.NequiFrancisco)+parseInt(objetoMetodo.Davivienda);
+         
+           
+        //     var objeto = {};
+        //     objeto.tipo = "json";
+        //     objeto.columna = "metodos_pago";
+        //     objeto.valor = objetoMetodo;
+        //     var metodos_pago_insert = prepararjson(objeto);
+        //     var objeto = {};
+        //     objeto.tipo = "int";
+        //     objeto.columna = "valor_mercancia";
+        //     objeto.valor = valorTotal;
+        //     var valorTotal_insert = prepararjson(objeto);
+        //     var objeto = {};
+        //     objeto.columna = "ID";
+        //     objeto.valor = jsonExiste[0].ID;
+        //     var condicion = prepararjson(objeto);
+        //     actualizarregistros("con_t_resumenplaza",condicion,valorTotal_insert,metodos_pago_insert,"0","0","0","0","0","0","0","0","0");
+          
+        // }else{
+
+       
+        //     for (let i = 0; i < Object.keys(objMetodos).length; i++) {  
+        //         for (let j = 0; j < Object.keys(jsonMetodosPago).length; j++) {
+        //             var datos = objMetodos[i].split(':');
+                    
+        //             if(datos[0] === jsonMetodosPago[j].metodo){
+        //                 var valor = parseInt(datos[2]);
+        //                 var valorFinal = valor + jsonMetodosPago[j].valor
+        //                 objMetodos[i] = datos[0]+':'+datos[1]+':'+valorFinal;
+                    
+        //                 valorTotal = valorTotal + valorFinal
+        //             }  
+        //         }
+        //     }
+
+        //     var objetoMetodo = {}; 
+        //     for (let i = 0; i < Object.keys(objMetodos).length; i++) {  
+        //         var datos = objMetodos[i].split(':');
+        //         if(datos[0] == "1"){objetoMetodo.Efectivo = datos[2];}
+        //         if(datos[0] == "2"){objetoMetodo.Datafono = datos[2];}
+        //         if(datos[0] == "3"){objetoMetodo.NequiDiego = datos[2];}
+        //         if(datos[0] == "4"){objetoMetodo.DaviplataDiego = datos[2];}
+        //         if(datos[0] == "5"){objetoMetodo.PayU = datos[2];}
+        //         if(datos[0] == "6"){objetoMetodo.BancolombiaD = datos[2];} 	
+        //         if(datos[0] == "7"){objetoMetodo.DaviplataNatalia = datos[2];}
+        //         if(datos[0] == "8"){objetoMetodo.DaviplataFrancisco = datos[2];}
+        //         if(datos[0] == "9"){objetoMetodo.BancolombiaNatalia = datos[2];}
+        //         if(datos[0] == "10"){objetoMetodo.BancolombiaFrancisco = datos[2];}
+        //         if(datos[0] == "11"){objetoMetodo.BancolombiaEsperanza = datos[2];}
+        //         if(datos[0] == "12"){objetoMetodo.NequiNatalia = datos[2]; }	
+        //         if(datos[0] == "13"){objetoMetodo.NequiFrancisco = datos[2];}
+        //         if(datos[0] == "14"){objetoMetodo.Davivienda = datos[2];} 	
+        //     }
+            
+        //     let currentDate = `${year}/${month}/${day}`;//2022-08-08 13:58:58
+        //     var objeto = {};
+        //     objeto.tipo = "date";
+        //     objeto.columna = "fecha";
+        //     objeto.valor = currentDate;
+        //     var fecha_inser  = prepararjson(objeto);
+        //     var objeto = {};
+        //     objeto.tipo = "json";
+        //     objeto.columna = "metodos_pago";
+        //     objeto.valor = objetoMetodo;
+        //     var metodos_pago_insert = prepararjson(objeto);
+        //     var objeto = {};
+        //     objeto.tipo = "int";
+        //     objeto.columna = "valor_mercancia";
+        //     objeto.valor = valorTotal;
+        //     var valorTotal_insert = prepararjson(objeto);
+        //     var idregla = insertarfila("con_t_resumenplaza",fecha_inser,metodos_pago_insert,valorTotal_insert,"0","0","0","0","0","0","0","0");
+          
+        // }
+    }
     $('#agregarVenta').on('click', function(){    
         var htmll = apartados();
         $("#datosPrendas").after(htmll); 
@@ -286,7 +601,6 @@
         $('#agregarPedido').css('display','block'); 
         $('.metodo').on('change', function(){  
             var id = parseInt(this.id)+1;
-            console.log(id);
             $("#v"+id+"").css('display', 'block');
             $("#metodo"+id+"").css('display', 'block');
         });    
@@ -314,163 +628,163 @@
     });      
 
 
-        $('#Guardar').on('click', function(){
-            carga();
+    $('#Guardar').on('click', function(){
+        carga();
+        
+        if(jsonPrendasIngresan.length==0){alert('Por revisa las prendas que va a ingresar el cliente, no has seleccionado ninguna');return false;}  
+        if(jsonPrendasSalen.length==0){alert('Por revisa las prendas que va a llevarse el cliente, no has seleccionado ninguna');return false;}  
+
+        var divsmetodos = $('.metodop');
+        
+        valorfinalExcedente = 0;
+        var j=0;
+        var text_val = $('#ValorTotal').attr("name");
+        var cualesCodigos = $('.codigoscuales').text();
+
+        for (let i = 0; i < divsmetodos.length; i=i+2) {
+            var metodopago =  new Object();//aqui estoy cambiando
+            var valorp = divsmetodos[i].children[0].children[1].valueAsNumber;
+            if(valorp>0){
+                metodopago.valor = valorp;
+                valorfinalExcedente = valorfinalExcedente+valorp;
+                
+                var metdodo = divsmetodos[i+1].children[0].children[1].value;
+                if(metdodo=="S"){alert("Por favor ingresa el método de pago correcto");return false;}
+                metodopago.metodo = metdodo;
+                metodospagoCambio[j]=metodopago;
+                j++;
+            }
+        }
+        if((valorDiferencia-valorfinalExcedente)!=0){alert('Por favor revisa el valor que paga el cliente');return false;}        
+
+        $('#modalFinalCambios').modal("show"); 
+        $('.removerPp').remove();
+        var html='';
+        for (let i = 0; i < jsonPrendasIngresan.length; i++) {
+            console.log(jsonPrendasIngresan[i]);
+            html = `${html} 
+							<div class='col-lg-6 col-md-6 col-sm-6 col-xs-6 removerPp' >
+                                <p>${jsonPrendasIngresan[i].codigo} ${jsonPrendasIngresan[i].descripcion} </p>
+                            </div>
+                    `;
             
-            var divsmetodos = $('.metodop');
-            var metodospago =  new Object();
-            var valorfinal = 0;
-            var j=0;
-            var text_val = $('#ValorTotal').attr("name");
-            var cualesCodigos = $('.codigoscuales').text();
-            console.log(cualesCodigos,'esto es lo que nos interesa ahora ');
-            // if(parseInt(text_val)>0){
-                for (let i = 0; i < divsmetodos.length; i=i+2) {
-                    var metodopago =  new Object();
-                    console.log(divsmetodos[i].children[0].children[1].valueAsNumber);
-                    var valorp = divsmetodos[i].children[0].children[1].valueAsNumber;
-                    if(valorp>0){
-                        metodopago.valor = valorp;
-                        valorfinal = valorfinal+valorp;
-                        console.log(divsmetodos[i+1].children[0].children[1].value);
-                        var metdodo = divsmetodos[i+1].children[0].children[1].value;
-                        if(metdodo=="S"){alert("Por favor ingresa el método de pago correcto");return false;}
-                        metodopago.metodo = metdodo;
-                        metodospago[j]=metodopago;
-                        j++;
-                    }
-                }
+        }
+        $('#containerContenidoFinalCambio').append(html);
 
-                
-                console.log(jsonPrendasglobal,"lo que sale");
-                console.log(jsonPrendasIngresan,'lo que entra');
-                
+    }); 
+    $('#confirmarCambio').on('click', function(){
 
-                var jsonPrendasVentsaId = new Object();
-                for (let i = 0; i < Object.keys(jsonPrendasIngresan).length; i++) {
-                    var jsonPrendas = new Object();
-                    jsonPrendas.ventaId = jsonPrendasIngresan[i].ventaId;
-                    jsonPrendas.codigo = jsonPrendasIngresan[i].codigo; 
-                    jsonPrendasVentsaId[i] = jsonPrendas;
-                }
+        
+        for (let i = 0; i < jsonPrendasIngresan.length; i++) {
+            jsonPrendasIngresan[i].codigo
+            var estadoActualj = obtenerDatajson("estado","con_t_trprendas","valoresconcondicion","codigo",`'${jsonPrendasIngresan[i].codigo}'`);
+            var estadoActual = JSON.parse(estadoActualj); 
+            if(estadoActual[0].estado!='En Plaza de las américas'){
+                alert(`Por favor escanea la prenda ${jsonPrendasIngresan[i].codigo} para que quede con el estado "En Plaza de las américas"` );
+                return false;
+            }
+        }
 
+        var objeto = {};
+        objeto.tipo = "json";
+        objeto.columna = "venta_id";
+        objeto.valor = jsonVentaId;
+        var venta_id = prepararjson(objeto);
+        
+        var objeto = {};
+        objeto.tipo = "json";
+        objeto.columna = "prenda_ingresa";
+        objeto.valor = jsonPrendasIngresan;
+        var prenda_ingresa = prepararjson(objeto);
 
+        var objeto = {};
+        objeto.tipo = "json";
+        objeto.columna = "prenda_sale";
+        objeto.valor = jsonPrendasSalen;
+        var prenda_sale = prepararjson(objeto);
 
-                var metodospagoString= JSON.stringify(metodospago);
-                console.log(metodospago);
-                if(parseInt(text_val)<0){
-                    var pagovsvalor = parseInt(text_val)+valorfinal;
-                }else{
-                    var pagovsvalor = valorfinal-parseInt(text_val);
-                }
-                console.log(pagovsvalor,'Este es el valor');
-                if(pagovsvalor!=0){alert("El valor total del pedido no coincide con el valor de pago");return false;}
-                
-                var objeto = {};
-                objeto.tipo = "json";
-                objeto.columna = "venta_id";
-                objeto.valor = jsonPrendasVentsaId;
-                var venta_id = prepararjson(objeto);
-                
-                var objeto = {};
-                objeto.tipo = "json";
-                objeto.columna = "prenda_ingresa";
-                objeto.valor = jsonPrendasIngresan;
-                var prenda_ingresa = prepararjson(objeto);
+        const date = new Date();
+        let day = date.getDate();
+        let month = date.getMonth() + 1;
+        let year = date.getFullYear();
+        let currentDate = `${year}/${month}/${day}`;//2022-08-08 13:58:58 	
+        var objeto = {};
+        objeto.tipo = "date";
+        objeto.columna = "fecha";
+        objeto.valor = currentDate;
+        var fecha  = prepararjson(objeto);
 
-                var objeto = {};
-                objeto.tipo = "json";
-                objeto.columna = "prenda_sale";
-                objeto.valor = jsonPrendasglobal;
-                var prenda_sale = prepararjson(objeto);
+        var objeto = {};
+        objeto.tipo = "int";
+        objeto.columna = "excedente";
+        objeto.valor = valorfinalExcedente;
+        var excedenteEnviar  = prepararjson(objeto);
+        
+        var datoscliente = {};
+        datoscliente.nombre= nombre;
+        datoscliente.direccion = dire;
+        datoscliente.telefono = tel;
+        var objeto = {};
+        objeto.tipo = "json";
+        objeto.columna = "datos_cliente";
+        objeto.valor = datoscliente;
+        var datos_cliente = prepararjson(objeto);
 
-                const date = new Date();
-                let day = date.getDate();
-                let month = date.getMonth() + 1;
-                let year = date.getFullYear();
-                let currentDate = `${year}/${month}/${day}`;//2022-08-08 13:58:58 	
-                var objeto = {};
-                objeto.tipo = "date";
-                objeto.columna = "fecha";
-                objeto.valor = currentDate;
-                var fecha  = prepararjson(objeto);
+        var idCambio = insertarfila("con_t_cambiosplaza",venta_id,prenda_ingresa,prenda_sale,fecha,excedenteEnviar,datos_cliente,"0","0","0","0","0","0");
+        var CambioId = JSON.parse(idCambio);
 
-                var objeto = {};
-                objeto.tipo = "int";
-                objeto.columna = "excedente";
-                objeto.valor = parseInt(text_val);
-                var excedenteEnviar  = prepararjson(objeto);
-                
-                var resultado = insertarfila("con_t_cambiosplaza",venta_id,prenda_ingresa,prenda_sale,fecha,excedenteEnviar,"0","0","0","0","0","0","0");
-                var usuarioLevel = $('#usuarioCell').attr('name');
-
-
-
-
-                
-                
-                console.log(usuarioLevel);
-                console.log(Object.keys(jsonPrendasglobal).length);
-                for (let i = 0; i < Object.keys(jsonPrendasglobal).length; i++) {      
-                    console.log(jsonPrendasglobal[i]);      
-                    // actualizarPrendas(usuarioLevel,"Venta local","PA-"+lastid[0].id,jsoncodigos[i].codigo);
-                    actualizar("con_t_prendasplaza","-",jsonPrendasglobal[i].codigo,"-","-");
-                    
-                    var objeto = {};
-                    objeto.tipo = "string";
-                    objeto.columna = "estado";
-                    objeto.valor = "Venta local";
-                    var estado = prepararjson(objeto);
-
-                    var objeto = {};
-                    objeto.tipo = "string";
-                    objeto.columna = "complemento_estado";
-                    objeto.valor = "Cambio local";
-                    var complemento_estado = prepararjson(objeto);
-
-                    var objeto = {};
-                    objeto.tipo = "string";
-                    objeto.columna = "cual";
-                    objeto.valor = jsonPrendasVentsaId[0].ventaId;
-                    var cual = prepararjson(objeto);
-
-                    console.log(cual,'aquiiiiiiii');
-
-                    const date = new Date();
-                    let day = date.getDate();
-                    let month = date.getMonth() + 1;
-                    let year = date.getFullYear();
-                    let currentDate = `${year}/${month}/${day}`;//2022-08-08 13:58:58 	
-                    var objeto = {};
-                    objeto.tipo = "date";
-                    objeto.columna = "fecha_cambio";
-                    objeto.valor = currentDate;
-                    var fecha  = prepararjson(objeto);
-
-                    var objeto = {};
-                    objeto.columna = "codigo";
-                    objeto.valor = "'"+jsonPrendasglobal[i].codigo+"'";
-                    var condicion = prepararjson(objeto);
-
-                    var re = actualizarregistros("con_t_trprendas",condicion,estado,complemento_estado,cual,fecha,"0","0","0","0","0","0","0");
-                    
-                }
-                // console.log(resultado);
-                // console.log('llegue'); 
-                $('.remuve').remove(); 
-                $('.prendasIngresa').remove(); 
-                $('.prendasCargadas').attr('checked',false);   
-                $('#ValorTotal').attr("name",0); 
-                $("#ValorTotal").text(0);
-                $('#ValorTotal').empty(); 
-                $('#DatosClientesConatiner').empty(); 
-                $('#ventana-modal').modal("hide");  
-            // }else{
-            //     console.log('se le debe al cliente');
-            // }
+        for (let i = 0; i < jsonPrendasSalen.length; i++) {
+            var objeto = {};
+            objeto.columna = "codigo";
+            objeto.valor = `'${jsonPrendasSalen[i].codigo}'`;
+            var condicion = prepararjson(objeto);
+            var objeto = {};
+            objeto.tipo = "string";
+            objeto.columna = "estado";
+            objeto.valor = "Cambio plaza";
+            var estado = prepararjson(objeto);
+            var objeto = {};
+            objeto.tipo = "string";
+            objeto.columna = "cual";
+            objeto.valor = `CP${CambioId[0].id}`;
+            var cual = prepararjson(objeto);
+            const date = new Date();
+            let day = date.getDate();
+            let month = date.getMonth() + 1;
+            let year = date.getFullYear();
+            let currentDate = `${year}/${month}/${day}`;//2022-08-08 13:58:58 	
+            var objeto = {};
+            objeto.tipo = "date";
+            objeto.columna = "fecha_cambio";
+            objeto.valor = currentDate;
+            var fecha  = prepararjson(objeto);
+            actualizarregistros("con_t_trprendas",condicion,estado,cual,fecha,"0","0","0","0","0","0","0","0");
             
+            var objeto = {};
+            objeto.tipo = "int";
+            objeto.columna = "agregada";
+            objeto.valor = 1;
+            var agregada = prepararjson(objeto);            
+            actualizarregistros("con_t_prendasplaza",condicion,agregada,"0","0","0","0","0","0","0","0","0","0");
             
-        }); 
+        }
+
+
+        agregarpago(metodospagoCambio);
+        
+      
+        $('.remuve').remove(); 
+        $('.prendasIngresa').remove(); 
+        $('.prendasCargadas').attr('checked',false);   
+        $('#ValorTotal').attr("name",0); 
+        $("#ValorTotal").text(0);
+        $('#ValorTotal').empty(); 
+        $('#DatosClientesConatiner').empty(); 
+        $('#ventana-modal').modal("hide");  
+        $('#modalFinalCambios').modal("hide");
+        $('.removerPp').remove();
+        
+    }); 
 
     $('#agregarPedido').on('click', function(){//cliente_id 	datos_cliente 	codigos_prendas 	notas 	origen 	valor_total metodos_pago 	vendedor_id 
         var cliente_id = $('#idCliente').val();
@@ -485,8 +799,7 @@
         if(!valor_total){
             valor_total = $('#valor').attr("name");
             codigos_prendas = $('#datospedido').attr("name");  
-        }
-        console.log(valor_total);        
+        }       
         var notas = $('#notas').val();
         var divsmetodos = $('.metodop');
         var metodospago =  new Object();
@@ -494,12 +807,10 @@
         var j=0;
         for (let i = 0; i < divsmetodos.length; i=i+2) {
             var metodopago =  new Object();
-            console.log(divsmetodos[i].children[0].children[1].valueAsNumber);
             var valorp = divsmetodos[i].children[0].children[1].valueAsNumber;
             if(valorp>0){
                 metodopago.valor = valorp;
                 valorfinal = valorfinal+valorp;
-                console.log(divsmetodos[i+1].children[0].children[1].value);
                 var metdodo = divsmetodos[i+1].children[0].children[1].value;
                 if(metdodo=="S"){alert("Por favor ingresa el método de pago correcto");return false;}
                 metodopago.metodo = metdodo;
@@ -515,14 +826,11 @@
         if(pagovsvalor!=0){alert("El valor total del pedido no coincide con el valor de pago");return false;}  
         var last = nuevaventatiendas(cliente_id,clienteString,codigos_prendas,notas,"Plaza de las américas",valor_total,metodospagoString,vendedor_id);
         var lastid = JSON.parse(last);
-        console.log(lastid[0].id);
+      
         var jsoncodigos = JSON.parse(codigos_prendas);
         var usuarioLevel = $('#usuarioCell').attr('name');
-        console.log(jsoncodigos);
-        console.log(usuarioLevel);
-        console.log(Object.keys(jsoncodigos).length);
         for (let i = 0; i < Object.keys(jsoncodigos).length; i++) {      
-            console.log(jsoncodigos[i]);      
+           
             actualizarPrendas(usuarioLevel,"Venta local","PA-"+lastid[0].id,jsoncodigos[i].codigo);
             actualizar("con_t_prendasplaza","-",jsoncodigos[i].codigo,"-","-");
         }
@@ -534,13 +842,13 @@
 
         var metodosPago = obtenerDatajson('ID,descripcion','con_t_metodospago','variasfilasunicas','0','0');
         var jsonMetodosPago = JSON.parse(metodosPago);
-        console.log(jsonMetodosPago);
+       
         var objMetodos = [];
         for (let i = 0; i < Object.keys(jsonMetodosPago).length; i++) {  
             objMetodos.push(jsonMetodosPago[i].ID+':'+jsonMetodosPago[i].descripcion+':0');  
-            console.log(jsonMetodosPago[i].ID,jsonMetodosPago[i].descripcion,'aqui eees ');
+           
         } 
-        console.log(objMetodos, 'Objetooo');
+      
         let efectivo = 0;
         let datafono = 0;
         let nequi = 0;
@@ -550,16 +858,14 @@
         let valorTotal = 0;
         var existe  = obtenerDatajson('ID,valor_mercancia,metodos_pago','con_t_resumenplaza','valoresconcondicion','fecha',"'"+currentDateConsulta+"'");
         var jsonExiste = JSON.parse(existe);
-        console.log(typeof jsonExiste,jsonExiste.length, jsonExiste, "Informacion Importante");
         var jsonMetodosPago = JSON.parse(metodospagoString);
-        console.log(jsonMetodosPago,Object.keys(jsonMetodosPago).length,"metodos selecionados");
         if(jsonExiste.length !== 0){
 
-            console.log(jsonExiste[0].metodos_pago);
+           
             var jsonMetodosPago2 = JSON.parse(jsonExiste[0].metodos_pago);
-            console.log(jsonMetodosPago2,"aqui");
+         
 
-            console.log("se actualizo el dia 21 a la tabla");
+           
             for (let i = 0; i < Object.keys(objMetodos).length; i++) {  
                 for (let j = 0; j < Object.keys(jsonMetodosPago).length; j++) {
                     var datos = objMetodos[i].split(':');
@@ -568,9 +874,9 @@
                         var valor = parseInt(datos[2]);
                         var valorFinal = valor + jsonMetodosPago[j].valor 
                         objMetodos[i] = datos[0]+':'+datos[1]+':'+valorFinal;
-                        console.log(objMetodos[i]);
+                     
                         valorTotal = valorTotal + valorFinal
-                        console.log(valorTotal,'este es el valor dentro del for');
+                    
                     }  
                 }
             }
@@ -594,29 +900,8 @@
             }
             
             valorTotal = parseInt(objetoMetodo.Efectivo)+parseInt(objetoMetodo.Datafono)+parseInt(objetoMetodo.NequiDiego)+parseInt(objetoMetodo.DaviplataDiego)+parseInt(objetoMetodo.PayU)+parseInt(objetoMetodo.BancolombiaD)+parseInt(objetoMetodo.DaviplataNatalia)+parseInt(objetoMetodo.DaviplataFrancisco)+parseInt(objetoMetodo.BancolombiaNatalia)+parseInt(objetoMetodo.BancolombiaFrancisco)+parseInt(objetoMetodo.BancolombiaEsperanza)+parseInt(objetoMetodo.NequiNatalia)+parseInt(objetoMetodo.NequiFrancisco)+parseInt(objetoMetodo.Davivienda);
-            console.log(valorTotal,'valor total antes de ingresar');
-            // efectivo = jsonMetodosPago2.Efectivo;
-            // datafono = jsonMetodosPago2.Datafono;
-            // nequi = jsonMetodosPago2.Nequi;
-            // daviplata = jsonMetodosPago2.Daviplata;
-            // PayU = jsonMetodosPago2.PayU;
-            // Bancolombia = jsonMetodosPago2.Bancolombia;
-            // for (let i = 0; i < Object.keys(jsonMetodosPago).length; i)+parseInt()+) {    
-            //     if(jsonMetodosPago[i].metodo == "1"){efectivo = efectivo + jsonMetodosPago[i].valor }
-            //     if(jsonMetodosPago[i].metodo == "2"){datafono = datafono + jsonMetodosPago[i].valor }
-            //     if(jsonMetodosPago[i].metodo == "3"){nequi = nequi + jsonMetodosPago[i].valor }
-            //     if(jsonMetodosPago[i].metodo == "4"){daviplata = daviplata + jsonMetodosPago[i].valor }      
-            //     if(jsonMetodosPago[i].metodo == "5"){PayU = PayU + jsonMetodosPago[i].valor }
-            //     if(jsonMetodosPago[i].metodo == "6"){Bancolombia = Bancolombia + jsonMetodosPago[i].valor }  
-            //     valorTotal = efectivo + datafono + nequi + daviplata + PayU + Bancolombia;
-            // }
-            // var objetoMetodo = {};
-            // objetoMetodo.Efectivo = efectivo;
-            // objetoMetodo.Datafono = datafono;
-            // objetoMetodo.Nequi = nequi;
-            // objetoMetodo.Daviplata = daviplata;
-            // objetoMetodo.PayU = PayU;
-            // objetoMetodo.Bancolombia = Bancolombia; 
+         
+           
             var objeto = {};
             objeto.tipo = "json";
             objeto.columna = "metodos_pago";
@@ -631,12 +916,11 @@
             objeto.columna = "ID";
             objeto.valor = jsonExiste[0].ID;
             var condicion = prepararjson(objeto);
-            console.log(valorTotal_insert,'valor total a ingresar');
             actualizarregistros("con_t_resumenplaza",condicion,valorTotal_insert,metodos_pago_insert,"0","0","0","0","0","0","0","0","0");
-            console.log(objMetodos);   
+          
         }else{
 
-            console.log("se Aagrego el dia 21 a la tabla");
+       
             for (let i = 0; i < Object.keys(objMetodos).length; i++) {  
                 for (let j = 0; j < Object.keys(jsonMetodosPago).length; j++) {
                     var datos = objMetodos[i].split(':');
@@ -645,20 +929,12 @@
                         var valor = parseInt(datos[2]);
                         var valorFinal = valor + jsonMetodosPago[j].valor
                         objMetodos[i] = datos[0]+':'+datos[1]+':'+valorFinal;
-                        console.log(objMetodos[i]);
+                    
                         valorTotal = valorTotal + valorFinal
                     }  
                 }
             }
-            // for (let i = 0; i < Object.keys(jsonMetodosPago).length; i++) {    
-            //     if(jsonMetodosPago[i].metodo == "1"){efectivo = efectivo + jsonMetodosPago[i].valor }
-            //     if(jsonMetodosPago[i].metodo == "2"){datafono = datafono + jsonMetodosPago[i].valor }
-            //     if(jsonMetodosPago[i].metodo == "3"){nequi = nequi + jsonMetodosPago[i].valor }
-            //     if(jsonMetodosPago[i].metodo == "4"){daviplata = daviplata + jsonMetodosPago[i].valor }      
-            //     if(jsonMetodosPago[i].metodo == "5"){PayU = PayU + jsonMetodosPago[i].valor }
-            //     if(jsonMetodosPago[i].metodo == "6"){Bancolombia = Bancolombia + jsonMetodosPago[i].valor }  
-            //        valorTotal = efectivo + datafono + nequi + daviplata + PayU + Bancolombia;
-            // }
+
             var objetoMetodo = {}; 
             for (let i = 0; i < Object.keys(objMetodos).length; i++) {  
                 var datos = objMetodos[i].split(':');
@@ -695,7 +971,7 @@
             objeto.valor = valorTotal;
             var valorTotal_insert = prepararjson(objeto);
             var idregla = insertarfila("con_t_resumenplaza",fecha_inser,metodos_pago_insert,valorTotal_insert,"0","0","0","0","0","0","0","0");
-            console.log(objMetodos);
+          
         }
         $('#bodyTabla').empty();
         $('#titulosTabla').empty();
@@ -717,12 +993,12 @@
             var horaMenor = " 00:00:00";
             var horaMayor = " 23:00:00";
             var fecha = "'"+id+horaMenor+"' AND '"+id+horaMayor+"'";
-            console.log('inicio');
+           
             var resumenDia = obtenerDatajson('ID,cliente_id,datos_cliente,codigos_prendas,notas,metodos_pago,valor_total','con_t_ventasplaza','Between','fecha_creada',fecha);
             var jsonResumenDia = JSON.parse(resumenDia);
-            console.log(jsonResumenDia);
+           
             $('#primeraFila').after(imprimi(jsonResumenDia));
-            console.log('fin');
+          
             return false;     
         }); 
     });      
@@ -762,11 +1038,11 @@
         var html = "";
         var clientes = clientesBuscarjson($('#tele').val());        
         var jsonclientes = JSON.parse(clientes);
-        console.log(jsonclientes.length);
+     
         if(jsonclientes.length==0){
             html = "<p class='col-lg-6 col-md-6 col-sm-6 col-xs-6 cliente'>Sin resultados</p>"
         }else{
-            console.log(jsonclientes);
+         
             for(i=0;i<jsonclientes.length;i++){
                 var datos = items[i].split('%');
                 html=html+"<p class='off remover' id='clienteid"+i+"' >"+jsonclientes[i].cliente_id+"</p><p id='nombre"+i+"' class='col-lg-2 col-md-2 col-sm-2 col-xs-2 remover'>"+jsonclientes[i].nombre+"</p><p id='telefono"+i+"' class='col-lg-2 col-md-2 col-sm-2 col-xs-2 remover'>"+jsonclientes[i].telefono+"</p><p class='col-lg-2 col-md-2 col-sm-2 col-xs-2 remover' id='documento"+i+"' >"+jsonclientes[i].documento+"</p><p class='col-lg-4 col-md-4 col-sm-4 col-xs-4 remover' id='correo"+i+"' >"+jsonclientes[i].correo+"</p><div class='col-lg-2 col-md-2 col-sm-2 col-xs-2 remover'><button class='botonmodal' id='"+i+"' onclick='seleccionCliente("+i+")' style='width: 100%;'>Cargar</button></div>";
@@ -832,7 +1108,7 @@
         $("#datosPrendasapartado").after(html);        
         var vendedores = obtenerDatajson('ID,display_name ','con_users','variasfilasunicas','0','0');
         var jsonvendedores = JSON.parse(vendedores);
-        console.log(jsonvendedores);
+      
         var vendehtml = "";
         for (let i = 0; i < jsonvendedores.length; i++) {
             vendehtml = vendehtml+"<option value='"+jsonvendedores[i].ID+"'>"+jsonvendedores[i].display_name+"</option>";            
@@ -884,11 +1160,11 @@
         var html = "";
         var clientes = clientesBuscarjson($('#teleapartado').val());        
         var jsonclientes = JSON.parse(clientes);
-        console.log(jsonclientes.length);
+      
         if(jsonclientes.length==0){
             html = "<p class='col-lg-6 col-md-6 col-sm-6 col-xs-6 cliente'>Sin resultados</p>"
         }else{
-            console.log(jsonclientes);
+           
             for(i=0;i<jsonclientes.length;i++){
                 var datos = items[i].split('%');
                 html=html+"<p class='off remover' id='clienteid"+i+"' >"+jsonclientes[i].cliente_id+"</p><p id='nombre"+i+"' class='col-lg-2 col-md-2 col-sm-2 col-xs-2 remover'>"+jsonclientes[i].nombre+"</p><p id='telefono"+i+"' class='col-lg-2 col-md-2 col-sm-2 col-xs-2 remover'>"+jsonclientes[i].telefono+"</p><p class='col-lg-2 col-md-2 col-sm-2 col-xs-2 remover' id='documento"+i+"' >"+jsonclientes[i].documento+"</p><p class='col-lg-4 col-md-4 col-sm-4 col-xs-4 remover' id='correo"+i+"' >"+jsonclientes[i].correo+"</p><div class='col-lg-2 col-md-2 col-sm-2 col-xs-2 remover'><button class='botonmodal' id='"+i+"' onclick='seleccionClienteApartado("+i+")' style='width: 100%;'>Cargar</button></div>";
@@ -925,7 +1201,7 @@
         var jsonPrendas = new Object();
         var j=0;
         for (let i = 0; i < check.length; i++) {
-            console.log(check[i].checked);
+           
             if(check[i].checked){
                 valor = valor + parseInt(check[i].value);
                 var codigoDescr = check[i].name.split("/");
@@ -937,10 +1213,10 @@
                 jsonPrendas[j] = jsonPrenda;
                 j++;
                 html=html+"<div class='col-lg-3 col-md-3 col-sm-3 col-xs-3  removeprendavender' id='"+check[i].id+"'><p class='letra3pt-mv letra16pt-pc'>"+codigoDescr[0]+" "+codigoDescr[1]+" "+check[i].value+"</p></div>";
-                console.log(check[i]);
+            
             }            
         }
-        console.log(jsonPrendas);
+      
         var prendaString= JSON.stringify(jsonPrendas);
         html=html+"<div class='col-lg-12 col-md-12 col-sm-12 col-xs-12  removeprendavender' id='datospedido' name='"+prendaString+"'><p class='letra3pt-mv letra16pt-pc' id='valor' name='"+valor+"'>Precio total: "+valor+"</p></div>";
         $('#pedidoapartado').append(html);
@@ -955,7 +1231,7 @@
         var telVentaapartado = $('#telVentaapartado').val();
         var idClienteapartado = $('#idClienteapartado').val();
         var documentovapartado = $('#documentovapartado').val();  
-        console.log(idClienteapartado);
+       
         if(!idClienteapartado){alert("¿Cuál es el cliente?");return false;}
         var datoscliente = {};
         datoscliente.nombre= nombreVentaapartado;
@@ -1007,10 +1283,10 @@
         var id_vendedor = prepararjson(objeto);
         var idapartado = insertarfila("con_t_apartados",cliente_id,datos_cliente,pedido,valor_total,estado,notas,id_vendedor,"0","0","0","0");
         var jsonidapartado= JSON.parse(idapartado);
-        console.log(jsonidapartado);
+        
         var usuarioLevel = $('#usuarioCell').attr('name');
         for (let i = 0; i < Object.keys(jsondatospedido).length; i++) {
-            console.log(jsondatospedido[i]);
+            
             var objeto = {};
             objeto.columna = "ID";
             objeto.valor = jsondatospedido[i].id;
@@ -1044,7 +1320,7 @@
         $('#ventana-modal').modal("show");    
         var ids = obtenerDatajson('ID,descripcion','con_t_metodospago','variasfilasunicas','0','0');
         var jsonIds = JSON.parse(ids);
-        console.log(jsonIds);
+       
         var option = "";
         for (let i = 0; i < jsonIds.length; i++) {
             option = option + "<option value='"+jsonIds[i].ID+"'>"+jsonIds[i].descripcion+"</option>"
@@ -1070,25 +1346,30 @@
         $('.metodo').append(option);
         $('.metodo').on('change', function(){  
             var id = parseInt(this.id)+1;
-            console.log(id);
+       
             $("#v"+id+"").css('display', 'block');
             $("#metodo"+id+"").css('display', 'block');
         }); 
     });  
-    // $('#closeModalPrincipal').on('click', function(){    
-    //     $('#continerMetodos').empty(); 
-    // }); 
+
+    
+
     function carga() { 
-    $('.selectPrendas').on('change', function(){   
+        $('.selectPrendas').on('change', function(){   
+           actualizarDiferencia();
+        }); 
+    };
+
+    const actualizarDiferencia = () =>{
+        jsonPrendasIngresan=[];
+        jsonVentaId = [];
         var check = $(".prendasIngresa input"); 
+
         var valor = 0;
         var valor2 = 0;
         var html = "";
-        var j=0;
-        console.log(check,'le doy');
+        var j=0;        
 
-        
-        
         for (let i = 0; i < check.length; i++) {
             var jsonPrenda = new Object();
             var codigoDescr = check[i].name.split("/");
@@ -1096,23 +1377,29 @@
             jsonPrenda.descripcion = codigoDescr[1];
             jsonPrenda.ventaId = codigoDescr[2];
             jsonPrenda.valor = check[i].value;
-            jsonPrendasIngresan[i] = jsonPrenda;
-            if(check[i].checked){
-                console.log(check[i],'aquies2');
+            if(check[i].checked){                
+                var jsonVentaIdI =  new Object();
+                jsonVentaIdI.ventaId = codigoDescr[2];
+                jsonVentaId.push(jsonVentaIdI);
+                jsonPrendasIngresan.push(jsonPrenda);
                 valor = valor + parseInt(check[i].value);
             }            
         }
         for (let i = 0; i < Object.keys(jsonPrendasglobal).length; i++) {
             valor2 =  valor2 + parseInt(jsonPrendasglobal[i].valor);    
         }
-        console.log( jsonPrendasglobal,'global');  
+        valorDiferencia = valor2-valor;
+        console.log(valorDiferencia);
+        if(valorDiferencia>0){
+            $('#diferenciaCliente').text('El cliente debe dar: ');
+            $("#ValorTotal").text(formatoPrecio(valorDiferencia));
+        }else{
+            $('#diferenciaCliente').text('Se le debe al cliente: ');
+            let valorDiferenciaContrario =-1*valorDiferencia;
+            $("#ValorTotal").text(formatoPrecio(valorDiferenciaContrario));
+        }
 
-        
-
-        $("#ValorTotal").text(formatoPrecio(valor2-valor));
-        $('#ValorTotal').attr('name',valor2-valor);
-    }); 
-};
+    }
 
     $('#cargarPrenda2').on('click', function(){  
         $('.remuve').remove();   
@@ -1125,14 +1412,14 @@
         
         for (let i = 0; i < check.length; i++) {
             if(check[i].checked){
-                console.log(check[i],'aquies');
+               
                 valor = valor + parseInt(check[i].value);
                 var codigoDescr = check[i].name.split("/");
                 var jsonPrenda = new Object();
                 jsonPrenda.codigo = codigoDescr[0];
                 jsonPrenda.descripcion = codigoDescr[1];
                 jsonPrenda.valor = check[i].value;
-                console.log(formatoPrecio(jsonPrenda.valor));
+                jsonPrendasSalen.push(jsonPrenda);
                 jsonPrendasglobal[j] = jsonPrenda;
                 j++;
                 html=html+'<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 remuve">'+
@@ -1150,28 +1437,9 @@
             }            
         }
         $('#listaPrendasCargadas').append(html);
-        console.log(jsonPrendasglobal);
+        actualizarDiferencia();
     });
 
-    // $('.removeprendavender').remove();
-    //     var check = $("#popup4 input"); 
-    //     var valor = 0;
-    //     var html = "";
-    //     var jsonPrendas = new Object();
-    //     var j=0;
-    //     for (let i = 0; i < check.length; i++) {
-    //         if(check[i].checked){
-    //             valor = valor + parseInt(check[i].value);
-    //             var codigoDescr = check[i].name.split("/");
-    //             var jsonPrenda = new Object();
-    //             jsonPrenda.codigo = codigoDescr[0];
-    //             jsonPrenda.descripcion = codigoDescr[1];
-    //             jsonPrenda.valor = check[i].value;
-    //             jsonPrendas[j] = jsonPrenda;
-    //             j++;
-    //             html=html+"<div class='col-lg-3 col-md-3 col-sm-3 col-xs-3  removeprendavender' id='"+check[i].id+"'><p class='letra3pt-mv letra16pt-pc'>"+codigoDescr[0]+" "+codigoDescr[1]+" "+check[i].value+"</p></div>";
-    //         }            
-    //     }
 
     $('#cargarPrenda').on('click', function(){ 
         for (const key in jsonPrendasglobal) {
@@ -1184,7 +1452,6 @@
         $('#modalAgregarPrendas').modal("show");
         $('.prendasCargadas').attr('checked',false);
         var prendasjson = imprimirprendasparavenderdetal(); 
-        console.log(prendasjson); 
         var prendasunitario =""
         for (let j = 0; j < Object.keys(prendasjson).length; j++) {
             prendasunitario = prendasunitario + '<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 prendasplaza"style="margin-left: -14px; margin-top: 10px;">'+
@@ -1236,7 +1503,6 @@
     $('#agregarVentaCell').on('click', function() {
         var ids = obtenerDatajson('ID,descripcion','con_t_metodospago','variasfilasunicas','0','0');
         var jsonIds = JSON.parse(ids);
-        console.log(jsonIds);
         var option = "";
         for (let i = 0; i < jsonIds.length; i++) {
             option = option + "<option value='"+jsonIds[i].ID+"'>"+jsonIds[i].descripcion+"</option>"
@@ -1249,7 +1515,6 @@
         $('.metodo').append(option);
         var vendedores = obtenerDatajson('ID,display_name ','con_users','variasfilasunicas','0','0');
         var jsonvendedores = JSON.parse(vendedores);
-        console.log(jsonvendedores);
         var vendehtml = "";
         for (let i = 0; i < jsonvendedores.length; i++) {
             vendehtml = vendehtml+"<option value='"+jsonvendedores[i].ID+"'>"+jsonvendedores[i].display_name+"</option>";            
@@ -1261,7 +1526,6 @@
         $('#agregarPedido').css('display','block'); 
         $('.metodo').on('change', function(){  
             var id = parseInt(this.id)+1;
-            console.log(id);
             $("#v"+id+"").css('display', 'block');
             $("#metodo"+id+"").css('display', 'block');
         });    
@@ -1306,17 +1570,15 @@ function seleccionClienteApartado(id) {
                 var con_t_reglasdescuentos = obtenerDatajson("*","con_t_reglasdescuentos","valoresconcondicion","ID",this.value);
                 var jsoncon_t_reglasdescuentos = JSON.parse(con_t_reglasdescuentos); 
                 var valor_total = $('#valor').attr("name");
-                if(!valor_total){console.log("esta vacio");return false;}
+                if(!valor_total){return false;}
                 $(".removeresumendescuento").remove();
                 var datospedido = JSON.parse($("#datospedido").attr("name"));
-                var jsonData = calculardescuentos(datospedido,valor_total,jsoncon_t_reglasdescuentos);
-                console.log(jsonData);        
+                var jsonData = calculardescuentos(datospedido,valor_total,jsoncon_t_reglasdescuentos);  
                 $("#datosPrendasapartado").after(jsonData.html);
                 $("#datosPrendas").after(jsonData.html);
             }
         });
         $('.agregarabono').on('click', function() {
-            console.log(this.id);
             $('#popup9').fadeIn('slow');         
             $('.popup-overlay').fadeIn('slow');
             $('.popup-overlay').height($(window).height()); 
@@ -1338,7 +1600,6 @@ function seleccionClienteApartado(id) {
             $('.ventasplaza').remove();
             var con_t_apartados = obtenerDatajson("*","con_t_apartados","valoresconcondicion","ID",idapartado);
             var jsoncon_t_apartados = JSON.parse(con_t_apartados); 
-            console.log(jsoncon_t_apartados);
             var numeroabono = "";
             if(jsoncon_t_apartados[0].abono_3 == "0"){
                 numeroabono = "abono_3";
@@ -1377,7 +1638,7 @@ function seleccionClienteApartado(id) {
             objeto.valor = currentDate;
             var fecha_abono  = prepararjson(objeto);
             var resultado = actualizarregistros("con_t_apartados",condicion,abonoenviar,fecha_abono,"0","0","0","0","0","0","0","0","0");
-            console.log(resultado);
+           
             var objeto = {};
             objeto.tipo = "int";
             objeto.columna = "id_apartado";
@@ -1414,7 +1675,7 @@ function seleccionClienteApartado(id) {
         var html  = "<div class='col-lg-12 col-md-12 col-sm-12 col-xs-12 ventasplaza' id='primeraFila'><div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'><p class='letra18pt-pc negrillaUno'>Cliente</p></div><div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'><p class='letra18pt-pc negrillaUno'>Pedido</p></div><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'><p class='letra18pt-pc negrillaUno'>Abono 1</p></div><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'><p class='letra18pt-pc negrillaUno'>Fecha 1</p></div><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'><p class='letra18pt-pc negrillaUno'>Abono 2</p></div><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'><p class='letra18pt-pc negrillaUno'>Fecha 2</p></div><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'><p class='letra18pt-pc negrillaUno'>Abono 3</p></div><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'><p class='letra18pt-pc negrillaUno'>Fecha 3</p></div><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'><p class='letra18pt-pc negrillaUno'>Notas</p></div><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'><p class='letra18pt-pc negrillaUno'>Valor total</p></div></div>"
         var apartados = obtenerDatajson('*','con_t_apartados','variasfilasunicas','0','0');
         var jsonapartados = JSON.parse(apartados);
-        console.log(jsonapartados);
+      
         var primeraventa = "primeraventa";
         for (let i = ( Object.keys(jsonapartados).length-1); i >= 0; i--) {
             var datos_cliente = JSON.parse(jsonapartados[i].datos_cliente);
@@ -1433,7 +1694,6 @@ function seleccionClienteApartado(id) {
 
         var metodosPago = obtenerDatajson('ID,descripcion','con_t_metodospago','variasfilasunicas','0','0');
         var jsonMetodosPago = JSON.parse(metodosPago);
-        console.log(jsonMetodosPago);
         var htmlTitulo='';
         var htmlBody='';
         htmlTitulo = htmlTitulo+"<th><p class='letra18pt-pc negrillaUno'>Fecha</p></th>"+"<th><p class='letra18pt-pc negrillaUno'>Mercancía</p></th>";
@@ -1444,7 +1704,6 @@ function seleccionClienteApartado(id) {
 
         for (let i = (jsonResumen.length-1); i >=0; i--) {
             var jsonMetodosPago2 = JSON.parse(jsonResumen[i].metodos_pago);
-            console.log(jsonMetodosPago2,'importante');
             var htmlBodyDentro='';
             for (let i = 0; i < Object.keys(jsonMetodosPago).length; i++) { 
                 for (let j in jsonMetodosPago2){
@@ -1453,7 +1712,6 @@ function seleccionClienteApartado(id) {
                         htmlBodyDentro = htmlBodyDentro +"<td><p class='letra18pt-pc negrillaUno'>"+formatoPrecio(jsonMetodosPago2[j])+"</p></td>";
 
                     }
-                    console.log(jsonMetodosPago[i].descripcion,j,jsonMetodosPago2[j]);
                 }
                    
     
@@ -1467,63 +1725,27 @@ function seleccionClienteApartado(id) {
             +"</tr>";
 
             
-            
-            // "<div class='col-lg-12 col-md-12 col-sm-12 col-xs-12 ventasplazaResumen'><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1 containerTabla'><p class='letra18pt-pc negrillaUno verDia' name='"+jsonResumen[i].fecha+"' >"
-            // +jsonResumen[i].fecha+"</p></div><div class='col-lg-2 col-md-2 col-sm-2 col-xs-2 containerTabla'><p class='letra18pt-pc negrillaUno'>"
-            // +formatoPrecio(jsonResumen[i].valor_mercancia)+"</p></div><div class='col-lg-2 col-md-2 col-sm-2 col-xs-2 containerTabla'><p class='letra18pt-pc negrillaUno'>"
-            // +formatoPrecio(jsonMetodosPago2.Efectivo)+"</p></div><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1 containerTabla'><p class='letra18pt-pc negrillaUno'>"
-            // +formatoPrecio(jsonMetodosPago2.Datafono)+"</p></div><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1 containerTabla'> <p class='letra18pt-pc negrillaUno'>"
-            // +formatoPrecio(jsonMetodosPago2.Nequi)+"</p></div><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1 containerTabla'><p class='letra18pt-pc negrillaUno'>"
-            // +formatoPrecio(jsonMetodosPago2.Daviplata)+"</p></div><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1 containerTabla'><p class='letra18pt-pc negrillaUno'>"
-            // +formatoPrecio(jsonMetodosPago2.PayU)+"</p></div><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1 containerTabla'><p class='letra18pt-pc negrillaUno'>"
-            // +formatoPrecio(jsonMetodosPago2.Bancolombia)+"</p></div></div>";
         }
         $('#bodyTabla').append(htmlBody);
 
 
-        // var jsonMetodosPago = JSON.parse(jsonResumen[jsonResumen.length-1].metodos_pago);
-        // var html = "<div class='col-lg-12 col-md-12 col-sm-12 col-xs-12 ventasplazaResumen' id='primeraventa'><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1 containerTabla'><p class='letra18pt-pc negrillaUno verDia' name='"+jsonResumen[jsonResumen.length-1].fecha+"' >"
-        // +jsonResumen[jsonResumen.length-1].fecha+"</p></div><div class='col-lg-2 col-md-2 col-sm-2 col-xs-2 containerTabla'><p class='letra18pt-pc negrillaUno'>"
-        // +formatoPrecio(jsonResumen[jsonResumen.length-1].valor_mercancia)+"</p></div><div class='col-lg-2 col-md-2 col-sm-2 col-xs-2 containerTabla'><p class='letra18pt-pc negrillaUno'>"
-        // +formatoPrecio(jsonMetodosPago.Efectivo)+"</p></div><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1 containerTabla'><p class='letra18pt-pc negrillaUno'>"
-        // +formatoPrecio(jsonMetodosPago.Datafono)+"</p></div><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1 containerTabla'> <p class='letra18pt-pc negrillaUno'>"
-        // +formatoPrecio(jsonMetodosPago.Nequi)+"</p></div><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1 containerTabla'><p class='letra18pt-pc negrillaUno'>"
-        // +formatoPrecio(jsonMetodosPago.Daviplata)+"</p></div><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1 containerTabla'><p class='letra18pt-pc negrillaUno'>"
-        // +formatoPrecio(jsonMetodosPago.PayU)+"</p></div><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1 containerTabla'><p class='letra18pt-pc negrillaUno'>"
-        // +formatoPrecio(jsonMetodosPago.Bancolombia)+"</p></div></div>";
-        // for (let i = (jsonResumen.length-2); i >=0; i--) {
-        //     var jsonMetodosPago2 = JSON.parse(jsonResumen[i].metodos_pago);
-        //     console.log(jsonMetodosPago2);
-        //     html = html + "<div class='col-lg-12 col-md-12 col-sm-12 col-xs-12 ventasplazaResumen'><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1 containerTabla'><p class='letra18pt-pc negrillaUno verDia' name='"+jsonResumen[i].fecha+"' >"
-        //     +jsonResumen[i].fecha+"</p></div><div class='col-lg-2 col-md-2 col-sm-2 col-xs-2 containerTabla'><p class='letra18pt-pc negrillaUno'>"
-        //     +formatoPrecio(jsonResumen[i].valor_mercancia)+"</p></div><div class='col-lg-2 col-md-2 col-sm-2 col-xs-2 containerTabla'><p class='letra18pt-pc negrillaUno'>"
-        //     +formatoPrecio(jsonMetodosPago2.Efectivo)+"</p></div><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1 containerTabla'><p class='letra18pt-pc negrillaUno'>"
-        //     +formatoPrecio(jsonMetodosPago2.Datafono)+"</p></div><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1 containerTabla'> <p class='letra18pt-pc negrillaUno'>"
-        //     +formatoPrecio(jsonMetodosPago2.Nequi)+"</p></div><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1 containerTabla'><p class='letra18pt-pc negrillaUno'>"
-        //     +formatoPrecio(jsonMetodosPago2.Daviplata)+"</p></div><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1 containerTabla'><p class='letra18pt-pc negrillaUno'>"
-        //     +formatoPrecio(jsonMetodosPago2.PayU)+"</p></div><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1 containerTabla'><p class='letra18pt-pc negrillaUno'>"
-        //     +formatoPrecio(jsonMetodosPago2.Bancolombia)+"</p></div></div>";
-        // }
-        // return html;
     }
+    var marginCambios = 320;
     function imprimi(jsonVentas) {
-        console.log(jsonVentas);
+        if(jsonVentas.length == 0){return false;}
+        marginCambios=50;
         var datoscliente = jsonVentas[jsonVentas.length-1].datos_cliente;
         var jsondatoscliente = JSON.parse(datoscliente);
         var codigos_prendas = jsonVentas[jsonVentas.length-1].codigos_prendas;
         var jsoncodigos_prendas = JSON.parse(codigos_prendas);
         var pedido = "";
-        console.log(jsoncodigos_prendas);
         for (let j = 0; j < Object.keys(jsoncodigos_prendas).length; j++) {
-            console.log(jsoncodigos_prendas[j]);
             pedido = pedido + " " + jsoncodigos_prendas[j].codigo+" "+jsoncodigos_prendas[j].descripcion;
         }
         var metodos_pago = jsonVentas[jsonVentas.length-1].metodos_pago;
         var jsonmetodos_pagos = JSON.parse(metodos_pago);
         var vmp = "";
-        console.log(jsonmetodos_pagos);
         for (let j = 0; j < Object.keys(jsonmetodos_pagos).length; j++) {
-            console.log(jsonmetodos_pagos[j] , "aqui");
             var metodoConsultado = obtenerDatajson('descripcion','con_t_metodospago','valoresconcondicion','ID',jsonmetodos_pagos[j].metodo);
             var metodoModificado = JSON.parse(metodoConsultado);
             vmp = vmp + " " + jsonmetodos_pagos[j].valor+" método "+metodoModificado[0].descripcion;
@@ -1543,16 +1765,13 @@ function seleccionClienteApartado(id) {
             var codigos_prendas = jsonVentas[i].codigos_prendas;
             var jsoncodigos_prendas = JSON.parse(codigos_prendas);
             var pedido = "";
-            // console.log(jsoncodigos_prendas);
             for (let j = 0; j < Object.keys(jsoncodigos_prendas).length; j++) {
                 pedido = pedido + " " + jsoncodigos_prendas[j].codigo+" "+jsoncodigos_prendas[j].descripcion;
             }
             var metodos_pago = jsonVentas[i].metodos_pago;
             var jsonmetodos_pagos = JSON.parse(metodos_pago);
             var vmp = "";
-            // console.log(jsoncodigos_prendas);
             for (let j = 0; j < Object.keys(jsonmetodos_pagos).length; j++) {
-                console.log(jsonmetodos_pagos[j] , "aqui2");
                 var metodoConsultado2 = obtenerDatajson('descripcion','con_t_metodospago','valoresconcondicion','ID',jsonmetodos_pagos[j].metodo);
                 var metodoModificado2 = JSON.parse(metodoConsultado2);
                 vmp = vmp + " " + jsonmetodos_pagos[j].valor+" método "+metodoModificado2[0].descripcion;
@@ -1566,6 +1785,48 @@ function seleccionClienteApartado(id) {
             +jsonVentas[i].valor_total+" "+vmp+"</p></div><div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'><p class='letra18pt-pc negrillaUno'>"
             +jsonVentas[i].notas+"</p></div></div></div>";
         }
+        return html;
+    }
+    function imprimirCambios(jsonCambios) {
+        // var resumenDiaCambios = obtenerDatajson('ID,venta_id,datos_cliente,prenda_ingresa,prenda_sale,excedente,fecha','con_t_cambiosplaza','Between','fecha_creada',fecha);
+        
+        if(jsonCambios.length == 0){return false;}
+        var html = `<div class='col-lg-12 col-md-12 col-sm-12 col-xs-12 ventasplaza' style="margin-top: ${marginCambios}px;"> <p class='letra18pt-pc negrillaUno'>CAMBIOS</p> </div>`;
+        for (let i = (jsonCambios.length-1); i >=0; i--) {
+            
+            var datoscliente = jsonCambios[i].datos_cliente;
+            var jsondatoscliente = JSON.parse(datoscliente);
+
+            var codigos_prendasSalen = jsonCambios[i].prenda_sale;
+            var jsoncodigos_prendasSalen = JSON.parse(codigos_prendasSalen);       
+
+            var codigos_prendasIngresa = jsonCambios[i].prenda_ingresa;
+            var jsoncodigos_prendasIngresa = JSON.parse(codigos_prendasIngresa);
+
+            var pedido = "";
+            for (let j = 0; j < Object.keys(jsoncodigos_prendasSalen).length; j++) {
+                pedido = `${pedido} Salierón: ${jsoncodigos_prendasSalen[j].codigo}  ${jsoncodigos_prendasSalen[j].descripcion}, `;
+            }            
+            for (let j = 0; j < Object.keys(jsoncodigos_prendasIngresa).length; j++) {
+                pedido = `${pedido} Ingresarón: ${jsoncodigos_prendasIngresa[j].codigo}  ${jsoncodigos_prendasIngresa[j].descripcion}, `;
+            }
+            var excedente = formatoPrecio(jsonCambios[i].excedente);
+            var ventaId = jsonCambios[i].venta_id;
+            var jsonventaId = JSON.parse(ventaId);
+            var venta_id = "";
+            for (let j = 0; j < Object.keys(jsonventaId).length; j++) {
+                venta_id = `${jsonventaId[j].ventaId}, `;
+            }
+            html = `${html} <div class='col-lg-12 col-md-12 col-sm-12 col-xs-12 ventasplaza'><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'><p class='letra18pt-pc negrillaUno'>
+            ${jsonCambios[i].ID}</p></div><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'><p class='letra18pt-pc negrillaUno'>
+            ${jsondatoscliente.nombre}</p></div><div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'><p class='letra18pt-pc negrillaUno'>
+            ${jsondatoscliente.telefono}</p></div><div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'><p class='letra18pt-pc negrillaUno'>
+            ${jsonCambios[i].fecha}</p></div><div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'> <p class='letra18pt-pc negrillaUno'>
+            ${pedido}</p></div><div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'><p class='letra18pt-pc negrillaUno'>
+            ${excedente}</p></div><div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'><p class='letra18pt-pc negrillaUno'>
+            ${venta_id}</p></div></div></div>`;
+        }
+        marginCambios = 320;
         return html;
     }
 </script>

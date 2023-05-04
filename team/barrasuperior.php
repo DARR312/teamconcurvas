@@ -22,6 +22,7 @@
             			<input class="form-control" type="text" id='BuscarTelefono' name="BuscarTelefono" required=""><span class="pmd-textfield-focused"></span>
     			    </div>
     			</div>
+            
                  <?php } ?>
                 <?php if(get_the_title() == "Inventario"){ ?> 
                 <div class="form-group pmd-textfield pmd-textfield-floating-label col-lg-3 col-md-3 col-sm-3 col-xs-12">
