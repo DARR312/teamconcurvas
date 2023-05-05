@@ -773,7 +773,7 @@ $('#verInsumos').on('click', function(){
 //******************************************************************************++Ver insumos
 
 //******************************************************************************++Ficas técnicas
-
+var idReferencia = "";
 $('#verFichasTecnicas').on('click', function(){
     $('.remover').remove();
     $('#resumenInsumos').css('display', 'none');
@@ -869,7 +869,7 @@ $('#fichasTecnicasSelect').on('change', function(){
         let html='';
 
         $('#nombreReferencia').text($('#fichasTecnicasSelect').val());
-        $('#nombreReferencia').attr('name',detalles[0].ID);
+        idReferencia = detalles[0].ID;
         $('#detallesModeloFicha').text(detalles[0].detalles_modelo);
         $('#detallesConfeccionFicha').text(detalles[0].detalles_confeccion);
 
@@ -891,7 +891,7 @@ $('#fichasTecnicasSelect').on('change', function(){
                     <p class="letra18pt-pc" id='medidamedidaproducto${i}'>${medidas[i].medida}</p>
                 </div>
                 <div class=' col-lg-5 col-md-5 col-sm-5 col-xs-5' >
-                    <button class='botonmodal actualizarMedida' type='button' name='${i}'>Editar medida</button>
+                    <button class='botonmodal actualizarMedida' type='button' name='${medidas[i].ID}'>Editar medida</button>
                 </div>
             </div>`;
             
@@ -1287,13 +1287,7 @@ $('#confirmarFichaTecnica').on('click', function(){
     objeto.valor = detalles_confeccion;
     var detalles_confeccionInsert = prepararjson(objeto);
     let idFichaTecnica = JSON.parse(insertarfila("con_t_fichatecnica",referencia,detalles_modeloInsert,detalles_confeccionInsert,"0","0","0","0","0","0","0","0"));
-    console.log(idFichaTecnica);
-    // if(idFichaTecnica == 'selecciona'){
-    //     $('#modalAlertas').modal("show"); 
-    //     $('#tituloAlertas').text(`Por favor revisa los colores de la combinación ${indicativo_combinacion}, 
-    //     recuerda que todos los insumos deben tener sus colores asignados`); 
-    //     return false;
-    // }
+    
 
     var objeto = {};
     objeto.tipo = "int";
@@ -1392,7 +1386,6 @@ $('#confirmarFichaTecnica').on('click', function(){
 $('#guardarDetalles').on('click', function(){
     var detales_modeloFiccion = $('#detales_modeloFiccion').val();
     var detalles_confeccionFiccion = $('#detalles_confeccionFiccion').val();
-    var idFicha = $('#nombreReferencia').attr('name');
     if(!detales_modeloFiccion){
         detales_modeloFiccion =  $('#detallesModeloFicha').text();
     }
@@ -1401,7 +1394,7 @@ $('#guardarDetalles').on('click', function(){
     }
     var objeto = {};
     objeto.columna = "ID";
-    objeto.valor = idFicha;
+    objeto.valor = idReferencia;
     var condicion = prepararjson(objeto);
     var objeto = {};
     objeto.tipo = "string";
@@ -1467,8 +1460,83 @@ const comboActualizarFT = () => {
     }); 
 
 }
-
+var con_t_medidasproducto = 0;
 $('#confirmarCambiodelaMedida').on('click', function(){
+    // tallaMedidaAFT0 nueva
+    // nueva_tallaAFT0
+    // tipo_medidaAFT0 nueva
+    // nuevo_tipo_medidaAFT0
+    // medidaAFT0
+    con_t_medidasproducto = this.name;
+    console.log(con_t_medidasproducto);
+    var tallaMedida = $('#tallaMedidaAFT0').val();
+    var tipoMedida = $('#tipo_medidaAFT0').val();
+    if(tallaMedida == 'nueva'){
+        tallaMedida=$('#nueva_tallaAFT0').val();
+        if(!tallaMedida){
+            $('#modalAlertas').modal("show"); 
+            $('#tituloAlertas').text(`Estás indicando que vas a agregar una talla nueva, por favor llena el campo de Nueva talla`); 
+            return false;
+        }
+        // Verifico que esta talla no esté agregada anteriormente
+        let listadoTallasj = obtenerDatajson("talla","con_t_medidasproducto","valoresconcondicion","talla",`'${tallaMedida}'`);
+        let listadoTallas =  JSON.parse(listadoTallasj);  
+        if(listadoTallas.length>0){
+            $('#modalAlertas').modal("show"); 
+            $('#tituloAlertas').text(`Estás indicando que vas a agregar una talla nueva, por favor verifica que no está talla no haya estado agregada antes`); 
+            return false;
+        }
+    }
+    if(tipoMedida == 'nueva'){
+        tipoMedida=$('#nuevo_tipo_medidaAFT0').val();
+        if(!tipoMedida){
+            $('#modalAlertas').modal("show"); 
+            $('#tituloAlertas').text(`Estás indicando que vas a agregar un nuevo tipo de medida, por favor llena el campo de Nuevo tipo de medida`); 
+            return false;
+        }
+        // Verifico que esta talla no esté agregada anteriormente
+        let listadoTipoTallasj = obtenerDatajson("tipo_medida","con_t_medidasproducto","valoresconcondicion","tipo_medida",`'${tipoMedida}'`);
+        let listadoTipoTallas =  JSON.parse(listadoTipoTallasj);  
+        if(listadoTipoTallas.length>0){
+            $('#modalAlertas').modal("show"); 
+            $('#tituloAlertas').text(`Estás indicando que vas a agregar una nuevo tipo de medida, por favor verifica que no este tipo de medida no haya estado agregada antes`); 
+            return false;
+        }
+    }
+    
+    // var detales_modeloFiccion = $('#detales_modeloFiccion').val();
+    // var detalles_confeccionFiccion = $('#detalles_confeccionFiccion').val();
+    // if(!detales_modeloFiccion){
+    //     detales_modeloFiccion =  $('#detallesModeloFicha').text();
+    // }
+    // if(!detalles_confeccionFiccion){
+    //     detalles_confeccionFiccion =  $('#detallesConfeccionFicha').text();
+    // }
+    // var objeto = {};
+    // objeto.columna = "ID";
+    // objeto.valor = idReferencia;
+    // var condicion = prepararjson(objeto);
+    // var objeto = {};
+    // objeto.tipo = "string";
+    // objeto.columna = "detalles_modelo";
+    // objeto.valor = detales_modeloFiccion;
+    // var  detalles_modelo = prepararjson(objeto);
+    // var objeto = {};
+    // objeto.tipo = "string";
+    // objeto.columna = "detalles_confeccion";
+    // objeto.valor = detalles_confeccionFiccion;
+    // var  detalles_confeccion = prepararjson(objeto);
+    // actualizarregistros("con_t_fichatecnica",condicion,detalles_modelo,detalles_confeccion,"0","0","0","0","0","0","0","0","0");
+    // console.log(`con_t_fichatecnica,${condicion},${detalles_modelo},${detalles_confeccion}`);
+    // // Agrego los detalles del modelo, de confección y nombre de la referencia
+    // let detallesj = obtenerDatajson("ID,detalles_modelo,detalles_confeccion","con_t_fichatecnica","valoresconcondicion","referencia",`'${$('#fichasTecnicasSelect').val()}'`);
+    // let detalles =  JSON.parse(detallesj);    
+    // let html='';
+    
+    // $('#nombreReferencia').text($('#fichasTecnicasSelect').val());
+    // $('#nombreReferencia').attr('name',detalles[0].ID);
+    // $('#detallesModeloFicha').text(detalles[0].detalles_modelo);
+    // $('#detallesConfeccionFicha').text(detalles[0].detalles_confeccion);
     
 }); 
 
