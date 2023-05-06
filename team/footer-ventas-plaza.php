@@ -65,13 +65,12 @@
         var horaMenor = " 00:00:00";
         var horaMayor = " 23:59:00";
         var fecha = "'"+id+horaMenor+"' AND '"+id+horaMayor+"'";
-
-        var resumenDiaCambios = obtenerDatajson('ID,venta_id,datos_cliente,prenda_ingresa,prenda_sale,excedente,fecha','con_t_cambiosplaza','Between','fecha',fecha);
-        var jsonResumenDiaCambios = JSON.parse(resumenDiaCambios);
-        $('#primeraFila').after(imprimirCambios(jsonResumenDiaCambios));
-
         var resumenDia = obtenerDatajson('ID,cliente_id,datos_cliente,codigos_prendas,notas,metodos_pago,valor_total,fecha_creada','con_t_ventasplaza','Between','fecha_creada',fecha);
         var jsonResumenDia = JSON.parse(resumenDia);
+        if(jsonResumenDia.length > 0){marginCambios = 20;}
+        var resumenDiaCambios = obtenerDatajson('ID,venta_id,datos_cliente,prenda_ingresa,prenda_sale,excedente,fecha','con_t_cambiosplaza','Between','fecha',fecha);
+        var jsonResumenDiaCambios = JSON.parse(resumenDiaCambios);
+        $('#primeraFila').after(imprimirCambios(jsonResumenDiaCambios));        
         $('#primeraFila').after(imprimi(jsonResumenDia));
         
         // $('.contenedor_loader').css('display', 'none');
@@ -994,14 +993,12 @@
             var horaMenor = " 00:00:00";
             var horaMayor = " 23:00:00";
             var fecha = "'"+id+horaMenor+"' AND '"+id+horaMayor+"'";
-
+            var resumenDia = obtenerDatajson('ID,cliente_id,datos_cliente,codigos_prendas,notas,metodos_pago,valor_total','con_t_ventasplaza','Between','fecha_creada',fecha);
+            var jsonResumenDia = JSON.parse(resumenDia);
+            if(jsonResumenDia.length > 0){marginCambios = 20;}
             var resumenDiaCambios = obtenerDatajson('ID,venta_id,datos_cliente,prenda_ingresa,prenda_sale,excedente,fecha','con_t_cambiosplaza','Between','fecha',fecha);
             var jsonResumenDiaCambios = JSON.parse(resumenDiaCambios);
             $('#primeraFila').after(imprimirCambios(jsonResumenDiaCambios));
-           
-            var resumenDia = obtenerDatajson('ID,cliente_id,datos_cliente,codigos_prendas,notas,metodos_pago,valor_total','con_t_ventasplaza','Between','fecha_creada',fecha);
-            var jsonResumenDia = JSON.parse(resumenDia);
-           
             $('#primeraFila').after(imprimi(jsonResumenDia));
           
             return false;     
@@ -1738,7 +1735,6 @@ function seleccionClienteApartado(id) {
     var marginCambios = 320;
     function imprimi(jsonVentas) {
         if(jsonVentas.length == 0){return false;}
-        marginCambios=50;
         var datoscliente = jsonVentas[jsonVentas.length-1].datos_cliente;
         var jsondatoscliente = JSON.parse(datoscliente);
         var codigos_prendas = jsonVentas[jsonVentas.length-1].codigos_prendas;
