@@ -65,14 +65,15 @@
         var horaMenor = " 00:00:00";
         var horaMayor = " 23:59:00";
         var fecha = "'"+id+horaMenor+"' AND '"+id+horaMayor+"'";
-        
-        var resumenDia = obtenerDatajson('ID,cliente_id,datos_cliente,codigos_prendas,notas,metodos_pago,valor_total,fecha_creada','con_t_ventasplaza','Between','fecha_creada',fecha);
-        var jsonResumenDia = JSON.parse(resumenDia);
-        
-        $('#primeraFila').after(imprimi(jsonResumenDia));
+
         var resumenDiaCambios = obtenerDatajson('ID,venta_id,datos_cliente,prenda_ingresa,prenda_sale,excedente,fecha','con_t_cambiosplaza','Between','fecha',fecha);
         var jsonResumenDiaCambios = JSON.parse(resumenDiaCambios);
         $('#primeraFila').after(imprimirCambios(jsonResumenDiaCambios));
+
+        var resumenDia = obtenerDatajson('ID,cliente_id,datos_cliente,codigos_prendas,notas,metodos_pago,valor_total,fecha_creada','con_t_ventasplaza','Between','fecha_creada',fecha);
+        var jsonResumenDia = JSON.parse(resumenDia);
+        $('#primeraFila').after(imprimi(jsonResumenDia));
+        
         // $('.contenedor_loader').css('display', 'none');
        
         return false;     
@@ -993,6 +994,10 @@
             var horaMenor = " 00:00:00";
             var horaMayor = " 23:00:00";
             var fecha = "'"+id+horaMenor+"' AND '"+id+horaMayor+"'";
+
+            var resumenDiaCambios = obtenerDatajson('ID,venta_id,datos_cliente,prenda_ingresa,prenda_sale,excedente,fecha','con_t_cambiosplaza','Between','fecha',fecha);
+            var jsonResumenDiaCambios = JSON.parse(resumenDiaCambios);
+            $('#primeraFila').after(imprimirCambios(jsonResumenDiaCambios));
            
             var resumenDia = obtenerDatajson('ID,cliente_id,datos_cliente,codigos_prendas,notas,metodos_pago,valor_total','con_t_ventasplaza','Between','fecha_creada',fecha);
             var jsonResumenDia = JSON.parse(resumenDia);
