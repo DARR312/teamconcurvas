@@ -221,7 +221,7 @@ function is_admin_user() {
                     </div>
                     <div class='form-group pmd-textfield pmd-textfield-floating-label col-lg-3 col-md-3 col-sm-3 col-xs-3 pmd-textfield-floating-label-completed'>
                         <label  class="control-label letra18pt-pc"> Tipo de medida </label>
-                        <select class='form-control tipo_medida' type='select' id='tipo_medidaFicha0' name='0'>
+                        <select class='form-control tipo_medidaFicha' type='select' id='tipo_medidaFicha0' name='0'>
                             <option  value='nueva'>Nueva</option>
                         </select><span class='pmd-textfield-focused'></span>
                     </div>
@@ -240,10 +240,10 @@ function is_admin_user() {
                 <div class='col-lg-6 col-md-6 col-sm-6 col-xs-6'>
                     <button class='botonmodal fichaActualizada' type='button' id='guardarNuevasMedidas'>Guardar nuevas medidas</button>
                 </div>
-                <p class='letra18pt-pc col-lg-12 col-md-12 col-sm-12 col-xs-12'>Materiales utilizados</p>
-                <div class='col-lg-12 col-md-12 col-sm-12 col-xs-12' id='materialesFicha'>
+                <p class='letra18pt-pc col-lg-12 col-md-12 col-sm-12 col-xs-12'>Combinaciones</p>
+                <div class='col-lg-12 col-md-12 col-sm-12 col-xs-12' id='combinacionesFicha'>
                 </div>
-                <div class=' col-lg-12 col-md-12 col-sm-12 col-xs-12' id='materialNuevo1'>                    
+                <!-- <div class=' col-lg-12 col-md-12 col-sm-12 col-xs-12' id='materialNuevo1'>                    
                     <div class='form-group pmd-textfield pmd-textfield-floating-label col-lg-6 col-md-6 col-sm-6 col-xs-6 pmd-textfield-floating-label-completed'>
                         <label  class="control-label letra18pt-pc"> Insumo </label>
                         <select class='form-control insumoFichaNuevo' type='select' id='insumoFichaNuevo1' name='1'>
@@ -261,7 +261,7 @@ function is_admin_user() {
                 </div>
                 <div class='col-lg-12 col-md-12 col-sm-12 col-xs-12'>
                     <button class='botonmodal fichaActualizada' type='button' id='guardarNuevosInsumos'>Guardar nuevos insumos</button>
-                </div>
+                </div> -->
             </div>            
         </div>
         <p id='fichaOk' class='oculto avisoOk'>Ficha técnica ok</p>

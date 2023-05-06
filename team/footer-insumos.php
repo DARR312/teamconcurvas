@@ -848,7 +848,7 @@ $('#fichasTecnicasSelect').on('change', function(){
         let listadoTipoTallasj = obtenerDatajson("tipo_medida","con_t_medidasproducto","filasunicas","0","0");
         let listadoTipoTallas =  JSON.parse(listadoTipoTallasj);    
         html='';
-        for (let i = 0; i < listadoTallas.length; i++) {
+        for (let i = 0; i < listadoTipoTallas.length; i++) {
             html = `${html} <option class='remover'  value='${listadoTipoTallas[i].tipo_medida}'>${listadoTipoTallas[i].tipo_medida}</option>`;
         }
         let tipo_medida0  = $('#tipo_medida0');
@@ -880,7 +880,7 @@ $('#fichasTecnicasSelect').on('change', function(){
 
         for (let i = 0; i < medidas.length; i++) {
             html = `${html} 
-            <div class=' col-lg-12 col-md-12 col-sm-12 col-xs-12 removerActualizacionFicha' id='medidasproducto${i}' name='${medidas[i].ID}'>
+            <div class=' col-lg-12 col-md-12 col-sm-12 col-xs-12 removerActualizacionFicha removerMedidasFicha' id='medidasproducto${i}' name='${medidas[i].ID}'>
                 <div class=' col-lg-2 col-md-2 col-sm-2 col-xs-2' >
                     <p class="letra18pt-pc" id='tallaproducto${i}'>${medidas[i].talla}</p>
                 </div>
@@ -891,7 +891,7 @@ $('#fichasTecnicasSelect').on('change', function(){
                     <p class="letra18pt-pc" id='medidamedidaproducto${i}'>${medidas[i].medida}</p>
                 </div>
                 <div class=' col-lg-5 col-md-5 col-sm-5 col-xs-5' >
-                    <button class='botonmodal actualizarMedida' type='button' name='${medidas[i].ID}'>Editar medida</button>
+                    <button class='botonmodal actualizarMedida' type='button' name='${i}'>Editar medida</button>
                 </div>
             </div>`;
             
@@ -899,38 +899,14 @@ $('#fichasTecnicasSelect').on('change', function(){
 
         $('#tablaMedidasFicha').append(html);
 
-         // Agrego la tabla de materiales
-         let materialesj = obtenerDatajson("insumo,cantidad,observacion","con_t_insumosproducto","valoresconcondicion","ficha_tecnica",detalles[0].ID);
-        let materiales =  JSON.parse(materialesj);    
-        html='';
-
-        for (let i = 0; i < materiales.length; i++) {
-            html = `${html} 
-            <div class=' col-lg-12 col-md-12 col-sm-12 col-xs-12 removerActualizacionFicha'>
-                <div class=' col-lg-2 col-md-2 col-sm-2 col-xs-2' >
-                    <p class="letra18pt-pc">${materiales[i].insumo}</p>
-                </div>
-                <div class=' col-lg-3 col-md-3 col-sm-3 col-xs-3' >
-                    <p class="letra18pt-pc">${materiales[i].cantidad}</p>
-                </div>
-                <div class=' col-lg-2 col-md-2 col-sm-2 col-xs-2' >
-                    <p class="letra18pt-pc">${materiales[i].observacion}</p>
-                </div>
-                <div class=' col-lg-5 col-md-5 col-sm-5 col-xs-5' >
-                    <button class='botonmodal actualizarMaterial' type='button' name='${i}'>Editar material</button>
-                </div>
-            </div>`;
-            
-        }
-
-        $('#materialesFicha').append(html);
+        
 
         // Agrego las tallas al select de tallas
         let listadoTallasj = obtenerDatajson("talla","con_t_medidasproducto","filasunicas","0","0");
         let listadoTallas =  JSON.parse(listadoTallasj);    
         html='';
         for (let i = 0; i < listadoTallas.length; i++) {
-            html = `${html} <option class='removerActualizacionFicha'  value='${listadoTallas[i].talla}'>${listadoTallas[i].talla}</option>`;
+            html = `${html} <option class='removerActualizacionFicha removerSelectActualizacion'  value='${listadoTallas[i].talla}'>${listadoTallas[i].talla}</option>`;
         }
         let tallaMedida0  = $('#tallaMedidaFicha0');
         tallaMedida0.append(html);
@@ -939,21 +915,53 @@ $('#fichasTecnicasSelect').on('change', function(){
         let listadoTipoTallasj = obtenerDatajson("tipo_medida","con_t_medidasproducto","filasunicas","0","0");
         let listadoTipoTallas =  JSON.parse(listadoTipoTallasj);    
         html='';
-        for (let i = 0; i < listadoTallas.length; i++) {
-            html = `${html} <option class='removerActualizacionFicha'  value='${listadoTipoTallas[i].tipo_medida}'>${listadoTipoTallas[i].tipo_medida}</option>`;
+        for (let i = 0; i < listadoTipoTallas.length; i++) {
+            html = `${html} <option class='removerActualizacionFicha removerSelectActualizacion'  value='${listadoTipoTallas[i].tipo_medida}'>${listadoTipoTallas[i].tipo_medida}</option>`;
         }
         let tipo_medida0  = $('#tipo_medidaFicha0');
         tipo_medida0.append(html);
 
-        // Agrego los insumos al select de insumos
-        let listadoInsumosj = obtenerDatajson("grupo,presentacion","con_t_insumos","filasunicas","0","0");
-        let listadoInsumos =  JSON.parse(listadoInsumosj);    
+
+         // Agrego la tabla de combinaciones
+         let combinacionesj = obtenerDatajson("ID,indicativo_combinacion,insumo,cantidad,text_insumo","con_t_combinacionesproducto","valoresconcondicion","ficha_tecnica",detalles[0].ID);
+        let combinaciones =  JSON.parse(combinacionesj);    
         html='';
-        for (let i = 0; i < listadoInsumos.length; i++) {
-            html = `${html} <option class='removerActualizacionFicha'  value='${listadoInsumos[i].grupo}'>${listadoInsumos[i].grupo} ${listadoInsumos[i].presentacion}</option>`;
+        console.log(combinaciones);
+
+        const grupos = {};
+        combinaciones.forEach((elemento) => {
+        if (!grupos[elemento.indicativo_combinacion]) {
+            grupos[elemento.indicativo_combinacion] = [];
         }
-        let insumoFicha1  = $('#insumoFichaNuevo1');
-        insumoFicha1.append(html);
+        grupos[elemento.indicativo_combinacion].push(elemento);
+        });
+
+        const arreglosSeparados = Object.values(grupos);
+        console.log(arreglosSeparados);
+
+        for (let i = 0; i < arreglosSeparados.length; i++) {
+            html = `${html} <div class=' col-lg-12 col-md-12 col-sm-12 col-xs-12 removerActualizacionFicha removerActualizacionCombinacionesFicha''>`;
+            for (let j = 0; j < arreglosSeparados[i].length; j++) {
+                html = `${html} <div class=' col-lg-3 col-md-3 col-sm-3 col-xs-3' >
+                    <p class="letra18pt-pc" >${arreglosSeparados[i][j].text_insumo}</p>
+                </div>`;                
+            }
+             html = `${html} </div>`;
+            
+        }
+
+        $('#combinacionesFicha').append(html);
+
+
+        // // Agrego los insumos al select de insumos
+        // let listadoInsumosj = obtenerDatajson("grupo,presentacion","con_t_insumos","filasunicas","0","0");
+        // let listadoInsumos =  JSON.parse(listadoInsumosj);    
+        // html='';
+        // for (let i = 0; i < listadoInsumos.length; i++) {
+        //     html = `${html} <option class='removerActualizacionFicha'  value='${listadoInsumos[i].grupo}'>${listadoInsumos[i].grupo} ${listadoInsumos[i].presentacion}</option>`;
+        // }
+        // let insumoFicha1  = $('#insumoFichaNuevo1');
+        // insumoFicha1.append(html);
 
         comboActualizarFT();
     }
@@ -1424,16 +1432,22 @@ var iDAFT = '';
 var tallaAFT = '';
 var tipo_medidaAFT = '';
 var medidaAFT = '';
+var iMedidaAFT = '';
+
+var materialDivAFT= '';
+var insumoDivAFT='';
+var cantidadDivAFT='';
+var observasionDivAFT='';
 
 const comboActualizarFT = () => {
 
     $('.actualizarMedida').on('click', function(){
-
+        iMedidaAFT = this.name;
         iDAFT = $(`#medidasproducto${this.name}`).attr('name');
         tallaAFT = $(`#tallaproducto${this.name}`).text();
         tipo_medidaAFT = $(`#tipomedidaproducto${this.name}`).text();
         medidaAFT = $(`#medidamedidaproducto${this.name}`).text();
-
+       
         $('#tituloActualizarMedidaAFT').text(`Actualizar la talla ${tallaAFT} ${tipo_medidaAFT} ${medidaAFT}`);
 
          // Agrego las tallas al select de tallas
@@ -1441,7 +1455,7 @@ const comboActualizarFT = () => {
         let listadoTallas =  JSON.parse(listadoTallasj);    
         html='';
         for (let i = 0; i < listadoTallas.length; i++) {
-            html = `${html} <option class='removerActualizacionFicha'  value='${listadoTallas[i].talla}'>${listadoTallas[i].talla}</option>`;
+            html = `${html} <option class='removerActualizacionFicha removerSelectActualizacion'  value='${listadoTallas[i].talla}'>${listadoTallas[i].talla}</option>`;
         }
         let tallaMedidaAFT0  = $('#tallaMedidaAFT0');
         tallaMedidaAFT0.append(html);
@@ -1450,8 +1464,8 @@ const comboActualizarFT = () => {
         let listadoTipoTallasj = obtenerDatajson("tipo_medida","con_t_medidasproducto","filasunicas","0","0");
         let listadoTipoTallas =  JSON.parse(listadoTipoTallasj);    
         html='';
-        for (let i = 0; i < listadoTallas.length; i++) {
-            html = `${html} <option class='removerActualizacionFicha'  value='${listadoTipoTallas[i].tipo_medida}'>${listadoTipoTallas[i].tipo_medida}</option>`;
+        for (let i = 0; i < listadoTipoTallas.length; i++) {
+            html = `${html} <option class='removerActualizacionFicha removerSelectActualizacion'  value='${listadoTipoTallas[i].tipo_medida}'>${listadoTipoTallas[i].tipo_medida}</option>`;
         }
         let tipo_medidaAFT0  = $('#tipo_medidaAFT0');
         tipo_medidaAFT0.append(html);
@@ -1459,86 +1473,259 @@ const comboActualizarFT = () => {
         $('#actMedidaFt').modal("show"); 
     }); 
 
+    $('#confirmarCambiodelaMedida').on('click', function(){
+        // tallaMedidaAFT0 nueva
+        // nueva_tallaAFT0
+        // tipo_medidaAFT0 nueva
+        // nuevo_tipo_medidaAFT0
+        // medidaAFT0
+        var tallaMedida = $('#tallaMedidaAFT0').val();
+        var tipoMedida = $('#tipo_medidaAFT0').val();
+        if(tallaMedida == 'nueva'){
+            tallaMedida=$('#nueva_tallaAFT0').val();
+            if(!tallaMedida){
+                $('#modalAlertas').modal("show"); 
+                $('#tituloAlertas').text(`Estás indicando que vas a agregar una talla nueva, por favor llena el campo de Nueva talla`); 
+                return false;
+            }
+            // Verifico que esta talla no esté agregada anteriormente
+            let listadoTallasj = obtenerDatajson("talla","con_t_medidasproducto","valoresconcondicion","talla",`'${tallaMedida}'`);
+            let listadoTallas =  JSON.parse(listadoTallasj);  
+            if(listadoTallas.length>0){
+                $('#modalAlertas').modal("show"); 
+                $('#tituloAlertas').text(`Estás indicando que vas a agregar una talla nueva, por favor verifica que no está talla no haya estado agregada antes`); 
+                return false;
+            }
+        }
+        if(tipoMedida == 'nueva'){
+            tipoMedida=$('#nuevo_tipo_medidaAFT0').val();
+            if(!tipoMedida){
+                $('#modalAlertas').modal("show"); 
+                $('#tituloAlertas').text(`Estás indicando que vas a agregar un nuevo tipo de medida, por favor llena el campo de Nuevo tipo de medida`); 
+                return false;
+            }
+            // Verifico que esta talla no esté agregada anteriormente
+            let listadoTipoTallasj = obtenerDatajson("tipo_medida","con_t_medidasproducto","valoresconcondicion","tipo_medida",`'${tipoMedida}'`);
+            let listadoTipoTallas =  JSON.parse(listadoTipoTallasj);  
+            if(listadoTipoTallas.length>0){
+                $('#modalAlertas').modal("show"); 
+                $('#tituloAlertas').text(`Estás indicando que vas a agregar una nuevo tipo de medida, por favor verifica que no este tipo de medida no haya estado agregada antes`); 
+                return false;
+            }
+        }
+        var medidaNum = $('#medidaAFT0').val();
+        if(!medidaNum){
+            $('#modalAlertas').modal("show"); 
+            $('#tituloAlertas').text(`Por favor pon un valor para la medida, llena el campo "Medida"`); 
+            return false;
+        }
+        
+        objeto = {};
+        objeto.columna = "ID";
+        objeto.valor = iDAFT;
+        var condicion = prepararjson(objeto);
+        var objeto = {};
+        objeto.tipo = "string";
+        objeto.columna = "talla";
+        objeto.valor = tallaMedida;
+        var  talla = prepararjson(objeto);
+        var objeto = {};
+        objeto.tipo = "string";
+        objeto.columna = "tipo_medida";
+        objeto.valor = tipoMedida;
+        var  tipo_medida = prepararjson(objeto);
+        var objeto = {};
+        objeto.tipo = "int";
+        objeto.columna = "medida";
+        objeto.valor = medidaNum;
+        var  medida = prepararjson(objeto);
+        
+        actualizarregistros("con_t_medidasproducto",condicion,talla,tipo_medida,medida,"0","0","0","0","0","0","0","0");
+
+        $(`#tallaproducto${iMedidaAFT}`).text(tallaMedida);
+        $(`#tipomedidaproducto${iMedidaAFT}`).text(tipoMedida);
+        $(`#medidamedidaproducto${iMedidaAFT}`).text(medidaNum);
+
+        // Agrego las tallas al select de tallas
+        $('.removerSelectActualizacion').remove();
+        let listadoTallasj = obtenerDatajson("talla","con_t_medidasproducto","filasunicas","0","0");
+        let listadoTallas =  JSON.parse(listadoTallasj);    
+        html='';
+        for (let i = 0; i < listadoTallas.length; i++) {
+            html = `${html} <option class='removerActualizacionFicha removerSelectActualizacion'  value='${listadoTallas[i].talla}'>${listadoTallas[i].talla}</option>`;
+        }
+        let tallaMedida0  = $('.tallaMedidaFicha');
+        tallaMedida0.append(html);
+
+        // Agrego el tipo de medida al select de tallas
+        let listadoTipoTallasj = obtenerDatajson("tipo_medida","con_t_medidasproducto","filasunicas","0","0");
+        let listadoTipoTallas =  JSON.parse(listadoTipoTallasj);    
+        html='';
+        for (let i = 0; i < listadoTipoTallas.length; i++) {
+            html = `${html} <option class='removerActualizacionFicha removerSelectActualizacion'  value='${listadoTipoTallas[i].tipo_medida}'>${listadoTipoTallas[i].tipo_medida}</option>`;
+        }
+        let tipo_medida0  = $('.tipo_medidaFicha');
+        tipo_medida0.append(html);
+
+
+        $('#actMedidaFt').modal("hide"); 
+        
+        
+    }); 
+
+    
+    $('#otraMedidaFicha').on('click', function(){
+        let listadotallasj = obtenerDatajson("talla","con_t_medidasproducto","filasunicas","0","0");
+        let listadotallas =  JSON.parse(listadotallasj);
+        let listadotallashtml='';
+        for (let i = 0; i < listadotallas.length; i++) {
+            listadotallashtml = `${listadotallashtml} <option class='removerActualizacionFicha removerSelectActualizacion'  value='${listadotallas[i].talla}'>${listadotallas[i].talla}</option>`;        
+        }    
+        let listadotipo_medidaj = obtenerDatajson("tipo_medida","con_t_medidasproducto","filasunicas","0","0");
+        let listadotipo_medida =  JSON.parse(listadotipo_medidaj);
+        let listadotipo_medidahtml='';
+        for (let i = 0; i < listadotipo_medida.length; i++) {
+            listadotipo_medidahtml = `${listadotipo_medidahtml} <option class='removerActualizacionFicha removerSelectActualizacion'  value='${listadotipo_medida[i].tipo_medida}'>${listadotipo_medida[i].tipo_medida}</option>`;
+            
+        }
+        let html = `
+        <div class=' col-lg-12 col-md-12 col-sm-12 col-xs-12 removerOtrasMedidas' >
+            <div class='form-group pmd-textfield pmd-textfield-floating-label col-lg-2 col-md-2 col-sm-2 col-xs-2 pmd-textfield-floating-label-completed'>
+                <label  class="control-label letra18pt-pc"> Talla </label>
+                <select class='form-control tallaMedidaFicha' type='select' id='tallaMedidaFicha${$('.tallaMedidaFicha').length}' name='${$('.tallaMedidaFicha').length}'>
+                    <option  value='nueva'>Nueva</option>
+                    ${listadotallashtml}
+                </select><span class='pmd-textfield-focused'></span>
+            </div>
+            <div class="form-group pmd-textfield pmd-textfield-floating-label col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                <label for="cantidad" class="control-label letra18pt-pc"> Nueva talla </label>
+                <input class="form-control" type="text" id="nueva_tallaFicha${$('.tallaMedidaFicha').length}" name="${$('.tallaMedidaFicha').length}" required=""><span class="pmd-textfield-focused"></span>
+            </div>
+            <div class='form-group pmd-textfield pmd-textfield-floating-label col-lg-3 col-md-3 col-sm-3 col-xs-3 pmd-textfield-floating-label-completed'>
+                <label  class="control-label letra18pt-pc"> Tipo de medida </label>
+                <select class='form-control tipo_medidaFicha' type='select' id='tipo_medidaFicha${$('.tallaMedidaFicha').length}' name='${$('.tallaMedida').length}'>
+                    <option  value='nueva'>Nueva</option>
+                    ${listadotipo_medidahtml}
+                </select><span class='pmd-textfield-focused'></span>
+            </div>
+            <div class="form-group pmd-textfield pmd-textfield-floating-label col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                <label for="cantidad" class="control-label letra18pt-pc"> Nuevo tipo de medida </label>
+                <input class="form-control" type="text" id="nuevo_tipo_medidaFicha${$('.tallaMedidaFicha').length}" name="${$('.tallaMedidaFicha').length}" required=""><span class="pmd-textfield-focused"></span>
+            </div>
+            <div class="form-group pmd-textfield pmd-textfield-floating-label col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                <label for="cantidad" class="control-label letra18pt-pc"> Medida </label>
+                <input class="form-control" type="number" id="medidaFicha${$('.tallaMedidaFicha').length}" name="${$('.tallaMedidaFicha').length}" required=""><span class="pmd-textfield-focused"></span>
+            </div>   
+        </div>   
+        `;
+        $('#otraMedidaFichaDiv').before(html);
+    }); 
+    
+
+    $('#guardarNuevasMedidas').on('click', function(){
+        // Acomodo el array de objetos de tallas
+        var tallas = $('.tallaMedidaFicha');	
+        tallaFicha = [];
+        for (let i = 0; i < tallas.length; i++) {
+            var tallaactual = $(`#tallaMedidaFicha${i}`).val();
+            
+            if(tallaactual == "nueva"){
+                tallaactual = $(`#nueva_tallaFicha${i}`).val();
+            }
+            if(!tallaactual && i==0){
+                $('#modalAlertas').modal("show"); 
+                $('#tituloAlertas').text("Por favor revisa las tallas ya que en la primera talla dices que vas a agregar una nueva pero el valor es vacío");
+                return false;
+            }
+            if(!tallaactual){continue;}
+
+            var medidaactual = $(`#tipo_medidaFicha${i}`).val();        
+            if(medidaactual == "nueva"){
+                medidaactual = $(`#nuevo_tipo_medidaFicha${i}`).val();
+            }
+            if(!medidaactual){
+                $('#modalAlertas').modal("show"); 
+                $('#tituloAlertas').text(`Por favor revisa las tallas:
+                En la talla ${i} dices que vas a agregar un nuevo tipo de talla pero el campo está vacío`);
+                return false;
+            }
+
+            var dimensionactual = $(`#medidaFicha${i}`).val();
+            if(!dimensionactual){
+                $('#modalAlertas').modal("show"); 
+                $('#tituloAlertas').text(`Por favor revisa las tallas:
+                En la talla ${i} la medida está vacío`);
+                return false;
+            }
+            var objetomedidas = {};
+            objetomedidas.talla = tallaactual;
+            objetomedidas.tipo_medida = medidaactual;
+            objetomedidas.medida = dimensionactual;
+            tallaFicha.push(objetomedidas);
+        }
+
+        for (let i = 0; i < tallaFicha.length; i++) {
+            // ficha_tecnica 	talla 	tipo_medida 	medida 	
+            // con_t_medidasproducto
+            var objeto = {};
+            objeto.tipo = "string";
+            objeto.columna = "talla";
+            objeto.valor = tallaFicha[i].talla;
+            var tallaInsert = prepararjson(objeto);
+            var objeto = {};
+            objeto.tipo = "string";
+            objeto.columna = "tipo_medida";
+            objeto.valor = tallaFicha[i].tipo_medida;
+            var tipo_medida = prepararjson(objeto);
+            var objeto = {};
+            objeto.tipo = "float";
+            objeto.columna = "medida";
+            objeto.valor = tallaFicha[i].medida;
+            var medida = prepararjson(objeto);
+
+            var objeto = {};
+            objeto.tipo = "int";
+            objeto.columna = "ficha_tecnica";
+            objeto.valor = idReferencia;
+            var idFichaTecnicaObjeto = prepararjson(objeto);
+            
+            insertarfila("con_t_medidasproducto",idFichaTecnicaObjeto,tallaInsert,tipo_medida,medida,"0","0","0","0","0","0","0");    
+        }
+
+        $('.removerMedidasFicha').remove();
+        $('.removerOtrasMedidas').remove();
+
+        // Agrego la tabla de medidas
+        let medidasj = obtenerDatajson("ID,talla,tipo_medida,medida","con_t_medidasproducto","valoresconcondicion","ficha_tecnica",idReferencia);
+        let medidas =  JSON.parse(medidasj);    
+        html='';
+
+        for (let i = 0; i < medidas.length; i++) {
+            html = `${html} 
+            <div class=' col-lg-12 col-md-12 col-sm-12 col-xs-12 removerActualizacionFicha removerMedidasFicha' id='medidasproducto${i}' name='${medidas[i].ID}'>
+                <div class=' col-lg-2 col-md-2 col-sm-2 col-xs-2' >
+                    <p class="letra18pt-pc" id='tallaproducto${i}'>${medidas[i].talla}</p>
+                </div>
+                <div class=' col-lg-3 col-md-3 col-sm-3 col-xs-3' >
+                    <p class="letra18pt-pc" id='tipomedidaproducto${i}'>${medidas[i].tipo_medida}</p>
+                </div>
+                <div class=' col-lg-2 col-md-2 col-sm-2 col-xs-2' >
+                    <p class="letra18pt-pc" id='medidamedidaproducto${i}'>${medidas[i].medida}</p>
+                </div>
+                <div class=' col-lg-5 col-md-5 col-sm-5 col-xs-5' >
+                    <button class='botonmodal actualizarMedida' type='button' name='${i}'>Editar medida</button>
+                </div>
+            </div>`;
+            
+        }
+
+        $('#tablaMedidasFicha').append(html);
+        comboActualizarFT();
+    }); 
+
+    
 }
-var con_t_medidasproducto = 0;
-$('#confirmarCambiodelaMedida').on('click', function(){
-    // tallaMedidaAFT0 nueva
-    // nueva_tallaAFT0
-    // tipo_medidaAFT0 nueva
-    // nuevo_tipo_medidaAFT0
-    // medidaAFT0
-    con_t_medidasproducto = this.name;
-    console.log(con_t_medidasproducto);
-    var tallaMedida = $('#tallaMedidaAFT0').val();
-    var tipoMedida = $('#tipo_medidaAFT0').val();
-    if(tallaMedida == 'nueva'){
-        tallaMedida=$('#nueva_tallaAFT0').val();
-        if(!tallaMedida){
-            $('#modalAlertas').modal("show"); 
-            $('#tituloAlertas').text(`Estás indicando que vas a agregar una talla nueva, por favor llena el campo de Nueva talla`); 
-            return false;
-        }
-        // Verifico que esta talla no esté agregada anteriormente
-        let listadoTallasj = obtenerDatajson("talla","con_t_medidasproducto","valoresconcondicion","talla",`'${tallaMedida}'`);
-        let listadoTallas =  JSON.parse(listadoTallasj);  
-        if(listadoTallas.length>0){
-            $('#modalAlertas').modal("show"); 
-            $('#tituloAlertas').text(`Estás indicando que vas a agregar una talla nueva, por favor verifica que no está talla no haya estado agregada antes`); 
-            return false;
-        }
-    }
-    if(tipoMedida == 'nueva'){
-        tipoMedida=$('#nuevo_tipo_medidaAFT0').val();
-        if(!tipoMedida){
-            $('#modalAlertas').modal("show"); 
-            $('#tituloAlertas').text(`Estás indicando que vas a agregar un nuevo tipo de medida, por favor llena el campo de Nuevo tipo de medida`); 
-            return false;
-        }
-        // Verifico que esta talla no esté agregada anteriormente
-        let listadoTipoTallasj = obtenerDatajson("tipo_medida","con_t_medidasproducto","valoresconcondicion","tipo_medida",`'${tipoMedida}'`);
-        let listadoTipoTallas =  JSON.parse(listadoTipoTallasj);  
-        if(listadoTipoTallas.length>0){
-            $('#modalAlertas').modal("show"); 
-            $('#tituloAlertas').text(`Estás indicando que vas a agregar una nuevo tipo de medida, por favor verifica que no este tipo de medida no haya estado agregada antes`); 
-            return false;
-        }
-    }
-    
-    // var detales_modeloFiccion = $('#detales_modeloFiccion').val();
-    // var detalles_confeccionFiccion = $('#detalles_confeccionFiccion').val();
-    // if(!detales_modeloFiccion){
-    //     detales_modeloFiccion =  $('#detallesModeloFicha').text();
-    // }
-    // if(!detalles_confeccionFiccion){
-    //     detalles_confeccionFiccion =  $('#detallesConfeccionFicha').text();
-    // }
-    // var objeto = {};
-    // objeto.columna = "ID";
-    // objeto.valor = idReferencia;
-    // var condicion = prepararjson(objeto);
-    // var objeto = {};
-    // objeto.tipo = "string";
-    // objeto.columna = "detalles_modelo";
-    // objeto.valor = detales_modeloFiccion;
-    // var  detalles_modelo = prepararjson(objeto);
-    // var objeto = {};
-    // objeto.tipo = "string";
-    // objeto.columna = "detalles_confeccion";
-    // objeto.valor = detalles_confeccionFiccion;
-    // var  detalles_confeccion = prepararjson(objeto);
-    // actualizarregistros("con_t_fichatecnica",condicion,detalles_modelo,detalles_confeccion,"0","0","0","0","0","0","0","0","0");
-    // console.log(`con_t_fichatecnica,${condicion},${detalles_modelo},${detalles_confeccion}`);
-    // // Agrego los detalles del modelo, de confección y nombre de la referencia
-    // let detallesj = obtenerDatajson("ID,detalles_modelo,detalles_confeccion","con_t_fichatecnica","valoresconcondicion","referencia",`'${$('#fichasTecnicasSelect').val()}'`);
-    // let detalles =  JSON.parse(detallesj);    
-    // let html='';
-    
-    // $('#nombreReferencia').text($('#fichasTecnicasSelect').val());
-    // $('#nombreReferencia').attr('name',detalles[0].ID);
-    // $('#detallesModeloFicha').text(detalles[0].detalles_modelo);
-    // $('#detallesConfeccionFicha').text(detalles[0].detalles_confeccion);
-    
-}); 
+
 
 
 })
