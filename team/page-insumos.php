@@ -243,25 +243,12 @@ function is_admin_user() {
                 <p class='letra18pt-pc col-lg-12 col-md-12 col-sm-12 col-xs-12'>Combinaciones</p>
                 <div class='col-lg-12 col-md-12 col-sm-12 col-xs-12' id='combinacionesFicha'>
                 </div>
-                <!-- <div class=' col-lg-12 col-md-12 col-sm-12 col-xs-12' id='materialNuevo1'>                    
-                    <div class='form-group pmd-textfield pmd-textfield-floating-label col-lg-6 col-md-6 col-sm-6 col-xs-6 pmd-textfield-floating-label-completed'>
-                        <label  class="control-label letra18pt-pc"> Insumo </label>
-                        <select class='form-control insumoFichaNuevo' type='select' id='insumoFichaNuevo1' name='1'>
-                            <option  value='selecciona'>Selecciona</option>
-                        </select><span class='pmd-textfield-focused'></span>
-                    </div>
-                    <div class="form-group pmd-textfield pmd-textfield-floating-label col-lg-2 col-md-2 col-sm-2 col-xs-2">
-                        <label for="cantidad" class="control-label letra18pt-pc"> Cantidad </label>
-                        <input class="form-control" type="number" id="cantidadInsumoNuevo1" name="1" required=""><span class="pmd-textfield-focused"></span>
-                    </div>    
-                    <div class="form-group pmd-textfield pmd-textfield-floating-label col-lg-4 col-md-4 col-sm-4 col-xs-4">
-                        <label for="observasionesNuevo" class="control-label letra18pt-pc"> Observasiones </label>
-                        <input class="form-control" type="text" id="observasionNuevo1" name="1" required=""><span class="pmd-textfield-focused"></span>
-                    </div>                 
+                <div  class='col-lg-12 col-md-12 col-sm-12 col-xs-12' id='lasCombinacionesNuevas'>
                 </div>
+              
                 <div class='col-lg-12 col-md-12 col-sm-12 col-xs-12'>
-                    <button class='botonmodal fichaActualizada' type='button' id='guardarNuevosInsumos'>Guardar nuevos insumos</button>
-                </div> -->
+                    <button class='botonmodal fichaActualizada' type='button' id='guardarNuevasCombinaciones'>Guardar nuevas combinaciones</button>
+                </div>
             </div>            
         </div>
         <p id='fichaOk' class='oculto avisoOk'>Ficha técnica ok</p>

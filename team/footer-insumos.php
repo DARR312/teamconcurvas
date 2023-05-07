@@ -937,10 +937,9 @@ $('#fichasTecnicasSelect').on('change', function(){
         });
 
         const arreglosSeparados = Object.values(grupos);
-        console.log(arreglosSeparados);
 
         for (let i = 0; i < arreglosSeparados.length; i++) {
-            html = `${html} <div class=' col-lg-12 col-md-12 col-sm-12 col-xs-12 removerActualizacionFicha removerActualizacionCombinacionesFicha''>`;
+            html = `${html} <div class=' col-lg-12 col-md-12 col-sm-12 col-xs-12 removerActualizacionFicha removerActualizacionCombinacionesFicha''> <p class='negrillaTres'>Combinación ${i+1}</p>`;
             for (let j = 0; j < arreglosSeparados[i].length; j++) {
                 html = `${html} <div class=' col-lg-3 col-md-3 col-sm-3 col-xs-3' >
                     <p class="letra18pt-pc" >${arreglosSeparados[i][j].text_insumo}</p>
@@ -953,15 +952,44 @@ $('#fichasTecnicasSelect').on('change', function(){
         $('#combinacionesFicha').append(html);
 
 
-        // // Agrego los insumos al select de insumos
-        // let listadoInsumosj = obtenerDatajson("grupo,presentacion","con_t_insumos","filasunicas","0","0");
-        // let listadoInsumos =  JSON.parse(listadoInsumosj);    
-        // html='';
-        // for (let i = 0; i < listadoInsumos.length; i++) {
-        //     html = `${html} <option class='removerActualizacionFicha'  value='${listadoInsumos[i].grupo}'>${listadoInsumos[i].grupo} ${listadoInsumos[i].presentacion}</option>`;
-        // }
-        // let insumoFicha1  = $('#insumoFichaNuevo1');
-        // insumoFicha1.append(html);
+        // // Agrego los campos para agregar combinaciones nuevas
+
+        html = ` <div  class='col-lg-12 col-md-12 col-sm-12 col-xs-12 removerCominacionesNuevas removerActualizacionFicha' id='filaCombinaciones1' name='1'>
+                <p class='letra18pt-pc negrillaTres'> Combinación Nueva</p>
+        `;
+
+        var insumosObtenidos = obtenerDatajson("insumo,cantidad,observacion","con_t_insumosproducto","valoresconcondicion","ficha_tecnica",`'${idReferencia}'`);
+        var insumosAFT = JSON.parse(insumosObtenidos); 
+
+        for (let i = 0; i < insumosAFT.length; i++) {
+            var insumoPorConsultar = insumosAFT[i].insumo;
+            var colores = obtenerDatajson("ID,complemento,caracteristica,complemento_caracteristica","con_t_insumos","valoresconcondicion","grupo",`'${insumoPorConsultar}'`);
+            var jsoncolores = JSON.parse(colores); 
+            var htmll='';
+            for (let i = 0; i < jsoncolores.length; i++) {
+                htmll = `${htmll} <option  value='${jsoncolores[i].ID}'>${jsoncolores[i].complemento} ${jsoncolores[i].caracteristica} ${jsoncolores[i].complemento_caracteristica}</option>`;            
+            }
+            html = `${html} 
+            <div  class='col-lg-3 col-md-3 col-sm-3 col-xs-3 elementoCombinadoAgregar'>
+                    <div class="form-group pmd-textfield pmd-textfield-floating-label col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                        <p  class=" letra18pt-pc insumoComnbinadoAgregar"> ${insumosAFT[i].insumo} </p>
+                    </div>
+                    <div class="form-group pmd-textfield pmd-textfield-floating-label col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                        <p  class=" letra18pt-pc cantidadComnbinadoAgregar"> ${insumosAFT[i].cantidad} </p>
+                    </div>
+                    <div class="form-group pmd-textfield pmd-textfield-floating-label col-lg-12 col-md-12 col-sm-12 col-xs-12 pmd-textfield-floating-label-completed">
+                        <label class=" letra18pt-pc"> Color </label>
+                        <select class='form-control colorCombinacionesAgregar' type='select' required=''>
+                            <option class=''  value='selecciona'>Selecciona</option>
+                            ${htmll} 
+                        </select><span class='pmd-textfield-focused'></span>
+                    </div>
+            </div>
+            `;            
+        }
+        html = `${html} </div>`;
+        $('#lasCombinacionesNuevas').append(html);
+        
 
         comboActualizarFT();
     }
@@ -1171,6 +1199,7 @@ const insertarCombinacion = () =>{
     var html = ` <div  class='col-lg-12 col-md-12 col-sm-12 col-xs-12 removerCominaciones' id='filaCombinaciones${cantidadFilasInsumos}' name='${cantidadFilasInsumos}'>
             <p class='letra18pt-pc negrillaTres'> Combinación ${cantidadFilasInsumos + 1}</p>
     `;
+
     for (let i = 0; i < insumos.length; i++) {
         var insumoPorConsultar = insumos[i].insumo;
         var colores = obtenerDatajson("ID,complemento,caracteristica,complemento_caracteristica","con_t_insumos","valoresconcondicion","grupo",`'${insumoPorConsultar}'`);
@@ -1325,8 +1354,7 @@ $('#confirmarFichaTecnica').on('click', function(){
         objeto.columna = "text_insumo";
         objeto.valor = `${combinaciones[i].insumoCombinacion} ${combinaciones[i].colorCombinacionTexto}`;
         var text_insumo = prepararjson(objeto);
-        insertarfila(
-            "con_t_combinacionesproducto",idFichaTecnicaObjeto,indicativo_combinacion,insumo,cantidad,text_insumo,"0","0","0","0","0","0");        
+        insertarfila("con_t_combinacionesproducto",idFichaTecnicaObjeto,indicativo_combinacion,insumo,cantidad,text_insumo,"0","0","0","0","0","0");        
     }
 
     for (let i = 0; i < insumos.length; i++) {
@@ -1441,6 +1469,137 @@ var observasionDivAFT='';
 
 const comboActualizarFT = () => {
 
+    $('#guardarNuevasCombinaciones').on('click', function(){
+
+        let combinaciones = [];
+        var elementoCombinado = $('.elementoCombinadoAgregar');
+        for (let i = 0; i < elementoCombinado.length; i++) {
+            
+            var insumoCombinacion = $(elementoCombinado[i]).find('.insumoComnbinadoAgregar').text();
+            var cantidadComnbinado = $(elementoCombinado[i]).find('.cantidadComnbinadoAgregar').text();
+            var colorCombinacion = $(elementoCombinado[i]).find('.colorCombinacionesAgregar').val();
+            var indicativo_combinacion = $('.removerActualizacionCombinacionesFicha').length+1;
+            var colorCombinacionTexto =  $(elementoCombinado[i]).find('.colorCombinacionesAgregar').find('option:selected').text();
+            if(colorCombinacion == 'selecciona'){
+                $('#modalAlertas').modal("show"); 
+                $('#tituloAlertas').text(`Por favor revisa los colores de la combinación ${indicativo_combinacion}, 
+                recuerda que todos los insumos deben tener sus colores asignados`); 
+                return false;
+            }
+            var objetoCombinaciones = {};
+            objetoCombinaciones.indicativo_combinacion = indicativo_combinacion;
+            objetoCombinaciones.insumoCombinacion = insumoCombinacion;
+            objetoCombinaciones.idInsumoCombinacion = colorCombinacion;
+            objetoCombinaciones.colorCombinacionTexto =colorCombinacionTexto;
+            objetoCombinaciones.cantidadComnbinado =cantidadComnbinado;
+            combinaciones.push(objetoCombinaciones);
+        }    
+
+        var indicativoCombinacion = $('.removerActualizacionCombinacionesFicha').length+1;
+        var objeto = {};
+        objeto.tipo = "int";
+        objeto.columna = "ficha_tecnica";
+        objeto.valor = idReferencia;
+        var idFichaTecnicaObjeto = prepararjson(objeto);
+        for (let i = 0; i < combinaciones.length; i++) {
+            // ficha_tecnica 	indicativo_combinacion 	insumo 	cantidad 	text_insumo 
+            //  con_t_combinacionesproducto
+            var objeto = {};
+            objeto.tipo = "int";
+            objeto.columna = "indicativo_combinacion";
+            objeto.valor = combinaciones[i].indicativo_combinacion;
+            var indicativo_combinacion = prepararjson(objeto);
+            var objeto = {};
+            objeto.tipo = "int";
+            objeto.columna = "insumo";
+            objeto.valor = combinaciones[i].idInsumoCombinacion;
+            var insumo = prepararjson(objeto);
+            var objeto = {};
+            objeto.tipo = "int";
+            objeto.columna = "cantidad";
+            objeto.valor = combinaciones[i].cantidadComnbinado;
+            var cantidad = prepararjson(objeto);
+            var objeto = {};
+            objeto.tipo = "string";
+            objeto.columna = "text_insumo";
+            objeto.valor = `${combinaciones[i].insumoCombinacion} ${combinaciones[i].colorCombinacionTexto}`;
+            var text_insumo = prepararjson(objeto);
+            // console.log(`"con_t_combinacionesproducto",${idFichaTecnicaObjeto},${indicativo_combinacion},${insumo},${cantidad},${text_insumo},"0","0","0","0","0","0"`);        
+            insertarfila("con_t_combinacionesproducto",idFichaTecnicaObjeto,indicativo_combinacion,insumo,cantidad,text_insumo,"0","0","0","0","0","0");        
+        }
+
+        // Agrego los detalles del modelo, de confección y nombre de la referencia
+        let detallesj = obtenerDatajson("ID,detalles_modelo,detalles_confeccion","con_t_fichatecnica","valoresconcondicion","referencia",`'${$('#fichasTecnicasSelect').val()}'`);
+        let detalles =  JSON.parse(detallesj);
+         // Agrego la tabla de combinaciones
+         
+        $('.removerActualizacionCombinacionesFicha').remove();
+        let combinacionesj = obtenerDatajson("ID,indicativo_combinacion,insumo,cantidad,text_insumo","con_t_combinacionesproducto","valoresconcondicion","ficha_tecnica",detalles[0].ID);
+        let combinacionesRecarga =  JSON.parse(combinacionesj);    
+        html='';
+
+        const grupos = {};
+        combinacionesRecarga.forEach((elemento) => {
+        if (!grupos[elemento.indicativo_combinacion]) {
+            grupos[elemento.indicativo_combinacion] = [];
+        }
+        grupos[elemento.indicativo_combinacion].push(elemento);
+        });
+
+        const arreglosSeparados = Object.values(grupos);
+
+        for (let i = 0; i < arreglosSeparados.length; i++) {
+            html = `${html} <div class=' col-lg-12 col-md-12 col-sm-12 col-xs-12 removerActualizacionFicha removerActualizacionCombinacionesFicha''> <p class='negrillaTres'>Combinación ${i+1}</p>`;
+            for (let j = 0; j < arreglosSeparados[i].length; j++) {
+                html = `${html} <div class=' col-lg-3 col-md-3 col-sm-3 col-xs-3' >
+                    <p class="letra18pt-pc" >${arreglosSeparados[i][j].text_insumo}</p>
+                </div>`;                
+            }
+             html = `${html} </div>`;
+            
+        }
+
+        $('#combinacionesFicha').append(html);
+
+        // // Agrego los campos para agregar combinaciones nuevas
+        $('.elementoCombinadoAgregar').remove();
+        html = ` `;
+
+        var insumosObtenidos = obtenerDatajson("insumo,cantidad,observacion","con_t_insumosproducto","valoresconcondicion","ficha_tecnica",`'${idReferencia}'`);
+        var insumosAFT = JSON.parse(insumosObtenidos); 
+
+        for (let i = 0; i < insumosAFT.length; i++) {
+            var insumoPorConsultar = insumosAFT[i].insumo;
+            var colores = obtenerDatajson("ID,complemento,caracteristica,complemento_caracteristica","con_t_insumos","valoresconcondicion","grupo",`'${insumoPorConsultar}'`);
+            var jsoncolores = JSON.parse(colores); 
+            var htmll='';
+            for (let i = 0; i < jsoncolores.length; i++) {
+                htmll = `${htmll} <option  value='${jsoncolores[i].ID}'>${jsoncolores[i].complemento} ${jsoncolores[i].caracteristica} ${jsoncolores[i].complemento_caracteristica}</option>`;            
+            }
+            html = `${html} 
+            <div  class='col-lg-3 col-md-3 col-sm-3 col-xs-3 elementoCombinadoAgregar'>
+                    <div class="form-group pmd-textfield pmd-textfield-floating-label col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                        <p  class=" letra18pt-pc insumoComnbinadoAgregar"> ${insumosAFT[i].insumo} </p>
+                    </div>
+                    <div class="form-group pmd-textfield pmd-textfield-floating-label col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                        <p  class=" letra18pt-pc cantidadComnbinadoAgregar"> ${insumosAFT[i].cantidad} </p>
+                    </div>
+                    <div class="form-group pmd-textfield pmd-textfield-floating-label col-lg-12 col-md-12 col-sm-12 col-xs-12 pmd-textfield-floating-label-completed">
+                        <label class=" letra18pt-pc"> Color </label>
+                        <select class='form-control colorCombinacionesAgregar' type='select' required=''>
+                            <option class=''  value='selecciona'>Selecciona</option>
+                            ${htmll} 
+                        </select><span class='pmd-textfield-focused'></span>
+                    </div>
+            </div>
+            `;            
+        }
+        html = `${html} </div>`;
+        $('#lasCombinacionesNuevas').append(html);
+        
+
+        comboActualizarFT();
+     }); 
     $('.actualizarMedida').on('click', function(){
         iMedidaAFT = this.name;
         iDAFT = $(`#medidasproducto${this.name}`).attr('name');
