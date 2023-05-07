@@ -110,6 +110,148 @@ function is_admin_user() {
                 </div>
             </div>
         </div>
+        <div id="bloqueFichas"  style='display: none;' class="funcionamiento">
+            <div id='selecciondeficha' class='form-group pmd-textfield pmd-textfield-floating-label col-lg-12 col-md-12 col-sm-12 col-xs-12 pmd-textfield-floating-label-completed'>
+                <label for="nombreReferencia" class="control-label letra18pt-pc"> Ficha técnica </label>
+                <select class='form-control fv insumosselec' type='select' id='fichasTecnicasSelect' name='1' form='formNuevaFactura' required=''>
+                    <option  value='selecciona'>Selecciona</option>
+                    <option  value='nueva'>Nueva</option>
+                </select><span class='pmd-textfield-focused'></span>
+            </div>
+            <div class=' col-lg-12 col-md-12 col-sm-12 col-xs-12 oculto' id='bloqueNuevaFicha' >
+                <div class=' col-lg-12 col-md-12 col-sm-12 col-xs-12' >
+                    <div class='form-group pmd-textfield pmd-textfield-floating-label col-lg-6 col-md-6 col-sm-6 col-xs-6 pmd-textfield-floating-label-completed'>
+                        <label  class="control-label letra18pt-pc"> Referencia </label>
+                        <select class='form-control' type='select' id='referenciasParaficha'>
+                            <option  value='selecciona'>Selecciona</option>
+                        </select><span class='pmd-textfield-focused'></span>
+                    </div>
+                    <div class="form-group pmd-textfield pmd-textfield-floating-label col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                        <label for="cantidad" class="control-label letra18pt-pc"> Detalles del modelo </label>
+                        <input class="form-control fv" type="text" id="detales_modelo" name="1" required=""><span class="pmd-textfield-focused"></span>
+                    </div>
+                    <div class="form-group pmd-textfield pmd-textfield-floating-label col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                        <label for="cantidad" class="control-label letra18pt-pc"> Detalles de confección </label>
+                        <input class="form-control fv" type="text" id="detalles_confeccion" name="1" required=""><span class="pmd-textfield-focused"></span>
+                    </div>
+                </div>
+                <div class=' col-lg-12 col-md-12 col-sm-12 col-xs-12' >
+                    <p class='letra18pt-pc col-lg-12 col-md-12 col-sm-12 col-xs-12'>Tabla de medidas, producto terminado</p>
+                    <div class='form-group pmd-textfield pmd-textfield-floating-label col-lg-2 col-md-2 col-sm-2 col-xs-2 pmd-textfield-floating-label-completed'>
+                        <label  class="control-label letra18pt-pc"> Talla </label>
+                        <select class='form-control tallaMedida' type='select' id='tallaMedida0' name='0'>
+                            <option  value='nueva'>Nueva</option>
+                        </select><span class='pmd-textfield-focused'></span>
+                    </div>
+                    <div class="form-group pmd-textfield pmd-textfield-floating-label col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                        <label for="cantidad" class="control-label letra18pt-pc"> Nueva talla </label>
+                        <input class="form-control" type="text" id="nueva_talla0" name="0" required=""><span class="pmd-textfield-focused"></span>
+                    </div>
+                    <div class='form-group pmd-textfield pmd-textfield-floating-label col-lg-3 col-md-3 col-sm-3 col-xs-3 pmd-textfield-floating-label-completed'>
+                        <label  class="control-label letra18pt-pc"> Tipo de medida </label>
+                        <select class='form-control tipo_medida' type='select' id='tipo_medida0' name='0'>
+                            <option  value='nueva'>Nueva</option>
+                        </select><span class='pmd-textfield-focused'></span>
+                    </div>
+                    <div class="form-group pmd-textfield pmd-textfield-floating-label col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                        <label for="cantidad" class="control-label letra18pt-pc"> Nuevo tipo de medida </label>
+                        <input class="form-control" type="text" id="nuevo_tipo_medida0" name="0" required=""><span class="pmd-textfield-focused"></span>
+                    </div>
+                    <div class="form-group pmd-textfield pmd-textfield-floating-label col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                        <label for="cantidad" class="control-label letra18pt-pc"> Medida </label>
+                        <input class="form-control" type="number" id="medida0" name="0" required=""><span class="pmd-textfield-focused"></span>
+                    </div>                   
+                </div>
+                <div class='col-lg-12 col-md-12 col-sm-12 col-xs-12 esconder' id='otraMedidaDiv'><button class='botonmodal' type='button' id='otraMedida'>Otra</button></div>
+                <div class=' col-lg-12 col-md-12 col-sm-12 col-xs-12' id='material1'>
+                    <p class='letra18pt-pc col-lg-12 col-md-12 col-sm-12 col-xs-12'>Materiales utilizados</p>
+                    <div class='form-group pmd-textfield pmd-textfield-floating-label col-lg-6 col-md-6 col-sm-6 col-xs-6 pmd-textfield-floating-label-completed'>
+                        <label  class="control-label letra18pt-pc"> Insumo </label>
+                        <select class='form-control insumoFicha' type='select' id='insumoFicha1' name='1'>
+                            <option  value='selecciona'>Selecciona</option>
+                        </select><span class='pmd-textfield-focused'></span>
+                    </div>
+                    <div class="form-group pmd-textfield pmd-textfield-floating-label col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                        <label for="cantidad" class="control-label letra18pt-pc"> Cantidad </label>
+                        <input class="form-control" type="number" id="cantidadInsumo1" name="1" required=""><span class="pmd-textfield-focused"></span>
+                    </div>    
+                    <div class="form-group pmd-textfield pmd-textfield-floating-label col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                        <label for="observasiones" class="control-label letra18pt-pc"> Observasiones </label>
+                        <input class="form-control" type="text" id="observasion1" name="1" required=""><span class="pmd-textfield-focused"></span>
+                    </div>                 
+                </div>
+
+                <div class='col-lg-12 col-md-12 col-sm-12 col-xs-12 esconder' id='guardarFichaDiv'><button class='botonmodal' type='button' id='guardarFicha'>Guardar ficha técnica</button></div>
+
+            </div> 
+            <div class=' col-lg-12 col-md-12 col-sm-12 col-xs-12 oculto' id='bloqueAntiguaFicha' >
+                <div class=' col-lg-12 col-md-12 col-sm-12 col-xs-12' >
+                    <p class="letra18pt-pc" id='nombreReferencia'> </p>
+                    <div class="form-group pmd-textfield pmd-textfield-floating-label col-lg-9 col-md-9 col-sm-9 col-xs-9">
+                        <p class="letra18pt-pc" id='detallesModeloFicha'> Detalles del modelo </p>
+                    </div>
+                    <div class="form-group pmd-textfield pmd-textfield-floating-label col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                        <label for="cantidad" class="control-label letra18pt-pc"> Detalles del modelo </label>
+                        <input class="form-control fv" type="text" id="detales_modeloFiccion" name="1" required=""><span class="pmd-textfield-focused"></span>
+                    </div>
+                    <div class="form-group pmd-textfield pmd-textfield-floating-label col-lg-9 col-md-9 col-sm-9 col-xs-9">
+                        <p class="letra18pt-pc" id='detallesConfeccionFicha'> Detalles de confección </p>
+                    </div>
+                    <div class="form-group pmd-textfield pmd-textfield-floating-label col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                        <label for="cantidad" class="control-label letra18pt-pc"> Detalles de confección </label>
+                        <input class="form-control fv" type="text" id="detalles_confeccionFiccion" name="1" required=""><span class="pmd-textfield-focused"></span>
+                    </div>
+                    <div class='col-lg-12 col-md-12 col-sm-12 col-xs-12'>
+                        <button class='botonmodal fichaActualizada' type='button' id='guardarDetalles'>Guardar detalles de ficha técnica</button>
+                    </div>
+                </div>
+                <div class=' col-lg-12 col-md-12 col-sm-12 col-xs-12' >
+                    <p class='letra18pt-pc col-lg-12 col-md-12 col-sm-12 col-xs-12'>Tabla de medidas, producto terminado</p>
+                    <div class='col-lg-12 col-md-12 col-sm-12 col-xs-12' id='tablaMedidasFicha'>
+                    </div>
+                    <div class='form-group pmd-textfield pmd-textfield-floating-label col-lg-2 col-md-2 col-sm-2 col-xs-2 pmd-textfield-floating-label-completed'>
+                        <label  class="control-label letra18pt-pc"> Talla </label>
+                        <select class='form-control tallaMedidaFicha' type='select' id='tallaMedidaFicha0' name='0'>
+                            <option  value='nueva'>Nueva</option>
+                        </select><span class='pmd-textfield-focused'></span>
+                    </div>
+                    <div class="form-group pmd-textfield pmd-textfield-floating-label col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                        <label for="cantidad" class="control-label letra18pt-pc"> Nueva talla </label>
+                        <input class="form-control" type="text" id="nueva_tallaFicha0" name="0" required=""><span class="pmd-textfield-focused"></span>
+                    </div>
+                    <div class='form-group pmd-textfield pmd-textfield-floating-label col-lg-3 col-md-3 col-sm-3 col-xs-3 pmd-textfield-floating-label-completed'>
+                        <label  class="control-label letra18pt-pc"> Tipo de medida </label>
+                        <select class='form-control tipo_medidaFicha' type='select' id='tipo_medidaFicha0' name='0'>
+                            <option  value='nueva'>Nueva</option>
+                        </select><span class='pmd-textfield-focused'></span>
+                    </div>
+                    <div class="form-group pmd-textfield pmd-textfield-floating-label col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                        <label for="cantidad" class="control-label letra18pt-pc"> Nuevo tipo de medida </label>
+                        <input class="form-control" type="text" id="nuevo_tipo_medidaFicha0" name="0" required=""><span class="pmd-textfield-focused"></span>
+                    </div>
+                    <div class="form-group pmd-textfield pmd-textfield-floating-label col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                        <label for="cantidad" class="control-label letra18pt-pc"> Medida </label>
+                        <input class="form-control" type="number" id="medidaFicha0" name="0" required=""><span class="pmd-textfield-focused"></span>
+                    </div>                   
+                </div>
+                <div class='col-lg-6 col-md-6 col-sm-6 col-xs-6 esconder' id='otraMedidaFichaDiv'>
+                    <button class='botonmodal' type='button' id='otraMedidaFicha'>Otra</button>
+                </div>
+                <div class='col-lg-6 col-md-6 col-sm-6 col-xs-6'>
+                    <button class='botonmodal fichaActualizada' type='button' id='guardarNuevasMedidas'>Guardar nuevas medidas</button>
+                </div>
+                <p class='letra18pt-pc col-lg-12 col-md-12 col-sm-12 col-xs-12'>Combinaciones</p>
+                <div class='col-lg-12 col-md-12 col-sm-12 col-xs-12' id='combinacionesFicha'>
+                </div>
+                <div  class='col-lg-12 col-md-12 col-sm-12 col-xs-12' id='lasCombinacionesNuevas'>
+                </div>
+              
+                <div class='col-lg-12 col-md-12 col-sm-12 col-xs-12'>
+                    <button class='botonmodal fichaActualizada' type='button' id='guardarNuevasCombinaciones'>Guardar nuevas combinaciones</button>
+                </div>
+            </div>            
+        </div>
+        <p id='fichaOk' class='oculto avisoOk'>Ficha técnica ok</p>
     </div>
     <!-- modal de Bootstrap -->
     <div class="modal" tabindex="-1" id="modalContable">
@@ -321,6 +463,107 @@ function is_admin_user() {
                 <div class='col-lg-12 col-md-12 col-sm-12 col-xs-12' >
                         <button class='botonmodal' type='button' id='confirmarFacturaCredito'> Confirmar </button>
                 </div>
+            </div>
+        </div>
+    </div>
+    <!-- modal de Bootstrap Combinacions -->
+    <div class="modal" tabindex="-1" id="modalCombinaciones">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div id="headerModal">
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" ></button>
+                </div>
+                <div class="modal-body">
+                    <div  class='col-lg-12 col-md-12 col-sm-12 col-xs-12' >
+                        <label id='tituloCombinaciones' for="nombre" class="control-label letra18pt-pc ">Combinaciones: Selecciona un color o complemento para cada insumo, si quieres agregar otra combinación dale click en Otra.</label>
+                    </div>
+                    <div  class='col-lg-12 col-md-12 col-sm-12 col-xs-12' id='lasCombinaciones'>
+                    </div>
+                </div>
+                <div class='col-lg-12 col-md-12 col-sm-12 col-xs-12' >
+                        <button class='botonmodal' type='button' id='otraCombinacion'> Otra </button>
+                </div>
+                <div class='col-lg-12 col-md-12 col-sm-12 col-xs-12' >
+                        <button class='botonmodal' type='button' id='confirmarCombinaciones'> Confirmar </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- modal de Bootstrap Resumen Ficha Técnica -->
+    <div class="modal" tabindex="-1" id="modalResumenFicha">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div id="headerModal">
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" ></button>
+                </div>
+                <div class="modal-body">
+                    <div  class='col-lg-12 col-md-12 col-sm-12 col-xs-12' >
+                        <label id='tituloResumenFicha' for="nombre" class="control-label letra18pt-pc ">Resumen ficha técnica</label>
+                    </div>
+                </div>
+                <div  class='col-lg-12 col-md-12 col-sm-12 col-xs-12' id='cuerpoResumen' >
+                   
+                </div>
+                <div class='col-lg-12 col-md-12 col-sm-12 col-xs-12' >
+                        <button class='botonmodal' type='button' id='confirmarFichaTecnica'> Confirmar ficha técnica </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- modal de Bootstrap Actualizar medida de la ficha técnica-->
+    <div class="modal" tabindex="-1" id="actMedidaFt">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div id="headerModal">
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" ></button>
+                </div>
+                <div class="modal-body">
+                    <div  class='col-lg-12 col-md-12 col-sm-12 col-xs-12' >
+                        <label id='tituloActualizarMedidaAFT' for="nombre" class="control-label letra18pt-pc ">Actualizar medida</label>
+                    </div>
+                    <div class='form-group pmd-textfield pmd-textfield-floating-label col-lg-2 col-md-2 col-sm-2 col-xs-2 pmd-textfield-floating-label-completed'>
+                        <label  class="control-label letra18pt-pc"> Talla </label>
+                        <select class='form-control tallaMedidaAFT' type='select' id='tallaMedidaAFT0' name='0'>
+                            <option  value='nueva'>Nueva</option>
+                        </select><span class='pmd-textfield-focused'></span>
+                    </div>
+                    <div class="form-group pmd-textfield pmd-textfield-floating-label col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                        <label for="cantidad" class="control-label letra18pt-pc"> Nueva talla </label>
+                        <input class="form-control" type="text" id="nueva_tallaAFT0" name="0" required=""><span class="pmd-textfield-focused"></span>
+                    </div>
+                    <div class='form-group pmd-textfield pmd-textfield-floating-label col-lg-3 col-md-3 col-sm-3 col-xs-3 pmd-textfield-floating-label-completed'>
+                        <label  class="control-label letra18pt-pc"> Tipo de medida </label>
+                        <select class='form-control tipo_medidaAFT' type='select' id='tipo_medidaAFT0' name='0'>
+                            <option  value='nueva'>Nueva</option>
+                        </select><span class='pmd-textfield-focused'></span>
+                    </div>
+                    <div class="form-group pmd-textfield pmd-textfield-floating-label col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                        <label for="cantidad" class="control-label letra18pt-pc"> Nuevo tipo de medida </label>
+                        <input class="form-control" type="text" id="nuevo_tipo_medidaAFT0" name="0" required=""><span class="pmd-textfield-focused"></span>
+                    </div>
+                    <div class="form-group pmd-textfield pmd-textfield-floating-label col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                        <label for="cantidad" class="control-label letra18pt-pc"> Medida </label>
+                        <input class="form-control" type="number" id="medidaAFT0" name="0" required=""><span class="pmd-textfield-focused"></span>
+                    </div>
+                </div>
+                <div class='col-lg-12 col-md-12 col-sm-12 col-xs-12' >
+                        <button class='botonmodal' type='button' id='confirmarCambiodelaMedida'> Confirmar cambio de la medida </button>
+                </div>
+            </div>
+        </div>
+    </div>
+     <!-- modal de Bootstrap Alertas -->
+     <div class="modal" tabindex="-1" id="modalAlertas">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div id="headerModal">
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" ></button>
+                </div>
+                <div class="modal-body">
+                    <div  class='col-lg-12 col-md-12 col-sm-12 col-xs-12' >
+                        <label id='tituloAlertas' for="nombre" class="control-label letra18pt-pc "></label>
+                    </div>
+                </div>                
             </div>
         </div>
     </div>
