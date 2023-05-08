@@ -1119,7 +1119,7 @@ const insumosdeFichas = () =>{
                             <input class="form-control" type="number" id="cantidadInsumo${parseInt(numeroInsumo)+1}" name="${parseInt(numeroInsumo)+1}" required=""><span class="pmd-textfield-focused"></span>
                         </div>      
                         <div class="form-group pmd-textfield pmd-textfield-floating-label col-lg-4 col-md-4 col-sm-4 col-xs-4">
-                            <label for="observasiones" class="control-label letra18pt-pc"> Observasiones </label>
+                            <label for="observasiones" class="control-label letra18pt-pc"> Observaciones </label>
                             <input class="form-control" type="text" id="observasion${parseInt(numeroInsumo)+1}" name="${parseInt(numeroInsumo)+1}" required=""><span class="pmd-textfield-focused"></span>
                         </div>               
                     </div>
