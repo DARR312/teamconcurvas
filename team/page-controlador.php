@@ -39,7 +39,7 @@ function permisosPrincipales(){
     print_r($permisos);
     foreach ($permisos as $v1) {
         foreach ($v1 as $v2) {
-            if($v2 == 1 || $v2 == 2 || $v2 == 3 || $v2 == 4 || $v2 == 37 || $v2 == 38){
+            if($v2 == 1 || $v2 == 2 || $v2 == 3 || $v2 == 4 || $v2 == 37 || $v2 == 38 || $v2 == 46){
                 $permi = $permi.",".$v2;
             }
         }
@@ -1185,7 +1185,7 @@ function auditprendas($valor,$valor2,$valor3,$valor4){
             if($valor2 == 10){
                 $codigos = $wpdb->get_results( "SELECT codigo, estado, cual, complemento_estado, fecha_cambio, descripcion FROM con_t_trprendas WHERE (fecha_cambio < '".$obtenidosArray[0]['fecha']." ') AND (estado != 'En satélite')  AND (estado != 'Madrugón')  AND (estado != 'Entregado')  AND (estado != 'Venta local')  AND (estado != 'Venta mayorista')    ORDER BY cual ASC", ARRAY_A  );
             }else{
-                $codigos = $wpdb->get_results( "SELECT codigo, estado, cual, complemento_estado, fecha_cambio, descripcion FROM con_t_trprendas WHERE (fecha_cambio < '".$obtenidosArray[0]['fecha']."') AND (cual = '".$valor3."')  AND (estado != 'En satélite')  AND (estado != 'Venta mayorista')", ARRAY_A  );
+                $codigos = $wpdb->get_results( "SELECT codigo, estado, cual, complemento_estado, fecha_cambio, descripcion FROM con_t_trprendas WHERE (fecha_cambio < '".$obtenidosArray[0]['fecha']."') AND (cual = '".$valor3."')  AND (estado != 'En satélite')  AND (estado != 'Venta mayorista')  AND (estado != 'Madrugón')  AND (estado != 'Venta madrugón')", ARRAY_A  );
             }        
         }  
         if($valor4 == "Satelite"){

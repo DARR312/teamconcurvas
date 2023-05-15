@@ -1369,7 +1369,7 @@ $('#confirmarFichaTecnica').on('click', function(){
         objeto.valor = combinaciones[i].idInsumoCombinacion;
         var insumo = prepararjson(objeto);
         var objeto = {};
-        objeto.tipo = "int";
+        objeto.tipo = "float";
         objeto.columna = "cantidad";
         objeto.valor = combinaciones[i].cantidadComnbinado;
         var cantidad = prepararjson(objeto);
@@ -1539,7 +1539,7 @@ const comboActualizarFT = () => {
             objeto.valor = combinaciones[i].idInsumoCombinacion;
             var insumo = prepararjson(objeto);
             var objeto = {};
-            objeto.tipo = "int";
+            objeto.tipo = "float";
             objeto.columna = "cantidad";
             objeto.valor = combinaciones[i].cantidadComnbinado;
             var cantidad = prepararjson(objeto);
