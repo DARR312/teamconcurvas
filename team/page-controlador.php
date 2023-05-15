@@ -1175,7 +1175,9 @@ function auditprendas($valor,$valor2,$valor3,$valor4){
     }else{ 
         $todas = "";
         $last = $wpdb->get_results( "SELECT MAX(ID) as id FROM con_t_auditoriasinventario");
+        echo $last;
         $obtenidosArray = $wpdb->get_results( "SELECT fecha FROM con_t_auditoriasinventario WHERE ID = ".$last[0]->id."", ARRAY_A);
+        echo $obtenidosArray;
         if($valor4 == "Empacado" || $valor4 == "Despachado"){
             $timezone = new DateTimeZone( 'America/Bogota' );
             $fecha = wp_date('Y-m-d H:i:s', strtotime('-1 week'), $timezone );
