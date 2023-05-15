@@ -1175,9 +1175,7 @@ function auditprendas($valor,$valor2,$valor3,$valor4){
     }else{ 
         $todas = "";
         $last = $wpdb->get_results( "SELECT MAX(ID) as id FROM con_t_auditoriasinventario");
-        echo "SELECT fecha FROM con_t_auditoriasinventario WHERE ID = ".$last[0]->id."";
         $obtenidosArray = $wpdb->get_results( "SELECT fecha FROM con_t_auditoriasinventario WHERE ID = ".$last[0]->id."", ARRAY_A);
-        print_r($obtenidosArray);
         if($valor4 == "Empacado" || $valor4 == "Despachado"){
             $timezone = new DateTimeZone( 'America/Bogota' );
             $fecha = wp_date('Y-m-d H:i:s', strtotime('-1 week'), $timezone );
@@ -1187,7 +1185,6 @@ function auditprendas($valor,$valor2,$valor3,$valor4){
             if($valor2 == 10){
                 $codigos = $wpdb->get_results( "SELECT codigo, estado, cual, complemento_estado, fecha_cambio, descripcion FROM con_t_trprendas WHERE (fecha_cambio < '".$obtenidosArray[0]['fecha']." ') AND (estado != 'En satélite')  AND (estado != 'Madrugón')  AND (estado != 'Entregado')  AND (estado != 'Venta local')  AND (estado != 'Venta mayorista')    ORDER BY cual ASC", ARRAY_A  );
             }else{
-                echo "SELECT codigo, estado, cual, complemento_estado, fecha_cambio, descripcion FROM con_t_trprendas WHERE (fecha_cambio < '".$obtenidosArray[0]['fecha']."') AND (cual = '".$valor3."')  AND (estado != 'En satélite')  AND (estado != 'Venta mayorista')  AND (estado != 'Madrugón')  AND (estado != 'Venta madrugón') ";
                 $codigos = $wpdb->get_results( "SELECT codigo, estado, cual, complemento_estado, fecha_cambio, descripcion FROM con_t_trprendas WHERE (fecha_cambio < '".$obtenidosArray[0]['fecha']."') AND (cual = '".$valor3."')  AND (estado != 'En satélite')  AND (estado != 'Venta mayorista')  AND (estado != 'Madrugón')  AND (estado != 'Venta madrugón') ", ARRAY_A  );
             }        
         }  
