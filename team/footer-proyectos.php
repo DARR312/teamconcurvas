@@ -93,6 +93,7 @@ const funcionesProyectos = () => {
                 tallProyecto.after(html);       
                 agregarTallasSelect(`tallProyecto${numeroDivTallas+1}`); 
                 funcionesProyectos();
+                tallasChange();
         });   
     }
 
