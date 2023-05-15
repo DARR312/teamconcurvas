@@ -1188,6 +1188,7 @@ function auditprendas($valor,$valor2,$valor3,$valor4){
                 $codigos = $wpdb->get_results( "SELECT codigo, estado, cual, complemento_estado, fecha_cambio, descripcion FROM con_t_trprendas WHERE (fecha_cambio < '".$obtenidosArray[0]['fecha']."') AND (cual = '".$valor3."')  AND (estado != 'En satélite')  AND (estado != 'Venta mayorista')  AND (estado != 'Madrugón')  AND (estado != 'Venta madrugón') ", ARRAY_A  );
             }        
         }  
+        echo $codigos;
         if($valor4 == "Satelite"){
             $timezone = new DateTimeZone( 'America/Bogota' );
             $fecha = wp_date('Y-m-d H:i:s', strtotime('-2 week'), $timezone );
