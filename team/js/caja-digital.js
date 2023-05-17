@@ -1,4 +1,80 @@
 function cajadigital() { 
+
+    $('#bscar').on('change', function(){          
+        $('.remover').remove();
+        var venta = obtenerDatajson("*","con_t_ventas","valoresconcondicion","venta_id",$('#bscar').val());
+        var jsonVentaCliente = JSON.parse(venta); 
+        var prenda = obtenerDatajson("*","con_t_trprendas","valoresconcondicion","cual",`'V${$('#bscar').val()}'`);
+        var jsonprendaCliente = JSON.parse(prenda); 
+        var html = "<div class='col-lg-12 col-md-12 col-sm-12 col-xs-12 ' id='primeraFila' name='"+$('#bscar').val()+"'>"+
+            "<div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'>"+
+                "<p class='letra18pt-pc negrillaUno'>Cuentas por cobrar</p>"+
+            "</div> "+
+            "<div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'>"+
+                "<p class='letra18pt-pc negrillaUno'>Prendas</p>"+
+            "</div>"+
+            "<div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'>"+
+                "<p class='letra18pt-pc negrillaUno'>Estado</p>"+
+            "</div>"+
+            "<div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'>"+
+                "<p class='letra18pt-pc negrillaUno'></p>"+
+            "</div>	"+
+            "<div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'>"+
+                "<p class='letra18pt-pc negrillaUno'></p>"+
+            "</div>	"+
+            "<div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'>"+
+                "<p class='letra18pt-pc negrillaUno'></p>"+
+            "</div>	"+
+            "<div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'>"+
+                "<p class='letra18pt-pc negrillaUno'></p>"+
+            "</div>	"+
+        "</div>	"+
+        "<div class='col-lg-12 col-md-12 col-sm-12 col-xs-12 remover remover"+jsonVentaCliente[0].venta_id+"' id='primerinforme'>"+
+            "<div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'>"+
+                "<p class='letra18pt-pc negrillaUno'>"+jsonVentaCliente[0].venta_id+"</p>"+
+            "</div> "+
+            "<div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'>"+
+                "<p class='letra18pt-pc negrillaUno' id='prenda"+jsonVentaCliente[0].venta_id+"'>"+jsonprendaCliente.length+"</p>"+
+            "</div>"+
+            "<div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'>"+
+                "<p class='letra18pt-pc negrillaUno' id='estado"+jsonVentaCliente[0].venta_id+"'>"+jsonVentaCliente[0].estado+"</p>"+
+            "</div>"+
+            "<div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'>"+
+                "<div class='form-group pmd-textfield pmd-textfield-floating-label pmd-textfield-floating-label-completed'>"+
+                    "<label class='control-label letra18pt-pc' for='regular1'>Valor</label>"+
+                    "<input class='form-control' type='number' id='valor"+jsonVentaCliente[0].venta_id+"' name='valor' value='"+jsonVentaCliente[0].cliente_ok+"'>"+
+                    "<span class='pmd-textfield-focused'></span>"+
+                "</div>"+
+            "</div>	"+
+            "<div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'>"+
+                "<div class='form-group pmd-textfield pmd-textfield-floating-label pmd-textfield-floating-label-completed'>"+
+                    "<label class='control-label letra18pt-pc' for='regular1'>Metodo</label>"+
+                    "<select class='form-control letra18pt-pc metodo' type='select' name='metodo' id='metodo"+jsonVentaCliente[0].venta_id+"' form='formularioCliente' required=''>"+
+                        "<option value='S'>Seleccione un opción de pago</option>"+
+                    "</select><span class='pmd-textfield-focused'>"+
+                    "<span class='pmd-textfield-focused'></span></span>"+
+                "</div>"+
+            "</div>	"+
+            "<div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'>"+
+                "<button class='botonmodal botonenmodal letra18pt-pc cancelarorden' type='button' name='"+jsonVentaCliente[0].venta_id+"'> Cancelar </button>"+
+            "</div>	"+
+            "<div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'>"+
+                "<button class='botonmodal botonenmodal letra18pt-pc entregarpedido' type='button' name='"+jsonVentaCliente[0].venta_id+"'> Entregado </button>"+
+            "</div>	"+
+        "</div>	";
+        
+        $("#bloquePrincipal").append(html);
+        var ids = obtenerDatajson('ID,descripcion','con_t_metodospago','variasfilasunicas','0','0');
+        var jsonIds = JSON.parse(ids);
+        var option = "";
+        for (let i = 0; i < jsonIds.length; i++) {
+            option = option + "<option value='"+jsonIds[i].descripcion+"'>"+jsonIds[i].descripcion+"</option>"
+        }
+        $('.metodo').append(option);
+        cajadigital();
+        return false;    
+    });
+
     $('.verInforme').on('click', function(){        
         $('.remover').remove();    
         var cajasemanal = cajadigita(this.name);
