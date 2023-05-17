@@ -32,7 +32,19 @@ function is_admin_user() {
                         <label class="control-label letra18pt-pc" for="datetimepicker-fecha-nacimiento">Fecha de nacimiento</label>
                         <input type="text" id="datetimepicker-fecha-nacimiento" class="form-control" />
                     </div>
-                </div>
+                </div>                
+                <div class='col-lg-4 col-md-4 col-sm-4 col-xs-4' id='divFechaContratacion'>
+                    <div class="form-group pmd-textfield pmd-textfield-floating-label pmd-textfield-floating-label-completed">
+                        <label class="control-label letra18pt-pc" for="datetimepicker-fecha-contratacion">Fecha de contratación</label>
+                        <input type="text" id="datetimepicker-fecha-contratacion" class="form-control" />
+                    </div>
+                </div>                   
+                <div class="form-group pmd-textfield pmd-textfield-floating-label col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                    <label for="direccion" class="control-label letra18pt-pc"> Dirección </label>
+                    <input class="form-control" type="text" id="direccion" name="" required=""><span class="pmd-textfield-focused"></span>
+                </div>             
+            </div>
+            <div class=' col-lg-12 col-md-12 col-sm-12 col-xs-12'>
                 <div class='form-group pmd-textfield pmd-textfield-floating-label col-lg-4 col-md-4 col-sm-4 col-xs-4 pmd-textfield-floating-label-completed'>
                     <label for="tipoId" class="control-label letra18pt-pc"> Tipo de identificación </label>
                     <select class='form-control' type='select' id='tipoId' name='' form='' required=''>
@@ -46,12 +58,6 @@ function is_admin_user() {
                     <label for="identificacion" class="control-label letra18pt-pc"> # Identificación </label>
                     <input class="form-control" type="text" id="identificacion" required=""><span class="pmd-textfield-focused"></span>
                 </div>
-            </div>
-            <div class=' col-lg-12 col-md-12 col-sm-12 col-xs-12'>
-                <div class="form-group pmd-textfield pmd-textfield-floating-label col-lg-4 col-md-4 col-sm-4 col-xs-4">
-                    <label for="direccion" class="control-label letra18pt-pc"> Dirección </label>
-                    <input class="form-control" type="text" id="direccion" name="" required=""><span class="pmd-textfield-focused"></span>
-                </div>
                 <div class="form-group pmd-textfield pmd-textfield-floating-label col-lg-4 col-md-4 col-sm-4 col-xs-4">
                     <label for="correo" class="control-label letra18pt-pc"> Correo electrónico </label>
                     <input class="form-control" type="text" id="correo" name="" required=""><span class="pmd-textfield-focused"></span>
@@ -60,18 +66,18 @@ function is_admin_user() {
                     <label for="telefono" class="control-label letra18pt-pc"> Teléfono </label>
                     <input class="form-control" type="number" id="telefono" name="" required=""><span class="pmd-textfield-focused"></span>
                 </div>
-                <div class='col-lg-4 col-md-4 col-sm-4 col-xs-4' id='divFechaInicio'>
-                    <div class="form-group pmd-textfield pmd-textfield-floating-label pmd-textfield-floating-label-completed">
-                        <label class="control-label letra18pt-pc" for="datetimepicker-fecha-contratacion">Fecha de contratación</label>
-                        <input type="text" id="datetimepicker-fecha-contratacion" class="form-control" />
-                    </div>
-                </div>
             </div>
             <div class='col-lg-12 col-md-12 col-sm-12 col-xs-12 esconder' ><button class='botonmodal' type='button' id='guardarNuevoEmpleado'>Guardar</button></div>    
-        </div>
-        
+        </div>       
         <p id='empleadoCreadoOk' class='oculto avisoOk'>Empleado Creado</p>
-        
+        <div id="verEmpleadosDiv"  class="funcionamiento oculto">
+            <div class='form-group pmd-textfield pmd-textfield-floating-label col-lg-12 col-md-12 col-sm-12 col-xs-12 pmd-textfield-floating-label-completed' id='empelDiv'>
+                <label for="empleadoSelect" class="control-label letra18pt-pc"> Empleado </label>
+                <select class='form-control' type='select' id='empleadoSelect' name='' form='' required=''>
+                    
+                </select><span class='pmd-textfield-focused'></span>
+            </div>
+        </div>      
     </div>
 
      <!-- modal de Bootstrap Alertas -->
