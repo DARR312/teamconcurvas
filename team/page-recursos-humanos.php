@@ -80,8 +80,99 @@ function is_admin_user() {
         </div>      
     </div>
 
-     <!-- modal de Bootstrap Alertas -->
-     <div class="modal" tabindex="-1" id="modalAlertas">
+    
+    <!-- modal de Bootstrap Horarios -->
+    <div class="modal" tabindex="-1" id="modalHorarios">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div id="headerModal">
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" ></button>
+                </div>
+                <div class="modal-body">
+                    <div  class='col-lg-12 col-md-12 col-sm-12 col-xs-12' >
+                        <label id='tituloHorarios' for="nombre" class="control-label letra18pt-pc ">Selecciona hora de entrada y salida para el </label>
+                        <div class="form-group pmd-textfield pmd-textfield-floating-label pmd-textfield-floating-label-completed">
+                            <label class="control-label letra18pt-pc" for="datetimepicker-horariode-entrada">Horario de entrada</label>
+                            <input type="text" id="datetimepicker-horariode-entrada" class="form-control" />
+                        </div>
+                        <div class="form-group pmd-textfield pmd-textfield-floating-label pmd-textfield-floating-label-completed">
+                            <label class="control-label letra18pt-pc" for="datetimepicker-horariode-salida">Horario de salida</label>
+                            <input type="text" id="datetimepicker-horariode-salida" class="form-control" />
+                        </div>
+                        <div class='col-lg-12 col-md-12 col-sm-12 col-xs-12' >
+                            <button class='botonmodal' type='button' id='cambiarHorario'>Cambiar horario</button>
+                        </div>    
+                    </div>
+                </div>                
+            </div>
+        </div>
+    </div>
+    
+    
+    <!-- modal de Bootstrap Permisos -->
+    <div class="modal" tabindex="-1" id="modalPermisos">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div id="headerModal">
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" ></button>
+                </div>
+                <div class="modal-body">
+                    <p id='tituloPermisos' for="nombre" class='col-lg-12 col-md-12 col-sm-12 col-xs-12'>Selecciona fecha y hora de inicio y fin de la ausencia, junto con su tipo y motivos </p>
+                    
+                    <div class='form-group pmd-textfield pmd-textfield-floating-label col-lg-12 col-md-12 col-sm-12 col-xs-12 pmd-textfield-floating-label-completed' id='empelDiv'>
+                        <label for="tipoAusenciaSelect" class="control-label letra18pt-pc"> Tipo de ausencia </label>
+                        <select class='form-control' type='select' id='tipoAusenciaSelect' name='' form='' required=''>
+                            <option value='selecciona'>Selecciona</option>
+                            <option value='Vacaciones'>Vacaciones</option>
+                            <option value='Día libre por enfermedad'>Día libre por enfermedad</option>
+                            <option value='Permiso por maternidad'>Permiso por maternidad</option>
+                            <option value='Permiso por paternidad'>Permiso por paternidad</option>
+                            <option value='Permiso por adopción'>Permiso por adopción</option>
+                            <option value='Licencia por enfermedad grave de un familiar cercano'>Licencia por enfermedad grave de un familiar cercano</option>
+                            <option value='Permiso por fallecimiento de un familiar cercano'>Permiso por fallecimiento de un familiar cercano</option>
+                            <option value='Licencia por enfermedad personal'>Licencia por enfermedad personal</option>
+                            <option value='Permiso por cita médica'>Permiso por cita médica</option>
+                            <option value='Licencia por accidente o lesión'>Licencia por accidente o lesión</option>
+                            <option value='Permiso por asuntos familiares'>Permiso por asuntos familiares</option>
+                            <option value='Permiso por estudio o formación'>Permiso por estudio o formación</option>
+                            <option value='Licencia por duelo'>Licencia por duelo</option>
+                            <option value='Permiso por traslado de residencia'>Permiso por traslado de residencia</option>
+                            <option value='Permiso por matrimonio'>Permiso por matrimonio</option>
+                            <option value='Licencia por donación de sangre o médula ósea'>Licencia por donación de sangre o médula ósea</option>
+                            <option value='Permiso por servicio militar'>Permiso por servicio militar</option>
+                            <option value='Licencia por adopción de mascota'>Licencia por adopción de mascota</option>
+                            <option value='Permiso por enfermedad de un hijo/a'>Permiso por enfermedad de un hijo/a</option>
+                            <option value='Licencia por embarazo de riesgo'>Licencia por embarazo de riesgo</option>                           
+                        </select><span class='pmd-textfield-focused'></span>
+                    </div>
+                    <div class="form-group pmd-textfield pmd-textfield-floating-label col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <label for="motivoAusencia" class="control-label letra18pt-pc"> Motivo de ausencia </label>
+                        <input class="form-control" type="text" id="motivoAusencia" name="" required=""><span class="pmd-textfield-focused"></span>
+                    </div>   
+
+                    <div  class='col-lg-6 col-md-6 col-sm-6 col-xs-6' >                        
+                        <div class="form-group pmd-textfield pmd-textfield-floating-label pmd-textfield-floating-label-completed">
+                            <label class="control-label letra18pt-pc" for="datetimepicker-ausencia-inicio">Inicio ausencia</label>
+                            <input type="text" id="datetimepicker-ausencia-inicio" class="form-control" />
+                        </div>
+                    </div>
+                    <div  class='col-lg-6 col-md-6 col-sm-6 col-xs-6' >
+                        <div class="form-group pmd-textfield pmd-textfield-floating-label pmd-textfield-floating-label-completed">
+                            <label class="control-label letra18pt-pc" for="datetimepicker-ausencia-fin">Fin ausencia</label>
+                            <input type="text" id="datetimepicker-ausencia-fin" class="form-control" />
+                        </div>
+                    </div>
+                    <div class='col-lg-12 col-md-12 col-sm-12 col-xs-12' >
+                        <button class='botonmodal' type='button' id='ingresarAusencia'>Ingrersar ausencia</button>
+                    </div>    
+                </div>                
+            </div>
+        </div>
+    </div>
+
+
+    <!-- modal de Bootstrap Alertas -->
+    <div class="modal" tabindex="-1" id="modalAlertas">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div id="headerModal">

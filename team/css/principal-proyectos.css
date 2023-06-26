@@ -37,6 +37,10 @@
     margin-left:16%;
     width:83%;
 }
-#divisionBotonAgregarNuevoProyecto{
-  margin: 50px;
+#espaciosDiv{
+  margin-top: 50px;
+}
+.horaUpdate, .ausenciaUpdate{
+  color: rgb(193, 46, 114) !important;
+  cursor: pointer;
 }

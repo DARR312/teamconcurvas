@@ -1560,7 +1560,7 @@ function convertidor($tipo,$valor,$columna){
     if($tipo == 'float'){
         $vuno = floatval($valor);
         $cuno = $columna;
-    }     
+    }  
     
     $objeto = array( "valor" => $vuno, "columna" => $cuno);
     return($objeto);

@@ -120,7 +120,7 @@ function is_admin_user() {
             </div>
             <div class=' col-lg-12 col-md-12 col-sm-12 col-xs-12 oculto' id='bloqueNuevaFicha' >
                 <div class=' col-lg-12 col-md-12 col-sm-12 col-xs-12' >
-                    <div class='form-group pmd-textfield pmd-textfield-floating-label col-lg-6 col-md-6 col-sm-6 col-xs-6 pmd-textfield-floating-label-completed'>
+                    <div class='form-group pmd-textfield pmd-textfield-floating-label col-lg-3 col-md-3 col-sm-3 col-xs-3 pmd-textfield-floating-label-completed'>
                         <label  class="control-label letra18pt-pc"> Referencia </label>
                         <select class='form-control' type='select' id='referenciasParaficha'>
                             <option  value='selecciona'>Selecciona</option>
@@ -133,6 +133,10 @@ function is_admin_user() {
                     <div class="form-group pmd-textfield pmd-textfield-floating-label col-lg-3 col-md-3 col-sm-3 col-xs-3">
                         <label for="cantidad" class="control-label letra18pt-pc"> Detalles de confección </label>
                         <input class="form-control fv" type="text" id="detalles_confeccion" name="1" required=""><span class="pmd-textfield-focused"></span>
+                    </div>
+                    <div class="form-group pmd-textfield pmd-textfield-floating-label col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                        <label for="cantidad" class="control-label letra18pt-pc"> Precio de armado </label>
+                        <input class="form-control fv" type="number" id="precio_armado" name="1" required=""><span class="pmd-textfield-focused"></span>
                     </div>
                 </div>
                 <div class=' col-lg-12 col-md-12 col-sm-12 col-xs-12' >
@@ -200,6 +204,13 @@ function is_admin_user() {
                     <div class="form-group pmd-textfield pmd-textfield-floating-label col-lg-3 col-md-3 col-sm-3 col-xs-3">
                         <label for="cantidad" class="control-label letra18pt-pc"> Detalles de confección </label>
                         <input class="form-control fv" type="text" id="detalles_confeccionFiccion" name="1" required=""><span class="pmd-textfield-focused"></span>
+                    </div>                    
+                    <div class="form-group pmd-textfield pmd-textfield-floating-label col-lg-9 col-md-9 col-sm-9 col-xs-9">
+                        <p class="letra18pt-pc" id='precioArmadoFicha'> Precio de armado </p>
+                    </div>
+                    <div class="form-group pmd-textfield pmd-textfield-floating-label col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                        <label for="cantidad" class="control-label letra18pt-pc"> Precio armado </label>
+                        <input class="form-control fv" type="number" id="precio_armadoFiccion" name="1" required=""><span class="pmd-textfield-focused"></span>
                     </div>
                     <div class='col-lg-12 col-md-12 col-sm-12 col-xs-12'>
                         <button class='botonmodal fichaActualizada' type='button' id='guardarDetalles'>Guardar detalles de ficha técnica</button>

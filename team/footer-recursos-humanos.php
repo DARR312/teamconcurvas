@@ -6,8 +6,165 @@ var permisos = JSON.parse(permisosj);
 var segundo = $('#segundo');    
 var coloresCombinacion = [];
 var referenciaParaProyecto = 0;
-
+var horarioDiaActual;
+var permisoActual;
 const funcionesRH = () => {
+    const agregarVistaHorarios = () => { 
+        
+        $('.horaUpdate').on('click', function() {
+            $('#modalHorarios').modal("show"); 
+            let diaText = '';
+            horarioDiaActual = $(this).attr('name');
+            switch (parseInt(horarioDiaActual)) {
+            case 1:
+                diaText='Lunes';
+                break;
+            case 2:
+                diaText='Martes';
+                break;
+            case 3:
+                diaText='Miercoles';
+                break;
+            case 4:
+                diaText='Jueves';
+                break;
+            case 5:
+                diaText='Viernes';
+                break;
+            case 6:
+                diaText='Sábado';
+                break;
+            default:
+                diaText='Domingo';
+                break;
+            }
+            $('#tituloHorarios').text(`Selecciona hora de entrada y salida para el día ${diaText}`);
+            
+        }); 
+        var horariosSemanaj = obtenerDatajson("dia_semana,hora_inicio,hora_fin","con_t_horarios_empleados","valoresconcondicion","id_empleado",empleadoSelect);
+        var horariosSemana = JSON.parse(horariosSemanaj);   
+        if(horariosSemana.length == 0 ){return false;}
+        for (let i = 0; i < horariosSemana.length; i++) {
+            $(`#hEntrada${horariosSemana[i].dia_semana}`).text(`${horariosSemana[i].hora_inicio}`);
+            $(`#hSalida${horariosSemana[i].dia_semana}`).text(`${horariosSemana[i].hora_fin}`);
+        }
+    }
+
+    const agregarVistaPermisos = () => {
+        $('.divAusenciasPermisos').remove();
+        diaDomingoDiv = $('#diaDomingoDiv');
+        html = `<div class='col-lg-12 col-md-12 col-sm-12 col-xs-12 divAusenciasPermisos'>
+                        <button class='botonmodal' type='button' id='verPermisos'>Ver permisos y ausencias</button>
+                </div>`;
+        var permisosAusenciasj = obtenerDatajson("ID,fecha_hora_inicio,fecha_hora_fin,tipo_permiso,motivo","con_t_permisos_ausencias","valoresconcondicion","id_empleado",empleadoSelect);
+        var permisosAusencias = JSON.parse(permisosAusenciasj);   
+        if(permisosAusencias.length == 0 ){
+            html = `${html} <p class='col-lg-4 col-md-4 col-sm-4 col-xs-4 letra18pt-pc'> Trabajador no tiene ningún permiso o ausencia </p> `;
+        }else{
+            html = `${html} 
+                    <div class='col-lg-12 col-md-12 col-sm-12 col-xs-12 divAusenciasPermisos' id='titulosdivAusenciasPermisos'>
+                        <p class='col-lg-3 col-md-3 col-sm-3 col-xs-3 letra18pt-pc'> Fecha y hora de inicio </p>                    
+                        <p class='col-lg-3 col-md-3 col-sm-3 col-xs-3 letra18pt-pc'> Fecha y hora de fin de permiso </p>                    
+                        <p class='col-lg-3 col-md-3 col-sm-3 col-xs-3 letra18pt-pc'> Tipo de permiso </p>                    
+                        <p class='col-lg-3 col-md-3 col-sm-3 col-xs-3 letra18pt-pc'> Motivo de permiso </p>                    
+                    </div>`;
+        }
+
+        for (let j = (permisosAusencias.length-1); j >= 0; j--) {
+            html = `${html} 
+                    <div class='col-lg-12 col-md-12 col-sm-12 col-xs-12 divAusenciasPermisos' name='${permisosAusencias[j].ID}'>
+                        <p class='col-lg-3 col-md-3 col-sm-3 col-xs-3 letra18pt-pc ausenciaUpdate'> ${permisosAusencias[j].fecha_hora_inicio} </p>                    
+                        <p class='col-lg-3 col-md-3 col-sm-3 col-xs-3 letra18pt-pc ausenciaUpdate'> ${permisosAusencias[j].fecha_hora_fin} </p>                    
+                        <p class='col-lg-3 col-md-3 col-sm-3 col-xs-3 letra18pt-pc ausenciaUpdate'> ${permisosAusencias[j].tipo_permiso} </p>                    
+                        <p class='col-lg-3 col-md-3 col-sm-3 col-xs-3 letra18pt-pc ausenciaUpdate'> ${permisosAusencias[j].motivo} </p>                    
+                    </div>`;
+             
+            
+        }
+        
+        diaDomingoDiv.append(html);
+
+        $('#verPermisos').on('click', function() {
+            $('#modalPermisos').modal("show"); 
+            permisoActual = 0;
+        });
+        $('.ausenciaUpdate').on('click', function() {
+            $('#modalPermisos').modal("show"); 
+            permisoActual = $(this).parent().attr('name');
+            $('#tituloPermisos').text('Selecciona fecha y hora de inicio y fin de la ausencia, junto con su tipo y motivos para modificar esta ausencia o permiso');
+        });
+    }
+    $('#ingresarAusencia').on('click', function() {
+        if(!$('#datetimepicker-ausencia-inicio').val()){
+            $('#modalAlertas').modal("show"); 
+            $('#tituloAlertas').text(`Por favor selecciona una hora y fecha de inicio del permiso o ausencia.`); 
+            return false;
+        }
+        if(!$('#datetimepicker-ausencia-fin').val()){
+            $('#modalAlertas').modal("show"); 
+            $('#tituloAlertas').text(`Por favor selecciona una hora  y fecha del fin del permiso o ausencia`); 
+            return false;
+        }
+        if(!$('#tipoAusenciaSelect').val()){
+            $('#modalAlertas').modal("show"); 
+            $('#tituloAlertas').text(`Por favor selecciona un tipo de ausencia`); 
+            return false;
+        }
+
+        if($('#datetimepicker-ausencia-inicio').val() > $('#datetimepicker-ausencia-fin').val()){
+            $('#modalAlertas').modal("show"); 
+            $('#tituloAlertas').text(`Revisa la fecha de inicio, ya que esta no puede ser mayor a la fecha del final del permiso o ausencia`); 
+            return false;
+        }
+ 	
+        
+        var objeto = {}; 	 	 	
+        objeto.tipo = "int";
+        objeto.columna = "id_empleado";
+        objeto.valor = empleadoSelect;
+        var id_empleado = prepararjson(objeto);
+
+        var objeto = {};
+        objeto.tipo = "string";
+        objeto.columna = "fecha_hora_inicio";
+        objeto.valor = `${$('#datetimepicker-ausencia-inicio').val()}:00`;
+        var fecha_hora_inicio = prepararjson(objeto);
+
+        var objeto = {};
+        objeto.tipo = "string";
+        objeto.columna = "fecha_hora_fin";
+        objeto.valor = `${$('#datetimepicker-ausencia-fin').val()}:00`;
+        var fecha_hora_fin = prepararjson(objeto);
+
+        var objeto = {};
+        objeto.tipo = "string";
+        objeto.columna = "tipo_permiso";
+        objeto.valor = `${$('#tipoAusenciaSelect').val()}`;
+        var tipo_permiso = prepararjson(objeto);
+
+        var objeto = {};
+        objeto.tipo = "string";
+        objeto.columna = "motivo";
+        objeto.valor = `${$('#motivoAusencia').val()}`;
+        var motivo = prepararjson(objeto);
+        
+        var permisoId = 0;
+        if (permisoActual > 0) {
+            var objeto = {};
+            objeto.columna = "ID";
+            objeto.valor = permisoActual;
+            var condicion = prepararjson(objeto);
+            actualizarregistros("con_t_permisos_ausencias",condicion,id_empleado,fecha_hora_inicio,fecha_hora_fin,tipo_permiso,motivo,"0","0","0","0","0","0");
+        } else {
+            permisoId = insertarfila("con_t_permisos_ausencias",id_empleado,fecha_hora_inicio,fecha_hora_fin,tipo_permiso,motivo,"0","0","0","0","0","0");
+        }
+
+        permisoActual = 0;
+        $('#tituloPermisos').text('Selecciona fecha y hora de inicio y fin de la ausencia, junto con su tipo y motivos');
+
+        agregarVistaPermisos();
+        $('#modalPermisos').modal("hide");
+    });
     const changeEmpleado = () => {
         $('#empleadoSelect').on('change', function() {
             empleadoSelect = $('#empleadoSelect').val();
@@ -20,51 +177,57 @@ const funcionesRH = () => {
                     </div>
                     <div class='col-lg-12 col-md-12 col-sm-12 col-xs-12 divHorariosPordias'>
                         <p class='col-lg-4 col-md-4 col-sm-4 col-xs-4 letra18pt-pc'> Lunes </p>                    
-                        <p class='col-lg-4 col-md-4 col-sm-4 col-xs-4 letra18pt-pc horaUpdate' name='1'> 00:00:00 </p>                    
-                        <p class='col-lg-4 col-md-4 col-sm-4 col-xs-4 letra18pt-pc horaUpdate' name='1'> 00:00:00 </p>                    
+                        <p class='col-lg-4 col-md-4 col-sm-4 col-xs-4 letra18pt-pc horaUpdate' id='hEntrada1' name='1'> 00:00:00 </p>                    
+                        <p class='col-lg-4 col-md-4 col-sm-4 col-xs-4 letra18pt-pc horaUpdate' id='hSalida1' name='1'> 00:00:00 </p>                    
                     </div>
                     <div class='col-lg-12 col-md-12 col-sm-12 col-xs-12 divHorariosPordias'>
                         <p class='col-lg-4 col-md-4 col-sm-4 col-xs-4 letra18pt-pc'> Martes </p>                    
-                        <p class='col-lg-4 col-md-4 col-sm-4 col-xs-4 letra18pt-pc horaUpdate' name='2'> 00:00:00 </p>                    
-                        <p class='col-lg-4 col-md-4 col-sm-4 col-xs-4 letra18pt-pc horaUpdate' name='2'> 00:00:00 </p>                    
+                        <p class='col-lg-4 col-md-4 col-sm-4 col-xs-4 letra18pt-pc horaUpdate' id='hEntrada2' name='2'> 00:00:00 </p>                    
+                        <p class='col-lg-4 col-md-4 col-sm-4 col-xs-4 letra18pt-pc horaUpdate' id='hSalida2' name='2'> 00:00:00 </p>                    
                     </div>
                     <div class='col-lg-12 col-md-12 col-sm-12 col-xs-12 divHorariosPordias'>
                         <p class='col-lg-4 col-md-4 col-sm-4 col-xs-4 letra18pt-pc'> Miercoles </p>                    
-                        <p class='col-lg-4 col-md-4 col-sm-4 col-xs-4 letra18pt-pc horaUpdate' name='3'> 00:00:00 </p>                    
-                        <p class='col-lg-4 col-md-4 col-sm-4 col-xs-4 letra18pt-pc horaUpdate' name='3'> 00:00:00 </p>                    
+                        <p class='col-lg-4 col-md-4 col-sm-4 col-xs-4 letra18pt-pc horaUpdate' id='hEntrada3' name='3'> 00:00:00 </p>                    
+                        <p class='col-lg-4 col-md-4 col-sm-4 col-xs-4 letra18pt-pc horaUpdate' id='hSalida3' name='3'> 00:00:00 </p>                    
                     </div>
                     <div class='col-lg-12 col-md-12 col-sm-12 col-xs-12 divHorariosPordias'>
                         <p class='col-lg-4 col-md-4 col-sm-4 col-xs-4 letra18pt-pc'> Jueves </p>                    
-                        <p class='col-lg-4 col-md-4 col-sm-4 col-xs-4 letra18pt-pc horaUpdate' name='4'> 00:00:00 </p>                    
-                        <p class='col-lg-4 col-md-4 col-sm-4 col-xs-4 letra18pt-pc horaUpdate' name='4'> 00:00:00 </p>                    
+                        <p class='col-lg-4 col-md-4 col-sm-4 col-xs-4 letra18pt-pc horaUpdate' id='hEntrada4' name='4'> 00:00:00 </p>                    
+                        <p class='col-lg-4 col-md-4 col-sm-4 col-xs-4 letra18pt-pc horaUpdate' id='hSalida4' name='4'> 00:00:00 </p>                    
                     </div>
                     <div class='col-lg-12 col-md-12 col-sm-12 col-xs-12 divHorariosPordias'>
                         <p class='col-lg-4 col-md-4 col-sm-4 col-xs-4 letra18pt-pc'> Viernes </p>                    
-                        <p class='col-lg-4 col-md-4 col-sm-4 col-xs-4 letra18pt-pc horaUpdate' name='5'> 00:00:00 </p>                    
-                        <p class='col-lg-4 col-md-4 col-sm-4 col-xs-4 letra18pt-pc horaUpdate' name='5'> 00:00:00 </p>                    
+                        <p class='col-lg-4 col-md-4 col-sm-4 col-xs-4 letra18pt-pc horaUpdate' id='hEntrada5' name='5'> 00:00:00 </p>                    
+                        <p class='col-lg-4 col-md-4 col-sm-4 col-xs-4 letra18pt-pc horaUpdate' id='hSalida5' name='5'> 00:00:00 </p>                    
                     </div>
                     <div class='col-lg-12 col-md-12 col-sm-12 col-xs-12 divHorariosPordias'>
                         <p class='col-lg-4 col-md-4 col-sm-4 col-xs-4 letra18pt-pc'> Sábado </p>                    
-                        <p class='col-lg-4 col-md-4 col-sm-4 col-xs-4 letra18pt-pc horaUpdate' name='6'> 00:00:00 </p>                    
-                        <p class='col-lg-4 col-md-4 col-sm-4 col-xs-4 letra18pt-pc horaUpdate' name='6'> 00:00:00 </p>                    
+                        <p class='col-lg-4 col-md-4 col-sm-4 col-xs-4 letra18pt-pc horaUpdate' id='hEntrada6' name='6'> 00:00:00 </p>                    
+                        <p class='col-lg-4 col-md-4 col-sm-4 col-xs-4 letra18pt-pc horaUpdate' id='hSalida6' name='6'> 00:00:00 </p>                    
                     </div>
-                    <div class='col-lg-12 col-md-12 col-sm-12 col-xs-12 divHorariosPordias'>
+                    <div class='col-lg-12 col-md-12 col-sm-12 col-xs-12 divHorariosPordias' id='diaDomingoDiv'>
                         <p class='col-lg-4 col-md-4 col-sm-4 col-xs-4 letra18pt-pc'> Domingo </p>                    
-                        <p class='col-lg-4 col-md-4 col-sm-4 col-xs-4 letra18pt-pc horaUpdate' name='7'> 00:00:00 </p>                    
-                        <p class='col-lg-4 col-md-4 col-sm-4 col-xs-4 letra18pt-pc horaUpdate' name='7'> 00:00:00 </p>                    
+                        <p class='col-lg-4 col-md-4 col-sm-4 col-xs-4 letra18pt-pc horaUpdate' id='hEntrada7' name='7'> 00:00:00 </p>                    
+                        <p class='col-lg-4 col-md-4 col-sm-4 col-xs-4 letra18pt-pc horaUpdate' id='hSalida7' name='7'> 00:00:00 </p>                    
                     </div>
                     `;
             let verEmpleadosDiv = $(`#verEmpleadosDiv`);
             verEmpleadosDiv.after(html);       
             agregarVistaHorarios(); 
+            agregarVistaPermisos();
         }); 
     }
     //******************************************************************************++Nuevo empleado   
     $('#agregarEmpleado').on('click', function() {
+        $('.divHorariosPordias').remove();
         const nuevoEmpleado = $('#nuevoEmpleado');
         nuevoEmpleado.removeClass('oculto').addClass('mostrar');
         const verEmpleadosDiv = $('#verEmpleadosDiv');
         verEmpleadosDiv.removeClass('mostrar').addClass('oculto');
+        setTimeout(() => {
+            nuevoEmpleado.css('display', 'block');
+            verEmpleadosDiv.css('display', 'none');
+        }, 1000);
         // Agrego las tipos de empleado a cargoEmpleado
         $(".removerTipos").remove();
         let html = `<option class='removerTipos'  value='selecciona'>Selecciona</option>
@@ -214,10 +377,15 @@ const funcionesRH = () => {
 
     //******************************************************************************++Asignación de horarios 
     $('#verEmpleados').on('click', function() {
+        $('.divHorariosPordias').remove();
         const verEmpleadosDiv = $('#verEmpleadosDiv');
-        verEmpleadosDiv.removeClass('oculto').addClass('mostrar');
+        verEmpleadosDiv.removeClass('oculto').addClass('mostrar').css('display', 'block');
         const nuevoEmpleado = $('#nuevoEmpleado');
         nuevoEmpleado.removeClass('mostrar').addClass('oculto');
+        setTimeout(() => {
+            nuevoEmpleado.css('display', 'none');
+            verEmpleadosDiv.css('display', 'block');
+        }, 1000);
         // Agrego las empleados a empleadoSelect
         $(".removerempleadoSelect").remove();
         let html = `<option class='removerempleadoSelect'  value='selecciona'>Selecciona</option>`;
@@ -229,6 +397,64 @@ const funcionesRH = () => {
         let empleadoSelect = $('#empleadoSelect');
         empleadoSelect.append(html);
         changeEmpleado();
+    }); 
+
+    $('#cambiarHorario').on('click', function() {
+        var horariosSemanaj = obtenerDatajson("ID,dia_semana,hora_inicio,hora_fin","con_t_horarios_empleados","valoresconcondicion","id_empleado",empleadoSelect);
+        var horariosSemana = JSON.parse(horariosSemanaj);   
+        var objetosConValor = horariosSemana.filter(function(objeto) {
+            return objeto.dia_semana === horarioDiaActual;
+        });
+
+        if(!$('#datetimepicker-horariode-salida').val()){
+            $('#modalAlertas').modal("show"); 
+            $('#tituloAlertas').text(`Por favor selecciona una hora de salida.`); 
+            return false;
+        }
+        if(!$('#datetimepicker-horariode-entrada').val()){
+            $('#modalAlertas').modal("show"); 
+            $('#tituloAlertas').text(`Por favor selecciona una hora de entrada.`); 
+            return false;
+        }
+
+        var objeto = {}; 	 	 	
+        objeto.tipo = "int";
+        objeto.columna = "id_empleado";
+        objeto.valor = empleadoSelect;
+        var id_empleado = prepararjson(objeto);
+
+        var objeto = {};
+        objeto.tipo = "int";
+        objeto.columna = "dia_semana";
+        objeto.valor = horarioDiaActual;
+        var dia_semana = prepararjson(objeto);
+
+        var objeto = {};
+        objeto.tipo = "string";
+        objeto.columna = "hora_inicio";
+        objeto.valor = `${$('#datetimepicker-horariode-entrada').val()}:00`;
+        var hora_inicio = prepararjson(objeto);
+
+        var objeto = {};
+        objeto.tipo = "string";
+        objeto.columna = "hora_fin";
+        objeto.valor = `${$('#datetimepicker-horariode-salida').val()}:00`;
+        var hora_fin = prepararjson(objeto);
+
+        if (objetosConValor.length > 0) {
+            console.log(objetosConValor);
+            var objeto = {};
+            objeto.columna = "ID";
+            objeto.valor = objetosConValor[0].ID;
+            var condicion = prepararjson(objeto);
+            actualizarregistros("con_t_horarios_empleados",condicion,id_empleado,dia_semana,hora_inicio,hora_fin,"0","0","0","0","0","0","0");
+        } else {
+            idHorarioAgregado = insertarfila("con_t_horarios_empleados",id_empleado,dia_semana,hora_inicio,hora_fin,"0","0","0","0","0","0","0");
+        }
+        
+        agregarVistaHorarios();
+        $('#modalHorarios').modal("hide");
+        
     }); 
     
 }
@@ -269,6 +495,21 @@ funcionesRH();
 	$('#datetimepicker-fecha-contratacion').datetimepicker({
         format: 'MM/DD/YYYY'
 	});
+	$('#datetimepicker-horariode-entrada').datetimepicker({
+        format: 'HH:mm'
+	});
+	$('#datetimepicker-horariode-salida').datetimepicker({
+        format: 'HH:mm'
+	});
+
+    $('#datetimepicker-ausencia-inicio').datetimepicker({
+        format: 'YYYY-MM-DD HH:mm'
+	});
+
+    $('#datetimepicker-ausencia-fin').datetimepicker({
+        format: 'YYYY-MM-DD HH:mm'
+	});
+
 </script>
 <!-- https://sheetjs.com/ -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>

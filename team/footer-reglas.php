@@ -100,7 +100,7 @@
             objeto.valor = 0;
             var regla_activa = prepararjson(objeto);
             var idregla = insertarfila("con_t_reglasdescuentos",nombre_regla,descripcion,tipo_regla,prendas_condicion,prendas_descuento,referencias,porcentaje_descuento,regla_activa,"0","0","0");
-            console.log(idregla);
+            
             $('#popup').fadeOut('slow');         
             $('.popup-overlay').fadeOut('slow');      
             $('.reinicia').remove(); 
@@ -146,7 +146,7 @@
             objeto.valor = 0;
             var regla_activa = prepararjson(objeto);
             var idregla = insertarfila("con_t_reglasdescuentos",nombre_regla,descripcion,tipo_regla,prendas_condicion,prendas_descuento,referencias,todas_porcentaje,regla_activa,"0","0","0");
-            console.log(idregla);
+            
             $('#popup').fadeOut('slow');         
             $('.popup-overlay').fadeOut('slow');      
             $('.reinicia').remove(); 
@@ -212,7 +212,7 @@
             objeto.valor = 0;
             var regla_activa = prepararjson(objeto);
             var idregla = insertarfila("con_t_reglasdescuentos",nombre_regla,descripcion,tipo_regla,prendas_condicion,prendas_descuento,referenciias,referencia_porcentaje,regla_activa,"0","0","0");
-            console.log(idregla);
+            
             $('#popup').fadeOut('slow');         
             $('.popup-overlay').fadeOut('slow');      
             $('.reinicia').remove(); 

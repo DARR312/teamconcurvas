@@ -887,8 +887,8 @@ $('#fichasTecnicasSelect').on('change', function(){
         selecciondeficha.removeClass('mostrar').addClass('oculto');
         bloqueAntiguaFicha.removeClass('oculto').addClass('mostrar');
         
-        // Agrego los detalles del modelo, de confección y nombre de la referencia
-        let detallesj = obtenerDatajson("ID,detalles_modelo,detalles_confeccion","con_t_fichatecnica","valoresconcondicion","referencia",`'${$('#fichasTecnicasSelect').val()}'`);
+        // Agrego los detalles del modelo, de confección, precio armado y nombre de la referencia
+        let detallesj = obtenerDatajson("ID,detalles_modelo,detalles_confeccion,precio_armado","con_t_fichatecnica","valoresconcondicion","referencia",`'${$('#fichasTecnicasSelect').val()}'`);
         let detalles =  JSON.parse(detallesj);    
         let html='';
 
@@ -896,7 +896,8 @@ $('#fichasTecnicasSelect').on('change', function(){
         idReferencia = detalles[0].ID;
         $('#detallesModeloFicha').text(detalles[0].detalles_modelo);
         $('#detallesConfeccionFicha').text(detalles[0].detalles_confeccion);
-
+        $('#precioArmadoFicha').text(`Precio de armado: ${formatoPrecio(parseInt(detalles[0].precio_armado))}`);
+        $('#precioArmadoFicha').attr('name',detalles[0].precio_armado);
         // Agrego la tabla de medidas
         let medidasj = obtenerDatajson("ID,talla,tipo_medida,medida","con_t_medidasproducto","valoresconcondicion","ficha_tecnica",detalles[0].ID);
         let medidas =  JSON.parse(medidasj);    
@@ -1021,6 +1022,7 @@ $('#fichasTecnicasSelect').on('change', function(){
 var referenciaParaficha;
 var detalles_modelo;
 var detalles_confeccion;
+var precio_armado;
 var talla;	
 var insumos;
 var combinaciones;	
@@ -1132,6 +1134,7 @@ const insumosdeFichas = () =>{
 $('#guardarFicha').on('click', function(){
     detalles_modelo = $("#detales_modelo").val();
     detalles_confeccion = $("#detalles_confeccion").val();
+    precio_armado = $("#precio_armado").val();
 
     if(!referenciaParaficha){
         $('#modalAlertas').modal("show"); 
@@ -1327,11 +1330,14 @@ $('#confirmarCombinaciones').on('click', function(){
                         <p class="letra18pt-pc negrillaUno">Detalles de confección</p>
                         <p class="letra18pt-pc">${detalles_confeccion}</p>
                     </div>`;
+
+    resumenHtml = `${resumenHtml} <div  class='col-lg-12 col-md-12 col-sm-12 col-xs-12 removerResumenFicha' >
+                        <p class="letra18pt-pc negrillaUno">Detalles de confección</p>
+                        <p class="letra18pt-pc">${formatoPrecio(parseInt(precio_armado))}</p>
+                    </div>`;
     $('#cuerpoResumen').append(resumenHtml); 
 }); 
 $('#confirmarFichaTecnica').on('click', function(){
-    //  	referencia 	fecha_creacion 	detalles_modelo 	detalles_confeccion
-    //      con_t_fichatecnica
     var objeto = {};
     objeto.tipo = "string";
     objeto.columna = "referencia";
@@ -1347,7 +1353,12 @@ $('#confirmarFichaTecnica').on('click', function(){
     objeto.columna = "detalles_confeccion";
     objeto.valor = detalles_confeccion;
     var detalles_confeccionInsert = prepararjson(objeto);
-    let idFichaTecnica = JSON.parse(insertarfila("con_t_fichatecnica",referencia,detalles_modeloInsert,detalles_confeccionInsert,"0","0","0","0","0","0","0","0"));
+    var objeto = {};
+    objeto.tipo = "int";
+    objeto.columna = "precio_armado";
+    objeto.valor = precio_armado;
+    var precio_armadoInsert = prepararjson(objeto);
+    let idFichaTecnica = JSON.parse(insertarfila("con_t_fichatecnica",referencia,detalles_modeloInsert,detalles_confeccionInsert,precio_armadoInsert,"0","0","0","0","0","0","0"));
     
 
     var objeto = {};
@@ -1446,11 +1457,15 @@ $('#confirmarFichaTecnica').on('click', function(){
 $('#guardarDetalles').on('click', function(){
     var detales_modeloFiccion = $('#detales_modeloFiccion').val();
     var detalles_confeccionFiccion = $('#detalles_confeccionFiccion').val();
+    var precio_armadoFiccion = $('#precio_armadoFiccion').val();
     if(!detales_modeloFiccion){
         detales_modeloFiccion =  $('#detallesModeloFicha').text();
     }
     if(!detalles_confeccionFiccion){
         detalles_confeccionFiccion =  $('#detallesConfeccionFicha').text();
+    }
+    if(!precio_armadoFiccion){
+        precio_armadoFiccion =  $('#precioArmadoFicha').attr('name');
     }
     var objeto = {};
     objeto.columna = "ID";
@@ -1466,10 +1481,14 @@ $('#guardarDetalles').on('click', function(){
     objeto.columna = "detalles_confeccion";
     objeto.valor = detalles_confeccionFiccion;
     var  detalles_confeccion = prepararjson(objeto);
-    actualizarregistros("con_t_fichatecnica",condicion,detalles_modelo,detalles_confeccion,"0","0","0","0","0","0","0","0","0");
-    console.log(`con_t_fichatecnica,${condicion},${detalles_modelo},${detalles_confeccion}`);
+    var objeto = {};
+    objeto.tipo = "int";
+    objeto.columna = "precio_armado";
+    objeto.valor = precio_armadoFiccion;
+    var precio_armado = prepararjson(objeto);
+    actualizarregistros("con_t_fichatecnica",condicion,detalles_modelo,detalles_confeccion,precio_armado,"0","0","0","0","0","0","0","0");
     // Agrego los detalles del modelo, de confección y nombre de la referencia
-    let detallesj = obtenerDatajson("ID,detalles_modelo,detalles_confeccion","con_t_fichatecnica","valoresconcondicion","referencia",`'${$('#fichasTecnicasSelect').val()}'`);
+    let detallesj = obtenerDatajson("ID,detalles_modelo,detalles_confeccion,precio_armado","con_t_fichatecnica","valoresconcondicion","referencia",`'${$('#fichasTecnicasSelect').val()}'`);
     let detalles =  JSON.parse(detallesj);    
     let html='';
     
@@ -1477,6 +1496,8 @@ $('#guardarDetalles').on('click', function(){
     $('#nombreReferencia').attr('name',detalles[0].ID);
     $('#detallesModeloFicha').text(detalles[0].detalles_modelo);
     $('#detallesConfeccionFicha').text(detalles[0].detalles_confeccion);
+    $('#precioArmadoFicha').text(`Precio de armado: ${formatoPrecio(parseInt(detalles[0].precio_armado))}`);
+    $('#precioArmadoFicha').attr('name',detalles[0].precio_armado);
 
 }); 
 
@@ -1553,7 +1574,7 @@ const comboActualizarFT = () => {
         }
 
         // Agrego los detalles del modelo, de confección y nombre de la referencia
-        let detallesj = obtenerDatajson("ID,detalles_modelo,detalles_confeccion","con_t_fichatecnica","valoresconcondicion","referencia",`'${$('#fichasTecnicasSelect').val()}'`);
+        let detallesj = obtenerDatajson("ID,detalles_modelo,detalles_confeccion,precio_armado","con_t_fichatecnica","valoresconcondicion","referencia",`'${$('#fichasTecnicasSelect').val()}'`);
         let detalles =  JSON.parse(detallesj);
          // Agrego la tabla de combinaciones
          
