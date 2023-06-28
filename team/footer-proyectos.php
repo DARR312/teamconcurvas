@@ -13,7 +13,7 @@ var nombreNuevoProyecto = '';
 var espaciosProyectos = [];
 var trabajadoresProyectos = [];
 var fechaInicioProyecto;
-var fechaFinProyecto;
+var fechaFinProyecto = new Date('2053-07-01 10:06:16');
 const mostrarDiv = (idaMostrar) => {
     $('.divHorariosPordias').remove();
     const nuevoEspacio = $('#nuevoEspacio');
@@ -49,18 +49,16 @@ const mostrarOcultarDiv = (idaMostrar,idOcultar) => {
     }, 1500);
 }
 
-const calcularFechaHoraFinal = (fechaHoraInicial,minutos) => {
-    const aidaMostrar = $(`#${idaMostrar}`);
-    const aidaOcultar = $(`#${idOcultar}`);
-    aidaOcultar.removeClass('mostrar').addClass('oculto');
-    
-    setTimeout(() => {
-        aidaOcultar.css('display', 'none');
-        aidaMostrar.css('display', 'block');
-    }, 1000);
-    setTimeout(() => {
-        aidaMostrar.removeClass('oculto').addClass('mostrar');
-    }, 1500);
+const calcularFechaHoraFinal = (fechaHoraInicial,minutos,horario) => {
+    console.log('fechaHoraInicial');
+    console.log(fechaHoraInicial);
+    console.log('minutos');
+    console.log(minutos);
+    console.log('horario');
+    console.log(horario);
+    var fecha = new Date(fechaHoraInicial);
+    console.log(fechaHoraInicial);
+    // var objetoDiferencia = diferenciaMinutosSegundos(horaInicio,horarios_espacios[diaSemana].hora_fin);
 }
 
 const diferenciaMinutosSegundos = (horaInicio,horaFin) => {
@@ -399,7 +397,7 @@ const funcionesProyectos = () => {
         var fechaMenorTrabajadores= '2023-05-25 10:06:16'; 
         espaciosProyectos = [];
         let espaciosProyectosClass = $('.espaciosProyecto');
-        
+
         for (let i = 0; i < espaciosProyectosClass.length; i++) {
             if($(espaciosProyectosClass[i]).val() == 'selecciona'){continue;}
             const index = espaciosProyectos.findIndex(objeto => objeto.espacio === $(espaciosProyectosClass[i]).val());
@@ -438,22 +436,20 @@ const funcionesProyectos = () => {
             var minutos = ('0' + fechaActual.getMinutes()).slice(-2);
             var segundos = ('0' + fechaActual.getSeconds()).slice(-2);
 
-            if(fechaActual>fechaMenorEspaciosObjeto){
-                
+            if(fechaActual>fechaMenorEspaciosObjeto){                
                 var fechaFormateada = `${año}-${mes}-${dia} ${horas}:${minutos}:${segundos}`;
                 fechaMenorEspacios = fechaFormateada;
                 fechaDisponEspacio = fechaFormateada;
+                minutosMenor = $(`#minutosEspacio${$(espaciosProyectosClass[i]).attr('name')}`).val(); 
             }
-            //Calculo la fecha y hora final en la que el espacio va a dejar el proyecto
-            // horarios_espacios[diaSemana]
-            var horaInicio = `${horas}:${minutos}:${segundos}`;//horaInicio es la hora actual
-            // console.log(horarios_espacios[diaSemana].hora_fin);//es la hora en la que los espacios dejan de estar disponibles en el día actual.
-            
+
+            var minutosEsp = $(`#minutosEspacio${$(espaciosProyectosClass[i]).attr('name')}`).val();
+            var fechaFin = calcularFechaHoraFinal(fecha_hora_disponibleEspacio[0].fecha_hora_disponible,minutosEsp,horarios_espacios);
            
 
             var objeto = {
                 espacio:$(espaciosProyectosClass[i]).val(), 
-                minutos: $(`#minutosEspacio${$(espaciosProyectosClass[i]).attr('name')}`).val(),
+                minutos: minutosEsp,
                 horarios: horarios_espacios,
                 fecha_hora_disponible: fechaDisponEspacio,
                 texto: textoSeleccionado
@@ -469,7 +465,7 @@ const funcionesProyectos = () => {
         //Empezamos calculando el tiempo en trabajadores utilizados. 
         trabajadoresProyectos = [];
         let trabajadoresProyectosClass = $('.trabajadoresProyecto');
-        
+
         for (let i = 0; i < trabajadoresProyectosClass.length; i++) {
             if($(trabajadoresProyectosClass[i]).val() == 'selecciona'){continue;}
             const index = trabajadoresProyectos.findIndex(objeto => objeto.trabajador === $(trabajadoresProyectosClass[i]).val());
@@ -495,6 +491,7 @@ const funcionesProyectos = () => {
 
             if(fecha_hora_disponibleTrabajador[0].fecha_hora_disponible > fechaMenorTrabajadores){
                 fechaMenorTrabajadores = fecha_hora_disponibleTrabajador[0].fecha_hora_disponible;
+                
             }
             let elementoSeleccionado = $(trabajadoresProyectosClass[i]).find('option:selected');
             let textoSeleccionado = elementoSeleccionado.text();
@@ -512,6 +509,7 @@ const funcionesProyectos = () => {
                 var fechaFormateada = `${año}-${mes}-${dia} ${horas}:${minutos}:${segundos}`;
                 fechaMenorTrabajadores = fechaFormateada;
                 fechaDisponTrabajador = fechaFormateada;
+                minutosMenor = $(`#minutosTrabajador${$(trabajadoresProyectosClass[i]).attr('name')}`).val();
             }
 
             var objeto = {
@@ -529,18 +527,10 @@ const funcionesProyectos = () => {
             $('#tituloAlertas').text(`Por favor seleccion al menos un trabajador para este proyecto`); 
             return false;
         }
-        console.log("espaciosProyectos");
-        console.log(espaciosProyectos);
-        console.log("trabajadoresProyectos"); 
-        console.log(trabajadoresProyectos); 
-        console.log('fechaMenorEspacios'); 
-        console.log(fechaMenorEspacios); 
-        console.log('fechaMenorTrabajadores'); 
-        console.log(fechaMenorTrabajadores); 
         if(fechaMenorTrabajadores >= fechaMenorEspacios){
             fechaInicioProyecto = fechaMenorTrabajadores;
         }else{
-            fechaInicioProyecto=fechaMenorEspacios;
+            fechaInicioProyecto = fechaMenorEspacios;
         }
         console.log(fechaInicioProyecto);
         var fechaInicioProyectoObjeto = new Date(fechaInicioProyecto);
@@ -550,6 +540,8 @@ const funcionesProyectos = () => {
             format: 'YYYY-MM-DD HH:mm',
             minDate: fechaInicioProyectoObjeto
         });
+
+        
         // let elementosFechaFinal = ``;
         // for (let i = 0; i < espaciosProyectos.length; i++) {
         //     elementosFechaFinal = `${elementosFechaFinal}
@@ -588,11 +580,7 @@ const funcionesProyectos = () => {
 
         // $('#fechaFinalTiempoReal').append(elementosFechaFinal);
     }); 
-//     var horaFin = horarios_espacios[diaSemana].hora_fin;
 
-// var objetoDiferencia = diferenciaMinutosSegundos(horaInicio,horarios_espacios[diaSemana].hora_fin);
-
-// console.log(objetoDiferencia);
     const tallasChange = () => {
         $('.tallasProyecto').on('change', function() {
             if(coloresCombinacion.length ==0){
