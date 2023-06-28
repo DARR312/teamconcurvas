@@ -897,8 +897,10 @@ function ordenesventajson($valor,$estadoFiltro,$tipoenvio,$datetimepicker_defaul
         $fechaventaup = $fechaventagaarray[2]."-".$fechaventagaarray[0]."-".$fechaventagaarray[1]." 23:59:59";    
         $ent=" AND (fecha_entrega BETWEEN  '".$fechaventa."' AND '".$fechaventaup."')";
     }
-    //echo "SELECT cambio_id,fecha_creada,venta_id,datos_cliente,pedido,prendas_por_regresar,cliente_ok,notas,excedente,fecha_entrega,estado FROM con_t_cambios".$where.$est.$tra.$tip.$ent.$ent."";
-    $ventastodas = $wpdb->get_results("SELECT venta_id,fecha_creada,datos_cliente,pedido,cliente_ok,notas,fecha_entrega,estado,origen,cliente_id FROM con_t_ventas".$where.$est.$tra.$tip.$ent.$ent."", ARRAY_A);
+    
+    // echo "SELECT venta_id,fecha_creada,datos_cliente,pedido,cliente_ok,notas,fecha_entrega,estado,origen,cliente_id FROM con_t_ventas".$where.$est.$tra.$tip.$ent.$ent." ORDER BY venta_id ASC"; 
+    $ventastodas = $wpdb->get_results("SELECT venta_id,fecha_creada,datos_cliente,pedido,cliente_ok,notas,fecha_entrega,estado,origen,cliente_id FROM con_t_ventas".$where.$est.$tra.$tip.$ent.$ent." ORDER BY venta_id ASC", ARRAY_A);
+    
     echo json_encode($ventastodas);
 }
 
