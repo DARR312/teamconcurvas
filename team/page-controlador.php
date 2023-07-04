@@ -872,9 +872,6 @@ function ordenesventajson($valor,$estadoFiltro,$tipoenvio,$datetimepicker_defaul
     $tip="";
     $cre="";
     $ent="";
-    if($estadoFiltro != "0" || $transportador != "0" || $tipoenvio != "0" || $datetimepicker_default != "0" || $datetimepicker_defaultFiltro != "0"){
-        $where=" WHERE venta_id > 40";
-    }
     if($estadoFiltro != "0"){
         $est=" AND (estado = '".$estadoFiltro."')";
     }
@@ -899,7 +896,31 @@ function ordenesventajson($valor,$estadoFiltro,$tipoenvio,$datetimepicker_defaul
     }
     
     // echo "SELECT venta_id,fecha_creada,datos_cliente,pedido,cliente_ok,notas,fecha_entrega,estado,origen,cliente_id FROM con_t_ventas".$where.$est.$tra.$tip.$ent.$ent." ORDER BY venta_id ASC"; 
-    $ventastodas = $wpdb->get_results("SELECT venta_id,fecha_creada,datos_cliente,pedido,cliente_ok,notas,fecha_entrega,estado,origen,cliente_id FROM con_t_ventas".$where.$est.$tra.$tip.$ent.$ent." ORDER BY venta_id ASC", ARRAY_A);
+    $consultaTodo = 0;
+    $consultafinal = "SELECT venta_id,fecha_creada,datos_cliente,pedido,cliente_ok,notas,fecha_entrega,estado,origen,cliente_id FROM con_t_ventas".$where.$est.$tra.$tip.$ent.$ent." ORDER BY venta_id ASC";
+    if($estadoFiltro != "0" || $transportador != "0" || $tipoenvio != "0" || $datetimepicker_default != "0" || $datetimepicker_defaultFiltro != "0"){
+        $consultaTodo = 1;
+        $where=" WHERE venta_id > 40 AND venta_id <= 1000";
+            
+        $consultafinal = "SELECT venta_id,fecha_creada,datos_cliente,pedido,cliente_ok,notas,fecha_entrega,estado,origen,cliente_id FROM con_t_ventas".$where.$est.$tra.$tip.$ent.$ent." ORDER BY venta_id ASC";
+        
+        $ventastodas = $wpdb->get_results($consultafinal, ARRAY_A);
+        for ($i=0; $i < 1000; $i++) { 
+            $where=" WHERE venta_id > ".(1000+($i*1000))." AND venta_id <= ".(2000+($i*1000));
+            
+            $consultafinal = "SELECT venta_id,fecha_creada,datos_cliente,pedido,cliente_ok,notas,fecha_entrega,estado,origen,cliente_id FROM con_t_ventas".$where.$est.$tra.$tip.$ent.$ent." ORDER BY venta_id ASC";
+            
+            $ventastodasProvisional = $wpdb->get_results($consultafinal, ARRAY_A); 
+            if (!empty($ventastodasProvisional)) {
+                $ventastodas = array_merge($ventastodas, $ventastodasProvisional);
+            } else {
+                $i=10000;
+            }           
+        }
+    }
+    if($consultaTodo == 0){
+        $ventastodas = $wpdb->get_results($consultafinal, ARRAY_A);
+    }
     
     echo json_encode($ventastodas);
 }
