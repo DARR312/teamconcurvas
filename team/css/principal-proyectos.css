@@ -40,7 +40,10 @@
 #espaciosDiv{
   margin-top: 50px;
 }
-.horaUpdate, .ausenciaUpdate{
+.horaUpdate, .ausenciaUpdate, #asignarSatelite, #asignarTerminados{
   color: rgb(193, 46, 114) !important;
   cursor: pointer;
+}
+.verProyectoIndividual, .borrarProyectoIndividual{
+  width: 100% !important;
 }

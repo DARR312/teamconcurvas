@@ -137,9 +137,7 @@ function referenciaNueva($nombre,$color,$talla,$link,$detal,$mayor,$categoria){
     $valores = array("nombre" => $nombre , "color" => $color , "talla" => $talla , "foto_link" => $link , "precio_detal" => $detaloPrecio, "precio_mayorista" => $mayorPrecio,  "categoria_id" => $categoria);
     global $wpdb;
     $rows = $wpdb->insert("con_t_resumen", $valores);
-    //$lastId = $wpdb->get_results( "SELECT MAX(referencia_id) as id FROM con_t_resumen");
-    //echo $lastId[0]->id;
-    //print_r($valores);
+
     echo $rows;
 }
 
@@ -178,6 +176,10 @@ function obtenerDatajson($columna,$tabla,$tipo,$columnacondicion,$condicion){
         $columnacondicion =str_replace('\\', '', $columnacondicion);
         // echo "SELECT ".$columna." FROM ".$tabla." WHERE ".$columnacondicion."";
         $obtenidosArray = $wpdb->get_results( "SELECT ".$columna." FROM ".$tabla." WHERE ".$columnacondicion."", ARRAY_A);
+        echo json_encode($obtenidosArray,JSON_UNESCAPED_UNICODE); 
+    }
+    if($tipo=='ultimo'){
+        $obtenidosArray = $wpdb->get_results( "SELECT MAX(".$columna.") as id FROM ".$tabla."");
         echo json_encode($obtenidosArray,JSON_UNESCAPED_UNICODE); 
     }
     
@@ -1597,8 +1599,7 @@ function actualizarregistros($tabla,$condicion,$valor,$valor2,$valor3,$valor4,$v
     $datos = "UPDATE ".$tabla." SET ".$final." WHERE ".$condicionjson -> columna." = ".$condicionjson -> valor."";
     echo $datos;
     $wpdb->query($datos);
-    // $lastId = $wpdb->get_results( "SELECT MAX(ID) as id FROM ".$tabla."");
-    // echo json_encode($lastId);
+
 }
 
 function cajasemanal($id){

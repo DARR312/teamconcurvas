@@ -73,7 +73,7 @@
     width:85%;
 }
 #primerCodigo{margin-top: 40px;}
-.insertCodigo{width: 100% !important;}
+.insertCodigo,.completarInsumo{width: 100% !important;}
 
 .oculto {
     opacity: 0 !important;

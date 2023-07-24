@@ -263,6 +263,14 @@ function is_admin_user() {
             </div>            
         </div>
         <p id='fichaOk' class='oculto avisoOk'>Ficha técnica ok</p>
+        <div id="insumosFaltantes"  style='display: none;' class="funcionamiento">
+            <div class=' col-lg-12 col-md-12 col-sm-12 col-xs-12' id='cabecerasInsumosFaltantes'>
+                <p  class="letra18pt-pc col-lg-3 col-md-3 col-sm-3 col-xs-3 negrillaTres">Insumo</p>
+                <p  class="letra18pt-pc col-lg-3 col-md-3 col-sm-3 col-xs-3 negrillaTres">Cantidad</p>
+                <p  class="letra18pt-pc col-lg-3 col-md-3 col-sm-3 col-xs-3 negrillaTres">Proyecto</p>
+                
+            </div>
+        </div>
     </div>
     <!-- modal de Bootstrap -->
     <div class="modal" tabindex="-1" id="modalContable">

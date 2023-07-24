@@ -6,28 +6,45 @@ var permisos = JSON.parse(permisosj);
 var segundo = $('#segundo');    
 var coloresCombinacion = [];
 var insumosRepetidos = [];
+var proyectosArray = [];
 var referenciaParaProyecto = 0;
 var arrayInsumosUtilizados;
 var arregloInsumosSimplificado = [];//arregloInsumosSimplificado tiene como resultado las cantidades totales de prendas, los insumos y la cantidad por unidad que se va a gastar en el proyecto. 
+var arrayTallas = [];
+var arregloColoresTexto = [];
+var nombreReferencia = '';
 var nombreNuevoProyecto = '';
 var espaciosProyectos = [];
 var trabajadoresProyectos = [];
 var fechaInicioProyecto;
 var fechaFinProyecto = new Date('2053-07-01 10:06:16');
+var notificacionFaltantes = '';
+var costoTotalProyectoNuevo = 0;
+var eliminarProyecto = 0;
+var proyectoIdTotal = 0;
 const mostrarDiv = (idaMostrar) => {
     $('.divHorariosPordias').remove();
     const nuevoEspacio = $('#nuevoEspacio');
     const nuevoProyecto = $('#nuevoProyecto');
     const verEspaciosDiv = $('#verEspaciosDiv');
+    const verProyectosDiv = $('#verProyectosDiv');
+    const nuevoSatelite = $('#nuevoSatelite');
+    const verSatelitesDiv = $('#verSatelitesDiv');
     const aidaMostrar = $(`#${idaMostrar}`);
     nuevoEspacio.removeClass('mostrar').addClass('oculto');
     nuevoProyecto.removeClass('mostrar').addClass('oculto');
     verEspaciosDiv.removeClass('mostrar').addClass('oculto');
+    verProyectosDiv.removeClass('mostrar').addClass('oculto');
+    verSatelitesDiv.removeClass('mostrar').addClass('oculto');
+    nuevoSatelite.removeClass('mostrar').addClass('oculto');
     
     setTimeout(() => {
         nuevoEspacio.css('display', 'none');
         nuevoProyecto.css('display', 'none');
         verEspaciosDiv.css('display', 'none');
+        verProyectosDiv.css('display', 'none');
+        nuevoSatelite.css('display', 'none');
+        verSatelitesDiv.css('display', 'none');
         aidaMostrar.css('display', 'block');
     }, 1000);
     setTimeout(() => {
@@ -48,17 +65,42 @@ const mostrarOcultarDiv = (idaMostrar,idOcultar) => {
         aidaMostrar.removeClass('oculto').addClass('mostrar');
     }, 1500);
 }
+const tablaTallas = (claseDiv) => {
+    var detalles = '';
+    for (let i = 0; i < arrayTallas.length; i++) {
+                
+                for (let j = 0; j < arrayTallas[i].codigosCombinaciones.length; j++) {
+                    var textos = '';
+                    var codigoCombinacion = arrayTallas[i].codigosCombinaciones[j].codigo;
+                    var insumoActual='';
+                    for (let j = 0; j < codigoCombinacion.length; j=j+1+parseInt(codigoCombinacion[j])) {
+                        for (let k = 0; k < codigoCombinacion[j]; k++) {       
+                            insumoActual = `${insumoActual}${codigoCombinacion[j+1+k]}`;
+                        }               
+                        let insumoActualj = obtenerDatajson("caracteristica,complemento_caracteristica,complemento,grupo","con_t_insumos","valoresconcondicion","ID ",insumoActual);
+                        let insumoActualTexto =  JSON.parse(insumoActualj); 
+                        insumoActual='';
+                        textos = `${textos}
+                        ${insumoActualTexto[0].grupo} ${insumoActualTexto[0].caracteristica} ${insumoActualTexto[0].complemento} ${insumoActualTexto[0].complemento_caracteristica}  
+                        `;
 
-const calcularFechaHoraFinal = (fechaHoraInicial,minutos,horario) => {
-    console.log('fechaHoraInicial');
-    console.log(fechaHoraInicial);
-    console.log('minutos');
-    console.log(minutos);
-    console.log('horario');
-    console.log(horario);
-    var fecha = new Date(fechaHoraInicial);
-    console.log(fechaHoraInicial);
-    // var objetoDiferencia = diferenciaMinutosSegundos(horaInicio,horarios_espacios[diaSemana].hora_fin);
+                    }
+                    
+                    let combinacion = textos.replace(/No aplica/g,"");
+                    detalles = `${detalles}
+                            <div class='col-lg-12 col-md-12 col-sm-12 col-xs-12 letra18pt-pc ${claseDiv}' > 
+                                
+                                <p class='col-lg-4 col-md-4 col-sm-4 col-xs-4 letra18pt-pc'>${arrayTallas[i].talla}</p>
+
+                                <p class='col-lg-4 col-md-4 col-sm-4 col-xs-4 letra18pt-pc'>${combinacion}</p>
+
+                                <p class='col-lg-4 col-md-4 col-sm-4 col-xs-4 letra18pt-pc'>${arrayTallas[i].codigosCombinaciones[j].cantidad}</p>
+
+                            </div>
+                    `;
+                }
+            }
+    return detalles;
 }
 
 const diferenciaMinutosSegundos = (horaInicio,horaFin) => {
@@ -94,8 +136,140 @@ const diferenciaMinutosSegundos = (horaInicio,horaFin) => {
     
 }
 
+const calcularFechaHoraFinal = (fechaHoraInicial,minutos,horario) => {
+    var tiempo = {
+        "minutos":minutos,
+        "segundos": 0
+    }
+
+    var fecha = new Date(fechaHoraInicial);
+    var dia = fecha.getDay();
+    var hora = fecha.getHours();
+    var minuts = fecha.getMinutes();
+    var segundos = fecha.getSeconds();
+    var horaInicioProyecto = `${hora}:${minuts}:${segundos}`;
+    for (let i = 0; i < 999; i++) {
+        
+        var diaEncontrado = horario.find(function(objeto) {
+            return objeto.dia_semana === dia.toString();
+        });
+        if(!diaEncontrado){
+            dia++;
+            fecha.setDate(fecha.getDate() + 1);
+            if(dia==8){dia=1;}
+            continue;
+        }
+        if(i>0){
+            horaInicioProyecto=diaEncontrado.hora_inicio;
+        }
+        
+        var objetoDiferencia = diferenciaMinutosSegundos(diaEncontrado.hora_inicio,horaInicioProyecto);//calculo si la hora de unicio del día es menor a la hora de inicio del proyecto
+        
+        if(objetoDiferencia.minutos <0){
+            horaInicioProyecto = diaEncontrado.hora_inicio;
+        }
+    
+        var objetoDiferencia = diferenciaMinutosSegundos(horaInicioProyecto,diaEncontrado.hora_fin);//calculo la diferencia entre la hora de inicio y la hora de fin del día.
+        
+
+        if(tiempo.minutos > objetoDiferencia.minutos){
+            tiempo.minutos = tiempo.minutos - objetoDiferencia.minutos;
+            if(tiempo.segundos<objetoDiferencia.segundos){
+                tiempo.minutos = tiempo.minutos-1;
+                tiempo.segundos = 60-(objetoDiferencia.segundos-tiempo.segundos);
+            }else{
+                tiempo.segundos = tiempo.segundos-objetoDiferencia.segundos;
+            }
+            
+        }else{
+
+            var minutosRestar = objetoDiferencia.minutos - tiempo.minutos;
+            
+            var segundosRestar = 0; 
+
+            if((objetoDiferencia.segundos-tiempo.segundos)<0){
+                segundosRestar = 60+(objetoDiferencia.segundos-tiempo.segundos);
+            }
+            if((objetoDiferencia.segundos-tiempo.segundos)>0){
+                segundosRestar = objetoDiferencia.segundos-tiempo.segundos;
+            }
+
+            
+           // Dividir la cadena en horas, minutos y segundos
+            var partes = diaEncontrado.hora_fin.split(":");
+            var horas = parseInt(partes[0]);
+            var minutos = parseInt(partes[1]);
+            var segundos = parseInt(partes[2]);
+
+            // Calcular la cantidad total de minutos y segundos del valor original
+            var minutosTotales = horas * 60 + minutos;
+            var segundosTotales = minutosTotales * 60 + segundos;
+
+            // Restar la cantidad deseada de minutos y segundos
+            var segundosResultantes = segundosTotales - (minutosRestar * 60 + segundosRestar);
+
+            // Manejar casos en los que los segundos resultantes sean negativos o superen el valor de 60
+            if (segundosResultantes < 0) {
+            // Ajustar los minutos si los segundos resultantes son negativos
+            segundosResultantes += 86400; // 86400 segundos = 24 horas
+            }
+
+            // Calcular las nuevas horas, minutos y segundos
+            horas = Math.floor(segundosResultantes / 3600);
+            minutos = Math.floor((segundosResultantes % 3600) / 60);
+            segundos = segundosResultantes % 60;
+
+            // Formatear nuevamente la cadena de tiempo resultante
+            var horaFinRestada = `${horas.toString().padStart(2, "0")}:${minutos.toString().padStart(2, "0")}:${segundos.toString().padStart(2, "0")}`;
+
+            // Obtener los componentes de la fecha
+            var anio = fecha.getFullYear();
+            var mes = (fecha.getMonth() + 1).toString().padStart(2, "0"); // Se suma 1 al mes ya que los meses van de 0 a 11
+            var dia = fecha.getDate().toString().padStart(2, "0");
+
+            // Formatear la fecha en el formato deseado
+            var fechaFormateada = `${anio}-${mes}-${dia}`;
+
+            var fechaHoraFinal = {
+                "hora":horaFinRestada,
+                "fecha":fechaFormateada
+            }
+            return fechaHoraFinal;
+        }
+
+        dia++;
+        fecha.setDate(fecha.getDate() + 1);
+        
+        if(dia==8){dia=1;}        
+    }
+
+}
+
+const fechaActual = () => {
+   
+         // Obtener la fecha actual
+         const fechaActual = new Date();
+
+// Obtener los componentes de la fecha (año, mes, día, hora, minutos y segundos)
+const anio = fechaActual.getFullYear();
+const mes = String(fechaActual.getMonth() + 1).padStart(2, '0'); // Los meses comienzan desde 0, por lo que se le suma 1
+const dia = String(fechaActual.getDate()).padStart(2, '0');
+const hora = String(fechaActual.getHours()).padStart(2, '0');
+const minutos = String(fechaActual.getMinutes()).padStart(2, '0');
+const segundos = String(fechaActual.getSeconds()).padStart(2, '0');
+
+// Construir la cadena de fecha y hora en el formato deseado
+const fechaHoraActual = `${anio}-${mes}-${dia} ${hora}:${minutos}:${segundos}`;
+
+return(fechaHoraActual);
+}
+
+
 
 const funcionesProyectos = () => {
+
+    
+
     const agregarTallasSelect = (idSelect) => {
         let listadoTallasj = obtenerDatajson("talla","con_t_medidasproducto","valoresconcondicion","ficha_tecnica ",`'${referenciaParaProyecto}'`);
         let listadoTallas =  JSON.parse(listadoTallasj);   
@@ -110,7 +284,7 @@ const funcionesProyectos = () => {
     const agregarColorSelect = (idSelect) => {
         insumosRepetidos = [];
         const grupos = {};
-        coloresCombinacion.forEach((elemento) => {// coloresCombinacion es el array que traigo de con_t_combinacionesproducto según la referencia escogida
+        coloresCombinacion.forEach((elemento) => {//aqui coloresCombinacion es el array que traigo de con_t_combinacionesproducto según la referencia escogida
         if (!grupos[elemento.indicativo_combinacion]) {
             grupos[elemento.indicativo_combinacion] = [];
         }
@@ -118,7 +292,8 @@ const funcionesProyectos = () => {
         });
 
         const arreglosSeparados = Object.values(grupos);//arreglosSeparados son las combinaciones agrupadas según el indicativo de combinación
-        
+        // console.log('arreglosSeparados');
+        // console.log(arreglosSeparados);
         html=`'<option class='removerColoresCombinaciones'  value='selecciona'>Selecciona</option>'`;
         for (let i = 0; i < arreglosSeparados.length; i++) {
             let textos = '';
@@ -141,7 +316,7 @@ const funcionesProyectos = () => {
                 }
             }
             let descripcion = textos.replace(/No aplica/g,"");
-            html = `${html} <option class='removerColoresCombinaciones'  value='${codigoCombinacion}'>${descripcion}</option>`;
+            html = `${html} <option class='removerColoresCombinaciones' name='${arreglosSeparados[i][0].ID}' value='${codigoCombinacion}'>${descripcion}</option>`;
         }
         let select = $(`#${idSelect}`);
         select.append(html);
@@ -235,16 +410,20 @@ const funcionesProyectos = () => {
 
     $('#confirmaTallasCombinaciones').on('click', function() {
         var cantidadPrendasPorCortar = 0;
-        var referenciaParaProyecto = $('#referenciaParaProyecto').val();
+        referenciaParaProyecto = $('#referenciaParaProyecto').val();
+
+        var elementoSeleccionado = $("#referenciaParaProyecto option:selected");
+        nombreReferencia = elementoSeleccionado.text();
         if(referenciaParaProyecto=="selecciona"){
             $('#modalAlertas').modal("show"); 
             $('#tituloAlertas').text(`Por favor selecciona la referencia del proyecto`); 
             return false;
         }
         var divTallasCombinaciones = $('.divTallasCombinaciones');
-        var  arrayTallas = [];
+        arrayTallas = [];
         for (let i = 0; i < divTallasCombinaciones.length; i++) {
             if($(divTallasCombinaciones[i]).children().eq(0).children().eq(1).val() == 'selecciona'){continue;}
+            
             var objeto = {
                 talla: $(divTallasCombinaciones[i]).children().eq(0).children().eq(1).val(), // Aquí va el valor de talla, 3XL por ejemplo
                 coloresCombinaciones: [], // Array vacío para almacenar colores combinaciones
@@ -261,6 +440,8 @@ const funcionesProyectos = () => {
                     return false;
                 }
                 var codigoCombinacion = $(divTallasCombinaciones[i]).children().eq(j).children().eq(0).children().eq(1).val();//Es el código de los insumos utilizado para esta combinación, mirar explicación en la línea 71 de este documento. 
+                const selectElement = $(divTallasCombinaciones[i]).children().eq(j).children().eq(0).children().eq(1);
+                const codigoCombinacionesproducto = selectElement.find('option:selected').attr("name");
                 
                 // decodifico codigoCombinacion para tener los insumos por separado de una vez
                 var insumoActual='';
@@ -278,7 +459,8 @@ const funcionesProyectos = () => {
                 cantidadPrendasPorCortar = cantidadPrendasPorCortar + parseInt(objetoColoresCombinaciones.cantidad);
                 var objetoCombi={
                     codigo: codigoCombinacion,
-                    cantidad:$(divTallasCombinaciones[i]).children().eq(j).children().eq(1).children().eq(1).val()
+                    cantidad:$(divTallasCombinaciones[i]).children().eq(j).children().eq(1).children().eq(1).val(),
+                    codigoCombinacionesproducto: codigoCombinacionesproducto
                 }
                 objeto.codigosCombinaciones.push(objetoCombi);
             }
@@ -295,6 +477,7 @@ const funcionesProyectos = () => {
             $('#tituloAlertas').text(`Por favor selecciona al menos 1 talla valida que no tenga como valor selecciona`); 
             return false;
         }
+        console.log(arrayTallas);
         //Como resultado arrayTallas va a ser un arreglo con objetos, cada objeto tiene una propiedad llamada talla y otra coloresCombinaciones que es un array de objetos que tiene dentro de si objetos cada uno con una propiedad llamada insumo con el codigo del insumo utilizado y la cantidad de prendas que se van a cortar de ese insumo
         //insumosRepetidos son los insumos que van a ir en cada una de las prendas que se van a crear, es decir el total de prendas
         
@@ -331,7 +514,7 @@ const funcionesProyectos = () => {
             arregloInsumosSimplificado[i].cantidadInsumo = cantidadInsumo;
             arregloInsumosSimplificado[i].costo = cantidadInsumo * parseInt(insumoActual[0].precio_unidad);
             if(parseInt(insumoActual[0].faltantes) > 0){
-                arregloInsumosSimplificado[i].faltantesCon_t_Insumos = parseInt(insumoActual[0].faltantes) + cparseInt(antidadInsumo);
+                arregloInsumosSimplificado[i].faltantesCon_t_Insumos = parseInt(insumoActual[0].faltantes) + parseInt(cantidadInsumo);
                 arregloInsumosSimplificado[i].faltantesCon_t_InsumosFaltantes = parseInt(cantidadInsumo);
             }else if((parseInt(insumoActual[0].cantidad)-parseInt(cantidadInsumo))<0){
                 arregloInsumosSimplificado[i].faltantesCon_t_Insumos = -1*(parseInt(insumoActual[0].cantidad) - parseInt(cantidadInsumo));
@@ -340,6 +523,7 @@ const funcionesProyectos = () => {
                 arregloInsumosSimplificado[i].faltantesCon_t_Insumos =0;
                 arregloInsumosSimplificado[i].faltantesCon_t_InsumosFaltantes = 0;
             }
+            
             textoConfirmado = `${textoConfirmado}
             <p class='col-lg-8 col-md-8 col-sm-8 col-xs-8 letra18pt-pc confirmaTextoInsumosFaltantes'>
                 ${insumoActual[0].grupo} ${insumoActual[0].complemento} ${insumoActual[0].caracteristica} ${insumoActual[0].complemento_caracteristica} :
@@ -348,10 +532,10 @@ const funcionesProyectos = () => {
                 ${arregloInsumosSimplificado[i].faltantesCon_t_InsumosFaltantes} ${insumoActual[0].presentacion}
             </p>`;
         }
-        console.log('arregloInsumosSimplificado');
-        console.log(arregloInsumosSimplificado);//arregloInsumosSimplificado tiene como resultado las cantidades totales de prendas, los insumos, la cantidad por unidad que se va a gastar en el proyecto y los faltantes para el proyecto y en general de todo el inventario 
-        console.log('arrayTallas');
-        console.log(arrayTallas);// tiene las tallas que se van a hacer, con sus respectivas combinaciones y cantidades, una con los codigos separados por insumos y otra con los codigosColores listos para decodificar e ingresar en con_t_combinacionesproyectos
+        // console.log('arregloInsumosSimplificado'); 
+        // console.log(arregloInsumosSimplificado);//arregloInsumosSimplificado tiene como resultado las cantidades totales de prendas, los insumos, la cantidad por unidad que se va a gastar en el proyecto y los faltantes para el proyecto y en general de todo el inventario 
+        // console.log('arrayTallas');
+        // console.log(arrayTallas);// tiene las tallas que se van a hacer, con sus respectivas combinaciones y cantidades, una con los codigos separados por insumos y otra con los codigosColores listos para decodificar e ingresar en con_t_combinacionesproyectos
 
         mostrarOcultarDiv('confirmacionesInsumosCantidadesDiv','referenciaTallaDiv');
 
@@ -376,6 +560,7 @@ const funcionesProyectos = () => {
     }); 
      
     $('#volverAespaciosTrabajadoresDiv').on('click', function() {
+        $('.removerEspaciosTrabajosFechasInicio').remove();
         mostrarOcultarDiv('espaciosTrabajadoresDiv','fechaFinalaldelProyectoDiv');  
     }); 
     
@@ -439,12 +624,11 @@ const funcionesProyectos = () => {
             if(fechaActual>fechaMenorEspaciosObjeto){                
                 var fechaFormateada = `${año}-${mes}-${dia} ${horas}:${minutos}:${segundos}`;
                 fechaMenorEspacios = fechaFormateada;
-                fechaDisponEspacio = fechaFormateada;
                 minutosMenor = $(`#minutosEspacio${$(espaciosProyectosClass[i]).attr('name')}`).val(); 
             }
 
             var minutosEsp = $(`#minutosEspacio${$(espaciosProyectosClass[i]).attr('name')}`).val();
-            var fechaFin = calcularFechaHoraFinal(fecha_hora_disponibleEspacio[0].fecha_hora_disponible,minutosEsp,horarios_espacios);
+            
            
 
             var objeto = {
@@ -452,6 +636,7 @@ const funcionesProyectos = () => {
                 minutos: minutosEsp,
                 horarios: horarios_espacios,
                 fecha_hora_disponible: fechaDisponEspacio,
+                fecha_hora_fin: "",
                 texto: textoSeleccionado
             };
             espaciosProyectos.push(objeto);
@@ -517,6 +702,7 @@ const funcionesProyectos = () => {
                 minutos: $(`#minutosTrabajador${$(trabajadoresProyectosClass[i]).attr('name')}`).val(),
                 horarios: horarios_trabajador,
                 fecha_hora_disponible: fechaDisponTrabajador,
+                fecha_hora_fin:"",
                 texto: textoSeleccionado
             };
             trabajadoresProyectos.push(objeto);
@@ -527,59 +713,1115 @@ const funcionesProyectos = () => {
             $('#tituloAlertas').text(`Por favor seleccion al menos un trabajador para este proyecto`); 
             return false;
         }
+       
         if(fechaMenorTrabajadores >= fechaMenorEspacios){
             fechaInicioProyecto = fechaMenorTrabajadores;
         }else{
             fechaInicioProyecto = fechaMenorEspacios;
         }
-        console.log(fechaInicioProyecto);
+        
         var fechaInicioProyectoObjeto = new Date(fechaInicioProyecto);
-        mostrarOcultarDiv('fechaFinalaldelProyectoDiv','espaciosTrabajadoresDiv');  
-        // Inicializar el datetimepicker en el elemento
-        $('#datetimepickerInicioProyecto').datetimepicker({
-            format: 'YYYY-MM-DD HH:mm',
-            minDate: fechaInicioProyectoObjeto
-        });
 
-        
-        // let elementosFechaFinal = ``;
-        // for (let i = 0; i < espaciosProyectos.length; i++) {
-        //     elementosFechaFinal = `${elementosFechaFinal}
-        // <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">
-        //     <input class="form-check-input selectEspacios" type="checkbox" value="${espaciosProyectos[i].minutos}">
-        // </div>
-        // <div class="col-lg-11 col-md-11 col-sm-11 col-xs-11">
-        //     <p class='letra18pt-pc'> 
-        //         ${espaciosProyectos[i].texto}
-        //     </p>
-        // </div>
-        // `;            
-        // }
-        // for (let i = 0; i < trabajadoresProyectos.length; i++) {
-        //     elementosFechaFinal = `${elementosFechaFinal}
-        // <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">
-        //     <input class="form-check-input selectTrabajadores" type="checkbox" value="${trabajadoresProyectos[i].minutos}">
-        // </div>
-        // <div class="col-lg-11 col-md-11 col-sm-11 col-xs-11">
-        //     <p class='letra18pt-pc'> 
-        //         ${trabajadoresProyectos[i].texto}
+        var htmlHorarios = '';
+        //agrego el campo de fecha final a cada elemento del arreglo espacios
+        for (let i = 0; i < espaciosProyectos.length; i++) {
+            var fechaFin = calcularFechaHoraFinal(espaciosProyectos[i].fecha_hora_disponible,espaciosProyectos[i].minutos,espaciosProyectos[i].horarios);
+            espaciosProyectos[i].fecha_hora_fin = `${fechaFin.fecha} ${fechaFin.hora}`;
+            htmlHorarios = `
+            <div class='col-lg-12 col-md-12 col-sm-12 col-xs-12 removerEspaciosTrabajosFechasInicio'> 
+                <div class="form-group pmd-textfield pmd-textfield-floating-label pmd-textfield-floating-label-completed col-lg-8 col-md-8 col-sm-8 col-xs-8">
+                    <label class="control-label letra18pt-pc" for="regular1">Fecha y hora de inicio del proyecto para ${espaciosProyectos[i].texto}</label>
+                    <input type="text" id="datetimepickerInicioProyecto-Espacio-${espaciosProyectos[i].espacio}" class="form-control fechaInicioSelect" />
+                </div>  
+                <div id='fechaFinalTiempoReal' class='col-lg-4 col-md-4 col-sm-4 col-xs-4'>
+                    <p class='col-lg-12 col-md-12 col-sm-12 col-xs-12 letra18pt-pc'> 
+                        Hora y fecha final
+                    </p>
+                    <p class='col-lg-12 col-md-12 col-sm-12 col-xs-12 letra18pt-pc' id='e${espaciosProyectos[i].espacio}'> 
+                        ${fechaFin.fecha} ${fechaFin.hora} 
+                    </p>
+                </div> 
+            </div> 
+            `;
+
+            $('#volverAespaciosTrabajadoresDiv').before(htmlHorarios);
+
+            // Inicializar el datetimepicker en el elemento
+            $(`#datetimepickerInicioProyecto-Espacio-${espaciosProyectos[i].espacio}`).datetimepicker({
+                format: 'YYYY-MM-DD HH:mm',
+                minDate: espaciosProyectos[i].fecha_hora_disponible
+            });
+
+        }
+
+       
+        //agrego el campo de fecha final a cada elemento del arreglo trabajadores
+        for (let i = 0; i < trabajadoresProyectos.length; i++) {
+            var fechaFin = calcularFechaHoraFinal(trabajadoresProyectos[i].fecha_hora_disponible,trabajadoresProyectos[i].minutos,trabajadoresProyectos[i].horarios);
+            trabajadoresProyectos[i].fecha_hora_fin = `${fechaFin.fecha} ${fechaFin.hora}`;
+
+            htmlHorarios = `
+            <div class='col-lg-12 col-md-12 col-sm-12 col-xs-12 removerEspaciosTrabajosFechasInicio'>  
+                <div class="form-group pmd-textfield pmd-textfield-floating-label pmd-textfield-floating-label-completed col-lg-8 col-md-8 col-sm-8 col-xs-8">
+                    <label class="control-label letra18pt-pc" for="regular1">Fecha y hora de inicio del proyecto para ${trabajadoresProyectos[i].texto}</label>
+                    <input type="text" id="datetimepickerInicioProyecto-Trabajador-${trabajadoresProyectos[i].trabajador}" class="form-control fechaInicioSelect" />
+                </div>  
+                <div id='fechaFinalTiempoReal' class='col-lg-4 col-md-4 col-sm-4 col-xs-4'>
+                    <p class='col-lg-12 col-md-12 col-sm-12 col-xs-12 letra18pt-pc'> 
+                        Hora y fecha final
+                    </p>
+                    <p class='col-lg-12 col-md-12 col-sm-12 col-xs-12 letra18pt-pc' id='t${trabajadoresProyectos[i].trabajador}'> 
+                        ${fechaFin.fecha} ${fechaFin.hora} 
+                    </p>
+                </div> 
+            </div> 
+
             
-        // </div>
-        // `;            
-        // }
+            `;
+
+            $('#volverAespaciosTrabajadoresDiv').before(htmlHorarios);
+
+            // Inicializar el datetimepicker en el elemento
+            $(`#datetimepickerInicioProyecto-Trabajador-${trabajadoresProyectos[i].trabajador}`).datetimepicker({
+                format: 'YYYY-MM-DD HH:mm',
+                minDate: trabajadoresProyectos[i].fecha_hora_disponible
+            });
+
+        }
+
+        mostrarOcultarDiv('fechaFinalaldelProyectoDiv','espaciosTrabajadoresDiv'); 
         
-        // $('#trabajadoresYespacios').append(elementosFechaFinal);
-
-        // elementosFechaFinal = `<p class='letra18pt-pc'>
-        // El proyecto va a iniciar en la siguiente fecha ${fechaInicioProyecto}
-        // </p>
-        // <p class='letra18pt-pc'>
-        // El proyecto va a finalizar en la siguiente fecha ${fechaFinProyecto}
-        // </p>
-        // `;
-
-        // $('#fechaFinalTiempoReal').append(elementosFechaFinal);
+        fechaInicioSelect();
+        
     }); 
+
+    $('#irAresumen').on('click', function() {
+        var ultimoProyecto = obtenerDatajson("ID","con_t_proyectos","ultimo","0","0");
+        var jsonUltimoProyecto = JSON.parse(ultimoProyecto); 
+        console.log('jsonUltimoProyecto');
+        console.log(jsonUltimoProyecto);
+        var numeroProyecto = 0;
+        if(!jsonUltimoProyecto[0].id){
+            numeroProyecto = 1;
+        }else{
+            numeroProyecto = parseInt(jsonUltimoProyecto[0].id) +1;
+        }
+
+        nombreNuevoProyecto = `${nombreReferencia} ${numeroProyecto}`;
+
+        fechaInicioProyecto = '2120-07-15 13:00:00';
+        fechaFinProyecto = '2020-07-15 13:00:00';
+        
+        console.log('espaciosProyectos');
+        console.log(espaciosProyectos);
+        console.log('trabajadoresProyectos');
+        console.log(trabajadoresProyectos);
+
+        var espacioTexto = '';
+
+        for (let i = 0; i < espaciosProyectos.length; i++) {
+            if(fechaInicioProyecto > espaciosProyectos[i].fecha_hora_inicio){
+                fechaInicioProyecto = espaciosProyectos[i].fecha_hora_inicio;
+            }
+            if(fechaFinProyecto < espaciosProyectos[i].fecha_hora_fin){
+                fechaFinProyecto =  espaciosProyectos[i].fecha_hora_fin;
+            }
+            
+            espacioTexto = `${espacioTexto}
+                <div class='col-lg-12 col-md-12 col-sm-12 col-xs-12 letra18pt-pc removerResumenFinal'> 
+                        
+                    <p class='col-lg-4 col-md-4 col-sm-4 col-xs-4 letra18pt-pc '>${espaciosProyectos[i].texto}</p>
+
+                    <p class='col-lg-4 col-md-4 col-sm-4 col-xs-4 letra18pt-pc '>${espaciosProyectos[i].fecha_hora_inicio}</p>
+
+                    <p class='col-lg-4 col-md-4 col-sm-4 col-xs-4 letra18pt-pc '>${espaciosProyectos[i].fecha_hora_fin}</p>
+
+                </div>
+            `;
+        }
+        
+        var trabajadorTexto = '';
+        for (let i = 0; i < trabajadoresProyectos.length; i++) {
+            if(fechaInicioProyecto > trabajadoresProyectos[i].fecha_hora_inicio){
+                fechaInicioProyecto = trabajadoresProyectos[i].fecha_hora_inicio;
+            }
+            if(fechaFinProyecto < trabajadoresProyectos[i].fecha_hora_fin){
+                fechaFinProyecto =  trabajadoresProyectos[i].fecha_hora_fin;
+            }
+            
+
+            trabajadorTexto = `${trabajadorTexto}
+                <div class='col-lg-12 col-md-12 col-sm-12 col-xs-12 letra18pt-pc removerResumenFinal'> 
+                        
+                    <p class='col-lg-4 col-md-4 col-sm-4 col-xs-4 letra18pt-pc '>${trabajadoresProyectos[i].texto}</p>
+
+                    <p class='col-lg-4 col-md-4 col-sm-4 col-xs-4 letra18pt-pc '>${trabajadoresProyectos[i].fecha_hora_inicio}</p>
+
+                    <p class='col-lg-4 col-md-4 col-sm-4 col-xs-4 letra18pt-pc '>${trabajadoresProyectos[i].fecha_hora_fin}</p>
+
+                </div>
+            `;
+        }      
+
+        notificacionFaltantes = `Para el proyecto ${nombreNuevoProyecto} que tiene como fecha de inicio ${fechaInicioProyecto}
+        faltan los siguientes insumos: `;
+
+        var detalles =  tablaTallas('removerResumenFinal');
+
+        costoTotalProyectoNuevo = 0;
+        var resumenPresupuesto = '';
+        var resumenFaltantes = '';
+        
+        for (let i = 0; i < arregloInsumosSimplificado.length; i++) {
+            let insumoActualj = obtenerDatajson("caracteristica,complemento_caracteristica,complemento,grupo,presentacion","con_t_insumos","valoresconcondicion","ID ",arregloInsumosSimplificado[i].insumo);
+            let insumoActualTexto =  JSON.parse(insumoActualj); 
+            resumenPresupuesto=`${resumenPresupuesto}
+                    <div class='col-lg-12 col-md-12 col-sm-12 col-xs-12 letra18pt-pc removerResumenFinal'> 
+                        
+                        <p class='col-lg-4 col-md-4 col-sm-4 col-xs-4 letra18pt-pc'>${insumoActualTexto[0].grupo} ${insumoActualTexto[0].caracteristica} ${insumoActualTexto[0].complemento} ${insumoActualTexto[0].complemento_caracteristica}  </p>
+
+                        <p class='col-lg-4 col-md-4 col-sm-4 col-xs-4 letra18pt-pc'>${arregloInsumosSimplificado[i].cantidadInsumo}</p>
+
+                        <p class='col-lg-4 col-md-4 col-sm-4 col-xs-4 letra18pt-pc'>${formatoPrecio(parseInt(arregloInsumosSimplificado[i].costo))}</p>
+
+                    </div>
+            `;
+            if(arregloInsumosSimplificado[i].faltantesCon_t_InsumosFaltantes>0){
+                resumenFaltantes=`${resumenFaltantes}
+                    <div class='col-lg-12 col-md-12 col-sm-12 col-xs-12 letra18pt-pc removerResumenFinal'> 
+
+                        <p class='col-lg-6 col-md-6 col-sm-6 col-xs-6 letra18pt-pc'>${insumoActualTexto[0].grupo} ${insumoActualTexto[0].caracteristica} ${insumoActualTexto[0].complemento} ${insumoActualTexto[0].complemento_caracteristica}</p>
+
+                        <p class='col-lg-6 col-md-6 col-sm-6 col-xs-6 letra18pt-pc'>${arregloInsumosSimplificado[i].faltantesCon_t_InsumosFaltantes} ${insumoActualTexto[0].presentacion}  </p>
+
+                    </div>
+                `;
+                notificacionFaltantes = `${notificacionFaltantes}
+                ${insumoActualTexto[0].grupo} ${insumoActualTexto[0].caracteristica} ${insumoActualTexto[0].complemento} ${insumoActualTexto[0].complemento_caracteristica} ${arregloInsumosSimplificado[i].faltantesCon_t_InsumosFaltantes} ${insumoActualTexto[0].presentacion}
+                `;
+            }
+            costoTotalProyectoNuevo = costoTotalProyectoNuevo + parseInt(arregloInsumosSimplificado[i].costo);
+        }
+        var costoTotalProyectoNuevoFormato = formatoPrecio(costoTotalProyectoNuevo);
+
+       
+        $(`#nombreProyecto`).text(nombreNuevoProyecto.replace(/No aplica/g,""));
+
+        $(`#fechaInicioProyectoNuevo`).text(`Fecha inicio del proyecto: ${fechaInicioProyecto}`);
+
+        $(`#fechaFinProyectoNuevo`).text(`Fecha fin del proyecto: ${fechaFinProyecto}`);
+        
+        $(`#detallesProyectoDiv`).after(detalles);
+
+        $(`#costoTotalProyectoNuevo`).text(costoTotalProyectoNuevoFormato);
+        
+        $(`#resumenPresupuesto`).after(resumenPresupuesto.replace(/No aplica/g,""));
+
+        $(`#resumenFaltantes`).after(resumenFaltantes.replace(/No aplica/g,"")); 
+
+        $(`#espaciosUtilizadosProyectoDiv`).after(espacioTexto); 
+
+        $(`#trabajadoresUtilizadosProyectoDiv`).after(trabajadorTexto); 
+        
+        
+        console.log('nombreNuevoProyecto');
+        console.log(nombreNuevoProyecto);
+        
+        console.log('fechaInicioProyecto');
+        console.log(fechaInicioProyecto);
+
+        console.log('fechaFinProyecto');
+        console.log(fechaFinProyecto);
+
+        console.log('referenciaParaProyecto');
+        console.log(referenciaParaProyecto);
+        
+        
+
+       console.log('notificacionFaltantes');
+       console.log(notificacionFaltantes);
+
+
+        console.log('arregloInsumosSimplificado');
+        console.log(arregloInsumosSimplificado);
+
+        console.log('arrayTallas');
+        console.log(arrayTallas);
+
+         // arregloInsumosSimplificado   *** son los dos arreglos importantes ya que estos nos van a dar las combinaciones y cantidades para crear las marquillas  faltantesCon_t_InsumosFaltantes Son los insumos faltantes totales para actualizar la tabla de insumos faltantes
+        // arrayTallas                  *** y nos van a dar la cantidad de insumos que se van a usar en el proyecto.
+       
+        mostrarOcultarDiv('resumenFinalNuevoProyecto','fechaFinalaldelProyectoDiv'); 
+    });
+
+    $('#volverAfechaFinalaldelProyectoDiv').on('click', function() {
+        $('.removerResumenFinal').remove();
+        mostrarOcultarDiv('fechaFinalaldelProyectoDiv','resumenFinalNuevoProyecto');  
+    }); 
+    
+    
+    $('#confirmarNuevoProyecto').on('click', function() {
+
+        // con_t_proyectos  	ID 	nombre_proyecto 	fecha_inicio_proyecto 	fecha_fin_proyecto 	presupuesto 	estado 	
+
+        var objeto = {}; 	 	 	
+        objeto.tipo = "string";
+        objeto.columna = "nombre_proyecto";
+        objeto.valor = nombreNuevoProyecto.replace(/No aplica/g,"");
+        var nombre_proyecto = prepararjson(objeto);
+
+        var objeto = {};
+        objeto.tipo = "date";
+        objeto.columna = "fecha_inicio_proyecto";
+        objeto.valor = fechaInicioProyecto;
+        var fecha_inicio_proyecto = prepararjson(objeto);
+
+        var objeto = {};
+        objeto.tipo = "date";
+        objeto.columna = "fecha_fin_proyecto";
+        objeto.valor = fechaFinProyecto;
+        var fecha_fin_proyecto = prepararjson(objeto);
+
+        var objeto = {};
+        objeto.tipo = "int";
+        objeto.columna = "presupuesto";
+        objeto.valor = costoTotalProyectoNuevo;
+        var presupuesto = prepararjson(objeto);
+        
+        var objeto = {};
+        objeto.tipo = "string";
+        objeto.columna = "estado";
+        objeto.valor = 'Por cortar';
+        var estado = prepararjson(objeto);
+
+        var proyecto = insertarfila("con_t_proyectos",nombre_proyecto,fecha_inicio_proyecto,fecha_fin_proyecto,presupuesto,estado,"0","0","0","0","0","0"); 
+        var idProyecto = JSON.parse(proyecto);
+            
+        objeto = {};
+        objeto.tipo = 'int';
+        objeto.columna = 'id_proyecto';
+        objeto.valor = idProyecto[0].id;
+        let id_proyecto = prepararjson(objeto);
+
+        // con_t_presupuestosproyectos ID 	id_proyecto 	id_insumo 	cantidad 	cantidadInsumo 	costo 	
+        // **La diferencia entre cantidad y cantidadInsumo es que cantidad es la cantidad de prendas que van a utilizar ese insumo en el proyectos
+        // ** y cantidadInsumo es la cantidad en total del isumo que se van a utilizar
+        for (let i = 0; i < arregloInsumosSimplificado.length; i++) {
+               
+            objeto = {};
+            objeto.tipo = 'int';
+            objeto.columna = 'id_insumo';
+            objeto.valor = arregloInsumosSimplificado[i].insumo;
+            let id_insumo = prepararjson(objeto);
+
+            objeto = {};
+            objeto.tipo = 'int';
+            objeto.columna = 'cantidad';
+            objeto.valor = arregloInsumosSimplificado[i].cantidad;
+            let cantidad = prepararjson(objeto);
+
+            objeto = {};
+            objeto.tipo = 'int';
+            objeto.columna = 'cantidadInsumo';
+            objeto.valor = arregloInsumosSimplificado[i].cantidadInsumo;
+            let cantidadInsumo = prepararjson(objeto);
+
+            objeto = {};
+            objeto.tipo = 'int';
+            objeto.columna = 'costo';
+            objeto.valor = arregloInsumosSimplificado[i].costo;
+            let costo = prepararjson(objeto);
+
+            var presupuestosProyectos = insertarfila("con_t_presupuestosproyectos",id_proyecto,id_insumo,cantidad,cantidadInsumo,costo,"0","0","0","0","0","0"); 
+           
+           
+            // con_t_insumos faltantes 	int(200)
+            // con_t_insumosfaltantes ID 	id_insumo 	cantidad 	id_proyecto 	completado 
+
+            if(arregloInsumosSimplificado[i].faltantesCon_t_InsumosFaltantes>0){
+
+                var objeto = {};
+                objeto.columna = "ID";
+                objeto.valor = arregloInsumosSimplificado[i].insumo;
+                var condicion = prepararjson(objeto);
+
+                objeto = {};
+                objeto.tipo = 'int';
+                objeto.columna = 'faltantes';
+                objeto.valor = arregloInsumosSimplificado[i].faltantesCon_t_Insumos;
+                let faltantes = prepararjson(objeto);
+
+                actualizarregistros("con_t_insumos",condicion,faltantes,"0","0","0","0","0","0","0","0","0","0");
+                
+                objeto = {};
+                objeto.tipo = 'int';
+                objeto.columna = 'cantidad';
+                objeto.valor = arregloInsumosSimplificado[i].faltantesCon_t_InsumosFaltantes;
+                let cantidadFaltante = prepararjson(objeto);
+
+                var objeto = {};
+                objeto.tipo = "int";
+                objeto.columna = "completado";
+                objeto.valor = 0;
+                var completado = prepararjson(objeto);
+
+                var iDinsumosfaltantes = insertarfila("con_t_insumosfaltantes",id_insumo,cantidadFaltante,id_proyecto,completado,"0","0","0","0","0","0","0"); 
+                
+                
+            }
+            
+        }
+
+        
+        // con_t_espacios fecha_hora_disponible 	datetime 
+        // `con_t_espaciosproyecto` `id_proyecto` int(11) NOT NULL,`id_espacio` int(11) NOT NULL,
+       
+        for (let i = 0; i < espaciosProyectos.length; i++) {
+            var objeto = {};
+            objeto.columna = "ID";
+            objeto.valor = espaciosProyectos[i].espacio;
+            var condicion = prepararjson(objeto);
+
+            objeto = {};
+            objeto.tipo = 'date';
+            objeto.columna = 'fecha_hora_disponible';
+            objeto.valor = espaciosProyectos[i].fecha_hora_fin;
+            let fecha_hora_disponibleEspacio = prepararjson(objeto);
+
+            actualizarregistros("con_t_espacios",condicion,fecha_hora_disponibleEspacio,"0","0","0","0","0","0","0","0","0","0");
+
+            objeto = {};
+            objeto.tipo = 'int';
+            objeto.columna = 'id_espacio';
+            objeto.valor = espaciosProyectos[i].espacio;
+            let id_espacio = prepararjson(objeto);
+
+            var iDespaciosproyecto = insertarfila("con_t_espaciosproyecto",id_proyecto,id_espacio,"0","0","0","0","0","0","0","0","0"); 
+        }
+
+        // con_t_empleados fecha_hora_disponible 	datetime 
+        // `con_t_trabajadoresproyecto` `id_proyecto` int(11) NOT NULL,`id_trabajador` int(11) NOT NULL, 
+        
+        for (let i = 0; i < trabajadoresProyectos.length; i++) {
+            var objeto = {};
+            objeto.columna = "id_empleado ";
+            objeto.valor = trabajadoresProyectos[i].trabajador;
+            var condicion = prepararjson(objeto);
+
+            objeto = {};
+            objeto.tipo = 'date';
+            objeto.columna = 'fecha_hora_disponible';
+            objeto.valor = trabajadoresProyectos[i].fecha_hora_fin;
+            let fecha_hora_disponibleEmpleado = prepararjson(objeto);
+
+            actualizarregistros("con_t_empleados",condicion,fecha_hora_disponibleEmpleado,"0","0","0","0","0","0","0","0","0","0");
+
+            objeto = {};
+            objeto.tipo = 'int';
+            objeto.columna = 'id_trabajador';
+            objeto.valor = trabajadoresProyectos[i].trabajador;
+            let id_trabajador = prepararjson(objeto);
+
+            var iDespaciosproyecto = insertarfila("con_t_trabajadoresproyecto",id_proyecto,id_trabajador,"0","0","0","0","0","0","0","0","0"); 
+        }   
+
+        
+         // `con_t_proyectostr` 
+        // `id_proyecto` int(11) NOT NULL,
+        // `id_usuario` bigint(20) unsigned NOT NULL,
+        // `fecha_hora` datetime DEFAULT NULL,
+        // `tipocambio` varchar(50) DEFAULT NULL,
+        // `anterior` varchar(50) DEFAULT NULL,
+        // `actual` varchar(50) DEFAULT NULL,
+
+        objeto = {};
+        objeto.tipo = 'int';
+        objeto.columna = 'id_usuario';
+        objeto.valor = parseInt($('#usuario').attr("name"));
+        let id_usuario = prepararjson(objeto);
+       
+        const fechaActual = new Date();
+
+        // Obtener los componentes de la fecha (año, mes, día, hora, minutos y segundos)
+        const anio = fechaActual.getFullYear();
+        const mes = String(fechaActual.getMonth() + 1).padStart(2, '0'); // Los meses comienzan desde 0, por lo que se le suma 1
+        const dia = String(fechaActual.getDate()).padStart(2, '0');
+        const hora = String(fechaActual.getHours()).padStart(2, '0');
+        const minutos = String(fechaActual.getMinutes()).padStart(2, '0');
+        const segundos = String(fechaActual.getSeconds()).padStart(2, '0');
+
+        // Construir la cadena de fecha y hora en el formato deseado
+        var fechaActuall  = `${anio}-${mes}-${dia} ${hora}:${minutos}:${segundos}`;
+
+
+        var objeto = {};
+        objeto.tipo = "string";
+        objeto.columna = "fecha_hora";
+        objeto.valor = fechaActuall;
+        var fecha_hora = prepararjson(objeto);
+        
+        var objeto = {};
+        objeto.tipo = "string";
+        objeto.columna = "tipocambio";
+        objeto.valor = 'Creación del proyecto';
+        var tipocambio = prepararjson(objeto);
+
+        var iDespaciosproyecto = insertarfila("con_t_proyectostr",id_proyecto,id_usuario,fecha_hora,tipocambio,"0","0","0","0","0","0","0"); 
+                
+
+        //con_t_combinacionesproyecto  	ID 	id_proyecto 	id_combinacion 	cantidad 	
+
+        // con_t_detalleproyecto id_detalleproyecto 	id_proyecto 	talla 	color 	id_combinacion 	cantidad 	
+        for (let i = 0; i < arrayTallas.length; i++) {            
+            for (let j = 0; j < arrayTallas[i].codigosCombinaciones.length; j++) {
+
+                var objeto = {};
+                objeto.tipo = 'int';
+                objeto.columna = 'id_combinacion';
+                objeto.valor = arrayTallas[i].codigosCombinaciones[j].codigo;
+                var id_combinacion = prepararjson(objeto);
+
+                var objeto = {};
+                objeto.tipo = 'int';
+                objeto.columna = 'cantidad';
+                objeto.valor = arrayTallas[i].codigosCombinaciones[j].cantidad;
+                let cantidadCombinaciones = prepararjson(objeto);
+                
+
+                var combinacionesProyecto = insertarfila("con_t_combinacionesproyecto",id_proyecto,id_combinacion,cantidadCombinaciones,"0","0","0","0","0","0","0","0"); 
+                
+                var textos = '';
+                var codigoCombinacion = arrayTallas[i].codigosCombinaciones[j].codigo;
+                var insumoActual='';
+                for (let j = 0; j < codigoCombinacion.length; j=j+1+parseInt(codigoCombinacion[j])) {
+                    for (let k = 0; k < codigoCombinacion[j]; k++) {       
+                        insumoActual = `${insumoActual}${codigoCombinacion[j+1+k]}`;
+                    }               
+                    let insumoActualj = obtenerDatajson("caracteristica,complemento_caracteristica,complemento,grupo","con_t_insumos","valoresconcondicion","ID ",insumoActual);
+                    let insumoActualTexto =  JSON.parse(insumoActualj); 
+                    insumoActual='';
+                    textos = `${textos} ${insumoActualTexto[0].grupo} ${insumoActualTexto[0].caracteristica} ${insumoActualTexto[0].complemento} ${insumoActualTexto[0].complemento_caracteristica}`;
+                }
+
+                let combinacion = textos.replace(/No aplica/g,"");
+
+                var objeto = {};
+                objeto.tipo = 'string';
+                objeto.columna = 'talla';
+                objeto.valor = arrayTallas[i].talla;
+                let talla = prepararjson(objeto);
+                
+                var objeto = {};
+                objeto.tipo = 'string';
+                objeto.columna = 'color';
+                objeto.valor = combinacion;
+                let color = prepararjson(objeto);
+                 
+                var idCombinacionesProyecto = JSON.parse(combinacionesProyecto);
+            
+                objeto = {};
+                objeto.tipo = 'int';
+                objeto.columna = 'id_combinacion';
+                objeto.valor = arrayTallas[i].codigosCombinaciones[j].codigoCombinacionesproducto;
+                var id_combinacion = prepararjson(objeto);
+
+
+                var iDdetalleproyecto = insertarfila("con_t_detalleproyecto",id_proyecto,talla,color,id_combinacion,cantidadCombinaciones,"0","0","0","0","0","0"); 
+
+            }
+        }        
+
+        const resumenFinalNuevoProyecto = $('#resumenFinalNuevoProyecto');
+        const proyectoCreadoOk = $('#proyectoCreadoOk');
+
+        resumenFinalNuevoProyecto.removeClass('mostrar').addClass('oculto');
+        proyectoCreadoOk.removeClass('oculto').addClass('mostrar');
+        setTimeout(() => {
+            proyectoCreadoOk.removeClass('mostrar').addClass('oculto');
+            resumenFinalNuevoProyecto.removeClass('oculto').addClass('mostrar');
+        }, 5000);
+        
+        const textoCodificado = encodeURIComponent(notificacionFaltantes.replace(/No aplica/g,""));
+        var url = `https://wa.me/573229261615?text=${textoCodificado}`;
+        
+        window.open(url, '_blank');
+    }); 
+
+    
+    $('#verProyectos').on('click', function() {
+        let proyectosJson = obtenerDatajson("ID,nombre_proyecto,fecha_inicio_proyecto,fecha_fin_proyecto,presupuesto,estado","con_t_proyectos","variasfilasunicas","0","0");
+        proyectosArray = JSON.parse(proyectosJson);
+
+        var html = '';
+        for (let i =  (proyectosArray.length-1); i >= 0; i--) {
+            if (proyectosArray[i].estado == 'Eliminado') {continue;}
+            html = `${html}
+            <div class='col-lg-12 col-md-12 col-sm-12 col-xs-12 letra18pt-pc removerVerProyectos' id='proyectoMostrar${proyectosArray[i].ID}'> 
+                <p class='col-lg-2 col-md-2 col-sm-2 col-xs-2 letra18pt-pc '>${proyectosArray[i].nombre_proyecto}</p>
+                <p class='col-lg-2 col-md-2 col-sm-2 col-xs-2 letra18pt-pc '>${proyectosArray[i].estado}</p>
+                <p class='col-lg-2 col-md-2 col-sm-2 col-xs-2 letra18pt-pc '>${proyectosArray[i].fecha_inicio_proyecto}</p>
+                <p class='col-lg-2 col-md-2 col-sm-2 col-xs-2 letra18pt-pc '>${proyectosArray[i].fecha_fin_proyecto}</p>
+                <div class='col-lg-2 col-md-2 col-sm-2 col-xs-2 '> 
+                    <button class='botonmodal verProyectoIndividual' type='button' id='proyectoN${proyectosArray[i].ID}' name='${proyectosArray[i].ID}'>
+                    Ver proyecto
+                    </button>
+                </div>`;
+            if(eliminarProyecto==1){
+                html=`${html}
+                <div class='col-lg-2 col-md-2 col-sm-2 col-xs-2 '> 
+                    <button class='botonmodal borrarProyectoIndividual' type='button' id='proyectoB${proyectosArray[i].ID}' name='${proyectosArray[i].ID}'>
+                    Borrar proyecto
+                    </button>
+                </div>`;
+            }
+                
+            html = `${html}</div>`; 
+        
+        }
+        $('.removerEspaciosTrabajosFechasInicio').remove();
+        $('.removerResumenFinal').remove();
+        $('.removerVerProyectos').remove();
+        $('.removerDetallesVistProyecto').remove();
+        mostrarOcultarDiv('verProyectosDiv','verProyectoDiv'); 
+        mostrarDiv('verProyectosDiv'); 
+        $('#titulosProyectosVer').after(html);
+        proyectoIndividual();
+    }); 
+
+    
+    const proyectoIndividual = () => {
+        $('#eliminarProyectoConfirmado').on('click', function() {
+            // `con_t_insumosfaltantes` (
+            //   `ID` int(11) NOT NULL AUTO_INCREMENT,
+            //   `id_insumo` int(11) NOT NULL,
+            //   `cantidad` int(200) NOT NULL,
+            //   `id_proyecto` int(11) NOT NULL,
+            //   `completado` int(11) NOT NULL,
+            var objeto = {};
+            objeto.columna = "id_proyecto";
+            objeto.valor = proyectoIdTotal;
+            var condicion = prepararjson(objeto);
+
+            objeto = {};
+            objeto.tipo = 'int';
+            objeto.columna = 'completado';
+            objeto.valor = 2;
+            let completado = prepararjson(objeto);
+
+            actualizarregistros("con_t_insumosfaltantes",condicion,completado,"0","0","0","0","0","0","0","0","0","0");
+
+            var objeto = {};
+            objeto.columna = "ID";
+            objeto.valor = proyectoIdTotal;
+            var condicion = prepararjson(objeto);
+
+            objeto = {};
+            objeto.tipo = 'string';
+            objeto.columna = 'estado';
+            objeto.valor = 'Eliminado';
+            let estado = prepararjson(objeto);
+
+            actualizarregistros("con_t_proyectos",condicion,estado,"0","0","0","0","0","0","0","0","0","0");
+
+            let faltantesJson = obtenerDatajson("id_insumo,cantidad","con_t_insumosfaltantes","valoresconcondicion","id_proyecto",`'${proyectoIdTotal}'`);
+            let faltantes = JSON.parse(faltantesJson);
+
+            for (let i = 0; i < faltantes.length; i++) {
+                let faltantesTablaInsumosJson = obtenerDatajson("faltantes","con_t_insumos","valoresconcondicion","ID",faltantes[i].id_insumo);
+                let faltantesTablaInsumos = JSON.parse(faltantesTablaInsumosJson);
+                let totalActualizar = parseInt(faltantesTablaInsumos[0].faltantes) - parseInt(faltantes[i].cantidad);
+
+                var objeto = {};
+                objeto.columna = "ID";
+                objeto.valor = faltantes[i].id_insumo;
+                var condicion = prepararjson(objeto);
+
+                objeto = {};
+                objeto.tipo = 'int';
+                objeto.columna = 'faltantes';
+                objeto.valor = totalActualizar;
+                let faltantesActualizar = prepararjson(objeto);
+
+                actualizarregistros("con_t_insumos",condicion,faltantesActualizar,"0","0","0","0","0","0","0","0","0","0");
+                
+                
+            }
+
+            $('#modalEliminarProyecto').modal("hide");  
+
+            $(`#proyectoMostrar${proyectoIdTotal}`).remove();
+        }); 
+
+        $('.borrarProyectoIndividual').on('click', function() {
+            proyectoIdTotal = $(`#${this.id}`).attr('name');
+            let proyectoJson = obtenerDatajson("nombre_proyecto","con_t_proyectos","valoresconcondicion","ID",`'${proyectoIdTotal}'`);
+            let proyect = JSON.parse(proyectoJson);
+            $('#modalEliminarProyecto').modal("show"); 
+            $('#tituloEliminarProyecto').text(`¿Seguro que desea borrar el proyecto ${proyect[0].nombre_proyecto}?
+            Se actualizarán los insumos faltantes`); 
+        }); 
+        
+        $('.verProyectoIndividual').on('click', function() {
+            proyectoIdTotal = $(`#${this.id}`).attr('name'); 
+            let proyectoJson = obtenerDatajson("satelite,terminados,presupuesto,estado","con_t_proyectos","valoresconcondicion","ID",`'${proyectoIdTotal}'`);
+            let proyect = JSON.parse(proyectoJson);
+            let terminado = '';
+            if (proyect[0].terminados == 0) {
+                terminado = 'No requiere terminados';
+            }else{
+                terminado = 'Requiere terminados';
+            }
+            let sateliteJson = obtenerDatajson("nombre","con_t_satelites","valoresconcondicion","ID",`'${proyect[0].satelite}'`);
+            let satelite = JSON.parse(sateliteJson);
+            
+            var html = `
+            <div class='col-lg-12 col-md-12 col-sm-12 col-xs-12 letra18pt-pc removerDetallesVistProyecto'> 
+                    <p class='col-lg-4 col-md-4 col-sm-4 col-xs-4 letra18pt-pc'>${formatoPrecio(parseInt(proyect[0].presupuesto))}</p>
+                    <p class='col-lg-4 col-md-4 col-sm-4 col-xs-4 letra18pt-pc' id='asignarSatelite'>${satelite[0].nombre}</p>
+                    <p class='col-lg-4 col-md-4 col-sm-4 col-xs-4 letra18pt-pc' id='asignarTerminados'>${terminado}</p>
+                </div>
+            `;
+            
+            $('#detallesProyectoSeleccionado').append(html);
+
+            let tallasproyectoJson = obtenerDatajson("id_detalleproyecto,talla,color,cantidad,id_combinacion,cantidad_cortada","con_t_detalleproyecto","valoresconcondicion","id_proyecto",`${proyectoIdTotal}`);
+            let tallasproyecto = JSON.parse(tallasproyectoJson);
+            
+            var tallasProyectoSeleccionado = '';
+            if(proyect[0].estado =='Por cortar'){
+                tallasProyectoSeleccionado=`
+                <div class='col-lg-12 col-md-12 col-sm-12 col-xs-12 letra18pt-pc removerDetallesVistProyecto'> 
+
+                    <p class='col-lg-1 col-md-1 col-sm-1 col-xs-1 letra18pt-pc negrillaTres'>Talla</p>
+
+                    <p class='col-lg-7 col-md-7 col-sm-7 col-xs-7 letra18pt-pc negrillaTres'>Combinación</p>
+
+                    <p class='col-lg-1 col-md-1 col-sm-1 col-xs-1 letra18pt-pc negrillaTres'>Cantidad</p>
+
+                    <p class='col-lg-3 col-md-3 col-sm-3 col-xs-3 letra18pt-pc negrillaTres'>Cantidad real cortada</p>
+
+                </div>`;
+            }else{
+                tallasProyectoSeleccionado=`
+                <div class='col-lg-12 col-md-12 col-sm-12 col-xs-12 letra18pt-pc removerDetallesVistProyecto'> 
+
+                    <p class='col-lg-4 col-md-4 col-sm-4 col-xs-4 letra18pt-pc negrillaTres'>Talla</p>
+
+                    <p class='col-lg-4 col-md-4 col-sm-4 col-xs-4 letra18pt-pc negrillaTres'>Combinación</p>
+
+                    <p class='col-lg-4 col-md-4 col-sm-4 col-xs-4 letra18pt-pc negrillaTres'>Cantidad cortada</p>
+
+                </div>`;
+            }
+            
+            for (let i = 0; i < tallasproyecto.length; i++) {
+                if(proyect[0].estado =='Por cortar'){
+                tallasProyectoSeleccionado = `${tallasProyectoSeleccionado}
+                            <div class='col-lg-12 col-md-12 col-sm-12 col-xs-12 letra18pt-pc removerDetallesVistProyecto' > 
+                                
+                                <p class='col-lg-1 col-md-1 col-sm-1 col-xs-1 letra18pt-pc' id='tallaCortada${tallasproyecto[i].id_detalleproyecto}'>${tallasproyecto[i].talla}</p>
+
+                                <p class='col-lg-7 col-md-7 col-sm-7 col-xs-7 letra18pt-pc' id='colorCortado${tallasproyecto[i].id_detalleproyecto}' name='${tallasproyecto[i].id_combinacion}'>${tallasproyecto[i].color}</p>
+
+                                <p class='col-lg-1 col-md-1 col-sm-1 col-xs-1 letra18pt-pc'>${tallasproyecto[i].cantidad}</p>
+
+                                <div class=' form-group pmd-textfield pmd-textfield-floating-label  col-lg-3 col-md-3 col-sm-3 col-xs-3'>
+                                    <label for="nombreReferencia" class="control-label letra18pt-pc"> Cantidad real </label>
+                                    <input class="form-control cantidadesRealesCortadas" type="number" id='cantidadCortada${tallasproyecto[i].id_detalleproyecto}' name='${tallasproyecto[i].id_detalleproyecto}' >
+                                    <span class="pmd-textfield-focused"></span>
+                                </div>
+                            </div>
+                    `;    
+                }else{
+                    tallasProyectoSeleccionado = `${tallasProyectoSeleccionado}
+                            <div class='col-lg-12 col-md-12 col-sm-12 col-xs-12 letra18pt-pc removerDetallesVistProyecto' > 
+                                
+                                <p class='col-lg-4 col-md-4 col-sm-4 col-xs-4 letra18pt-pc' id='tallaCortada${tallasproyecto[i].id_detalleproyecto}'>${tallasproyecto[i].talla}</p>
+
+                                <p class='col-lg-4 col-md-4 col-sm-4 col-xs-4 letra18pt-pc' id='colorCortado${tallasproyecto[i].id_detalleproyecto}'>${tallasproyecto[i].color}</p>
+
+                                <p class='col-lg-4 col-md-4 col-sm-4 col-xs-4 letra18pt-pc'>${tallasproyecto[i].cantidad_cortada}</p>
+
+                               
+                            </div>
+                    `;    
+                }            
+            }
+            if(proyect[0].estado =='Por cortar'){
+                tallasProyectoSeleccionado = `${tallasProyectoSeleccionado}
+                <button class='botonmodal removerDetallesVistProyecto' type='button' id='confirmarPrendasCortadas'>Confirmar prendas reales cortadas    </button>
+            `;}
+            $('#tallasProyectoSeleccionado').append(tallasProyectoSeleccionado);
+            
+            funcionesPrendasCortadas();
+// DELETE FROM con_t_trabajadoresproyecto;
+// ALTER TABLE con_t_trabajadoresproyecto AUTO_INCREMENT = 1;
+// DELETE FROM con_t_espaciosproyecto;
+// ALTER TABLE con_t_espaciosproyecto AUTO_INCREMENT = 1;
+// DELETE FROM con_t_detalleproyecto;
+// ALTER TABLE con_t_detalleproyecto AUTO_INCREMENT = 1;
+// DELETE FROM con_t_combinacionesproyecto;
+// ALTER TABLE con_t_combinacionesproyecto AUTO_INCREMENT = 1;
+// DELETE FROM con_t_insumosfaltantes;
+// ALTER TABLE con_t_insumosfaltantes AUTO_INCREMENT = 1;
+// DELETE FROM con_t_presupuestosproyectos;
+// ALTER TABLE con_t_presupuestosproyectos AUTO_INCREMENT = 1;
+// DELETE FROM con_t_proyectos;
+// ALTER TABLE con_t_proyectos AUTO_INCREMENT = 1;
+
+            mostrarOcultarDiv('verProyectoDiv','verProyectosDiv'); 
+        }); 
+    }
+    var arregloInsumosCortados = [];
+    var arregloPrendasCortadas = [];
+    const funcionesPrendasCortadas = () => {
+        
+        $('#confirmarPrendasCortadas').on('click', function() {    
+            var cantidadesRealesCortadas = $('.cantidadesRealesCortadas');
+            
+            for (let i = 0; i < cantidadesRealesCortadas.length; i++) {
+                let cantidadCortada = cantidadesRealesCortadas[i].value;
+                let combinacion = $(`#colorCortado${cantidadesRealesCortadas[i].name}`).attr('name');
+                let idDetalle = $(`#cantidadCortada${cantidadesRealesCortadas[i].name}`).attr('name');
+                let colorCortado = $(`#colorCortado${cantidadesRealesCortadas[i].name}`).text();
+                let tallaCortada = $(`#tallaCortada${cantidadesRealesCortadas[i].name}`).text();
+                
+                var objeto = {};
+                objeto.detalleID = idDetalle;
+                objeto.cantidad = cantidadCortada;
+                arregloPrendasCortadas.push(objeto);
+
+                if(!cantidadCortada){
+                    $('#modalAlertas').modal("show"); 
+                    $('#tituloAlertas').text(`Por favor ingresa la cantidad de prendas que se cortaron para
+                    la talla ${tallaCortada} en el color ${colorCortado}`); 
+                    $(`#${this.id}`).val('');
+                    return false;
+                }
+                //   `con_t_combinacionesproyecto` (
+                //   `ID` int(11) NOT NULL AUTO_INCREMENT,
+                //   `id_proyecto` int(11) NOT NULL,
+                //   `id_combinacion` int(5) NOT NULL,
+                //   `cantidad` int(200) NOT NULL,
+                // let combinacionesJson = obtenerDatajson("nombre","con_t_satelites","valoresconcondicion","ID",`'${proyect[0].satelite}'`);
+                // let combinaciones = JSON.parse(combinacionesJson);
+                let fichaTecnicaj = obtenerDatajson("indicativo_combinacion","con_t_combinacionesproducto","valoresconcondicion","ID ",combinacion);
+                let fichaTecnica = JSON.parse(fichaTecnicaj);
+                let insumosproductoj = obtenerDatajson("indicativo_combinacion,insumo,cantidad,text_insumo,ficha_tecnica","con_t_combinacionesproducto","valoresconcondicion","indicativo_combinacion ",fichaTecnica[0].indicativo_combinacion);
+                let insumosproducto = JSON.parse(insumosproductoj);   
+                const cantidadesAcumuladas = {};
+                for (let i = 0; i < insumosproducto.length; i++) {
+                    var cantidadUsada = insumosproducto[i].cantidad * cantidadCortada;
+                    let insumoCantidadj = obtenerDatajson("cantidad,grupo,complemento,caracteristica,complemento_caracteristica,presentacion","con_t_insumos","valoresconcondicion","ID ",insumosproducto[i].insumo);
+                    let insumoCantidad = JSON.parse(insumoCantidadj);
+                    // Verificar si ya existe un objeto con el insumoID en el arreglo
+                    const indiceExistente = arregloInsumosCortados.findIndex(objeto => objeto.insumoID === insumosproducto[i].insumo);
+
+                    if (indiceExistente !== -1) {
+                        // Si el objeto ya existe, actualizar su cantidad
+                        arregloInsumosCortados[indiceExistente].cantidad += cantidadUsada;                        
+                        cantidadUsada = arregloInsumosCortados[indiceExistente].cantidad;
+                        arregloInsumosCortados[indiceExistente].cantidadNueva =insumoCantidad[0].cantidad- cantidadUsada;
+                    } 
+                    var textoIsunmo = `${insumoCantidad[0].grupo} ${insumoCantidad[0].complemento} ${insumoCantidad[0].caracteristica} ${insumoCantidad[0].complemento_caracteristica}`;
+                    if(insumoCantidad[0].cantidad < cantidadUsada){
+                        
+                        $('#modalAlertas').modal("show"); 
+                        $('#tituloAlertas').text(`Por favor las cantidades que se cortaron en 
+                         ${colorCortado} de la talla ${tallaCortada}, ya que la cantidad de material que se utilizarían de 
+                         ${textoIsunmo.replace(/No aplica/g,"")} es más de los que están registrados en el inventario:
+                         Cantidad en inventario: ${insumoCantidad[0].cantidad} ${insumoCantidad[0].presentacion}
+                         Cantidad a utilizar para ${cantidadCortada} prendas: ${cantidadUsada} ${insumoCantidad[0].presentacion}`); 
+                        $(`#${this.id}`).val('');
+                        return false;
+                    }
+                    if (indiceExistente !== -1) {continue;}
+                    var objeto = {};
+                    objeto.cantidad = cantidadUsada;
+                    objeto.insumoID = insumosproducto[i].insumo;
+                    objeto.insumoTexto = textoIsunmo.replace(/No aplica/g,"");
+                    objeto.cantidadNueva =insumoCantidad[0].cantidad- cantidadUsada;
+                    arregloInsumosCortados.push(objeto);
+                }
+                
+                // console.log('insumosproducto');
+                // console.log(insumosproducto);
+                // console.log('combinacion');
+                // console.log(combinacion);
+                // console.log('colorCortado');
+                // console.log(colorCortado);
+                // console.log('tallaCortada');
+                // console.log(tallaCortada);
+                // console.log('cantidadCortada');
+                // console.log(cantidadCortada);
+                
+            }
+            console.log(arregloInsumosCortados);
+            console.log(arregloPrendasCortadas);
+            var htmll = '';
+            for (let i = 0; i < arregloInsumosCortados.length; i++) {
+                htmll = `${htmll}
+                <div class='col-lg-12 col-md-12 col-sm-12 col-xs-12 letra18pt-pc'> 
+                    <p class='col-lg-6 col-md-6 col-sm-6 col-xs-6 letra18pt-pc negrillaTres'>${arregloInsumosCortados[i].insumoTexto}</p>
+                    <p class='col-lg-6 col-md-6 col-sm-6 col-xs-6 letra18pt-pc negrillaTres'>${arregloInsumosCortados[i].cantidad}</p>
+                </div>
+                `;
+                
+            }
+            
+            $('#isumosCortadosProyectoSeleccionado').append(htmll);
+            mostrarOcultarDiv('confirmarCortadoDiv','verProyectoDiv'); 
+        });  
+        
+        $('#confirmaInsumosCortados').on('click', function() {  
+            for (let i = 0; i < arregloInsumosCortados.length; i++) {
+                
+                var objeto = {};
+                objeto.columna = "ID";
+                objeto.valor = arregloInsumosCortados[i].insumoID;
+                var condicion = prepararjson(objeto);
+
+                objeto = {};
+                objeto.tipo = 'int';
+                objeto.columna = 'cantidad';
+                objeto.valor = arregloInsumosCortados[i].cantidadNueva;
+                let cantidad = prepararjson(objeto);
+
+                actualizarregistros("con_t_insumos",condicion,cantidad,"0","0","0","0","0","0","0","0","0","0");
+
+                var objeto = {};
+                objeto.columna = "ID";
+                objeto.valor = proyectoIdTotal;
+                var condicion = prepararjson(objeto);
+
+                objeto = {};
+                objeto.tipo = 'string';
+                objeto.columna = 'estado';
+                objeto.valor = 'Cortado';
+                let estado = prepararjson(objeto);
+
+                actualizarregistros("con_t_proyectos",condicion,estado,"0","0","0","0","0","0","0","0","0","0");
+            }
+
+            for (let i = 0; i < arregloPrendasCortadas.length; i++) {
+
+                var objeto = {};
+                objeto.columna = "id_detalleproyecto ";
+                objeto.valor = arregloPrendasCortadas[i].detalleID;
+                var condicion = prepararjson(objeto);
+
+                objeto = {};
+                objeto.tipo = 'int';
+                objeto.columna = 'cantidad_cortada';
+                objeto.valor = arregloPrendasCortadas[i].cantidad;
+                let cantidad_cortada = prepararjson(objeto);
+
+                actualizarregistros("con_t_detalleproyecto",condicion,cantidad_cortada,"0","0","0","0","0","0","0","0","0","0");
+                
+            }
+            const fechaActual = new Date();
+
+            // Obtener los componentes de la fecha (año, mes, día, hora, minutos y segundos)
+            const anio = fechaActual.getFullYear();
+            const mes = String(fechaActual.getMonth() + 1).padStart(2, '0'); // Los meses comienzan desde 0, por lo que se le suma 1
+            const dia = String(fechaActual.getDate()).padStart(2, '0');
+            const hora = String(fechaActual.getHours()).padStart(2, '0');
+            const minutos = String(fechaActual.getMinutes()).padStart(2, '0');
+            const segundos = String(fechaActual.getSeconds()).padStart(2, '0');
+
+            // Construir la cadena de fecha y hora en el formato deseado
+            var fechaActuall  = `${anio}-${mes}-${dia} ${hora}:${minutos}:${segundos}`;
+
+
+            var objeto = {};
+            objeto.tipo = "string";
+            objeto.columna = "fecha_hora";
+            objeto.valor = fechaActuall;
+            var fecha_hora = prepararjson(objeto);
+
+            var objeto = {};
+            objeto.tipo = "string";
+            objeto.columna = "tipocambio";
+            objeto.valor = 'Cortado';
+            var tipocambio = prepararjson(objeto);
+
+            var objeto = {};
+            objeto.tipo = 'int';
+            objeto.columna = 'id_usuario';
+            objeto.valor = parseInt($('#usuario').attr("name"));
+            let id_usuario = prepararjson(objeto);
+
+            var objeto = {};
+            objeto.tipo = 'int';
+            objeto.columna = 'id_proyecto';
+            objeto.valor = proyectoIdTotal;
+            let id_proyecto = prepararjson(objeto);
+
+            var iDespaciosproyecto = insertarfila("con_t_proyectostr",id_proyecto,id_usuario,fecha_hora,tipocambio,"0","0","0","0","0","0","0"); 
+        });  
+    }
+
+    $('#agregarSatelites').on('click', function() {    
+
+        mostrarDiv('nuevoSatelite');
+
+    });  
+    $('#agregarNuevoSatelite').on('click', function() {    
+
+        var telefonoSatelite = $('#telefonoSatelite').val(); 
+        var direcSatelite = $('#direcSatelite').val(); 
+        var nombreSatelite = $('#nombreSatelite').val(); 
+
+
+        // con_t_satelites ID 	nombre 	direccion 	telefono 	
+        var objeto = {};
+        objeto.tipo = "string";
+        objeto.columna = "nombre";
+        objeto.valor = nombreSatelite;
+        var nombre = prepararjson(objeto);
+
+        var objeto = {};
+        objeto.tipo = "string";
+        objeto.columna = "direccion";
+        objeto.valor = direcSatelite;
+        var direccion = prepararjson(objeto);
+
+        var objeto = {};
+        objeto.tipo = "string";
+        objeto.columna = "telefono";
+        objeto.valor = telefonoSatelite;
+        var telefono = prepararjson(objeto);
+
+        var idSatelite = insertarfila("con_t_satelites",nombre,direccion,telefono,"0","0","0","0","0","0","0","0");
+
+        const nuevoSatelite = $('#nuevoSatelite');
+        const sateliteCreadoOk = $('#sateliteCreadoOk');
+
+        nuevoSatelite.removeClass('mostrar').addClass('oculto');
+        sateliteCreadoOk.removeClass('oculto').addClass('mostrar');
+        setTimeout(() => {
+            sateliteCreadoOk.removeClass('mostrar').addClass('oculto');
+            nuevoSatelite.removeClass('oculto').addClass('mostrar');
+        }, 5000);
+
+
+    }); 
+    
+    $('#verSatelites').on('click', function() {  
+
+        // con_t_satelites ID 	nombre 	direccion 	telefono 	
+        let satelitesJson = obtenerDatajson("ID,nombre,direccion,telefono","con_t_satelites","variasfilasunicas","0","0");
+        let satelitesArray = JSON.parse(satelitesJson);
+
+        var html = '';
+        for (let i = 1; i < satelitesArray.length; i++) {
+            html = `${html}
+            <div class='col-lg-12 col-md-12 col-sm-12 col-xs-12 letra18pt-pc removerSatelites'> 
+                <p class='col-lg-3 col-md-3 col-sm-3 col-xs-3 letra18pt-pc '>${satelitesArray[i].ID}</p>
+                <p class='col-lg-3 col-md-3 col-sm-3 col-xs-3 letra18pt-pc '>${satelitesArray[i].nombre}</p>
+                <p class='col-lg-3 col-md-3 col-sm-3 col-xs-3 letra18pt-pc '>${satelitesArray[i].direccion}</p>
+                <p class='col-lg-3 col-md-3 col-sm-3 col-xs-3 letra18pt-pc '>${satelitesArray[i].telefono}</p>
+            </div>
+        `; 
+        
+        }
+        $('.removerSatelites').remove();
+        mostrarDiv('verSatelitesDiv'); 
+        $('#tituloSatelites').after(html);
+
+    });     
+   
+
+    const fechaInicioSelect = () => {
+        $('.fechaInicioSelect').on('dp.change', function() {
+
+            var fechaSeleccionada = $(`#${this.id}`).val();
+
+            var idFechaInicio = this.id;
+            var arregloId = idFechaInicio.split("-");
+            
+            var fecha = new Date(fechaSeleccionada);
+            var dia = fecha.getDay();
+            var hora = fecha.getHours();
+            var minuts = fecha.getMinutes();
+            var segundos = fecha.getSeconds();
+            var horaInicioProyecto = `${hora}:${minuts}:${segundos}`;
+            
+
+            if(arregloId[1] == 'Espacio'){
+                
+                var espacioEncontrado = espaciosProyectos.find(function(objeto) {
+                    return objeto.espacio === arregloId[2];
+                });
+                
+                var diaEncontrado = espacioEncontrado.horarios.find(function(objeto) {
+                    return objeto.dia_semana === dia.toString();
+                });
+
+                if(!diaEncontrado){
+                    $('#modalAlertas').modal("show"); 
+                    $('#tituloAlertas').text(`La hora y fecha seleccionada no están disponibles en los horarios de ${espacioEncontrado.texto}`); 
+                    $(`#${this.id}`).val('');
+                    return false;
+                }
+                var objetoDiferencia = diferenciaMinutosSegundos(diaEncontrado.hora_inicio,horaInicioProyecto);//calculo si la hora de unicio del día es menor a la hora de inicio del proyecto
+                var objetoDiferenciaMayor = diferenciaMinutosSegundos(horaInicioProyecto,diaEncontrado.hora_fin);//calculo si la hora de unicio del día es menor a la hora de inicio del proyecto
+
+                
+                if(objetoDiferencia.minutos <0 || objetoDiferenciaMayor.minutos < 0){
+                    $('#modalAlertas').modal("show"); 
+                    $('#tituloAlertas').text(`La hora y fecha seleccionada no están disponibles en los horarios de ${espacioEncontrado.texto}`); 
+                    $(`#${this.id}`).val('');
+                    return false;
+                }
+
+                var fechaFin = calcularFechaHoraFinal(fechaSeleccionada,espacioEncontrado.minutos,espacioEncontrado.horarios);
+               
+                // Modificar la propiedad fecha_hora_fin del objeto encontrado
+                espacioEncontrado.fecha_hora_fin = `${fechaFin.fecha} ${fechaFin.hora}`;
+                espacioEncontrado.fecha_hora_inicio = fechaSeleccionada;
+
+                $(`#e${arregloId[2]}`).text(`${fechaFin.fecha} ${fechaFin.hora}`);
+            }
+            if(arregloId[1] == 'Trabajador'){
+
+                
+                var trabajadorEncontrado = trabajadoresProyectos.find(function(objeto) {
+                    return objeto.trabajador === arregloId[2];
+                });
+
+                var diaEncontrado = trabajadorEncontrado.horarios.find(function(objeto) {
+                    return objeto.dia_semana === dia.toString();
+                });
+
+                if(!diaEncontrado){
+                    $('#modalAlertas').modal("show"); 
+                    $('#tituloAlertas').text(`La hora y fecha seleccionada no están disponibles en los horarios de ${trabajadorEncontrado.texto}`); 
+                    $(`#${this.id}`).val('');
+                    return false;
+                }
+
+                var objetoDiferencia = diferenciaMinutosSegundos(diaEncontrado.hora_inicio,horaInicioProyecto);//calculo si la hora de unicio del día es menor a la hora de inicio del proyecto
+                var objetoDiferenciaMayor = diferenciaMinutosSegundos(horaInicioProyecto,diaEncontrado.hora_fin);//calculo si la hora de unicio del día es menor a la hora de inicio del proyecto
+                
+
+                if(objetoDiferencia.minutos <0 || objetoDiferenciaMayor.minutos < 0){
+                    $('#modalAlertas').modal("show"); 
+                    $('#tituloAlertas').text(`La hora y fecha seleccionada no están disponibles en los horarios de ${trabajadorEncontrado.texto}`); 
+                    $(`#${this.id}`).val('');
+                    return false;
+                }
+                
+                var fechaFin = calcularFechaHoraFinal(fechaSeleccionada,trabajadorEncontrado.minutos,trabajadorEncontrado.horarios);
+                
+                // Modificar la propiedad fecha_hora_fin del objeto encontrado
+                trabajadorEncontrado.fecha_hora_fin = `${fechaFin.fecha} ${fechaFin.hora}`;
+                trabajadorEncontrado.fecha_hora_inicio = fechaSeleccionada;
+                $(`#t${arregloId[2]}`).text(`${fechaFin.fecha} ${fechaFin.hora}`);
+            }
+        }); 
+        
+    }
 
     const tallasChange = () => {
         $('.tallasProyecto').on('change', function() {
@@ -809,7 +2051,6 @@ const funcionesProyectos = () => {
         var hora_fin = prepararjson(objeto);
 
         if (objetosConValor.length > 0) {
-            console.log(objetosConValor);
             var objeto = {};
             objeto.columna = "ID";
             objeto.valor = objetosConValor[0].ID;
@@ -1128,9 +2369,19 @@ for(i=30;i<permisos.length;i++){
     }   
     if(permisos[i].permiso_id==51){
         var segundo = $('#segundo');
-        segundo.append("<div class='col-lg-3 col-md-3 col-sm-3 col-xs-12' id='accion3'><button class='botonmodal botonesMenuPaginaIndividual' type='button' id='agregarEspacios'>Agregar espacios </button></div>");
+        segundo.append("<div class='col-lg-3 col-md-3 col-sm-3 col-xs-12' id='accion4'><button class='botonmodal botonesMenuPaginaIndividual' type='button' id='agregarEspacios'>Agregar espacios </button></div>");
     }   
-    
+    if(permisos[i].permiso_id==52){
+        var segundo = $('#segundo');
+        segundo.append("<div class='col-lg-3 col-md-3 col-sm-3 col-xs-12' id='accion5'><button class='botonmodal botonesMenuPaginaIndividual' type='button' id='agregarSatelites'>Agregar satélites </button></div>");
+    }   
+    if(permisos[i].permiso_id==53){
+        var segundo = $('#segundo');
+        segundo.append("<div class='col-lg-3 col-md-3 col-sm-3 col-xs-12' id='accion6'><button class='botonmodal botonesMenuPaginaIndividual' type='button' id='verSatelites'>Ver satélites</button></div>");
+    }   
+    if(permisos[i].permiso_id==54){
+        eliminarProyecto = 1;
+    }  
     
 }
 funcionesProyectos();

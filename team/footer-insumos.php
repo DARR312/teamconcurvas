@@ -20,6 +20,10 @@ for(i=30;i<permisos.length;i++){
     if(permisos[i].permiso_id==42){
         var segundo = $('#segundo');
         segundo.append("<div class='col-lg-3 col-md-3 col-sm-3 col-xs-12' id='accion4'><button class='botonmodal botonesInventario' type='button' id='verFichasTecnicas'>Ver fichas técnicas </button></div>");
+    }     
+    if(permisos[i].permiso_id==55){
+        var segundo = $('#segundo');
+        segundo.append("<div class='col-lg-3 col-md-3 col-sm-3 col-xs-12' id='accion5'><button class='botonmodal botonesInventario' type='button' id='verInsumosFaltantes'>Ver insumos faltantes </button></div>");
     }      
 }
 //******************************************************************************++Insumo nuevo
@@ -30,6 +34,7 @@ $('#agregarInsumo').on('click', function() {
     $('#facturaNueva').css('display', 'none');   
     $('#resumenInvInsumos').css('display', 'none');     
     $('#bloqueFichas').css('display', 'none'); 
+    $('#insumosFaltantes').css('display', 'none');  
     let html = "<option class='remover' value='nuevo'>Nuevo</option>";
     let gruposj = obtenerDatajson("grupo","con_t_insumos","filasunicas","0","0");
     let grupos = JSON.parse(gruposj);
@@ -206,10 +211,11 @@ $('#guardarInsumo').on('click', function(){
 //******************************************************************************++Insumo nuevo
 //******************************************************************************++Factura nueva
 const listadoInsumos = () => {
-    $('.insumosselec').on('change', function(){   
+    $('.insumosselec').on('change', function(){ 
+        
         let insumoselec = $('.insumosselec');
-        if(this.name == insumoselec[insumoselec.length - 1].attributes.name.value){
-            let html = `<div class='remover col-lg-12 col-md-12 col-sm-12 col-xs-12'>
+        if(this.name == insumoselec[insumoselec.length - 2].attributes.name.value){
+            let html = `<div class='remover col-lg-12 col-md-12 col-sm-12 col-xs-12' id='remover${parseInt(this.name)+1}'>
                 <div class='form-group pmd-textfield pmd-textfield-floating-label col-lg-6 col-md-6 col-sm-6 col-xs-6 pmd-textfield-floating-label-completed'>
                     <label for="nombreReferencia" class="control-label letra18pt-pc"> Insumo </label>
                     <select class='form-control insumosselec' type='select' id='insumo${parseInt(this.name)+1}' name='${parseInt(this.name)+1}' form='formNuevaFactura' required=''>`;
@@ -228,7 +234,7 @@ const listadoInsumos = () => {
                     <label for="cantidad" class="control-label letra18pt-pc"> Cantidad </label>
                     <input class="form-control" type="number" id="cantidad${parseInt(this.name)+1}" name="${parseInt(this.name)+1}" required=""><span class="pmd-textfield-focused"></span>
                 </div></div>`;
-            $('#formNuevaFactura').append(html);
+            $('#formNuevaFactura').append(html.replace(/No aplica/g,""));
             listadoInsumos();
         }
     });
@@ -241,7 +247,8 @@ $('#agregarFactura').on('click', function(){
     $('#nuevoInsumo').css('display', 'none');       
     $('#facturaNueva').css('display', 'block');    
     $('#resumenInvInsumos').css('display', 'none');
-    $('#bloqueFichas').css('display', 'none');     
+    $('#bloqueFichas').css('display', 'none');    
+    $('#insumosFaltantes').css('display', 'none');   
     let html = "<option class='remover' value='nuevo'>Nuevo</option>";
     let proveedorj = obtenerDatajson("proveedor","con_t_facturas","filasunicas","0","0");
     let proveedor = JSON.parse(proveedorj);
@@ -257,7 +264,7 @@ $('#agregarFactura').on('click', function(){
         html = `${html} <option class='remover' value='${insumo[i].ID}'> ${insumo[i].grupo} ${insumo[i].complemento} ${insumo[i].caracteristica} ${insumo[i].complemento_caracteristica} ${insumo[i].presentacion} </option>`;
     }
     let insumo1 = $('#insumo1');
-    insumo1.append(html);
+    insumo1.append(html.replace(/No aplica/g,""));
     return false;     
 }); 
 
@@ -289,6 +296,7 @@ $('#pasoFinalFactura').on('click', function(){
     listaInsumos = [];
     for (let i = 1; i < insumoselec.length; i++) {
         let insumo = $(`#insumo${i} option:selected`).text(); 
+        if(insumo == 'Selecciona una opción'){continue;}
         let insumoID = $(`#insumo${i}`).val(); 
         let valor = $(`#valor${i}`).val();
         if(!valor){alert(`Por favor agrega el valor para el insumo ${i}`);return false;}
@@ -704,6 +712,66 @@ $('#confirmarFacturaCredito').on('click', function(){
         insumo1.append(html);
 }); 
 
+//****************INSUMOS FALTANTES */
+$('#verInsumosFaltantes').on('click', function(){
+    $('.remover').remove();
+    $('#resumenInsumos').css('display', 'none');
+    $('#nuevoInsumo').css('display', 'none');       
+    $('#facturaNueva').css('display', 'none');    
+    $('#resumenInvInsumos').css('display', 'none');
+    $('#bloqueFichas').css('display', 'none');  
+    $('#insumosFaltantes').css('display', 'block');  
+    let insumosFaltantesj = obtenerDatajson("id_insumo ,cantidad,id_proyecto,ID","con_t_insumosfaltantes","valoresconcondicion","completado",0);
+    let insumosFaltantes = JSON.parse(insumosFaltantesj);
+    var html = '';
+    for (let i = 0; i < insumosFaltantes.length; i++) {
+        let insumoj = obtenerDatajson("grupo,complemento,caracteristica,complemento_caracteristica,presentacion","con_t_insumos","valoresconcondicion","ID",insumosFaltantes[i].id_insumo);
+        let insumo = JSON.parse(insumoj);
+        
+        let proyectoj = obtenerDatajson("nombre_proyecto","con_t_proyectos","valoresconcondicion","ID",insumosFaltantes[i].id_proyecto);
+        let proyecto = JSON.parse(proyectoj);
+        html=`${html}
+            <div class=' col-lg-12 col-md-12 col-sm-12 col-xs-12' id='insumoId${insumosFaltantes[i].ID}'>
+                <p  class="letra18pt-pc col-lg-3 col-md-3 col-sm-3 col-xs-3 ">${insumo[0].grupo} ${insumo[0].complemento} ${insumo[0].caracteristica} ${insumo[0].complemento_caracteristica} </p>
+                <p  class="letra18pt-pc col-lg-3 col-md-3 col-sm-3 col-xs-3 ">${insumosFaltantes[i].cantidad}</p>
+                <p  class="letra18pt-pc col-lg-3 col-md-3 col-sm-3 col-xs-3 ">${proyecto[0].nombre_proyecto}</p>
+                <div class='col-lg-3 col-md-3 col-sm-3 col-xs-3'>
+                    <button class='botonmodal completarInsumo' type='button' id='completado${i}' name='${insumosFaltantes[i].ID}'>
+                        Completado
+                    </button>
+                </div>
+                
+                
+            </div>`;
+        
+    }
+    $('#cabecerasInsumosFaltantes').after(html.replace(/No aplica/g,""));
+    insumoCompletadoFun();
+});
+
+var insumoIdTotal = 0;
+const insumoCompletadoFun = () => {
+    $('.completarInsumo').on('click', function(){
+        insumoIdTotal = $(`#${this.id}`).attr('name');
+
+        var objeto = {};
+        objeto.columna = "ID";
+        objeto.valor = insumoIdTotal;
+        var condicion = prepararjson(objeto);
+        
+        var objeto = {};
+        objeto.tipo = "int";
+        objeto.columna = "completado";
+        objeto.valor = 1;
+        var completado  = prepararjson(objeto);
+
+        actualizarregistros("con_t_insumosfaltantes",condicion,completado,"0","0","0","0","0","0","0","0","0","0");   
+        
+        $(`#insumoId${insumoIdTotal}`).remove();
+    });
+}
+
+
 const actualizarInsumosprecios = () =>{
     for (let i = 0; i < listaInsumos.length; i++) { 
         var objeto = {};
@@ -726,19 +794,32 @@ const actualizarInsumoscantidades = (sumarrestar) =>{
         objeto.valor = listaInsumos[i].InsumoID;
         var condicion = prepararjson(objeto);
         let cantidadnueva = 0;
-        let cantidadj = obtenerDatajson("cantidad","con_t_insumos","valoresconcondicion","ID",listaInsumos[i].InsumoID);
+        let faltantesNuevos = 0;
+        let cantidadj = obtenerDatajson("cantidad,faltantes","con_t_insumos","valoresconcondicion","ID",listaInsumos[i].InsumoID);
         let cantidad = JSON.parse(cantidadj);
         if(sumarrestar=='sumar'){
             cantidadnueva = parseInt(listaInsumos[i].Cantidad)+parseInt(cantidad[0].cantidad);
+            faltantesNuevos =parseInt(cantidad[0].faltantes) - parseInt(listaInsumos[i].Cantidad);
+            if(faltantesNuevos<0){
+                faltantesNuevos = 0;
+            }
         }else if(sumarrestar=='restar'){
             cantidadnueva = parseInt(cantidad[0].cantidad)-parseInt(listaInsumos[i].Cantidad);
+            faltantesNuevos =parseInt(cantidad[0].faltantes) - parseInt(listaInsumos[i].Cantidad);
         }
         var objeto = {};
         objeto.tipo = "int";
         objeto.columna = "cantidad";
         objeto.valor = cantidadnueva;
         var cant_nueva  = prepararjson(objeto);
-        actualizarregistros("con_t_insumos",condicion,cant_nueva,"0","0","0","0","0","0","0","0","0","0");        
+        
+        var objeto = {};
+        objeto.tipo = "int";
+        objeto.columna = "faltantes";
+        objeto.valor = faltantesNuevos;
+        var faltantes  = prepararjson(objeto);
+
+        actualizarregistros("con_t_insumos",condicion,cant_nueva,faltantes,"0","0","0","0","0","0","0","0","0");        
     }
 }
 //******************************************************************************++Factura nueva
@@ -751,6 +832,7 @@ $('#verInsumos').on('click', function(){
     $('#facturaNueva').css('display', 'none');       
     $('#resumenInvInsumos').css('display', 'block'); 
     $('#bloqueFichas').css('display', 'none');       
+    $('#insumosFaltantes').css('display', 'none');  
     let listado = obtenerDatajson("ID,grupo,complemento,caracteristica,complemento_caracteristica,presentacion,cantidad","con_t_insumos","variasfilasunicas","0","0");
     let listadoInsumos =  JSON.parse(listado);    
     let html='';
@@ -767,7 +849,7 @@ $('#verInsumos').on('click', function(){
         
     }
     let cabecerasResumen  = $('#cabecerasResumen');
-    cabecerasResumen.after(html);
+    cabecerasResumen.after(html.replace(/No aplica/g,""));
 }); 
 $('#bscar').on('change', function(){          
     $('.remover').remove();
@@ -805,7 +887,7 @@ $('#verFichasTecnicas').on('click', function(){
     $('#facturaNueva').css('display', 'none');       
     $('#resumenInvInsumos').css('display', 'none'); 
     $('#bloqueFichas').css('display', 'block'); 
-
+    $('#insumosFaltantes').css('display', 'none');  
     const bloqueNuevaFicha = $('#bloqueNuevaFicha');
     const selecciondeficha = $('#selecciondeficha');
     const bloqueAntiguaFicha = $('#bloqueAntiguaFicha');
@@ -824,7 +906,7 @@ $('#verFichasTecnicas').on('click', function(){
         
     }
     let fichasTecnicasSelect  = $('#fichasTecnicasSelect');
-    fichasTecnicasSelect.append(html);
+    fichasTecnicasSelect.append(html.replace(/No aplica/g,""));
 
 }); 
 
@@ -974,7 +1056,7 @@ $('#fichasTecnicasSelect').on('change', function(){
             
         }
 
-        $('#combinacionesFicha').append(html);
+        $('#combinacionesFicha').append(html.replace(/No aplica/g,""));
 
 
         // // Agrego los campos para agregar combinaciones nuevas
@@ -1037,7 +1119,7 @@ $('#referenciasParaficha').on('change', function(){
         $('#facturaNueva').css('display', 'none');       
         $('#resumenInvInsumos').css('display', 'none'); 
         $('#bloqueFichas').css('display', 'block'); 
-
+        $('#insumosFaltantes').css('display', 'none');  
         const bloqueNuevaFicha = $('#bloqueNuevaFicha');
         const selecciondeficha = $('#selecciondeficha');
 
