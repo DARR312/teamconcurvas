@@ -1,5 +1,8 @@
-#agregarVenta, #realizarCambio, #imprimirEmpaques, #subirGuias, #agregarApartado, #verApartados{
+#agregarVenta, #realizarCambio,#verlosCambio, #imprimirEmpaques, #subirGuias, #agregarApartado, #verApartados{
     width:100% !important;
+}
+.cambiossplaza{
+    position: sticky !important;
 }
 #popup, #popup2, #popup3, #popup4, #popup5, #popup6, #popup7, #popup8, #popup9, #popup10, #pop{     
 left: 0;     

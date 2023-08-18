@@ -28,6 +28,7 @@
             segundo.append("<div class='col-lg-2 col-md-2 col-sm-2 col-xs-12' id='accion'><button class='botonmodal botonesbarrasuperior' type='button' id='agregarApartado'> Agregar apartado </button></div>");
             segundo.append("<div class='col-lg-2 col-md-2 col-sm-2 col-xs-12' id='accion'><button class='botonmodal botonesbarrasuperior' type='button' id='verApartados'> Ver apartados </button></div>");
             segundo.append("<div class='col-lg-2 col-md-2 col-sm-2 col-xs-12' id='accion'><button class='botonmodal botonesbarrasuperior' type='button' id='realizarCambio'> Cambios </button></div>");
+            segundo.append("<div class='col-lg-2 col-md-2 col-sm-2 col-xs-12' id='accion'><button class='botonmodal botonesbarrasuperior' type='button' id='verlosCambio'>Ver los Cambios </button></div>");
             botonrevisar = "botonrevisar";
         }
         if(items[k]==6){
@@ -1312,10 +1313,122 @@
     $('#verApartados').on('click', function(){    
         $('.ventasplazaResumen').remove();     
         $('.ventasplaza').remove();
+        $('.cambiossplaza').remove();
         imprimirapartados();
         funcionespagina();
         return false;     
-    });    
+    });  
+    
+    $('#verlosCambio').on('click', function(){   
+        $('.ventasplazaResumen').remove();     
+        $('.ventasplaza').remove();
+        $('.cambiossplaza').remove();
+        var cambiosPlaza = obtenerDatajson('ID,venta_id,datos_cliente,prenda_ingresa,prenda_sale,fecha,excedente','con_t_cambiosplaza','variasfilasunicas','0','0');
+        var jsoncambiosPlaza = JSON.parse(cambiosPlaza);
+        var html  = `
+        <div class='col-lg-12 col-md-12 col-sm-12 col-xs-12 cambiossplaza' id='primeraFila'>
+            <div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'>
+                <p class='letra18pt-pc negrillaUno'>Cambio ID</p>
+            </div>
+            <div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'>
+                <p class='letra18pt-pc negrillaUno'>Venta ID</p>
+            </div>
+            <div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'>
+                <p class='letra18pt-pc negrillaUno'>Nombre Cliente</p>
+            </div>
+            <div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'>
+                <p class='letra18pt-pc negrillaUno'>Teléfono cliente</p>
+            </div>
+            <div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'>
+                <p class='letra18pt-pc negrillaUno'>Prenda ingresa</p>
+            </div>
+            <div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'>
+                <p class='letra18pt-pc negrillaUno'>Prenda sale</p>
+            </div>
+            <div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'>
+                <p class='letra18pt-pc negrillaUno'>Fecha</p>
+            </div>
+            <div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'>
+                <p class='letra18pt-pc negrillaUno'>Excedente pagado</p>
+            </div>
+        </div>`;
+
+        for (let i = (jsoncambiosPlaza.length-1); i >= 75; i--) {
+            console.log('i');
+            console.log(i);
+            console.log('jsoncambiosPlaza[i].venta_id');
+            console.log(jsoncambiosPlaza[i].venta_id);
+            console.log('jsoncambiosPlaza[i].datos_cliente');
+            console.log(jsoncambiosPlaza[i].datos_cliente);
+            console.log('jsoncambiosPlaza[i].prenda_ingresa');
+            console.log(jsoncambiosPlaza[i].prenda_ingresa);
+            console.log('jsoncambiosPlaza[i].prenda_sale');
+            console.log(jsoncambiosPlaza[i].prenda_sale);
+            console.log('jsoncambiosPlaza[i].fecha');
+            console.log(jsoncambiosPlaza[i].fecha);
+            console.log('jsoncambiosPlaza[i].excedente');
+            console.log(jsoncambiosPlaza[i].excedente);
+
+            var jsondatoscliente = JSON.parse(jsoncambiosPlaza[i].datos_cliente);
+
+            var jsonventaid = JSON.parse(jsoncambiosPlaza[i].venta_id);
+
+            var textVentaId = '';
+
+            for (let k = 0; k < jsonventaid.length; k++) {
+                textVentaId = `${textVentaId}
+                ${jsonventaid[k].ventaId}`;                
+            }
+
+            var jsonprenda_ingresa = JSON.parse(jsoncambiosPlaza[i].prenda_ingresa);
+
+            var textPrendaIngresa = '';
+
+            for (let k = 0; k < jsonprenda_ingresa.length; k++) {
+                textPrendaIngresa = `${textPrendaIngresa}
+                ${jsonprenda_ingresa[k].codigo} ventaId ${jsonprenda_ingresa[k].ventaId}`;                
+            }
+
+            var jsonprenda_sale = JSON.parse(jsoncambiosPlaza[i].prenda_sale);
+
+            var textPrendaSale = '';
+
+            for (let k = 0; k < jsonprenda_sale.length; k++) {
+                textPrendaSale = `${textPrendaSale}
+                ${jsonprenda_sale[k].codigo} valor ${jsonprenda_sale[k].valor}`;                
+            }
+            html = `${html}
+            <div class='col-lg-12 col-md-12 col-sm-12 col-xs-12 cambiossplaza'>
+                <div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'>
+                    <p class='letra18pt-pc negrillaUno'>CCP${jsoncambiosPlaza[i].ID}</p>
+                </div>
+                <div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'>
+                    <p class='letra18pt-pc negrillaUno'>${textVentaId}</p>
+                </div>
+                <div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'>
+                    <p class='letra18pt-pc negrillaUno'>${jsondatoscliente.nombre}</p>
+                </div>
+                <div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'>
+                    <p class='letra18pt-pc negrillaUno'>${jsondatoscliente.telefono}</p>
+                </div>
+                <div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'>
+                    <p class='letra18pt-pc negrillaUno'>${textPrendaIngresa}</p>
+                </div>
+                <div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'>
+                    <p class='letra18pt-pc negrillaUno'>${textPrendaSale}</p>
+                </div>
+                <div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'>
+                    <p class='letra18pt-pc negrillaUno'>${jsoncambiosPlaza[i].fecha}</p>
+                </div>
+                <div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'>
+                    <p class='letra18pt-pc negrillaUno'>${formatoPrecio(jsoncambiosPlaza[i].excedente)}</p>
+                </div>
+            </div>
+            `;
+           
+        }
+        $("#bloquePrincipal").append(html);
+    });      
     // aq
     $('#realizarCambio').on('click', function(){   
         $('#continerMetodos').empty();  
