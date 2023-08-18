@@ -27,19 +27,53 @@ function is_admin_user() {
             <div class='col-lg-12 col-md-12 col-sm-12 col-xs-12 letra18pt-pc' id='tallasProyectoSeleccionado'> 
                
             </div>
+            
         </div>
 
         <div id="confirmarCortadoDiv"  class="funcionamiento oculto">  
+
             <div class='col-lg-12 col-md-12 col-sm-12 col-xs-12 letra18pt-pc' id='isumosCortadosProyectoSeleccionado'> 
                 <div class='col-lg-12 col-md-12 col-sm-12 col-xs-12 letra18pt-pc'> 
                     <p class='col-lg-6 col-md-6 col-sm-6 col-xs-6 letra18pt-pc negrillaTres'>Insumo</p>
                     <p class='col-lg-6 col-md-6 col-sm-6 col-xs-6 letra18pt-pc negrillaTres'>Cantidad cortada</p>
                 </div>
             </div>
-            <button class='botonmodal col-lg-12 col-md-12 col-sm-12 col-xs-12' type='button' id='confirmaInsumosCortados'>
+            <div class='col-lg-6 col-md-6 col-sm-6 col-xs-6 letra18pt-pc'> 
+                <button class='botonmodal boton100 col-lg-12 col-md-12 col-sm-12 col-xs-12' type='button' id='volverVerproyecto'>
+                    Volver a ver el proyecto
+                </button>
+            </div>
+            <div class='col-lg-6 col-md-6 col-sm-6 col-xs-6 letra18pt-pc'> 
+                <button class='botonmodal boton100 col-lg-12 col-md-12 col-sm-12 col-xs-12' type='button' id='confirmaInsumosCortados'>
                     Confirmar Corte
                 </button>
+            </div>
         </div>
+        
+        <div id="asignarSateliteDiv"  class="funcionamiento oculto">  
+
+            <div class='form-group pmd-textfield pmd-textfield-floating-label col-lg-12 col-md-12 col-sm-12 col-xs-12 pmd-textfield-floating-label-completed'>
+                <label for="trabajador1" class="control-label letra18pt-pc">
+                    Selecciona un satélite
+                </label>
+                <select class='form-control' type='select' id='sateliteSelect' name='1' required=''>
+                    
+                </select><span class='pmd-textfield-focused'></span>
+            </div>
+            <button class='botonmodal col-lg-12 col-md-12 col-sm-12 col-xs-12' type='button' id='confirmarSatelite'>
+                    Confirmar satélite
+            </button>
+            <br><br>
+            <br><br>
+            <br><br>
+            <p class='col-lg-12 col-md-12 col-sm-12 col-xs-12 letra18pt-pc negrillaTres' id='alertaImpresion'> 
+                ¡ATENCIÓN! Al darle click en confirmar satélite estarás creando también todas las etiquetas para el proyecto actual, este proceso no se puede revertir.
+            </p>
+            <div id='marquillas'>
+            </div>
+        </div>
+        
+        <p id='proyectoActualizadoOk' class='oculto avisoOk'>Proyecto Actializado</p>
 
         <div id="nuevoProyecto"  class="funcionamiento oculto">
             <div id='referenciaTallaDiv' >
@@ -389,6 +423,48 @@ function is_admin_user() {
 
         </div>
     </div>
+    
+    <!-- modal de Bootstrap Confirmar sin terminados -->
+    <div class="modal" tabindex="-1" id="asignarTerminadosModal">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div id="headerModal">
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" ></button>
+                </div>
+                <div class="modal-body">
+                    <div id='divReferencia' class='form-group pmd-textfield pmd-textfield-floating-label col-lg-12 col-md-12 col-sm-12 col-xs-12 pmd-textfield-floating-label-completed'>
+                        <label for="nombreReferencia" class="control-label letra18pt-pc"> Referencia </label>
+                        <select class='form-control' type='select' id='terminadosProyecto' form='formNuevaFactura' required=''>
+                            <option class='removerSatelites' value='1'>El proyecto requiere terminados</option>
+                            <option class='removerSatelites' value='0'>El proyecto no requiere terminados</option>
+                        </select><span class='pmd-textfield-focused'></span>
+                    </div>
+                    <div class='col-lg-12 col-md-12 col-sm-12 col-xs-12' >
+                        <button class='botonmodal' type='button' id='asignarTerminadosBoton'>Confirmar</button>
+                    </div> 
+                </div>                
+            </div>
+        </div>
+    </div>
+
+    <!-- modal de Bootstrap Confirmar sin terminados -->
+    <div class="modal" tabindex="-1" id="modalSinterminados">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div id="headerModal">
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" ></button>
+                </div>
+                <div class="modal-body">
+                    <div  class='col-lg-12 col-md-12 col-sm-12 col-xs-12' >
+                        <label id='tituloSinTerminados' for="nombre" class="control-label letra18pt-pc "></label>
+                    </div>
+                    <div class='col-lg-12 col-md-12 col-sm-12 col-xs-12' >
+                        <button class='botonmodal' type='button' id='confirmarSinTerminados'>Confirmar</button>
+                    </div> 
+                </div>                
+            </div>
+        </div>
+    </div>
 
     <!-- modal de Bootstrap Horarios -->
     <div class="modal" tabindex="-1" id="modalHorarios">
@@ -450,6 +526,8 @@ function is_admin_user() {
         </div>
     </div>
 <?php
+
+    
 	   get_footer("proyectos"); 
 	}else{
 	    ?>

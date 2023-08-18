@@ -6,11 +6,13 @@
     opacity: 0 !important;
     transform: translateX(-100%) !important;
     transition: all 1s ease !important;
+    display: none;
   }
   .mostrar {
     opacity: 1 !important;
     transform: translateX(0) !important;
     transition: all 1s ease !important;
+    display: block;
   }  
 
 .avisoOk{
@@ -44,6 +46,6 @@
   color: rgb(193, 46, 114) !important;
   cursor: pointer;
 }
-.verProyectoIndividual, .borrarProyectoIndividual{
+.verProyectoIndividual, .borrarProyectoIndividual, .boton100{
   width: 100% !important;
 }

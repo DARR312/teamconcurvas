@@ -15,34 +15,8 @@ function is_admin_user() {
             <form action='' method='get'  autocomplete='off' class='col-lg-12 col-md-12 col-sm-12 col-xs-12' id='formularioReferencia'>
                 <div class='form-group pmd-textfield pmd-textfield-floating-label col-lg-8 col-md-8 col-sm-8 col-xs-8'>
                     <label for="nombreReferencia" class="control-label letra18pt-pc"> Nombre de la referencia</label>
-                    <select class='form-control' type='select' id='nombreReferencia' name='nombreReferencia' form='formularioReferencia' required=''>
-                        
-                    </select><span class='pmd-textfield-focused'></span>
+                    <input class="form-control" type="text" id="nombreReferencia" name="nombreReferencia" required=""><span class="pmd-textfield-focused"></span>
                 </div>
-                <div class="form-group pmd-textfield pmd-textfield-floating-label col-lg-4 col-md-4 col-sm-4 col-xs-4" style='display: none;' id="cualdiv">
-    				<label for="cantidad" class="control-label letra18pt-pc"> Cuál</label>
-    				<input class="form-control" type="text" id="cual" name="cual" required=""><span class="pmd-textfield-focused"></span>
-    			</div>
-    			<div class='form-group pmd-textfield pmd-textfield-floating-label col-lg-8 col-md-8 col-sm-8 col-xs-8'>
-    			    <label for="colorReferencia" class="control-label letra18pt-pc"> Color de la referencia</label>
-                    <select class='form-control' type='select' id='colorReferencia' name='colorReferencia' form='formularioReferencia' required=''>
-                       
-                    </select><span class='pmd-textfield-focused'></span>
-                </div>
-                <div class="form-group pmd-textfield pmd-textfield-floating-label col-lg-4 col-md-4 col-sm-4 col-xs-4" style='display: none;' id="cualdivColor">
-    				<label for="cantidad" class="control-label letra18pt-pc"> Cuál</label>
-    				<input class="form-control" type="text" id="cualColor" name="cualColor" required=""><span class="pmd-textfield-focused"></span>
-    			</div>
-    			<div class='form-group pmd-textfield pmd-textfield-floating-label col-lg-8 col-md-8 col-sm-8 col-xs-8'>
-    			    <label for="tallaReferencia" class="control-label letra18pt-pc"> Talla de la referencia</label>
-                    <select class='form-control' type='select' id='tallaReferencia' name='tallaReferencia' form='formularioReferencia' required=''>
-                        
-                    </select><span class='pmd-textfield-focused'></span>
-                </div>
-                <div class="form-group pmd-textfield pmd-textfield-floating-label col-lg-4 col-md-4 col-sm-4 col-xs-4" style='display: none;' id="cualdivTalla">
-    				<label for="cantidad" class="control-label letra18pt-pc"> Cuál</label>
-    				<input class="form-control" type="text" id="cualTalla" name="cualTalla" required=""><span class="pmd-textfield-focused"></span>
-    			</div>
                 <div class='form-group pmd-textfield pmd-textfield-floating-label col-lg-8 col-md-8 col-sm-8 col-xs-8'>
     			    <label for="categoria" class="control-label letra18pt-pc"> Categoría</label>
                     <select class='form-control' type='select' id='categoria' name='categoria' form='formularioReferencia' required=''>
@@ -324,8 +298,8 @@ function is_admin_user() {
         <div style="width: 100%" id="reader"></div>
         <div id='funcionesEscaner' style='display: none;'>
             <div class='col-lg-6 col-md-6 col-sm-6 col-xs-12' id='enviarEscaneados' ><button class='botonmodal letra18pt-pc' type='button'>Enviar escaneados</button></div>
-            <p id='escanerInv' style='display: none;' >
-            </p>
+            <div id='escanerInv' style='display: none;' >
+            </div>
         </div>
         <div style="width: 100%" id="readerEmpacar"></div>
         <div id='funcionesEmpacar' style='display: none;'>
@@ -414,6 +388,23 @@ function is_admin_user() {
             </div>
         </div>
     </div>
+
+    <!-- modal de Bootstrap Alertas -->
+    <div class="modal" tabindex="-1" id="modalAlertas">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div id="headerModal">
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" ></button>
+                </div>
+                <div class="modal-body">
+                    <div  class='col-lg-12 col-md-12 col-sm-12 col-xs-12' >
+                        <label id='tituloAlertas' for="nombre" class="control-label letra18pt-pc "></label>
+                    </div>
+                </div>                
+            </div>
+        </div>
+    </div>
+    
 <?php
 	   get_footer("inventario"); 
 	}else{

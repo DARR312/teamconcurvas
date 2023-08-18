@@ -113,7 +113,7 @@ $('#guardarInsumo').on('click', function(){
     AND  presentacion = '${presentacion}'`,"0");
     var jsoninsumoBuscado = JSON.parse(insumoBuscado);
 
-    console.log(jsoninsumoBuscado);
+    // console.log(jsoninsumoBuscado);
     if(jsoninsumoBuscado.length > 0){
         $('#modalAlertas').modal("show"); 
         $('#tituloAlertas').text(`El insumo que intentas agregar ya está en la base de datos`); 
@@ -144,6 +144,7 @@ $('#guardarInsumo').on('click', function(){
     objeto.valor = presentacion;
     let presentaciondb = prepararjson(objeto);
     let idinsumo = insertarfila("con_t_insumos",grupodb,complementodb,caracteristicadb,Complementocaracteristicadb,presentaciondb,"0","0","0","0","0","0");
+    
     $('.remover').remove(); 
     $('#nuevogrupo').val("");
     $('#nuevocomplemento').val("");
@@ -919,7 +920,7 @@ $('#fichasTecnicasSelect').on('change', function(){
         bloqueNuevaFicha.removeClass('oculto').addClass('mostrar');
 
         // Agrego las referencias al select de referencias
-        let listadoReferenciasj = obtenerDatajson("nombre","con_t_resumen","filasunicas","0","0");
+        let listadoReferenciasj = obtenerDatajson("nombre","con_t_referencias","filasunicas","0","0");
         let listadoReferencias =  JSON.parse(listadoReferenciasj);    
         let html='';
         for (let i = 0; i < listadoReferencias.length; i++) {
@@ -1030,10 +1031,9 @@ $('#fichasTecnicasSelect').on('change', function(){
 
 
          // Agrego la tabla de combinaciones
-         let combinacionesj = obtenerDatajson("ID,indicativo_combinacion,insumo,cantidad,text_insumo","con_t_combinacionesproducto","valoresconcondicion","ficha_tecnica",detalles[0].ID);
+         let combinacionesj = obtenerDatajson("ID,indicativo_combinacion,insumo,cantidad,text_insumo,nombre_combinacion,codigo_combinacion","con_t_combinacionesproducto","valoresconcondicion","ficha_tecnica",detalles[0].ID);
         let combinaciones =  JSON.parse(combinacionesj);    
         html='';
-        console.log(combinaciones);
 
         const grupos = {};
         combinaciones.forEach((elemento) => {
@@ -1046,7 +1046,7 @@ $('#fichasTecnicasSelect').on('change', function(){
         const arreglosSeparados = Object.values(grupos);
 
         for (let i = 0; i < arreglosSeparados.length; i++) {
-            html = `${html} <div class=' col-lg-12 col-md-12 col-sm-12 col-xs-12 removerActualizacionFicha removerActualizacionCombinacionesFicha''> <p class='negrillaTres'>Combinación ${i+1}</p>`;
+            html = `${html} <div class=' col-lg-12 col-md-12 col-sm-12 col-xs-12 removerActualizacionFicha removerActualizacionCombinacionesFicha''> <p class='negrillaTres'>Combinación ${arreglosSeparados[i][0].nombre_combinacion} </p>`;
             for (let j = 0; j < arreglosSeparados[i].length; j++) {
                 html = `${html} <div class=' col-lg-3 col-md-3 col-sm-3 col-xs-3' >
                     <p class="letra18pt-pc" >${arreglosSeparados[i][j].text_insumo}</p>
@@ -1077,7 +1077,7 @@ $('#fichasTecnicasSelect').on('change', function(){
                 htmll = `${htmll} <option  value='${jsoncolores[i].ID}'>${jsoncolores[i].complemento} ${jsoncolores[i].caracteristica} ${jsoncolores[i].complemento_caracteristica}</option>`;            
             }
             html = `${html} 
-            <div  class='col-lg-3 col-md-3 col-sm-3 col-xs-3 elementoCombinadoAgregar'>
+            <div  class='col-lg-3 col-md-3 col-sm-3 col-xs-3 elementoCombinadoAgregar removerEmlementoCombinado'>
                     <div class="form-group pmd-textfield pmd-textfield-floating-label col-lg-6 col-md-6 col-sm-6 col-xs-6">
                         <p  class=" letra18pt-pc insumoComnbinadoAgregar"> ${insumosAFT[i].insumo} </p>
                     </div>
@@ -1094,8 +1094,36 @@ $('#fichasTecnicasSelect').on('change', function(){
             </div>
             `;            
         }
+
+        var nombreCondiciones = obtenerDatajson("nombre_combinacion,codigo_combinacion","con_t_combinacionesproducto","filasunicas","0","0");;
+        jsonnombreCondiciones = JSON.parse(nombreCondiciones); 
+        var htmll=`<option  value='nuevo'>Nuevo</option>`;
+        for (let i = 0; i < jsonnombreCondiciones.length; i++) {
+            htmll = `${htmll} <option  value='${jsonnombreCondiciones[i].nombre_combinacion}'>${jsonnombreCondiciones[i].nombre_combinacion}</option>`;            
+        }
+        html = `${html} 
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 removerEmlementoCombinado">
+                <div class="form-group pmd-textfield pmd-textfield-floating-label col-lg-4 col-md-4 col-sm-4 col-xs-4 pmd-textfield-floating-label-completed">
+                    <label class=" letra18pt-pc"> Nombre de la combinación </label>
+                    <select class='form-control ' type='select' required='' id='nombreCombinacionEditar'>
+                        
+                        ${htmll} 
+                    </select><span class='pmd-textfield-focused'></span>
+                </div>
+                <div class='form-group pmd-textfield pmd-textfield-floating-label  col-lg-4 col-md-4 col-sm-4 col-xs-4'>
+                    <label for="nombreNuevo" class="control-label letra18pt-pc"> Nombre nuevo </label>
+                    <input class="form-control " type="text" id='nombreNuevoCombinacionEditar'>
+                    <span class="pmd-textfield-focused"></span>
+                </div>
+                <div class='form-group pmd-textfield pmd-textfield-floating-label  col-lg-4 col-md-4 col-sm-4 col-xs-4'>
+                    <label for="codigoColorNuevo" class="control-label letra18pt-pc"> Codigo de color nuevo </label>
+                    <input class="form-control " type="text" id='codigoColorNuevoCombinacionEditar'>
+                    <span class="pmd-textfield-focused"></span>
+                </div>
+            </div>
+        </div>`;
         html = `${html} </div>`;
-        $('#lasCombinacionesNuevas').append(html);
+        $('#lasCombinacionesNuevas').append(html.replace(/No aplica/g,""));
         
 
         comboActualizarFT();
@@ -1105,9 +1133,12 @@ var referenciaParaficha;
 var detalles_modelo;
 var detalles_confeccion;
 var precio_armado;
+var precio_detal;
+var precio_mayor;
 var talla;	
 var insumos;
 var combinaciones;	
+var uniqueCombinationsArray;
 $('#referenciasParaficha').on('change', function(){
     referenciaParaficha = $('#referenciasParaficha').val();
     let referenciaFichaj = obtenerDatajson("referencia","con_t_fichatecnica","valoresconcondicion","referencia",`'${$('#referenciasParaficha').val()}'`);
@@ -1303,6 +1334,7 @@ $('#guardarFicha').on('click', function(){
         insertarCombinacion();   
     }     
 });
+var jsonnombreCondiciones;
 const insertarCombinacion = () =>{
     var cantidadFilasInsumos = $('.removerCominaciones').length;
     var html = ` <div  class='col-lg-12 col-md-12 col-sm-12 col-xs-12 removerCominaciones' id='filaCombinaciones${cantidadFilasInsumos}' name='${cantidadFilasInsumos}'>
@@ -1318,11 +1350,11 @@ const insertarCombinacion = () =>{
             htmll = `${htmll} <option  value='${jsoncolores[i].ID}'>${jsoncolores[i].complemento} ${jsoncolores[i].caracteristica} ${jsoncolores[i].complemento_caracteristica}</option>`;            
         }
         html = `${html} 
-        <div  class='col-lg-3 col-md-3 col-sm-3 col-xs-3 elementoCombinado'>
-                <div class="form-group pmd-textfield pmd-textfield-floating-label col-lg-6 col-md-6 col-sm-6 col-xs-6">
+        <div  class='col-lg-4 col-md-4 col-sm-4 col-xs-4 elementoCombinado'>
+                <div class="form-group pmd-textfield pmd-textfield-floating-label col-lg-10 col-md-10 col-sm-10 col-xs-10">
                     <p  class=" letra18pt-pc insumoComnbinado"> ${insumos[i].insumo} </p>
                 </div>
-                <div class="form-group pmd-textfield pmd-textfield-floating-label col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                <div class="form-group pmd-textfield pmd-textfield-floating-label col-lg-2 col-md-2 col-sm-2 col-xs-2">
                     <p  class=" letra18pt-pc cantidadComnbinado"> ${insumos[i].cantidad} </p>
                 </div>
                 <div class="form-group pmd-textfield pmd-textfield-floating-label col-lg-12 col-md-12 col-sm-12 col-xs-12 pmd-textfield-floating-label-completed">
@@ -1335,25 +1367,60 @@ const insertarCombinacion = () =>{
         </div>
         `;            
     }
-    html = `${html} </div>`;
-    $('#lasCombinaciones').append(html);
+    var nombreCondiciones = obtenerDatajson("nombre_combinacion,codigo_combinacion","con_t_combinacionesproducto","filasunicas","0","0");;
+    jsonnombreCondiciones = JSON.parse(nombreCondiciones); 
+    var htmll=`<option  value='nuevo'>Nuevo</option>`;
+    for (let i = 0; i < jsonnombreCondiciones.length; i++) {
+        htmll = `${htmll} <option  value='${jsonnombreCondiciones[i].nombre_combinacion}'>${jsonnombreCondiciones[i].nombre_combinacion}</option>`;            
+    }
+    html = `${html} 
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <div class="form-group pmd-textfield pmd-textfield-floating-label col-lg-4 col-md-4 col-sm-4 col-xs-4 pmd-textfield-floating-label-completed">
+                <label class=" letra18pt-pc"> Nombre de la combinación </label>
+                <select class='form-control ' type='select' required='' id='nombreCombinacion${cantidadFilasInsumos}'>
+                    
+                    ${htmll} 
+                </select><span class='pmd-textfield-focused'></span>
+            </div>
+            <div class='form-group pmd-textfield pmd-textfield-floating-label  col-lg-4 col-md-4 col-sm-4 col-xs-4'>
+                <label for="nombreNuevo" class="control-label letra18pt-pc"> Nombre nuevo </label>
+                <input class="form-control " type="text" id='nombreNuevoCombinacion${cantidadFilasInsumos}'>
+                <span class="pmd-textfield-focused"></span>
+            </div>
+            <div class='form-group pmd-textfield pmd-textfield-floating-label  col-lg-4 col-md-4 col-sm-4 col-xs-4'>
+                <label for="codigoColorNuevo" class="control-label letra18pt-pc"> Codigo de color nuevo </label>
+                <input class="form-control " type="text" id='codigoColorNuevoCombinacion${cantidadFilasInsumos}'>
+                <span class="pmd-textfield-focused"></span>
+            </div>
+        </div>
+    </div>`;
+    $('#lasCombinaciones').append(html.replace(/No aplica/g,""));
 } 
     
 $('#otraCombinacion').on('click', function(){ insertarCombinacion();  }); 
 
 
-//confirmarCombinaciones
+//confirmarCombinaciones 
 
 $('#confirmarCombinaciones').on('click', function(){
     $('.removerResumenFicha').remove();
     combinaciones = [];
     var elementoCombinado = $('.elementoCombinado');
+    
     for (let i = 0; i < elementoCombinado.length; i++) {
-        
+        var nombreCombinacion = $(`#nombreCombinacion${parseInt($(elementoCombinado[i]).parent().attr('name'))}`).val();
+        var nombreNuevoCombinacion =  $(`#nombreNuevoCombinacion${parseInt($(elementoCombinado[i]).parent().attr('name'))}`).val();
+        var codigoColorNuevoCombinacion =  $(`#codigoColorNuevoCombinacion${parseInt($(elementoCombinado[i]).parent().attr('name'))}`).val();
+       
+        if(nombreCombinacion !='nuevo'){
+            nombreNuevoCombinacion = nombreCombinacion;
+            const nombreCondicionesC = jsonnombreCondiciones.filter(objeto => objeto.nombre_combinacion === nombreCombinacion);
+            codigoColorNuevoCombinacion =nombreCondicionesC[0].codigo_combinacion;
+        }
         var insumoCombinacion = $(elementoCombinado[i]).find('.insumoComnbinado').text();
         var cantidadComnbinado = $(elementoCombinado[i]).find('.cantidadComnbinado').text();
         var colorCombinacion = $(elementoCombinado[i]).find('.colorCombinaciones').val();
-        var indicativo_combinacion = parseInt($(elementoCombinado[i]).parent().attr('name'))+1;
+        var indicativo_combinacion = parseInt($(elementoCombinado[i]).parent().attr('name'))+1; 
         var colorCombinacionTexto =  $(elementoCombinado[i]).find('.colorCombinaciones').find('option:selected').text();
         if(colorCombinacion == 'selecciona'){
             $('#modalAlertas').modal("show"); 
@@ -1361,14 +1428,30 @@ $('#confirmarCombinaciones').on('click', function(){
             recuerda que todos los insumos deben tener sus colores asignados`); 
             return false;
         }
+        
         var objetoCombinaciones = {};
         objetoCombinaciones.indicativo_combinacion = indicativo_combinacion;
         objetoCombinaciones.insumoCombinacion = insumoCombinacion;
         objetoCombinaciones.idInsumoCombinacion = colorCombinacion;
         objetoCombinaciones.colorCombinacionTexto =colorCombinacionTexto;
         objetoCombinaciones.cantidadComnbinado =cantidadComnbinado;
+        objetoCombinaciones.nombreCombinacion =nombreNuevoCombinacion;
+        objetoCombinaciones.codigoColorCombinacion =codigoColorNuevoCombinacion;
         combinaciones.push(objetoCombinaciones);
     }    
+
+    const uniqueCombinations = combinaciones.reduce((result, currentItem) => {
+    const key = `${currentItem.nombreCombinacion}-${currentItem.codigoColorCombinacion}`;
+    if (!result[key]) {
+        result[key] = {
+        nombreCombinacion: currentItem.nombreCombinacion,
+        codigoColorCombinacion: currentItem.codigoColorCombinacion
+        };
+    }
+    return result;
+    }, {});
+
+    uniqueCombinationsArray = Object.values(uniqueCombinations);
     
     var resumenHtml = ` <div  class='col-lg-12 col-md-12 col-sm-12 col-xs-12 removerResumenFicha' >
                         <p class="letra18pt-pc negrillaUno">Referencia: ${referenciaParaficha}</p>
@@ -1379,7 +1462,10 @@ $('#confirmarCombinaciones').on('click', function(){
     for (let i = 0; i < combinaciones.length; i++) {
         if(indicativoAnterior !== combinaciones[i].indicativo_combinacion){
             resumenHtml = `${resumenHtml} <div  class='col-lg-12 col-md-12 col-sm-12 col-xs-12 removerResumenFicha' >
-                        <p class="letra18pt-pc">Combinacion ${combinaciones[i].indicativo_combinacion}</p>
+                        <p class="letra18pt-pc">Combinacion ${combinaciones[i].indicativo_combinacion}, 
+                        se va a llamar ${combinaciones[i].nombreCombinacion} con el código ${combinaciones[i].codigoColorCombinacion}
+                        
+                        </p>
                     </div>`;
             indicativoAnterior = combinaciones[i].indicativo_combinacion;
         }
@@ -1425,21 +1511,25 @@ $('#confirmarFichaTecnica').on('click', function(){
     objeto.columna = "referencia";
     objeto.valor = referenciaParaficha;
     var referencia = prepararjson(objeto);
+
     var objeto = {};
     objeto.tipo = "string";
     objeto.columna = "detalles_modelo";
     objeto.valor = detalles_modelo;
     var detalles_modeloInsert = prepararjson(objeto);
+
     var objeto = {};
     objeto.tipo = "string";
     objeto.columna = "detalles_confeccion";
     objeto.valor = detalles_confeccion;
     var detalles_confeccionInsert = prepararjson(objeto);
+
     var objeto = {};
     objeto.tipo = "int";
     objeto.columna = "precio_armado";
     objeto.valor = precio_armado;
     var precio_armadoInsert = prepararjson(objeto);
+
     let idFichaTecnica = JSON.parse(insertarfila("con_t_fichatecnica",referencia,detalles_modeloInsert,detalles_confeccionInsert,precio_armadoInsert,"0","0","0","0","0","0","0"));
     
 
@@ -1471,7 +1561,17 @@ $('#confirmarFichaTecnica').on('click', function(){
         objeto.columna = "text_insumo";
         objeto.valor = `${combinaciones[i].insumoCombinacion} ${combinaciones[i].colorCombinacionTexto}`;
         var text_insumo = prepararjson(objeto);
-        insertarfila("con_t_combinacionesproducto",idFichaTecnicaObjeto,indicativo_combinacion,insumo,cantidad,text_insumo,"0","0","0","0","0","0");        
+        var objeto = {};
+        objeto.tipo = "string";
+        objeto.columna = "nombre_combinacion";
+        objeto.valor = `${combinaciones[i].nombreCombinacion}`;
+        var nombre_combinacion = prepararjson(objeto);var objeto = {};
+        objeto.tipo = "string";
+        objeto.columna = "codigo_combinacion";
+        objeto.valor = `${combinaciones[i].codigoColorCombinacion}`;
+        var codigo_combinacion = prepararjson(objeto);
+        insertarfila("con_t_combinacionesproducto",idFichaTecnicaObjeto,indicativo_combinacion,insumo,cantidad,text_insumo,nombre_combinacion,codigo_combinacion,"0","0","0","0");        
+        
     }
 
     for (let i = 0; i < insumos.length; i++) {
@@ -1494,6 +1594,37 @@ $('#confirmarFichaTecnica').on('click', function(){
         var observacion = prepararjson(objeto);
         insertarfila("con_t_insumosproducto",idFichaTecnicaObjeto,insumo,cantidad,observacion,"0","0","0","0","0","0","0");     
     }
+
+    preciosj = obtenerDatajson("precio_detal,precio_mayorista,id_categoria","con_t_referencias","valoresconcondicion","nombre",`'${referenciaParaficha}'`);
+    precios = JSON.parse(preciosj);    
+    precio_detal = precios[0].precio_detal;
+    precio_mayor = precios[0].precio_mayorista;
+
+    var objeto = {};
+    objeto.tipo = "string";
+    objeto.columna = "nombre";
+    objeto.valor = referenciaParaficha;
+    var nombre = prepararjson(objeto);
+    
+    var objeto = {};
+    objeto.tipo = "int";
+    objeto.columna = "precio_detal";
+    objeto.valor = precio_detal;
+    var precio_deta = prepararjson(objeto);
+    
+    var objeto = {};
+    objeto.tipo = "int";
+    objeto.columna = "precio_mayorista";
+    objeto.valor = precio_mayor;
+    var precio_mayo = prepararjson(objeto);
+    
+    var objeto = {};
+    objeto.tipo = "int";
+    objeto.columna = "categoria_id";
+    objeto.valor = precios[0].id_categoria;
+    var categoria_id = prepararjson(objeto);
+
+
     for (let i = 0; i < talla.length; i++) {
         // ficha_tecnica 	talla 	tipo_medida 	medida 	
         // con_t_medidasproducto
@@ -1514,6 +1645,51 @@ $('#confirmarFichaTecnica').on('click', function(){
         var medida = prepararjson(objeto);
         insertarfila("con_t_medidasproducto",idFichaTecnicaObjeto,tallaInsert,tipo_medida,medida,"0","0","0","0","0","0","0");    
     }
+
+    const uniquetalla = talla.reduce((result, currentItem) => {
+    const key = `${currentItem.talla}`;
+    if (!result[key]) {
+        result[key] = {
+            talla: currentItem.talla
+        };
+    }
+    return result;
+    }, {});
+
+    var uniquetallaArray = Object.values(uniquetalla);
+
+    for (let i = 0; i < uniquetallaArray.length; i++) {
+
+        var objeto = {};
+        objeto.tipo = "string";
+        objeto.columna = "talla";
+        objeto.valor = uniquetallaArray[i].talla;
+        var tallaInsert = prepararjson(objeto);
+
+        for (let j = 0; j < uniqueCombinationsArray.length; j++) {
+
+            var objeto = {};
+            objeto.tipo = "string";
+            objeto.columna = "color";
+            objeto.valor = uniqueCombinationsArray[j].nombreCombinacion;
+            var color = prepararjson(objeto);
+
+            var objeto = {};
+            objeto.tipo = "int";
+            objeto.columna = "cantidad";
+            objeto.valor = 0;
+            var cantidad = prepararjson(objeto);
+
+            var objeto = {};
+            objeto.tipo = "int";
+            objeto.columna = "foto_link";
+            objeto.valor = "L";
+            var foto_link = prepararjson(objeto);
+
+            insertarfila("con_t_resumen",nombre,color,tallaInsert,cantidad,foto_link,precio_deta,precio_mayo,categoria_id,"0","0","0");        
+        }
+    }
+
     $('#modalResumenFicha').modal("hide"); 
     $('#modalCombinaciones').modal("hide"); 
     const bloqueNuevaFicha = $('#bloqueNuevaFicha');
@@ -1600,8 +1776,24 @@ const comboActualizarFT = () => {
 
         let combinaciones = [];
         var elementoCombinado = $('.elementoCombinadoAgregar');
-        for (let i = 0; i < elementoCombinado.length; i++) {
+        var codigoColorNuevoCombinacion = $('#codigoColorNuevoCombinacionEditar').val();
+        var nombreCombinacion = $('#nombreCombinacionEditar').val();
+        var nombreNuevoCombinacionEditar = $('#nombreNuevoCombinacionEditar').val();
+        if(nombreCombinacion !='nuevo'){
+
+            nombreNuevoCombinacionEditar = nombreCombinacion;
+            var nombreCondiciones = obtenerDatajson("nombre_combinacion,codigo_combinacion","con_t_combinacionesproducto","filasunicas","0","0");;
+            jsonnombreCondiciones = JSON.parse(nombreCondiciones); 
+            const nombreCondicionesC = jsonnombreCondiciones.filter(objeto => objeto.nombre_combinacion === nombreCombinacion);
             
+            codigoColorNuevoCombinacion =nombreCondicionesC[0].codigo_combinacion;
+        }
+        if(!nombreNuevoCombinacionEditar){
+                $('#modalAlertas').modal("show"); 
+                $('#tituloAlertas').text(`Por favor revisa el nombre de la nueva combinación, está vacío`); 
+                return false;
+            }
+        for (let i = 0; i < elementoCombinado.length; i++) {
             var insumoCombinacion = $(elementoCombinado[i]).find('.insumoComnbinadoAgregar').text();
             var cantidadComnbinado = $(elementoCombinado[i]).find('.cantidadComnbinadoAgregar').text();
             var colorCombinacion = $(elementoCombinado[i]).find('.colorCombinacionesAgregar').val();
@@ -1619,15 +1811,18 @@ const comboActualizarFT = () => {
             objetoCombinaciones.idInsumoCombinacion = colorCombinacion;
             objetoCombinaciones.colorCombinacionTexto =colorCombinacionTexto;
             objetoCombinaciones.cantidadComnbinado =cantidadComnbinado;
+            objetoCombinaciones.nombreNuevoCombinacion =nombreNuevoCombinacionEditar;
+            objetoCombinaciones.codigoColorNuevoCombinacion =codigoColorNuevoCombinacion;
             combinaciones.push(objetoCombinaciones);
         }    
-
         var indicativoCombinacion = $('.removerActualizacionCombinacionesFicha').length+1;
         var objeto = {};
         objeto.tipo = "int";
         objeto.columna = "ficha_tecnica";
         objeto.valor = idReferencia;
         var idFichaTecnicaObjeto = prepararjson(objeto);
+        console.log('combinaciones');
+        console.log(combinaciones);
         for (let i = 0; i < combinaciones.length; i++) {
             // ficha_tecnica 	indicativo_combinacion 	insumo 	cantidad 	text_insumo 
             //  con_t_combinacionesproducto
@@ -1651,8 +1846,104 @@ const comboActualizarFT = () => {
             objeto.columna = "text_insumo";
             objeto.valor = `${combinaciones[i].insumoCombinacion} ${combinaciones[i].colorCombinacionTexto}`;
             var text_insumo = prepararjson(objeto);
-            // console.log(`"con_t_combinacionesproducto",${idFichaTecnicaObjeto},${indicativo_combinacion},${insumo},${cantidad},${text_insumo},"0","0","0","0","0","0"`);        
-            insertarfila("con_t_combinacionesproducto",idFichaTecnicaObjeto,indicativo_combinacion,insumo,cantidad,text_insumo,"0","0","0","0","0","0");        
+            var objeto = {};
+            objeto.tipo = "string";
+            objeto.columna = "nombre_combinacion";
+            objeto.valor = `${combinaciones[i].nombreNuevoCombinacion}`;
+            var nombre_combinacion = prepararjson(objeto);var objeto = {};
+            objeto.tipo = "string";
+            objeto.columna = "codigo_combinacion";
+            objeto.valor = `${combinaciones[i].codigoColorNuevoCombinacion}`;
+            var codigo_combinacion = prepararjson(objeto);
+            // console.log(`"con_t_combinacionesproducto",${idFichaTecnicaObjeto},${indicativo_combinacion},${insumo},${cantidad},${text_insumo},${nombre_combinacion},${codigo_combinacion},"0","0","0","0"`);        
+            insertarfila("con_t_combinacionesproducto",idFichaTecnicaObjeto,indicativo_combinacion,insumo,cantidad,text_insumo,nombre_combinacion,codigo_combinacion,"0","0","0","0");        
+           
+        }
+        // 
+        let fichaTecj = obtenerDatajson("ID","con_t_fichatecnica","valoresconcondicion","referencia",`'${$('#fichasTecnicasSelect').val()}'`);
+        let fichaTec =  JSON.parse(fichaTecj);
+        
+        let referenciaTj = obtenerDatajson("precio_detal,precio_mayorista,id_categoria","con_t_referencias","valoresconcondicion","nombre",`'${$('#fichasTecnicasSelect').val()}'`);
+        let referenciaT =  JSON.parse(referenciaTj);
+        var preciodetal = referenciaT[0].precio_detal;
+        var preciomayor = referenciaT[0].precio_mayorista;
+        var id_categoria = referenciaT[0].id_categoria;
+
+        let idFichh = fichaTec[0].ID;
+        let tallasj = obtenerDatajson("talla","con_t_medidasproducto","valoresconcondicion","ficha_tecnica",idFichh);
+        let tallas =  JSON.parse(tallasj);
+
+        const uniqueCombinations = tallas.reduce((result, currentItem) => {
+        const key = `${currentItem.talla}`;
+        if (!result[key]) {
+            result[key] = {
+                talla: currentItem.talla
+            };
+        }
+        return result;
+        }, {});
+
+        uniquetallassArray = Object.values(uniqueCombinations);
+        
+        var objeto = {};
+        objeto.tipo = "string";
+        objeto.columna = "nombre";
+        objeto.valor = $('#fichasTecnicasSelect').val();
+        var nombre = prepararjson(objeto);
+
+        var objeto = {};
+        objeto.tipo = "int";
+        objeto.columna = "precio_detal";
+        objeto.valor = preciodetal;
+        var precio_detal = prepararjson(objeto);
+
+        var objeto = {};
+        objeto.tipo = "int";
+        objeto.columna = "precio_mayorista";
+        objeto.valor = preciomayor;
+        var precio_mayorista = prepararjson(objeto);
+
+        var objeto = {};
+        objeto.tipo = "int";
+        objeto.columna = "precio_mayorista";
+        objeto.valor = preciomayor;
+        var precio_mayorista = prepararjson(objeto);
+
+        var objeto = {};
+        objeto.tipo = "int";
+        objeto.columna = "categoria_id";
+        objeto.valor = id_categoria;
+        var categoria_id = prepararjson(objeto);
+
+        for (let i = 0; i < uniquetallassArray.length; i++) {
+
+            var objeto = {};
+            objeto.tipo = "string";
+            objeto.columna = "talla";
+            objeto.valor = uniquetallassArray[i].talla;
+            var tallaInsert = prepararjson(objeto);
+
+            var objeto = {};
+            objeto.tipo = "string";
+            objeto.columna = "color";
+            objeto.valor = nombreNuevoCombinacionEditar;
+            var color = prepararjson(objeto);
+
+            var objeto = {};
+            objeto.tipo = "int";
+            objeto.columna = "cantidad";
+            objeto.valor = 0;
+            var cantidad = prepararjson(objeto);
+
+            var objeto = {};
+            objeto.tipo = "int";
+            objeto.columna = "foto_link";
+            objeto.valor = "L";
+            var foto_link = prepararjson(objeto);
+
+            // console.log(`"con_t_resumen",${nombre},${color},${tallaInsert},${cantidad},${foto_link},${precio_detal},${precio_mayorista},${categoria_id},"0","0","0"`);        
+            insertarfila("con_t_resumen",nombre,color,tallaInsert,cantidad,foto_link,precio_detal,precio_mayorista,categoria_id,"0","0","0");        
+            
         }
 
         // Agrego los detalles del modelo, de confección y nombre de la referencia
@@ -1689,7 +1980,7 @@ const comboActualizarFT = () => {
         $('#combinacionesFicha').append(html);
 
         // // Agrego los campos para agregar combinaciones nuevas
-        $('.elementoCombinadoAgregar').remove();
+        $('.removerEmlementoCombinado').remove();
         html = ` `;
 
         var insumosObtenidos = obtenerDatajson("insumo,cantidad,observacion","con_t_insumosproducto","valoresconcondicion","ficha_tecnica",`'${idReferencia}'`);
@@ -1704,7 +1995,7 @@ const comboActualizarFT = () => {
                 htmll = `${htmll} <option  value='${jsoncolores[i].ID}'>${jsoncolores[i].complemento} ${jsoncolores[i].caracteristica} ${jsoncolores[i].complemento_caracteristica}</option>`;            
             }
             html = `${html} 
-            <div  class='col-lg-3 col-md-3 col-sm-3 col-xs-3 elementoCombinadoAgregar'>
+            <div  class='col-lg-3 col-md-3 col-sm-3 col-xs-3 elementoCombinadoAgregar removerEmlementoCombinado'>
                     <div class="form-group pmd-textfield pmd-textfield-floating-label col-lg-6 col-md-6 col-sm-6 col-xs-6">
                         <p  class=" letra18pt-pc insumoComnbinadoAgregar"> ${insumosAFT[i].insumo} </p>
                     </div>
@@ -1721,8 +2012,37 @@ const comboActualizarFT = () => {
             </div>
             `;            
         }
+
+        var nombreCondiciones = obtenerDatajson("nombre_combinacion,codigo_combinacion","con_t_combinacionesproducto","filasunicas","0","0");;
+        jsonnombreCondiciones = JSON.parse(nombreCondiciones); 
+        var htmll=`<option  value='nuevo'>Nuevo</option>`;
+        for (let i = 0; i < jsonnombreCondiciones.length; i++) {
+            htmll = `${htmll} <option  value='${jsonnombreCondiciones[i].nombre_combinacion}'>${jsonnombreCondiciones[i].nombre_combinacion}</option>`;            
+        }
+        html = `${html} 
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 removerEmlementoCombinado">
+                <div class="form-group pmd-textfield pmd-textfield-floating-label col-lg-4 col-md-4 col-sm-4 col-xs-4 pmd-textfield-floating-label-completed">
+                    <label class=" letra18pt-pc"> Nombre de la combinación </label>
+                    <select class='form-control ' type='select' required='' id='nombreCombinacionEditar'>
+                        
+                        ${htmll} 
+                    </select><span class='pmd-textfield-focused'></span>
+                </div>
+                <div class='form-group pmd-textfield pmd-textfield-floating-label  col-lg-4 col-md-4 col-sm-4 col-xs-4'>
+                    <label for="nombreNuevo" class="control-label letra18pt-pc"> Nombre nuevo </label>
+                    <input class="form-control " type="text" id='nombreNuevoCombinacionEditar'>
+                    <span class="pmd-textfield-focused"></span>
+                </div>
+                <div class='form-group pmd-textfield pmd-textfield-floating-label  col-lg-4 col-md-4 col-sm-4 col-xs-4'>
+                    <label for="codigoColorNuevo" class="control-label letra18pt-pc"> Codigo de color nuevo </label>
+                    <input class="form-control " type="text" id='codigoColorNuevoCombinacionEditar'>
+                    <span class="pmd-textfield-focused"></span>
+                </div>
+            </div>
+        </div>`;
+
         html = `${html} </div>`;
-        $('#lasCombinacionesNuevas').append(html);
+        $('#lasCombinacionesNuevas').append(html.replace(/No aplica/g,""));
         
 
         comboActualizarFT();

@@ -439,7 +439,7 @@ function cambiarEstadoprendas($valor,$valor2,$nombre,$id){
      $wpdb->query($datos);
     $resultado = $wpdb->get_results( $datos2, ARRAY_A);
     $long =  sizeof($resultado);
-    $datos3 = "INSERT INTO con_t_cambiostr ( prenda_id, estado_cambio, cual_cambio, usuario_id, fecha_hora) VALUES (".$resultado[0]['ID'].",".$obtenidosArray[0]['estado'].", '".$nombre."', ".$id.",'".$fecha."')";
+    $datos3 = "INSERT INTO con_t_estadostr ( prenda_id, estado_cambio, cual_cambio, usuario_id, fecha_hora) VALUES (".$resultado[0]['ID'].",".$obtenidosArray[0]['estado'].", '".$nombre."', ".$id.",'".$fecha."')";
     for($i=1;$i < $long;$i++){
         $datos3 = $datos3.",(".$resultado[$i]['ID'].",".$obtenidosArray[0]['estado'].", '".$nombre."', ".$id.",'".$fecha."')";
     }
@@ -473,7 +473,7 @@ function cambiarEstadoprenda($valor,$valor2,$nombre,$id){
      $wpdb->query($datos);
     $resultado = $wpdb->get_results( $datos2, ARRAY_A);
     $long =  sizeof($resultado);
-    $datos3 = "INSERT INTO con_t_cambiostr ( prenda_id, estado_cambio, cual_cambio, usuario_id, fecha_hora) VALUES (".$resultado[0]['ID'].",".$obtenidosArray[0]['estado'].", '".$nombre."', ".$id.",'".$fecha."')";
+    $datos3 = "INSERT INTO con_t_estadostr ( prenda_id, estado_cambio, cual_cambio, usuario_id, fecha_hora) VALUES (".$resultado[0]['ID'].",".$obtenidosArray[0]['estado'].", '".$nombre."', ".$id.",'".$fecha."')";
     for($i=1;$i < $long;$i++){
         $datos3 = $datos3.",(".$resultado[$i]['ID'].",".$obtenidosArray[0]['estado'].", '".$nombre."', ".$id.",'".$fecha."')";
     }
@@ -1525,6 +1525,7 @@ function insertarfila($tabla,$valor,$valor2,$valor3,$valor4,$valor5,$valor6,$val
         $finalcolumna =$finalcolumna.$valorarray2["columna"];
         $finalvalor = $finalvalor.$valorarray2["valor"];        
     }
+    
     $datos = "INSERT INTO ".$tabla." ( ".$finalcolumna.") VALUES (".$finalvalor.")";
     // echo $datos;
     $wpdb->query($datos);

@@ -70,23 +70,15 @@ const tablaTallas = (claseDiv) => {
     for (let i = 0; i < arrayTallas.length; i++) {
                 
                 for (let j = 0; j < arrayTallas[i].codigosCombinaciones.length; j++) {
-                    var textos = '';
                     var codigoCombinacion = arrayTallas[i].codigosCombinaciones[j].codigo;
                     var insumoActual='';
                     for (let j = 0; j < codigoCombinacion.length; j=j+1+parseInt(codigoCombinacion[j])) {
                         for (let k = 0; k < codigoCombinacion[j]; k++) {       
                             insumoActual = `${insumoActual}${codigoCombinacion[j+1+k]}`;
-                        }               
-                        let insumoActualj = obtenerDatajson("caracteristica,complemento_caracteristica,complemento,grupo","con_t_insumos","valoresconcondicion","ID ",insumoActual);
-                        let insumoActualTexto =  JSON.parse(insumoActualj); 
-                        insumoActual='';
-                        textos = `${textos}
-                        ${insumoActualTexto[0].grupo} ${insumoActualTexto[0].caracteristica} ${insumoActualTexto[0].complemento} ${insumoActualTexto[0].complemento_caracteristica}  
-                        `;
-
+                        }   
                     }
                     
-                    let combinacion = textos.replace(/No aplica/g,"");
+                    let combinacion = arrayTallas[i].codigosCombinaciones[j].nombreCombinacion;
                     detalles = `${detalles}
                             <div class='col-lg-12 col-md-12 col-sm-12 col-xs-12 letra18pt-pc ${claseDiv}' > 
                                 
@@ -296,14 +288,13 @@ const funcionesProyectos = () => {
         // console.log(arreglosSeparados);
         html=`'<option class='removerColoresCombinaciones'  value='selecciona'>Selecciona</option>'`;
         for (let i = 0; i < arreglosSeparados.length; i++) {
-            let textos = '';
+            let textos = `${arreglosSeparados[i][0].nombre_combinacion} > ${arreglosSeparados[i][0].codigo_combinacion}`;   
             let codigoCombinacion = '';
             for (let j = 0; j < arreglosSeparados[i].length; j++) {            
                 // Acá verifico que el insumo no se repita en todos los indicativos de combinación, de esta forma solo voy a mostrar lo que en realidad diferencia a las combinaciones, por ejemplo si todas las combinaciones tienen el isumo broches, pues este no lo voy a mostrar
                 const resultado = arreglosSeparados.flat().filter(objeto => objeto.insumo === arreglosSeparados[i][j].insumo);
                 
                 if(resultado.length < arreglosSeparados.length){
-                    textos = `${textos} ${arreglosSeparados[i][j].text_insumo}`;//Ejemplo de  text_insumo: Algodón perchado  Rosa Cobre No aplica No aplica / si hay otra iteración por ejemplo Super Nylon  Verde Militar No aplica No aplica
                     let cantDigitos = arreglosSeparados[i][j].insumo.toString().length;//Ejemplo de .insumo: 1, por lo tanto cantDigitos en ese caso será 1 / entonces e .insumo: 9, por lo tanto cantDigitos en ese caso será 1
                     codigoCombinacion = codigoCombinacion.concat(cantDigitos);// Para el ejemplo codigoCombinacion: 1                                       / Para codigo de combinación será 1
                     codigoCombinacion = codigoCombinacion.concat(arreglosSeparados[i][j].insumo);// Para el ejemplo codigoCombinacion: 11                   / En la segunda iteración sería 19, por lo tanto el codigoCombinacion: 1119, haciendo referencia al insumo 1 y al 9.
@@ -327,7 +318,7 @@ const funcionesProyectos = () => {
             referenciaParaProyecto = $('#referenciaParaProyecto').val();
             $('#agregarOtraTalla').removeClass('oculto').addClass('mostrar');
             $('.divTallasCombinaciones').remove();
-            let coloresCombinacionj = obtenerDatajson("ID,indicativo_combinacion,insumo,cantidad,text_insumo","con_t_combinacionesproducto","valoresconcondicion","ficha_tecnica ",`'${referenciaParaProyecto}'`);
+            let coloresCombinacionj = obtenerDatajson("ID,indicativo_combinacion,insumo,cantidad,text_insumo,nombre_combinacion,codigo_combinacion","con_t_combinacionesproducto","valoresconcondicion","ficha_tecnica ",`'${referenciaParaProyecto}'`);
             coloresCombinacion = JSON.parse(coloresCombinacionj);
             html = `<div class='col-lg-12 col-md-12 col-sm-12 col-xs-12 divTallasCombinaciones' id='talla1'>
                         <div class='form-group pmd-textfield pmd-textfield-floating-label pmd-textfield-floating-label-completed col-lg-12 col-md-12 col-sm-12 col-xs-12'>
@@ -440,9 +431,12 @@ const funcionesProyectos = () => {
                     return false;
                 }
                 var codigoCombinacion = $(divTallasCombinaciones[i]).children().eq(j).children().eq(0).children().eq(1).val();//Es el código de los insumos utilizado para esta combinación, mirar explicación en la línea 71 de este documento. 
+                
                 const selectElement = $(divTallasCombinaciones[i]).children().eq(j).children().eq(0).children().eq(1);
                 const codigoCombinacionesproducto = selectElement.find('option:selected').attr("name");
-                
+                var arrColorCombinacion = selectElement.find('option:selected').text().split('>');
+                var nombreColorCombinacion = arrColorCombinacion[0];
+                var codigoColorCombinacion = arrColorCombinacion[1];
                 // decodifico codigoCombinacion para tener los insumos por separado de una vez
                 var insumoActual='';
                 for (let l = 0; l < codigoCombinacion.length; l=l+1+parseInt(codigoCombinacion[l])) {
@@ -460,7 +454,9 @@ const funcionesProyectos = () => {
                 var objetoCombi={
                     codigo: codigoCombinacion,
                     cantidad:$(divTallasCombinaciones[i]).children().eq(j).children().eq(1).children().eq(1).val(),
-                    codigoCombinacionesproducto: codigoCombinacionesproducto
+                    codigoCombinacionesproducto: codigoCombinacionesproducto,
+                    nombreCombinacion: nombreColorCombinacion,
+                    codigoColorCombinacion: codigoColorCombinacion
                 }
                 objeto.codigosCombinaciones.push(objetoCombi);
             }
@@ -477,7 +473,7 @@ const funcionesProyectos = () => {
             $('#tituloAlertas').text(`Por favor selecciona al menos 1 talla valida que no tenga como valor selecciona`); 
             return false;
         }
-        console.log(arrayTallas);
+        // console.log(arrayTallas);
         //Como resultado arrayTallas va a ser un arreglo con objetos, cada objeto tiene una propiedad llamada talla y otra coloresCombinaciones que es un array de objetos que tiene dentro de si objetos cada uno con una propiedad llamada insumo con el codigo del insumo utilizado y la cantidad de prendas que se van a cortar de ese insumo
         //insumosRepetidos son los insumos que van a ir en cada una de las prendas que se van a crear, es decir el total de prendas
         
@@ -798,8 +794,7 @@ const funcionesProyectos = () => {
     $('#irAresumen').on('click', function() {
         var ultimoProyecto = obtenerDatajson("ID","con_t_proyectos","ultimo","0","0");
         var jsonUltimoProyecto = JSON.parse(ultimoProyecto); 
-        console.log('jsonUltimoProyecto');
-        console.log(jsonUltimoProyecto);
+        
         var numeroProyecto = 0;
         if(!jsonUltimoProyecto[0].id){
             numeroProyecto = 1;
@@ -812,10 +807,6 @@ const funcionesProyectos = () => {
         fechaInicioProyecto = '2120-07-15 13:00:00';
         fechaFinProyecto = '2020-07-15 13:00:00';
         
-        console.log('espaciosProyectos');
-        console.log(espaciosProyectos);
-        console.log('trabajadoresProyectos');
-        console.log(trabajadoresProyectos);
 
         var espacioTexto = '';
 
@@ -871,7 +862,8 @@ const funcionesProyectos = () => {
         costoTotalProyectoNuevo = 0;
         var resumenPresupuesto = '';
         var resumenFaltantes = '';
-        
+        console.log('arregloInsumosSimplificado');
+        console.log(arregloInsumosSimplificado);
         for (let i = 0; i < arregloInsumosSimplificado.length; i++) {
             let insumoActualj = obtenerDatajson("caracteristica,complemento_caracteristica,complemento,grupo,presentacion","con_t_insumos","valoresconcondicion","ID ",arregloInsumosSimplificado[i].insumo);
             let insumoActualTexto =  JSON.parse(insumoActualj); 
@@ -923,30 +915,6 @@ const funcionesProyectos = () => {
 
         $(`#trabajadoresUtilizadosProyectoDiv`).after(trabajadorTexto); 
         
-        
-        console.log('nombreNuevoProyecto');
-        console.log(nombreNuevoProyecto);
-        
-        console.log('fechaInicioProyecto');
-        console.log(fechaInicioProyecto);
-
-        console.log('fechaFinProyecto');
-        console.log(fechaFinProyecto);
-
-        console.log('referenciaParaProyecto');
-        console.log(referenciaParaProyecto);
-        
-        
-
-       console.log('notificacionFaltantes');
-       console.log(notificacionFaltantes);
-
-
-        console.log('arregloInsumosSimplificado');
-        console.log(arregloInsumosSimplificado);
-
-        console.log('arrayTallas');
-        console.log(arrayTallas);
 
          // arregloInsumosSimplificado   *** son los dos arreglos importantes ya que estos nos van a dar las combinaciones y cantidades para crear las marquillas  faltantesCon_t_InsumosFaltantes Son los insumos faltantes totales para actualizar la tabla de insumos faltantes
         // arrayTallas                  *** y nos van a dar la cantidad de insumos que se van a usar en el proyecto.
@@ -1190,20 +1158,10 @@ const funcionesProyectos = () => {
 
                 var combinacionesProyecto = insertarfila("con_t_combinacionesproyecto",id_proyecto,id_combinacion,cantidadCombinaciones,"0","0","0","0","0","0","0","0"); 
                 
-                var textos = '';
-                var codigoCombinacion = arrayTallas[i].codigosCombinaciones[j].codigo;
-                var insumoActual='';
-                for (let j = 0; j < codigoCombinacion.length; j=j+1+parseInt(codigoCombinacion[j])) {
-                    for (let k = 0; k < codigoCombinacion[j]; k++) {       
-                        insumoActual = `${insumoActual}${codigoCombinacion[j+1+k]}`;
-                    }               
-                    let insumoActualj = obtenerDatajson("caracteristica,complemento_caracteristica,complemento,grupo","con_t_insumos","valoresconcondicion","ID ",insumoActual);
-                    let insumoActualTexto =  JSON.parse(insumoActualj); 
-                    insumoActual='';
-                    textos = `${textos} ${insumoActualTexto[0].grupo} ${insumoActualTexto[0].caracteristica} ${insumoActualTexto[0].complemento} ${insumoActualTexto[0].complemento_caracteristica}`;
-                }
-
-                let combinacion = textos.replace(/No aplica/g,"");
+               
+                let combinacion = arrayTallas[i].codigosCombinaciones[j].nombreCombinacion;
+                let codigoColorcombinacion = arrayTallas[i].codigosCombinaciones[j].codigoColorCombinacion;
+                
 
                 var objeto = {};
                 objeto.tipo = 'string';
@@ -1216,17 +1174,32 @@ const funcionesProyectos = () => {
                 objeto.columna = 'color';
                 objeto.valor = combinacion;
                 let color = prepararjson(objeto);
-                 
-                var idCombinacionesProyecto = JSON.parse(combinacionesProyecto);
+
+                var objeto = {};
+                objeto.tipo = 'string';
+                objeto.columna = 'codigo_combinacion';
+                objeto.valor = codigoColorcombinacion;
+                let codigo_combinacion = prepararjson(objeto);
             
                 objeto = {};
                 objeto.tipo = 'int';
                 objeto.columna = 'id_combinacion';
                 objeto.valor = arrayTallas[i].codigosCombinaciones[j].codigoCombinacionesproducto;
                 var id_combinacion = prepararjson(objeto);
+                
+                var resumenBuscado = obtenerDatajson("referencia_id","con_t_resumen","variasCondiciones",`nombre = '${nombreReferencia}' 
+                AND  color = '${combinacion}' 
+                AND  talla = '${arrayTallas[i].talla}'`,"0");
+                var jsonresumenBuscado = JSON.parse(resumenBuscado);
+                var referendiaIdinsert = jsonresumenBuscado[0].referencia_id;
 
+                objeto = {};
+                objeto.tipo = 'int';
+                objeto.columna = 'id_ref';
+                objeto.valor = referendiaIdinsert;
+                var id_ref = prepararjson(objeto);
 
-                var iDdetalleproyecto = insertarfila("con_t_detalleproyecto",id_proyecto,talla,color,id_combinacion,cantidadCombinaciones,"0","0","0","0","0","0"); 
+                var iDdetalleproyecto = insertarfila("con_t_detalleproyecto",id_proyecto,talla,color,codigo_combinacion,id_combinacion,cantidadCombinaciones,id_ref,"0","0","0","0","0"); 
 
             }
         }        
@@ -1242,9 +1215,47 @@ const funcionesProyectos = () => {
         }, 5000);
         
         const textoCodificado = encodeURIComponent(notificacionFaltantes.replace(/No aplica/g,""));
-        var url = `https://wa.me/573229261615?text=${textoCodificado}`;
+        var url = `https://wa.me/573017209186?text=${textoCodificado}`;
         
         window.open(url, '_blank');
+
+        let proyectosJson = obtenerDatajson("ID,nombre_proyecto,fecha_inicio_proyecto,fecha_fin_proyecto,presupuesto,estado","con_t_proyectos","variasfilasunicas","0","0");
+        proyectosArray = JSON.parse(proyectosJson);
+
+        var html = '';
+        for (let i =  (proyectosArray.length-1); i >= 0; i--) {
+            if (proyectosArray[i].estado == 'Eliminado') {continue;}
+            html = `${html}
+            <div class='col-lg-12 col-md-12 col-sm-12 col-xs-12 letra18pt-pc removerVerProyectos' id='proyectoMostrar${proyectosArray[i].ID}'> 
+                <p class='col-lg-2 col-md-2 col-sm-2 col-xs-2 letra18pt-pc '>${proyectosArray[i].nombre_proyecto}</p>
+                <p class='col-lg-2 col-md-2 col-sm-2 col-xs-2 letra18pt-pc '>${proyectosArray[i].estado}</p>
+                <p class='col-lg-2 col-md-2 col-sm-2 col-xs-2 letra18pt-pc '>${proyectosArray[i].fecha_inicio_proyecto}</p>
+                <p class='col-lg-2 col-md-2 col-sm-2 col-xs-2 letra18pt-pc '>${proyectosArray[i].fecha_fin_proyecto}</p>
+                <div class='col-lg-2 col-md-2 col-sm-2 col-xs-2 '> 
+                    <button class='botonmodal verProyectoIndividual' type='button' id='proyectoN${proyectosArray[i].ID}' name='${proyectosArray[i].ID}'>
+                    Ver proyecto
+                    </button>
+                </div>`;
+            if((eliminarProyecto==1) && (proyectosArray[i].estado == 'Por cortar')){
+                html=`${html}
+                <div class='col-lg-2 col-md-2 col-sm-2 col-xs-2 '> 
+                    <button class='botonmodal borrarProyectoIndividual' type='button' id='proyectoB${proyectosArray[i].ID}' name='${proyectosArray[i].ID}'>
+                    Borrar proyecto
+                    </button>
+                </div>`;
+            }
+                
+            html = `${html}</div>`; 
+        
+        }
+        $('.removerEspaciosTrabajosFechasInicio').remove();
+        $('.removerResumenFinal').remove();
+        $('.removerVerProyectos').remove();
+        $('.removerDetallesVistProyecto').remove();
+        mostrarOcultarDiv('verProyectosDiv','verProyectoDiv'); 
+        mostrarDiv('verProyectosDiv'); 
+        $('#titulosProyectosVer').after(html);
+        proyectoIndividual(); 
     }); 
 
     
@@ -1266,7 +1277,7 @@ const funcionesProyectos = () => {
                     Ver proyecto
                     </button>
                 </div>`;
-            if(eliminarProyecto==1){
+            if((eliminarProyecto==1) && (proyectosArray[i].estado == 'Por cortar')){
                 html=`${html}
                 <div class='col-lg-2 col-md-2 col-sm-2 col-xs-2 '> 
                     <button class='botonmodal borrarProyectoIndividual' type='button' id='proyectoB${proyectosArray[i].ID}' name='${proyectosArray[i].ID}'>
@@ -1288,7 +1299,7 @@ const funcionesProyectos = () => {
         proyectoIndividual();
     }); 
 
-    
+    var terminadoProyecto = 0;
     const proyectoIndividual = () => {
         $('#eliminarProyectoConfirmado').on('click', function() {
             // `con_t_insumosfaltantes` (
@@ -1347,6 +1358,8 @@ const funcionesProyectos = () => {
                 
             }
 
+            proyectotr('Eliminado');    
+        
             $('#modalEliminarProyecto').modal("hide");  
 
             $(`#proyectoMostrar${proyectoIdTotal}`).remove();
@@ -1373,12 +1386,18 @@ const funcionesProyectos = () => {
             }
             let sateliteJson = obtenerDatajson("nombre","con_t_satelites","valoresconcondicion","ID",`'${proyect[0].satelite}'`);
             let satelite = JSON.parse(sateliteJson);
-            
+
+            var idSatelite = 'asignarSatelite';
+            if(satelite[0].nombre != 'Sin asignar'){idSatelite='yaAsignado';}
+
+            var asignarTerminados = 'yaAsignado';
+            if(proyect[0].estado == 'Cortado' || proyect[0].estado == 'Por cortar'){asignarTerminados='asignarTerminados';}
+
             var html = `
             <div class='col-lg-12 col-md-12 col-sm-12 col-xs-12 letra18pt-pc removerDetallesVistProyecto'> 
                     <p class='col-lg-4 col-md-4 col-sm-4 col-xs-4 letra18pt-pc'>${formatoPrecio(parseInt(proyect[0].presupuesto))}</p>
-                    <p class='col-lg-4 col-md-4 col-sm-4 col-xs-4 letra18pt-pc' id='asignarSatelite'>${satelite[0].nombre}</p>
-                    <p class='col-lg-4 col-md-4 col-sm-4 col-xs-4 letra18pt-pc' id='asignarTerminados'>${terminado}</p>
+                    <p class='col-lg-4 col-md-4 col-sm-4 col-xs-4 letra18pt-pc' id='${idSatelite}'>${satelite[0].nombre}</p>
+                    <p class='col-lg-4 col-md-4 col-sm-4 col-xs-4 letra18pt-pc' id='${asignarTerminados}'>${terminado}</p>
                 </div>
             `;
             
@@ -1447,36 +1466,273 @@ const funcionesProyectos = () => {
                     `;    
                 }            
             }
+            tallasProyectoSeleccionado = `${tallasProyectoSeleccionado}
+            <div class='col-lg-6 col-md-6 col-sm-6 col-xs-6 letra18pt-pc removerDetallesVistProyecto' > 
+                <button class='botonmodal boton100  removerDetallesVistProyecto' type='button' id='volverProyectosTodos'>Volver a ver los proyectos    </button>
+            </div>
+            `;
             if(proyect[0].estado =='Por cortar'){
                 tallasProyectoSeleccionado = `${tallasProyectoSeleccionado}
-                <button class='botonmodal removerDetallesVistProyecto' type='button' id='confirmarPrendasCortadas'>Confirmar prendas reales cortadas    </button>
-            `;}
+                <div class='col-lg-6 col-md-6 col-sm-6 col-xs-6 letra18pt-pc removerDetallesVistProyecto'>
+                    <button class='botonmodal  boton100 removerDetallesVistProyecto' type='button' id='confirmarPrendasCortadas'>Confirmar prendas reales cortadas    </button>
+                </div>
+                `;}
             $('#tallasProyectoSeleccionado').append(tallasProyectoSeleccionado);
             
             funcionesPrendasCortadas();
-// DELETE FROM con_t_trabajadoresproyecto;
-// ALTER TABLE con_t_trabajadoresproyecto AUTO_INCREMENT = 1;
-// DELETE FROM con_t_espaciosproyecto;
-// ALTER TABLE con_t_espaciosproyecto AUTO_INCREMENT = 1;
-// DELETE FROM con_t_detalleproyecto;
-// ALTER TABLE con_t_detalleproyecto AUTO_INCREMENT = 1;
-// DELETE FROM con_t_combinacionesproyecto;
-// ALTER TABLE con_t_combinacionesproyecto AUTO_INCREMENT = 1;
-// DELETE FROM con_t_insumosfaltantes;
-// ALTER TABLE con_t_insumosfaltantes AUTO_INCREMENT = 1;
-// DELETE FROM con_t_presupuestosproyectos;
-// ALTER TABLE con_t_presupuestosproyectos AUTO_INCREMENT = 1;
-// DELETE FROM con_t_proyectos;
-// ALTER TABLE con_t_proyectos AUTO_INCREMENT = 1;
 
             mostrarOcultarDiv('verProyectoDiv','verProyectosDiv'); 
         }); 
+
+        
+        
     }
+
+    $('#confirmarSatelite').on('click', function() { 
+        var sateliteSelect = $('#sateliteSelect').val(); 
+        if(sateliteSelect == 1){
+            $('#modalAlertas').modal("show"); 
+            $('#tituloAlertas').text(`Por favor selecciona un satélite`); 
+            $(`#${this.id}`).val('');
+            return false;
+        }
+        var marquillas = `<table border="1"><tbody><tr><th>Codigo</th><th>CodigoShow</th><th>Descripción</th></tr>`;
+        
+        let proyectJson = obtenerDatajson("cantidad_cortada,talla,color,codigo_combinacion,id_ref","con_t_detalleproyecto","valoresconcondicion","id_proyecto",`'${proyectoIdTotal}'`);
+        let proyect = JSON.parse(proyectJson);
+        // 
+
+        
+        var objeto = {};
+        objeto.columna = "ID";
+        objeto.valor = proyectoIdTotal;
+        var condicion = prepararjson(objeto);
+
+        objeto = {};
+        objeto.tipo = 'string';
+        objeto.columna = 'estado';
+        objeto.valor = 'En satélite';
+        let estadoP = prepararjson(objeto);
+
+        objeto = {};
+        objeto.tipo = 'int';
+        objeto.columna = 'satelite ';
+        objeto.valor = parseInt(sateliteSelect);
+        let sateliteAsign = prepararjson(objeto);
+
+
+        actualizarregistros("con_t_proyectos",condicion,estadoP,sateliteAsign,"0","0","0","0","0","0","0","0","0");
+
+        proyectotr('En satélite');
+
+        for (let i = 0; i < proyect.length; i++) {
+
+            let resumJson = obtenerDatajson("nombre,cantidad","con_t_resumen","valoresconcondicion","referencia_id ",`'${proyect[i].id_ref}'`);
+            let resum = JSON.parse(resumJson);
+
+            var objeto = {};
+            objeto.columna = "referencia_id";
+            objeto.valor = proyect[i].id_ref;
+            var condicion = prepararjson(objeto);
+
+            objeto = {};
+            objeto.tipo = 'int';
+            objeto.columna = 'cantidad';
+            objeto.valor = parseInt(resum[0].cantidad) + parseInt(proyect[i].cantidad_cortada);
+            let cantidad = prepararjson(objeto);
+
+            actualizarregistros("con_t_resumen",condicion,cantidad,"0","0","0","0","0","0","0","0","0","0");
+
+            let nombreProyec = resum[0].nombre;
+
+            for (let j = 0; j < proyect[i].cantidad_cortada; j++) {
+
+                var codigoPrendaD = `P${proyectoIdTotal}${proyect[i].codigo_combinacion}${j+1}D${proyect[i].cantidad_cortada}T${proyect[i].talla}S${sateliteSelect}`;
+                var codigoPrenda = codigoPrendaD.replace(" ","")
+                var descr = `${nombreProyec} ${proyect[i].color} ${proyect[i].talla}`;
+                marquillas = `${marquillas} 
+                <tr>
+                    <td>${codigoPrenda}914</td>    
+                    <td>${codigoPrenda}</td>                
+                    <td>${descr}</td>
+                </tr>`;
+
+                objeto = {};
+                objeto.tipo = 'int';
+                objeto.columna = 'referencia_id';
+                objeto.valor = proyect[i].id_ref;
+                var referencia_id = prepararjson(objeto);
+
+                objeto = {};
+                objeto.tipo = 'string';
+                objeto.columna = 'descripcion';
+                objeto.valor = descr;
+                var descripcion = prepararjson(objeto);
+
+                objeto = {};
+                objeto.tipo = 'string';
+                objeto.columna = 'codigo';
+                objeto.valor = `${codigoPrenda}914`;
+                var codigo = prepararjson(objeto);
+
+                objeto = {};
+                objeto.tipo = 'string';
+                objeto.columna = 'codigoshow';
+                objeto.valor = `${codigoPrenda}`;
+                var codigoshow = prepararjson(objeto);
+
+                objeto = {};
+                objeto.tipo = 'string';
+                objeto.columna = 'estado';
+                objeto.valor = `En satélite`;
+                var estado = prepararjson(objeto);
+
+                objeto = {};
+                objeto.tipo = 'string';
+                objeto.columna = 'cual';
+                objeto.valor = `${sateliteSelect}`;
+                var cual = prepararjson(objeto);
+
+                objeto = {};
+                objeto.tipo = 'string';
+                objeto.columna = 'complemento_estado';
+                objeto.valor = ``;
+                var complemento_estado = prepararjson(objeto);
+
+                const date = new Date();
+                let day = date.getDate();
+                let month = date.getMonth() + 1;
+                let year = date.getFullYear();
+                let currentDate = `${year}/${month}/${day}`;//2022-08-08 13:58:58 	
+                var objeto = {};
+                objeto.tipo = "date";
+                objeto.columna = "fecha_cambio";
+                objeto.valor = currentDate;
+                var fecha  = prepararjson(objeto);
+
+                objeto = {};
+                objeto.tipo = 'int';
+                objeto.columna = 'proyecto';
+                objeto.valor = proyectoIdTotal;
+                var proyecto = prepararjson(objeto);
+
+                objeto = {};
+                objeto.tipo = 'int';
+                objeto.columna = 'satelite';
+                objeto.valor = sateliteSelect;
+                var satelite = prepararjson(objeto);
+
+                objeto = {};
+                objeto.tipo = 'int';
+                objeto.columna = 'terminado';
+                objeto.valor = terminadoProyecto;
+                var terminado = prepararjson(objeto);
+
+                // console.log(`"con_t_trprendas",${referencia_id},${descripcion},${codigo},${codigoshow},${estado},${cual},${complemento_estado},${fecha},${proyecto},${satelite},${terminado},"0"`); 
+                insertarfila("con_t_trprendas",referencia_id,descripcion,codigo,codigoshow,estado,cual,complemento_estado,fecha,proyecto,satelite,terminado,"0"); 
+               
+            }
+           
+            
+        }
+        
+        marquillas = `${marquillas}     </tbody></table>`;
+        $('#marquillas').append(marquillas);
+        window.open('data:application/vnd.ms-excel,' + encodeURIComponent($('#marquillas').html()));
+        
+    }); 
+    
+    
     var arregloInsumosCortados = [];
     var arregloPrendasCortadas = [];
     const funcionesPrendasCortadas = () => {
+
+        $('#asignarSatelite').on('click', function() { 
+            let proyectoJson = obtenerDatajson("satelite,terminados,presupuesto,estado","con_t_proyectos","valoresconcondicion","ID",`'${proyectoIdTotal}'`);
+            let proyect = JSON.parse(proyectoJson);
+            terminadoProyecto = proyect[0].terminados;
+            if(proyect[0].estado == 'Por cortar'){
+                $('#modalAlertas').modal("show"); 
+                $('#tituloAlertas').text(`El proyecto ${proyectoIdTotal} esta sin cortar, no puedes asignar satélite aún`); 
+                $(`#${this.id}`).val('');
+                return false;
+            }
+            if(terminadoProyecto == 0){
+                $('#modalSinterminados').modal("show"); 
+                $('#tituloSinTerminados').text(`El proyecto ${proyectoIdTotal} indica que no requiere terminados (breches, punteras, etc) ¿Deseas continuar?`); 
+                $(`#${this.id}`).val('');
+                return false;
+            }
+            let satelitesJson = obtenerDatajson("ID ,nombre,direccion,telefono","con_t_satelites","variasfilasunicas","0","0");
+            satelitesArray = JSON.parse(satelitesJson);
+            let htmll = '';
+            for (let i = 0; i < satelitesArray.length; i++) {
+                htmll=htmll+"<option class='removerSatelites' value='"+satelitesArray[i].ID+"'>"+satelitesArray[i].nombre+"</option>";
+                
+            }
+            $('.removerSatelites').remove();
+            let sateliteSelect = $('#sateliteSelect');
+            sateliteSelect.append(htmll);
+            mostrarOcultarDiv('asignarSateliteDiv','verProyectoDiv'); 
+            
+        }); 
+
+        $('#confirmarSinTerminados').on('click', function() { 
+            $('#modalSinterminados').modal("hide"); 
+            let satelitesJson = obtenerDatajson("ID ,nombre,direccion,telefono","con_t_satelites","variasfilasunicas","0","0");
+            satelitesArray = JSON.parse(satelitesJson);
+            let htmll = '';
+            for (let i = 0; i < satelitesArray.length; i++) {
+                htmll=htmll+"<option class='removerSatelites' value='"+satelitesArray[i].ID+"'>"+satelitesArray[i].nombre+"</option>";
+                
+            }
+            $('.removerSatelites').remove();
+            let sateliteSelect = $('#sateliteSelect');
+            sateliteSelect.append(htmll);
+            mostrarOcultarDiv('asignarSateliteDiv','verProyectoDiv');
+        }); 
+
+        $('#asignarTerminados').on('click', function() { 
+            $('#asignarTerminadosModal').modal("show"); 
+        }); 
+
+        $('#asignarTerminadosBoton').on('click', function() { 
+            let term = $('#terminadosProyecto').val();
+            var objeto = {};
+            objeto.columna = "ID";
+            objeto.valor = proyectoIdTotal;
+            var condicion = prepararjson(objeto);
+
+            objeto = {};
+            objeto.tipo = 'int';
+            objeto.columna = 'terminados';
+            objeto.valor = parseInt(term);
+            let terminados = prepararjson(objeto);
+
+            actualizarregistros("con_t_proyectos",condicion,terminados,"0","0","0","0","0","0","0","0","0","0");
+            if(parseInt(term)==0){                
+                $('#asignarTerminados').text('No requiere terminados');
+            }else{
+                proyectotr('Terminado asignado');
+                $('#asignarTerminados').text('Requiere terminados');
+            }
+            
+
+            $('#asignarTerminadosModal').modal("hide"); 
+
+            
+        }); 
         
+
+        
+
+
+        $('#volverProyectosTodos').on('click', function() {  
+            $('.removerDetallesVistProyecto').remove();
+            mostrarOcultarDiv('verProyectosDiv','verProyectoDiv'); 
+        }); 
         $('#confirmarPrendasCortadas').on('click', function() {    
+            arregloInsumosCortados=[];
             var cantidadesRealesCortadas = $('.cantidadesRealesCortadas');
             
             for (let i = 0; i < cantidadesRealesCortadas.length; i++) {
@@ -1505,14 +1761,16 @@ const funcionesProyectos = () => {
                 //   `cantidad` int(200) NOT NULL,
                 // let combinacionesJson = obtenerDatajson("nombre","con_t_satelites","valoresconcondicion","ID",`'${proyect[0].satelite}'`);
                 // let combinaciones = JSON.parse(combinacionesJson);
-                let fichaTecnicaj = obtenerDatajson("indicativo_combinacion","con_t_combinacionesproducto","valoresconcondicion","ID ",combinacion);
+                let fichaTecnicaj = obtenerDatajson("indicativo_combinacion,ficha_tecnica","con_t_combinacionesproducto","valoresconcondicion","ID ",combinacion);
                 let fichaTecnica = JSON.parse(fichaTecnicaj);
-                let insumosproductoj = obtenerDatajson("indicativo_combinacion,insumo,cantidad,text_insumo,ficha_tecnica","con_t_combinacionesproducto","valoresconcondicion","indicativo_combinacion ",fichaTecnica[0].indicativo_combinacion);
-                let insumosproducto = JSON.parse(insumosproductoj);   
+                let insumosproductoj = obtenerDatajson("indicativo_combinacion,insumo,cantidad,text_insumo,ficha_tecnica","con_t_combinacionesproducto","valoresconcondicion","indicativo_combinacion",fichaTecnica[0].indicativo_combinacion);
+                let insumosproductos = JSON.parse(insumosproductoj);  
+                const insumosproducto = insumosproductos.filter(objeto => objeto.ficha_tecnica === fichaTecnica[0].ficha_tecnica);
+                
                 const cantidadesAcumuladas = {};
                 for (let i = 0; i < insumosproducto.length; i++) {
                     var cantidadUsada = insumosproducto[i].cantidad * cantidadCortada;
-                    let insumoCantidadj = obtenerDatajson("cantidad,grupo,complemento,caracteristica,complemento_caracteristica,presentacion","con_t_insumos","valoresconcondicion","ID ",insumosproducto[i].insumo);
+                    let insumoCantidadj = obtenerDatajson("cantidad,grupo,complemento,caracteristica,complemento_caracteristica,presentacion,precio_unidad","con_t_insumos","valoresconcondicion","ID ",insumosproducto[i].insumo);
                     let insumoCantidad = JSON.parse(insumoCantidadj);
                     // Verificar si ya existe un objeto con el insumoID en el arreglo
                     const indiceExistente = arregloInsumosCortados.findIndex(objeto => objeto.insumoID === insumosproducto[i].insumo);
@@ -1524,6 +1782,7 @@ const funcionesProyectos = () => {
                         arregloInsumosCortados[indiceExistente].cantidadNueva =insumoCantidad[0].cantidad- cantidadUsada;
                     } 
                     var textoIsunmo = `${insumoCantidad[0].grupo} ${insumoCantidad[0].complemento} ${insumoCantidad[0].caracteristica} ${insumoCantidad[0].complemento_caracteristica}`;
+                    console.log(` ${textoIsunmo.replace(/No aplica/g,"")} insumoCantidad[0].cantidad ${insumoCantidad[0].cantidad}  cantidadUsada ${cantidadUsada}`);
                     if(insumoCantidad[0].cantidad < cantidadUsada){
                         
                         $('#modalAlertas').modal("show"); 
@@ -1541,27 +1800,17 @@ const funcionesProyectos = () => {
                     objeto.insumoID = insumosproducto[i].insumo;
                     objeto.insumoTexto = textoIsunmo.replace(/No aplica/g,"");
                     objeto.cantidadNueva =insumoCantidad[0].cantidad- cantidadUsada;
+                    objeto.precio_unidad =insumoCantidad[0].precio_unidad;
                     arregloInsumosCortados.push(objeto);
                 }
                 
-                // console.log('insumosproducto');
-                // console.log(insumosproducto);
-                // console.log('combinacion');
-                // console.log(combinacion);
-                // console.log('colorCortado');
-                // console.log(colorCortado);
-                // console.log('tallaCortada');
-                // console.log(tallaCortada);
-                // console.log('cantidadCortada');
-                // console.log(cantidadCortada);
                 
             }
-            console.log(arregloInsumosCortados);
-            console.log(arregloPrendasCortadas);
+
             var htmll = '';
             for (let i = 0; i < arregloInsumosCortados.length; i++) {
                 htmll = `${htmll}
-                <div class='col-lg-12 col-md-12 col-sm-12 col-xs-12 letra18pt-pc'> 
+                <div class='col-lg-12 col-md-12 col-sm-12 col-xs-12 letra18pt-pc removerConfirmacionProyecto'> 
                     <p class='col-lg-6 col-md-6 col-sm-6 col-xs-6 letra18pt-pc negrillaTres'>${arregloInsumosCortados[i].insumoTexto}</p>
                     <p class='col-lg-6 col-md-6 col-sm-6 col-xs-6 letra18pt-pc negrillaTres'>${arregloInsumosCortados[i].cantidad}</p>
                 </div>
@@ -1571,9 +1820,17 @@ const funcionesProyectos = () => {
             
             $('#isumosCortadosProyectoSeleccionado').append(htmll);
             mostrarOcultarDiv('confirmarCortadoDiv','verProyectoDiv'); 
+            console.log('arregloInsumosCortados');
+            console.log(arregloInsumosCortados);
         });  
-        
+        $('#volverVerproyecto').on('click', function() {  
+            $('.removerConfirmacionProyecto').remove();
+            mostrarOcultarDiv('verProyectoDiv','confirmarCortadoDiv'); 
+        }); 
         $('#confirmaInsumosCortados').on('click', function() {  
+            
+            var presupuestoNuevo = 0;
+
             for (let i = 0; i < arregloInsumosCortados.length; i++) {
                 
                 var objeto = {};
@@ -1587,21 +1844,12 @@ const funcionesProyectos = () => {
                 objeto.valor = arregloInsumosCortados[i].cantidadNueva;
                 let cantidad = prepararjson(objeto);
 
+                presupuestoNuevo =presupuestoNuevo+( parseInt(arregloInsumosCortados[i].precio_unidad) * parseInt(arregloInsumosCortados[i].cantidad));
+
                 actualizarregistros("con_t_insumos",condicion,cantidad,"0","0","0","0","0","0","0","0","0","0");
 
-                var objeto = {};
-                objeto.columna = "ID";
-                objeto.valor = proyectoIdTotal;
-                var condicion = prepararjson(objeto);
-
-                objeto = {};
-                objeto.tipo = 'string';
-                objeto.columna = 'estado';
-                objeto.valor = 'Cortado';
-                let estado = prepararjson(objeto);
-
-                actualizarregistros("con_t_proyectos",condicion,estado,"0","0","0","0","0","0","0","0","0","0");
             }
+
 
             for (let i = 0; i < arregloPrendasCortadas.length; i++) {
 
@@ -1619,48 +1867,121 @@ const funcionesProyectos = () => {
                 actualizarregistros("con_t_detalleproyecto",condicion,cantidad_cortada,"0","0","0","0","0","0","0","0","0","0");
                 
             }
-            const fechaActual = new Date();
-
-            // Obtener los componentes de la fecha (año, mes, día, hora, minutos y segundos)
-            const anio = fechaActual.getFullYear();
-            const mes = String(fechaActual.getMonth() + 1).padStart(2, '0'); // Los meses comienzan desde 0, por lo que se le suma 1
-            const dia = String(fechaActual.getDate()).padStart(2, '0');
-            const hora = String(fechaActual.getHours()).padStart(2, '0');
-            const minutos = String(fechaActual.getMinutes()).padStart(2, '0');
-            const segundos = String(fechaActual.getSeconds()).padStart(2, '0');
-
-            // Construir la cadena de fecha y hora en el formato deseado
-            var fechaActuall  = `${anio}-${mes}-${dia} ${hora}:${minutos}:${segundos}`;
-
-
-            var objeto = {};
-            objeto.tipo = "string";
-            objeto.columna = "fecha_hora";
-            objeto.valor = fechaActuall;
-            var fecha_hora = prepararjson(objeto);
-
-            var objeto = {};
-            objeto.tipo = "string";
-            objeto.columna = "tipocambio";
-            objeto.valor = 'Cortado';
-            var tipocambio = prepararjson(objeto);
-
-            var objeto = {};
+            
+            objeto = {};
             objeto.tipo = 'int';
-            objeto.columna = 'id_usuario';
-            objeto.valor = parseInt($('#usuario').attr("name"));
-            let id_usuario = prepararjson(objeto);
+            objeto.columna = 'presupuesto';
+            objeto.valor = presupuestoNuevo;
+            var presupuestoN = prepararjson(objeto);
 
+            
             var objeto = {};
-            objeto.tipo = 'int';
-            objeto.columna = 'id_proyecto';
+            objeto.columna = "ID";
             objeto.valor = proyectoIdTotal;
-            let id_proyecto = prepararjson(objeto);
+            var condicion = prepararjson(objeto);
 
-            var iDespaciosproyecto = insertarfila("con_t_proyectostr",id_proyecto,id_usuario,fecha_hora,tipocambio,"0","0","0","0","0","0","0"); 
+            objeto = {};
+            objeto.tipo = 'string';
+            objeto.columna = 'estado';
+            objeto.valor = 'Cortado';
+            let estado = prepararjson(objeto);
+
+            actualizarregistros("con_t_proyectos",condicion,estado,presupuestoN,"0","0","0","0","0","0","0","0","0");
+
+            proyectotr('Cortado');
+
+            const confirmarCortadoDiv = $('#confirmarCortadoDiv');
+            const proyectoActualizadoOk = $('#proyectoActualizadoOk');
+
+            confirmarCortadoDiv.removeClass('mostrar').addClass('oculto');
+            proyectoActualizadoOk.removeClass('oculto').addClass('mostrar');
+            setTimeout(() => {
+                proyectoActualizadoOk.removeClass('mostrar').addClass('oculto');
+            }, 5000);
+
+            let proyectosJson = obtenerDatajson("ID,nombre_proyecto,fecha_inicio_proyecto,fecha_fin_proyecto,presupuesto,estado","con_t_proyectos","variasfilasunicas","0","0");
+            proyectosArray = JSON.parse(proyectosJson);
+
+            var html = '';
+            for (let i =  (proyectosArray.length-1); i >= 0; i--) {
+                if (proyectosArray[i].estado == 'Eliminado') {continue;}
+                html = `${html}
+                <div class='col-lg-12 col-md-12 col-sm-12 col-xs-12 letra18pt-pc removerVerProyectos' id='proyectoMostrar${proyectosArray[i].ID}'> 
+                    <p class='col-lg-2 col-md-2 col-sm-2 col-xs-2 letra18pt-pc '>${proyectosArray[i].nombre_proyecto}</p>
+                    <p class='col-lg-2 col-md-2 col-sm-2 col-xs-2 letra18pt-pc '>${proyectosArray[i].estado}</p>
+                    <p class='col-lg-2 col-md-2 col-sm-2 col-xs-2 letra18pt-pc '>${proyectosArray[i].fecha_inicio_proyecto}</p>
+                    <p class='col-lg-2 col-md-2 col-sm-2 col-xs-2 letra18pt-pc '>${proyectosArray[i].fecha_fin_proyecto}</p>
+                    <div class='col-lg-2 col-md-2 col-sm-2 col-xs-2 '> 
+                        <button class='botonmodal verProyectoIndividual' type='button' id='proyectoN${proyectosArray[i].ID}' name='${proyectosArray[i].ID}'>
+                        Ver proyecto
+                        </button>
+                    </div>`;
+                if((eliminarProyecto==1) && (proyectosArray[i].estado == 'Por cortar')){
+                    html=`${html}
+                    <div class='col-lg-2 col-md-2 col-sm-2 col-xs-2 '> 
+                        <button class='botonmodal borrarProyectoIndividual' type='button' id='proyectoB${proyectosArray[i].ID}' name='${proyectosArray[i].ID}'>
+                        Borrar proyecto
+                        </button>
+                    </div>`;
+                }
+                    
+                html = `${html}</div>`; 
+            
+            }
+            $('.removerEspaciosTrabajosFechasInicio').remove();
+            $('.removerResumenFinal').remove();
+            $('.removerVerProyectos').remove();
+            $('.removerDetallesVistProyecto').remove();
+            mostrarOcultarDiv('verProyectosDiv','verProyectoDiv'); 
+            mostrarDiv('verProyectosDiv'); 
+            $('#titulosProyectosVer').after(html);
+            proyectoIndividual();
+
         });  
     }
 
+    const proyectotr = (tipocambioInsert) =>{
+        const fechaActual = new Date();
+
+        // Obtener los componentes de la fecha (año, mes, día, hora, minutos y segundos)
+        const anio = fechaActual.getFullYear();
+        const mes = String(fechaActual.getMonth() + 1).padStart(2, '0'); // Los meses comienzan desde 0, por lo que se le suma 1
+        const dia = String(fechaActual.getDate()).padStart(2, '0');
+        const hora = String(fechaActual.getHours()).padStart(2, '0');
+        const minutos = String(fechaActual.getMinutes()).padStart(2, '0');
+        const segundos = String(fechaActual.getSeconds()).padStart(2, '0');
+
+        // Construir la cadena de fecha y hora en el formato deseado
+        var fechaActuall  = `${anio}-${mes}-${dia} ${hora}:${minutos}:${segundos}`;
+
+
+        var objeto = {};
+        objeto.tipo = "string";
+        objeto.columna = "fecha_hora";
+        objeto.valor = fechaActuall;
+        var fecha_hora = prepararjson(objeto);
+
+        var objeto = {};
+        objeto.tipo = "string";
+        objeto.columna = "tipocambio";
+        objeto.valor = tipocambioInsert;
+        var tipocambio = prepararjson(objeto);
+
+        var objeto = {};
+        objeto.tipo = 'int';
+        objeto.columna = 'id_usuario';
+        objeto.valor = parseInt($('#usuario').attr("name"));
+        let id_usuario = prepararjson(objeto);
+
+        var objeto = {};
+        objeto.tipo = 'int';
+        objeto.columna = 'id_proyecto';
+        objeto.valor = proyectoIdTotal;
+        let id_proyecto = prepararjson(objeto);
+
+        var iDproyectoTR = insertarfila("con_t_proyectostr",id_proyecto,id_usuario,fecha_hora,tipocambio,"0","0","0","0","0","0","0"); 
+
+    }
     $('#agregarSatelites').on('click', function() {    
 
         mostrarDiv('nuevoSatelite');
