@@ -295,6 +295,12 @@ function is_admin_user() {
             <div class='col-lg-6 col-md-6 col-sm-6 col-xs-12' id='enviarInicialEscaneados' ><button class='botonmodal letra18pt-pc' type='button'>Enviar escaneados</button></div>
             <div id='escanerInvInicial' style='display: none;' ></div>
         </div>
+        <div style="width: 100%" id="readerTerminados"></div>
+        <div id='funcionesEscanerTerminados' style='display: none;'>
+            <div class='col-lg-6 col-md-6 col-sm-6 col-xs-12' id='enviarTerminados' ><button class='botonmodal letra18pt-pc' type='button'>Enviar escaneados</button></div>
+            <div id='escanerTermin' style='display: none;' >
+            </div>
+        </div>
         <div style="width: 100%" id="reader"></div>
         <div id='funcionesEscaner' style='display: none;'>
             <div class='col-lg-6 col-md-6 col-sm-6 col-xs-12' id='enviarEscaneados' ><button class='botonmodal letra18pt-pc' type='button'>Enviar escaneados</button></div>

@@ -81,7 +81,10 @@
         }if(items[i]==38){
             var segundo = $('#botonesEscaner');
             segundo.append("<div class='col-lg-12 col-md-12 col-sm-12 col-xs-12' id='accion38'><button class='botonmodal' type='button' id='ventaMayorista'>Venta mayorista</button></div>");
-        }        
+        }if(items[i]==57){
+            var segundo = $('#botonesEscaner');
+            segundo.append("<div class='col-lg-12 col-md-12 col-sm-12 col-xs-12' id='accion38'><button class='botonmodal' type='button' id='confirmarTerminados'>Confirmar terminados</button></div>");
+        }       
     }
     $('#crearReferencia').on('click', function(){   
         $('.remover').remove();
@@ -943,6 +946,15 @@
         inicialcaja(pr);
         $('.remover').remove();
     });    
+    /*************************** Escaner terminados *******************************/
+    $('#confirmarTerminados').on('click', function() {
+        $('#escanerTermin').css('display', 'block');
+        $('#funcionesEscanerTerminados').css('display', 'block');
+        $('#botonesEscaner').css('display', 'none');
+        var html5QrcodeScanner = new Html5QrcodeScanner(
+    	"readerTerminados", { fps: 10, qrbox: 250 });
+        html5QrcodeScanner.render(escanearTerminados);
+    });
     /*************************** Escaner inventario *******************************/
     $('#escanearInventario').on('click', function() {
         $('#escanerInv').css('display', 'block');
@@ -955,6 +967,8 @@
     $('#enviarEscaneados').on('click', function() {
         var escaneadosData = $('#escanerInv').text();
         alert(escaneadosData);
+        var noEnviados = '';
+        var banderaTerminados  = 0;
         console.log('datosPrendaActualesEnviar');
 		console.log(datosPrendaActuales);
         var escaneadosEnviar = escaneadosData.replace(" ","");
@@ -1062,12 +1076,9 @@
                     continue;
                 }
                 if(terminadoEstadoA[0].terminado==0){
-                    $('#modalAlertas').modal("show"); 
-                    $('#tituloAlertas').text(`
-                        La prenda con el código ${datosPrendaActuales[i].codigo} no puede ser escaneada en este momento, 
-                        ya que se encuentra en la etapa de terminados. 
-                        Por favor, dirígete a la sección de "Terminados" para escanear la prenda y confirmar que ha sido completada.`
-                    ); 
+                    
+                    noEnviados = `${noEnviados} ${datosPrendaActuales[i].codigo}`;
+                    banderaTerminados = 1;
                     continue;
                 }
 
@@ -1134,6 +1145,15 @@
         var url = `https://wa.me/573017209186?text=${textoCodificado}`;
 
         window.open(url, '_blank');
+        if(banderaTerminados == 1){
+            $('#modalAlertas').modal("show"); 
+            $('#tituloAlertas').text(`
+                La prendas con los códigos ${noEnviados} no pueden ser escaneadas en este momento, 
+                ya que se encuentran en la etapa de terminados. 
+                Por favor, dirígete a la sección de "Terminados" para escanear las prendas y confirmar que han sido completadas.`
+            ); 
+        }
+        
 
     });
     /*************************** Empacar *******************************/

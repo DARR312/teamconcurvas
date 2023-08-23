@@ -303,7 +303,8 @@ function escanearInventa(decodedText, decodedResult) {
 		console.log(decodedText);
 		let datosPrendaActualj = obtenerDatajson("terminado,codigo,codigoshow,estado","con_t_trprendas","valoresconcondicion","codigo",`'${decodedText}'`);
     	let datosPrendaActual = JSON.parse(datosPrendaActualj);
-
+		console.log('datosPrendaActuales');
+		console.log(datosPrendaActuales);
 		const codigoshowNuevo = datosPrendaActual[0].codigoshow;
 
 		const existeEnDatosPrendaActuales = datosPrendaActuales.some(item => item.codigoshow === codigoshowNuevo);
@@ -317,6 +318,28 @@ function escanearInventa(decodedText, decodedResult) {
 		var verificado = verificarinv(decodedText);
 		if(verificado!="ok"){alert("Este código quedó en el inventario inicial, por favor al botón de inventario inicial desde un computador y dirigirse a una bogeda para ingresarlo. ALERTA ESTO QUEDA A NOMBRE DE "+verificado+" PARA AUDITORIA DE INVENTARIO ");return false;}
         var escaneados = $('#escanerInv');
+		var insertarEscan = `<p class='letra18pt-pc  removerEscaneadosP' > ${datosPrendaActual[0].codigoshow} </p>`;
+        escaneados.append(insertarEscan);
+};
+function escanearTerminados(decodedText, decodedResult) {
+        // Handle on success condition with the decoded text or result.
+		console.log('decodedText');
+		console.log(decodedText);
+		let datosPrendaActualj = obtenerDatajson("terminado,codigo,codigoshow,estado","con_t_trprendas","valoresconcondicion","codigo",`'${decodedText}'`);
+    	let datosPrendaActual = JSON.parse(datosPrendaActualj);
+
+		const codigoshowNuevo = datosPrendaActual[0].codigoshow;
+
+		const existeEnDatosPrendaActuales = datosPrendaActuales.some(item => item.codigoshow === codigoshowNuevo);
+		
+		
+		if (!existeEnDatosPrendaActuales) {
+		datosPrendaActuales.push(datosPrendaActual[0]);
+		} else {return false;}
+
+		var verificado = verificarinv(decodedText);
+		if(verificado!="ok"){alert("Este código quedó en el inventario inicial, por favor al botón de inventario inicial desde un computador y dirigirse a una bogeda para ingresarlo. ALERTA ESTO QUEDA A NOMBRE DE "+verificado+" PARA AUDITORIA DE INVENTARIO ");return false;}
+        var escaneados = $('#escanerTermin');
 		var insertarEscan = `<p class='letra18pt-pc  removerEscaneadosP' > ${datosPrendaActual[0].codigoshow} </p>`;
         escaneados.append(insertarEscan);
 };
