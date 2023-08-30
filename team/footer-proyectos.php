@@ -1710,12 +1710,7 @@ const funcionesProyectos = () => {
             let terminados = prepararjson(objeto);
 
             actualizarregistros("con_t_proyectos",condicion,terminados,"0","0","0","0","0","0","0","0","0","0");
-            if(parseInt(term)==0){                
-                $('#asignarTerminados').text('No requiere terminados');
-            }else{
-                proyectotr('Terminado asignado');
-                $('#asignarTerminados').text('Requiere terminados');
-            }
+            
             
 
             $('#asignarTerminadosModal').modal("hide"); 

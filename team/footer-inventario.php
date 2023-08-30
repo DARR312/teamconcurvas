@@ -955,6 +955,128 @@
     	"readerTerminados", { fps: 10, qrbox: 250 });
         html5QrcodeScanner.render(escanearTerminados);
     });
+    $('#enviarTerminados').on('click', function() {
+
+        var prendasenviadasATerminados = 0;
+        var noEnviados = '';
+        var banderaTerminados  = 0;
+        
+        var usuarioLevel = $('#usuarioCell').attr('name');
+        var usuarioLevelArray = usuarioLevel.split(",");
+        
+        prendasEviadasATerminados = [];
+        var notificacionEnviaraTerminados = 'Se confirma que se terminan las siguientes prendas: ';
+
+        
+        var objeto = {};
+        objeto.tipo = "string";
+        objeto.columna = "cual_cambio";
+        objeto.valor = usuarioLevelArray[1];
+        var cual_cambio = prepararjson(objeto);
+
+        
+        var objeto = {};
+        objeto.tipo = "int";
+        objeto.columna = "usuario_id";
+        objeto.valor = usuarioLevelArray[0];
+        var usuario_id = prepararjson(objeto);
+
+        
+        const fechaActual = new Date();
+
+        // Obtener los componentes de la fecha (año, mes, día, hora, minutos y segundos)
+        const anio = fechaActual.getFullYear();
+        const mes = String(fechaActual.getMonth() + 1).padStart(2, '0'); // Los meses comienzan desde 0, por lo que se le suma 1
+        const dia = String(fechaActual.getDate()).padStart(2, '0');
+        const hora = String(fechaActual.getHours()).padStart(2, '0');
+        const minutos = String(fechaActual.getMinutes()).padStart(2, '0');
+        const segundos = String(fechaActual.getSeconds()).padStart(2, '0');
+
+        // Construir la cadena de fecha y hora en el formato deseado
+        var fechaActuall  = `${anio}-${mes}-${dia} ${hora}:${minutos}:${segundos}`;
+
+        var objeto = {};
+        objeto.tipo = "string";
+        objeto.columna = "fecha_cambio";
+        objeto.valor = fechaActuall;
+        var fecha_cambio  = prepararjson(objeto);
+
+        var objeto = {};
+        objeto.tipo = "string";
+        objeto.columna = "fecha_terminado";
+        objeto.valor = fechaActuall;
+        var fecha_terminado  = prepararjson(objeto);
+
+        var estadoNuevoJ = obtenerDatajson("estado","con_t_estadoprendas","valoresconcondicion","ID",`${usuarioLevelArray[0]}`);
+    	var estadoNuevoA = JSON.parse(estadoNuevoJ); 
+        var estadoNuevo = estadoNuevoA[0].estado;
+
+        var objeto = {};
+        objeto.tipo = "string";
+        objeto.columna = "cual";
+        objeto.valor = usuarioLevelArray[1];
+        var cual  = prepararjson(objeto);
+
+        
+        var objeto = {};
+        objeto.tipo = "string";
+        objeto.columna = "estado";
+        objeto.valor = estadoNuevo;
+        var estado  = prepararjson(objeto);
+
+        var objeto = {};
+        objeto.tipo = "string";
+        objeto.columna = "estado_cambio";
+        objeto.valor = estadoNuevo;
+        var estado_cambio = prepararjson(objeto);
+
+        var objeto = {};
+        objeto.tipo = "int";
+        objeto.columna = "terminado";
+        objeto.valor = 1;
+        var terminado = prepararjson(objeto);
+
+        for (let i = 0; i < datosPrendaActuales.length; i++) {
+            
+            var terminadoEstadoJ = obtenerDatajson("terminado","con_t_terminados","valoresconcondicion","codigo",`'${datosPrendaActuales[i].codigo}'`);
+            let terminadoEstadoA = JSON.parse(terminadoEstadoJ); 
+
+            if(terminadoEstadoA.length == 0){continue;}
+            if(terminadoEstadoA[0].terminado==1){continue;}
+
+
+            prendasenviadasATerminados++;
+
+            //  con_t_terminados	codigo 	terminado 	fecha_terminado 	
+            var objeto = {};
+            objeto.columna = "codigo";
+            objeto.valor = `'${datosPrendaActuales[i].codigo}'`;
+            var condicion = prepararjson(objeto);
+
+            actualizarregistros("con_t_terminados",condicion,terminado,fecha_terminado,"0","0","0","0","0","0","0","0","0");
+
+            var objeto = {};
+            objeto.tipo = "int";
+            objeto.columna = "prenda_id";
+            objeto.valor = datosPrendaActuales[i].codigo;
+            var prenda_id = prepararjson(objeto);           
+
+            insertarfila("con_t_estadostr",prenda_id,estado_cambio,cual_cambio,usuario_id,"0","0","0","0","0","0","0");
+            
+
+            actualizarregistros("con_t_trprendas",condicion,estado,fecha_cambio,cual,"0","0","0","0","0","0","0","0");
+
+            notificacionEnviaraTerminados = `${notificacionEnviaraTerminados} ${datosPrendaActuales[i].codigoshow}`;
+        }
+        notificacionEnviaraTerminados=`${notificacionEnviaraTerminados}. El total de prendas enviadas a terminados fueron ${prendasenviadasATerminados}.
+        Las prendas ausentes en esta lista aún no se habían registrado para la fase de terminado, o bien no requerían de esta etapa o ya habían sido registradas en días anteriores.`;
+        const textoCodificado = encodeURIComponent(notificacionEnviaraTerminados.replace(/No aplica/g,""));
+        var url = `https://wa.me/573017209186?text=${textoCodificado}`;
+
+        window.open(url, '_blank');
+        $('#modalAlertas').modal("show"); 
+        $('#tituloAlertas').text(`${notificacionEnviaraTerminados}`); 
+    });
     /*************************** Escaner inventario *******************************/
     $('#escanearInventario').on('click', function() {
         $('#escanerInv').css('display', 'block');
@@ -969,8 +1091,7 @@
         alert(escaneadosData);
         var noEnviados = '';
         var banderaTerminados  = 0;
-        console.log('datosPrendaActualesEnviar');
-		console.log(datosPrendaActuales);
+
         var escaneadosEnviar = escaneadosData.replace(" ","");
         var usuarioLevel = $('#usuarioCell').attr('name');
         var usuarioLevelArray = usuarioLevel.split(",");

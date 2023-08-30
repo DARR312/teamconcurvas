@@ -271,6 +271,29 @@ function is_admin_user() {
                 
             </div>
         </div>
+        <div id="terminadosTiempos"  style='display: none;' class="funcionamiento">
+            <div class='col-lg-12 col-md-12 col-sm-12 col-xs-12'>
+                <div class='col-lg-4 col-md-4 col-sm-4 col-xs-12'>
+                    <div class="form-group pmd-textfield pmd-textfield-floating-label pmd-textfield-floating-label-completed">
+                        <label class="control-label letra18pt-pc" for="regular1">Desde</label>
+                        <input type="text" id="datetimepicker-desde" class="form-control" />
+                    </div>
+                </div>
+                <div class='col-lg-4 col-md-4 col-sm-4 col-xs-12'>
+                <div class="form-group pmd-textfield pmd-textfield-floating-label pmd-textfield-floating-label-completed">
+                        <label class="control-label letra18pt-pc" for="regular1">Hasta</label>
+                        <input type="text" id="datetimepicker-hasta" class="form-control" />
+                    </div>
+                </div>
+                <div class='col-lg-4 col-md-4 col-sm-4 col-xs-4'>
+                        <button class='botonmodal' type='button' id='verPorfecha'>Aplicar fechas</button>
+                </div>
+            </div>
+            <div class=' col-lg-12 col-md-12 col-sm-12 col-xs-12' id='cabecerasPrendasTerminadas'>
+                <p  class="letra18pt-pc col-lg-7 col-md-7 col-sm-7 col-xs-7 negrillaTres">Codigo prenda</p>
+                <p  class="letra18pt-pc col-lg-5 col-md-5 col-sm-5 col-xs-5 negrillaTres">Fecha terminado</p>                
+            </div>
+        </div>
     </div>
     <!-- modal de Bootstrap -->
     <div class="modal" tabindex="-1" id="modalContable">

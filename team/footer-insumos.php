@@ -24,7 +24,11 @@ for(i=30;i<permisos.length;i++){
     if(permisos[i].permiso_id==55){
         var segundo = $('#segundo');
         segundo.append("<div class='col-lg-3 col-md-3 col-sm-3 col-xs-12' id='accion5'><button class='botonmodal botonesInventario' type='button' id='verInsumosFaltantes'>Ver insumos faltantes </button></div>");
-    }      
+    }         
+    if(permisos[i].permiso_id==58){
+        var segundo = $('#segundo');
+        segundo.append("<div class='col-lg-3 col-md-3 col-sm-3 col-xs-12' id='accion5'><button class='botonmodal botonesInventario' type='button' id='verTerminados'>Ver terminados </button></div>");
+    }   
 }
 //******************************************************************************++Insumo nuevo
 $('#agregarInsumo').on('click', function() {
@@ -35,6 +39,7 @@ $('#agregarInsumo').on('click', function() {
     $('#resumenInvInsumos').css('display', 'none');     
     $('#bloqueFichas').css('display', 'none'); 
     $('#insumosFaltantes').css('display', 'none');  
+    $('#terminadosTiempos').css('display', 'none');  
     let html = "<option class='remover' value='nuevo'>Nuevo</option>";
     let gruposj = obtenerDatajson("grupo","con_t_insumos","filasunicas","0","0");
     let grupos = JSON.parse(gruposj);
@@ -250,6 +255,7 @@ $('#agregarFactura').on('click', function(){
     $('#resumenInvInsumos').css('display', 'none');
     $('#bloqueFichas').css('display', 'none');    
     $('#insumosFaltantes').css('display', 'none');   
+    $('#terminadosTiempos').css('display', 'none');  
     let html = "<option class='remover' value='nuevo'>Nuevo</option>";
     let proveedorj = obtenerDatajson("proveedor","con_t_facturas","filasunicas","0","0");
     let proveedor = JSON.parse(proveedorj);
@@ -712,7 +718,57 @@ $('#confirmarFacturaCredito').on('click', function(){
         let insumo1 = $('#insumo1');
         insumo1.append(html);
 }); 
-
+//****************INSUMOS FALTANTES */
+$('#verTerminados').on('click', function(){
+    $('.remover').remove();
+    $('#resumenInsumos').css('display', 'none');
+    $('#nuevoInsumo').css('display', 'none');       
+    $('#facturaNueva').css('display', 'none');    
+    $('#resumenInvInsumos').css('display', 'none');
+    $('#bloqueFichas').css('display', 'none');  
+    $('#insumosFaltantes').css('display', 'none');  
+    $('#terminadosTiempos').css('display', 'block');  
+    
+    $('#cabecerasInsumosFaltantes').after(html.replace(/No aplica/g,""));
+});
+$('#verPorfecha').on('click', function() {
+    var desde = $('#datetimepicker-desde').val();
+    var hasta = $('#datetimepicker-hasta').val();
+    console.log('desde');
+    console.log(desde);
+    console.log('hasta');
+    console.log(hasta);
+    if(!desde || !hasta){
+        $('#modalAlertas').modal("show"); 
+        $('#tituloAlertas').text(`Las fechas y horas no pueden estar vacías`);
+        return false;
+    }
+    if(desde > hasta){
+        $('#modalAlertas').modal("show"); 
+        $('#tituloAlertas').text(`La fecha desde no puede ser mayor que hasta.`);
+        return false;
+    }
+    var fecha = `'${desde}' AND '${hasta}'`;
+    var terminadosFechas = obtenerDatajson('codigo,terminado,fecha_terminado','con_t_terminados','Between','fecha_terminado',fecha);
+    var jsonterminadosFechas = JSON.parse(terminadosFechas);
+    console.log('jsonterminadosFechas');
+    console.log(jsonterminadosFechas);
+    var terminadosHechos = 0;
+    var html = '';
+    for (let i = 0; i < jsonterminadosFechas.length; i++) {
+        if(jsonterminadosFechas[i].terminado == 1){
+            let cantidadTerminadaj = obtenerDatajson("grupo,complemento,caracteristica,complemento_caracteristica,presentacion","con_t_insumos","valoresconcondicion","ID",insumosFaltantes[i].id_insumo);
+            let cantidadTerminada = JSON.parse(cantidadTerminadaj);
+            html=`${html}
+            <div class=' col-lg-12 col-md-12 col-sm-12 col-xs-12' id='insumoId${insumosFaltantes[i].ID}'>
+                <p  class="letra18pt-pc col-lg-7 col-md-7 col-sm-7 col-xs-7">${insumo[0].grupo} ${insumo[0].complemento} ${insumo[0].caracteristica} ${insumo[0].complemento_caracteristica} </p>
+                <p  class="letra18pt-pc col-lg-5 col-md-5 col-sm-5 col-xs-5">${insumosFaltantes[i].cantidad}</p>
+            </div>`;
+            prendasHechas++;
+        }      
+        
+    }
+});
 //****************INSUMOS FALTANTES */
 $('#verInsumosFaltantes').on('click', function(){
     $('.remover').remove();
@@ -722,6 +778,7 @@ $('#verInsumosFaltantes').on('click', function(){
     $('#resumenInvInsumos').css('display', 'none');
     $('#bloqueFichas').css('display', 'none');  
     $('#insumosFaltantes').css('display', 'block');  
+    $('#terminadosTiempos').css('display', 'none');  
     let insumosFaltantesj = obtenerDatajson("id_insumo ,cantidad,id_proyecto,ID","con_t_insumosfaltantes","valoresconcondicion","completado",0);
     let insumosFaltantes = JSON.parse(insumosFaltantesj);
     var html = '';
@@ -834,6 +891,7 @@ $('#verInsumos').on('click', function(){
     $('#resumenInvInsumos').css('display', 'block'); 
     $('#bloqueFichas').css('display', 'none');       
     $('#insumosFaltantes').css('display', 'none');  
+    $('#terminadosTiempos').css('display', 'none');  
     let listado = obtenerDatajson("ID,grupo,complemento,caracteristica,complemento_caracteristica,presentacion,cantidad","con_t_insumos","variasfilasunicas","0","0");
     let listadoInsumos =  JSON.parse(listado);    
     let html='';
@@ -858,6 +916,7 @@ $('#bscar').on('change', function(){
     $('#nuevoInsumo').css('display', 'none');     
     $('#facturaNueva').css('display', 'none');       
     $('#resumenInvInsumos').css('display', 'block');  
+    $('#terminadosTiempos').css('display', 'none');  
     var codigosprenda = codigosprendasjson($('#bscar').val(),"0","0","0");
     var listatodo = obtenerDatajson("grupo,complemento,caracteristica,complemento_caracteristica,presentacion,cantidad","con_t_insumos","valoresconcondicion","grupo",`'${$('#bscar').val()}'`);
     let listadoInsumos =  JSON.parse(listatodo);    
@@ -889,6 +948,7 @@ $('#verFichasTecnicas').on('click', function(){
     $('#resumenInvInsumos').css('display', 'none'); 
     $('#bloqueFichas').css('display', 'block'); 
     $('#insumosFaltantes').css('display', 'none');  
+    $('#terminadosTiempos').css('display', 'none');  
     const bloqueNuevaFicha = $('#bloqueNuevaFicha');
     const selecciondeficha = $('#selecciondeficha');
     const bloqueAntiguaFicha = $('#bloqueAntiguaFicha');
@@ -1150,7 +1210,8 @@ $('#referenciasParaficha').on('change', function(){
         $('#facturaNueva').css('display', 'none');       
         $('#resumenInvInsumos').css('display', 'none'); 
         $('#bloqueFichas').css('display', 'block'); 
-        $('#insumosFaltantes').css('display', 'none');  
+        $('#insumosFaltantes').css('display', 'none'); 
+        $('#terminadosTiempos').css('display', 'none');   
         const bloqueNuevaFicha = $('#bloqueNuevaFicha');
         const selecciondeficha = $('#selecciondeficha');
 
@@ -2361,6 +2422,12 @@ const comboActualizarFT = () => {
 	$('#datetimepicker-update').datetimepicker({
         format: 'L'
 	});
+    $(`#datetimepicker-desde`).datetimepicker({
+        format: 'YYYY-MM-DD HH:mm'
+    });
+    $(`#datetimepicker-hasta`).datetimepicker({
+        format: 'YYYY-MM-DD HH:mm'
+    });
 </script>
 <!-- https://sheetjs.com/ -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
