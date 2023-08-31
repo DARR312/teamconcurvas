@@ -1,0 +1,1960 @@
+[33mcommit f0b8a66f99508457b2b2d3a4bcc6e99304ea8a94[m[33m ([m[1;36mHEAD -> [m[1;32mmain[m[33m, [m[1;31mteamconcurvas/main[m[33m)[m
+Author: Diego Rodríguez <dieguitotoi@gmail.com>
+Date:   Fri Aug 18 14:41:00 2023 -0400
+
+    Vista de cambios plaza hecho
+
+[33mcommit 5d6584e3390aed662cf5a72742a6fd21654a9ae4[m
+Author: Diego Rodríguez <dieguitotoi@gmail.com>
+Date:   Tue Jul 4 19:06:44 2023 -0500
+
+    Corrección impresión de ventas
+
+[33mcommit 00caff5639676ec96576d2149509e3057f13b0b5[m
+Author: Diego Rodríguez <dieguitotoi@gmail.com>
+Date:   Tue Jul 4 18:44:51 2023 -0500
+
+    Corrección impresión de ventas
+
+[33mcommit 79d53034444ebbb13a3b7e155ca6df287e40c80c[m
+Author: Diego Rodríguez <dieguitotoi@gmail.com>
+Date:   Tue Jul 4 12:51:54 2023 -0500
+
+    Corrección impresión de ventas
+
+[33mcommit f1a98786f2420ce7309ea7d1d8bf08a49e31bf79[m
+Author: Diego Rodríguez <dieguitotoi@gmail.com>
+Date:   Wed Jun 28 17:17:17 2023 -0500
+
+    Corrección impresión de ventas
+
+[33mcommit e374bb85794fc7d6d7b347b8a0701cdc78800f87[m
+Author: Diego Rodríguez <dieguitotoi@gmail.com>
+Date:   Mon Jun 26 11:11:37 2023 -0500
+
+    Corregido demora en buscar
+
+[33mcommit 2eb02a2be4c4cd6f369d992a4353e0b437c4f67f[m[33m ([m[1;31mteamconcurvas/buscadordigitalresumen[m[33m, [m[1;32mbuscadordigitalresumen[m[33m)[m
+Author: Diego Rodríguez <dieguitotoi@gmail.com>
+Date:   Wed May 17 17:18:17 2023 -0500
+
+    Venta digital buscada
+
+[33mcommit 8f40b250c8b55689d6061630b4e924fcc1cffd36[m
+Author: Diego Rodríguez <dieguitotoi@gmail.com>
+Date:   Tue May 16 11:23:59 2023 -0500
+
+    Check
+
+[33mcommit b6109a7a37552f4c9a5fed3c26cb7a7e85b07b75[m
+Author: Diego Rodríguez <dieguitotoi@gmail.com>
+Date:   Tue May 16 11:22:46 2023 -0500
+
+    Check
+
+[33mcommit 00eedc63481b2d01fd50c6164e423cb6f2bfcb0a[m[33m ([m[1;32mcambios[m[33m)[m
+Author: Diego Rodríguez <dieguitotoi@gmail.com>
+Date:   Mon May 15 17:26:42 2023 -0500
+
+    Pru
+
+[33mcommit 42043e13f1039da72e86d28e7270567427da3103[m
+Author: Diego Rodríguez <dieguitotoi@gmail.com>
+Date:   Mon May 15 17:24:45 2023 -0500
+
+    Pru
+
+[33mcommit 58dd6318bc3e598126ac8c67fd71ee11017bdba0[m
+Author: Diego Rodríguez <dieguitotoi@gmail.com>
+Date:   Mon May 15 17:23:58 2023 -0500
+
+    Pru
+
+[33mcommit 8507f02aa20da07f6e8448ffb282b6088beffa2e[m
+Author: Diego Rodríguez <dieguitotoi@gmail.com>
+Date:   Mon May 15 17:23:08 2023 -0500
+
+    Pru
+
+[33mcommit ab001d5bdb807c5ec8bf6fcf7782a14c05436591[m
+Author: Diego Rodríguez <dieguitotoi@gmail.com>
+Date:   Mon May 15 17:21:56 2023 -0500
+
+    Pru
+
+[33mcommit 76dcbdfadfd687ae9a79afd49ff25cf10dd7f85e[m
+Author: Diego Rodríguez <dieguitotoi@gmail.com>
+Date:   Mon May 15 17:21:09 2023 -0500
+
+    Pru
+
+[33mcommit a31754ccc032112dd3551f8b94c20ad9eda30cf4[m
+Author: Diego Rodríguez <dieguitotoi@gmail.com>
+Date:   Mon May 15 17:20:14 2023 -0500
+
+    Pru
+
+[33mcommit 7f510de4f315f3edc176a9ed67e1c6fe1a8cf01f[m
+Author: Diego Rodríguez <dieguitotoi@gmail.com>
+Date:   Mon May 15 17:14:50 2023 -0500
+
+    Corregido error auditoria inventario has
+
+[33mcommit 26540bd37b5612f6d89e952872587fc1717b042b[m
+Author: Diego Rodríguez <dieguitotoi@gmail.com>
+Date:   Mon May 8 15:01:01 2023 -0500
+
+    Correción de ortografía
+
+[33mcommit 15d666752d4e6178449e724b75074517c9b85b0e[m
+Merge: 5e11ad0 de57701
+Author: Diego Rodríguez <dieguitotoi@gmail.com>
+Date:   Sun May 7 03:00:29 2023 -0500
+
+    Merge branch 'insumos'
+
+[33mcommit de577019c9b0cf48e96fef5014a4675fe90ad3cf[m[33m ([m[1;31mteamconcurvas/insumos[m[33m, [m[1;32minsumos[m[33m)[m
+Author: Diego Rodríguez <dieguitotoi@gmail.com>
+Date:   Sun May 7 03:00:06 2023 -0500
+
+    100% Insumos, versión 1
+
+[33mcommit 5e11ad0c2cceb9629c4a1b17e62934c64d4c70b1[m
+Author: Diego Rodríguez <dieguitotoi@gmail.com>
+Date:   Sat May 6 14:06:00 2023 -0500
+
+    FF
+
+[33mcommit 0b949a9e6dd839544a62d349991028fde3ddd627[m
+Author: Diego Rodríguez <dieguitotoi@gmail.com>
+Date:   Sat May 6 14:01:30 2023 -0500
+
+    FF
+
+[33mcommit 9f80387c5e2e50252a0106a7dd57b768e773b0b7[m
+Author: Diego Rodríguez <dieguitotoi@gmail.com>
+Date:   Sat May 6 13:56:18 2023 -0500
+
+    FF
+
+[33mcommit 90d39b9539ed3761866227e15c0cdf9858381b78[m
+Author: Diego Rodríguez <dieguitotoi@gmail.com>
+Date:   Fri May 5 11:26:05 2023 -0500
+
+    FF
+
+[33mcommit 3aab01c4ffae89acc7c0d2763337fdd9a620521f[m
+Author: Diego Rodríguez <dieguitotoi@gmail.com>
+Date:   Thu May 4 17:00:27 2023 -0500
+
+    Cambios de plaza 100%
+
+[33mcommit ba45875585027914dda6fbff1379a70b9470c373[m[33m ([m[1;31mteamconcurvas/cambios[m[33m)[m
+Author: Diego Rodríguez <dieguitotoi@gmail.com>
+Date:   Thu May 4 16:48:05 2023 -0500
+
+    Cambios de plaza funcionando al 100%
+
+[33mcommit 7041964080eae8d0793b0f74bf2fafb46722ea97[m
+Merge: cb750ba 10f7a8c
+Author: Diego Rodríguez <dieguitotoi@gmail.com>
+Date:   Thu Apr 20 10:13:59 2023 -0500
+
+    Merge branch 'main' of https://github.com/DARR312/teamconcurvas into cambios
+
+[33mcommit 65391912f5ecccc8cb8b5dedc87854d3ee7e5984[m
+Author: Diego Rodríguez <dieguitotoi@gmail.com>
+Date:   Thu Apr 20 10:12:50 2023 -0500
+
+    80% De fichas técnicas hecho
+
+[33mcommit 1d4d284254508219bc95307283a966ab7e13e678[m
+Author: Diego Rodríguez <dieguitotoi@gmail.com>
+Date:   Thu Mar 16 01:17:11 2023 -0500
+
+    30%
+
+[33mcommit 10f7a8cf3405e9aa95180b30a2e370112024dd0f[m
+Author: Diego Rodríguez <dieguitotoi@gmail.com>
+Date:   Sat Mar 11 00:08:34 2023 -0500
+
+    Buscar insumosw
+
+[33mcommit 1ef4b4e69be8366887ba527c72c5b0e0acd96209[m
+Author: Diego Rodríguez <dieguitotoi@gmail.com>
+Date:   Fri Mar 10 23:27:08 2023 -0500
+
+    Resumen insumos
+
+[33mcommit 4ed4bfa896462486a0cab998a1b258a7159cd9e4[m
+Author: Diego Rodríguez <dieguitotoi@gmail.com>
+Date:   Fri Mar 10 14:55:55 2023 -0500
+
+    Toda la tipografía a Manrope
+
+[33mcommit 0655fa7aebb388e62212d1a859ba380a58b5dc05[m
+Author: Diego Rodríguez <dieguitotoi@gmail.com>
+Date:   Fri Mar 10 14:49:22 2023 -0500
+
+    Poniendo link de insumos
+
+[33mcommit 7b4144815af320e2eb2f89a64fb6cefe9cff1b13[m
+Author: Diego Rodríguez <dieguitotoi@gmail.com>
+Date:   Fri Mar 10 14:45:34 2023 -0500
+
+    Poniendo link de insumos
+
+[33mcommit 58b4d440e622e76e46bc508e15c3418cc0b3d67e[m
+Author: Diego Rodríguez <dieguitotoi@gmail.com>
+Date:   Fri Mar 10 14:45:01 2023 -0500
+
+    Poniendo link de insumos
+
+[33mcommit affef2b3550afa9fd672a351d32bcabab5e60f9f[m
+Author: Diego Rodríguez <dieguitotoi@gmail.com>
+Date:   Fri Mar 10 14:43:56 2023 -0500
+
+    Poniendo link de insumos
+
+[33mcommit dda6ec1e5e3872c7e58e215a54b8f6e4f5ba7163[m
+Author: Diego Rodríguez <dieguitotoi@gmail.com>
+Date:   Fri Mar 10 13:31:05 2023 -0500
+
+    Insumos y facturas hechas
+
+[33mcommit e9c05dd7526f63c9fbf9059fdb16cb8e6d1eb942[m
+Author: Diego Rodríguez <dieguitotoi@gmail.com>
+Date:   Fri Mar 10 13:27:27 2023 -0500
+
+    Insumos y facturas hechas
+
+[33mcommit 52ed1adf567415909588cd214461a7f1a472da51[m
+Author: Diego Rodríguez <dieguitotoi@gmail.com>
+Date:   Wed Mar 8 03:14:55 2023 -0500
+
+    25%
+
+[33mcommit 09618fea945e428282f5de1676962e3f05962764[m
+Author: Diego Rodríguez <dieguitotoi@gmail.com>
+Date:   Sun Mar 5 15:42:47 2023 -0500
+
+    70% de la tarea
+
+[33mcommit f272028b5bb115a5b524a81c7633fae5c011edd0[m
+Author: Diego Rodríguez <dieguitotoi@gmail.com>
+Date:   Fri Feb 10 16:33:16 2023 -0500
+
+    Arreglado mayoristas
+
+[33mcommit 00cd5ba4b6637a782a134357d06b5ea89adf5b99[m[33m ([m[1;31mteamconcurvas/mayoristas[m[33m, [m[1;32mmayoristas[m[33m)[m
+Author: Diego Rodríguez <dieguitotoi@gmail.com>
+Date:   Fri Feb 10 16:32:23 2023 -0500
+
+    Arreglado mayoristas
+
+[33mcommit cb750ba797fda875f3b751523a75c700b58368aa[m
+Author: Diego Rodríguez <dieguitotoi@gmail.com>
+Date:   Tue Feb 7 16:55:09 2023 -0500
+
+    Nada que commit
+
+[33mcommit 898ab63637b50f409b0e275cb34213454728f77b[m
+Author: Diego Rodríguez <dieguitotoi@gmail.com>
+Date:   Thu Jan 19 11:36:26 2023 -0500
+
+    Botón de agregar caja madrugón
+
+[33mcommit 8f06a43cebecbf1ff8c1e4d91a8aaf9a2e6b04cd[m
+Merge: 2bb7a80 c69519f
+Author: Diego Rodríguez <dieguitotoi@gmail.com>
+Date:   Thu Jan 19 11:35:44 2023 -0500
+
+    Merge branch 'arreglosdiego14012023'
+
+[33mcommit c69519f044173d4898a672ef79aa12fa8401d04c[m[33m ([m[1;31mteamconcurvas/arreglosdiego14012023[m[33m, [m[1;32marreglosdiego14012023[m[33m)[m
+Author: Diego Rodríguez <dieguitotoi@gmail.com>
+Date:   Thu Jan 19 11:34:50 2023 -0500
+
+    Se crea el botón de agregar caja de madrugón
+
+[33mcommit 2bb7a80d8ff2192b8b7fcd5769df7442ef9f8d3e[m
+Author: Diego Rodríguez <dieguitotoi@gmail.com>
+Date:   Mon Jan 16 15:46:26 2023 -0500
+
+    Consultar satelte actualizado
+
+[33mcommit 4bf706c4c4eabb5a6af92bf381b15571af69f066[m
+Author: Diego Rodríguez <dieguitotoi@gmail.com>
+Date:   Sat Jan 14 16:39:12 2023 -0500
+
+    Correción de errores
+
+[33mcommit 8da84ad458f2e4f56aab59903f32a8433e24fa9c[m
+Author: Diego Rodríguez <dieguitotoi@gmail.com>
+Date:   Sat Jan 14 16:14:51 2023 -0500
+
+    Corrección informes
+
+[33mcommit e937256b97e8cc063fa3971e2dcc7efcbf494881[m
+Author: Diego Rodríguez <dieguitotoi@gmail.com>
+Date:   Sat Jan 14 16:06:33 2023 -0500
+
+    50% DE LA TAREA DE LOS ARREGLOS
+
+[33mcommit bd4b89be59dfdb97b280a66e92d6674272473366[m
+Author: sebasramirez99 <sebastianbuenoramirez@gmail.com>
+Date:   Tue Jan 3 20:52:01 2023 -0500
+
+    estilos
+
+[33mcommit 379910801ca485ecf792df9f392eb0a38b29cb30[m
+Author: sebasramirez99 <sebastianbuenoramirez@gmail.com>
+Date:   Tue Jan 3 20:48:07 2023 -0500
+
+    estilos
+
+[33mcommit 04d3ca4fe1842919a309141deffcea4b053da3cd[m
+Author: sebasramirez99 <sebastianbuenoramirez@gmail.com>
+Date:   Tue Jan 3 20:42:04 2023 -0500
+
+    estilos
+
+[33mcommit 5b47a49948af6ff0df831b871009a83a3b288a9b[m
+Author: sebasramirez99 <sebastianbuenoramirez@gmail.com>
+Date:   Tue Jan 3 20:40:18 2023 -0500
+
+    estilos
+
+[33mcommit f1a93631920e239dbc115d6fadebea28c1e0ea5c[m[33m ([m[1;31mteamconcurvas/resumen_plaza[m[33m)[m
+Author: sebasramirez99 <sebastianbuenoramirez@gmail.com>
+Date:   Tue Jan 3 20:31:04 2023 -0500
+
+    correccion del valor total
+
+[33mcommit e056dfb17b8a8e84b906199ccb4e87d1cf62817f[m
+Author: sebasramirez99 <sebastianbuenoramirez@gmail.com>
+Date:   Thu Dec 29 23:50:04 2022 -0500
+
+    .
+
+[33mcommit 24a171f7753fc81035810c9dae4631dff4c83ee7[m
+Author: sebasramirez99 <sebastianbuenoramirez@gmail.com>
+Date:   Thu Dec 29 17:58:15 2022 -0500
+
+    .
+
+[33mcommit eecb6b18ae824aeb792052db927e412590e1d6f6[m
+Author: sebasramirez99 <sebastianbuenoramirez@gmail.com>
+Date:   Thu Dec 29 16:45:10 2022 -0500
+
+    .
+
+[33mcommit c9f0034621bafdb74d6b98465ceeb8bd3f5a7afe[m
+Author: Diego Rodríguez <dieguitotoi@gmail.com>
+Date:   Thu Dec 22 17:14:34 2022 -0500
+
+    Fuentes de botones
+
+[33mcommit 599c240936b68ac8cee059f0fd1a0698ecabec73[m[33m ([m[1;31mteamconcurvas/estilos22122022[m[33m, [m[1;32mestilos22122022[m[33m)[m
+Author: Diego Rodríguez <dieguitotoi@gmail.com>
+Date:   Thu Dec 22 16:42:08 2022 -0500
+
+    Se arregla vista de ver códigos
+
+[33mcommit 708a82e6caee402186e701b73969ab6c5d0db972[m
+Author: Diego Rodríguez <dieguitotoi@gmail.com>
+Date:   Thu Dec 22 16:31:30 2022 -0500
+
+    Subo los niveles de los buscadores
+
+[33mcommit 8db8fc56e3ee7b38fafb76398d5a39236845ef45[m
+Merge: fcd26bd f4bea05
+Author: sebasramirez99 <sebastianbuenoramirez@gmail.com>
+Date:   Thu Dec 22 00:13:00 2022 -0500
+
+    Merge branch 'resumen_plaza'
+
+[33mcommit f4bea054bef1c8f905f59461f069c3a39f5f1ef9[m
+Author: sebasramirez99 <sebastianbuenoramirez@gmail.com>
+Date:   Thu Dec 22 00:10:32 2022 -0500
+
+    HU cambios
+
+[33mcommit fcd26bd929ee76fdbd2661f4361f0765f3ad1feb[m
+Author: Diego Rodríguez <dieguitotoi@gmail.com>
+Date:   Wed Dec 21 21:47:14 2022 -0500
+
+    ALTURA CS
+
+[33mcommit 1c88beff1d3faeb1b95d6f358b63f36919ed71f6[m
+Author: Diego Rodríguez <dieguitotoi@gmail.com>
+Date:   Wed Dec 21 21:45:48 2022 -0500
+
+    CERRAR SESIÓN ALTURA
+
+[33mcommit 1c7e4c108135c3236de3e619122ed7ba40cf3ef5[m
+Author: Diego Rodríguez <dieguitotoi@gmail.com>
+Date:   Wed Dec 21 21:35:33 2022 -0500
+
+    M P
+
+[33mcommit c464acf0077f6659c4b35be1875de6fc3fa64b38[m
+Author: Diego Rodríguez <dieguitotoi@gmail.com>
+Date:   Wed Dec 21 21:33:57 2022 -0500
+
+    Menú posición
+
+[33mcommit 9cb204c9de9f9bf39d7d9f4a9a65d827b87e0b34[m
+Author: Diego Rodríguez <dieguitotoi@gmail.com>
+Date:   Wed Dec 21 21:32:33 2022 -0500
+
+    Posición menu
+
+[33mcommit 5a6f0473dbfe0adc252c81d84ee382fed9439827[m
+Author: Diego Rodríguez <dieguitotoi@gmail.com>
+Date:   Wed Dec 21 21:31:04 2022 -0500
+
+    Posición del menú
+
+[33mcommit 67e48fff3ffefca0ad7b88c05ac031dd98ff2013[m[33m ([m[1;31mteamconcurvas/estilos21122022[m[33m, [m[1;32mestilos21122022[m[33m)[m
+Author: Diego Rodríguez <dieguitotoi@gmail.com>
+Date:   Wed Dec 21 21:29:37 2022 -0500
+
+    Posición de menu y color de focus en form-control
+
+[33mcommit 8abdc0137b77167b86cdd2102131f741df3ce1f2[m
+Author: Diego Rodríguez <dieguitotoi@gmail.com>
+Date:   Wed Dec 21 21:04:30 2022 -0500
+
+    Fuente Manrope
+
+[33mcommit ea4fd7bca2c87b213e948cca349be6ff7aa9a303[m
+Author: Diego Rodríguez <dieguitotoi@gmail.com>
+Date:   Wed Dec 21 19:31:29 2022 -0500
+
+    Botones más cuadrados
+
+[33mcommit 4af2c49d352f9ba5f84131b1333986da72e03288[m
+Author: Diego Rodríguez <dieguitotoi@gmail.com>
+Date:   Wed Dec 21 19:27:07 2022 -0500
+
+    Estilos bonitos del 21 de diciembre
+
+[33mcommit d6fff576b3dc3ede2beafbe1af9f881edcddf7f4[m
+Author: Diego Rodríguez <dieguitotoi@gmail.com>
+Date:   Wed Dec 21 17:24:45 2022 -0500
+
+    Quitando todos los iconos de la barra principal
+
+[33mcommit 43b81653a1d055beb3a216ceb3d7659fa0b7142c[m
+Author: Diego Rodríguez <dieguitotoi@gmail.com>
+Date:   Wed Dec 21 17:22:10 2022 -0500
+
+    Quitando iconos
+
+[33mcommit caeb8a0e40d76dd20e0d69d6f6f8431aa81359e4[m
+Author: Diego Rodríguez <dieguitotoi@gmail.com>
+Date:   Wed Dec 21 16:59:00 2022 -0500
+
+    Estilos de bordes corregidos
+
+[33mcommit ff5110d00440f255ee9a0a9a88c4be0f27b1d4bd[m
+Author: Diego Rodríguez <dieguitotoi@gmail.com>
+Date:   Wed Dec 21 16:57:43 2022 -0500
+
+    Cambios estilos bordes
+
+[33mcommit b8495a66c2ec3daa37feb0d58898e1a1970123d6[m[33m ([m[1;32mcorrecion_reglas_descuentos[m[33m)[m
+Author: Diego Rodríguez <dieguitotoi@gmail.com>
+Date:   Wed Dec 21 15:34:27 2022 -0500
+
+    Agragando el buscador nuevamente
+
+[33mcommit 50ec0f0d056d87848175b0ac58b9afe906d8c532[m
+Merge: 5d71a9a a6c65d5
+Author: sebasramirez99 <sebastianbuenoramirez@gmail.com>
+Date:   Wed Dec 21 01:20:50 2022 -0500
+
+    Merge branch 'resumen_plaza'
+
+[33mcommit a6c65d539eff90f1d82a5da9197c2ab91a9b8b1a[m
+Author: sebasramirez99 <sebastianbuenoramirez@gmail.com>
+Date:   Wed Dec 21 01:19:32 2022 -0500
+
+    HU cambio
+
+[33mcommit 5d71a9a71b6c6e1ba5f7e96e7840cb886756bbdd[m
+Merge: 38412c9 eb597be
+Author: sebasramirez99 <sebastianbuenoramirez@gmail.com>
+Date:   Sun Dec 18 01:23:19 2022 -0500
+
+    Merge branch 'resumen_plaza'
+
+[33mcommit eb597be87fd6c6f6874e37f9cffdfae068d2c106[m
+Author: sebasramirez99 <sebastianbuenoramirez@gmail.com>
+Date:   Sun Dec 18 01:20:30 2022 -0500
+
+    HU: cambios plaza
+
+[33mcommit 38412c9c2ab22f976df515a86dbc44f118e00bfe[m
+Author: DARR312 <dieguitotoi@gmail.com>
+Date:   Fri Dec 16 18:28:02 2022 -0500
+
+    Entregado más rápido
+
+[33mcommit 338a5f79e219534dc4b4f78c3ee09cfec7b8c08e[m
+Merge: 21eaa6e 1ae0a7a
+Author: DARR312 <dieguitotoi@gmail.com>
+Date:   Fri Dec 16 17:50:02 2022 -0500
+
+    Merge branch 'main' of https://github.com/DARR312/teamconcurvas
+
+[33mcommit 21eaa6e3f9b5efa72790a27f5b49954dd2fd7907[m
+Author: DARR312 <dieguitotoi@gmail.com>
+Date:   Fri Dec 16 17:44:29 2022 -0500
+
+    Comisiones calculadas y liquidadas correctamente
+
+[33mcommit 1ae0a7af0734f0f104f167f495aee2bbbfa21d0f[m
+Author: Diego Rodríguez <dieguitotoi@gmail.com>
+Date:   Thu Dec 15 13:21:18 2022 -0500
+
+    Correción de estilo barrsuperior
+
+[33mcommit 621dcb7a8be99cd941c6ec17651b7a863984ae7b[m
+Author: DARR312 <dieguitotoi@gmail.com>
+Date:   Wed Dec 14 16:25:56 2022 -0500
+
+    100%
+
+[33mcommit 404c2b83c6c5425d0c67f90aa98e111f1f0a255a[m
+Merge: 89cabf4 bd94657
+Author: DARR312 <dieguitotoi@gmail.com>
+Date:   Wed Dec 14 16:25:03 2022 -0500
+
+    Merge branch 'auditoriasdigital'
+
+[33mcommit bd9465721a8208612f1350d789cbc39e3d183fc4[m
+Author: DARR312 <dieguitotoi@gmail.com>
+Date:   Wed Dec 14 16:24:26 2022 -0500
+
+    Correción
+
+[33mcommit 89cabf41068414edfe02adcec88f2ce68688d9f5[m
+Author: DARR312 <dieguitotoi@gmail.com>
+Date:   Wed Dec 14 15:27:34 2022 -0500
+
+    Cierre de caja digital
+
+[33mcommit a1f03506fcf13337d0a6d2470898c16b8949cc5c[m
+Author: DARR312 <dieguitotoi@gmail.com>
+Date:   Wed Dec 14 15:13:16 2022 -0500
+
+    Cierre de caja digital
+
+[33mcommit 942367d3228eaa2fcd00ef7532bdf987213fb44a[m
+Merge: 9fe0cc6 a541a71
+Author: DARR312 <dieguitotoi@gmail.com>
+Date:   Wed Dec 14 15:11:39 2022 -0500
+
+    Merge branch 'auditoriasdigital'
+
+[33mcommit a541a7182354d221c753d2bf9523d8d447306048[m
+Author: DARR312 <dieguitotoi@gmail.com>
+Date:   Wed Dec 14 15:10:12 2022 -0500
+
+    100% De la tarea
+
+[33mcommit 9fe0cc62e046a68414303b40f778be2b702808ec[m
+Author: DARR312 <dieguitotoi@gmail.com>
+Date:   Wed Dec 14 13:04:55 2022 -0500
+
+    Actualización de inventario bien hecha
+
+[33mcommit 0a450556c09e95ee13833153ef6b1eea78155f10[m
+Author: DARR312 <dieguitotoi@gmail.com>
+Date:   Wed Dec 14 12:57:59 2022 -0500
+
+    90%
+
+[33mcommit 318d6e8d3243fdda96a87bb972cb5881848eb382[m
+Author: Diego Rodríguez <dieguitotoi@gmail.com>
+Date:   Wed Dec 14 11:32:49 2022 -0500
+
+    90% DE LA TAREA
+
+[33mcommit 9b760a23d4e41308ddcfcb47117896d6e0bc1b84[m
+Author: Diego Rodríguez <dieguitotoi@gmail.com>
+Date:   Tue Dec 13 11:16:01 2022 -0500
+
+    Arreglo el inventario desde pruebas
+
+[33mcommit 3df88dd76a5411ec78b8a7d00c1e17ed9dc06023[m[33m ([m[1;31mteamconcurvas/error_informes[m[33m, [m[1;32merror_informes[m[33m)[m
+Author: Diego Rodríguez <dieguitotoi@gmail.com>
+Date:   Mon Dec 12 17:26:47 2022 -0500
+
+    Cambio de la logica quitando items
+
+[33mcommit cc7d1ff3be2c47e71fc7dad3e877163fa6594125[m
+Author: DARR312 <dieguitotoi@gmail.com>
+Date:   Mon Dec 5 20:29:18 2022 -0500
+
+    65% DE LA TAREA
+
+[33mcommit cef7975ab90446a513f69b13eb477762fae73f9b[m
+Author: DARR312 <dieguitotoi@gmail.com>
+Date:   Sat Dec 3 21:35:21 2022 -0500
+
+    55% de la tarea
+
+[33mcommit 6444c762fa03bfc811a22cfd62b11642665ef743[m
+Author: Diego Rodríguez <dieguitotoi@gmail.com>
+Date:   Sat Dec 3 17:03:45 2022 -0500
+
+    50%
+
+[33mcommit 064940351ba6add58769583a5599c12210b1eff1[m
+Merge: df4d6ad f273a19
+Author: sebasramirez99 <sebastianbuenoramirez@gmail.com>
+Date:   Tue Nov 29 17:19:38 2022 -0500
+
+    Merge branch 'resumen_plaza'
+
+[33mcommit f273a198e65cfc4835cbbffb2670bba3ac11f590[m
+Author: sebasramirez99 <sebastianbuenoramirez@gmail.com>
+Date:   Tue Nov 29 17:18:44 2022 -0500
+
+    Mejora del filtro
+
+[33mcommit df4d6addbc9fb5f9357b9cfb6d364e9463934c9c[m
+Author: Diego Rodríguez <dieguitotoi@gmail.com>
+Date:   Tue Nov 29 16:19:02 2022 -0500
+
+    Error corregido
+
+[33mcommit 6c9ac38223c385a5158a7a1ac8ec9a5a4402875e[m
+Author: sebasramirez99 <sebastianbuenoramirez@gmail.com>
+Date:   Tue Nov 29 15:02:26 2022 -0500
+
+    Correccion del controlador para la busqueda por telefono y etiqueta
+
+[33mcommit f95b483353e517fb6992f0f630e956c2a3d4ab8f[m
+Merge: fe48752 9c37216
+Author: sebasramirez99 <sebastianbuenoramirez@gmail.com>
+Date:   Mon Nov 28 18:34:54 2022 -0500
+
+    Merge branch 'main' of https://github.com/DARR312/teamconcurvas
+
+[33mcommit fe4875215e4fd621ded11b478d3e08ca5a3c9d95[m
+Author: sebasramirez99 <sebastianbuenoramirez@gmail.com>
+Date:   Mon Nov 28 18:33:01 2022 -0500
+
+    Se agrega la funcion verDia dentro de agregarPedido
+
+[33mcommit 9c37216bf77ff7964f443bb80f7306a95d91e28e[m
+Author: Diego Rodríguez <dieguitotoi@gmail.com>
+Date:   Mon Nov 28 18:22:02 2022 -0500
+
+    Error informe corregido
+
+[33mcommit e29aa72f31ae2c102faee32b51694ee5aa8496c1[m
+Merge: 8e7a43b 90e7980
+Author: DARR312 <dieguitotoi@gmail.com>
+Date:   Mon Nov 28 11:37:58 2022 -0500
+
+    Descuentos completados
+
+[33mcommit 90e79808e046b15c7faba69cbc9ac6d8a3311de6[m[33m ([m[1;31mteamconcurvas/descuentos_ventas[m[33m)[m
+Author: DARR312 <dieguitotoi@gmail.com>
+Date:   Mon Nov 28 11:34:48 2022 -0500
+
+    100% de la tarea
+
+[33mcommit 73dfa3aaaa4a56da14be32db74ade079ea706f9c[m
+Author: DARR312 <dieguitotoi@gmail.com>
+Date:   Sun Nov 27 20:01:00 2022 -0500
+
+    85% de la tarea
+
+[33mcommit b94070ad8222531a45b3d7221d31e463952f6023[m
+Author: DARR312 <dieguitotoi@gmail.com>
+Date:   Sun Nov 27 19:43:36 2022 -0500
+
+    85% de la tarea
+
+[33mcommit 06f6d8b84bbeea0255a16454c8f5a5145917bd10[m
+Author: DARR312 <dieguitotoi@gmail.com>
+Date:   Sat Nov 26 19:33:43 2022 -0500
+
+    80% de la tarea
+
+[33mcommit 8e7a43bb29f1097b4f626c2e4755da1c332da3f6[m
+Author: sebasramirez99 <sebastianbuenoramirez@gmail.com>
+Date:   Fri Nov 25 15:35:36 2022 -0500
+
+    .
+
+[33mcommit 1a18a6d575b891914d81dbbc36fabf81a2603a83[m
+Author: sebasramirez99 <sebastianbuenoramirez@gmail.com>
+Date:   Fri Nov 25 15:30:44 2022 -0500
+
+    fix
+
+[33mcommit 3655fa8e8c6123b4ca94806c3b811905b0a0adcc[m
+Merge: 95ea326 01c46b2
+Author: sebasramirez99 <sebastianbuenoramirez@gmail.com>
+Date:   Fri Nov 25 15:25:11 2022 -0500
+
+    Merge branch 'resumen_plaza'
+
+[33mcommit 01c46b24c634879cd57223bc0bdaea9a958c0fc3[m
+Author: sebasramirez99 <sebastianbuenoramirez@gmail.com>
+Date:   Fri Nov 25 15:24:23 2022 -0500
+
+    .
+
+[33mcommit c82c24b8c2738c79f3023c2a9cfe9e3df40b5049[m
+Author: sebasramirez99 <sebastianbuenoramirez@gmail.com>
+Date:   Fri Nov 25 15:23:32 2022 -0500
+
+    filtros
+
+[33mcommit 95ea32691d9bc8540a091cee17484ded9cc03a3d[m
+Merge: 3c924c6 0bea7ac
+Author: sebasramirez99 <sebastianbuenoramirez@gmail.com>
+Date:   Thu Nov 24 18:17:23 2022 -0500
+
+    Merge branch 'main' of https://github.com/DARR312/teamconcurvas
+
+[33mcommit 3c924c6d2cd0dc09191f06918b9503ad9618b13c[m
+Author: sebasramirez99 <sebastianbuenoramirez@gmail.com>
+Date:   Thu Nov 24 18:15:41 2022 -0500
+
+    filtros y remove
+
+[33mcommit 0bea7ac8c2891c256c4913fdc948b286842e7646[m
+Merge: 156ac96 76b7baa
+Author: Diego Rodríguez <dieguitotoi@gmail.com>
+Date:   Thu Nov 24 16:52:14 2022 -0500
+
+    Merge branch 'mayoristas'
+
+[33mcommit 76b7baa017bb033d13a4f48740e71f818fcf3e23[m
+Author: Diego Rodríguez <dieguitotoi@gmail.com>
+Date:   Thu Nov 24 16:51:40 2022 -0500
+
+    Agregado de métodos de pago de mayoristas
+
+[33mcommit 156ac96caf3f9044f5af59744bbc8fbb53aa99eb[m
+Author: Diego Rodríguez <dieguitotoi@gmail.com>
+Date:   Thu Nov 24 14:54:49 2022 -0500
+
+    Correción de la vista de las prendas en mayorista
+
+[33mcommit 116e22e69f8c784ac6a95e97d70ec4eb301c700d[m
+Author: Diego Rodríguez <dieguitotoi@gmail.com>
+Date:   Thu Nov 24 14:51:14 2022 -0500
+
+    Correción de la vista de las prendas en mayorista
+
+[33mcommit 4941a94a8a33cc8c0a0e20decd1afb8fabdb8bf7[m
+Author: Diego Rodríguez <dieguitotoi@gmail.com>
+Date:   Thu Nov 24 12:48:09 2022 -0500
+
+    Correción de agregar clientes en mayoristas
+
+[33mcommit eb9f6d37f4ee155008a486653a4342cfc0f0f411[m
+Author: sebasramirez99 <sebastianbuenoramirez@gmail.com>
+Date:   Wed Nov 23 12:15:20 2022 -0500
+
+    .
+
+[33mcommit a2064d9b8e30f263993e43ef2e0d0a228fb37516[m
+Author: sebasramirez99 <sebastianbuenoramirez@gmail.com>
+Date:   Wed Nov 23 11:43:54 2022 -0500
+
+    cabio de url controlador
+
+[33mcommit 27988e96b2299c4f5640e77feebd1ea29907fc47[m
+Author: sebasramirez99 <sebastianbuenoramirez@gmail.com>
+Date:   Wed Nov 23 11:41:52 2022 -0500
+
+    Cambio de otro a bancolombia
+
+[33mcommit e812077f8e57cff8243b743e449b0da3dec215d2[m
+Merge: 66a1af0 d9e0b40
+Author: sebasramirez99 <sebastianbuenoramirez@gmail.com>
+Date:   Tue Nov 22 21:36:47 2022 -0500
+
+    Merge branch 'main' of https://github.com/DARR312/teamconcurvas
+
+[33mcommit d9e0b40edc90e5ddf82910add262d1e8448b5c4c[m
+Author: Diego Rodríguez <dieguitotoi@gmail.com>
+Date:   Tue Nov 22 21:30:42 2022 -0500
+
+    Correción de agregar clientes en mayoristas
+
+[33mcommit 66a1af0cece7229b6ff8824540e3a43e27a37672[m
+Author: sebasramirez99 <sebastianbuenoramirez@gmail.com>
+Date:   Tue Nov 22 21:09:26 2022 -0500
+
+    Se agrego una consulta para actualizar la base de datos en la tabla resumen plaza
+
+[33mcommit 61badaa41376efc1e5be6882ba4ead90309d1fb5[m
+Author: sebasramirez99 <sebastianbuenoramirez@gmail.com>
+Date:   Tue Nov 22 21:08:48 2022 -0500
+
+    En la funcion obtenerDatajson se agrego la validacion de tipo Between
+
+[33mcommit d53449e6f19b6df8d4b644e48288e1228f2301b7[m
+Author: sebasramirez99 <sebastianbuenoramirez@gmail.com>
+Date:   Tue Nov 22 21:07:52 2022 -0500
+
+    Se creo una pantalla de carga
+
+[33mcommit 455c20792efb5bd5f624744ed05c03f208e35bc8[m
+Author: sebasramirez99 <sebastianbuenoramirez@gmail.com>
+Date:   Tue Nov 22 21:07:13 2022 -0500
+
+    Se realiza la consulta del resumen plaza, ademas se hace una funcion para imprimir las ventas diarias
+
+[33mcommit a7daba5fb8551be54a9feba423546b1d90ff4f35[m
+Author: Diego Rodríguez <dieguitotoi@gmail.com>
+Date:   Sat Nov 19 15:07:06 2022 -0500
+
+    Correción de agregar clientes en mayoristas
+
+[33mcommit 7af647ddee3f3afe0147da37b8be5a67f36e0e2e[m
+Author: Diego Rodríguez <dieguitotoi@gmail.com>
+Date:   Sat Nov 19 15:05:33 2022 -0500
+
+    Correción de agregar clientes en mayoristas
+
+[33mcommit 3f558ad2571d2d99fbe371e132ec6437627d7b9d[m
+Author: Diego Rodríguez <dieguitotoi@gmail.com>
+Date:   Sat Nov 19 15:02:44 2022 -0500
+
+    Correción de agregar clientes en mayoristas
+
+[33mcommit 1aca8d7f6c23085496ab6cf86c931608dc54c248[m
+Author: Diego Rodríguez <dieguitotoi@gmail.com>
+Date:   Sat Nov 19 14:59:25 2022 -0500
+
+    Correción de agregar clientes en mayoristas
+
+[33mcommit 7b4fbf4d5e9907132f4eb0a7567ef8b18e903891[m
+Author: Diego Rodríguez <dieguitotoi@gmail.com>
+Date:   Sat Nov 19 13:41:51 2022 -0500
+
+    Correción de agregar clientes en mayoristas
+
+[33mcommit 5e7eed5878aed65af21fc42ab5028ad0cfe00590[m
+Author: Diego Rodríguez <dieguitotoi@gmail.com>
+Date:   Sat Nov 19 13:28:43 2022 -0500
+
+    Correción de agregar clientes en mayoristas
+
+[33mcommit 8bcac8f0d904866721e6cc7eac4dc198f3b67c8f[m
+Author: Diego Rodríguez <dieguitotoi@gmail.com>
+Date:   Thu Nov 17 16:33:53 2022 -0500
+
+    Correción del escaner de plaza
+
+[33mcommit 443a4e7dce9f075e2204e173bb63342984333b98[m
+Author: Diego Rodríguez <dieguitotoi@gmail.com>
+Date:   Wed Nov 16 10:58:33 2022 -0500
+
+    Correción del mensaje
+
+[33mcommit 808c84e34e483f2ada734a6c7d749e5e18dffba3[m[33m ([m[1;31mteamconcurvas/codigo_inexistente[m[33m, [m[1;32mcodigo_inexistente[m[33m)[m
+Author: Diego Rodríguez <dieguitotoi@gmail.com>
+Date:   Wed Nov 16 10:54:18 2022 -0500
+
+    Se hace una verificación primero
+
+[33mcommit da606dd2505a4d14e449850bfc4b5c2600d2820e[m
+Author: Diego Rodríguez <dieguitotoi@gmail.com>
+Date:   Wed Nov 16 09:41:10 2022 -0500
+
+    Se hace una verificación primero
+
+[33mcommit 5aa8b1bf3117f518952833d3c3af8196e3ec4d83[m
+Author: Diego Rodríguez <dieguitotoi@gmail.com>
+Date:   Wed Nov 16 08:20:29 2022 -0500
+
+    Creación del apartado de los mayoristas
+
+[33mcommit dad0f9b748eab6b38d49db171c9094f88c773671[m
+Merge: 109870a 1d07b5e
+Author: Diego Rodríguez <dieguitotoi@gmail.com>
+Date:   Wed Nov 16 07:57:29 2022 -0500
+
+    Merge branch 'mayoristas' of https://github.com/DARR312/teamconcurvas into mayoristas
+
+[33mcommit 109870a13fe212c345b2ea3b8812f7bf3054fd70[m
+Author: Diego Rodríguez <dieguitotoi@gmail.com>
+Date:   Wed Nov 16 07:56:49 2022 -0500
+
+    Creación del apartado de los mayoristas
+
+[33mcommit 1d07b5eb69d0260846340ca296f3fa032ce66c8f[m
+Author: sebasramirez99 <sebastianbuenoramirez@gmail.com>
+Date:   Tue Nov 15 18:14:03 2022 -0500
+
+    comment
+
+[33mcommit 3fb93e29f095345fc180a77110021ab1b2483d05[m
+Author: Diego Rodríguez <dieguitotoi@gmail.com>
+Date:   Tue Nov 15 18:10:19 2022 -0500
+
+    Carga en la DB de resumen
+
+[33mcommit 6401ddc1ec348dce2b9351e2377d56eba8b4cedf[m[33m ([m[1;31mteamconcurvas/buscador_plaza[m[33m, [m[1;32mresumen_plaza[m[33m)[m
+Author: Diego Rodríguez <dieguitotoi@gmail.com>
+Date:   Mon Nov 14 12:33:37 2022 -0500
+
+    Se corrige un error en los apartados
+
+[33mcommit 8c1c72eca15efa25202d1da6f049e2c980793362[m
+Author: Diego Rodríguez <dieguitotoi@gmail.com>
+Date:   Mon Nov 14 12:12:52 2022 -0500
+
+    Reglas al 98%, solo falta activarlas en ventas digitales
+
+[33mcommit abcb9d52bb53151458ac86a19d31b5074e860508[m
+Author: Diego Rodríguez <dieguitotoi@gmail.com>
+Date:   Mon Nov 14 11:27:04 2022 -0500
+
+    Botón de cerrar sesión
+
+[33mcommit eab3f1a4644bf4e57b1f513447cba102afbaeb72[m
+Author: Diego Rodríguez <dieguitotoi@gmail.com>
+Date:   Sat Nov 12 11:07:46 2022 -0500
+
+    Reglas al 95% terminado, botón apartado terminado
+
+[33mcommit 21c4a6625cbd94c7971215f65fa060b7ded457c2[m
+Author: Diego Rodríguez <dieguitotoi@gmail.com>
+Date:   Tue Nov 8 03:38:38 2022 -0500
+
+    Reglas al 80% terminado, botón apartados al 50%
+
+[33mcommit 9fc1ea517cea41a56251aa6d0e23c5c5bf003205[m
+Author: Diego Rodríguez <dieguitotoi@gmail.com>
+Date:   Sun Nov 6 00:09:00 2022 -0500
+
+    Queda cambios todo completo con las actualizaciones de cada uno de los campo, la impresión de todo bien y la agregada de nuevos cambios
+
+[33mcommit 480482a059e03e301da0da9361ef92a68a78c839[m
+Author: Diego Rodríguez <dieguitotoi@gmail.com>
+Date:   Sat Nov 5 21:02:58 2022 -0500
+
+    Buscador por cual y descripcion de la prenda
+
+[33mcommit d974abab6b76ccdf2326c24a9ae4d6c752ff78cf[m
+Author: Diego Rodríguez <dieguitotoi@gmail.com>
+Date:   Sat Nov 5 21:02:34 2022 -0500
+
+    Buscador por cual y descripcion de la prenda
+
+[33mcommit 671c8e985555e5168b26e249521c1c374898cc29[m
+Author: Diego Rodríguez <dieguitotoi@gmail.com>
+Date:   Sat Nov 5 18:51:02 2022 -0500
+
+    Buscador por código de la prenda
+
+[33mcommit 6261721ea6af8e6f40987ddcb08ddfbc8ec97e03[m
+Author: Diego Rodríguez <dieguitotoi@gmail.com>
+Date:   Sat Nov 5 18:38:25 2022 -0500
+
+    Imprimo codigos sin entregados
+
+[33mcommit ebe8a9b3b27ef97a3169ac822aae6a10dfa2d874[m
+Author: Diego Rodríguez <dieguitotoi@gmail.com>
+Date:   Sat Nov 5 18:24:30 2022 -0500
+
+    Ya se pueden agregar cambios correctamente
+
+[33mcommit 7724d5382866e06e6ed300a8faf358c9109027a1[m[33m ([m[1;31mteamconcurvas/estilo_tablas[m[33m, [m[1;32mestilo_tablas[m[33m, [m[1;32mbuscador_plaza[m[33m)[m
+Author: Diego Rodríguez <dieguitotoi@gmail.com>
+Date:   Sat Nov 5 09:38:39 2022 -0500
+
+    Se imprimen bien los cambios
+
+[33mcommit ae3cc77e62f3687bb8f8b8bac8363c72c5e014de[m[33m ([m[1;31mteamconcurvas/diego[m[33m, [m[1;32mdiego[m[33m, [m[1;32mcateryn[m[33m)[m
+Author: Diego Rodríguez <dieguitotoi@gmail.com>
+Date:   Fri Nov 4 20:55:32 2022 -0500
+
+    Se imprimen el ultimo cambio de primeras
+
+[33mcommit 218edc1a702c73ca1b3674beaeb4d14147416f5a[m
+Author: Diego Rodríguez <dieguitotoi@gmail.com>
+Date:   Fri Nov 4 05:56:34 2022 -0500
+
+    En el módulo de ventass dejo funcionando la actualización de todo
+
+[33mcommit 620bd2144e7bb1c37f65ac0be55c388946815e21[m
+Author: Diego Rodríguez <dieguitotoi@gmail.com>
+Date:   Wed Nov 2 04:11:38 2022 -0500
+
+    Se logra hacer agregar e imprimir correctamente las ventas con la nueva lógica
+
+[33mcommit e2497e8db2c5f4fe2d6cef5dd9d2579f4be8d9a2[m
+Author: Diego Rodríguez <dieguitotoi@gmail.com>
+Date:   Tue Nov 1 15:54:12 2022 -0500
+
+    Informe para poner todo entregado
+
+[33mcommit c0c3ae86e30a1695e227ff300414de1cb6f25e94[m
+Author: Diego Rodríguez <dieguitotoi@gmail.com>
+Date:   Tue Nov 1 15:44:23 2022 -0500
+
+    Informe para poner todo entregado
+
+[33mcommit 79f941ff6662b20c330e0f1cee519fe5ff6cf35e[m
+Author: Diego Rodríguez <dieguitotoi@gmail.com>
+Date:   Sun Oct 16 15:37:27 2022 -0500
+
+    Se quitan estados de auditoria de prendas, como Venta local, Venta mayorista, Madrugón, Entregado
+
+[33mcommit 848b615573417d631568156d7e1547b49c30d8b0[m
+Author: Diego Rodríguez <dieguitotoi@gmail.com>
+Date:   Sun Oct 16 15:34:07 2022 -0500
+
+    Correción de comisiones
+
+[33mcommit a5aa1079e6d0d3a15199ba207fe494501ed93c5f[m
+Author: Diego Rodríguez <dieguitotoi@gmail.com>
+Date:   Sun Oct 16 15:25:52 2022 -0500
+
+    Correción de comisiones
+
+[33mcommit ee5c76466f3478044a951e4c63723e547b9fb90e[m
+Author: Diego Rodríguez <dieguitotoi@gmail.com>
+Date:   Wed Oct 12 15:02:15 2022 -0500
+
+    Ventas plaza correción de error
+
+[33mcommit d8328665f8f91143aa571bd49f309e11d3fb6dd7[m
+Author: Diego Rodríguez <dieguitotoi@gmail.com>
+Date:   Tue Oct 11 13:20:42 2022 -0500
+
+    Ventas plaza no permitiendo que hagan click muchas veces en el botón
+
+[33mcommit 3fa56117c5d2c641eb5d570063e562665c9228ac[m
+Author: Diego Rodríguez <dieguitotoi@gmail.com>
+Date:   Tue Oct 11 13:17:57 2022 -0500
+
+    Ventas plaza no permitiendo que hagan click muchas veces en el botón
+
+[33mcommit 9650812d7cc77df3d1dff751b2137245777cd477[m
+Author: Diego Rodríguez <dieguitotoi@gmail.com>
+Date:   Tue Oct 11 13:02:06 2022 -0500
+
+    Ventas plaza no permitiendo que hagan click muchas veces en el botón
+
+[33mcommit 516bd1fbf021a7afed4ab8a874a37f4aa9ae2c34[m
+Author: Diego Rodríguez <dieguitotoi@gmail.com>
+Date:   Mon Oct 10 16:48:03 2022 -0500
+
+    Impresión de ventas plaza
+
+[33mcommit 7024f07b0135c663e334862203e30f25a65b0b2d[m
+Author: Diego Rodríguez <dieguitotoi@gmail.com>
+Date:   Mon Oct 10 16:35:45 2022 -0500
+
+    Impresión de ventas plaza
+
+[33mcommit bdc0caa59c7abf067988c1b055d105182cb204cf[m
+Author: Diego Rodríguez <dieguitotoi@gmail.com>
+Date:   Mon Oct 10 12:58:05 2022 -0500
+
+    Arreglo del error de inventario
+
+[33mcommit 6b90517d06d33900420bf8995961c0cb86726ed0[m
+Author: Diego Rodríguez <dieguitotoi@gmail.com>
+Date:   Mon Oct 10 12:40:00 2022 -0500
+
+    Creación de ventas plaza
+
+[33mcommit 2c46853cf4b600035d0fdbef3ead690b6f8ccae8[m
+Author: Diego Rodríguez <dieguitotoi@gmail.com>
+Date:   Fri Oct 7 08:39:06 2022 -0500
+
+    Puesta de En bodega para la fábrica
+
+[33mcommit 5f302b04601c4e5b085cb2d5cf6c9805fb0f5e09[m
+Author: Diego Rodríguez <dieguitotoi@gmail.com>
+Date:   Thu Oct 6 16:01:28 2022 -0500
+
+    Corrección 1 del error en la subida de informes
+
+[33mcommit 5435be8f633f70e228819db7fe9537bc63c7f0ca[m
+Author: Diego Rodríguez <dieguitotoi@gmail.com>
+Date:   Thu Oct 6 15:59:38 2022 -0500
+
+    Filtro de teléfono
+
+[33mcommit 6af0eb0910538d9d19a144272066e05302c3159f[m
+Author: Diego Rodríguez <dieguitotoi@gmail.com>
+Date:   Thu Oct 6 14:31:32 2022 -0500
+
+    Filtro de teléfono
+
+[33mcommit dec3adcc27255898ed0910d4616497589a012934[m
+Author: Diego Rodríguez <dieguitotoi@gmail.com>
+Date:   Thu Oct 6 14:29:05 2022 -0500
+
+    Filtro de teléfono
+
+[33mcommit 27f4a892b15bf0bf0507ce1d85344913afe20d37[m
+Author: Diego Rodríguez <dieguitotoi@gmail.com>
+Date:   Thu Oct 6 14:26:51 2022 -0500
+
+    Filtro de teléfono
+
+[33mcommit 6f66a038421367cb96713ee53e26ff3c632aa4ed[m
+Author: Diego Rodríguez <dieguitotoi@gmail.com>
+Date:   Thu Oct 6 14:23:30 2022 -0500
+
+    Filtro de teléfono
+
+[33mcommit b7106d8f3693feb723328a3ae8d52db76b7ca259[m
+Author: Diego Rodríguez <dieguitotoi@gmail.com>
+Date:   Thu Oct 6 14:17:14 2022 -0500
+
+    Filtro de teléfono
+
+[33mcommit c7c0e4dfafafda799439bc98e774ea0693d7c0b0[m
+Author: Diego Rodríguez <dieguitotoi@gmail.com>
+Date:   Thu Oct 6 14:15:13 2022 -0500
+
+    Filtro de teléfono
+
+[33mcommit 1119505fce0368a837f398b3a9a5460547f9db1c[m
+Author: Diego Rodríguez <dieguitotoi@gmail.com>
+Date:   Wed Oct 5 09:20:22 2022 -0500
+
+    Los no empacados aparecen el mismo día
+
+[33mcommit a8ea69f8b3b781aae62cb9968086a219323c95b9[m
+Author: Diego Rodríguez <dieguitotoi@gmail.com>
+Date:   Tue Oct 4 15:16:06 2022 -0500
+
+    Se arregla impresión de empaques
+
+[33mcommit d369181ceaadd45acf22190b8abb0a3889b3276c[m
+Author: Diego Rodríguez <dieguitotoi@gmail.com>
+Date:   Tue Oct 4 09:09:59 2022 -0500
+
+    Se arregla impresión de empaques
+
+[33mcommit 7e03a33745f5307c5ee85b903ca92ec1f3486b9c[m
+Author: Diego Rodríguez <dieguitotoi@gmail.com>
+Date:   Tue Oct 4 08:18:35 2022 -0500
+
+    Se arregla impresión de empaques
+
+[33mcommit 4742ceab1b805b79a77b5a5a8b65033c7383be17[m
+Author: Diego Rodríguez <dieguitotoi@gmail.com>
+Date:   Tue Oct 4 07:53:41 2022 -0500
+
+    Se arregla impresión de empaques
+
+[33mcommit a9d5f73327586389c02703f25c8598878ed74cce[m
+Author: Diego Rodríguez <dieguitotoi@gmail.com>
+Date:   Sat Oct 1 11:24:03 2022 -0500
+
+    Cambio el coler de los links de cambio
+
+[33mcommit 8898abd96fa69a65aa11680bdd998ed7ff4b73aa[m
+Author: Diego Rodríguez <dieguitotoi@gmail.com>
+Date:   Sat Oct 1 11:17:41 2022 -0500
+
+    Realizo el filtro de cambios para que quede funcionando
+
+[33mcommit 6aa158caa56e5f7ce176d8c482f24fd98fd7dd44[m
+Author: Diego Rodríguez <dieguitotoi@gmail.com>
+Date:   Fri Sep 30 18:11:12 2022 -0500
+
+    Se habilita el buscar prendas por el código
+
+[33mcommit 10cf758124e3f710530f52cec0c096590ef004b6[m
+Author: Diego Rodríguez <dieguitotoi@gmail.com>
+Date:   Fri Sep 30 17:02:23 2022 -0500
+
+    Se habilita el buscar prendas por el código
+
+[33mcommit e26feb785432d827ebd8c169bba5bcaf82e1e793[m
+Author: Diego Rodríguez <dieguitotoi@gmail.com>
+Date:   Fri Sep 30 14:36:27 2022 -0500
+
+    Se habilita el buscar prendas por el código
+
+[33mcommit 59bbd0be42fa1e578d0f1571da5aacdd31f9e780[m
+Author: Diego Rodríguez <dieguitotoi@gmail.com>
+Date:   Fri Sep 30 12:40:17 2022 -0500
+
+    Arreglo y optimizo la función de ver códigos
+
+[33mcommit 6e07301b46d339eefb2e5491b45a097fb534260c[m
+Author: Diego Rodríguez <dieguitotoi@gmail.com>
+Date:   Fri Sep 30 12:00:13 2022 -0500
+
+    Se corrige el doble filtro de auditoria inventario
+
+[33mcommit 3b6627d755b08d78585e80e000f7a2fa2b866983[m
+Author: Diego Rodríguez <dieguitotoi@gmail.com>
+Date:   Fri Sep 30 11:55:14 2022 -0500
+
+    Se corrige el doble filtro de auditoria inventario
+
+[33mcommit eeda66b942c7eb5d290c2633be40110859681937[m
+Author: Diego Rodríguez <dieguitotoi@gmail.com>
+Date:   Fri Sep 30 11:54:20 2022 -0500
+
+    Se corrige el doble filtro de auditoria inventario
+
+[33mcommit bb43e7d6c2ab1a6830ea76fed270f56c61ae0744[m
+Author: Diego Rodríguez <dieguitotoi@gmail.com>
+Date:   Fri Sep 30 08:58:41 2022 -0500
+
+    Se corrige el msx-width
+
+[33mcommit 83ca9090f0f9f8780bb08456ee43d41bdff633d9[m
+Author: Diego Rodríguez <dieguitotoi@gmail.com>
+Date:   Thu Sep 29 16:18:12 2022 -0500
+
+    Quite ventas inventario
+
+[33mcommit 7809487308c5a8a8abd3ce97fdc8548faf56ca4d[m
+Author: Diego Rodríguez <dieguitotoi@gmail.com>
+Date:   Thu Sep 29 16:07:55 2022 -0500
+
+    Ajuste de alturas frontend
+
+[33mcommit 101f42ccd8936582ff303b97ed68fa35680acecb[m
+Author: Diego Rodríguez <dieguitotoi@gmail.com>
+Date:   Thu Sep 29 16:03:29 2022 -0500
+
+    Ajuste de alturas frontend
+
+[33mcommit 3c36770cb2fee0ae56a4b410190c0425f35ff0eb[m
+Author: Diego Rodríguez <dieguitotoi@gmail.com>
+Date:   Thu Sep 29 16:02:38 2022 -0500
+
+    Ajuste de alturas frontend
+
+[33mcommit ae4bba7263677e9e0b0bc651979897d774d318db[m
+Author: Diego Rodríguez <dieguitotoi@gmail.com>
+Date:   Thu Sep 29 15:48:47 2022 -0500
+
+    Iconos nuevos
+
+[33mcommit f976387f81929985e1c561fbc19a61a3d393c7a4[m
+Author: Diego Rodríguez <dieguitotoi@gmail.com>
+Date:   Thu Sep 29 15:05:19 2022 -0500
+
+    Iconos nuevos
+
+[33mcommit 4d9525a73f1a4e2afea59547e5399582486faadb[m
+Author: Diego Rodríguez <dieguitotoi@gmail.com>
+Date:   Thu Sep 29 11:51:34 2022 -0500
+
+    Auditoría de satélite
+
+[33mcommit 3d6c1f4931359ffd9814ec3d494c0da11c6950b2[m
+Author: Diego Rodríguez <dieguitotoi@gmail.com>
+Date:   Thu Sep 29 11:33:03 2022 -0500
+
+    Auditoría de satélite
+
+[33mcommit daaed2c41f64ab17458cf02cd141bedc8a935a96[m
+Author: Diego Rodríguez <dieguitotoi@gmail.com>
+Date:   Tue Sep 27 17:08:11 2022 -0500
+
+    Se termina el aplicativo de las fechas de los satélites
+
+[33mcommit 6461ef6ed8801bb6b49734593448fe2da7c6200f[m
+Author: Diego Rodríguez <dieguitotoi@gmail.com>
+Date:   Tue Sep 27 17:06:29 2022 -0500
+
+    Se termina el aplicativo de las fechas de los satélites
+
+[33mcommit 2caa4a604aee85ee84d9fe871627cf8a4a047e48[m
+Author: Diego Rodríguez <dieguitotoi@gmail.com>
+Date:   Tue Sep 27 17:00:47 2022 -0500
+
+    Se termina el aplicativo de las fechas de los satélites
+
+[33mcommit e59ffdfbf461de828c40483271ef1dafe071e3ff[m
+Author: Diego Rodríguez <dieguitotoi@gmail.com>
+Date:   Tue Sep 27 16:10:03 2022 -0500
+
+    Se termina el aplicativo de las fechas de los satélites
+
+[33mcommit 584a84a05e55ff3c0226e659d7941e06f58806b2[m
+Author: Diego Rodríguez <dieguitotoi@gmail.com>
+Date:   Mon Sep 19 18:41:22 2022 -0500
+
+    Quinta version del boton de actualizar empaque
+
+[33mcommit 2c48597d47901bf9bbbaa8d68a4f6eda9e111025[m
+Author: Diego Rodríguez <dieguitotoi@gmail.com>
+Date:   Mon Sep 19 16:36:11 2022 -0500
+
+    Quinta version del boton de actualizar empaque
+
+[33mcommit 819d01ea634c509007710370f6d1d2f3d7058651[m
+Author: Diego Rodríguez <dieguitotoi@gmail.com>
+Date:   Mon Sep 19 16:33:03 2022 -0500
+
+    Cuarte version del boton de actualizar empaque
+
+[33mcommit 76cf6fff1d496f13bb94a56a4c8b1278a6d96278[m
+Author: Diego Rodríguez <dieguitotoi@gmail.com>
+Date:   Mon Sep 19 16:28:42 2022 -0500
+
+    Cuarte version del boton de actualizar empaque
+
+[33mcommit f03bfb588f9ac048512ec2af7a59656e1f131cde[m
+Author: Diego Rodríguez <dieguitotoi@gmail.com>
+Date:   Mon Sep 19 16:22:22 2022 -0500
+
+    Tercera version del boton de actualizar empaque
+
+[33mcommit 6a35d9de97f2e2d945fe1c9a1c50606e77f68477[m
+Author: Diego Rodríguez <dieguitotoi@gmail.com>
+Date:   Mon Sep 19 16:19:56 2022 -0500
+
+    Tercera version del boton de actualizar empaque
+
+[33mcommit 5c953721becddb51ffdc3a86f0ca636551217e0d[m
+Author: Diego Rodríguez <dieguitotoi@gmail.com>
+Date:   Mon Sep 19 16:17:31 2022 -0500
+
+    Tercera version del boton de actualizar empaque
+
+[33mcommit 95f856f837774a4d9152355c83b56a27425d7471[m
+Author: Diego Rodríguez <dieguitotoi@gmail.com>
+Date:   Mon Sep 19 16:14:23 2022 -0500
+
+    Tercera version del boton de actualizar empaque
+
+[33mcommit 34456092b1fd4304ed8b418f054f892f46c694a7[m
+Author: Diego Rodríguez <dieguitotoi@gmail.com>
+Date:   Mon Sep 19 15:52:46 2022 -0500
+
+    Segunda version del boton de actualizar empaque
+
+[33mcommit c91bf9b61fabd8c830328f45f075b2e413e063fa[m
+Author: Diego Rodríguez <dieguitotoi@gmail.com>
+Date:   Mon Sep 19 15:49:21 2022 -0500
+
+    Segunda version del boton de actualizar empaque
+
+[33mcommit f49db1422b8e77bceb43d029441cca64323b9725[m
+Author: Diego Rodríguez <dieguitotoi@gmail.com>
+Date:   Mon Sep 19 15:31:09 2022 -0500
+
+    Primera version del boton de actualizar empaque
+
+[33mcommit e84d5d9fa7dcf3a15c0dccfc11e49d0d773a304f[m
+Author: Diego Rodríguez <dieguitotoi@gmail.com>
+Date:   Sat Sep 17 17:37:11 2022 -0500
+
+    Se ajustga el frontend de madrugon
+
+[33mcommit 4a42235c6aa48f170c2829f4c43103e31fc24891[m
+Author: Diego Rodríguez <dieguitotoi@gmail.com>
+Date:   Sat Sep 17 17:21:20 2022 -0500
+
+    Modifico el formato precio para negativos
+
+[33mcommit cec8fda794d3fead871679ce4ea248ae0d8cf606[m
+Author: Diego Rodríguez <dieguitotoi@gmail.com>
+Date:   Sat Sep 17 17:14:43 2022 -0500
+
+    Se crea el apartado de valor de cambios del madrugón
+
+[33mcommit 5e312c30aa8c7709d6d43ba94b442b17bf759722[m
+Author: Diego Rodríguez <dieguitotoi@gmail.com>
+Date:   Sat Sep 17 17:14:31 2022 -0500
+
+    Se crea el apartado de
+
+[33mcommit 87b805c162908e9071c9036f39b6ffd7096b695d[m
+Author: Diego Rodríguez <dieguitotoi@gmail.com>
+Date:   Fri Sep 16 12:59:03 2022 -0500
+
+    Se suben comisiones de las vendedoras
+
+[33mcommit c0ce05557ff1a6df9cb79d8725f503ca28dd1db7[m
+Author: Diego Rodríguez <dieguitotoi@gmail.com>
+Date:   Fri Sep 16 12:57:19 2022 -0500
+
+    Se suben comisiones de las vendedoras
+
+[33mcommit c196fc954cf6f542e38c12555b13628f83cdf844[m
+Author: Diego Rodríguez <dieguitotoi@gmail.com>
+Date:   Fri Sep 16 12:55:48 2022 -0500
+
+    Se suben comisiones de las vendedoras
+
+[33mcommit 68caef92d6d092613ea873c79cbbbab85859a458[m
+Author: Diego Rodríguez <dieguitotoi@gmail.com>
+Date:   Fri Sep 16 12:28:25 2022 -0500
+
+    Se suben comisiones de las vendedoras
+
+[33mcommit 266dab05e944e0e7dbddd082c27ecd73692e9f8f[m
+Author: Diego Rodríguez <dieguitotoi@gmail.com>
+Date:   Fri Sep 16 11:27:38 2022 -0500
+
+    Se suben comisiones de las vendedoras
+
+[33mcommit f97430c4ee32f5f88c6924b0490a31361a7e56e5[m
+Author: Diego Rodríguez <dieguitotoi@gmail.com>
+Date:   Thu Sep 15 13:52:35 2022 -0500
+
+    Updatenotas cuándo es no empacado
+
+[33mcommit 492fd07cd6f5a173209849d69939737d2ffc0aa8[m
+Author: Diego Rodríguez <dieguitotoi@gmail.com>
+Date:   Wed Sep 14 00:29:05 2022 -0500
+
+    Se organiza el código de updatepedido para poder trabajar mejor
+
+[33mcommit aecb7a68844f21c0d99c361bdc13fe0aaa7a7975[m
+Author: Diego Rodríguez <dieguitotoi@gmail.com>
+Date:   Tue Sep 13 17:59:49 2022 -0500
+
+    Se arregla el datetime de la fecha de agendamiento de la venta vs satélites
+
+[33mcommit 18a8869f573b18378ec21d5c3f203448b9ccd6db[m
+Author: Diego Rodríguez <dieguitotoi@gmail.com>
+Date:   Tue Sep 13 17:58:05 2022 -0500
+
+    Subo el usuario diseño
+
+[33mcommit 2dccac820635b71f8a0c0688e6847b7753e1bd99[m
+Author: Diego Rodríguez <dieguitotoi@gmail.com>
+Date:   Tue Sep 13 07:52:46 2022 -0500
+
+    Subo el usuario diseño
+
+[33mcommit 13790e30ecf5fb7b926e64b5903041602a44a567[m
+Author: Diego Rodríguez <dieguitotoi@gmail.com>
+Date:   Tue Sep 13 07:51:36 2022 -0500
+
+    Subo el usuario diseño
+
+[33mcommit c66e17e58b3174719879cedbb7a02a84aa689cb6[m
+Author: Diego Rodríguez <dieguitotoi@gmail.com>
+Date:   Tue Sep 13 07:50:46 2022 -0500
+
+    Subo el usuario diseño
+
+[33mcommit 97afe18da8e17912c25663e02a8243bb3bf20046[m
+Author: Diego Rodríguez <dieguitotoi@gmail.com>
+Date:   Tue Sep 13 00:14:11 2022 -0500
+
+    Completo el 95% del módilo de restricción por satélite, falta agregarlo a cambios y al updatepedido, también falta agregar un apartado donde en producción se pongan las fechas de llegada de los lotes
+
+[33mcommit 4a8e8c8374e8187aab60b69c677e8965791cc61a[m
+Author: Diego Rodríguez <dieguitotoi@gmail.com>
+Date:   Mon Sep 12 12:32:47 2022 -0500
+
+    Se soluciona el error al subir informe que queda todo en auditar
+
+[33mcommit 77766439aa464abff1e3058039244d94f02bd38f[m
+Author: Diego Rodríguez <dieguitotoi@gmail.com>
+Date:   Mon Sep 12 00:32:04 2022 -0500
+
+    85% De la función que no deja agendar segpun la fecha del satpelite
+
+[33mcommit 78b28512eb3a94af7a471c2b0ba93fd6d8f5f410[m
+Merge: 939fa88 4e8cc3a
+Author: Diego Rodríguez <dieguitotoi@gmail.com>
+Date:   Sun Sep 11 17:39:07 2022 -0500
+
+    No acepte un cambio
+
+[33mcommit 4e8cc3a54be8993a4bae5c6cb21bca22450eae01[m
+Merge: f0677e4 d1862f3
+Author: Diego Rodríguez <dieguitotoi@gmail.com>
+Date:   Sun Sep 11 17:37:01 2022 -0500
+
+    Merge branch 'main' of https://github.com/DARR312/teamconcurvas
+
+[33mcommit f0677e4cb155edc4c223a56bc86ecb06f051e38b[m
+Author: Diego Rodríguez <dieguitotoi@gmail.com>
+Date:   Sun Sep 11 17:36:43 2022 -0500
+
+    Comento para que sirven los permisos principales
+
+[33mcommit d1862f39099b7cca4afdb1afb32ce4af876bec70[m
+Author: sebasramirez99 <sebastianbuenoramirez@gmail.com>
+Date:   Sun Sep 11 17:36:33 2022 -0500
+
+    sev
+
+[33mcommit 059dd18ae978204b3d42069ff6ea2b2538e520ab[m
+Merge: d45472c ead8b81
+Author: Diego Rodríguez <dieguitotoi@gmail.com>
+Date:   Sun Sep 11 17:35:13 2022 -0500
+
+    Dieguito
+
+[33mcommit d45472c2f2164ad78ea5091e7105316d79c03632[m
+Author: Diego Rodríguez <dieguitotoi@gmail.com>
+Date:   Sun Sep 11 17:33:56 2022 -0500
+
+    Dieguito
+
+[33mcommit ead8b81d2903b4f7d4e9b89584b7d180fc01f64c[m
+Author: sebasramirez99 <sebastianbuenoramirez@gmail.com>
+Date:   Sun Sep 11 17:32:56 2022 -0500
+
+    sebas
+
+[33mcommit 0990e3aa7ca792ffde6f81929dc585427ee6adfa[m
+Merge: f513a22 26b8866
+Author: Diego Rodríguez <dieguitotoi@gmail.com>
+Date:   Sun Sep 11 17:31:50 2022 -0500
+
+    Conlcuyendo
+
+[33mcommit f513a224cec6582897b8fc3f095d1febabe9da42[m
+Author: Diego Rodríguez <dieguitotoi@gmail.com>
+Date:   Sun Sep 11 17:29:10 2022 -0500
+
+    Estos cambios los traje de sebas
+
+[33mcommit 26b8866b4df7ee71c33aa91025ecff804f9f1ef2[m
+Author: sebasramirez99 <sebastianbuenoramirez@gmail.com>
+Date:   Sun Sep 11 16:41:51 2022 -0500
+
+    sebas
+
+[33mcommit 07d1534ef640b563c465e7a4da2a803e87e48bb5[m
+Merge: 2fbfd81 e7cf194
+Author: Juan Sebastian Bueno Ramirez <juan.bueno01@correo.usa.edu.co>
+Date:   Sun Sep 11 16:34:51 2022 -0500
+
+    sebas
+
+[33mcommit 2fbfd8144f9629b46ea9562f549bd3a999ffa282[m
+Author: Juan Sebastian Bueno Ramirez <juan.bueno01@correo.usa.edu.co>
+Date:   Sun Sep 11 16:29:55 2022 -0500
+
+    sebas
+
+[33mcommit 939fa88ad18fa725c2a8bd2e7cc731d992d4e67d[m
+Author: Diego Rodríguez <dieguitotoi@gmail.com>
+Date:   Sun Sep 11 16:27:48 2022 -0500
+
+    Diego comenta
+
+[33mcommit e7cf19428b6650d73f110d1893a8818f30afe40c[m
+Author: Diego Rodríguez <dieguitotoi@gmail.com>
+Date:   Sun Sep 11 16:23:31 2022 -0500
+
+    Se empieza a corregir los errores de la auditoría de dinero}+
+
+[33mcommit d66a94a6ab998081f7348c3fe450414ff21cdc9d[m
+Author: unknown <dieguitotoi@gmail.com>
+Date:   Sat Sep 10 16:11:42 2022 -0500
+
+    Modificación del modulo de madrugón en el que los admin pueden agregar el dinero de la venta del día y se verifica si está o no ok el madrugón, también se editan los estados de las prendas dejándolos en Venta madrugón
+
+[33mcommit f661547bb2baba73674fe8343d4bad6492cb9837[m
+Author: unknown <dieguitotoi@gmail.com>
+Date:   Sat Sep 10 11:59:57 2022 -0500
+
+    Creación completa del módulo de madrugón
+
+[33mcommit cd8612d986e24fa5dbbe7354a9f2d18485f9594a[m
+Author: unknown <dieguitotoi@gmail.com>
+Date:   Sat Sep 10 02:29:37 2022 -0500
+
+    85% del módulo de madrugón
+
+[33mcommit 196094a7efc88c2659b8c32e70a0d148335bc8ba[m
+Author: unknown <dieguitotoi@gmail.com>
+Date:   Fri Sep 9 17:18:04 2022 -0500
+
+    Referencias faltantes bien creadas por diez días adelante
+
+[33mcommit 1889024d5f47783e0b88b3095633530f6f7b3790[m
+Author: unknown <dieguitotoi@gmail.com>
+Date:   Fri Sep 9 17:17:28 2022 -0500
+
+    Referencias faltantes bien creadas por diez días adelante
+
+[33mcommit bf7c04794638e5017e495a16494134eac39400a2[m
+Author: unknown <dieguitotoi@gmail.com>
+Date:   Wed Sep 7 10:21:27 2022 -0500
+
+    Se crea link de referencias sin empacar
+
+[33mcommit 72f516ae0db582acf21255551cfa3300005df20d[m
+Author: unknown <dieguitotoi@gmail.com>
+Date:   Tue Sep 6 12:10:16 2022 -0500
+
+    Cantidades disponibles teniendo en cuenta los cambios
+
+[33mcommit 650bfa7007543aa8101f379110835c7e6f32e9f3[m
+Author: unknown <dieguitotoi@gmail.com>
+Date:   Mon Sep 5 19:23:04 2022 -0500
+
+    Botón para liberar paquetes
+
+[33mcommit 5025b4ee48f88a03d165adb37772194e2cbe7d43[m
+Author: unknown <dieguitotoi@gmail.com>
+Date:   Mon Sep 5 19:15:50 2022 -0500
+
+    Botón para liberar paquetes
+
+[33mcommit 4f6043836cb99d173be7e0417015d7d137214e5e[m
+Author: unknown <dieguitotoi@gmail.com>
+Date:   Mon Sep 5 19:11:17 2022 -0500
+
+    Botón para liberar paquetes
+
+[33mcommit 66aec46ffbb2d11bdae1db99718a798bbc05e123[m
+Author: unknown <dieguitotoi@gmail.com>
+Date:   Mon Sep 5 18:18:11 2022 -0500
+
+    Consultar ref pro
+
+[33mcommit a0169b8eb5e721a6bbaef2973177cd996789343b[m
+Author: unknown <dieguitotoi@gmail.com>
+Date:   Mon Sep 5 18:16:28 2022 -0500
+
+    Consultar ref pro
+
+[33mcommit abed3e209a2314b55ed3a754b34cd5a8bce1ceb5[m
+Author: unknown <dieguitotoi@gmail.com>
+Date:   Mon Sep 5 18:11:46 2022 -0500
+
+    Consultar ref pro
+
+[33mcommit 6d78f20e3ffc3abb023e0b47e7915dfbe5f04765[m
+Author: unknown <dieguitotoi@gmail.com>
+Date:   Mon Sep 5 18:07:10 2022 -0500
+
+    Consultar ref pro
+
+[33mcommit c30febf8bd2778fd8427c953230c9c086c28977c[m
+Author: unknown <dieguitotoi@gmail.com>
+Date:   Mon Sep 5 17:49:14 2022 -0500
+
+    Auditoria de empacados
+
+[33mcommit 3c7e1e2015553d7b914cc7c79bbff0544229ccc4[m
+Author: unknown <dieguitotoi@gmail.com>
+Date:   Mon Sep 5 17:45:05 2022 -0500
+
+    Auditoria de empacados
+
+[33mcommit 8d6e64078cab212c5c7bae75ee7aafff6d760e40[m
+Author: unknown <dieguitotoi@gmail.com>
+Date:   Mon Sep 5 16:36:33 2022 -0500
+
+    Auditoria de empacados y despachados
+
+[33mcommit eb83a67fa92606fd230e5ee1b79d6a56f5235e27[m
+Author: unknown <dieguitotoi@gmail.com>
+Date:   Sun Sep 4 19:31:08 2022 -0500
+
+    Seguna etapa de cambios
+
+[33mcommit 55d9c9e334c16b961b18e940b9b652c11f1584d0[m
+Author: unknown <dieguitotoi@gmail.com>
+Date:   Sat Sep 3 07:54:06 2022 -0500
+
+    Se trata de arreglar el error del alert en la escaneada de empacar
+
+[33mcommit 46379f40c7c0f281986684787ca93ff733417713[m
+Author: unknown <dieguitotoi@gmail.com>
+Date:   Fri Sep 2 16:57:17 2022 -0500
+
+    Primera etapa de cambios
+
+[33mcommit f026940a94cb628083eb3a6e44feb9ed769774eb[m
+Author: unknown <dieguitotoi@gmail.com>
+Date:   Fri Sep 2 16:35:30 2022 -0500
+
+    Ver resumen en  el celular
+
+[33mcommit 56b1a7c78e357141f166e61940c4cf67f73894eb[m
+Author: unknown <dieguitotoi@gmail.com>
+Date:   Fri Sep 2 12:40:32 2022 -0500
+
+    Ver resumen en  el celular
+
+[33mcommit c5be1aacd7560c77b42b5a28a30ea17b291ba20a[m
+Author: unknown <dieguitotoi@gmail.com>
+Date:   Fri Sep 2 12:37:18 2022 -0500
+
+    Ver resumen en  el celular
+
+[33mcommit 212c34b84b51abcd31de18a805cb18dc359fe1d4[m
+Author: unknown <dieguitotoi@gmail.com>
+Date:   Fri Sep 2 12:35:52 2022 -0500
+
+    Ver resumen en  el celular
+
+[33mcommit 06c4153421c1ee295f6657f20805902a541a1d70[m
+Author: unknown <dieguitotoi@gmail.com>
+Date:   Thu Sep 1 19:08:30 2022 -0500
+
+    Auditoria de inventario al admin se le muestra todo
+
+[33mcommit 1acac877af76a3d51d709e972fc69bc1f42f13c1[m
+Author: unknown <dieguitotoi@gmail.com>
+Date:   Thu Sep 1 19:06:47 2022 -0500
+
+    Auditoria de inventario al admin se le muestra todo
+
+[33mcommit d5e0b7697c69a54007eb0d81ff1d7f90ed91e6a9[m
+Author: unknown <dieguitotoi@gmail.com>
+Date:   Thu Sep 1 19:00:47 2022 -0500
+
+    Auditoria de inventario al admin se le muestra todo
+
+[33mcommit da488eeea9a7f3a7c48e97d16f9d6019fc1d73df[m
+Author: unknown <dieguitotoi@gmail.com>
+Date:   Tue Aug 30 22:47:56 2022 -0500
+
+    Arreglo del substring de ventas
+
+[33mcommit f6b13251069321c0274b83fa5cd81617cb273112[m
+Author: unknown <dieguitotoi@gmail.com>
+Date:   Tue Aug 30 14:22:56 2022 -0500
+
+    Arreglo del substring de ventas
+
+[33mcommit 0d032725b3b29ff8c6cbca1ee87d91fa25648bd1[m
+Author: unknown <dieguitotoi@gmail.com>
+Date:   Tue Aug 30 14:16:06 2022 -0500
+
+    Arreglo del substring de ventas
+
+[33mcommit 25896146abe57677226e2fef58ebf730f52b283e[m
+Author: unknown <dieguitotoi@gmail.com>
+Date:   Tue Aug 30 14:14:47 2022 -0500
+
+    Arreglo del substring de ventas
+
+[33mcommit af58c43f1a1fcddad58a065972731307ebf85c74[m
+Author: unknown <dieguitotoi@gmail.com>
+Date:   Tue Aug 30 12:42:44 2022 -0500
+
+    Se arregla el visual de resumen
+
+[33mcommit e68c5cb7e882105d9ec676e3d6919d674e0073c6[m
+Author: unknown <dieguitotoi@gmail.com>
+Date:   Tue Aug 30 12:41:33 2022 -0500
+
+    Se arregla el visual de resumen
+
+[33mcommit af90dd14dc8ebe09fc82a9a0d318780e33aa917b[m
+Author: unknown <dieguitotoi@gmail.com>
+Date:   Mon Aug 29 13:40:34 2022 -0500
+
+    Se creaN botones de madrugón y venta mayorista
+
+[33mcommit ec869e2e315ec715c7899a188858ba34da4d4f1b[m
+Author: unknown <dieguitotoi@gmail.com>
+Date:   Mon Aug 29 10:06:33 2022 -0500
+
+    Se crea un botón inicial de las ventas de plaza
+
+[33mcommit 9fe92eafae9d1d462d75f97b893c20190cb6840a[m
+Author: unknown <dieguitotoi@gmail.com>
+Date:   Mon Aug 29 09:04:14 2022 -0500
+
+    Se realiza cambio del resumen para que muestre todo por separado
+
+[33mcommit 9f51c9c5faaa3c02c9e6a58a9218f19df5e19fac[m
+Author: unknown <dieguitotoi@gmail.com>
+Date:   Mon Aug 29 09:01:12 2022 -0500
+
+    Se realiza cambio del resumen para que muestre todo por separado
+
+[33mcommit 19c2f421413245b67a01752fedbff6190d8bfdd9[m
+Author: unknown <dieguitotoi@gmail.com>
+Date:   Sun Aug 28 16:57:50 2022 -0500
+
+    Hago un link para consultar por referencia los estados de los codigos
+
+[33mcommit 0b3e312a21fe1b609159984de5e68937cf54478b[m
+Author: unknown <dieguitotoi@gmail.com>
+Date:   Sat Aug 27 16:53:20 2022 -0500
+
+    Se verifica que no esta enviando escaneado inventario
+
+[33mcommit 591ba3b9f680cd905779d715cb2b9701ac097645[m
+Author: unknown <dieguitotoi@gmail.com>
+Date:   Sat Aug 27 16:53:02 2022 -0500
+
+    Se verifica que no esta enviando escaneado inventario
+
+[33mcommit 44eb330deaaf04cb6e4d61f892f5008600e68701[m
+Author: unknown <dieguitotoi@gmail.com>
+Date:   Sat Aug 27 16:51:26 2022 -0500
+
+    Se verifica que no esta enviando escaneado inventario
+
+[33mcommit e769d9033bc6dcfe1cb588b918410c31d37245e8[m
+Author: unknown <dieguitotoi@gmail.com>
+Date:   Sat Aug 27 16:34:27 2022 -0500
+
+    Se crea el botón dañados, se modifica el error de los permisos
+
+[33mcommit 699b00bf20bc426e14d92c4a3966b1a43e6caa24[m
+Author: unknown <dieguitotoi@gmail.com>
+Date:   Sat Aug 27 16:27:31 2022 -0500
+
+    Se crea el botón dañados
+
+[33mcommit 9b031d48e8e4393a60a23619bc45ab4fce07aa28[m
+Author: unknown <dieguitotoi@gmail.com>
+Date:   Sat Aug 27 15:30:54 2022 -0500
+
+    Se prueba ventas para imŕimir todos los códigos
+
+[33mcommit 2a8d575701723ce9c6c8bfea4507f32e5cae8a6d[m
+Author: unknown <dieguitotoi@gmail.com>
+Date:   Sat Aug 27 15:26:42 2022 -0500
+
+    Se prueba ventas para imŕimir todos los códigos
+
+[33mcommit 81e18b04480b038016bc5b191ce28b95480c5ccc[m
+Author: unknown <dieguitotoi@gmail.com>
+Date:   Sat Aug 27 15:24:07 2022 -0500
+
+    Se prueba ventas para imŕimir todos los códigos
+
+[33mcommit 5ef1fcc55545d70ea617141d027b3c31e04fb44b[m
+Author: unknown <dieguitotoi@gmail.com>
+Date:   Sat Aug 27 15:20:04 2022 -0500
+
+    Se prueba ventas para imŕimir todos los códigos
+
+[33mcommit f3207505c1528a70cc889852cf7ee16779643f1f[m
+Author: unknown <dieguitotoi@gmail.com>
+Date:   Sat Aug 27 15:18:38 2022 -0500
+
+    Se prueba ventas para imŕimir todos los códigos
+
+[33mcommit 18c196f08173f7f0a9a35d2769d2c4949b334379[m
+Author: unknown <dieguitotoi@gmail.com>
+Date:   Fri Aug 26 14:53:50 2022 -0500
+
+    El error del espacio al inicio de la escaneada de inventario se soluciono
+
+[33mcommit a746ea79f9914e6fd18e3dafe1259c0a0ba7f748[m
+Author: unknown <dieguitotoi@gmail.com>
+Date:   Fri Aug 26 13:31:09 2022 -0500
+
+    Se soluciono el error de espacio en el escaneado
+
+[33mcommit d6b9ea77544b959c3dc9eeba010c522b2dea9da0[m
+Author: unknown <dieguitotoi@gmail.com>
+Date:   Fri Aug 26 13:21:38 2022 -0500
+
+    Se soluciono el error de espacio en el escaneado
+
+[33mcommit 5760f072e8c288d578f938ab65188812b1f5a475[m
+Author: unknown <dieguitotoi@gmail.com>
+Date:   Fri Aug 26 13:16:31 2022 -0500
+
+    Se soluciono el error de espacio en el escaneado
+
+[33mcommit 985f05798fc924cd4cb52a926a54d796909604ba[m
+Author: unknown <dieguitotoi@gmail.com>
+Date:   Fri Aug 26 13:11:25 2022 -0500
+
+    Se soluciono el error de espacio en el escaneado
+
+[33mcommit bd1f05bc34818d6ea39235b4112399d4dc19e3fd[m
+Author: unknown <dieguitotoi@gmail.com>
+Date:   Wed Aug 24 19:52:24 2022 -0500
+
+    Se adelanto la carga de editar el pedido de un cambio
+
+[33mcommit e87e98df138cee9d8a538c35aa74d20abe0225ed[m
+Author: unknown <dieguitotoi@gmail.com>
+Date:   Wed Aug 24 15:26:10 2022 -0500
+
+    Se arreglor error de variables en vez de string en page-controlador
+
+[33mcommit 1fa068311a3343914a436e73f0a167f968a4c8da[m
+Author: unknown <dieguitotoi@gmail.com>
+Date:   Tue Aug 23 15:08:34 2022 -0500
+
+    Pueden editar la fecha a los no empacados
+
+[33mcommit 9f429d46c0bd982931671e2c5f81face3a32c36a[m
+Author: unknown <dieguitotoi@gmail.com>
+Date:   Tue Aug 23 14:22:59 2022 -0500
+
+    Cambio en page-pruebas
+
+[33mcommit 7f9c61e348d2863a906a83fb9840e33ae4833852[m
+Author: unknown <dieguitotoi@gmail.com>
+Date:   Tue Aug 23 13:01:04 2022 -0500
+
+    Cambio en page-pruebas
+
+[33mcommit 3f116bfa2412d7df8ba47430e57432a4b84c8ce6[m
+Author: unknown <dieguitotoi@gmail.com>
+Date:   Tue Aug 23 12:59:49 2022 -0500
+
+    Cambio en page-pruebas
+
+[33mcommit 7ff215cb531cf52f27a60036bdd357461cd8a413[m
+Merge: 00950ec 4cc8db3
+Author: unknown <dieguitotoi@gmail.com>
+Date:   Mon Aug 22 14:10:26 2022 -0500
+
+    Merge branch 'main' into Diego
+
+[33mcommit 4cc8db366706e4c17ad541c42454e65a918abc88[m[33m ([m[1;31mteamconcurvas/sebas[m[33m)[m
+Author: unknown <dieguitotoi@gmail.com>
+Date:   Mon Aug 22 11:32:22 2022 -0500
+
+    Cambio controlador
+
+[33mcommit cd2c4a6661aaba4e6c89245e80de141385f4e2fb[m
+Author: Juan Sebastian Bueno Ramirez <juan.bueno01@correo.usa.edu.co>
+Date:   Sun Aug 21 19:36:20 2022 -0500
+
+    url
+
+[33mcommit 00950ec64bb77f667c85cb718d0fbb16ae1415c1[m
+Author: unknown <dieguitotoi@gmail.com>
+Date:   Sat Aug 20 11:48:47 2022 -0500
+
+    inicio
+
+[33mcommit 63b9f77097fd851233766f95ac89400566b10e57[m
+Author: unknown <dieguitotoi@gmail.com>
+Date:   Sat Aug 20 11:42:52 2022 -0500
+
+    dejo de imprimir todo al inicio
+
+[33mcommit 1ba94d8c06e2e197846049b006a79cbe56e6018c[m
+Author: unknown <dieguitotoi@gmail.com>
+Date:   Sat Aug 20 11:33:04 2022 -0500
+
+    Inicio
+
+[33mcommit cde6ebee62f4de603057a156b0d95296273bf39e[m
+Author: DARR312 <111651131+DARR312@users.noreply.github.com>
+Date:   Sat Aug 20 11:01:52 2022 -0500
+
+    Initial commit

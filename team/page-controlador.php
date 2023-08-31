@@ -39,7 +39,7 @@ function permisosPrincipales(){
     print_r($permisos);
     foreach ($permisos as $v1) {
         foreach ($v1 as $v2) {
-            if($v2 == 1 || $v2 == 2 || $v2 == 3 || $v2 == 4 || $v2 == 37 || $v2 == 38){
+            if($v2 == 1 || $v2 == 2 || $v2 == 3 || $v2 == 4 || $v2 == 37 || $v2 == 38 || $v2 == 46){
                 $permi = $permi.",".$v2;
             }
         }
