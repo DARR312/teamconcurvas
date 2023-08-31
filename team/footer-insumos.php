@@ -757,17 +757,28 @@ $('#verPorfecha').on('click', function() {
     var html = '';
     for (let i = 0; i < jsonterminadosFechas.length; i++) {
         if(jsonterminadosFechas[i].terminado == 1){
-            let cantidadTerminadaj = obtenerDatajson("grupo,complemento,caracteristica,complemento_caracteristica,presentacion","con_t_insumos","valoresconcondicion","ID",insumosFaltantes[i].id_insumo);
-            let cantidadTerminada = JSON.parse(cantidadTerminadaj);
+
             html=`${html}
-            <div class=' col-lg-12 col-md-12 col-sm-12 col-xs-12' id='insumoId${insumosFaltantes[i].ID}'>
-                <p  class="letra18pt-pc col-lg-7 col-md-7 col-sm-7 col-xs-7">${insumo[0].grupo} ${insumo[0].complemento} ${insumo[0].caracteristica} ${insumo[0].complemento_caracteristica} </p>
-                <p  class="letra18pt-pc col-lg-5 col-md-5 col-sm-5 col-xs-5">${insumosFaltantes[i].cantidad}</p>
+            <div class=' col-lg-12 col-md-12 col-sm-12 col-xs-12'>
+                <p  class="letra18pt-pc col-lg-7 col-md-7 col-sm-7 col-xs-7">${jsonterminadosFechas[i].codigo} </p>
+                <p  class="letra18pt-pc col-lg-5 col-md-5 col-sm-5 col-xs-5">${jsonterminadosFechas[i].fecha_terminado}</p>
             </div>`;
-            prendasHechas++;
+            var proyectoPrenda = obtenerDatajson('proyecto','con_t_trprendas','valoresconcondicion','codigo',`'${jsonterminadosFechas[i].codigo}'`);
+            var jsonproyectoPrenda = JSON.parse(proyectoPrenda);
+            var insumo = obtenerDatajson('insumo_id,activo','con_t_terminadoinsumo','valoresconcondicion','proyecto_id',`'${jsonproyectoPrenda[0].proyecto}'`);
+            var jsoninsumo = JSON.parse(insumo);
+            for (let j = 0; j < jsoninsumo.length; j++) {
+                if(jsoninsumo[j].activo == 0){continue;}
+                var cantidadHecha = obtenerDatajson('cantidad','con_t_insumosproducto','valoresconcondicion','ID',`'${jsoninsumo[j].insumo_id}'`);
+                var jsoncantidadHecha = JSON.parse(cantidadHecha);
+                terminadosHechos = terminadosHechos + parseInt(jsoncantidadHecha[0].cantidad);
+            }
+
         }      
         
     }
+    $('#terminadosHechos').text(`Cantidad de terminados hechos: ${terminadosHechos}`);
+    $('#cabecerasPrendasTerminadas').append(html);
 });
 //****************INSUMOS FALTANTES */
 $('#verInsumosFaltantes').on('click', function(){

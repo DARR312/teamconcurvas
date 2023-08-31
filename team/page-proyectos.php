@@ -439,6 +439,7 @@ function is_admin_user() {
                             <option class='removerSatelites' value='0'>El proyecto no requiere terminados</option>
                         </select><span class='pmd-textfield-focused'></span>
                     </div>
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="insumosParaTerminados"></div>
                     <div class='col-lg-12 col-md-12 col-sm-12 col-xs-12' >
                         <button class='botonmodal' type='button' id='asignarTerminadosBoton'>Confirmar</button>
                     </div> 

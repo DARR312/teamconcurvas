@@ -1693,11 +1693,77 @@ const funcionesProyectos = () => {
         }); 
 
         $('#asignarTerminados').on('click', function() { 
+            let detallJson = obtenerDatajson("id_ref","con_t_detalleproyecto","valoresconcondicion","id_proyecto",`'${proyectoIdTotal}'`);
+            let detall = JSON.parse(detallJson);
+            let resumJson = obtenerDatajson("nombre","con_t_resumen","valoresconcondicion","referencia_id ",`'${detall[0].id_ref}'`);
+            let resum = JSON.parse(resumJson);
+            let fichaJson = obtenerDatajson("ID","con_t_fichatecnica","valoresconcondicion","referencia",`'${resum[0].nombre}'`);
+            let ficha = JSON.parse(fichaJson);
+            let insumosTJson = obtenerDatajson("ID,insumo,cantidad","con_t_insumosproducto","valoresconcondicion","ficha_tecnica",`'${ficha[0].ID}'`);
+            let insumosT = JSON.parse(insumosTJson);
+            $('.removerInsumosParaterminados').remove();
+            html = ``;
+            for (let i = 0; i < insumosT.length; i++) {
+                html = `${html}
+                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 removerInsumosParaterminados">
+                    <input type="checkbox" class="letra18pt-pc insumosParaterminados" name='${insumosT[i].ID} '> ${insumosT[i].insumo} se deben terminar ${insumosT[i].cantidad}  </input>
+                </div>
+                `;
+                
+            }
+            $('#insumosParaTerminados').append(html);
             $('#asignarTerminadosModal').modal("show"); 
         }); 
 
         $('#asignarTerminadosBoton').on('click', function() { 
+
             let term = $('#terminadosProyecto').val();
+            
+            if(parseInt(term)==0){                
+                $('#asignarTerminados').text('No requiere terminados');
+
+                var objeto = {};
+                objeto.columna = "proyecto_id";
+                objeto.valor = proyectoIdTotal;
+                var condicion = prepararjson(objeto);
+
+                objeto = {};
+                objeto.tipo = 'int';
+                objeto.columna = 'activo';
+                objeto.valor = 0;
+                let activo = prepararjson(objeto);
+
+                actualizarregistros("con_t_terminadoinsumo",condicion,activo,"0","0","0","0","0","0","0","0","0","0");
+            }else{
+                const checkedInputs = $('.insumosParaterminados:checked');
+                if(checkedInputs.length == 0){
+                    $('#modalAlertas').modal("show"); 
+                    $('#tituloAlertas').text(`Por favor selecciona al menos un insumo para los terminados.`); 
+                    return false;
+                }
+                checkedInputs.each(function() {
+                    const name = $(this).attr('name');
+
+                    var objeto = {};
+                    objeto.tipo = 'int';
+                    objeto.columna = 'proyecto_id';
+                    objeto.valor = proyectoIdTotal;
+                    let proyecto_id = prepararjson(objeto);
+
+                    var objeto = {};
+                    objeto.tipo = 'int';
+                    objeto.columna = 'insumo_id';
+                    objeto.valor = name;
+                    let insumo_id = prepararjson(objeto);
+
+                    insertarfila("con_t_terminadoinsumo",proyecto_id,insumo_id,"0","0","0","0","0","0","0","0","0"); 
+
+                });
+                proyectotr('Terminado asignado');
+                $('#asignarTerminados').text('Requiere terminados');
+                
+            }
+            
             var objeto = {};
             objeto.columna = "ID";
             objeto.valor = proyectoIdTotal;
@@ -1710,7 +1776,7 @@ const funcionesProyectos = () => {
             let terminados = prepararjson(objeto);
 
             actualizarregistros("con_t_proyectos",condicion,terminados,"0","0","0","0","0","0","0","0","0","0");
-            
+           
             
 
             $('#asignarTerminadosModal').modal("hide"); 

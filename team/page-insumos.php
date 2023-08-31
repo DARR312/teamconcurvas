@@ -289,9 +289,10 @@ function is_admin_user() {
                         <button class='botonmodal' type='button' id='verPorfecha'>Aplicar fechas</button>
                 </div>
             </div>
+            <p  class="letra18pt-pc col-lg-12 col-md-12 col-sm-12 col-xs-12 negrillaTres" id='terminadosHechos'>Cantidad de terminados hechos: </p>
             <div class=' col-lg-12 col-md-12 col-sm-12 col-xs-12' id='cabecerasPrendasTerminadas'>
                 <p  class="letra18pt-pc col-lg-7 col-md-7 col-sm-7 col-xs-7 negrillaTres">Codigo prenda</p>
-                <p  class="letra18pt-pc col-lg-5 col-md-5 col-sm-5 col-xs-5 negrillaTres">Fecha terminado</p>                
+                <p  class="letra18pt-pc col-lg-5 col-md-5 col-sm-5 col-xs-5 negrillaTres">Fecha y hora terminado</p>                
             </div>
         </div>
     </div>
