@@ -191,118 +191,137 @@
 // print_r($obtenidosArray);
 
 /*************************** CIERRE DE CAJA DB ****************************/
-$mes = 8;
-for ($dia=8; $dia < 32; $dia=$dia+7) { 
-    $fechamenor = "2022-".$mes."-".$dia." 00:00:00";    
-    $fechame = "2022-".$mes."-".$dia;    
-    if($mes > 12){break;}
-    $suma = $dia;
-    if($dia+7 >31){
-        if (($mes % 2) == 0) {
-            $resta = 31 - $dia;
-        } else {
-            $resta = 30 - $dia;
-        }
-        $mes++;
-        $suma = -1*$resta;
-        $diamayor = $suma+6;      
-        $fechamayor = "2022-".$mes."-".$diamayor." 23:00:000";
-        $fechama = "2022-".$mes."-".$diamayor;
-        $ventas = $wpdb->get_results("SELECT * FROM `con_t_ventas` WHERE  ((`estado`<>'Entregado') OR (`cliente_ok`=0)) AND (`fecha_creada` BETWEEN '".$fechamenor."' AND '".$fechamayor."')",ARRAY_A);
-    $auditados = array();
-    for ($i=0; $i < sizeof($ventas) ; $i++) { 
-        $jsonclientedatos =  json_decode($ventas[$i]['datos_cliente']);
-        $vant = (array)$jsonclientedatos;
-        $lon = "";
-        if($vant['ciudad'] == 'Bogotá' || $vant['ciudad'] == 'Cajicá' || $vant['ciudad'] == 'Chia' || $vant['ciudad'] == 'Cota' || $vant['ciudad'] == 'Funza' || $vant['ciudad'] == 'Mosquera' || $vant['ciudad'] == 'Soacha' || $vant['ciudad'] == 'Usaquen' || $vant['ciudad'] == 'Usme'){$lon="Local";
-        }else{$lon="Nacional";}
-        $prendasventa = $wpdb->get_results("SELECT * FROM `con_t_trprendas` WHERE  `cual` = 'V".$ventas[$i]['venta_id']."'",ARRAY_A);
-        $auditados[$ventas[$i]['venta_id']] = array("prendas"=>sizeof($prendasventa),"estado"=>$ventas[$i]['estado'],"dinero"=>$ventas[$i]['cliente_ok'],"lon" => $lon);
-    }
-    $ventastodas = $wpdb->get_results("SELECT * FROM `con_t_ventas` WHERE  (`fecha_creada` BETWEEN '".$fechamenor."' AND '".$fechamayor."')",ARRAY_A);
-    $nacional = 0;
-    $local = 0;
-    for ($i=0; $i < sizeof($ventastodas) ; $i++) {  
-        $jsonclientedatos =  json_decode($ventastodas[$i]['datos_cliente']);
-        $vant = (array)$jsonclientedatos;
-        $lon = "";
-        if($vant['ciudad'] == 'Bogotá' || $vant['ciudad'] == 'Cajicá' || $vant['ciudad'] == 'Chia' || $vant['ciudad'] == 'Cota' || $vant['ciudad'] == 'Funza' || $vant['ciudad'] == 'Mosquera' || $vant['ciudad'] == 'Soacha' || $vant['ciudad'] == 'Usaquen' || $vant['ciudad'] == 'Usme'){
-            $local = $local + intval($ventas[0]['cliente_ok']);
-            $lon="Local";
-        }else{
-            $nacional = $nacional + intval($ventas[0]['cliente_ok']);
-            $lon="Nacional";}  
-        $prendasventastodas = $wpdb->get_results("SELECT * FROM `con_t_trprendas` WHERE  `cual` = 'V".$ventastodas[$i]['venta_id']."'",ARRAY_A);
-        if(sizeof($prendasventastodas) == 0){
-                if(!$auditados[$ventastodas[$i]['venta_id']]){
-                    $ventas = $wpdb->get_results("SELECT * FROM `con_t_ventas` WHERE  `venta_id` = ".$ventastodas[$i]['venta_id']."",ARRAY_A);
-                    $auditados[$ventastodas[$i]['venta_id']] = array("prendas"=>0,"estado"=>$ventas[0]['estado'],"dinero"=>$ventas[0]['cliente_ok'],"lon" => $lon);
-                }
-        }
-    }
-    $rango = $fechame." al ".$fechama;    
-    $cuentasporcobrar = 0;
-    foreach ($auditados as $key => $value) {
-        $prendas = $wpdb->get_results("SELECT * FROM `con_t_trprendas` WHERE  `cual` = 'V".$key."'",ARRAY_A);        
-        for ($i=0; $i < sizeof($prendas) ; $i++) { 
-            $referencia = $wpdb->get_results("SELECT `precio_detal` FROM `con_t_resumen` WHERE  `referencia_id` = ".$prendas[$i]['referencia_id']."",ARRAY_A);
-            $cuentasporcobrar = $cuentasporcobrar + intval($referencia[0]['precio_detal']);
-        }
-    }
-    $datos = "INSERT INTO con_t_cierredigital (  `fecha_menor`, `fecha_mayor`,`rango`, `local`, `nacional`, `cuentas_cobrar`) VALUES ('".$fechame."','".$fechama."','".$rango."','".$local."', '".$nacional."', '".$cuentasporcobrar."')";
-    echo $datos."</br>" ;    
-    $wpdb->query($datos);
-        $dia = 7 - $resta;     
-        $fechamenor = "2022-".$mes."-".$dia." 00:00:00";    
-        $fechame = "2022-".$mes."-".$dia;   
-    }
-    $diamayor = $dia+6;      
-    $fechamayor = "2022-".$mes."-".$diamayor." 23:00:00";
-    $fechama = "2022-".$mes."-".$diamayor;
-    $ventas = $wpdb->get_results("SELECT * FROM `con_t_ventas` WHERE  ((`estado`<>'Entregado') OR (`cliente_ok`=0)) AND (`fecha_creada` BETWEEN '".$fechamenor."' AND '".$fechamayor."')",ARRAY_A);
-    $auditados = array();
-    for ($i=0; $i < sizeof($ventas) ; $i++) { 
-        $jsonclientedatos =  json_decode($ventas[$i]['datos_cliente']);
-        $vant = (array)$jsonclientedatos;
-        $lon = "";
-        if($vant['ciudad'] == 'Bogotá' || $vant['ciudad'] == 'Cajicá' || $vant['ciudad'] == 'Chia' || $vant['ciudad'] == 'Cota' || $vant['ciudad'] == 'Funza' || $vant['ciudad'] == 'Mosquera' || $vant['ciudad'] == 'Soacha' || $vant['ciudad'] == 'Usaquen' || $vant['ciudad'] == 'Usme'){$lon="Local";
-        }else{$lon="Nacional";}
-        $prendasventa = $wpdb->get_results("SELECT * FROM `con_t_trprendas` WHERE  `cual` = 'V".$ventas[$i]['venta_id']."'",ARRAY_A);
-        $auditados[$ventas[$i]['venta_id']] = array("prendas"=>sizeof($prendasventa),"estado"=>$ventas[$i]['estado'],"dinero"=>$ventas[$i]['cliente_ok'],"lon" => $lon);
-    }
-    $ventastodas = $wpdb->get_results("SELECT * FROM `con_t_ventas` WHERE  (`fecha_creada` BETWEEN '".$fechamenor."' AND '".$fechamayor."')",ARRAY_A);
-    $nacional = 0;
-    $local = 0;
-    for ($i=0; $i < sizeof($ventastodas) ; $i++) {  
-        $jsonclientedatos =  json_decode($ventastodas[$i]['datos_cliente']);
-        $vant = (array)$jsonclientedatos;
-        $lon = "";
-        if($vant['ciudad'] == 'Bogotá' || $vant['ciudad'] == 'Cajicá' || $vant['ciudad'] == 'Chia' || $vant['ciudad'] == 'Cota' || $vant['ciudad'] == 'Funza' || $vant['ciudad'] == 'Mosquera' || $vant['ciudad'] == 'Soacha' || $vant['ciudad'] == 'Usaquen' || $vant['ciudad'] == 'Usme'){
-            $local = $local + intval($ventas[0]['cliente_ok']);
-            $lon="Local";
-        }else{
-            $nacional = $nacional + intval($ventas[0]['cliente_ok']);
-            $lon="Nacional";}  
-        $prendasventastodas = $wpdb->get_results("SELECT * FROM `con_t_trprendas` WHERE  `cual` = 'V".$ventastodas[$i]['venta_id']."'",ARRAY_A);
-        if(sizeof($prendasventastodas) == 0){
-                if(!$auditados[$ventastodas[$i]['venta_id']]){
-                    $ventas = $wpdb->get_results("SELECT * FROM `con_t_ventas` WHERE  `venta_id` = ".$ventastodas[$i]['venta_id']."",ARRAY_A);
-                    $auditados[$ventastodas[$i]['venta_id']] = array("prendas"=>0,"estado"=>$ventas[0]['estado'],"dinero"=>$ventas[0]['cliente_ok'],"lon" => $lon);
-                }
-        }
-    }
-    $rango = $fechame." al ".$fechama;    
-    $cuentasporcobrar = 0;
-    foreach ($auditados as $key => $value) {
-        $prendas = $wpdb->get_results("SELECT * FROM `con_t_trprendas` WHERE  `cual` = 'V".$key."'",ARRAY_A);        
-        for ($i=0; $i < sizeof($prendas) ; $i++) { 
-            $referencia = $wpdb->get_results("SELECT `precio_detal` FROM `con_t_resumen` WHERE  `referencia_id` = ".$prendas[$i]['referencia_id']."",ARRAY_A);
-            $cuentasporcobrar = $cuentasporcobrar + intval($referencia[0]['precio_detal']);
-        }
-    }
-    $datos = "INSERT INTO con_t_cierredigital (  `fecha_menor`, `fecha_mayor`,`rango`, `local`, `nacional`, `cuentas_cobrar`) VALUES ('".$fechame."','".$fechama."','".$rango."','".$local."', '".$nacional."', '".$cuentasporcobrar."')";
-    echo $datos."</br>";
-    $wpdb->query($datos);
-}
+// $mes = 8;
+// for ($dia=8; $dia < 32; $dia=$dia+7) { 
+//     $fechamenor = "2022-".$mes."-".$dia." 00:00:00";    
+//     $fechame = "2022-".$mes."-".$dia;    
+//     if($mes > 12){break;}
+//     $suma = $dia;
+//     if($dia+7 >31){
+//         if (($mes % 2) == 0) {
+//             $resta = 31 - $dia;
+//         } else {
+//             $resta = 30 - $dia;
+//         }
+//         $mes++;
+//         $suma = -1*$resta;
+//         $diamayor = $suma+6;      
+//         $fechamayor = "2022-".$mes."-".$diamayor." 23:00:000";
+//         $fechama = "2022-".$mes."-".$diamayor;
+//         $ventas = $wpdb->get_results("SELECT * FROM `con_t_ventas` WHERE  ((`estado`<>'Entregado') OR (`cliente_ok`=0)) AND (`fecha_creada` BETWEEN '".$fechamenor."' AND '".$fechamayor."')",ARRAY_A);
+//     $auditados = array();
+//     for ($i=0; $i < sizeof($ventas) ; $i++) { 
+//         $jsonclientedatos =  json_decode($ventas[$i]['datos_cliente']);
+//         $vant = (array)$jsonclientedatos;
+//         $lon = "";
+//         if($vant['ciudad'] == 'Bogotá' || $vant['ciudad'] == 'Cajicá' || $vant['ciudad'] == 'Chia' || $vant['ciudad'] == 'Cota' || $vant['ciudad'] == 'Funza' || $vant['ciudad'] == 'Mosquera' || $vant['ciudad'] == 'Soacha' || $vant['ciudad'] == 'Usaquen' || $vant['ciudad'] == 'Usme'){$lon="Local";
+//         }else{$lon="Nacional";}
+//         $prendasventa = $wpdb->get_results("SELECT * FROM `con_t_trprendas` WHERE  `cual` = 'V".$ventas[$i]['venta_id']."'",ARRAY_A);
+//         $auditados[$ventas[$i]['venta_id']] = array("prendas"=>sizeof($prendasventa),"estado"=>$ventas[$i]['estado'],"dinero"=>$ventas[$i]['cliente_ok'],"lon" => $lon);
+//     }
+//     $ventastodas = $wpdb->get_results("SELECT * FROM `con_t_ventas` WHERE  (`fecha_creada` BETWEEN '".$fechamenor."' AND '".$fechamayor."')",ARRAY_A);
+//     $nacional = 0;
+//     $local = 0;
+//     for ($i=0; $i < sizeof($ventastodas) ; $i++) {  
+//         $jsonclientedatos =  json_decode($ventastodas[$i]['datos_cliente']);
+//         $vant = (array)$jsonclientedatos;
+//         $lon = "";
+//         if($vant['ciudad'] == 'Bogotá' || $vant['ciudad'] == 'Cajicá' || $vant['ciudad'] == 'Chia' || $vant['ciudad'] == 'Cota' || $vant['ciudad'] == 'Funza' || $vant['ciudad'] == 'Mosquera' || $vant['ciudad'] == 'Soacha' || $vant['ciudad'] == 'Usaquen' || $vant['ciudad'] == 'Usme'){
+//             $local = $local + intval($ventas[0]['cliente_ok']);
+//             $lon="Local";
+//         }else{
+//             $nacional = $nacional + intval($ventas[0]['cliente_ok']);
+//             $lon="Nacional";}  
+//         $prendasventastodas = $wpdb->get_results("SELECT * FROM `con_t_trprendas` WHERE  `cual` = 'V".$ventastodas[$i]['venta_id']."'",ARRAY_A);
+//         if(sizeof($prendasventastodas) == 0){
+//                 if(!$auditados[$ventastodas[$i]['venta_id']]){
+//                     $ventas = $wpdb->get_results("SELECT * FROM `con_t_ventas` WHERE  `venta_id` = ".$ventastodas[$i]['venta_id']."",ARRAY_A);
+//                     $auditados[$ventastodas[$i]['venta_id']] = array("prendas"=>0,"estado"=>$ventas[0]['estado'],"dinero"=>$ventas[0]['cliente_ok'],"lon" => $lon);
+//                 }
+//         }
+//     }
+//     $rango = $fechame." al ".$fechama;    
+//     $cuentasporcobrar = 0;
+//     foreach ($auditados as $key => $value) {
+//         $prendas = $wpdb->get_results("SELECT * FROM `con_t_trprendas` WHERE  `cual` = 'V".$key."'",ARRAY_A);        
+//         for ($i=0; $i < sizeof($prendas) ; $i++) { 
+//             $referencia = $wpdb->get_results("SELECT `precio_detal` FROM `con_t_resumen` WHERE  `referencia_id` = ".$prendas[$i]['referencia_id']."",ARRAY_A);
+//             $cuentasporcobrar = $cuentasporcobrar + intval($referencia[0]['precio_detal']);
+//         }
+//     }
+//     $datos = "INSERT INTO con_t_cierredigital (  `fecha_menor`, `fecha_mayor`,`rango`, `local`, `nacional`, `cuentas_cobrar`) VALUES ('".$fechame."','".$fechama."','".$rango."','".$local."', '".$nacional."', '".$cuentasporcobrar."')";
+//     echo $datos."</br>" ;    
+//     $wpdb->query($datos);
+//         $dia = 7 - $resta;     
+//         $fechamenor = "2022-".$mes."-".$dia." 00:00:00";    
+//         $fechame = "2022-".$mes."-".$dia;   
+//     }
+//     $diamayor = $dia+6;      
+//     $fechamayor = "2022-".$mes."-".$diamayor." 23:00:00";
+//     $fechama = "2022-".$mes."-".$diamayor;
+//     $ventas = $wpdb->get_results("SELECT * FROM `con_t_ventas` WHERE  ((`estado`<>'Entregado') OR (`cliente_ok`=0)) AND (`fecha_creada` BETWEEN '".$fechamenor."' AND '".$fechamayor."')",ARRAY_A);
+//     $auditados = array();
+//     for ($i=0; $i < sizeof($ventas) ; $i++) { 
+//         $jsonclientedatos =  json_decode($ventas[$i]['datos_cliente']);
+//         $vant = (array)$jsonclientedatos;
+//         $lon = "";
+//         if($vant['ciudad'] == 'Bogotá' || $vant['ciudad'] == 'Cajicá' || $vant['ciudad'] == 'Chia' || $vant['ciudad'] == 'Cota' || $vant['ciudad'] == 'Funza' || $vant['ciudad'] == 'Mosquera' || $vant['ciudad'] == 'Soacha' || $vant['ciudad'] == 'Usaquen' || $vant['ciudad'] == 'Usme'){$lon="Local";
+//         }else{$lon="Nacional";}
+//         $prendasventa = $wpdb->get_results("SELECT * FROM `con_t_trprendas` WHERE  `cual` = 'V".$ventas[$i]['venta_id']."'",ARRAY_A);
+//         $auditados[$ventas[$i]['venta_id']] = array("prendas"=>sizeof($prendasventa),"estado"=>$ventas[$i]['estado'],"dinero"=>$ventas[$i]['cliente_ok'],"lon" => $lon);
+//     }
+//     $ventastodas = $wpdb->get_results("SELECT * FROM `con_t_ventas` WHERE  (`fecha_creada` BETWEEN '".$fechamenor."' AND '".$fechamayor."')",ARRAY_A);
+//     $nacional = 0;
+//     $local = 0;
+//     for ($i=0; $i < sizeof($ventastodas) ; $i++) {  
+//         $jsonclientedatos =  json_decode($ventastodas[$i]['datos_cliente']);
+//         $vant = (array)$jsonclientedatos;
+//         $lon = "";
+//         if($vant['ciudad'] == 'Bogotá' || $vant['ciudad'] == 'Cajicá' || $vant['ciudad'] == 'Chia' || $vant['ciudad'] == 'Cota' || $vant['ciudad'] == 'Funza' || $vant['ciudad'] == 'Mosquera' || $vant['ciudad'] == 'Soacha' || $vant['ciudad'] == 'Usaquen' || $vant['ciudad'] == 'Usme'){
+//             $local = $local + intval($ventas[0]['cliente_ok']);
+//             $lon="Local";
+//         }else{
+//             $nacional = $nacional + intval($ventas[0]['cliente_ok']);
+//             $lon="Nacional";}  
+//         $prendasventastodas = $wpdb->get_results("SELECT * FROM `con_t_trprendas` WHERE  `cual` = 'V".$ventastodas[$i]['venta_id']."'",ARRAY_A);
+//         if(sizeof($prendasventastodas) == 0){
+//                 if(!$auditados[$ventastodas[$i]['venta_id']]){
+//                     $ventas = $wpdb->get_results("SELECT * FROM `con_t_ventas` WHERE  `venta_id` = ".$ventastodas[$i]['venta_id']."",ARRAY_A);
+//                     $auditados[$ventastodas[$i]['venta_id']] = array("prendas"=>0,"estado"=>$ventas[0]['estado'],"dinero"=>$ventas[0]['cliente_ok'],"lon" => $lon);
+//                 }
+//         }
+//     }
+//     $rango = $fechame." al ".$fechama;    
+//     $cuentasporcobrar = 0;
+//     foreach ($auditados as $key => $value) {
+//         $prendas = $wpdb->get_results("SELECT * FROM `con_t_trprendas` WHERE  `cual` = 'V".$key."'",ARRAY_A);        
+//         for ($i=0; $i < sizeof($prendas) ; $i++) { 
+//             $referencia = $wpdb->get_results("SELECT `precio_detal` FROM `con_t_resumen` WHERE  `referencia_id` = ".$prendas[$i]['referencia_id']."",ARRAY_A);
+//             $cuentasporcobrar = $cuentasporcobrar + intval($referencia[0]['precio_detal']);
+//         }
+//     }
+//     $datos = "INSERT INTO con_t_cierredigital (  `fecha_menor`, `fecha_mayor`,`rango`, `local`, `nacional`, `cuentas_cobrar`) VALUES ('".$fechame."','".$fechama."','".$rango."','".$local."', '".$nacional."', '".$cuentasporcobrar."')";
+//     echo $datos."</br>";
+//     $wpdb->query($datos);
+// }
     /*************************** CIERRE DE CAJA DB ****************************/
+    
+    
+    
+    global $wpdb;
+    $obtenidosArray = $wpdb->get_results( "SELECT DISTINCT nombre,categoria_id,precio_detal,precio_mayorista FROM con_t_resumen ", ARRAY_A);
+   
+    for ($i=0; $i < sizeof($obtenidosArray); $i++) { 
+        $nombre = $obtenidosArray[$i]['nombre'];
+        $id_categoria = $obtenidosArray[$i]['categoria_id'];
+        $precio_detal = $obtenidosArray[$i]['precio_detal'];
+        $precio_mayorista = $obtenidosArray[$i]['precio_mayorista'];
+        $datos ="INSERT INTO con_t_referencias ( nombre,id_categoria,precio_detal,precio_mayorista) VALUES ( '".$nombre."',".$id_categoria.",".$precio_detal.",".$precio_mayorista.")";
+        echo $datos;
+        echo "<br><br><br><br>";
+        $wpdb->query($datos);
+        // [0] => Array ( [nombre] => Vero [categoria_id] => 1 [precio_detal] => 60000 [precio_mayorista] => 0
+    }
+
+    // $wpdb->query($datos);
 ?>

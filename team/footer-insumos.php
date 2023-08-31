@@ -20,7 +20,15 @@ for(i=30;i<permisos.length;i++){
     if(permisos[i].permiso_id==42){
         var segundo = $('#segundo');
         segundo.append("<div class='col-lg-3 col-md-3 col-sm-3 col-xs-12' id='accion4'><button class='botonmodal botonesInventario' type='button' id='verFichasTecnicas'>Ver fichas técnicas </button></div>");
-    }      
+    }     
+    if(permisos[i].permiso_id==55){
+        var segundo = $('#segundo');
+        segundo.append("<div class='col-lg-3 col-md-3 col-sm-3 col-xs-12' id='accion5'><button class='botonmodal botonesInventario' type='button' id='verInsumosFaltantes'>Ver insumos faltantes </button></div>");
+    }         
+    if(permisos[i].permiso_id==58){
+        var segundo = $('#segundo');
+        segundo.append("<div class='col-lg-3 col-md-3 col-sm-3 col-xs-12' id='accion5'><button class='botonmodal botonesInventario' type='button' id='verTerminados'>Ver terminados </button></div>");
+    }   
 }
 //******************************************************************************++Insumo nuevo
 $('#agregarInsumo').on('click', function() {
@@ -30,6 +38,8 @@ $('#agregarInsumo').on('click', function() {
     $('#facturaNueva').css('display', 'none');   
     $('#resumenInvInsumos').css('display', 'none');     
     $('#bloqueFichas').css('display', 'none'); 
+    $('#insumosFaltantes').css('display', 'none');  
+    $('#terminadosTiempos').css('display', 'none');  
     let html = "<option class='remover' value='nuevo'>Nuevo</option>";
     let gruposj = obtenerDatajson("grupo","con_t_insumos","filasunicas","0","0");
     let grupos = JSON.parse(gruposj);
@@ -108,7 +118,7 @@ $('#guardarInsumo').on('click', function(){
     AND  presentacion = '${presentacion}'`,"0");
     var jsoninsumoBuscado = JSON.parse(insumoBuscado);
 
-    console.log(jsoninsumoBuscado);
+    // console.log(jsoninsumoBuscado);
     if(jsoninsumoBuscado.length > 0){
         $('#modalAlertas').modal("show"); 
         $('#tituloAlertas').text(`El insumo que intentas agregar ya está en la base de datos`); 
@@ -139,6 +149,7 @@ $('#guardarInsumo').on('click', function(){
     objeto.valor = presentacion;
     let presentaciondb = prepararjson(objeto);
     let idinsumo = insertarfila("con_t_insumos",grupodb,complementodb,caracteristicadb,Complementocaracteristicadb,presentaciondb,"0","0","0","0","0","0");
+    
     $('.remover').remove(); 
     $('#nuevogrupo').val("");
     $('#nuevocomplemento').val("");
@@ -206,10 +217,11 @@ $('#guardarInsumo').on('click', function(){
 //******************************************************************************++Insumo nuevo
 //******************************************************************************++Factura nueva
 const listadoInsumos = () => {
-    $('.insumosselec').on('change', function(){   
+    $('.insumosselec').on('change', function(){ 
+        
         let insumoselec = $('.insumosselec');
-        if(this.name == insumoselec[insumoselec.length - 1].attributes.name.value){
-            let html = `<div class='remover col-lg-12 col-md-12 col-sm-12 col-xs-12'>
+        if(this.name == insumoselec[insumoselec.length - 2].attributes.name.value){
+            let html = `<div class='remover col-lg-12 col-md-12 col-sm-12 col-xs-12' id='remover${parseInt(this.name)+1}'>
                 <div class='form-group pmd-textfield pmd-textfield-floating-label col-lg-6 col-md-6 col-sm-6 col-xs-6 pmd-textfield-floating-label-completed'>
                     <label for="nombreReferencia" class="control-label letra18pt-pc"> Insumo </label>
                     <select class='form-control insumosselec' type='select' id='insumo${parseInt(this.name)+1}' name='${parseInt(this.name)+1}' form='formNuevaFactura' required=''>`;
@@ -228,7 +240,7 @@ const listadoInsumos = () => {
                     <label for="cantidad" class="control-label letra18pt-pc"> Cantidad </label>
                     <input class="form-control" type="number" id="cantidad${parseInt(this.name)+1}" name="${parseInt(this.name)+1}" required=""><span class="pmd-textfield-focused"></span>
                 </div></div>`;
-            $('#formNuevaFactura').append(html);
+            $('#formNuevaFactura').append(html.replace(/No aplica/g,""));
             listadoInsumos();
         }
     });
@@ -241,7 +253,9 @@ $('#agregarFactura').on('click', function(){
     $('#nuevoInsumo').css('display', 'none');       
     $('#facturaNueva').css('display', 'block');    
     $('#resumenInvInsumos').css('display', 'none');
-    $('#bloqueFichas').css('display', 'none');     
+    $('#bloqueFichas').css('display', 'none');    
+    $('#insumosFaltantes').css('display', 'none');   
+    $('#terminadosTiempos').css('display', 'none');  
     let html = "<option class='remover' value='nuevo'>Nuevo</option>";
     let proveedorj = obtenerDatajson("proveedor","con_t_facturas","filasunicas","0","0");
     let proveedor = JSON.parse(proveedorj);
@@ -257,7 +271,7 @@ $('#agregarFactura').on('click', function(){
         html = `${html} <option class='remover' value='${insumo[i].ID}'> ${insumo[i].grupo} ${insumo[i].complemento} ${insumo[i].caracteristica} ${insumo[i].complemento_caracteristica} ${insumo[i].presentacion} </option>`;
     }
     let insumo1 = $('#insumo1');
-    insumo1.append(html);
+    insumo1.append(html.replace(/No aplica/g,""));
     return false;     
 }); 
 
@@ -289,6 +303,7 @@ $('#pasoFinalFactura').on('click', function(){
     listaInsumos = [];
     for (let i = 1; i < insumoselec.length; i++) {
         let insumo = $(`#insumo${i} option:selected`).text(); 
+        if(insumo == 'Selecciona una opción'){continue;}
         let insumoID = $(`#insumo${i}`).val(); 
         let valor = $(`#valor${i}`).val();
         if(!valor){alert(`Por favor agrega el valor para el insumo ${i}`);return false;}
@@ -703,6 +718,128 @@ $('#confirmarFacturaCredito').on('click', function(){
         let insumo1 = $('#insumo1');
         insumo1.append(html);
 }); 
+//****************INSUMOS FALTANTES */
+$('#verTerminados').on('click', function(){
+    $('.remover').remove();
+    $('#resumenInsumos').css('display', 'none');
+    $('#nuevoInsumo').css('display', 'none');       
+    $('#facturaNueva').css('display', 'none');    
+    $('#resumenInvInsumos').css('display', 'none');
+    $('#bloqueFichas').css('display', 'none');  
+    $('#insumosFaltantes').css('display', 'none');  
+    $('#terminadosTiempos').css('display', 'block');  
+    
+    $('#cabecerasInsumosFaltantes').after(html.replace(/No aplica/g,""));
+});
+$('#verPorfecha').on('click', function() {
+    var desde = $('#datetimepicker-desde').val();
+    var hasta = $('#datetimepicker-hasta').val();
+    console.log('desde');
+    console.log(desde);
+    console.log('hasta');
+    console.log(hasta);
+    if(!desde || !hasta){
+        $('#modalAlertas').modal("show"); 
+        $('#tituloAlertas').text(`Las fechas y horas no pueden estar vacías`);
+        return false;
+    }
+    if(desde > hasta){
+        $('#modalAlertas').modal("show"); 
+        $('#tituloAlertas').text(`La fecha desde no puede ser mayor que hasta.`);
+        return false;
+    }
+    var fecha = `'${desde}' AND '${hasta}'`;
+    var terminadosFechas = obtenerDatajson('codigo,terminado,fecha_terminado','con_t_terminados','Between','fecha_terminado',fecha);
+    var jsonterminadosFechas = JSON.parse(terminadosFechas);
+    console.log('jsonterminadosFechas');
+    console.log(jsonterminadosFechas);
+    var terminadosHechos = 0;
+    var html = '';
+    for (let i = 0; i < jsonterminadosFechas.length; i++) {
+        if(jsonterminadosFechas[i].terminado == 1){
+
+            html=`${html}
+            <div class=' col-lg-12 col-md-12 col-sm-12 col-xs-12'>
+                <p  class="letra18pt-pc col-lg-7 col-md-7 col-sm-7 col-xs-7">${jsonterminadosFechas[i].codigo} </p>
+                <p  class="letra18pt-pc col-lg-5 col-md-5 col-sm-5 col-xs-5">${jsonterminadosFechas[i].fecha_terminado}</p>
+            </div>`;
+            var proyectoPrenda = obtenerDatajson('proyecto','con_t_trprendas','valoresconcondicion','codigo',`'${jsonterminadosFechas[i].codigo}'`);
+            var jsonproyectoPrenda = JSON.parse(proyectoPrenda);
+            var insumo = obtenerDatajson('insumo_id,activo','con_t_terminadoinsumo','valoresconcondicion','proyecto_id',`'${jsonproyectoPrenda[0].proyecto}'`);
+            var jsoninsumo = JSON.parse(insumo);
+            for (let j = 0; j < jsoninsumo.length; j++) {
+                if(jsoninsumo[j].activo == 0){continue;}
+                var cantidadHecha = obtenerDatajson('cantidad','con_t_insumosproducto','valoresconcondicion','ID',`'${jsoninsumo[j].insumo_id}'`);
+                var jsoncantidadHecha = JSON.parse(cantidadHecha);
+                terminadosHechos = terminadosHechos + parseInt(jsoncantidadHecha[0].cantidad);
+            }
+
+        }      
+        
+    }
+    $('#terminadosHechos').text(`Cantidad de terminados hechos: ${terminadosHechos}`);
+    $('#cabecerasPrendasTerminadas').append(html);
+});
+//****************INSUMOS FALTANTES */
+$('#verInsumosFaltantes').on('click', function(){
+    $('.remover').remove();
+    $('#resumenInsumos').css('display', 'none');
+    $('#nuevoInsumo').css('display', 'none');       
+    $('#facturaNueva').css('display', 'none');    
+    $('#resumenInvInsumos').css('display', 'none');
+    $('#bloqueFichas').css('display', 'none');  
+    $('#insumosFaltantes').css('display', 'block');  
+    $('#terminadosTiempos').css('display', 'none');  
+    let insumosFaltantesj = obtenerDatajson("id_insumo ,cantidad,id_proyecto,ID","con_t_insumosfaltantes","valoresconcondicion","completado",0);
+    let insumosFaltantes = JSON.parse(insumosFaltantesj);
+    var html = '';
+    for (let i = 0; i < insumosFaltantes.length; i++) {
+        let insumoj = obtenerDatajson("grupo,complemento,caracteristica,complemento_caracteristica,presentacion","con_t_insumos","valoresconcondicion","ID",insumosFaltantes[i].id_insumo);
+        let insumo = JSON.parse(insumoj);
+        
+        let proyectoj = obtenerDatajson("nombre_proyecto","con_t_proyectos","valoresconcondicion","ID",insumosFaltantes[i].id_proyecto);
+        let proyecto = JSON.parse(proyectoj);
+        html=`${html}
+            <div class=' col-lg-12 col-md-12 col-sm-12 col-xs-12' id='insumoId${insumosFaltantes[i].ID}'>
+                <p  class="letra18pt-pc col-lg-3 col-md-3 col-sm-3 col-xs-3 ">${insumo[0].grupo} ${insumo[0].complemento} ${insumo[0].caracteristica} ${insumo[0].complemento_caracteristica} </p>
+                <p  class="letra18pt-pc col-lg-3 col-md-3 col-sm-3 col-xs-3 ">${insumosFaltantes[i].cantidad}</p>
+                <p  class="letra18pt-pc col-lg-3 col-md-3 col-sm-3 col-xs-3 ">${proyecto[0].nombre_proyecto}</p>
+                <div class='col-lg-3 col-md-3 col-sm-3 col-xs-3'>
+                    <button class='botonmodal completarInsumo' type='button' id='completado${i}' name='${insumosFaltantes[i].ID}'>
+                        Completado
+                    </button>
+                </div>
+                
+                
+            </div>`;
+        
+    }
+    $('#cabecerasInsumosFaltantes').after(html.replace(/No aplica/g,""));
+    insumoCompletadoFun();
+});
+
+var insumoIdTotal = 0;
+const insumoCompletadoFun = () => {
+    $('.completarInsumo').on('click', function(){
+        insumoIdTotal = $(`#${this.id}`).attr('name');
+
+        var objeto = {};
+        objeto.columna = "ID";
+        objeto.valor = insumoIdTotal;
+        var condicion = prepararjson(objeto);
+        
+        var objeto = {};
+        objeto.tipo = "int";
+        objeto.columna = "completado";
+        objeto.valor = 1;
+        var completado  = prepararjson(objeto);
+
+        actualizarregistros("con_t_insumosfaltantes",condicion,completado,"0","0","0","0","0","0","0","0","0","0");   
+        
+        $(`#insumoId${insumoIdTotal}`).remove();
+    });
+}
+
 
 const actualizarInsumosprecios = () =>{
     for (let i = 0; i < listaInsumos.length; i++) { 
@@ -726,19 +863,32 @@ const actualizarInsumoscantidades = (sumarrestar) =>{
         objeto.valor = listaInsumos[i].InsumoID;
         var condicion = prepararjson(objeto);
         let cantidadnueva = 0;
-        let cantidadj = obtenerDatajson("cantidad","con_t_insumos","valoresconcondicion","ID",listaInsumos[i].InsumoID);
+        let faltantesNuevos = 0;
+        let cantidadj = obtenerDatajson("cantidad,faltantes","con_t_insumos","valoresconcondicion","ID",listaInsumos[i].InsumoID);
         let cantidad = JSON.parse(cantidadj);
         if(sumarrestar=='sumar'){
             cantidadnueva = parseInt(listaInsumos[i].Cantidad)+parseInt(cantidad[0].cantidad);
+            faltantesNuevos =parseInt(cantidad[0].faltantes) - parseInt(listaInsumos[i].Cantidad);
+            if(faltantesNuevos<0){
+                faltantesNuevos = 0;
+            }
         }else if(sumarrestar=='restar'){
             cantidadnueva = parseInt(cantidad[0].cantidad)-parseInt(listaInsumos[i].Cantidad);
+            faltantesNuevos =parseInt(cantidad[0].faltantes) - parseInt(listaInsumos[i].Cantidad);
         }
         var objeto = {};
         objeto.tipo = "int";
         objeto.columna = "cantidad";
         objeto.valor = cantidadnueva;
         var cant_nueva  = prepararjson(objeto);
-        actualizarregistros("con_t_insumos",condicion,cant_nueva,"0","0","0","0","0","0","0","0","0","0");        
+        
+        var objeto = {};
+        objeto.tipo = "int";
+        objeto.columna = "faltantes";
+        objeto.valor = faltantesNuevos;
+        var faltantes  = prepararjson(objeto);
+
+        actualizarregistros("con_t_insumos",condicion,cant_nueva,faltantes,"0","0","0","0","0","0","0","0","0");        
     }
 }
 //******************************************************************************++Factura nueva
@@ -751,6 +901,8 @@ $('#verInsumos').on('click', function(){
     $('#facturaNueva').css('display', 'none');       
     $('#resumenInvInsumos').css('display', 'block'); 
     $('#bloqueFichas').css('display', 'none');       
+    $('#insumosFaltantes').css('display', 'none');  
+    $('#terminadosTiempos').css('display', 'none');  
     let listado = obtenerDatajson("ID,grupo,complemento,caracteristica,complemento_caracteristica,presentacion,cantidad","con_t_insumos","variasfilasunicas","0","0");
     let listadoInsumos =  JSON.parse(listado);    
     let html='';
@@ -767,7 +919,7 @@ $('#verInsumos').on('click', function(){
         
     }
     let cabecerasResumen  = $('#cabecerasResumen');
-    cabecerasResumen.after(html);
+    cabecerasResumen.after(html.replace(/No aplica/g,""));
 }); 
 $('#bscar').on('change', function(){          
     $('.remover').remove();
@@ -775,6 +927,7 @@ $('#bscar').on('change', function(){
     $('#nuevoInsumo').css('display', 'none');     
     $('#facturaNueva').css('display', 'none');       
     $('#resumenInvInsumos').css('display', 'block');  
+    $('#terminadosTiempos').css('display', 'none');  
     var codigosprenda = codigosprendasjson($('#bscar').val(),"0","0","0");
     var listatodo = obtenerDatajson("grupo,complemento,caracteristica,complemento_caracteristica,presentacion,cantidad","con_t_insumos","valoresconcondicion","grupo",`'${$('#bscar').val()}'`);
     let listadoInsumos =  JSON.parse(listatodo);    
@@ -805,7 +958,8 @@ $('#verFichasTecnicas').on('click', function(){
     $('#facturaNueva').css('display', 'none');       
     $('#resumenInvInsumos').css('display', 'none'); 
     $('#bloqueFichas').css('display', 'block'); 
-
+    $('#insumosFaltantes').css('display', 'none');  
+    $('#terminadosTiempos').css('display', 'none');  
     const bloqueNuevaFicha = $('#bloqueNuevaFicha');
     const selecciondeficha = $('#selecciondeficha');
     const bloqueAntiguaFicha = $('#bloqueAntiguaFicha');
@@ -824,7 +978,7 @@ $('#verFichasTecnicas').on('click', function(){
         
     }
     let fichasTecnicasSelect  = $('#fichasTecnicasSelect');
-    fichasTecnicasSelect.append(html);
+    fichasTecnicasSelect.append(html.replace(/No aplica/g,""));
 
 }); 
 
@@ -837,7 +991,7 @@ $('#fichasTecnicasSelect').on('change', function(){
         bloqueNuevaFicha.removeClass('oculto').addClass('mostrar');
 
         // Agrego las referencias al select de referencias
-        let listadoReferenciasj = obtenerDatajson("nombre","con_t_resumen","filasunicas","0","0");
+        let listadoReferenciasj = obtenerDatajson("nombre","con_t_referencias","filasunicas","0","0");
         let listadoReferencias =  JSON.parse(listadoReferenciasj);    
         let html='';
         for (let i = 0; i < listadoReferencias.length; i++) {
@@ -887,8 +1041,8 @@ $('#fichasTecnicasSelect').on('change', function(){
         selecciondeficha.removeClass('mostrar').addClass('oculto');
         bloqueAntiguaFicha.removeClass('oculto').addClass('mostrar');
         
-        // Agrego los detalles del modelo, de confección y nombre de la referencia
-        let detallesj = obtenerDatajson("ID,detalles_modelo,detalles_confeccion","con_t_fichatecnica","valoresconcondicion","referencia",`'${$('#fichasTecnicasSelect').val()}'`);
+        // Agrego los detalles del modelo, de confección, precio armado y nombre de la referencia
+        let detallesj = obtenerDatajson("ID,detalles_modelo,detalles_confeccion,precio_armado","con_t_fichatecnica","valoresconcondicion","referencia",`'${$('#fichasTecnicasSelect').val()}'`);
         let detalles =  JSON.parse(detallesj);    
         let html='';
 
@@ -896,7 +1050,8 @@ $('#fichasTecnicasSelect').on('change', function(){
         idReferencia = detalles[0].ID;
         $('#detallesModeloFicha').text(detalles[0].detalles_modelo);
         $('#detallesConfeccionFicha').text(detalles[0].detalles_confeccion);
-
+        $('#precioArmadoFicha').text(`Precio de armado: ${formatoPrecio(parseInt(detalles[0].precio_armado))}`);
+        $('#precioArmadoFicha').attr('name',detalles[0].precio_armado);
         // Agrego la tabla de medidas
         let medidasj = obtenerDatajson("ID,talla,tipo_medida,medida","con_t_medidasproducto","valoresconcondicion","ficha_tecnica",detalles[0].ID);
         let medidas =  JSON.parse(medidasj);    
@@ -947,10 +1102,9 @@ $('#fichasTecnicasSelect').on('change', function(){
 
 
          // Agrego la tabla de combinaciones
-         let combinacionesj = obtenerDatajson("ID,indicativo_combinacion,insumo,cantidad,text_insumo","con_t_combinacionesproducto","valoresconcondicion","ficha_tecnica",detalles[0].ID);
+         let combinacionesj = obtenerDatajson("ID,indicativo_combinacion,insumo,cantidad,text_insumo,nombre_combinacion,codigo_combinacion","con_t_combinacionesproducto","valoresconcondicion","ficha_tecnica",detalles[0].ID);
         let combinaciones =  JSON.parse(combinacionesj);    
         html='';
-        console.log(combinaciones);
 
         const grupos = {};
         combinaciones.forEach((elemento) => {
@@ -963,7 +1117,7 @@ $('#fichasTecnicasSelect').on('change', function(){
         const arreglosSeparados = Object.values(grupos);
 
         for (let i = 0; i < arreglosSeparados.length; i++) {
-            html = `${html} <div class=' col-lg-12 col-md-12 col-sm-12 col-xs-12 removerActualizacionFicha removerActualizacionCombinacionesFicha''> <p class='negrillaTres'>Combinación ${i+1}</p>`;
+            html = `${html} <div class=' col-lg-12 col-md-12 col-sm-12 col-xs-12 removerActualizacionFicha removerActualizacionCombinacionesFicha''> <p class='negrillaTres'>Combinación ${arreglosSeparados[i][0].nombre_combinacion} </p>`;
             for (let j = 0; j < arreglosSeparados[i].length; j++) {
                 html = `${html} <div class=' col-lg-3 col-md-3 col-sm-3 col-xs-3' >
                     <p class="letra18pt-pc" >${arreglosSeparados[i][j].text_insumo}</p>
@@ -973,7 +1127,7 @@ $('#fichasTecnicasSelect').on('change', function(){
             
         }
 
-        $('#combinacionesFicha').append(html);
+        $('#combinacionesFicha').append(html.replace(/No aplica/g,""));
 
 
         // // Agrego los campos para agregar combinaciones nuevas
@@ -994,7 +1148,7 @@ $('#fichasTecnicasSelect').on('change', function(){
                 htmll = `${htmll} <option  value='${jsoncolores[i].ID}'>${jsoncolores[i].complemento} ${jsoncolores[i].caracteristica} ${jsoncolores[i].complemento_caracteristica}</option>`;            
             }
             html = `${html} 
-            <div  class='col-lg-3 col-md-3 col-sm-3 col-xs-3 elementoCombinadoAgregar'>
+            <div  class='col-lg-3 col-md-3 col-sm-3 col-xs-3 elementoCombinadoAgregar removerEmlementoCombinado'>
                     <div class="form-group pmd-textfield pmd-textfield-floating-label col-lg-6 col-md-6 col-sm-6 col-xs-6">
                         <p  class=" letra18pt-pc insumoComnbinadoAgregar"> ${insumosAFT[i].insumo} </p>
                     </div>
@@ -1011,8 +1165,36 @@ $('#fichasTecnicasSelect').on('change', function(){
             </div>
             `;            
         }
+
+        var nombreCondiciones = obtenerDatajson("nombre_combinacion,codigo_combinacion","con_t_combinacionesproducto","filasunicas","0","0");;
+        jsonnombreCondiciones = JSON.parse(nombreCondiciones); 
+        var htmll=`<option  value='nuevo'>Nuevo</option>`;
+        for (let i = 0; i < jsonnombreCondiciones.length; i++) {
+            htmll = `${htmll} <option  value='${jsonnombreCondiciones[i].nombre_combinacion}'>${jsonnombreCondiciones[i].nombre_combinacion}</option>`;            
+        }
+        html = `${html} 
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 removerEmlementoCombinado">
+                <div class="form-group pmd-textfield pmd-textfield-floating-label col-lg-4 col-md-4 col-sm-4 col-xs-4 pmd-textfield-floating-label-completed">
+                    <label class=" letra18pt-pc"> Nombre de la combinación </label>
+                    <select class='form-control ' type='select' required='' id='nombreCombinacionEditar'>
+                        
+                        ${htmll} 
+                    </select><span class='pmd-textfield-focused'></span>
+                </div>
+                <div class='form-group pmd-textfield pmd-textfield-floating-label  col-lg-4 col-md-4 col-sm-4 col-xs-4'>
+                    <label for="nombreNuevo" class="control-label letra18pt-pc"> Nombre nuevo </label>
+                    <input class="form-control " type="text" id='nombreNuevoCombinacionEditar'>
+                    <span class="pmd-textfield-focused"></span>
+                </div>
+                <div class='form-group pmd-textfield pmd-textfield-floating-label  col-lg-4 col-md-4 col-sm-4 col-xs-4'>
+                    <label for="codigoColorNuevo" class="control-label letra18pt-pc"> Codigo de color nuevo </label>
+                    <input class="form-control " type="text" id='codigoColorNuevoCombinacionEditar'>
+                    <span class="pmd-textfield-focused"></span>
+                </div>
+            </div>
+        </div>`;
         html = `${html} </div>`;
-        $('#lasCombinacionesNuevas').append(html);
+        $('#lasCombinacionesNuevas').append(html.replace(/No aplica/g,""));
         
 
         comboActualizarFT();
@@ -1021,9 +1203,13 @@ $('#fichasTecnicasSelect').on('change', function(){
 var referenciaParaficha;
 var detalles_modelo;
 var detalles_confeccion;
+var precio_armado;
+var precio_detal;
+var precio_mayor;
 var talla;	
 var insumos;
 var combinaciones;	
+var uniqueCombinationsArray;
 $('#referenciasParaficha').on('change', function(){
     referenciaParaficha = $('#referenciasParaficha').val();
     let referenciaFichaj = obtenerDatajson("referencia","con_t_fichatecnica","valoresconcondicion","referencia",`'${$('#referenciasParaficha').val()}'`);
@@ -1035,7 +1221,8 @@ $('#referenciasParaficha').on('change', function(){
         $('#facturaNueva').css('display', 'none');       
         $('#resumenInvInsumos').css('display', 'none'); 
         $('#bloqueFichas').css('display', 'block'); 
-
+        $('#insumosFaltantes').css('display', 'none'); 
+        $('#terminadosTiempos').css('display', 'none');   
         const bloqueNuevaFicha = $('#bloqueNuevaFicha');
         const selecciondeficha = $('#selecciondeficha');
 
@@ -1132,6 +1319,7 @@ const insumosdeFichas = () =>{
 $('#guardarFicha').on('click', function(){
     detalles_modelo = $("#detales_modelo").val();
     detalles_confeccion = $("#detalles_confeccion").val();
+    precio_armado = $("#precio_armado").val();
 
     if(!referenciaParaficha){
         $('#modalAlertas').modal("show"); 
@@ -1218,6 +1406,7 @@ $('#guardarFicha').on('click', function(){
         insertarCombinacion();   
     }     
 });
+var jsonnombreCondiciones;
 const insertarCombinacion = () =>{
     var cantidadFilasInsumos = $('.removerCominaciones').length;
     var html = ` <div  class='col-lg-12 col-md-12 col-sm-12 col-xs-12 removerCominaciones' id='filaCombinaciones${cantidadFilasInsumos}' name='${cantidadFilasInsumos}'>
@@ -1233,11 +1422,11 @@ const insertarCombinacion = () =>{
             htmll = `${htmll} <option  value='${jsoncolores[i].ID}'>${jsoncolores[i].complemento} ${jsoncolores[i].caracteristica} ${jsoncolores[i].complemento_caracteristica}</option>`;            
         }
         html = `${html} 
-        <div  class='col-lg-3 col-md-3 col-sm-3 col-xs-3 elementoCombinado'>
-                <div class="form-group pmd-textfield pmd-textfield-floating-label col-lg-6 col-md-6 col-sm-6 col-xs-6">
+        <div  class='col-lg-4 col-md-4 col-sm-4 col-xs-4 elementoCombinado'>
+                <div class="form-group pmd-textfield pmd-textfield-floating-label col-lg-10 col-md-10 col-sm-10 col-xs-10">
                     <p  class=" letra18pt-pc insumoComnbinado"> ${insumos[i].insumo} </p>
                 </div>
-                <div class="form-group pmd-textfield pmd-textfield-floating-label col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                <div class="form-group pmd-textfield pmd-textfield-floating-label col-lg-2 col-md-2 col-sm-2 col-xs-2">
                     <p  class=" letra18pt-pc cantidadComnbinado"> ${insumos[i].cantidad} </p>
                 </div>
                 <div class="form-group pmd-textfield pmd-textfield-floating-label col-lg-12 col-md-12 col-sm-12 col-xs-12 pmd-textfield-floating-label-completed">
@@ -1250,25 +1439,60 @@ const insertarCombinacion = () =>{
         </div>
         `;            
     }
-    html = `${html} </div>`;
-    $('#lasCombinaciones').append(html);
+    var nombreCondiciones = obtenerDatajson("nombre_combinacion,codigo_combinacion","con_t_combinacionesproducto","filasunicas","0","0");;
+    jsonnombreCondiciones = JSON.parse(nombreCondiciones); 
+    var htmll=`<option  value='nuevo'>Nuevo</option>`;
+    for (let i = 0; i < jsonnombreCondiciones.length; i++) {
+        htmll = `${htmll} <option  value='${jsonnombreCondiciones[i].nombre_combinacion}'>${jsonnombreCondiciones[i].nombre_combinacion}</option>`;            
+    }
+    html = `${html} 
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <div class="form-group pmd-textfield pmd-textfield-floating-label col-lg-4 col-md-4 col-sm-4 col-xs-4 pmd-textfield-floating-label-completed">
+                <label class=" letra18pt-pc"> Nombre de la combinación </label>
+                <select class='form-control ' type='select' required='' id='nombreCombinacion${cantidadFilasInsumos}'>
+                    
+                    ${htmll} 
+                </select><span class='pmd-textfield-focused'></span>
+            </div>
+            <div class='form-group pmd-textfield pmd-textfield-floating-label  col-lg-4 col-md-4 col-sm-4 col-xs-4'>
+                <label for="nombreNuevo" class="control-label letra18pt-pc"> Nombre nuevo </label>
+                <input class="form-control " type="text" id='nombreNuevoCombinacion${cantidadFilasInsumos}'>
+                <span class="pmd-textfield-focused"></span>
+            </div>
+            <div class='form-group pmd-textfield pmd-textfield-floating-label  col-lg-4 col-md-4 col-sm-4 col-xs-4'>
+                <label for="codigoColorNuevo" class="control-label letra18pt-pc"> Codigo de color nuevo </label>
+                <input class="form-control " type="text" id='codigoColorNuevoCombinacion${cantidadFilasInsumos}'>
+                <span class="pmd-textfield-focused"></span>
+            </div>
+        </div>
+    </div>`;
+    $('#lasCombinaciones').append(html.replace(/No aplica/g,""));
 } 
     
 $('#otraCombinacion').on('click', function(){ insertarCombinacion();  }); 
 
 
-//confirmarCombinaciones
+//confirmarCombinaciones 
 
 $('#confirmarCombinaciones').on('click', function(){
     $('.removerResumenFicha').remove();
     combinaciones = [];
     var elementoCombinado = $('.elementoCombinado');
+    
     for (let i = 0; i < elementoCombinado.length; i++) {
-        
+        var nombreCombinacion = $(`#nombreCombinacion${parseInt($(elementoCombinado[i]).parent().attr('name'))}`).val();
+        var nombreNuevoCombinacion =  $(`#nombreNuevoCombinacion${parseInt($(elementoCombinado[i]).parent().attr('name'))}`).val();
+        var codigoColorNuevoCombinacion =  $(`#codigoColorNuevoCombinacion${parseInt($(elementoCombinado[i]).parent().attr('name'))}`).val();
+       
+        if(nombreCombinacion !='nuevo'){
+            nombreNuevoCombinacion = nombreCombinacion;
+            const nombreCondicionesC = jsonnombreCondiciones.filter(objeto => objeto.nombre_combinacion === nombreCombinacion);
+            codigoColorNuevoCombinacion =nombreCondicionesC[0].codigo_combinacion;
+        }
         var insumoCombinacion = $(elementoCombinado[i]).find('.insumoComnbinado').text();
         var cantidadComnbinado = $(elementoCombinado[i]).find('.cantidadComnbinado').text();
         var colorCombinacion = $(elementoCombinado[i]).find('.colorCombinaciones').val();
-        var indicativo_combinacion = parseInt($(elementoCombinado[i]).parent().attr('name'))+1;
+        var indicativo_combinacion = parseInt($(elementoCombinado[i]).parent().attr('name'))+1; 
         var colorCombinacionTexto =  $(elementoCombinado[i]).find('.colorCombinaciones').find('option:selected').text();
         if(colorCombinacion == 'selecciona'){
             $('#modalAlertas').modal("show"); 
@@ -1276,14 +1500,30 @@ $('#confirmarCombinaciones').on('click', function(){
             recuerda que todos los insumos deben tener sus colores asignados`); 
             return false;
         }
+        
         var objetoCombinaciones = {};
         objetoCombinaciones.indicativo_combinacion = indicativo_combinacion;
         objetoCombinaciones.insumoCombinacion = insumoCombinacion;
         objetoCombinaciones.idInsumoCombinacion = colorCombinacion;
         objetoCombinaciones.colorCombinacionTexto =colorCombinacionTexto;
         objetoCombinaciones.cantidadComnbinado =cantidadComnbinado;
+        objetoCombinaciones.nombreCombinacion =nombreNuevoCombinacion;
+        objetoCombinaciones.codigoColorCombinacion =codigoColorNuevoCombinacion;
         combinaciones.push(objetoCombinaciones);
     }    
+
+    const uniqueCombinations = combinaciones.reduce((result, currentItem) => {
+    const key = `${currentItem.nombreCombinacion}-${currentItem.codigoColorCombinacion}`;
+    if (!result[key]) {
+        result[key] = {
+        nombreCombinacion: currentItem.nombreCombinacion,
+        codigoColorCombinacion: currentItem.codigoColorCombinacion
+        };
+    }
+    return result;
+    }, {});
+
+    uniqueCombinationsArray = Object.values(uniqueCombinations);
     
     var resumenHtml = ` <div  class='col-lg-12 col-md-12 col-sm-12 col-xs-12 removerResumenFicha' >
                         <p class="letra18pt-pc negrillaUno">Referencia: ${referenciaParaficha}</p>
@@ -1294,7 +1534,10 @@ $('#confirmarCombinaciones').on('click', function(){
     for (let i = 0; i < combinaciones.length; i++) {
         if(indicativoAnterior !== combinaciones[i].indicativo_combinacion){
             resumenHtml = `${resumenHtml} <div  class='col-lg-12 col-md-12 col-sm-12 col-xs-12 removerResumenFicha' >
-                        <p class="letra18pt-pc">Combinacion ${combinaciones[i].indicativo_combinacion}</p>
+                        <p class="letra18pt-pc">Combinacion ${combinaciones[i].indicativo_combinacion}, 
+                        se va a llamar ${combinaciones[i].nombreCombinacion} con el código ${combinaciones[i].codigoColorCombinacion}
+                        
+                        </p>
                     </div>`;
             indicativoAnterior = combinaciones[i].indicativo_combinacion;
         }
@@ -1327,27 +1570,39 @@ $('#confirmarCombinaciones').on('click', function(){
                         <p class="letra18pt-pc negrillaUno">Detalles de confección</p>
                         <p class="letra18pt-pc">${detalles_confeccion}</p>
                     </div>`;
+
+    resumenHtml = `${resumenHtml} <div  class='col-lg-12 col-md-12 col-sm-12 col-xs-12 removerResumenFicha' >
+                        <p class="letra18pt-pc negrillaUno">Detalles de confección</p>
+                        <p class="letra18pt-pc">${formatoPrecio(parseInt(precio_armado))}</p>
+                    </div>`;
     $('#cuerpoResumen').append(resumenHtml); 
 }); 
 $('#confirmarFichaTecnica').on('click', function(){
-    //  	referencia 	fecha_creacion 	detalles_modelo 	detalles_confeccion
-    //      con_t_fichatecnica
     var objeto = {};
     objeto.tipo = "string";
     objeto.columna = "referencia";
     objeto.valor = referenciaParaficha;
     var referencia = prepararjson(objeto);
+
     var objeto = {};
     objeto.tipo = "string";
     objeto.columna = "detalles_modelo";
     objeto.valor = detalles_modelo;
     var detalles_modeloInsert = prepararjson(objeto);
+
     var objeto = {};
     objeto.tipo = "string";
     objeto.columna = "detalles_confeccion";
     objeto.valor = detalles_confeccion;
     var detalles_confeccionInsert = prepararjson(objeto);
-    let idFichaTecnica = JSON.parse(insertarfila("con_t_fichatecnica",referencia,detalles_modeloInsert,detalles_confeccionInsert,"0","0","0","0","0","0","0","0"));
+
+    var objeto = {};
+    objeto.tipo = "int";
+    objeto.columna = "precio_armado";
+    objeto.valor = precio_armado;
+    var precio_armadoInsert = prepararjson(objeto);
+
+    let idFichaTecnica = JSON.parse(insertarfila("con_t_fichatecnica",referencia,detalles_modeloInsert,detalles_confeccionInsert,precio_armadoInsert,"0","0","0","0","0","0","0"));
     
 
     var objeto = {};
@@ -1369,7 +1624,7 @@ $('#confirmarFichaTecnica').on('click', function(){
         objeto.valor = combinaciones[i].idInsumoCombinacion;
         var insumo = prepararjson(objeto);
         var objeto = {};
-        objeto.tipo = "int";
+        objeto.tipo = "float";
         objeto.columna = "cantidad";
         objeto.valor = combinaciones[i].cantidadComnbinado;
         var cantidad = prepararjson(objeto);
@@ -1378,7 +1633,17 @@ $('#confirmarFichaTecnica').on('click', function(){
         objeto.columna = "text_insumo";
         objeto.valor = `${combinaciones[i].insumoCombinacion} ${combinaciones[i].colorCombinacionTexto}`;
         var text_insumo = prepararjson(objeto);
-        insertarfila("con_t_combinacionesproducto",idFichaTecnicaObjeto,indicativo_combinacion,insumo,cantidad,text_insumo,"0","0","0","0","0","0");        
+        var objeto = {};
+        objeto.tipo = "string";
+        objeto.columna = "nombre_combinacion";
+        objeto.valor = `${combinaciones[i].nombreCombinacion}`;
+        var nombre_combinacion = prepararjson(objeto);var objeto = {};
+        objeto.tipo = "string";
+        objeto.columna = "codigo_combinacion";
+        objeto.valor = `${combinaciones[i].codigoColorCombinacion}`;
+        var codigo_combinacion = prepararjson(objeto);
+        insertarfila("con_t_combinacionesproducto",idFichaTecnicaObjeto,indicativo_combinacion,insumo,cantidad,text_insumo,nombre_combinacion,codigo_combinacion,"0","0","0","0");        
+        
     }
 
     for (let i = 0; i < insumos.length; i++) {
@@ -1401,6 +1666,37 @@ $('#confirmarFichaTecnica').on('click', function(){
         var observacion = prepararjson(objeto);
         insertarfila("con_t_insumosproducto",idFichaTecnicaObjeto,insumo,cantidad,observacion,"0","0","0","0","0","0","0");     
     }
+
+    preciosj = obtenerDatajson("precio_detal,precio_mayorista,id_categoria","con_t_referencias","valoresconcondicion","nombre",`'${referenciaParaficha}'`);
+    precios = JSON.parse(preciosj);    
+    precio_detal = precios[0].precio_detal;
+    precio_mayor = precios[0].precio_mayorista;
+
+    var objeto = {};
+    objeto.tipo = "string";
+    objeto.columna = "nombre";
+    objeto.valor = referenciaParaficha;
+    var nombre = prepararjson(objeto);
+    
+    var objeto = {};
+    objeto.tipo = "int";
+    objeto.columna = "precio_detal";
+    objeto.valor = precio_detal;
+    var precio_deta = prepararjson(objeto);
+    
+    var objeto = {};
+    objeto.tipo = "int";
+    objeto.columna = "precio_mayorista";
+    objeto.valor = precio_mayor;
+    var precio_mayo = prepararjson(objeto);
+    
+    var objeto = {};
+    objeto.tipo = "int";
+    objeto.columna = "categoria_id";
+    objeto.valor = precios[0].id_categoria;
+    var categoria_id = prepararjson(objeto);
+
+
     for (let i = 0; i < talla.length; i++) {
         // ficha_tecnica 	talla 	tipo_medida 	medida 	
         // con_t_medidasproducto
@@ -1421,6 +1717,51 @@ $('#confirmarFichaTecnica').on('click', function(){
         var medida = prepararjson(objeto);
         insertarfila("con_t_medidasproducto",idFichaTecnicaObjeto,tallaInsert,tipo_medida,medida,"0","0","0","0","0","0","0");    
     }
+
+    const uniquetalla = talla.reduce((result, currentItem) => {
+    const key = `${currentItem.talla}`;
+    if (!result[key]) {
+        result[key] = {
+            talla: currentItem.talla
+        };
+    }
+    return result;
+    }, {});
+
+    var uniquetallaArray = Object.values(uniquetalla);
+
+    for (let i = 0; i < uniquetallaArray.length; i++) {
+
+        var objeto = {};
+        objeto.tipo = "string";
+        objeto.columna = "talla";
+        objeto.valor = uniquetallaArray[i].talla;
+        var tallaInsert = prepararjson(objeto);
+
+        for (let j = 0; j < uniqueCombinationsArray.length; j++) {
+
+            var objeto = {};
+            objeto.tipo = "string";
+            objeto.columna = "color";
+            objeto.valor = uniqueCombinationsArray[j].nombreCombinacion;
+            var color = prepararjson(objeto);
+
+            var objeto = {};
+            objeto.tipo = "int";
+            objeto.columna = "cantidad";
+            objeto.valor = 0;
+            var cantidad = prepararjson(objeto);
+
+            var objeto = {};
+            objeto.tipo = "int";
+            objeto.columna = "foto_link";
+            objeto.valor = "L";
+            var foto_link = prepararjson(objeto);
+
+            insertarfila("con_t_resumen",nombre,color,tallaInsert,cantidad,foto_link,precio_deta,precio_mayo,categoria_id,"0","0","0");        
+        }
+    }
+
     $('#modalResumenFicha').modal("hide"); 
     $('#modalCombinaciones').modal("hide"); 
     const bloqueNuevaFicha = $('#bloqueNuevaFicha');
@@ -1446,11 +1787,15 @@ $('#confirmarFichaTecnica').on('click', function(){
 $('#guardarDetalles').on('click', function(){
     var detales_modeloFiccion = $('#detales_modeloFiccion').val();
     var detalles_confeccionFiccion = $('#detalles_confeccionFiccion').val();
+    var precio_armadoFiccion = $('#precio_armadoFiccion').val();
     if(!detales_modeloFiccion){
         detales_modeloFiccion =  $('#detallesModeloFicha').text();
     }
     if(!detalles_confeccionFiccion){
         detalles_confeccionFiccion =  $('#detallesConfeccionFicha').text();
+    }
+    if(!precio_armadoFiccion){
+        precio_armadoFiccion =  $('#precioArmadoFicha').attr('name');
     }
     var objeto = {};
     objeto.columna = "ID";
@@ -1466,10 +1811,14 @@ $('#guardarDetalles').on('click', function(){
     objeto.columna = "detalles_confeccion";
     objeto.valor = detalles_confeccionFiccion;
     var  detalles_confeccion = prepararjson(objeto);
-    actualizarregistros("con_t_fichatecnica",condicion,detalles_modelo,detalles_confeccion,"0","0","0","0","0","0","0","0","0");
-    console.log(`con_t_fichatecnica,${condicion},${detalles_modelo},${detalles_confeccion}`);
+    var objeto = {};
+    objeto.tipo = "int";
+    objeto.columna = "precio_armado";
+    objeto.valor = precio_armadoFiccion;
+    var precio_armado = prepararjson(objeto);
+    actualizarregistros("con_t_fichatecnica",condicion,detalles_modelo,detalles_confeccion,precio_armado,"0","0","0","0","0","0","0","0");
     // Agrego los detalles del modelo, de confección y nombre de la referencia
-    let detallesj = obtenerDatajson("ID,detalles_modelo,detalles_confeccion","con_t_fichatecnica","valoresconcondicion","referencia",`'${$('#fichasTecnicasSelect').val()}'`);
+    let detallesj = obtenerDatajson("ID,detalles_modelo,detalles_confeccion,precio_armado","con_t_fichatecnica","valoresconcondicion","referencia",`'${$('#fichasTecnicasSelect').val()}'`);
     let detalles =  JSON.parse(detallesj);    
     let html='';
     
@@ -1477,6 +1826,8 @@ $('#guardarDetalles').on('click', function(){
     $('#nombreReferencia').attr('name',detalles[0].ID);
     $('#detallesModeloFicha').text(detalles[0].detalles_modelo);
     $('#detallesConfeccionFicha').text(detalles[0].detalles_confeccion);
+    $('#precioArmadoFicha').text(`Precio de armado: ${formatoPrecio(parseInt(detalles[0].precio_armado))}`);
+    $('#precioArmadoFicha').attr('name',detalles[0].precio_armado);
 
 }); 
 
@@ -1497,8 +1848,24 @@ const comboActualizarFT = () => {
 
         let combinaciones = [];
         var elementoCombinado = $('.elementoCombinadoAgregar');
-        for (let i = 0; i < elementoCombinado.length; i++) {
+        var codigoColorNuevoCombinacion = $('#codigoColorNuevoCombinacionEditar').val();
+        var nombreCombinacion = $('#nombreCombinacionEditar').val();
+        var nombreNuevoCombinacionEditar = $('#nombreNuevoCombinacionEditar').val();
+        if(nombreCombinacion !='nuevo'){
+
+            nombreNuevoCombinacionEditar = nombreCombinacion;
+            var nombreCondiciones = obtenerDatajson("nombre_combinacion,codigo_combinacion","con_t_combinacionesproducto","filasunicas","0","0");;
+            jsonnombreCondiciones = JSON.parse(nombreCondiciones); 
+            const nombreCondicionesC = jsonnombreCondiciones.filter(objeto => objeto.nombre_combinacion === nombreCombinacion);
             
+            codigoColorNuevoCombinacion =nombreCondicionesC[0].codigo_combinacion;
+        }
+        if(!nombreNuevoCombinacionEditar){
+                $('#modalAlertas').modal("show"); 
+                $('#tituloAlertas').text(`Por favor revisa el nombre de la nueva combinación, está vacío`); 
+                return false;
+            }
+        for (let i = 0; i < elementoCombinado.length; i++) {
             var insumoCombinacion = $(elementoCombinado[i]).find('.insumoComnbinadoAgregar').text();
             var cantidadComnbinado = $(elementoCombinado[i]).find('.cantidadComnbinadoAgregar').text();
             var colorCombinacion = $(elementoCombinado[i]).find('.colorCombinacionesAgregar').val();
@@ -1516,15 +1883,18 @@ const comboActualizarFT = () => {
             objetoCombinaciones.idInsumoCombinacion = colorCombinacion;
             objetoCombinaciones.colorCombinacionTexto =colorCombinacionTexto;
             objetoCombinaciones.cantidadComnbinado =cantidadComnbinado;
+            objetoCombinaciones.nombreNuevoCombinacion =nombreNuevoCombinacionEditar;
+            objetoCombinaciones.codigoColorNuevoCombinacion =codigoColorNuevoCombinacion;
             combinaciones.push(objetoCombinaciones);
         }    
-
         var indicativoCombinacion = $('.removerActualizacionCombinacionesFicha').length+1;
         var objeto = {};
         objeto.tipo = "int";
         objeto.columna = "ficha_tecnica";
         objeto.valor = idReferencia;
         var idFichaTecnicaObjeto = prepararjson(objeto);
+        console.log('combinaciones');
+        console.log(combinaciones);
         for (let i = 0; i < combinaciones.length; i++) {
             // ficha_tecnica 	indicativo_combinacion 	insumo 	cantidad 	text_insumo 
             //  con_t_combinacionesproducto
@@ -1539,7 +1909,7 @@ const comboActualizarFT = () => {
             objeto.valor = combinaciones[i].idInsumoCombinacion;
             var insumo = prepararjson(objeto);
             var objeto = {};
-            objeto.tipo = "int";
+            objeto.tipo = "float";
             objeto.columna = "cantidad";
             objeto.valor = combinaciones[i].cantidadComnbinado;
             var cantidad = prepararjson(objeto);
@@ -1548,12 +1918,108 @@ const comboActualizarFT = () => {
             objeto.columna = "text_insumo";
             objeto.valor = `${combinaciones[i].insumoCombinacion} ${combinaciones[i].colorCombinacionTexto}`;
             var text_insumo = prepararjson(objeto);
-            // console.log(`"con_t_combinacionesproducto",${idFichaTecnicaObjeto},${indicativo_combinacion},${insumo},${cantidad},${text_insumo},"0","0","0","0","0","0"`);        
-            insertarfila("con_t_combinacionesproducto",idFichaTecnicaObjeto,indicativo_combinacion,insumo,cantidad,text_insumo,"0","0","0","0","0","0");        
+            var objeto = {};
+            objeto.tipo = "string";
+            objeto.columna = "nombre_combinacion";
+            objeto.valor = `${combinaciones[i].nombreNuevoCombinacion}`;
+            var nombre_combinacion = prepararjson(objeto);var objeto = {};
+            objeto.tipo = "string";
+            objeto.columna = "codigo_combinacion";
+            objeto.valor = `${combinaciones[i].codigoColorNuevoCombinacion}`;
+            var codigo_combinacion = prepararjson(objeto);
+            // console.log(`"con_t_combinacionesproducto",${idFichaTecnicaObjeto},${indicativo_combinacion},${insumo},${cantidad},${text_insumo},${nombre_combinacion},${codigo_combinacion},"0","0","0","0"`);        
+            insertarfila("con_t_combinacionesproducto",idFichaTecnicaObjeto,indicativo_combinacion,insumo,cantidad,text_insumo,nombre_combinacion,codigo_combinacion,"0","0","0","0");        
+           
+        }
+        // 
+        let fichaTecj = obtenerDatajson("ID","con_t_fichatecnica","valoresconcondicion","referencia",`'${$('#fichasTecnicasSelect').val()}'`);
+        let fichaTec =  JSON.parse(fichaTecj);
+        
+        let referenciaTj = obtenerDatajson("precio_detal,precio_mayorista,id_categoria","con_t_referencias","valoresconcondicion","nombre",`'${$('#fichasTecnicasSelect').val()}'`);
+        let referenciaT =  JSON.parse(referenciaTj);
+        var preciodetal = referenciaT[0].precio_detal;
+        var preciomayor = referenciaT[0].precio_mayorista;
+        var id_categoria = referenciaT[0].id_categoria;
+
+        let idFichh = fichaTec[0].ID;
+        let tallasj = obtenerDatajson("talla","con_t_medidasproducto","valoresconcondicion","ficha_tecnica",idFichh);
+        let tallas =  JSON.parse(tallasj);
+
+        const uniqueCombinations = tallas.reduce((result, currentItem) => {
+        const key = `${currentItem.talla}`;
+        if (!result[key]) {
+            result[key] = {
+                talla: currentItem.talla
+            };
+        }
+        return result;
+        }, {});
+
+        uniquetallassArray = Object.values(uniqueCombinations);
+        
+        var objeto = {};
+        objeto.tipo = "string";
+        objeto.columna = "nombre";
+        objeto.valor = $('#fichasTecnicasSelect').val();
+        var nombre = prepararjson(objeto);
+
+        var objeto = {};
+        objeto.tipo = "int";
+        objeto.columna = "precio_detal";
+        objeto.valor = preciodetal;
+        var precio_detal = prepararjson(objeto);
+
+        var objeto = {};
+        objeto.tipo = "int";
+        objeto.columna = "precio_mayorista";
+        objeto.valor = preciomayor;
+        var precio_mayorista = prepararjson(objeto);
+
+        var objeto = {};
+        objeto.tipo = "int";
+        objeto.columna = "precio_mayorista";
+        objeto.valor = preciomayor;
+        var precio_mayorista = prepararjson(objeto);
+
+        var objeto = {};
+        objeto.tipo = "int";
+        objeto.columna = "categoria_id";
+        objeto.valor = id_categoria;
+        var categoria_id = prepararjson(objeto);
+
+        for (let i = 0; i < uniquetallassArray.length; i++) {
+
+            var objeto = {};
+            objeto.tipo = "string";
+            objeto.columna = "talla";
+            objeto.valor = uniquetallassArray[i].talla;
+            var tallaInsert = prepararjson(objeto);
+
+            var objeto = {};
+            objeto.tipo = "string";
+            objeto.columna = "color";
+            objeto.valor = nombreNuevoCombinacionEditar;
+            var color = prepararjson(objeto);
+
+            var objeto = {};
+            objeto.tipo = "int";
+            objeto.columna = "cantidad";
+            objeto.valor = 0;
+            var cantidad = prepararjson(objeto);
+
+            var objeto = {};
+            objeto.tipo = "int";
+            objeto.columna = "foto_link";
+            objeto.valor = "L";
+            var foto_link = prepararjson(objeto);
+
+            // console.log(`"con_t_resumen",${nombre},${color},${tallaInsert},${cantidad},${foto_link},${precio_detal},${precio_mayorista},${categoria_id},"0","0","0"`);        
+            insertarfila("con_t_resumen",nombre,color,tallaInsert,cantidad,foto_link,precio_detal,precio_mayorista,categoria_id,"0","0","0");        
+            
         }
 
         // Agrego los detalles del modelo, de confección y nombre de la referencia
-        let detallesj = obtenerDatajson("ID,detalles_modelo,detalles_confeccion","con_t_fichatecnica","valoresconcondicion","referencia",`'${$('#fichasTecnicasSelect').val()}'`);
+        let detallesj = obtenerDatajson("ID,detalles_modelo,detalles_confeccion,precio_armado","con_t_fichatecnica","valoresconcondicion","referencia",`'${$('#fichasTecnicasSelect').val()}'`);
         let detalles =  JSON.parse(detallesj);
          // Agrego la tabla de combinaciones
          
@@ -1586,7 +2052,7 @@ const comboActualizarFT = () => {
         $('#combinacionesFicha').append(html);
 
         // // Agrego los campos para agregar combinaciones nuevas
-        $('.elementoCombinadoAgregar').remove();
+        $('.removerEmlementoCombinado').remove();
         html = ` `;
 
         var insumosObtenidos = obtenerDatajson("insumo,cantidad,observacion","con_t_insumosproducto","valoresconcondicion","ficha_tecnica",`'${idReferencia}'`);
@@ -1601,7 +2067,7 @@ const comboActualizarFT = () => {
                 htmll = `${htmll} <option  value='${jsoncolores[i].ID}'>${jsoncolores[i].complemento} ${jsoncolores[i].caracteristica} ${jsoncolores[i].complemento_caracteristica}</option>`;            
             }
             html = `${html} 
-            <div  class='col-lg-3 col-md-3 col-sm-3 col-xs-3 elementoCombinadoAgregar'>
+            <div  class='col-lg-3 col-md-3 col-sm-3 col-xs-3 elementoCombinadoAgregar removerEmlementoCombinado'>
                     <div class="form-group pmd-textfield pmd-textfield-floating-label col-lg-6 col-md-6 col-sm-6 col-xs-6">
                         <p  class=" letra18pt-pc insumoComnbinadoAgregar"> ${insumosAFT[i].insumo} </p>
                     </div>
@@ -1618,8 +2084,37 @@ const comboActualizarFT = () => {
             </div>
             `;            
         }
+
+        var nombreCondiciones = obtenerDatajson("nombre_combinacion,codigo_combinacion","con_t_combinacionesproducto","filasunicas","0","0");;
+        jsonnombreCondiciones = JSON.parse(nombreCondiciones); 
+        var htmll=`<option  value='nuevo'>Nuevo</option>`;
+        for (let i = 0; i < jsonnombreCondiciones.length; i++) {
+            htmll = `${htmll} <option  value='${jsonnombreCondiciones[i].nombre_combinacion}'>${jsonnombreCondiciones[i].nombre_combinacion}</option>`;            
+        }
+        html = `${html} 
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 removerEmlementoCombinado">
+                <div class="form-group pmd-textfield pmd-textfield-floating-label col-lg-4 col-md-4 col-sm-4 col-xs-4 pmd-textfield-floating-label-completed">
+                    <label class=" letra18pt-pc"> Nombre de la combinación </label>
+                    <select class='form-control ' type='select' required='' id='nombreCombinacionEditar'>
+                        
+                        ${htmll} 
+                    </select><span class='pmd-textfield-focused'></span>
+                </div>
+                <div class='form-group pmd-textfield pmd-textfield-floating-label  col-lg-4 col-md-4 col-sm-4 col-xs-4'>
+                    <label for="nombreNuevo" class="control-label letra18pt-pc"> Nombre nuevo </label>
+                    <input class="form-control " type="text" id='nombreNuevoCombinacionEditar'>
+                    <span class="pmd-textfield-focused"></span>
+                </div>
+                <div class='form-group pmd-textfield pmd-textfield-floating-label  col-lg-4 col-md-4 col-sm-4 col-xs-4'>
+                    <label for="codigoColorNuevo" class="control-label letra18pt-pc"> Codigo de color nuevo </label>
+                    <input class="form-control " type="text" id='codigoColorNuevoCombinacionEditar'>
+                    <span class="pmd-textfield-focused"></span>
+                </div>
+            </div>
+        </div>`;
+
         html = `${html} </div>`;
-        $('#lasCombinacionesNuevas').append(html);
+        $('#lasCombinacionesNuevas').append(html.replace(/No aplica/g,""));
         
 
         comboActualizarFT();
@@ -1938,6 +2433,12 @@ const comboActualizarFT = () => {
 	$('#datetimepicker-update').datetimepicker({
         format: 'L'
 	});
+    $(`#datetimepicker-desde`).datetimepicker({
+        format: 'YYYY-MM-DD HH:mm'
+    });
+    $(`#datetimepicker-hasta`).datetimepicker({
+        format: 'YYYY-MM-DD HH:mm'
+    });
 </script>
 <!-- https://sheetjs.com/ -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>

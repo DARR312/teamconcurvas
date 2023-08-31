@@ -1,5 +1,6 @@
 <?php get_template_part('generalfooter'); ?>
 //<script>
+    
     var permisoInventario = permisosInventario();
     var botonesEscaner = $('#botonesEscaner');
     // botonesEscaner.append("<div class='col-lg-6 col-md-6 col-sm-6 col-xs-12' id='accion01'><button class='botonmodal' type='button' id='inicialInventario'>Inventario inicial</button></div>");
@@ -21,11 +22,13 @@
         if(items[i]==17){
             var segundo = $('#segundo');
             segundo.append("<div class='col-lg-2 col-md-2 col-sm-2 col-xs-12' id='accion17'><button class='botonmodal botonesInventario' type='button' id='crearReferencia'>Referencia nueva </button></div>");
-        }if(items[i]==19){
-            var segundo = $('#segundo');
-            segundo.append("<div class='col-lg-2 col-md-2 col-sm-2 col-xs-12' id='accion19'><button class='botonmodal botonesInventario' type='button' id='crearCodigos'>Crear códigos</button></div>");
-            segundo.append("<div class='col-lg-2 col-md-2 col-sm-2 col-xs-12' id='accion19'><button class='botonmodal botonesInventario' type='button' id='fechaslotes'>Fechas de lotes</button></div>");
-        }if(items[i]==20){
+        }
+        // if(items[i]==19){
+        //     var segundo = $('#segundo');
+        //     segundo.append("<div class='col-lg-2 col-md-2 col-sm-2 col-xs-12' id='accion19'><button class='botonmodal botonesInventario' type='button' id='crearCodigos'>Crear códigos</button></div>");
+        //     segundo.append("<div class='col-lg-2 col-md-2 col-sm-2 col-xs-12' id='accion19'><button class='botonmodal botonesInventario' type='button' id='fechaslotes'>Fechas de lotes</button></div>");
+        // }
+        if(items[i]==20){
             var botonesEscaner = $('#botonesEscaner');
             botonesEscaner.append("<div class='col-lg-6 col-md-6 col-sm-6 col-xs-12' id='accion20'><button class='botonmodal' type='button' id='escanearInventario'>Escanear inventario</button></div>");
         }if(items[i]==21){
@@ -78,7 +81,10 @@
         }if(items[i]==38){
             var segundo = $('#botonesEscaner');
             segundo.append("<div class='col-lg-12 col-md-12 col-sm-12 col-xs-12' id='accion38'><button class='botonmodal' type='button' id='ventaMayorista'>Venta mayorista</button></div>");
-        }        
+        }if(items[i]==57){
+            var segundo = $('#botonesEscaner');
+            segundo.append("<div class='col-lg-12 col-md-12 col-sm-12 col-xs-12' id='accion38'><button class='botonmodal' type='button' id='confirmarTerminados'>Confirmar terminados</button></div>");
+        }       
     }
     $('#crearReferencia').on('click', function(){   
         $('.remover').remove();
@@ -157,24 +163,93 @@
     });
     $('#guardarReferencia').on('click', function() {
         var nombre = $('#nombreReferencia').val();
-        var color = $('#colorReferencia').val();
-        var talla = $('#tallaReferencia').val();
         var detal = $('#precioDetal').val();
         var mayor = $('#precioMayor').val();
         var categoria = $('#categoria').val();
-        if($('#cual').val()){
-            nombre = $('#cual').val();
-            nuevocodigo("referencia",nombre);
-        }if($('#cualColor').val()){
-            color = $('#cualColor').val();
-            nuevocodigo("color",color);
-        }if($('#cualTalla').val()){
-            talla = $('#cualTalla').val();
-        }if($('#cualCategoria').val()){
-            categoria = $('#cualCategoria').val();
+
+        if(!nombre){
+            $('#modalAlertas').modal("show"); 
+            $('#tituloAlertas').text(`Agrega un nombre para la referencia nueva`); 
+            return false;
         }
-       var idRef = referenciaNueva(nombre,color,talla,"Pendiente",detal,mayor,categoria);
-       
+        var nombres = obtenerDatajson("nombre","con_t_referencias","valoresconcondicion","nombre",`'${nombre}'`);
+        var nombresj = JSON.parse(nombres);  
+
+        if(nombresj.length > 0){
+            $('#modalAlertas').modal("show"); 
+            $('#tituloAlertas').text(`El nombre de referencia que estás tratando de agregar ya está agregada`); 
+            return false;
+        }
+
+        if(!detal){
+            $('#modalAlertas').modal("show"); 
+            $('#tituloAlertas').text(`Agrega el precio al que se va a vender la prenda al detal`); 
+            return false;
+        }
+
+        if(!mayor){
+            $('#modalAlertas').modal("show"); 
+            $('#tituloAlertas').text(`Agrega el precio al que se va a vender la prenda al por mayor`); 
+            return false;
+        }
+        var idcat = categoria;
+        if($('#cualCategoria').val()){
+            categoria = $('#cualCategoria').val();
+            // con_t_categoria  categoria_id    categoria  padre_id
+            let objeto = {};
+            objeto.tipo = "string";
+            objeto.columna = "categoria";
+            objeto.valor = categoria;
+            let categoriai = prepararjson(objeto);
+            
+            objeto = {};
+            objeto.tipo = "string";
+            objeto.columna = "padre_id";
+            objeto.valor = 0;
+            let padre_id = prepararjson(objeto);
+
+            let idcategoria = insertarfila("con_t_categoria",categoriai,padre_id,"0","0","0","0","0","0","0","0","0");
+            
+            idcat = 10;
+        }
+
+        // con_t_referencias  	nombre  id_categoria    precio_detal 	precio_mayorista 	
+        let objeto = {};
+        objeto.tipo = "string";
+        objeto.columna = "nombre";
+        objeto.valor = nombre;
+        let nombrei = prepararjson(objeto);
+
+        
+        objeto = {};
+        objeto.tipo = "string";
+        objeto.columna = "id_categoria";
+        objeto.valor = idcat;
+        let id_categoria = prepararjson(objeto);
+
+        objeto = {};
+        objeto.tipo = "string";
+        objeto.columna = "precio_detal";
+        objeto.valor = detal;
+        let precio_detal = prepararjson(objeto);
+
+        objeto = {};
+        objeto.tipo = "string";
+        objeto.columna = "precio_mayorista";
+        objeto.valor = mayor;
+        let precio_mayorista = prepararjson(objeto);
+        
+        let idinsumo = insertarfila("con_t_referencias",nombrei,id_categoria,precio_detal,precio_mayorista,"0","0","0","0","0","0","0");
+        
+        console.log('nombre');
+        console.log(nombre);
+        console.log('detal');
+        console.log(detal);
+        console.log('mayor');
+        console.log(mayor);
+        console.log('categoria');
+        console.log(categoria);
+
         $('#referenciaNueva').css('display', 'none');
         $('.remover').remove();
         
@@ -871,6 +946,137 @@
         inicialcaja(pr);
         $('.remover').remove();
     });    
+    /*************************** Escaner terminados *******************************/
+    $('#confirmarTerminados').on('click', function() {
+        $('#escanerTermin').css('display', 'block');
+        $('#funcionesEscanerTerminados').css('display', 'block');
+        $('#botonesEscaner').css('display', 'none');
+        var html5QrcodeScanner = new Html5QrcodeScanner(
+    	"readerTerminados", { fps: 10, qrbox: 250 });
+        html5QrcodeScanner.render(escanearTerminados);
+    });
+    $('#enviarTerminados').on('click', function() {
+
+        var prendasenviadasATerminados = 0;
+        var noEnviados = '';
+        var banderaTerminados  = 0;
+        
+        var usuarioLevel = $('#usuarioCell').attr('name');
+        var usuarioLevelArray = usuarioLevel.split(",");
+        
+        prendasEviadasATerminados = [];
+        var notificacionEnviaraTerminados = 'Se confirma que se terminan las siguientes prendas: ';
+
+        
+        var objeto = {};
+        objeto.tipo = "string";
+        objeto.columna = "cual_cambio";
+        objeto.valor = usuarioLevelArray[1];
+        var cual_cambio = prepararjson(objeto);
+
+        
+        var objeto = {};
+        objeto.tipo = "int";
+        objeto.columna = "usuario_id";
+        objeto.valor = usuarioLevelArray[0];
+        var usuario_id = prepararjson(objeto);
+
+        
+        const fechaActual = new Date();
+
+        // Obtener los componentes de la fecha (año, mes, día, hora, minutos y segundos)
+        const anio = fechaActual.getFullYear();
+        const mes = String(fechaActual.getMonth() + 1).padStart(2, '0'); // Los meses comienzan desde 0, por lo que se le suma 1
+        const dia = String(fechaActual.getDate()).padStart(2, '0');
+        const hora = String(fechaActual.getHours()).padStart(2, '0');
+        const minutos = String(fechaActual.getMinutes()).padStart(2, '0');
+        const segundos = String(fechaActual.getSeconds()).padStart(2, '0');
+
+        // Construir la cadena de fecha y hora en el formato deseado
+        var fechaActuall  = `${anio}-${mes}-${dia} ${hora}:${minutos}:${segundos}`;
+
+        var objeto = {};
+        objeto.tipo = "string";
+        objeto.columna = "fecha_cambio";
+        objeto.valor = fechaActuall;
+        var fecha_cambio  = prepararjson(objeto);
+
+        var objeto = {};
+        objeto.tipo = "string";
+        objeto.columna = "fecha_terminado";
+        objeto.valor = fechaActuall;
+        var fecha_terminado  = prepararjson(objeto);
+
+        var estadoNuevoJ = obtenerDatajson("estado","con_t_estadoprendas","valoresconcondicion","ID",`${usuarioLevelArray[0]}`);
+    	var estadoNuevoA = JSON.parse(estadoNuevoJ); 
+        var estadoNuevo = estadoNuevoA[0].estado;
+
+        var objeto = {};
+        objeto.tipo = "string";
+        objeto.columna = "cual";
+        objeto.valor = usuarioLevelArray[1];
+        var cual  = prepararjson(objeto);
+
+        
+        var objeto = {};
+        objeto.tipo = "string";
+        objeto.columna = "estado";
+        objeto.valor = estadoNuevo;
+        var estado  = prepararjson(objeto);
+
+        var objeto = {};
+        objeto.tipo = "string";
+        objeto.columna = "estado_cambio";
+        objeto.valor = estadoNuevo;
+        var estado_cambio = prepararjson(objeto);
+
+        var objeto = {};
+        objeto.tipo = "int";
+        objeto.columna = "terminado";
+        objeto.valor = 1;
+        var terminado = prepararjson(objeto);
+
+        for (let i = 0; i < datosPrendaActuales.length; i++) {
+            
+            var terminadoEstadoJ = obtenerDatajson("terminado","con_t_terminados","valoresconcondicion","codigo",`'${datosPrendaActuales[i].codigo}'`);
+            let terminadoEstadoA = JSON.parse(terminadoEstadoJ); 
+
+            if(terminadoEstadoA.length == 0){continue;}
+            if(terminadoEstadoA[0].terminado==1){continue;}
+
+
+            prendasenviadasATerminados++;
+
+            //  con_t_terminados	codigo 	terminado 	fecha_terminado 	
+            var objeto = {};
+            objeto.columna = "codigo";
+            objeto.valor = `'${datosPrendaActuales[i].codigo}'`;
+            var condicion = prepararjson(objeto);
+
+            actualizarregistros("con_t_terminados",condicion,terminado,fecha_terminado,"0","0","0","0","0","0","0","0","0");
+
+            var objeto = {};
+            objeto.tipo = "int";
+            objeto.columna = "prenda_id";
+            objeto.valor = datosPrendaActuales[i].codigo;
+            var prenda_id = prepararjson(objeto);           
+
+            insertarfila("con_t_estadostr",prenda_id,estado_cambio,cual_cambio,usuario_id,"0","0","0","0","0","0","0");
+            
+
+            actualizarregistros("con_t_trprendas",condicion,estado,fecha_cambio,cual,"0","0","0","0","0","0","0","0");
+
+            notificacionEnviaraTerminados = `${notificacionEnviaraTerminados} ${datosPrendaActuales[i].codigoshow}`;
+        }
+        notificacionEnviaraTerminados=`${notificacionEnviaraTerminados}. El total de prendas enviadas a terminados fueron ${prendasenviadasATerminados}.
+        Las prendas ausentes en esta lista aún no se habían registrado para la fase de terminado, o bien no requerían de esta etapa o ya habían sido registradas en días anteriores.`;
+        const textoCodificado = encodeURIComponent(notificacionEnviaraTerminados.replace(/No aplica/g,""));
+        var url = `https://wa.me/573017209186?text=${textoCodificado}`;
+
+        window.open(url, '_blank');
+        $('#modalAlertas').modal("show"); 
+        $('#tituloAlertas').text(`${notificacionEnviaraTerminados}`); 
+    });
     /*************************** Escaner inventario *******************************/
     $('#escanearInventario').on('click', function() {
         $('#escanerInv').css('display', 'block');
@@ -883,12 +1089,193 @@
     $('#enviarEscaneados').on('click', function() {
         var escaneadosData = $('#escanerInv').text();
         alert(escaneadosData);
+        var noEnviados = '';
+        var banderaTerminados  = 0;
+
         var escaneadosEnviar = escaneadosData.replace(" ","");
         var usuarioLevel = $('#usuarioCell').attr('name');
-        var data = escaneadosEnviar+usuarioLevel;
-        enviarInventario(data);
-        var escaneados = $('#escanerInv');
-        escaneados.text(" ");
+        var usuarioLevelArray = usuarioLevel.split(",");
+        var estadoNuevoJ = obtenerDatajson("estado","con_t_estadoprendas","valoresconcondicion","ID",`${usuarioLevelArray[0]}`);
+    	let estadoNuevoA = JSON.parse(estadoNuevoJ); 
+        
+        prendasEviadasATerminados = [];
+        var notificacionEnviaraTerminados = 'Se enviaron a terminados las siguientes prendas: ';
+        for (let i = 0; i < datosPrendaActuales.length; i++) {
+            var estadoNuevo = estadoNuevoA[0].estado;
+
+            var objeto = {};
+            objeto.tipo = "int";
+            objeto.columna = "prenda_id";
+            objeto.valor = datosPrendaActuales[i].codigo;
+            var prenda_id = prepararjson(objeto);
+
+            var objeto = {};
+            objeto.tipo = "string";
+            objeto.columna = "cual_cambio";
+            objeto.valor = usuarioLevelArray[1];
+            var cual_cambio = prepararjson(objeto);
+
+            var objeto = {};
+            objeto.columna = "codigo";
+            objeto.valor = `'${datosPrendaActuales[i].codigo}'`;
+            var condicion = prepararjson(objeto);
+            
+            if((datosPrendaActuales[i].terminado == 1)){
+                
+                var terminadoEstadoJ = obtenerDatajson("terminado","con_t_terminados","valoresconcondicion","codigo",`'${datosPrendaActuales[i].codigo}'`);
+    	        let terminadoEstadoA = JSON.parse(terminadoEstadoJ); 
+
+                if(terminadoEstadoA.length == 0){
+                     //  con_t_terminados	codigo 	terminado 	fecha_terminado 	
+                    var objeto = {};
+                    objeto.tipo = "string";
+                    objeto.columna = "codigo";
+                    objeto.valor = datosPrendaActuales[i].codigo;
+                    var codigo = prepararjson(objeto);
+
+                    var objeto = {};
+                    objeto.tipo = "int";
+                    objeto.columna = "terminado";
+                    objeto.valor = 0;
+                    var terminado = prepararjson(objeto);
+
+                    insertarfila("con_t_terminados",codigo,terminado,"0","0","0","0","0","0","0","0","0");
+
+                    var objeto = {};
+                    objeto.tipo = "string";
+                    objeto.columna = "estado_cambio";
+                    objeto.valor = 'En terminados';
+                    var estado_cambio = prepararjson(objeto);
+
+                    var objeto = {};
+                    objeto.tipo = "int";
+                    objeto.columna = "usuario_id";
+                    objeto.valor = usuarioLevelArray[0];
+                    var usuario_id = prepararjson(objeto);
+
+                    insertarfila("con_t_estadostr",prenda_id,estado_cambio,cual_cambio,usuario_id,"0","0","0","0","0","0","0");
+                    
+
+                    estadoNuevo = 'En terminados';   
+                    
+                    var objeto = {};
+                    objeto.tipo = "string";
+                    objeto.columna = "estado";
+                    objeto.valor = estadoNuevo;
+                    var estado  = prepararjson(objeto);
+                    
+                    const fechaActual = new Date();
+
+                    // Obtener los componentes de la fecha (año, mes, día, hora, minutos y segundos)
+                    const anio = fechaActual.getFullYear();
+                    const mes = String(fechaActual.getMonth() + 1).padStart(2, '0'); // Los meses comienzan desde 0, por lo que se le suma 1
+                    const dia = String(fechaActual.getDate()).padStart(2, '0');
+                    const hora = String(fechaActual.getHours()).padStart(2, '0');
+                    const minutos = String(fechaActual.getMinutes()).padStart(2, '0');
+                    const segundos = String(fechaActual.getSeconds()).padStart(2, '0');
+
+                    // Construir la cadena de fecha y hora en el formato deseado
+                    var fechaActuall  = `${anio}-${mes}-${dia} ${hora}:${minutos}:${segundos}`;
+
+                    var objeto = {};
+                    objeto.tipo = "string";
+                    objeto.columna = "fecha_cambio";
+                    objeto.valor = fechaActuall;
+                    var fecha_cambio  = prepararjson(objeto);
+
+                    var objeto = {};
+                    objeto.tipo = "string";
+                    objeto.columna = "cual";
+                    objeto.valor = usuarioLevelArray[1];
+                    var cual  = prepararjson(objeto);
+
+                    actualizarregistros("con_t_trprendas",condicion,estado,fecha_cambio,cual,"0","0","0","0","0","0","0","0");
+
+                    notificacionEnviaraTerminados = `${notificacionEnviaraTerminados} ${datosPrendaActuales[i].codigoshow}`;
+                    prendasEviadasATerminados.push(datosPrendaActuales[i]);  
+                    
+                    continue;
+                }
+                if(terminadoEstadoA[0].terminado==0){
+                    
+                    noEnviados = `${noEnviados} ${datosPrendaActuales[i].codigo}`;
+                    banderaTerminados = 1;
+                    continue;
+                }
+
+            }
+
+            var objeto = {};
+            objeto.tipo = "string";
+            objeto.columna = "estado_cambio";
+            objeto.valor = 'En terminados';
+            var estado_cambio = prepararjson(objeto);
+
+            var objeto = {};
+            objeto.tipo = "int";
+            objeto.columna = "usuario_id";
+            objeto.valor = usuarioLevelArray[0];
+            var usuario_id = prepararjson(objeto);
+
+            insertarfila("con_t_estadostr",prenda_id,estado_cambio,cual_cambio,usuario_id,"0","0","0","0","0","0","0");
+            
+            var objeto = {};
+            objeto.tipo = "string";
+            objeto.columna = "estado";
+            objeto.valor = estadoNuevo;
+            var estado  = prepararjson(objeto);
+            
+            const fechaActual = new Date();
+
+            // Obtener los componentes de la fecha (año, mes, día, hora, minutos y segundos)
+            const anio = fechaActual.getFullYear();
+            const mes = String(fechaActual.getMonth() + 1).padStart(2, '0'); // Los meses comienzan desde 0, por lo que se le suma 1
+            const dia = String(fechaActual.getDate()).padStart(2, '0');
+            const hora = String(fechaActual.getHours()).padStart(2, '0');
+            const minutos = String(fechaActual.getMinutes()).padStart(2, '0');
+            const segundos = String(fechaActual.getSeconds()).padStart(2, '0');
+
+            // Construir la cadena de fecha y hora en el formato deseado
+            var fechaActuall  = `${anio}-${mes}-${dia} ${hora}:${minutos}:${segundos}`;
+
+            var objeto = {};
+            objeto.tipo = "string";
+            objeto.columna = "fecha_cambio";
+            objeto.valor = fechaActuall;
+            var fecha_cambio  = prepararjson(objeto);
+
+            var objeto = {};
+            objeto.tipo = "string";
+            objeto.columna = "cual";
+            objeto.valor = usuarioLevelArray[1];
+            var cual  = prepararjson(objeto);
+            
+            var objeto = {};
+            objeto.tipo = "string";
+            objeto.columna = "complemento_estado";
+            objeto.valor = usuarioLevelArray[2];
+            var complemento_estado  = prepararjson(objeto);
+
+            actualizarregistros("con_t_trprendas",condicion,estado,fecha_cambio,cual,complemento_estado,"0","0","0","0","0","0","0");
+        }
+        var escaneados = $('.removerEscaneadosP');
+        escaneados.remove();
+        datosPrendaActuales = [];
+
+        const textoCodificado = encodeURIComponent(notificacionEnviaraTerminados.replace(/No aplica/g,""));
+        var url = `https://wa.me/573017209186?text=${textoCodificado}`;
+
+        window.open(url, '_blank');
+        if(banderaTerminados == 1){
+            $('#modalAlertas').modal("show"); 
+            $('#tituloAlertas').text(`
+                La prendas con los códigos ${noEnviados} no pueden ser escaneadas en este momento, 
+                ya que se encuentran en la etapa de terminados. 
+                Por favor, dirígete a la sección de "Terminados" para escanear las prendas y confirmar que han sido completadas.`
+            ); 
+        }
+        
+
     });
     /*************************** Empacar *******************************/
     $('#empacar').on('click', function() {
@@ -1170,6 +1557,10 @@
 
 <!-- Propeller Bootstrap datetimepicker -->
 <script type="text/javascript" language="javascript" src="<?php echo get_template_directory_uri(); ?>/js/bootstrap-datetimepicker.js"></script>
+
+<!-- Option 1: Bootstrap Bundle with Popper -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+
 <script>
 	// Default date and time picker
 	$('#datetimepicker-filtroNuevoinv').datetimepicker({

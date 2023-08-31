@@ -123,7 +123,7 @@ function permisosInventario(){
     $permisos = $wpdb->get_results( "SELECT permiso_id FROM con_t_rolespermisos WHERE level = ".$user_level."", ARRAY_A  );
     foreach ($permisos as $v1) {
         foreach ($v1 as $v2) {
-            if($v2 == 17 || $v2 == 18 || $v2 == 19 || $v2 == 20 || $v2 == 21 || $v2 == 22 || $v2 == 23 || $v2 == 24 || $v2 == 25 || $v2 == 28 || $v2 == 29 || $v2 == 30  || $v2 == 31  || $v2 == 32 || $v2 == 33 || $v2 == 34 || $v2 == 35 || $v2 == 36 || $v2 == 37 || $v2 == 38){
+            if($v2 == 17 || $v2 == 18 || $v2 == 19 || $v2 == 20 || $v2 == 21 || $v2 == 22 || $v2 == 23 || $v2 == 24 || $v2 == 25 || $v2 == 28 || $v2 == 29 || $v2 == 30  || $v2 == 31  || $v2 == 32 || $v2 == 33 || $v2 == 34 || $v2 == 35 || $v2 == 36 || $v2 == 37 || $v2 == 38 || $v2 == 57){
                 $permi = $permi.",".$v2;
             }
         }
@@ -137,9 +137,7 @@ function referenciaNueva($nombre,$color,$talla,$link,$detal,$mayor,$categoria){
     $valores = array("nombre" => $nombre , "color" => $color , "talla" => $talla , "foto_link" => $link , "precio_detal" => $detaloPrecio, "precio_mayorista" => $mayorPrecio,  "categoria_id" => $categoria);
     global $wpdb;
     $rows = $wpdb->insert("con_t_resumen", $valores);
-    //$lastId = $wpdb->get_results( "SELECT MAX(referencia_id) as id FROM con_t_resumen");
-    //echo $lastId[0]->id;
-    //print_r($valores);
+
     echo $rows;
 }
 
@@ -178,6 +176,10 @@ function obtenerDatajson($columna,$tabla,$tipo,$columnacondicion,$condicion){
         $columnacondicion =str_replace('\\', '', $columnacondicion);
         // echo "SELECT ".$columna." FROM ".$tabla." WHERE ".$columnacondicion."";
         $obtenidosArray = $wpdb->get_results( "SELECT ".$columna." FROM ".$tabla." WHERE ".$columnacondicion."", ARRAY_A);
+        echo json_encode($obtenidosArray,JSON_UNESCAPED_UNICODE); 
+    }
+    if($tipo=='ultimo'){
+        $obtenidosArray = $wpdb->get_results( "SELECT MAX(".$columna.") as id FROM ".$tabla."");
         echo json_encode($obtenidosArray,JSON_UNESCAPED_UNICODE); 
     }
     
@@ -437,7 +439,7 @@ function cambiarEstadoprendas($valor,$valor2,$nombre,$id){
      $wpdb->query($datos);
     $resultado = $wpdb->get_results( $datos2, ARRAY_A);
     $long =  sizeof($resultado);
-    $datos3 = "INSERT INTO con_t_cambiostr ( prenda_id, estado_cambio, cual_cambio, usuario_id, fecha_hora) VALUES (".$resultado[0]['ID'].",".$obtenidosArray[0]['estado'].", '".$nombre."', ".$id.",'".$fecha."')";
+    $datos3 = "INSERT INTO con_t_estadostr ( prenda_id, estado_cambio, cual_cambio, usuario_id, fecha_hora) VALUES (".$resultado[0]['ID'].",".$obtenidosArray[0]['estado'].", '".$nombre."', ".$id.",'".$fecha."')";
     for($i=1;$i < $long;$i++){
         $datos3 = $datos3.",(".$resultado[$i]['ID'].",".$obtenidosArray[0]['estado'].", '".$nombre."', ".$id.",'".$fecha."')";
     }
@@ -471,7 +473,7 @@ function cambiarEstadoprenda($valor,$valor2,$nombre,$id){
      $wpdb->query($datos);
     $resultado = $wpdb->get_results( $datos2, ARRAY_A);
     $long =  sizeof($resultado);
-    $datos3 = "INSERT INTO con_t_cambiostr ( prenda_id, estado_cambio, cual_cambio, usuario_id, fecha_hora) VALUES (".$resultado[0]['ID'].",".$obtenidosArray[0]['estado'].", '".$nombre."', ".$id.",'".$fecha."')";
+    $datos3 = "INSERT INTO con_t_estadostr ( prenda_id, estado_cambio, cual_cambio, usuario_id, fecha_hora) VALUES (".$resultado[0]['ID'].",".$obtenidosArray[0]['estado'].", '".$nombre."', ".$id.",'".$fecha."')";
     for($i=1;$i < $long;$i++){
         $datos3 = $datos3.",(".$resultado[$i]['ID'].",".$obtenidosArray[0]['estado'].", '".$nombre."', ".$id.",'".$fecha."')";
     }
@@ -1547,6 +1549,7 @@ function insertarfila($tabla,$valor,$valor2,$valor3,$valor4,$valor5,$valor6,$val
         $finalcolumna =$finalcolumna.$valorarray2["columna"];
         $finalvalor = $finalvalor.$valorarray2["valor"];        
     }
+    
     $datos = "INSERT INTO ".$tabla." ( ".$finalcolumna.") VALUES (".$finalvalor.")";
     // echo $datos;
     $wpdb->query($datos);
@@ -1584,7 +1587,7 @@ function convertidor($tipo,$valor,$columna){
     if($tipo == 'float'){
         $vuno = floatval($valor);
         $cuno = $columna;
-    }     
+    }  
     
     $objeto = array( "valor" => $vuno, "columna" => $cuno);
     return($objeto);
@@ -1621,8 +1624,7 @@ function actualizarregistros($tabla,$condicion,$valor,$valor2,$valor3,$valor4,$v
     $datos = "UPDATE ".$tabla." SET ".$final." WHERE ".$condicionjson -> columna." = ".$condicionjson -> valor."";
     echo $datos;
     $wpdb->query($datos);
-    // $lastId = $wpdb->get_results( "SELECT MAX(ID) as id FROM ".$tabla."");
-    // echo json_encode($lastId);
+
 }
 
 function cajasemanal($id){
