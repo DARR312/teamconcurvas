@@ -23,11 +23,11 @@
             var segundo = $('#segundo');
             segundo.append("<div class='col-lg-2 col-md-2 col-sm-2 col-xs-12' id='accion17'><button class='botonmodal botonesInventario' type='button' id='crearReferencia'>Referencia nueva </button></div>");
         }
-        // if(items[i]==19){
-        //     var segundo = $('#segundo');
-        //     segundo.append("<div class='col-lg-2 col-md-2 col-sm-2 col-xs-12' id='accion19'><button class='botonmodal botonesInventario' type='button' id='crearCodigos'>Crear códigos</button></div>");
-        //     segundo.append("<div class='col-lg-2 col-md-2 col-sm-2 col-xs-12' id='accion19'><button class='botonmodal botonesInventario' type='button' id='fechaslotes'>Fechas de lotes</button></div>");
-        // }
+        if(items[i]==19){
+            var segundo = $('#segundo');
+            segundo.append("<div class='col-lg-2 col-md-2 col-sm-2 col-xs-12' id='accion19'><button class='botonmodal botonesInventario' type='button' id='crearCodigos'>Crear códigos</button></div>");
+            // segundo.append("<div class='col-lg-2 col-md-2 col-sm-2 col-xs-12' id='accion19'><button class='botonmodal botonesInventario' type='button' id='fechaslotes'>Fechas de lotes</button></div>");
+        }
         if(items[i]==20){
             var botonesEscaner = $('#botonesEscaner');
             botonesEscaner.append("<div class='col-lg-6 col-md-6 col-sm-6 col-xs-12' id='accion20'><button class='botonmodal' type='button' id='escanearInventario'>Escanear inventario</button></div>");

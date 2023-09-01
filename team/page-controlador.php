@@ -373,7 +373,7 @@ function nuevaMarquilla($valor){//,169°America°Canela°LXL°23,167°America°N
     $cantidad = $unicos[4];
     $codigoColor = $wpdb->get_results( "SELECT codigo FROM con_t_codigoscolores WHERE color = '".$color."'", ARRAY_A);
     $colorCodigo = $codigoColor[0][codigo];
-    $datos = "INSERT INTO con_t_trprendas ( codigo,referencia_id, estado, cual,fecha_cambio,descripcion) VALUES ('L".$corte.$colorCodigo."1D".$cantidad."S".$satelite."','".$referenciaId."', 'En satélite', '".$satelite."','".$fecha."', '".$referenciaName." ".$color." ".$talla."')";
+    $datos = "INSERT INTO con_t_trprendas ( codigo,codigoshow,referencia_id, estado, cual,fecha_cambio,descripcion) VALUES ('L".$corte.$colorCodigo."1D".$cantidad."S".$satelite."','L".$corte.$colorCodigo."1D".$cantidad."S".$satelite."','".$referenciaId."', 'En satélite', '".$satelite."','".$fecha."', '".$referenciaName." ".$color." ".$talla."')";
     $imprimir = "<div id='marquillas'><table border='1'><tr><th>Codigo</th><th>Descripción</th></tr><tr><td>L".$corte.$colorCodigo."1D".$cantidad."S".$satelite."</td><td>".$referenciaName." ".$color."</td></tr>";
     for($i=1;$i < $long;$i++){
         $unicos = explode("°",$componentes[$i]);
@@ -389,18 +389,19 @@ function nuevaMarquilla($valor){//,169°America°Canela°LXL°23,167°America°N
         $updated = $wpdb->update( "con_t_resumen", array('cantidad' => $cantidadNueva), array( 'referencia_id' => $referenciaId ) );
         if($i==1){
            for($j=2;$j<=$cantidad;$j++){
-                $datos = $datos.",('L".$corte.$colorCodigo.$j."D".$cantidad."S".$satelite."','".$referenciaId."', 'En satélite', '".$satelite."','".$fecha."', '".$referenciaName." ".$color." ".$talla."')";
+                $datos = $datos.",('L".$corte.$colorCodigo.$j."D".$cantidad."S".$satelite."','L".$corte.$colorCodigo.$j."D".$cantidad."S".$satelite."','".$referenciaId."', 'En satélite', '".$satelite."','".$fecha."', '".$referenciaName." ".$color." ".$talla."')";
                 $imprimir = $imprimir."<tr><td>L".$corte.$colorCodigo.$j."D".$cantidad."S".$satelite."</td><td>".$referenciaName." ".$color."</td></tr>";
             } 
         }else{
             for($j=1;$j<=$cantidad;$j++){
-                $datos = $datos.",('L".$corte.$colorCodigo.$j."D".$cantidad."S".$satelite."','".$referenciaId."','En satélite', '".$satelite."','".$fecha."', '".$referenciaName." ".$color." ".$talla."')";
+                $datos = $datos.",('L".$corte.$colorCodigo.$j."D".$cantidad."S".$satelite."','L".$corte.$colorCodigo.$j."D".$cantidad."S".$satelite."','".$referenciaId."','En satélite', '".$satelite."','".$fecha."', '".$referenciaName." ".$color." ".$talla."')";
                 $imprimir = $imprimir."<tr><td>L".$corte.$colorCodigo.$j."D".$cantidad."S".$satelite."</td><td>".$referenciaName." ".$color."</td></tr>";
             }
         }
         
     }
    $imprimir=$imprimir."</table></div>";
+
    $wpdb->query($datos);
    echo $imprimir;
 }
