@@ -11,6 +11,59 @@ function is_admin_user() {
             <input type='button' id='btnExport' class='botonmodal' value=' Descargar excel de marquillas' style='display: none;'/>
             
         </div>
+        <div id="referenciaNuevaAntiguo"  style='display: none;' class="funcionamiento">
+            <form action='' method='get'  autocomplete='off' class='col-lg-12 col-md-12 col-sm-12 col-xs-12' id='formularioReferencia'>
+                <div class='form-group pmd-textfield pmd-textfield-floating-label col-lg-8 col-md-8 col-sm-8 col-xs-8'>
+                    <label for="nombreReferencia" class="control-label letra18pt-pc"> Nombre de la referencia</label>
+                    <select class='form-control' type='select' id='nombreReferencia' name='nombreReferencia' form='formularioReferencia' required=''>
+                        
+                    </select><span class='pmd-textfield-focused'></span>
+                </div>
+                <div class="form-group pmd-textfield pmd-textfield-floating-label col-lg-4 col-md-4 col-sm-4 col-xs-4" style='display: none;' id="cualdiv">
+    				<label for="cantidad" class="control-label letra18pt-pc"> Cuál</label>
+    				<input class="form-control" type="text" id="cual" name="cual" required=""><span class="pmd-textfield-focused"></span>
+    			</div>
+    			<div class='form-group pmd-textfield pmd-textfield-floating-label col-lg-8 col-md-8 col-sm-8 col-xs-8'>
+    			    <label for="colorReferencia" class="control-label letra18pt-pc"> Color de la referencia</label>
+                    <select class='form-control' type='select' id='colorReferencia' name='colorReferencia' form='formularioReferencia' required=''>
+                       
+                    </select><span class='pmd-textfield-focused'></span>
+                </div>
+                <div class="form-group pmd-textfield pmd-textfield-floating-label col-lg-4 col-md-4 col-sm-4 col-xs-4" style='display: none;' id="cualdivColor">
+    				<label for="cantidad" class="control-label letra18pt-pc"> Cuál</label>
+    				<input class="form-control" type="text" id="cualColor" name="cualColor" required=""><span class="pmd-textfield-focused"></span>
+    			</div>
+    			<div class='form-group pmd-textfield pmd-textfield-floating-label col-lg-8 col-md-8 col-sm-8 col-xs-8'>
+    			    <label for="tallaReferencia" class="control-label letra18pt-pc"> Talla de la referencia</label>
+                    <select class='form-control' type='select' id='tallaReferencia' name='tallaReferencia' form='formularioReferencia' required=''>
+                        
+                    </select><span class='pmd-textfield-focused'></span>
+                </div>
+                <div class="form-group pmd-textfield pmd-textfield-floating-label col-lg-4 col-md-4 col-sm-4 col-xs-4" style='display: none;' id="cualdivTalla">
+    				<label for="cantidad" class="control-label letra18pt-pc"> Cuál</label>
+    				<input class="form-control" type="text" id="cualTalla" name="cualTalla" required=""><span class="pmd-textfield-focused"></span>
+    			</div>
+                <div class='form-group pmd-textfield pmd-textfield-floating-label col-lg-8 col-md-8 col-sm-8 col-xs-8'>
+    			    <label for="categoria" class="control-label letra18pt-pc"> Categoría</label>
+                    <select class='form-control' type='select' id='categoria' name='categoria' form='formularioReferencia' required=''>
+                        
+                    </select><span class='pmd-textfield-focused'></span>
+                </div>
+                <div class="form-group pmd-textfield pmd-textfield-floating-label col-lg-4 col-md-4 col-sm-4 col-xs-4" style='display: none;' id="categoriaDiv">
+    				<label for="cantidad" class="control-label letra18pt-pc"> Cuál</label>
+    				<input class="form-control" type="text" id="cualCategoria" name="cualCategoria" required=""><span class="pmd-textfield-focused"></span>
+    			</div>
+    			<div class="form-group pmd-textfield pmd-textfield-floating-label col-lg-12 col-md-12 col-sm-12 col-xs-12" id="detalDiv">
+    				<label for="precioDetal" class="control-label letra18pt-pc"> Precio detal</label>
+    				<input class="form-control" type="number" id="precioDetal" name="precioDetal" required=""><span class="pmd-textfield-focused"></span>
+    			</div>
+    			<div class="form-group pmd-textfield pmd-textfield-floating-label col-lg-12 col-md-12 col-sm-12 col-xs-12" id="mayorDiv">
+    				<label for="precioMayor" class="control-label letra18pt-pc"> Precio mayor</label>
+    				<input class="form-control" type="number" id="precioMayor" name="precioMayor" required=""><span class="pmd-textfield-focused"></span>
+    			</div>
+            </form>
+            <div class='col-lg-8 col-md-8 col-sm-8 col-xs-12' id='guardarRef'><button class='botonmodal' type='button' id='guardarReferencia'>Guardar Referencia</button></div>
+        </div>
         <div id="referenciaNueva"  style='display: none;' class="funcionamiento">
             <form action='' method='get'  autocomplete='off' class='col-lg-12 col-md-12 col-sm-12 col-xs-12' id='formularioReferencia'>
                 <div class='form-group pmd-textfield pmd-textfield-floating-label col-lg-8 col-md-8 col-sm-8 col-xs-8'>
