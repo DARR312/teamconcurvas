@@ -22,6 +22,7 @@
         if(items[i]==17){
             var segundo = $('#segundo');
             segundo.append("<div class='col-lg-2 col-md-2 col-sm-2 col-xs-12' id='accion17'><button class='botonmodal botonesInventario' type='button' id='crearReferencia'>Referencia nueva </button></div>");
+            segundo.append("<div class='col-lg-2 col-md-2 col-sm-2 col-xs-12' id='accion17'><button class='botonmodal botonesInventario' type='button' id='crearReferenciaVieja'>Referencia nueva </button></div>");
         }
         if(items[i]==19){
             var segundo = $('#segundo');
@@ -86,6 +87,61 @@
             segundo.append("<div class='col-lg-12 col-md-12 col-sm-12 col-xs-12' id='accion38'><button class='botonmodal' type='button' id='confirmarTerminados'>Confirmar terminados</button></div>");
         }       
     }
+    $('#crearReferenciaVieja').on('click', function(){   
+        $('.remover').remove();
+        $('#referenciaNueva').css('display', 'block');
+        $('#codigosNuevos').css('display', 'none');
+        $('#resultados').css('display', 'none');
+        $('#btnExport').css('display', 'none');
+        $('#verCodigo').css('display', 'none');
+        $('#verResumenprendas').css('display', 'none');
+        $('#auditoriaInventario').css('display', 'none');
+        $('#subirInformes').css('display', 'none');
+        $('#informeDinero').css('display', 'none');         
+        $('#ventasVSinventario').css('display', 'none');
+        $('#inventarioInicialPc').css('display', 'none');
+        $('#liberarEmpacados').css('display', 'none'); 
+        $('#madrugonDiv').css('display', 'none'); 
+        $('#fechaslotesdiv').css('display', 'none');
+        var html = "";
+        var nombresReferencias = obtenerData("nombre","con_t_resumen","unico");
+        var items = nombresReferencias.split(',');
+        for(i=1;i<items.length;i++){
+            html=html+"<option class='remover' value='"+items[i]+"'>"+items[i]+"</option>";
+        }
+        html=html+"<option class='remover' value='Otro'>Otro</option>";
+        var nombreinput = $('#nombreReferencia');
+        nombreinput.append(html);
+        var html = "";
+        var coloresReferencias = obtenerData("color","con_t_resumen","unico");
+        var items = coloresReferencias.split(',');
+        for(i=1;i<items.length;i++){
+            html=html+"<option class='remover' value='"+items[i]+"'>"+items[i]+"</option>";
+        }
+        html=html+"<option class='remover' value='Otro'>Otro</option>";
+        var colorinput = $('#colorReferencia');
+        colorinput.append(html);
+        var html = "";
+        var tallasReferencias = obtenerData("talla","con_t_resumen","unico");
+        var items = tallasReferencias.split(',');
+        for(i=1;i<items.length;i++){
+            html=html+"<option class='remover' value='"+items[i]+"'>"+items[i]+"</option>";
+        }
+        html=html+"<option class='remover' value='Otro'>Otro</option>";
+        var tallainput = $('#tallaReferencia');
+        tallainput.append(html);
+        var html = "";
+        var categoriasIds = obtenerData("categoria,categoria_id","con_t_categoria","varios");
+        var item = categoriasIds.split(',');
+        for(i=1;i<item.length;i++){
+            var items = item[i].split('%');
+            html=html+"<option class='remover' value='"+items[1]+"'>"+items[0]+"</option>";
+        }
+        html=html+"<option class='remover' value='Otro'>Otro</option>";
+        var categoriainput = $('#categoria');
+        categoriainput.append(html);
+        return false;     
+    }); 
     $('#crearReferencia').on('click', function(){   
         $('.remover').remove();
         $('#referenciaNueva').css('display', 'block');
