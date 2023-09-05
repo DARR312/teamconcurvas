@@ -1344,8 +1344,8 @@
         var escaneados = $('.removerEscaneadosP');
         escaneados.remove();
         datosPrendaActuales = [];
-        console.log('prendasEviadasATerminados.length');
-        console.log(prendasEviadasATerminados.length);
+        $('#modalAlertas').modal("show"); 
+            $('#tituloAlertas').text(prendasEviadasATerminados.length); 
         if(prendasEviadasATerminados.length > 0){
              const textoCodificado = encodeURIComponent(notificacionEnviaraTerminados.replace(/No aplica/g,""));
             var url = `https://wa.me/573017209186?text=${textoCodificado}`;
