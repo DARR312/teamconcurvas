@@ -1147,15 +1147,18 @@
             actualizarregistros("con_t_trprendas",condicion,estado,fecha_cambio,cual,"0","0","0","0","0","0","0","0");
 
             notificacionEnviaraTerminados = `${notificacionEnviaraTerminados} ${datosPrendaActuales[i].codigoshow}`;
+            prendasEviadasATerminados.push(notificacionEnviaraTerminados);
         }
-        notificacionEnviaraTerminados=`${notificacionEnviaraTerminados}. El total de prendas enviadas a terminados fueron ${prendasenviadasATerminados}.
-        Las prendas ausentes en esta lista aún no se habían registrado para la fase de terminado, o bien no requerían de esta etapa o ya habían sido registradas en días anteriores.`;
-        const textoCodificado = encodeURIComponent(notificacionEnviaraTerminados.replace(/No aplica/g,""));
-        var url = `https://wa.me/573017209186?text=${textoCodificado}`;
+        if(prendasEviadasATerminados.legth > 0){
+            notificacionEnviaraTerminados=`${notificacionEnviaraTerminados}. El total de prendas enviadas a terminados fueron ${prendasenviadasATerminados}.
+            Las prendas ausentes en esta lista aún no se habían registrado para la fase de terminado, o bien no requerían de esta etapa o ya habían sido registradas en días anteriores.`;
+            const textoCodificado = encodeURIComponent(notificacionEnviaraTerminados.replace(/No aplica/g,""));
+            var url = `https://wa.me/573017209186?text=${textoCodificado}`;
 
-        window.open(url, '_blank');
-        $('#modalAlertas').modal("show"); 
-        $('#tituloAlertas').text(`${notificacionEnviaraTerminados}`); 
+            window.open(url, '_blank');
+            $('#modalAlertas').modal("show"); 
+            $('#tituloAlertas').text(`${notificacionEnviaraTerminados}`); 
+        }
     });
     /*************************** Escaner inventario *******************************/
     $('#escanearInventario').on('click', function() {
@@ -1341,9 +1344,11 @@
         var escaneados = $('.removerEscaneadosP');
         escaneados.remove();
         datosPrendaActuales = [];
-
-        const textoCodificado = encodeURIComponent(notificacionEnviaraTerminados.replace(/No aplica/g,""));
-        var url = `https://wa.me/573017209186?text=${textoCodificado}`;
+        if(prendasEviadasATerminados.length > 0){
+             const textoCodificado = encodeURIComponent(notificacionEnviaraTerminados.replace(/No aplica/g,""));
+            var url = `https://wa.me/573017209186?text=${textoCodificado}`;
+        }
+       
 
         window.open(url, '_blank');
         if(banderaTerminados == 1){
