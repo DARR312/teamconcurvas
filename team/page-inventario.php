@@ -62,7 +62,7 @@ function is_admin_user() {
     				<input class="form-control" type="number" id="precioMayor" name="precioMayor" required=""><span class="pmd-textfield-focused"></span>
     			</div>
             </form>
-            <div class='col-lg-8 col-md-8 col-sm-8 col-xs-12' id='guardarRefAntiguo'><button class='botonmodal' type='button' id='guardarReferencia'>Guardar Referencia</button></div>
+            <div class='col-lg-8 col-md-8 col-sm-8 col-xs-12' id='guardarRefAntiguo'><button class='botonmodal' type='button' id='guardarReferenciaAntiguo'>Guardar Referencia</button></div>
         </div>
         <div id="referenciaNueva"  style='display: none;' class="funcionamiento">
             <form action='' method='get'  autocomplete='off' class='col-lg-12 col-md-12 col-sm-12 col-xs-12' id='formularioReferencia'>

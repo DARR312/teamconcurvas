@@ -217,6 +217,30 @@
                $('#categoriaDiv').css('display', 'block');
             }else{$('#categoriaDiv').css('display', 'none');}
     });
+    $('#guardarReferenciaAntiguo').on('click', function() {
+        var nombre = $('#nombreReferencia').val();
+        var color = $('#colorReferencia').val();
+        var talla = $('#tallaReferencia').val();
+        var detal = $('#precioDetal').val();
+        var mayor = $('#precioMayor').val();
+        var categoria = $('#categoria').val();
+        if($('#cual').val()){
+            nombre = $('#cual').val();
+            nuevocodigo("referencia",nombre);
+        }if($('#cualColor').val()){
+            color = $('#cualColor').val();
+            nuevocodigo("color",color);
+        }if($('#cualTalla').val()){
+            talla = $('#cualTalla').val();
+        }if($('#cualCategoria').val()){
+            categoria = $('#cualCategoria').val();
+        }
+       var idRef = referenciaNueva(nombre,color,talla,"Pendiente",detal,mayor,categoria);
+       
+        $('#referenciaNueva').css('display', 'none');
+        $('.remover').remove();
+        
+    });
     $('#guardarReferencia').on('click', function() {
         var nombre = $('#nombreReferencia').val();
         var detal = $('#precioDetal').val();
