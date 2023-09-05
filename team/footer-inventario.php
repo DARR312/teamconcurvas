@@ -1171,7 +1171,6 @@
     });
     $('#enviarEscaneados').on('click', function() {
         var escaneadosData = $('#escanerInv').text();
-        alert(escaneadosData);
         var noEnviados = '';
         var banderaTerminados  = 0;
 
