@@ -1347,11 +1347,12 @@
             $('#tituloAlertas').text(prendasEviadasATerminados.length); 
         if(prendasEviadasATerminados.length > 0){
              const textoCodificado = encodeURIComponent(notificacionEnviaraTerminados.replace(/No aplica/g,""));
-            var url = `https://wa.me/573017209186?text=${textoCodificado}`;
+            var url = `https://wa.me/573017209186?text=${textoCodificado}`; 
+            window.open(url, '_blank');
         }
        
 
-        window.open(url, '_blank');
+       
         if(banderaTerminados == 1){
             $('#modalAlertas').modal("show"); 
             $('#tituloAlertas').text(`
