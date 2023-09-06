@@ -1179,7 +1179,9 @@
         var usuarioLevelArray = usuarioLevel.split(",");
         var estadoNuevoJ = obtenerDatajson("estado","con_t_estadoprendas","valoresconcondicion","ID",`${usuarioLevelArray[0]}`);
     	let estadoNuevoA = JSON.parse(estadoNuevoJ); 
-        
+        if(usuarioLevelArray[0] == 1){
+            estadoNuevoA[0].estado = 'En Plaza de las américas'
+        }
         prendasEviadasATerminados = [];
         var notificacionEnviaraTerminados = 'Se enviaron a terminados las siguientes prendas: ';
         for (let i = 0; i < datosPrendaActuales.length; i++) {
@@ -1343,7 +1345,7 @@
         var escaneados = $('.removerEscaneadosP');
         escaneados.remove();
         datosPrendaActuales = [];
-        
+
         if(prendasEviadasATerminados.length > 0){
              const textoCodificado = encodeURIComponent(notificacionEnviaraTerminados.replace(/No aplica/g,""));
             var url = `https://wa.me/573017209186?text=${textoCodificado}`; 
