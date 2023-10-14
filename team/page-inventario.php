@@ -15,7 +15,7 @@ function is_admin_user() {
             <form action='' method='get'  autocomplete='off' class='col-lg-12 col-md-12 col-sm-12 col-xs-12' id='formularioReferencia'>
                 <div class='form-group pmd-textfield pmd-textfield-floating-label col-lg-8 col-md-8 col-sm-8 col-xs-8'>
                     <label for="nombreReferencia" class="control-label letra18pt-pc"> Nombre de la referencia</label>
-                    <select class='form-control' type='select' id='nombreReferencia' name='nombreReferencia' form='formularioReferencia' required=''>
+                    <select class='form-control' type='select' id='nombreReferenciaAntiguo' name='nombreReferencia' form='formularioReferencia' required=''>
                         
                     </select><span class='pmd-textfield-focused'></span>
                 </div>
@@ -55,11 +55,11 @@ function is_admin_user() {
     			</div>
     			<div class="form-group pmd-textfield pmd-textfield-floating-label col-lg-12 col-md-12 col-sm-12 col-xs-12" id="detalDiv">
     				<label for="precioDetal" class="control-label letra18pt-pc"> Precio detal</label>
-    				<input class="form-control" type="number" id="precioDetal" name="precioDetal" required=""><span class="pmd-textfield-focused"></span>
+    				<input class="form-control" type="number" id="precioDetalAntiguo" name="precioDetal" required=""><span class="pmd-textfield-focused"></span>
     			</div>
     			<div class="form-group pmd-textfield pmd-textfield-floating-label col-lg-12 col-md-12 col-sm-12 col-xs-12" id="mayorDiv">
     				<label for="precioMayor" class="control-label letra18pt-pc"> Precio mayor</label>
-    				<input class="form-control" type="number" id="precioMayor" name="precioMayor" required=""><span class="pmd-textfield-focused"></span>
+    				<input class="form-control" type="number" id="precioMayorAntiguo" name="precioMayor" required=""><span class="pmd-textfield-focused"></span>
     			</div>
             </form>
             <div class='col-lg-8 col-md-8 col-sm-8 col-xs-12' id='guardarRefAntiguo'><button class='botonmodal' type='button' id='guardarReferenciaAntiguo'>Guardar Referencia</button></div>

@@ -218,12 +218,12 @@
             }else{$('#categoriaDiv').css('display', 'none');}
     });
     $('#guardarReferenciaAntiguo').on('click', function() {
-        var nombre = $('#nombreReferencia').val();
+        var nombre = $('#nombreReferenciaAntiguo').val();
         var color = $('#colorReferencia').val();
         var talla = $('#tallaReferencia').val();
-        var detal = $('#precioDetal').val();
-        var mayor = $('#precioMayor').val();
-        var categoria = $('#categoria').val();
+        var detal = $('#precioDetalAntiguo').val();
+        var mayor = $('#precioMayorAntiguo').val();
+        var categoria = $('#categoriaViejaSelect').val();
         if($('#cual').val()){
             nombre = $('#cual').val();
             nuevocodigo("referencia",nombre);
