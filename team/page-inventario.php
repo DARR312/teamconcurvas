@@ -45,7 +45,7 @@ function is_admin_user() {
     			</div>
                 <div class='form-group pmd-textfield pmd-textfield-floating-label col-lg-8 col-md-8 col-sm-8 col-xs-8'>
     			    <label for="categoria" class="control-label letra18pt-pc"> Categoría</label>
-                    <select class='form-control' type='select' id='categoria' name='categoria' form='formularioReferencia' required=''>
+                    <select class='form-control' type='select' id='categoriaViejaSelect' name='categoria' form='formularioReferencia' required=''>
                         
                     </select><span class='pmd-textfield-focused'></span>
                 </div>

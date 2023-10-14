@@ -138,7 +138,7 @@
             html=html+"<option class='remover' value='"+items[1]+"'>"+items[0]+"</option>";
         }
         html=html+"<option class='remover' value='Otro'>Otro</option>";
-        var categoriainput = $('#categoria');
+        var categoriainput = $('#categoriaViejaSelect');
         categoriainput.append(html);
         return false;     
     }); 
