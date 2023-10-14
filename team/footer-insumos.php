@@ -903,7 +903,7 @@ $('#verInsumos').on('click', function(){
     $('#bloqueFichas').css('display', 'none');       
     $('#insumosFaltantes').css('display', 'none');  
     $('#terminadosTiempos').css('display', 'none');  
-    let listado = obtenerDatajson("ID,grupo,complemento,caracteristica,complemento_caracteristica,presentacion,cantidad","con_t_insumos","variasfilasunicas","0","0");
+    let listado = obtenerDatajson("ID,grupo,complemento,caracteristica,complemento_caracteristica,presentacion,cantidad","con_t_insumos","filasunicas","0","0");
     let listadoInsumos =  JSON.parse(listado);    
     let html='';
     for (let i = 0; i < listadoInsumos.length; i++) {
