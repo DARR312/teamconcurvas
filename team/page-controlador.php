@@ -146,7 +146,7 @@ function obtenerDatajson($columna,$tabla,$tipo,$columnacondicion,$condicion){
     global $wpdb;
     if($tipo == "valoresconcondicion"){
         $condicion =str_replace('\\', '', $condicion);
-        echo "SELECT ".$columna." FROM ".$tabla." WHERE ".$columnacondicion." = ".$condicion."";
+        // echo "SELECT ".$columna." FROM ".$tabla." WHERE ".$columnacondicion." = ".$condicion."";
         $obtenidosArray = $wpdb->get_results( "SELECT ".$columna." FROM ".$tabla." WHERE ".$columnacondicion." = ".$condicion."", ARRAY_A);
         echo json_encode($obtenidosArray,JSON_UNESCAPED_UNICODE);
     }
