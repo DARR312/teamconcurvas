@@ -158,6 +158,10 @@ function obtenerDatajson($columna,$tabla,$tipo,$columnacondicion,$condicion){
         $obtenidosArray = $wpdb->get_results( "SELECT DISTINCT ".$columna." FROM ".$tabla." ORDER BY ".$columna." ASC", ARRAY_A);
         echo json_encode($obtenidosArray,JSON_UNESCAPED_UNICODE);
     }
+    if($tipo == "variasfilasunicasAlfabetico"){
+        $obtenidosArray = $wpdb->get_results( "SELECT ".$columna." FROM ".$tabla." ORDER BY ".$columnacondicion." ASC", ARRAY_A);
+        echo json_encode($obtenidosArray,JSON_UNESCAPED_UNICODE);
+    }
     if($tipo=="Between"){
         $condicion =str_replace('\\', '', $condicion);
         //echo
