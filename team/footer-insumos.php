@@ -244,7 +244,7 @@ const listadoInsumos = () => {
             listadoInsumos();
         }
     });
-    let listado = obtenerDatajson("ID,grupo,complemento,caracteristica,complemento_caracteristica,presentacion","con_t_insumos","variasfilasunicas","0","0");
+    let listado = obtenerDatajson("ID,grupo,complemento,caracteristica,complemento_caracteristica,presentacion","con_t_insumos","variasfilasunicasAlfabetico","grupo","0");
     return JSON.parse(listado);
 }    
 $('#agregarFactura').on('click', function(){   
