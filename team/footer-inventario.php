@@ -110,7 +110,7 @@
             html=html+"<option class='remover' value='"+items[i]+"'>"+items[i]+"</option>";
         }
         html=html+"<option class='remover' value='Otro'>Otro</option>";
-        var nombreinput = $('#referenciaNuevaAntiguo');
+        var nombreinput = $('#nombreReferenciaAntiguo');
         nombreinput.append(html);
         var html = "";
         var coloresReferencias = obtenerData("color","con_t_resumen","unico");
