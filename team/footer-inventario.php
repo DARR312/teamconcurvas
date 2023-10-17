@@ -110,7 +110,7 @@
             html=html+"<option class='remover' value='"+items[i]+"'>"+items[i]+"</option>";
         }
         html=html+"<option class='remover' value='Otro'>Otro</option>";
-        var nombreinput = $('#nombreReferenciaAntiguo');
+        var nombreinput = $('#referenciaNuevaAntiguo');
         nombreinput.append(html);
         var html = "";
         var coloresReferencias = obtenerData("color","con_t_resumen","unico");
@@ -196,6 +196,11 @@
         var categoriainput = $('#categoria');
         categoriainput.append(html);
         return false;     
+    }); 
+    $('#referenciaNuevaAntiguo').on('change', function() {
+            if( this.value == "Otro"){
+               $('#cualdiv').css('display', 'block');
+            }else{$('#cualdiv').css('display', 'none');}
     }); 
     $('#nombreReferencia').on('change', function() {
             if( this.value == "Otro"){
