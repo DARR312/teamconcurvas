@@ -197,7 +197,7 @@
         categoriainput.append(html);
         return false;     
     }); 
-    $('#referenciaNuevaAntiguo').on('change', function() {
+    $('#nombreReferenciaAntiguo').on('change', function() {
             if( this.value == "Otro"){
                $('#cualdiv').css('display', 'block');
             }else{$('#cualdiv').css('display', 'none');}
