@@ -24,7 +24,7 @@
             usuarioUpdate = "usuarioUpdate"; 
         }
         if(items[k]==26){
-            segundo.append("<div class='col-lg-2 col-md-2 col-sm-2 col-xs-12' id='cajadigital'><a href='https://concurvas.com/team/caja-digital'> <button class='botonmodal botonesbarrasuperior' type='button' id='subirGuias'>Cierre de caja</button></a></div>");
+            // segundo.append("<div class='col-lg-2 col-md-2 col-sm-2 col-xs-12' id='cajadigital'><a href='https://concurvas.com/team/caja-digital'> <button class='botonmodal botonesbarrasuperior' type='button' id='subirGuias'>Cierre de caja</button></a></div>");
         }
         if(items[k]==9){
            verPedidos = 1;
@@ -33,6 +33,10 @@
     var usuarioCell = $('#usuarioCell').attr("name");
     var identifi = usuarioCell.split(",");
     var level = identifi[0];
+    var idUsuarioNa = identifi[2];
+    if(idUsuarioNa == 9){
+        segundo.append("<div class='col-lg-2 col-md-2 col-sm-2 col-xs-12' id='cajadigital'><a href='https://concurvas.com/team/caja-digital'> <button class='botonmodal botonesbarrasuperior' type='button' id='subirGuias'>Cierre de caja</button></a></div>");
+    }
     var empacar = obtenerData("level","con_t_rolespermisos","rowVarios","permiso_id",10);
     var levelCheck = empacar.split("%");
     for(var i = 0;i<(levelCheck.length-1);i++){
