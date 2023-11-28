@@ -198,9 +198,9 @@ function mayoristafunciones() {
             if((i+1)<jsonprendasmayoristas.length){
                 html = html + "<div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'><p type='submit' class='letra16pt-pc' > "+jsonprendasmayoristas[i+1].codigo+" </p></div><div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'><p type='submit' class='letra16pt-pc'>"+jsonprendasmayoristas[i+1].descripcion+"</p></div>";}
             if((i+2)<jsonprendasmayoristas.length){
-                html = html + "<div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'><p type='submit' class='letra16pt-pc' > "+jsonprendasmayoristas[i+2].codigo+" </p></div><div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'><p type='submit' class='letra16pt-pc'>"+jsonprendasmayoristas[i+1].descripcion+"</p></div>";}
+                html = html + "<div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'><p type='submit' class='letra16pt-pc' > "+jsonprendasmayoristas[i+2].codigo+" </p></div><div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'><p type='submit' class='letra16pt-pc'>"+jsonprendasmayoristas[i+2].descripcion+"</p></div>";}
             if((i+3)<jsonprendasmayoristas.length){
-                html = html + "<div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'><p type='submit' class='letra16pt-pc' > "+jsonprendasmayoristas[i+3].codigo+" </p></div><div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'><p type='submit' class='letra16pt-pc'>"+jsonprendasmayoristas[i+1].descripcion+"</p></div>";}
+                html = html + "<div class='col-lg-1 col-md-1 col-sm-1 col-xs-1'><p type='submit' class='letra16pt-pc' > "+jsonprendasmayoristas[i+3].codigo+" </p></div><div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'><p type='submit' class='letra16pt-pc'>"+jsonprendasmayoristas[i+3].descripcion+"</p></div>";}
             html = html + "</div>";
         }
     $("#primeraPrendas").after(html);
