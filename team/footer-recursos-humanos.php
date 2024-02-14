@@ -343,7 +343,16 @@ const funcionesRH = () => {
         objeto.valor = 0;
         var salario = prepararjson(objeto);
         // idEmpleado = insertarfila("con_t_empleados",nombre_empleado,id_tipo_empleado,fecha_nacimiento,tipo_identificacion,numero_identificacion,direccion,telefono,correo_electronico,fecha_contratacion,salario,"0");
-        console.log("con_t_empleados,"nombre_empleado","id_tipo_empleado","fecha_nacimiento","tipo_identificacion","numero_identificacion","direccion","correo_electronico","fecha_contratacion","telefono",""0"",""0");
+        console.log("con_t_empleados,");
+        console.log(nombre_empleado);
+        console.log(id_tipo_empleado);
+        console.log(fecha_nacimiento);
+        console.log(tipo_identificacion);
+        console.log(numero_identificacion);
+        console.log(direccion);
+        console.log(correo_electronico);
+        console.log(fecha_contratacion);
+        console.log(telefono);
         idEmpleado = insertarfila("con_t_empleados",nombre_empleado,id_tipo_empleado,fecha_nacimiento,tipo_identificacion,numero_identificacion,direccion,correo_electronico,fecha_contratacion,telefono,"0","0");
         const nuevoEmpleado = $('#nuevoEmpleado');
         const empleadoCreadoOk = $('#empleadoCreadoOk');
