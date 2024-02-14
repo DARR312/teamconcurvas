@@ -342,7 +342,8 @@ const funcionesRH = () => {
         objeto.columna = "salario";
         objeto.valor = 0;
         var salario = prepararjson(objeto);
-        idEmpleado = insertarfila("con_t_empleados",nombre_empleado,id_tipo_empleado,fecha_nacimiento,tipo_identificacion,numero_identificacion,direccion,telefono,correo_electronico,fecha_contratacion,salario,"0");
+        // idEmpleado = insertarfila("con_t_empleados",nombre_empleado,id_tipo_empleado,fecha_nacimiento,tipo_identificacion,numero_identificacion,direccion,telefono,correo_electronico,fecha_contratacion,salario,"0");
+        idEmpleado = insertarfila("con_t_empleados",nombre_empleado,id_tipo_empleado,fecha_nacimiento,tipo_identificacion,numero_identificacion,direccion,"0",correo_electronico,fecha_contratacion,"0","0");
         const nuevoEmpleado = $('#nuevoEmpleado');
         const empleadoCreadoOk = $('#empleadoCreadoOk');
 
