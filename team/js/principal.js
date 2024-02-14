@@ -1292,6 +1292,7 @@ function prepararjson(json){
 	var stringJson3 = stringJson2.replaceAll(">","");
 	var stringJson4 = stringJson3.replaceAll("{","<"); 
 	stringJson1 = stringJson4.replaceAll("}",">");
+	stringJson1 = stringJson4.replaceAll("#","No");
 	return stringJson1;
 };
 
