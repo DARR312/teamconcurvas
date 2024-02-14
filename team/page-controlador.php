@@ -1540,7 +1540,7 @@ function insertarfila($tabla,$valor,$valor2,$valor3,$valor4,$valor5,$valor6,$val
     $finalcolumna = $valorarray["columna"];
     $finalvalor = $valorarray["valor"];
     $valores = array( "valor2" => $valor2,"valor3" => $valor3,"valor4" => $valor4,"valor5" => $valor5,"valor6" => $valor6,"valor7" => $valor7,"valor8" => $valor8,"valor9" => $valor9,"valor10" => $valor10,"valor11" => $valor11);
-    print_r($valores);
+    // print_r($valores);
     foreach($valores as $x => $val) {    
         if($val != "0"){
             $valoru = str_replace("\\","",$val);
@@ -1548,6 +1548,7 @@ function insertarfila($tabla,$valor,$valor2,$valor3,$valor4,$valor5,$valor6,$val
             $valor = str_replace(">","}",$valord);
             $valorjson = json_decode($valor,JSON_UNESCAPED_UNICODE);
             $valorarray2 = convertidor($valorjson["tipo"],$valorjson["valor"],$valorjson["columna"]);
+            echo $valorarray2;
             $valorarray2["valor"] = ",".$valorarray2["valor"];
             $valorarray2["columna"] = ",".$valorarray2["columna"];
         }else{$valorarray2 = array( "valor" => "", "columna" => "");}
@@ -1556,7 +1557,7 @@ function insertarfila($tabla,$valor,$valor2,$valor3,$valor4,$valor5,$valor6,$val
     }
     
     $datos = "INSERT INTO ".$tabla." ( ".$finalcolumna.") VALUES (".$finalvalor.")";
-    echo $datos;
+    // echo $datos;
     $wpdb->query($datos);
     $lastId = $wpdb->get_results( "SELECT MAX(ID) as id FROM ".$tabla."");
     echo json_encode($lastId);
