@@ -74,11 +74,14 @@ $(window).load(function(){
                                 "<p class='letra18pt-pc letra3pt-mv nombresiconos'>Proyectos</p>"+
                         "</a></div></div>";
        }if(items[i]==47){
+
+        console.log('Permiso 47');
             html =html+ "<div class='col-lg-12 col-md-12 col-sm-2 col-xs-2'>"+
                     "<div class='iconosprincipales col-lg-6 col-md-6 col-sm-6 col-xs-6'>"+
                         "<a id='linkprincipales' href='https://concurvas.com/team/recursos-humanos'>"+
                                 "<p class='letra18pt-pc letra3pt-mv nombresiconos'>Recursos Humanos</p>"+
                         "</a></div></div>";
+        console.log(html);
        }
    }
     var usuario = $('#usuario');
