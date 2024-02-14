@@ -1548,6 +1548,7 @@ function insertarfila($tabla,$valor,$valor2,$valor3,$valor4,$valor5,$valor6,$val
             $valor = str_replace(">","}",$valord);
             $valorjson = json_decode($valor,JSON_UNESCAPED_UNICODE);
             $valorarray2 = convertidor($valorjson["tipo"],$valorjson["valor"],$valorjson["columna"]);
+            echo 'Valor convertido: ';
             print_r($valorarray2);
             $valorarray2["valor"] = ",".$valorarray2["valor"];
             $valorarray2["columna"] = ",".$valorarray2["columna"];
