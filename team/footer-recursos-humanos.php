@@ -458,7 +458,7 @@ const funcionesRH = () => {
     }); 
     
 }
-for(i=30;i<permisos.length;i++){
+for(i=0;i<permisos.length;i++){
     if(permisos[i].permiso_id==48){
         var segundo = $('#segundo');
         segundo.append("<div class='col-lg-3 col-md-3 col-sm-3 col-xs-12' id='accion1'><button class='botonmodal botonesMenuPaginaIndividual' type='button' id='verEmpleados'>Ver Empleados </button></div>");
