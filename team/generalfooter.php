@@ -29,6 +29,7 @@ $(window).load(function(){
                         "</a></div></div>";
     <?php } ?>
    for(i=1;i<items.length;i++){
+        console.log(items[i]);
        if(items[i]==1){
            //html =html+ "<a href='https://concurvas.com/team/usuarios'><div class='accesos'><img src='<?php echo get_template_directory_uri(); ?>/imagenes/iconos/usuarios.png' alt='Avatar'></div></a>";
        }if(items[i]==2){
