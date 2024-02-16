@@ -1293,7 +1293,6 @@ function prepararjson(json){
 	var stringJson4 = stringJson3.replaceAll("{","<"); 
 	var stringJson5 = stringJson4.replaceAll("}",">");
 	stringJson1 = stringJson5.replaceAll("#","No");
-	console.log(stringJson1);
 	return stringJson1;
 };
 
