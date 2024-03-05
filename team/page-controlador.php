@@ -906,7 +906,7 @@ function ordenesventajson($valor,$estadoFiltro,$tipoenvio,$datetimepicker_defaul
         $ent=" AND (fecha_entrega BETWEEN  '".$fechaventa."' AND '".$fechaventaup."')";
     }
     if($valor=='0' && $estadoFiltro=='0' && $tipoenvio=='0' && $datetimepicker_default=='0' && $datetimepicker_defaultFiltro=='0' && $telefono == '0'){
-        $where=" WHERE venta_id > 3160 AND venta_id <= 4000";
+        $where=" WHERE venta_id > 3163 AND venta_id <= 4000";
         
         $consultafinal = "SELECT venta_id,fecha_creada,datos_cliente,pedido,cliente_ok,notas,fecha_entrega,estado,origen,cliente_id FROM con_t_ventas".$where.$est.$tra.$tip.$ent.$ent." ORDER BY venta_id ASC";
         echo $consultafinal;
