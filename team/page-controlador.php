@@ -912,7 +912,7 @@ function ordenesventajson($valor,$estadoFiltro,$tipoenvio,$datetimepicker_defaul
         echo $consultafinal;
         $ventastodas = $wpdb->get_results($consultafinal, ARRAY_A);
         // print_r($ventastodas);
-        for ($i=6000; $i < 1000; $i++) { 
+        for ($i=6; $i < 1000; $i++) { 
             $where=" WHERE venta_id > ".(1000+($i*1000))." AND venta_id <= ".(2000+($i*1000));
             
             $consultafinal = "SELECT venta_id,fecha_creada,datos_cliente,pedido,cliente_ok,notas,fecha_entrega,estado,origen,cliente_id FROM con_t_ventas".$where.$est.$tra.$tip.$ent.$ent." ORDER BY venta_id ASC";
