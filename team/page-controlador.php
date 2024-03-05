@@ -924,9 +924,9 @@ function ordenesventajson($valor,$estadoFiltro,$tipoenvio,$datetimepicker_defaul
                 $i=10000;
             }           
         }
-        // print_r($ventastodas);
+        print_r($ventastodas);
 
-        echo json_encode($ventastodas);
+        // echo json_encode($ventastodas);
         return false;
     }
     
