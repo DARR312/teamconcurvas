@@ -658,7 +658,7 @@ function ordenesventa($valor,$valor2,$valor3,$valor4,$valor5){
                         $fechaventa = $fechaventagaarray[2]."-".$fechaventagaarray[0]."-".$fechaventagaarray[1]." 00:00:00";
                         $fechaventaup = $fechaventagaarray[2]."-".$fechaventagaarray[0]."-".$fechaventagaarray[1]." 23:59:59";
                         $todas = "";
-                        $ventasTodas = $wpdb->get_results( "SELECT venta_id, fecha_creada, datos_cliente, direccion, pedido, cliente_ok, notas, origen, fecha_entrega, estado, vendedor_id, usuario_id, cliente_id FROM con_t_ventas  WHERE fecha_entrega  BETWEEN  '".$fechaventa."' AND '".$fechaventaup."'", ARRAY_A  );
+                        // $ventasTodas = $wpdb->get_results( "SELECT venta_id, fecha_creada, datos_cliente, direccion, pedido, cliente_ok, notas, origen, fecha_entrega, estado, vendedor_id, usuario_id, cliente_id FROM con_t_ventas  WHERE fecha_entrega  BETWEEN  '".$fechaventa."' AND '".$fechaventaup."'", ARRAY_A  );
                         //print_r($ventasTodas);
                         if($ventasTodas){
                             foreach ($ventasTodas as $v1) {
@@ -734,7 +734,7 @@ function ordenesventa($valor,$valor2,$valor3,$valor4,$valor5){
                         echo $todas;
                     }else{
                         $todas = "";
-                        $ventasTodas = $wpdb->get_results( "SELECT venta_id, fecha_creada, datos_cliente, direccion, pedido, cliente_ok, notas, origen, fecha_entrega, estado, vendedor_id, usuario_id, cliente_id FROM con_t_ventas  WHERE usuario_id = '".$valor3."'", ARRAY_A  );
+                        // $ventasTodas = $wpdb->get_results( "SELECT venta_id, fecha_creada, datos_cliente, direccion, pedido, cliente_ok, notas, origen, fecha_entrega, estado, vendedor_id, usuario_id, cliente_id FROM con_t_ventas  WHERE usuario_id = '".$valor3."'", ARRAY_A  );
                         //print_r($ventasTodas);
                         if($ventasTodas){
                             foreach ($ventasTodas as $v1) {
