@@ -658,7 +658,7 @@ function ordenesventa($valor,$valor2,$valor3,$valor4,$valor5){
                         $fechaventa = $fechaventagaarray[2]."-".$fechaventagaarray[0]."-".$fechaventagaarray[1]." 00:00:00";
                         $fechaventaup = $fechaventagaarray[2]."-".$fechaventagaarray[0]."-".$fechaventagaarray[1]." 23:59:59";
                         $todas = "";
-                        // $ventasTodas = $wpdb->get_results( "SELECT venta_id, fecha_creada, datos_cliente, direccion, pedido, cliente_ok, notas, origen, fecha_entrega, estado, vendedor_id, usuario_id, cliente_id FROM con_t_ventas  WHERE fecha_entrega  BETWEEN  '".$fechaventa."' AND '".$fechaventaup."'", ARRAY_A  );
+                        $ventasTodas = $wpdb->get_results( "SELECT venta_id, fecha_creada, datos_cliente, direccion, pedido, cliente_ok, notas, origen, fecha_entrega, estado, vendedor_id, usuario_id, cliente_id FROM con_t_ventas  WHERE fecha_entrega  BETWEEN  '".$fechaventa."' AND '".$fechaventaup."'", ARRAY_A  );
                         //print_r($ventasTodas);
                         if($ventasTodas){
                             foreach ($ventasTodas as $v1) {
@@ -673,7 +673,7 @@ function ordenesventa($valor,$valor2,$valor3,$valor4,$valor5){
                         $fechaventa = $fechaventagaarray[2]."-".$fechaventagaarray[0]."-".$fechaventagaarray[1]." 00:00:00";
                         $fechaventaup = $fechaventagaarray[2]."-".$fechaventagaarray[0]."-".$fechaventagaarray[1]." 23:59:59";
                         $todas = "";
-                        // $ventasTodas = $wpdb->get_results( "SELECT venta_id, fecha_creada, datos_cliente, direccion, pedido, cliente_ok, notas, origen, fecha_entrega, estado, vendedor_id, usuario_id, cliente_id FROM con_t_ventas  WHERE (usuario_id = '".$valor3."')  AND (fecha_entrega  BETWEEN  '".$fechaventa."' AND '".$fechaventaup."')", ARRAY_A  );
+                        $ventasTodas = $wpdb->get_results( "SELECT venta_id, fecha_creada, datos_cliente, direccion, pedido, cliente_ok, notas, origen, fecha_entrega, estado, vendedor_id, usuario_id, cliente_id FROM con_t_ventas  WHERE (usuario_id = '".$valor3."')  AND (fecha_entrega  BETWEEN  '".$fechaventa."' AND '".$fechaventaup."')", ARRAY_A  );
                         //print_r($ventasTodas);
                         if($ventasTodas){
                             foreach ($ventasTodas as $v1) {
@@ -690,7 +690,7 @@ function ordenesventa($valor,$valor2,$valor3,$valor4,$valor5){
                         $fechaventa = $fechaventagaarray[2]."-".$fechaventagaarray[0]."-".$fechaventagaarray[1]." 00:00:00";
                         $fechaventaup = $fechaventagaarray[2]."-".$fechaventagaarray[0]."-".$fechaventagaarray[1]." 23:59:59";
                         $todas = "";
-                        // $ventasTodas = $wpdb->get_results( "SELECT venta_id, fecha_creada, datos_cliente, direccion, pedido, cliente_ok, notas, origen, fecha_entrega, estado, vendedor_id, usuario_id, cliente_id FROM con_t_ventas  WHERE (estado = '".$valor2."')  AND (fecha_entrega  BETWEEN  '".$fechaventa."' AND '".$fechaventaup."')", ARRAY_A  );
+                        $ventasTodas = $wpdb->get_results( "SELECT venta_id, fecha_creada, datos_cliente, direccion, pedido, cliente_ok, notas, origen, fecha_entrega, estado, vendedor_id, usuario_id, cliente_id FROM con_t_ventas  WHERE (estado = '".$valor2."')  AND (fecha_entrega  BETWEEN  '".$fechaventa."' AND '".$fechaventaup."')", ARRAY_A  );
                         //print_r($ventasTodas);
                         if($ventasTodas){
                             foreach ($ventasTodas as $v1) {
@@ -705,7 +705,7 @@ function ordenesventa($valor,$valor2,$valor3,$valor4,$valor5){
                         $fechaventa = $fechaventagaarray[2]."-".$fechaventagaarray[0]."-".$fechaventagaarray[1]." 00:00:00";
                         $fechaventaup = $fechaventagaarray[2]."-".$fechaventagaarray[0]."-".$fechaventagaarray[1]." 23:59:59";
                         $todas = "";
-                        // $ventasTodas = $wpdb->get_results( "SELECT venta_id, fecha_creada, datos_cliente, direccion, pedido, cliente_ok, notas, origen, fecha_entrega, estado, vendedor_id, usuario_id, cliente_id FROM con_t_ventas  WHERE (usuario_id = '".$valor3."')  AND (estado = '".$valor2."')  AND (fecha_entrega  BETWEEN  '".$fechaventa."' AND '".$fechaventaup."')", ARRAY_A  );
+                        $ventasTodas = $wpdb->get_results( "SELECT venta_id, fecha_creada, datos_cliente, direccion, pedido, cliente_ok, notas, origen, fecha_entrega, estado, vendedor_id, usuario_id, cliente_id FROM con_t_ventas  WHERE (usuario_id = '".$valor3."')  AND (estado = '".$valor2."')  AND (fecha_entrega  BETWEEN  '".$fechaventa."' AND '".$fechaventaup."')", ARRAY_A  );
                         //print_r($ventasTodas);
                         if($ventasTodas){
                             foreach ($ventasTodas as $v1) {
@@ -721,9 +721,8 @@ function ordenesventa($valor,$valor2,$valor3,$valor4,$valor5){
                 if($valor2 == "0"){
                     if($valor3 == "0"){
                         $todas = "";
-                        echo "SELECT venta_id, fecha_creada, datos_cliente, direccion, pedido, cliente_ok, notas, origen, fecha_entrega, estado, vendedor_id, usuario_id, cliente_id FROM con_t_ventas  WHERE estado not IN ('Entregado','Cancelado') ";
-                        // $ventasTodas = $wpdb->get_results( "SELECT venta_id, fecha_creada, datos_cliente, direccion, pedido, cliente_ok, notas, origen, fecha_entrega, estado, vendedor_id, usuario_id, cliente_id FROM con_t_ventas  WHERE estado not IN ('Entregado','Cancelado') ", ARRAY_A  );
-                        // print_r($ventasTodas);
+                        $ventasTodas = $wpdb->get_results( "SELECT venta_id, fecha_creada, datos_cliente, direccion, pedido, cliente_ok, notas, origen, fecha_entrega, estado, vendedor_id, usuario_id, cliente_id FROM con_t_ventas  WHERE estado not IN ('Entregado','Cancelado') ", ARRAY_A  );
+                        //print_r($ventasTodas);
                         if($ventasTodas){
                             foreach ($ventasTodas as $v1) {
                                 $todas = $todas.$v1['venta_id']."%".$v1['fecha_creada']."%".$v1['datos_cliente']."%".$v1['direccion']."%".$v1['pedido']."%".$v1['cliente_ok']."%".$v1['notas']."%".$v1['origen']."%".$v1['fecha_entrega']."%".$v1['estado']."%".$v1['vendedor_id']."%".$v1['usuario_id']."%".$v1['cliente_id']."&";
@@ -734,7 +733,7 @@ function ordenesventa($valor,$valor2,$valor3,$valor4,$valor5){
                         echo $todas;
                     }else{
                         $todas = "";
-                        // $ventasTodas = $wpdb->get_results( "SELECT venta_id, fecha_creada, datos_cliente, direccion, pedido, cliente_ok, notas, origen, fecha_entrega, estado, vendedor_id, usuario_id, cliente_id FROM con_t_ventas  WHERE usuario_id = '".$valor3."'", ARRAY_A  );
+                        $ventasTodas = $wpdb->get_results( "SELECT venta_id, fecha_creada, datos_cliente, direccion, pedido, cliente_ok, notas, origen, fecha_entrega, estado, vendedor_id, usuario_id, cliente_id FROM con_t_ventas  WHERE usuario_id = '".$valor3."'", ARRAY_A  );
                         //print_r($ventasTodas);
                         if($ventasTodas){
                             foreach ($ventasTodas as $v1) {
@@ -748,7 +747,7 @@ function ordenesventa($valor,$valor2,$valor3,$valor4,$valor5){
                 }else{ 
                     if($valor3 == "0"){
                         $todas = "";
-                        // $ventasTodas = $wpdb->get_results( "SELECT venta_id, fecha_creada, datos_cliente, direccion, pedido, cliente_ok, notas, origen, fecha_entrega, estado, vendedor_id, usuario_id, cliente_id FROM con_t_ventas  WHERE estado = '".$valor2."'", ARRAY_A  );
+                        $ventasTodas = $wpdb->get_results( "SELECT venta_id, fecha_creada, datos_cliente, direccion, pedido, cliente_ok, notas, origen, fecha_entrega, estado, vendedor_id, usuario_id, cliente_id FROM con_t_ventas  WHERE estado = '".$valor2."'", ARRAY_A  );
                         //print_r($ventasTodas);
                         if($ventasTodas){
                             foreach ($ventasTodas as $v1) {
@@ -760,7 +759,7 @@ function ordenesventa($valor,$valor2,$valor3,$valor4,$valor5){
                         echo $todas;
                     }else{
                         $todas = "";
-                        // $ventasTodas = $wpdb->get_results( "SELECT venta_id, fecha_creada, datos_cliente, direccion, pedido, cliente_ok, notas, origen, fecha_entrega, estado, vendedor_id, usuario_id, cliente_id FROM con_t_ventas  WHERE (estado = '".$valor2."') AND (usuario_id = '".$valor3."')", ARRAY_A  );
+                        $ventasTodas = $wpdb->get_results( "SELECT venta_id, fecha_creada, datos_cliente, direccion, pedido, cliente_ok, notas, origen, fecha_entrega, estado, vendedor_id, usuario_id, cliente_id FROM con_t_ventas  WHERE (estado = '".$valor2."') AND (usuario_id = '".$valor3."')", ARRAY_A  );
                         //print_r($ventasTodas);
                         if($ventasTodas){
                             foreach ($ventasTodas as $v1) {
@@ -910,21 +909,21 @@ function ordenesventajson($valor,$estadoFiltro,$tipoenvio,$datetimepicker_defaul
         $where=" WHERE venta_id > 40 AND venta_id <= 1000";
         
         $consultafinal = "SELECT venta_id,fecha_creada,datos_cliente,pedido,cliente_ok,notas,fecha_entrega,estado,origen,cliente_id FROM con_t_ventas".$where.$est.$tra.$tip.$ent.$ent." ORDER BY venta_id ASC";
-        
-        $ventastodas = $wpdb->get_results($consultafinal, ARRAY_A);
-        for ($i=0; $i < 1000; $i++) { 
-            $where=" WHERE venta_id > ".(1000+($i*1000))." AND venta_id <= ".(2000+($i*1000));
+        echo $consultafinal;
+        // $ventastodas = $wpdb->get_results($consultafinal, ARRAY_A);
+        // for ($i=0; $i < 1000; $i++) { 
+        //     $where=" WHERE venta_id > ".(1000+($i*1000))." AND venta_id <= ".(2000+($i*1000));
             
-            $consultafinal = "SELECT venta_id,fecha_creada,datos_cliente,pedido,cliente_ok,notas,fecha_entrega,estado,origen,cliente_id FROM con_t_ventas".$where.$est.$tra.$tip.$ent.$ent." ORDER BY venta_id ASC";
+        //     $consultafinal = "SELECT venta_id,fecha_creada,datos_cliente,pedido,cliente_ok,notas,fecha_entrega,estado,origen,cliente_id FROM con_t_ventas".$where.$est.$tra.$tip.$ent.$ent." ORDER BY venta_id ASC";
             
-            $ventastodasProvisional = $wpdb->get_results($consultafinal, ARRAY_A); 
-            if (!empty($ventastodasProvisional)) {
-                $ventastodas = array_merge($ventastodas, $ventastodasProvisional);
-            } else {
-                $i=10000;
-            }           
-        }
-        echo json_encode($ventastodas);
+        //     $ventastodasProvisional = $wpdb->get_results($consultafinal, ARRAY_A); 
+        //     if (!empty($ventastodasProvisional)) {
+        //         $ventastodas = array_merge($ventastodas, $ventastodasProvisional);
+        //     } else {
+        //         $i=10000;
+        //     }           
+        // }
+        // echo json_encode($ventastodas);
         return false;
     }
     
