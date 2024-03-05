@@ -721,6 +721,7 @@ function ordenesventa($valor,$valor2,$valor3,$valor4,$valor5){
                 if($valor2 == "0"){
                     if($valor3 == "0"){
                         $todas = "";
+                        echo "SELECT venta_id, fecha_creada, datos_cliente, direccion, pedido, cliente_ok, notas, origen, fecha_entrega, estado, vendedor_id, usuario_id, cliente_id FROM con_t_ventas  WHERE estado not IN ('Entregado','Cancelado') ";
                         $ventasTodas = $wpdb->get_results( "SELECT venta_id, fecha_creada, datos_cliente, direccion, pedido, cliente_ok, notas, origen, fecha_entrega, estado, vendedor_id, usuario_id, cliente_id FROM con_t_ventas  WHERE estado not IN ('Entregado','Cancelado') ", ARRAY_A  );
                         // print_r($ventasTodas);
                         if($ventasTodas){
