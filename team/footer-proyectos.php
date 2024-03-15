@@ -290,6 +290,7 @@ const funcionesProyectos = () => {
         for (let i = 0; i < arreglosSeparados.length; i++) {
             let textos = `${arreglosSeparados[i][0].nombre_combinacion} > ${arreglosSeparados[i][0].codigo_combinacion}`;   
             let codigoCombinacion = '';
+            console.log(arreglosSeparados);
             for (let j = 0; j < arreglosSeparados[i].length; j++) {            
                 // Acá verifico que el insumo no se repita en todos los indicativos de combinación, de esta forma solo voy a mostrar lo que en realidad diferencia a las combinaciones, por ejemplo si todas las combinaciones tienen el isumo broches, pues este no lo voy a mostrar
                 const resultado = arreglosSeparados.flat().filter(objeto => objeto.insumo === arreglosSeparados[i][j].insumo);
