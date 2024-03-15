@@ -450,6 +450,7 @@ const funcionesProyectos = () => {
                     insumoActual='';
                     objeto.coloresCombinaciones.push(objetoColoresCombinaciones);
                 }
+                console.log(coloresCombinaciones);
                 cantidadPrendasPorCortar = cantidadPrendasPorCortar + parseInt(objetoColoresCombinaciones.cantidad);
                 var objetoCombi={
                     codigo: codigoCombinacion,
