@@ -296,7 +296,7 @@ const funcionesProyectos = () => {
                 const resultado = arreglosSeparados.flat().filter(objeto => objeto.insumo === arreglosSeparados[i][j].insumo);
                 console.log('resultado');
                 console.log(resultado);
-                if(resultado.length < arreglosSeparados.length){
+                if(resultado.length <= arreglosSeparados.length){
                     let cantDigitos = arreglosSeparados[i][j].insumo.toString().length;//Ejemplo de .insumo: 1, por lo tanto cantDigitos en ese caso será 1 / entonces e .insumo: 9, por lo tanto cantDigitos en ese caso será 1
                     codigoCombinacion = codigoCombinacion.concat(cantDigitos);// Para el ejemplo codigoCombinacion: 1                                       / Para codigo de combinación será 1
                     codigoCombinacion = codigoCombinacion.concat(arreglosSeparados[i][j].insumo);// Para el ejemplo codigoCombinacion: 11                   / En la segunda iteración sería 19, por lo tanto el codigoCombinacion: 1119, haciendo referencia al insumo 1 y al 9.
