@@ -150,8 +150,8 @@ function ventas() {
     });  
     $('#clienteUpdate').on('click', function(){ 
         var usuarioCell = $('#usuarioCell').attr("name");
-        var dir1Update= $('#dir1Update').val().replace('#', 'No');
-        var comp1Update= $('#comp1Update').val().replace('#', 'No');
+        var dir1Update= $('#dir1Update').val().replace('#', 'No').replace(/[^\w\s:]/gi, '').replace(/"/g, '');
+        var comp1Update= $('#comp1Update').val().replace('#', 'No').replace(/[^\w\s:]/gi, '').replace(/"/g, '');
         var ids = $('#idClienteUpdate').text();
         var idsArray = ids.split("%");
         var columna = "°"+$('#nombreUpdate').val()+"°"+$('#telefonoUpdate').val()+"°"+dir1Update+"°"+comp1Update+"°"+$('#ciudad1Update').val();
