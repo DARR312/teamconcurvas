@@ -275,14 +275,14 @@
         return false;     
     });
     $('#agregarPedido').on('click', function(){  
-        var idCliente= $('#idCliente').val();
-        var nombreVenta= $('#nombreVenta').val();
-        var dirVenta= $('#dirVenta').val().replace('#', 'No');
-        var telVenta= $('#telVenta').val();
-        var ciudadCliente= $('#ciudadCliente').val();
-        var complementoCliente= $('#complementoCliente').val().replace('#', 'No');
-        var not= $('#notas').val().replace('#', 'No');
-        var notas = not.replace('%', 'porciento');
+        var idCliente= $('#idCliente').val().replace('#', 'No').replace(/[^\w\sáéíóúÁÉÍÓÚ]/gi, '').replace(/"/g, '');
+        var nombreVenta= $('#nombreVenta').val().replace('#', 'No').replace(/[^\w\sáéíóúÁÉÍÓÚ]/gi, '').replace(/"/g, '');
+        var dirVenta= $('#dirVenta').val().replace('#', 'No').replace(/[^\w\sáéíóúÁÉÍÓÚ]/gi, '').replace(/"/g, '');
+        var telVenta= $('#telVenta').val().replace('#', 'No').replace(/[^\w\sáéíóúÁÉÍÓÚ]/gi, '').replace(/"/g, '');
+        var ciudadCliente= $('#ciudadCliente').val().replace('#', 'No').replace(/[^\w\sáéíóúÁÉÍÓÚ]/gi, '').replace(/"/g, '');
+        var complementoCliente= $('#complementoCliente').val().replace('#', 'No').replace(/[^\w\sáéíóúÁÉÍÓÚ]/gi, '').replace(/"/g, '');
+        var not= $('#notas').val().replace('#', 'No').replace(/[^\w\sáéíóúÁÉÍÓÚ]/gi, '').replace(/"/g, '');
+        var notas = not.replace('%', 'porciento').replace('#', 'No').replace(/[^\w\sáéíóúÁÉÍÓÚ]/gi, '').replace(/"/g, '');;
         var origen= $('#origen').val();        
         var fecha = $('#datetimepicker-entrega').val();
         var idUsuario = $('#usuario').attr("name");

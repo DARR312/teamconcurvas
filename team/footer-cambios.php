@@ -242,11 +242,11 @@
             return false;
         }
         var datos_cliente =  new Object();
-        datos_cliente.nombre =  $('#clienteNombre').text().replace(/[^\w\s:]/gi, '').replace(/"/g, '');
-        datos_cliente.telefono  = $('#clienteTelefono').text().replace(/[^\w\s:]/gi, '').replace(/"/g, '');
-        datos_cliente.direccion = $('#clienteDireccion').text().replace(/[^\w\s:]/gi, '').replace(/"/g, '');
-        datos_cliente.complemento = $('#clienteComplemento').text().replace(/[^\w\s:]/gi, '').replace(/"/g, '');
-        datos_cliente.ciudad = $('#clienteCiudad').text().replace(/[^\w\s:]/gi, '').replace(/"/g, '');
+        datos_cliente.nombre =  $('#clienteNombre').text().replace(/[^\w\sáéíóúÁÉÍÓÚ]/gi, '').replace(/"/g, '');;
+        datos_cliente.telefono  = $('#clienteTelefono').text().replace(/[^\w\sáéíóúÁÉÍÓÚ]/gi, '').replace(/"/g, '');;
+        datos_cliente.direccion = $('#clienteDireccion').text().replace(/[^\w\sáéíóúÁÉÍÓÚ]/gi, '').replace(/"/g, '');;
+        datos_cliente.complemento = $('#clienteComplemento').text().replace(/[^\w\sáéíóúÁÉÍÓÚ]/gi, '').replace(/"/g, '');
+        datos_cliente.ciudad = $('#clienteCiudad').text().replace(/[^\w\sáéíóúÁÉÍÓÚ]/gi, '').replace(/"/g, '');;
         var clienteString= JSON.stringify(datos_cliente);
         var pedido = $("#pedido").text();
         var pedidoitems = $("#pedido").attr("name");
