@@ -441,8 +441,6 @@ const funcionesProyectos = () => {
                 var codigoColorCombinacion = arrColorCombinacion[1];
                 // decodifico codigoCombinacion para tener los insumos por separado de una vez
                 var insumoActual='';
-                console.log('codigoCombinacion');
-                console.log(codigoCombinacion);
                 for (let l = 0; l < codigoCombinacion.length; l=l+1+parseInt(codigoCombinacion[l])) {
                     for (let k = 0; k < codigoCombinacion[l]; k++) {     
                         insumoActual = `${insumoActual}${codigoCombinacion[l+1+k]}`;
@@ -456,7 +454,6 @@ const funcionesProyectos = () => {
                     insumoActual='';
                     objeto.coloresCombinaciones.push(objetoColoresCombinaciones);
                 }
-                console.log(objeto);
                 cantidadPrendasPorCortar = cantidadPrendasPorCortar + parseInt(objetoColoresCombinaciones.cantidad);
                 var objetoCombi={
                     codigo: codigoCombinacion,
@@ -506,7 +503,8 @@ const funcionesProyectos = () => {
         
         let insumoFichaTecnicaj = obtenerDatajson("insumo,cantidad","con_t_insumosproducto","valoresconcondicion","ficha_tecnica ",referenciaParaProyecto);
         let insumoFichaTecnica =  JSON.parse(insumoFichaTecnicaj);   
-
+        console.log('arregloInsumosSimplificado');
+        console.log(arregloInsumosSimplificado);
         for (let i = 0; i < arregloInsumosSimplificado.length; i++) {
             let insumoActualj = obtenerDatajson("caracteristica,complemento_caracteristica,complemento,presentacion,grupo,cantidad,faltantes,precio_unidad","con_t_insumos","valoresconcondicion","ID ",arregloInsumosSimplificado[i].insumo);
             let insumoActual =  JSON.parse(insumoActualj);   
