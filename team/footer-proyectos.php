@@ -441,6 +441,8 @@ const funcionesProyectos = () => {
                 var codigoColorCombinacion = arrColorCombinacion[1];
                 // decodifico codigoCombinacion para tener los insumos por separado de una vez
                 var insumoActual='';
+                console.log('codigoCombinacion');
+                console.log(codigoCombinacion);
                 for (let l = 0; l < codigoCombinacion.length; l=l+1+parseInt(codigoCombinacion[l])) {
                     for (let k = 0; k < codigoCombinacion[l]; k++) {     
                         insumoActual = `${insumoActual}${codigoCombinacion[l+1+k]}`;
