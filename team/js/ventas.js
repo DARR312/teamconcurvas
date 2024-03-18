@@ -611,6 +611,7 @@ function imprimiritemventas(ventaItems){
 function imprimirVentasjson(jsonVenta,botonrevisar,pedidoUpdate,fechaUpdate,notasUpdate,usuarioUpdate){
     console.log('jsonVenta');
     console.log(jsonVenta);
+    console.log(jsonVenta[jsonVenta.length-1].datos_cliente);
     var jsonDatosCliente = JSON.parse(jsonVenta[jsonVenta.length-1].datos_cliente);
     var jsonPedido = JSON.parse(jsonVenta[jsonVenta.length-1].pedido);
     var ok = 0;
