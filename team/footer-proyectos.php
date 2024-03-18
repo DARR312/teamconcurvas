@@ -503,8 +503,6 @@ const funcionesProyectos = () => {
         
         let insumoFichaTecnicaj = obtenerDatajson("insumo,cantidad","con_t_insumosproducto","valoresconcondicion","ficha_tecnica ",referenciaParaProyecto);
         let insumoFichaTecnica =  JSON.parse(insumoFichaTecnicaj);   
-        console.log('arregloInsumosSimplificado');
-        console.log(arregloInsumosSimplificado);
         for (let i = 0; i < arregloInsumosSimplificado.length; i++) {
             let insumoActualj = obtenerDatajson("caracteristica,complemento_caracteristica,complemento,presentacion,grupo,cantidad,faltantes,precio_unidad","con_t_insumos","valoresconcondicion","ID ",arregloInsumosSimplificado[i].insumo);
             let insumoActual =  JSON.parse(insumoActualj);   

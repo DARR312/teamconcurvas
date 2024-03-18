@@ -94,7 +94,7 @@ function is_admin_user() {
             <div id='confirmacionesInsumosCantidadesDiv' class='oculto'>
             
                 <h1 class='col-lg-12 col-md-12 col-sm-12 col-xs-12 letra18pt-pc'> 
-                    Por favor, confirma la solicitud de los siguientes insumos para llevar a cabo la producción del proyecto.
+                    Estas son las cantidades que hacen falta por insumo para el proyecto, por favor, confirma la solicitud de los siguientes insumos para llevar a cabo la producción del proyecto.
                 </h1>
                 <div class='col-lg-12 col-md-12 col-sm-12 col-xs-12' id='contenidoAconfirmarTallasCombinaciones'> </div>
             
