@@ -446,6 +446,8 @@ const funcionesProyectos = () => {
                 for (let l = 0; l < codigoCombinacion.length; l=l+1+parseInt(codigoCombinacion[l])) {
                     for (let k = 0; k < codigoCombinacion[l]; k++) {     
                         insumoActual = `${insumoActual}${codigoCombinacion[l+1+k]}`;
+                        console.log('insumoActual');
+                        console.log(insumoActual);
                     }
                     var objetoColoresCombinaciones = {
                         insumo: insumoActual, 
@@ -454,7 +456,7 @@ const funcionesProyectos = () => {
                     insumoActual='';
                     objeto.coloresCombinaciones.push(objetoColoresCombinaciones);
                 }
-                console.log(objetoColoresCombinaciones);
+                console.log(coloresCombinaciones);
                 cantidadPrendasPorCortar = cantidadPrendasPorCortar + parseInt(objetoColoresCombinaciones.cantidad);
                 var objetoCombi={
                     codigo: codigoCombinacion,
