@@ -53,6 +53,6 @@ for($i=1;$i<sizeof($referencias);$i++){
 $sql = $sql.")";
 $listado = $wpdb->get_results( $sql, ARRAY_A);//133
 for($i=0;$i<sizeof($listado);$i++){
-    echo $listado[$i]['codigo']."  ".$listado[$i]['descripcion']."  ".$listado[$i]['estado']."  ".$listado[$i]['cual']."  "."<br>";
+    echo $listado[$i]['codigosShow']."  ".$listado[$i]['descripcion']."  ".$listado[$i]['estado']."  ".$listado[$i]['cual']."  "."<br>";
 }
 ?>
