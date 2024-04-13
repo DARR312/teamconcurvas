@@ -1390,7 +1390,13 @@ const funcionesProyectos = () => {
             let sateliteJson = obtenerDatajson("nombre","con_t_satelites","valoresconcondicion","ID",`'${proyect[0].satelite}'`);
             let satelite = JSON.parse(sateliteJson);
 
-            var idSatelite = 'asignarSatelite';
+            var usuarioNivelName = userlevel.split(',');
+            var idSatelite = 'yaAsignado';
+            if(usuarioNivelName[0] == 10){
+                console.log(' idSatelite = asignarSatelite;');
+                idSatelite = 'asignarSatelite';
+            }
+
             if(satelite[0].nombre != 'Sin asignar'){idSatelite='yaAsignado';}
 
             var asignarTerminados = 'yaAsignado';
