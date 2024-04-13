@@ -284,18 +284,13 @@ const funcionesProyectos = () => {
         });
 
         const arreglosSeparados = Object.values(grupos);//arreglosSeparados son las combinaciones agrupadas según el indicativo de combinación
-        // console.log('arreglosSeparados');
-        // console.log(arreglosSeparados);
         html=`'<option class='removerColoresCombinaciones'  value='selecciona'>Selecciona</option>'`;
         for (let i = 0; i < arreglosSeparados.length; i++) {
             let textos = `${arreglosSeparados[i][0].nombre_combinacion} > ${arreglosSeparados[i][0].codigo_combinacion}`;   
             let codigoCombinacion = '';
-            console.log(arreglosSeparados);
             for (let j = 0; j < arreglosSeparados[i].length; j++) {            
                 // Acá verifico que el insumo no se repita en todos los indicativos de combinación, de esta forma solo voy a mostrar lo que en realidad diferencia a las combinaciones, por ejemplo si todas las combinaciones tienen el isumo broches, pues este no lo voy a mostrar
                 const resultado = arreglosSeparados.flat().filter(objeto => objeto.insumo === arreglosSeparados[i][j].insumo);
-                console.log('resultado');
-                console.log(resultado);
                 if(resultado.length <= arreglosSeparados.length){
                     let cantDigitos = arreglosSeparados[i][j].insumo.toString().length;//Ejemplo de .insumo: 1, por lo tanto cantDigitos en ese caso será 1 / entonces e .insumo: 9, por lo tanto cantDigitos en ese caso será 1
                     codigoCombinacion = codigoCombinacion.concat(cantDigitos);// Para el ejemplo codigoCombinacion: 1                                       / Para codigo de combinación será 1
@@ -444,8 +439,6 @@ const funcionesProyectos = () => {
                 for (let l = 0; l < codigoCombinacion.length; l=l+1+parseInt(codigoCombinacion[l])) {
                     for (let k = 0; k < codigoCombinacion[l]; k++) {     
                         insumoActual = `${insumoActual}${codigoCombinacion[l+1+k]}`;
-                        console.log('insumoActual');
-                        console.log(insumoActual);
                     }
                     var objetoColoresCombinaciones = {
                         insumo: insumoActual, 
@@ -477,7 +470,6 @@ const funcionesProyectos = () => {
             $('#tituloAlertas').text(`Por favor selecciona al menos 1 talla valida que no tenga como valor selecciona`); 
             return false;
         }
-        // console.log(arrayTallas);
         //Como resultado arrayTallas va a ser un arreglo con objetos, cada objeto tiene una propiedad llamada talla y otra coloresCombinaciones que es un array de objetos que tiene dentro de si objetos cada uno con una propiedad llamada insumo con el codigo del insumo utilizado y la cantidad de prendas que se van a cortar de ese insumo
         //insumosRepetidos son los insumos que van a ir en cada una de las prendas que se van a crear, es decir el total de prendas
         
@@ -531,11 +523,6 @@ const funcionesProyectos = () => {
                 ${arregloInsumosSimplificado[i].faltantesCon_t_InsumosFaltantes} ${insumoActual[0].presentacion}
             </p>`;
         }
-        // console.log('arregloInsumosSimplificado'); 
-        // console.log(arregloInsumosSimplificado);//arregloInsumosSimplificado tiene como resultado las cantidades totales de prendas, los insumos, la cantidad por unidad que se va a gastar en el proyecto y los faltantes para el proyecto y en general de todo el inventario 
-        // console.log('arrayTallas');
-        // console.log(arrayTallas);// tiene las tallas que se van a hacer, con sus respectivas combinaciones y cantidades, una con los codigos separados por insumos y otra con los codigosColores listos para decodificar e ingresar en con_t_combinacionesproyectos
-
         mostrarOcultarDiv('confirmacionesInsumosCantidadesDiv','referenciaTallaDiv');
 
         
@@ -865,8 +852,6 @@ const funcionesProyectos = () => {
         costoTotalProyectoNuevo = 0;
         var resumenPresupuesto = '';
         var resumenFaltantes = '';
-        console.log('arregloInsumosSimplificado');
-        console.log(arregloInsumosSimplificado);
         for (let i = 0; i < arregloInsumosSimplificado.length; i++) {
             let insumoActualj = obtenerDatajson("caracteristica,complemento_caracteristica,complemento,grupo,presentacion","con_t_insumos","valoresconcondicion","ID ",arregloInsumosSimplificado[i].insumo);
             let insumoActualTexto =  JSON.parse(insumoActualj); 
@@ -1393,7 +1378,6 @@ const funcionesProyectos = () => {
             var usuarioNivelName = userlevel.split(',');
             var idSatelite = 'yaAsignado';
             if(usuarioNivelName[0] == 10){
-                console.log(' idSatelite = asignarSatelite;');
                 idSatelite = 'asignarSatelite';
             }
 
@@ -1636,8 +1620,6 @@ const funcionesProyectos = () => {
                 objeto.columna = 'terminado';
                 objeto.valor = terminadoProyecto;
                 var terminado = prepararjson(objeto);
-
-                // console.log(`"con_t_trprendas",${referencia_id},${descripcion},${codigo},${codigoshow},${estado},${cual},${complemento_estado},${fecha},${proyecto},${satelite},${terminado},"0"`); 
                 insertarfila("con_t_trprendas",referencia_id,descripcion,codigo,codigoshow,estado,cual,complemento_estado,fecha,proyecto,satelite,terminado,"0"); 
                
             }
@@ -1852,7 +1834,6 @@ const funcionesProyectos = () => {
                         arregloInsumosCortados[indiceExistente].cantidadNueva =insumoCantidad[0].cantidad- cantidadUsada;
                     } 
                     var textoIsunmo = `${insumoCantidad[0].grupo} ${insumoCantidad[0].complemento} ${insumoCantidad[0].caracteristica} ${insumoCantidad[0].complemento_caracteristica}`;
-                    console.log(` ${textoIsunmo.replace(/No aplica/g,"")} insumoCantidad[0].cantidad ${insumoCantidad[0].cantidad}  cantidadUsada ${cantidadUsada}`);
                     if(insumoCantidad[0].cantidad < cantidadUsada){
                         
                         $('#modalAlertas').modal("show"); 
@@ -1890,8 +1871,6 @@ const funcionesProyectos = () => {
             
             $('#isumosCortadosProyectoSeleccionado').append(htmll);
             mostrarOcultarDiv('confirmarCortadoDiv','verProyectoDiv'); 
-            console.log('arregloInsumosCortados');
-            console.log(arregloInsumosCortados);
         });  
         $('#volverVerproyecto').on('click', function() {  
             $('.removerConfirmacionProyecto').remove();
