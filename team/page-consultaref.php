@@ -47,11 +47,12 @@ for($j=1;$j<sizeof($referenciasArray);$j++){
 echo $html;
 $referencias = $wpdb->get_results( "SELECT referencia_id FROM con_t_resumen WHERE nombre = '".$valor."'", ARRAY_A);//133
 $sql = "SELECT codigosShow,descripcion,estado,cual FROM con_t_trprendas WHERE referencia_id IN(".$referencias[0]['referencia_id']."";
-echo $sql;
+
 for($i=1;$i<sizeof($referencias);$i++){
     $sql = $sql.",".$referencias[$i]['referencia_id']."";
 }
 $sql = $sql.")";
+echo $sql;
 $listado = $wpdb->get_results( $sql, ARRAY_A);//133
 for($i=0;$i<sizeof($listado);$i++){
     echo $listado[$i]['codigosShow']."  ".$listado[$i]['descripcion']."  ".$listado[$i]['estado']."  ".$listado[$i]['cual']."  "."<br>";
