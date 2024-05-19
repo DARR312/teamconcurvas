@@ -858,6 +858,8 @@ const actualizarInsumosprecios = () =>{
 }
 
 const actualizarInsumoscantidades = (sumarrestar) =>{
+    console.log("listaInsumos");
+    console.log(listaInsumos);
     for (let i = 0; i < listaInsumos.length; i++) { 
         var objeto = {};
         objeto.columna = "ID";
@@ -867,6 +869,8 @@ const actualizarInsumoscantidades = (sumarrestar) =>{
         let faltantesNuevos = 0;
         let cantidadj = obtenerDatajson("cantidad,faltantes","con_t_insumos","valoresconcondicion","ID",listaInsumos[i].InsumoID);
         let cantidad = JSON.parse(cantidadj);
+        console.log("cantidad");
+        console.log(cantidad);
         if(sumarrestar=='sumar'){
             cantidadnueva = listaInsumos[i].Cantidad+cantidad[0].cantidad;
             faltantesNuevos =cantidad[0].faltantes - listaInsumos[i].Cantidad;
