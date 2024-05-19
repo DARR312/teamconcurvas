@@ -877,13 +877,13 @@ const actualizarInsumoscantidades = (sumarrestar) =>{
             faltantesNuevos =parseInt(cantidad[0].faltantes) - parseInt(listaInsumos[i].Cantidad);
         }
         var objeto = {};
-        objeto.tipo = "int";
+        objeto.tipo = "float";
         objeto.columna = "cantidad";
         objeto.valor = cantidadnueva;
         var cant_nueva  = prepararjson(objeto);
         
         var objeto = {};
-        objeto.tipo = "int";
+        objeto.tipo = "float";
         objeto.columna = "faltantes";
         objeto.valor = faltantesNuevos;
         var faltantes  = prepararjson(objeto);
