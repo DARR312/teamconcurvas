@@ -424,6 +424,7 @@ $('#guardarFactura').on('click', function(){
 
 $('#confirmarFactura').on('click', function(){     
     console.log(parseInt(valor_porpagar)); 
+    console.log(listaInsumos); 
     if(parseInt(valor_porpagar)>0){
         $('#modalCrédito').modal("show");
         $('#tituloResumenFacturaCredito').text(`La factura tiene un valor por pagar de ${formatoPrecio(parseInt(valor_porpagar))}, por favor ingresa a cuántos días se espera pagar: `);
