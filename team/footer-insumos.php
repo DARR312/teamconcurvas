@@ -868,14 +868,14 @@ const actualizarInsumoscantidades = (sumarrestar) =>{
         let cantidadj = obtenerDatajson("cantidad,faltantes","con_t_insumos","valoresconcondicion","ID",listaInsumos[i].InsumoID);
         let cantidad = JSON.parse(cantidadj);
         if(sumarrestar=='sumar'){
-            cantidadnueva = parseInt(listaInsumos[i].Cantidad)+parseInt(cantidad[0].cantidad);
-            faltantesNuevos =parseInt(cantidad[0].faltantes) - parseInt(listaInsumos[i].Cantidad);
+            cantidadnueva = listaInsumos[i].Cantidad+cantidad[0].cantidad;
+            faltantesNuevos =cantidad[0].faltantes - listaInsumos[i].Cantidad;
             if(faltantesNuevos<0){
                 faltantesNuevos = 0;
             }
         }else if(sumarrestar=='restar'){
-            cantidadnueva = parseInt(cantidad[0].cantidad)-parseInt(listaInsumos[i].Cantidad);
-            faltantesNuevos =parseInt(cantidad[0].faltantes) - parseInt(listaInsumos[i].Cantidad);
+            cantidadnueva = cantidad[0].cantidad-listaInsumos[i].Cantidad;
+            faltantesNuevos =cantidad[0].faltantes - listaInsumos[i].Cantidad;
         }
         var objeto = {};
         objeto.tipo = "float";
