@@ -1888,11 +1888,11 @@ const funcionesProyectos = () => {
                 var condicion = prepararjson(objeto);
 
                 objeto = {};
-                objeto.tipo = 'int';
+                objeto.tipo = 'float';
                 objeto.columna = 'cantidad';
                 objeto.valor = arregloInsumosCortados[i].cantidadNueva;
                 let cantidad = prepararjson(objeto);
-
+                console.log(cantidad);
                 presupuestoNuevo =presupuestoNuevo+( parseInt(arregloInsumosCortados[i].precio_unidad) * parseInt(arregloInsumosCortados[i].cantidad));
 
                 actualizarregistros("con_t_insumos",condicion,cantidad,"0","0","0","0","0","0","0","0","0","0");

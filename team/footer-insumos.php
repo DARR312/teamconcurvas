@@ -868,16 +868,8 @@ const actualizarInsumoscantidades = (sumarrestar) =>{
         let cantidadj = obtenerDatajson("cantidad,faltantes","con_t_insumos","valoresconcondicion","ID",listaInsumos[i].InsumoID);
         let cantidad = JSON.parse(cantidadj);
         if(sumarrestar=='sumar'){
-            console.log("parseFloat(listaInsumos[i].Cantidad)");
-            console.log(parseFloat(listaInsumos[i].Cantidad));
-            console.log("parseFloat(cantidad[0].cantidad)");
-            console.log(parseFloat(cantidad[0].cantidad));
             cantidadnueva = parseFloat(listaInsumos[i].Cantidad)+parseFloat(cantidad[0].cantidad);
             faltantesNuevos =parseFloat(cantidad[0].faltantes) - parseFloat(listaInsumos[i].Cantidad);
-            console.log('cantidadnueva');
-            console.log(cantidadnueva);
-            console.log('faltantesNuevos');
-            console.log(faltantesNuevos);
             if(faltantesNuevos<0){
                 faltantesNuevos = 0;
             }
