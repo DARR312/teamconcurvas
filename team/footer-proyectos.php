@@ -1846,6 +1846,8 @@ const funcionesProyectos = () => {
                         return false;
                     }
                     if (indiceExistente !== -1) {continue;}
+                    console.log('cantidadUsada');
+                    console.log(cantidadUsada);
                     var objeto = {};
                     objeto.cantidad = cantidadUsada;
                     objeto.insumoID = insumosproducto[i].insumo;
