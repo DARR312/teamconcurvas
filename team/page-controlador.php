@@ -1385,14 +1385,14 @@ function prendasMadrugon($valor){
             $updated = $wpdb->update( "con_t_madrugon", array('madrugon_ok' => "Si"), array( 'ID' =>$valor ));
             $datos="UPDATE `con_t_trprendas` SET `estado`='Venta madrugón' WHERE (`estado`='Madrugón') AND (`fecha_cambio` BETWEEN '".$fechainicio."' AND '".$fechafin."')";
             $wpdb->query($datos);
-            $prendas = $wpdb->get_results("SELECT  `referencia_id`, `descripcion`, `codigo`, `estado`, `cual`, `complemento_estado`, `fecha_cambio` FROM `con_t_trprendas` WHERE (`estado`='Venta madrugón') AND (`fecha_cambio` BETWEEN '".$fechainicio."' AND '".$fechafin."')",ARRAY_A);
+            $prendas = $wpdb->get_results("SELECT  `referencia_id`, `descripcion`, `codigosShow`, `estado`, `cual`, `complemento_estado`, `fecha_cambio` FROM `con_t_trprendas` WHERE (`estado`='Venta madrugón') AND (`fecha_cambio` BETWEEN '".$fechainicio."' AND '".$fechafin."')",ARRAY_A);
             echo json_encode($prendas);
         }else{
-            $prendas = $wpdb->get_results("SELECT  `referencia_id`, `descripcion`, `codigo`, `estado`, `cual`, `complemento_estado`, `fecha_cambio` FROM `con_t_trprendas` WHERE (`estado`='Madrugón') AND (`fecha_cambio` BETWEEN '".$fechainicio."' AND '".$fechafin."')",ARRAY_A);
+            $prendas = $wpdb->get_results("SELECT  `referencia_id`, `descripcion`, `codigosShow`, `estado`, `cual`, `complemento_estado`, `fecha_cambio` FROM `con_t_trprendas` WHERE (`estado`='Madrugón') AND (`fecha_cambio` BETWEEN '".$fechainicio."' AND '".$fechafin."')",ARRAY_A);
             echo json_encode($prendas);
         }
     }else{
-        $prendas = $wpdb->get_results("SELECT  `referencia_id`, `descripcion`, `codigo`, `estado`, `cual`, `complemento_estado`, `fecha_cambio` FROM `con_t_trprendas` WHERE (`estado`='Venta madrugón') AND (`fecha_cambio` BETWEEN '".$fechainicio."' AND '".$fechafin."')",ARRAY_A);
+        $prendas = $wpdb->get_results("SELECT  `referencia_id`, `descripcion`, `codigosShow`, `estado`, `cual`, `complemento_estado`, `fecha_cambio` FROM `con_t_trprendas` WHERE (`estado`='Venta madrugón') AND (`fecha_cambio` BETWEEN '".$fechainicio."' AND '".$fechafin."')",ARRAY_A);
         echo json_encode($prendas);
     }
     
