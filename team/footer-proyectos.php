@@ -919,7 +919,7 @@ const funcionesProyectos = () => {
     $('#confirmarNuevoProyecto').on('click', function() {
 
         // con_t_proyectos  	ID 	nombre_proyecto 	fecha_inicio_proyecto 	fecha_fin_proyecto 	presupuesto 	estado 	
-
+        fechaInicioProyecto=fechaInicioProyecto+":00";
         var objeto = {}; 	 	 	
         objeto.tipo = "string";
         objeto.columna = "nombre_proyecto";
