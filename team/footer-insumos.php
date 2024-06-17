@@ -750,7 +750,7 @@ $('#verPorfecha').on('click', function() {
         return false;
     }
     var fecha = `'${desde}' AND '${hasta}'`;
-    var terminadosFechas = obtenerDatajson('codigo,terminado,fecha_terminado','con_t_terminados','Between','fecha_terminado',fecha);
+    var terminadosFechas = obtenerDatajson('codigosShow,terminado,fecha_terminado','con_t_terminados','Between','fecha_terminado',fecha);
     var jsonterminadosFechas = JSON.parse(terminadosFechas);
     console.log('jsonterminadosFechas');
     console.log(jsonterminadosFechas);
@@ -764,7 +764,7 @@ $('#verPorfecha').on('click', function() {
                 <p  class="letra18pt-pc col-lg-7 col-md-7 col-sm-7 col-xs-7">${jsonterminadosFechas[i].codigo} </p>
                 <p  class="letra18pt-pc col-lg-5 col-md-5 col-sm-5 col-xs-5">${jsonterminadosFechas[i].fecha_terminado}</p>
             </div>`;
-            var proyectoPrenda = obtenerDatajson('proyecto','con_t_trprendas','valoresconcondicion','codigo',`'${jsonterminadosFechas[i].codigo}'`);
+            var proyectoPrenda = obtenerDatajson('proyecto','con_t_trprendas','valoresconcondicion','codigosShow',`'${jsonterminadosFechas[i].codigo}'`);
             var jsonproyectoPrenda = JSON.parse(proyectoPrenda);
             var insumo = obtenerDatajson('insumo_id,activo','con_t_terminadoinsumo','valoresconcondicion','proyecto_id',`'${jsonproyectoPrenda[0].proyecto}'`);
             var jsoninsumo = JSON.parse(insumo);

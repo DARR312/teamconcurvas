@@ -787,7 +787,7 @@
                     }
                 }if(dif==0){//Pedido ok
                     $("#informeD p:eq("+(i+4)+")").text("Pedido ok");
-                    var prendasPedido = obtenerData("codigo,complemento_estado","con_t_trprendas","rowVarios","cual",id);//°C1145RB5D13S64°Diego 1°138%
+                    var prendasPedido = obtenerData("codigosShow,complemento_estado","con_t_trprendas","rowVarios","cual",id);//°C1145RB5D13S64°Diego 1°138%
                     //°C688CV403D900S149°Diego Rodríguez 2°24%
                     var items = obtenerData("estado,cambioitem_id","con_t_cambioitem","rowVarios","cambio_id",id.slice(1));//°5%°Despachado%
                     var itemArray = items.split("%");//°En ruta°24,
@@ -828,7 +828,7 @@
                     }
                 }if(dif==0){
                     $("#informeD p:eq("+(i+2)+")").text("Pedido ok");
-                    var prendasPedido = obtenerData("codigo,complemento_estado","con_t_trprendas","rowVarios","cual","V"+id);//°C1145RB5D13S64°Diego 1°138%
+                    var prendasPedido = obtenerData("codigosShow,complemento_estado","con_t_trprendas","rowVarios","cual","V"+id);//°C1145RB5D13S64°Diego 1°138%
                     var items = obtenerData("prenda_id,valor,descuento_id,estado_id","con_t_ventaitem","rowVarios","venta_id",id);//°44°120000°0°5%°113°140000°0°Despachado%
                     var itemArray = items.split("%");
                     var precio = 0;
@@ -923,7 +923,7 @@
         var arrayAjustar = prendasAjustar.split("%");
         for(var i = 0; i<(arrayAjustar.length-1);i++){
             var pedido = arrayAjustar[i].split("°");
-            var codigos = obtenerData("codigo","con_t_trprendas","rowVarios","cual","V"+pedido[2]);//°C1145RB1D13S64%°C1145RB2D13S64%°C1145RB3D13S64%°C1145RB9D13S64%
+            var codigos = obtenerData("codigosShow","con_t_trprendas","rowVarios","cual","V"+pedido[2]);//°C1145RB1D13S64%°C1145RB2D13S64%°C1145RB3D13S64%°C1145RB9D13S64%
             html =html+"<div class='col-lg-12 col-md-12 col-sm-12 col-xs-12 remover'><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1 remover'><p class='letra18pt-pc negrillaUno'>"+pedido[5]+"</p></div><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1 remover'><p class='letra18pt-pc negrillaUno'>"+pedido[2]+"</p></div><div class='col-lg-3 col-md-3 col-sm-3 col-xs-3 remover'><p class='letra18pt-pc negrillaUno'>"+pedido[3]+"</p></div><div class='col-lg-3 col-md-3 col-sm-3 col-xs-3 remover'><p class='letra18pt-pc negrillaUno'>"+codigos+"</p></div></div>";
         }
         var prendasAuditar = obtenerData("fecha_creada,venta_id,cliente_ok,notas,estado","con_t_ventas","rowVarios","estado","Auditar");
@@ -931,7 +931,7 @@
         var arrayAuditar = prendasAuditar.split("%");
         for(var i = 0; i<(arrayAuditar.length-1);i++){
             var pedido = arrayAuditar[i].split("°");
-            var codigos = obtenerData("codigo","con_t_trprendas","rowVarios","cual","V"+pedido[2]);//°C1145RB1D13S64%°C1145RB2D13S64%°C1145RB3D13S64%°C1145RB9D13S64%
+            var codigos = obtenerData("codigosShow","con_t_trprendas","rowVarios","cual","V"+pedido[2]);//°C1145RB1D13S64%°C1145RB2D13S64%°C1145RB3D13S64%°C1145RB9D13S64%
             html =html+"<div class='col-lg-12 col-md-12 col-sm-12 col-xs-12 remover'><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1 remover'><p class='letra18pt-pc negrillaUno'>"+pedido[5]+"</p></div><div class='col-lg-1 col-md-1 col-sm-1 col-xs-1 remover'><p class='letra18pt-pc negrillaUno'>"+pedido[2]+"</p></div><div class='col-lg-3 col-md-3 col-sm-3 col-xs-3 remover'><p class='letra18pt-pc negrillaUno'>"+pedido[3]+"</p></div><div class='col-lg-3 col-md-3 col-sm-3 col-xs-3 remover'><p class='letra18pt-pc negrillaUno'>"+codigos+"</p></div></div>";
         }
         var informeAuditoriaz = $('#informeAuditoriaz');
@@ -1446,9 +1446,9 @@
         var ventaId = $('#escanerDespachos').attr("name");
         var codigos = "";
         if(ventaId[0] == "C"){
-            codigos = obtenerData("codigo,estado","con_t_trprendas","rowVarios","cual",ventaId);//°C1145RB10D13S64°Despachado%°C1160RL1D15S14°Despachado%
+            codigos = obtenerData("codigosShow,estado","con_t_trprendas","rowVarios","cual",ventaId);//°C1145RB10D13S64°Despachado%°C1160RL1D15S14°Despachado%
         }else{
-            codigos = obtenerData("codigo,estado","con_t_trprendas","rowVarios","cual","V"+ventaId);//°C1145RB10D13S64°Despachado%°C1160RL1D15S14°Despachado%
+            codigos = obtenerData("codigosShow,estado","con_t_trprendas","rowVarios","cual","V"+ventaId);//°C1145RB10D13S64°Despachado%°C1160RL1D15S14°Despachado%
         }             
         var codigosArray = codigos.split("%");
         if(ventaId[0] == "C"){

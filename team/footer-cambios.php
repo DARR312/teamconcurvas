@@ -173,7 +173,7 @@
         $('.remover').remove();
         var venta = obtenerDatajson("cliente_ok,datos_cliente,pedido_item","con_t_ventas","valoresconcondicion","venta_id",$('#ventaIdentificacion').val());
         var jsonVentaCliente = JSON.parse(venta); 
-        var prendav = obtenerDatajson("cual,estado,codigo,referencia_id","con_t_trprendas","valoresconcondicion","cual","'V"+$('#ventaIdentificacion').val()+"'");
+        var prendav = obtenerDatajson("cual,estado,codigosShow,referencia_id","con_t_trprendas","valoresconcondicion","cual","'V"+$('#ventaIdentificacion').val()+"'");
         var jsonprendav = JSON.parse(prendav); 
         var cambiosantiguos = obtenerDatajson("excedente,cambio_id,pedido_item,cliente_ok","con_t_cambios","valoresconcondicion","venta_id",$('#ventaIdentificacion').val());
         var jsoncambiosantiguos = JSON.parse(cambiosantiguos); 
