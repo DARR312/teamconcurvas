@@ -1102,7 +1102,7 @@ function codigosprendas($valor,$valor2,$valor3,$valor4){
     if($valor != "0"){ 
         $todas = "";
         $codigos = $wpdb->get_results( "SELECT codigosShow, estado, cual, complemento_estado, fecha_cambio, referencia_id FROM con_t_trprendas  WHERE codigosShow =".$valor." ", ARRAY_A  );
-        //print_r($ventasTodas);
+        print_r($ventasTodas);
         if($codigos){
             foreach ($codigos as $v1) {
                 $todas = $todas.$v1[codigosShow]."%".$v1[estado]."%".$v1[cual]."%".$v1[complemento_estado]."%".$v1[fecha_cambio]."&";
