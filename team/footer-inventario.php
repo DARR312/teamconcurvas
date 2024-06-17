@@ -27,7 +27,7 @@
         if(items[i]==19){
             var segundo = $('#segundo');
             // segundo.append("<div class='col-lg-2 col-md-2 col-sm-2 col-xs-12' id='accion19'><button class='botonmodal botonesInventario' type='button' id='crearCodigos'>Crear códigos</button></div>");
-            segundo.append("<div class='col-lg-2 col-md-2 col-sm-2 col-xs-12' id='accion19'><button class='botonmodal botonesInventario' type='button' id='fechaslotes'>Fechas de lotes</button></div>");
+            // segundo.append("<div class='col-lg-2 col-md-2 col-sm-2 col-xs-12' id='accion19'><button class='botonmodal botonesInventario' type='button' id='fechaslotes'>Fechas de lotes</button></div>");
         }
         if(items[i]==20){
             var botonesEscaner = $('#botonesEscaner');
