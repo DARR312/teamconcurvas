@@ -151,7 +151,7 @@
                     tel= jsonDatoscliente.telefono;
                     dire = jsonDatoscliente.direccion;
                   
-                    var codigo = obtenerDatajson("codigosShow, descripcion, referencia_id","con_t_trprendas","valoresconcondicion","cual","'CP"+jsoncambiosFiltro[i].ID+"'");
+                    var codigo = obtenerDatajson("codigoshow, descripcion, referencia_id","con_t_trprendas","valoresconcondicion","cual","'CP"+jsoncambiosFiltro[i].ID+"'");
                     var jsoncodigo = JSON.parse(codigo);    
                     for (let j = 0; j < Object.keys(jsoncodigo).length; j++) {
                         var valorPrenda = obtenerDatajson("precio_detal","con_t_resumen","valoresconcondicion","referencia_id","'"+jsoncodigo[j].referencia_id+"'");
@@ -163,7 +163,7 @@
                     						'</div>'+
 										'<div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">'+
 											'<div class="letra18pt-pc letra2" for="flexCheckDefault">'+
-												jsoncodigo[j].codigosShow+
+												jsoncodigo[j].codigoshow+
 											'</div>'+
 										'</div>'+
 										'<div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">'+
@@ -200,7 +200,7 @@
                     tel= jsonDatoscliente.telefono;
                     dire = jsonDatoscliente.direccion;
                   
-                    var codigo = obtenerDatajson("codigosShow, descripcion, referencia_id","con_t_trprendas","valoresconcondicion","cual","'C"+jsoncambiosPaginaFiltroFiltro[i].cambio_id+"'");
+                    var codigo = obtenerDatajson("codigoshow, descripcion, referencia_id","con_t_trprendas","valoresconcondicion","cual","'C"+jsoncambiosPaginaFiltroFiltro[i].cambio_id+"'");
                     var jsoncodigo = JSON.parse(codigo);    
                     for (let j = 0; j < Object.keys(jsoncodigo).length; j++) {
                         var valorPrenda = obtenerDatajson("precio_detal","con_t_resumen","valoresconcondicion","referencia_id","'"+jsoncodigo[j].referencia_id+"'");
@@ -212,7 +212,7 @@
                     						'</div>'+
 										'<div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">'+
 											'<div class="letra18pt-pc letra2" for="flexCheckDefault">'+
-												jsoncodigo[j].codigosShow+
+												jsoncodigo[j].codigoshow+
 											'</div>'+
 										'</div>'+
 										'<div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">'+
@@ -252,7 +252,7 @@
                     var pedido = jsonventasPaginaFiltroFiltro[i].pedido;
                     var jsonpedido = JSON.parse(pedido);
                   
-                    var codigo = obtenerDatajson("codigosShow, descripcion, referencia_id","con_t_trprendas","valoresconcondicion","cual","'V"+jsonventasPaginaFiltroFiltro[i].venta_id+"'");
+                    var codigo = obtenerDatajson("codigoshow, descripcion, referencia_id","con_t_trprendas","valoresconcondicion","cual","'V"+jsonventasPaginaFiltroFiltro[i].venta_id+"'");
                     var jsoncodigo = JSON.parse(codigo);    
                     for (let j = 0; j < Object.keys(jsoncodigo).length; j++) {
                         var valorPrenda = obtenerDatajson("precio_detal","con_t_resumen","valoresconcondicion","referencia_id","'"+jsoncodigo[j].referencia_id+"'");
@@ -264,7 +264,7 @@
                     						'</div>'+
 										'<div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">'+
 											'<div class="letra18pt-pc letra2" for="flexCheckDefault">'+
-												jsoncodigo[j].codigosShow+
+												jsoncodigo[j].codigoshow+
 											'</div>'+
 										'</div>'+
 										'<div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">'+
@@ -304,7 +304,7 @@
                     var jsondatosPrendas = JSON.parse(datosPrendas);
                     
 
-                    var codigo = obtenerDatajson("codigosShow, descripcion, referencia_id","con_t_trprendas","valoresconcondicion","cual","'PA-"+jsonVentasFiltro[i].ID+"'");
+                    var codigo = obtenerDatajson("codigoshow, descripcion, referencia_id","con_t_trprendas","valoresconcondicion","cual","'PA-"+jsonVentasFiltro[i].ID+"'");
                     var jsoncodigo = JSON.parse(codigo);
 
                     for (let j = 0; j < Object.keys(jsoncodigo).length; j++) {
@@ -317,7 +317,7 @@
                                             '</div>'+
                                             '<div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">'+
                                                 '<div class="letra18pt-pc letra2" for="flexCheckDefault">'+
-                                                jsoncodigo[j].codigosShow+
+                                                jsoncodigo[j].codigoshow+
                                                 '</div>'+
                                             '</div>'+
                                             '<div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">'+
@@ -678,10 +678,10 @@
         
         for (let i = 0; i < jsonPrendasIngresan.length; i++) {
             jsonPrendasIngresan[i].codigo
-            var estadoActualj = obtenerDatajson("estado","con_t_trprendas","valoresconcondicion","codigosShow",`'${jsonPrendasIngresan[i].codigo}'`);
+            var estadoActualj = obtenerDatajson("estado","con_t_trprendas","valoresconcondicion","codigoshow",`'${jsonPrendasIngresan[i].codigo}'`);
             var estadoActual = JSON.parse(estadoActualj); 
             if(estadoActual[0].estado!='En Plaza de las américas'){
-                alert(`Por favor escanea la prenda ${jsonPrendasIngresan[i].codigosShow} para que quede con el estado "En Plaza de las américas"` );
+                alert(`Por favor escanea la prenda ${jsonPrendasIngresan[i].codigoshow} para que quede con el estado "En Plaza de las américas"` );
                 return false;
             }
         }

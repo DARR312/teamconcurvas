@@ -1099,14 +1099,13 @@ function permisos($valor){
 
 function codigosprendas($valor,$valor2,$valor3,$valor4){
     global $wpdb;
-    echo $valor;
     if($valor != "0"){ 
         $todas = "";
-        $codigos = $wpdb->get_results( "SELECT codigosShow, estado, cual, complemento_estado, fecha_cambio, referencia_id FROM con_t_trprendas  WHERE codigosShow =".$valor." ", ARRAY_A  );
-        print_r($ventasTodas);
+        $codigos = $wpdb->get_results( "SELECT codigoshow, estado, cual, complemento_estado, fecha_cambio, referencia_id FROM con_t_trprendas  WHERE codigoshow =".$valor." ", ARRAY_A  );
+        // print_r($ventasTodas);
         if($codigos){
             foreach ($codigos as $v1) {
-                $todas = $todas.$v1[codigosShow]."%".$v1[estado]."%".$v1[cual]."%".$v1[complemento_estado]."%".$v1[fecha_cambio]."&";
+                $todas = $todas.$v1[codigoshow]."%".$v1[estado]."%".$v1[cual]."%".$v1[complemento_estado]."%".$v1[fecha_cambio]."&";
             }
         }else{
             $todas = "NA";
@@ -1114,11 +1113,11 @@ function codigosprendas($valor,$valor2,$valor3,$valor4){
         echo $todas; 
     }else{ 
         $todas = "";
-        $codigos = $wpdb->get_results( "SELECT codigosShow, estado, cual, complemento_estado, fecha_cambio, descripcion FROM con_t_trprendas WHERE 1", ARRAY_A  );
-        print_r($ventasTodas);
+        $codigos = $wpdb->get_results( "SELECT codigoshow, estado, cual, complemento_estado, fecha_cambio, descripcion FROM con_t_trprendas WHERE 1", ARRAY_A  );
+        // print_r($ventasTodas);
         if($codigos){
             foreach ($codigos as $v1) {
-                $todas = $todas.$v1[codigosShow]."%".$v1[estado]."%".$v1[cual]."%".$v1[complemento_estado]."%".$v1[fecha_cambio]."%".$v1[descripcion]."&";
+                $todas = $todas.$v1[codigoshow]."%".$v1[estado]."%".$v1[cual]."%".$v1[complemento_estado]."%".$v1[fecha_cambio]."%".$v1[descripcion]."&";
             }
         }else{
             $todas = "NA";
@@ -1131,24 +1130,24 @@ function codigosprendasjson($valor,$valor2,$valor3,$valor4){
     global $wpdb;
     if($valor != "0"){ 
         $todas = "";
-        $codigos = $wpdb->get_results( "SELECT codigosShow, estado, cual, complemento_estado, fecha_cambio, descripcion FROM con_t_trprendas  WHERE codigo ='".$valor."'", ARRAY_A  );
+        $codigos = $wpdb->get_results( "SELECT codigoshow, estado, cual, complemento_estado, fecha_cambio, descripcion FROM con_t_trprendas  WHERE codigoshow ='".$valor."'", ARRAY_A  );
         echo json_encode($codigos);
         return false;
     }
     if($valor4 != "0"){ 
         $todas = "";
-        $codigos = $wpdb->get_results( "SELECT codigosShow, estado, cual, complemento_estado, fecha_cambio, descripcion FROM con_t_trprendas  WHERE descripcion ='".$valor4."'", ARRAY_A  );
+        $codigos = $wpdb->get_results( "SELECT codigoshow, estado, cual, complemento_estado, fecha_cambio, descripcion FROM con_t_trprendas  WHERE descripcion ='".$valor4."'", ARRAY_A  );
         echo json_encode($codigos);
         return false;
     }
     if($valor3 != "0"){ 
         $todas = "";
-        $codigos = $wpdb->get_results( "SELECT codigosShow, estado, cual, complemento_estado, fecha_cambio, descripcion FROM con_t_trprendas  WHERE cual ='".$valor3."'", ARRAY_A  );
+        $codigos = $wpdb->get_results( "SELECT codigoshow, estado, cual, complemento_estado, fecha_cambio, descripcion FROM con_t_trprendas  WHERE cual ='".$valor3."'", ARRAY_A  );
         echo json_encode($codigos);
         return false;
     } 
     $todas = "";
-    $codigos = $wpdb->get_results( "SELECT codigosShow, estado, cual, complemento_estado, fecha_cambio, descripcion FROM con_t_trprendas WHERE estado <> 'Entregado'", ARRAY_A  );
+    $codigos = $wpdb->get_results( "SELECT codigoshow, estado, cual, complemento_estado, fecha_cambio, descripcion FROM con_t_trprendas WHERE estado <> 'Entregado'", ARRAY_A  );
     echo json_encode($codigos);
     
 }
@@ -1196,11 +1195,11 @@ function auditprendas($valor,$valor2,$valor3,$valor4){
     global $wpdb;
     if($valor != "0"){ 
         $todas = "";
-        $codigos = $wpdb->get_results( "SELECT codigosShow, estado, cual, complemento_estado, fecha_cambio, descripcion FROM con_t_trprendas  WHERE codigo =".$valor." ", ARRAY_A  );
+        $codigos = $wpdb->get_results( "SELECT codigoshow, estado, cual, complemento_estado, fecha_cambio, descripcion FROM con_t_trprendas  WHERE codigo =".$valor." ", ARRAY_A  );
         //print_r($ventasTodas);
         if($codigos){
             foreach ($codigos as $v1) {
-                $todas = $todas.$v1['codigosShow']."%".$v1['estado']."%".$v1['cual']."%".$v1['complemento_estado']."%".$v1['fecha_cambio']."%".$v1['descripcion']."&";
+                $todas = $todas.$v1['codigoshow']."%".$v1['estado']."%".$v1['cual']."%".$v1['complemento_estado']."%".$v1['fecha_cambio']."%".$v1['descripcion']."&";
             }
         }else{
             $todas = "NA";
@@ -1213,25 +1212,25 @@ function auditprendas($valor,$valor2,$valor3,$valor4){
         if($valor4 == "Empacado" || $valor4 == "Despachado"){
             $timezone = new DateTimeZone( 'America/Bogota' );
             $fecha = wp_date('Y-m-d H:i:s', strtotime('-1 week'), $timezone );
-            $codigos = $wpdb->get_results( "SELECT codigosShow, estado, cual, complemento_estado, fecha_cambio, descripcion FROM con_t_trprendas WHERE (fecha_cambio < '".$fecha."') AND (estado = '".$valor4."') ", ARRAY_A  );           
-            echo "SELECT codigosShow, estado, cual, complemento_estado, fecha_cambio, descripcion FROM con_t_trprendas WHERE (fecha_cambio < '".$fecha."') AND (estado = '".$valor4."') ";
+            $codigos = $wpdb->get_results( "SELECT codigoshow, estado, cual, complemento_estado, fecha_cambio, descripcion FROM con_t_trprendas WHERE (fecha_cambio < '".$fecha."') AND (estado = '".$valor4."') ", ARRAY_A  );           
+            echo "SELECT codigoshow, estado, cual, complemento_estado, fecha_cambio, descripcion FROM con_t_trprendas WHERE (fecha_cambio < '".$fecha."') AND (estado = '".$valor4."') ";
         }else{
             if($valor2 == 10){
                     // echo "SELECT codigo, estado, cual, complemento_estado, fecha_cambio, descripcion FROM con_t_trprendas WHERE (fecha_cambio < '".$obtenidosArray[0]['fecha']." ') AND (estado != 'En satélite')  AND (estado != 'Madrugón')  AND (estado != 'Entregado')  AND (estado != 'Venta local')  AND (estado != 'Venta mayorista')    ORDER BY cual ASC";
-                $codigos = $wpdb->get_results( "SELECT codigosShow, estado, cual, complemento_estado, fecha_cambio, descripcion FROM con_t_trprendas WHERE (fecha_cambio < '".$obtenidosArray[0]['fecha']." ') AND (estado != 'En satélite') AND (estado != 'Venta mayorista')  AND (estado != 'Madrugón') AND (estado != 'Venta madrugón')  AND (estado != 'Entregado')  AND (estado != 'Venta local')  AND (estado != 'Cambio plaza')   ORDER BY cual ASC", ARRAY_A  );
+                $codigos = $wpdb->get_results( "SELECT codigoshow, estado, cual, complemento_estado, fecha_cambio, descripcion FROM con_t_trprendas WHERE (fecha_cambio < '".$obtenidosArray[0]['fecha']." ') AND (estado != 'En satélite') AND (estado != 'Venta mayorista')  AND (estado != 'Madrugón') AND (estado != 'Venta madrugón')  AND (estado != 'Entregado')  AND (estado != 'Venta local')  AND (estado != 'Cambio plaza')   ORDER BY cual ASC", ARRAY_A  );
             }else{
-                $codigos = $wpdb->get_results( "SELECT codigosShow, estado, cual, complemento_estado, fecha_cambio, descripcion FROM con_t_trprendas WHERE (fecha_cambio < '".$obtenidosArray[0]['fecha']."') AND (cual = '".$valor3."')  AND (estado != 'En satélite')  AND (estado != 'Venta mayorista')  AND (estado != 'Madrugón')  AND (estado != 'Venta madrugón') AND (estado != 'Entregado') AND (estado != 'Venta local') AND (estado != 'Cambio plaza')  ", ARRAY_A  );
+                $codigos = $wpdb->get_results( "SELECT codigoshow, estado, cual, complemento_estado, fecha_cambio, descripcion FROM con_t_trprendas WHERE (fecha_cambio < '".$obtenidosArray[0]['fecha']."') AND (cual = '".$valor3."')  AND (estado != 'En satélite')  AND (estado != 'Venta mayorista')  AND (estado != 'Madrugón')  AND (estado != 'Venta madrugón') AND (estado != 'Entregado') AND (estado != 'Venta local') AND (estado != 'Cambio plaza')  ", ARRAY_A  );
             }        
         }  
         
         if($valor4 == "Satelite"){
             $timezone = new DateTimeZone( 'America/Bogota' );
             $fecha = wp_date('Y-m-d H:i:s', strtotime('-2 week'), $timezone );
-            $codigos = $wpdb->get_results( "SELECT codigosShow, estado, cual, complemento_estado, fecha_cambio, descripcion FROM con_t_trprendas WHERE (fecha_cambio < '".$fecha."') AND (estado = 'En satélite') ", ARRAY_A  );           
+            $codigos = $wpdb->get_results( "SELECT codigoshow, estado, cual, complemento_estado, fecha_cambio, descripcion FROM con_t_trprendas WHERE (fecha_cambio < '".$fecha."') AND (estado = 'En satélite') ", ARRAY_A  );           
         }     
         if($codigos){
             foreach ($codigos as $v1) {
-                $todas = $todas.$v1['codigosShow']."%".$v1['estado']."%".$v1['cual']."%".$v1['complemento_estado']."%".$v1['fecha_cambio']."%".$v1['descripcion']."&";
+                $todas = $todas.$v1['codigoshow']."%".$v1['estado']."%".$v1['cual']."%".$v1['complemento_estado']."%".$v1['fecha_cambio']."%".$v1['descripcion']."&";
             }
         }else{
             $todas = "NA";
@@ -1386,14 +1385,14 @@ function prendasMadrugon($valor){
             $updated = $wpdb->update( "con_t_madrugon", array('madrugon_ok' => "Si"), array( 'ID' =>$valor ));
             $datos="UPDATE `con_t_trprendas` SET `estado`='Venta madrugón' WHERE (`estado`='Madrugón') AND (`fecha_cambio` BETWEEN '".$fechainicio."' AND '".$fechafin."')";
             $wpdb->query($datos);
-            $prendas = $wpdb->get_results("SELECT  `referencia_id`, `descripcion`, `codigosShow`, `estado`, `cual`, `complemento_estado`, `fecha_cambio` FROM `con_t_trprendas` WHERE (`estado`='Venta madrugón') AND (`fecha_cambio` BETWEEN '".$fechainicio."' AND '".$fechafin."')",ARRAY_A);
+            $prendas = $wpdb->get_results("SELECT  `referencia_id`, `descripcion`, `codigoshow`, `estado`, `cual`, `complemento_estado`, `fecha_cambio` FROM `con_t_trprendas` WHERE (`estado`='Venta madrugón') AND (`fecha_cambio` BETWEEN '".$fechainicio."' AND '".$fechafin."')",ARRAY_A);
             echo json_encode($prendas);
         }else{
-            $prendas = $wpdb->get_results("SELECT  `referencia_id`, `descripcion`, `codigosShow`, `estado`, `cual`, `complemento_estado`, `fecha_cambio` FROM `con_t_trprendas` WHERE (`estado`='Madrugón') AND (`fecha_cambio` BETWEEN '".$fechainicio."' AND '".$fechafin."')",ARRAY_A);
+            $prendas = $wpdb->get_results("SELECT  `referencia_id`, `descripcion`, `codigoshow`, `estado`, `cual`, `complemento_estado`, `fecha_cambio` FROM `con_t_trprendas` WHERE (`estado`='Madrugón') AND (`fecha_cambio` BETWEEN '".$fechainicio."' AND '".$fechafin."')",ARRAY_A);
             echo json_encode($prendas);
         }
     }else{
-        $prendas = $wpdb->get_results("SELECT  `referencia_id`, `descripcion`, `codigosShow`, `estado`, `cual`, `complemento_estado`, `fecha_cambio` FROM `con_t_trprendas` WHERE (`estado`='Venta madrugón') AND (`fecha_cambio` BETWEEN '".$fechainicio."' AND '".$fechafin."')",ARRAY_A);
+        $prendas = $wpdb->get_results("SELECT  `referencia_id`, `descripcion`, `codigoshow`, `estado`, `cual`, `complemento_estado`, `fecha_cambio` FROM `con_t_trprendas` WHERE (`estado`='Venta madrugón') AND (`fecha_cambio` BETWEEN '".$fechainicio."' AND '".$fechafin."')",ARRAY_A);
         echo json_encode($prendas);
     }
     
