@@ -1101,7 +1101,7 @@ function codigosprendas($valor,$valor2,$valor3,$valor4){
     global $wpdb;
     if($valor != "0"){ 
         $todas = "";
-        $codigos = $wpdb->get_results( "SELECT codigosShow, estado, cual, complemento_estado, fecha_cambio, referencia_id FROM con_t_trprendas  WHERE codigo =".$valor." ", ARRAY_A  );
+        $codigos = $wpdb->get_results( "SELECT codigosShow, estado, cual, complemento_estado, fecha_cambio, referencia_id FROM con_t_trprendas  WHERE codigosShow =".$valor." ", ARRAY_A  );
         //print_r($ventasTodas);
         if($codigos){
             foreach ($codigos as $v1) {
