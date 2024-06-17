@@ -1482,6 +1482,7 @@ const funcionesProyectos = () => {
     }
 
     $('#confirmarSatelite').on('click', function() { 
+        $('#confirmarSatelite').css('display', 'none');
         var sateliteSelect = $('#sateliteSelect').val(); 
         if(sateliteSelect == 1){
             $('#modalAlertas').modal("show"); 
