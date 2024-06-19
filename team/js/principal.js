@@ -1248,8 +1248,16 @@ function imprimirprendasparavenderdetal(valor) {
     });
 	var pventamayorista = JSON.parse(obtenidos);  
     var html = "";
+	var codigoReal;
+	var codigoAuxiliar;
+	if (decodedText.endsWith("914")) {
+		codigoReal = pventamayorista[i].codigo;
+		pventamayorista[i].codigo = pventamayorista[i].codigo.slice(0, -3); // Elimina los últimos tres caracteres
+	}else{
+		codigoReal = pventamayorista[i].codigo;
+	}
 	for (let i = 0; i < pventamayorista.length; i++) {
-		html = html + "<div class='col-lg-12 col-md-12 col-sm-12 col-xs-12 removerprendasparaventa'><div class='col-lg-3 col-md-3 col-sm-3 col-xs-3'><p type='submit' class='letra18pt-pc' > "+pventamayorista[i].codigo+" </p></div><div class='col-lg-3 col-md-3 col-sm-3 col-xs-3'><p type='submit' class='letra18pt-pc'>"+pventamayorista[i].descripcion+"</p></div><div class='col-lg-3 col-md-3 col-sm-3 col-xs-3'><p type='submit' class='letra18pt-pc'> "+pventamayorista[i].valor+" </p></div><div class='col-lg-3 col-md-3 col-sm-3 col-xs-3 form-check'><input class='form-check-input' type='checkbox' value='"+pventamayorista[i].valor+"' id='"+pventamayorista[i].ID+"' name='"+pventamayorista[i].codigo+"/"+pventamayorista[i].descripcion+"'><label class='form-check-label' for='flexCheckDefault"+pventamayorista[i].ID+"'>Agregar</label></div></div>";
+		html = html + "<div class='col-lg-12 col-md-12 col-sm-12 col-xs-12 removerprendasparaventa'><div class='col-lg-3 col-md-3 col-sm-3 col-xs-3'><p type='submit' class='letra18pt-pc' name='"+codigoReal+"'> "+pventamayorista[i].codigo+" </p></div><div class='col-lg-3 col-md-3 col-sm-3 col-xs-3'><p type='submit' class='letra18pt-pc'>"+pventamayorista[i].descripcion+"</p></div><div class='col-lg-3 col-md-3 col-sm-3 col-xs-3'><p type='submit' class='letra18pt-pc'> "+pventamayorista[i].valor+" </p></div><div class='col-lg-3 col-md-3 col-sm-3 col-xs-3 form-check'><input class='form-check-input' type='checkbox' value='"+pventamayorista[i].valor+"' id='"+pventamayorista[i].ID+"' name='"+pventamayorista[i].codigo+"/"+pventamayorista[i].descripcion+"'><label class='form-check-label' for='flexCheckDefault"+pventamayorista[i].ID+"'>Agregar</label></div></div>";
 	}
 	var primeraPrendas = $('#primeraPrendas');
 	primeraPrendas.after(html);
