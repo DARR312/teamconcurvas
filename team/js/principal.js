@@ -1194,7 +1194,7 @@ function enviarVentaplaza(decodedText, decodedResult) {
 
 function enviarparaventa(prendas) {
 	var valor='';
-	for (let i = 0; i < prendas.length; i++){valor = valor+'°'+prendas[i].innerText;}
+	for (let i = 0; i < prendas.length; i++){valor = valor+'°'+prendas[i].attr("name");}
     var enviar = "funcion=enviarparaventa&valor="+valor;
     var obtenidos = "no";
     $.ajax({
