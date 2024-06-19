@@ -1572,7 +1572,7 @@ function insertarfila($tabla,$valor,$valor2,$valor3,$valor4,$valor5,$valor6,$val
     // echo '</br>';
     // echo '</br>';
     echo $datos;
-    // $wpdb->query($datos);
+    $wpdb->query($datos);
     $lastId = $wpdb->get_results( "SELECT MAX(ID) as id FROM ".$tabla."");
     echo json_encode($lastId);
     //echo $tabla."--".$valor."--".$valor2."--".$valor3."--".$valor4."--".$valor5."--".$valor6."--".$valor7."--".$valor8."--".$valor9."--".$valor10."--".$valor11;
