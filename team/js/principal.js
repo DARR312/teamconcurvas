@@ -1249,8 +1249,7 @@ function imprimirprendasparavenderdetal(valor) {
 	var pventamayorista = JSON.parse(obtenidos);  
     var html = "";
 	var codigoReal;
-	var codigoAuxiliar;
-	if (decodedText.endsWith("914")) {
+	if (pventamayorista[i].codigo.endsWith("914")) {
 		codigoReal = pventamayorista[i].codigo;
 		pventamayorista[i].codigo = pventamayorista[i].codigo.slice(0, -3); // Elimina los últimos tres caracteres
 	}else{
