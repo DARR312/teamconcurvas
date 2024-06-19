@@ -1121,9 +1121,17 @@ function enviarVentamayorista(decodedText, decodedResult) {
 	var verificado = verificarinv(decodedText);
 	if(verificado!="ok"){alert("Este código quedó en el inventario inicial, por favor al botón de inventario inicial desde un computador y dirigirse a una bogeda para ingresarlo. ALERTA ESTO QUEDA A NOMBRE DE "+verificado+" PARA AUDITORIA DE INVENTARIO ");return false;}
 	var prendasCant = ($('#escaneados p').length);
+	var codigoReal;
+	var codigoAuxiliar;
+	if (decodedText.endsWith("914")) {
+		codigoReal = decodedText;
+		decodedText = decodedText.slice(0, -3); // Elimina los últimos tres caracteres
+	}else{
+		codigoReal = decodedText;
+	}
 	if(prendasCant==0){
 		var escaneados = $('#escaneados');
-		var html = "<p class='letra18pt-pc negrillaUno remover'>"+decodedText+"</p>"
+		var html = "<p class='letra18pt-pc negrillaUno remover' name='"+codigoReal+"'>"+decodedText+"</p>"
 		escaneados.append(html);
 	}else{
 		var flag = 1;
@@ -1136,7 +1144,7 @@ function enviarVentamayorista(decodedText, decodedResult) {
 		}
 		if(flag == 1){
 			var escaneados = $('#escaneados');
-			var html = "<p class='letra18pt-pc negrillaUno remover'>"+decodedText+"</p>"
+			var html = "<p class='letra18pt-pc negrillaUno remover' name='"+codigoReal+"'>"+decodedText+"</p>"
 			escaneados.append(html);
 		}
 	}
