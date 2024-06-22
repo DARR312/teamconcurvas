@@ -1852,6 +1852,7 @@ const comboActualizarFT = () => {
         var codigoColorNuevoCombinacion = $('#codigoColorNuevoCombinacionEditar').val();
         var nombreCombinacion = $('#nombreCombinacionEditar').val();
         var nombreNuevoCombinacionEditar = $('#nombreNuevoCombinacionEditar').val();
+        console.log(nombreCombinacion);
         if(nombreCombinacion !='nuevo'){
 
             nombreNuevoCombinacionEditar = nombreCombinacion;
