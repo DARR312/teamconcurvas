@@ -1067,7 +1067,6 @@ function  actualizar($tabla,$columna,$valor,$valor2,$valor3){
         }
         $datos="UPDATE `con_t_prendasplaza` SET `agregada`=1 WHERE (`codigo`='".$valor."')";
         $wpdb->query($datos);
-        echo $datos;
     }  
 
 }
