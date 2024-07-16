@@ -181,7 +181,14 @@ function imprimirPrendasMadrugones(pmadrugos){
             descripcionConteo[descripcion] = 1;
         }
     }
+    html =  `${html} <div class=' col-lg-12 col-md-12 col-sm-12 col-xs-12 removerPMadurgones'>
+                        <p>Conteo total</p>
+                    </div>
+    `;
     console.log(descripcionConteo);
+    for (let j = 0; j < descripcionConteo.length; j++) {
+        console.log(descripcionConteo[j]);           
+    }
     return html;
 };
 
