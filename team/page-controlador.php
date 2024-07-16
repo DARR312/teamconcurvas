@@ -1061,9 +1061,10 @@ function  actualizar($tabla,$columna,$valor,$valor2,$valor3){
         $datos="UPDATE `con_t_trprendas` SET `fecha_cambio`='".$fecha."' WHERE (`estado`='En satélite') AND (`cual` = ".$columna.")";
         $wpdb->query($datos);
     }          
-    if($tabla == "con_t_prendasplaza" ){        
+    if($tabla == "con_t_prendasplaza" ){    
         $datos="UPDATE `con_t_prendasplaza` SET `agregada`=1 WHERE (`codigo`='".$valor."')";
         $wpdb->query($datos);
+        echo $datos;
     }  
 
 }
