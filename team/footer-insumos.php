@@ -907,17 +907,24 @@ $('#verInsumos').on('click', function(){
     let listado = obtenerDatajson("ID,grupo,complemento,caracteristica,complemento_caracteristica,presentacion,cantidad","con_t_insumos","variasfilasunicasAlfabetico","grupo","0");
     let listadoInsumos =  JSON.parse(listado);    
     let user = $('#usuarioLevel').attr('name');
-    let html=`<p>${user}</p>`;
     for (let i = 0; i < listadoInsumos.length; i++) {
         html = `${html} <div class=' col-lg-12 col-md-12 col-sm-12 col-xs-12 remover'>
                     <div class=' col-lg-8 col-md-8 col-sm-8 col-xs-8'>
                         <p  class="letra18pt-pc">${listadoInsumos[i].grupo} ${listadoInsumos[i].complemento} ${listadoInsumos[i].caracteristica} ${listadoInsumos[i].complemento_caracteristica} ${listadoInsumos[i].presentacion}</p>
-                    </div>
-                    <div class=' col-lg-4 col-md-4 col-sm-4 col-xs-4'>
+                    </div>`;
+        if(user == 10){
+            html = `${html}
+                 <div class=' col-lg-4 col-md-4 col-sm-4 col-xs-4'>
                         <p  class="letra18pt-pc">${listadoInsumos[i].cantidad}</p>
                     </div>
                 </div>
-        `;
+        `;}
+        else{html = `${html}
+                 <div class=' col-lg-4 col-md-4 col-sm-4 col-xs-4'>
+                        <p  class="letra18pt-pc"></p>
+                    </div>
+                </div>
+        `;}
         
     }
     let cabecerasResumen  = $('#cabecerasResumen');
