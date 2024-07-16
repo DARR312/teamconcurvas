@@ -24,8 +24,9 @@
 <div id="barraCelu" class="celular">
     <figure class="logo_pc"><img src="https://concurvas.com/wp-content/themes/mainteam_Concurvas/imagenes/iconos/LOGO.png" alt="Logo Concurvas"></figure>
     <div class="" id="usuarioCell" name="<?php echo $user_level.",".$user_name.",".$user_id; ?>">
-    <div class="" id="usuarioLevel" name="<?php echo $user_level; ?>">
+    
         <!-- <img src="https://concurvas.com/sistema/homeConcurvas/img/avatar.png" alt="Avatar">
         <p class="letra27pt-pc letra5pt-mv"><?php echo $user_name ; ?></p>-->
     </div>
+    <div class="" id="usuarioLevel" name="<?php echo $user_level; ?>"></div>
 </div>
