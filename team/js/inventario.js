@@ -163,6 +163,7 @@ function imprimirMadrugones(madrugos){
 
 function imprimirPrendasMadrugones(pmadrugos){
     var html = "";//madrugos[i].ID
+    var html2 = "";
     var descripcionConteo = {};
     for(var i = 0; i<(pmadrugos.length);i++){
         html += "<div class='col-lg-12 col-md-12 col-sm-12 col-xs-12 removerPMadurgones'>";
@@ -185,9 +186,18 @@ function imprimirPrendasMadrugones(pmadrugos){
                         <p>Conteo total</p>
                     </div>
     `;
-    console.log(descripcionConteo);
-    for (let j = 0; j < descripcionConteo.length; j++) {
-        console.log(descripcionConteo[j]);           
+    for (var descripcion in descripcionConteo) {
+        if (descripcionConteo.hasOwnProperty(descripcion)) {
+            html =  `${html} 
+                <div class=' col-lg-6 col-md-6 col-sm-6 col-xs-6 removerPMadurgones'>
+                        <p>Descripción: ${descripcion}</p>
+                </div>
+                
+                <div class=' col-lg-6 col-md-6 col-sm-6 col-xs-6 removerPMadurgones'>
+                        <p>Conteo: ${descripcionConteo[descripcion]}</p>
+                </div>
+            `;
+        }
     }
     return html;
 };
