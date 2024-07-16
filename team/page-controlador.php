@@ -1062,6 +1062,9 @@ function  actualizar($tabla,$columna,$valor,$valor2,$valor3){
         $wpdb->query($datos);
     }          
     if($tabla == "con_t_prendasplaza" ){    
+        if (substr($valor, 0, 1) === 'P') {
+            $valor .= '914'; // Agregar '914' al final de $valor
+        }
         $datos="UPDATE `con_t_prendasplaza` SET `agregada`=1 WHERE (`codigo`='".$valor."')";
         $wpdb->query($datos);
         echo $datos;
