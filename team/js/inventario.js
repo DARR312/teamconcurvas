@@ -180,8 +180,8 @@ function imprimirPrendasMadrugones(pmadrugos){
         } else {
             descripcionConteo[descripcion] = 1;
         }
-        console.log(descripcionConteo);
     }
+    console.log(descripcionConteo);
     return html;
 };
 
