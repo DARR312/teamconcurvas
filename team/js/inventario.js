@@ -164,7 +164,22 @@ function imprimirMadrugones(madrugos){
 function imprimirPrendasMadrugones(pmadrugos){
     var html = "";//madrugos[i].ID
     for(var i = 0; i<(pmadrugos.length);i++){
-        html = html+"<div class='col-lg-12 col-md-12 col-sm-12 col-xs-12 removerPMadurgones'><div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'><p class=' letra18pt-pc'>"+pmadrugos[i].codigoshow+"</p></div><div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'><p class=' letra18pt-pc'>"+pmadrugos[i].descripcion+"</p></div><div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'><p class=' letra18pt-pc'>"+pmadrugos[i].estado+"</p></div><div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'><p class=' letra18pt-pc'>"+pmadrugos[i].cual+"</p></div><div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'><p class=' letra18pt-pc'>"+pmadrugos[i].complemento_estado+"</p></div><div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'><p class=' letra18pt-pc'>"+pmadrugos[i].fecha_cambio+"</p></div></div>";
+        html += "<div class='col-lg-12 col-md-12 col-sm-12 col-xs-12 removerPMadurgones'>";
+        html += "<div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'><p class='letra18pt-pc'>" + pmadrugos[i].codigoshow + "</p></div>";
+        html += "<div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'><p class='letra18pt-pc'>" + pmadrugos[i].descripcion + "</p></div>";
+        html += "<div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'><p class='letra18pt-pc'>" + pmadrugos[i].estado + "</p></div>";
+        html += "<div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'><p class='letra18pt-pc'>" + pmadrugos[i].cual + "</p></div>";
+        html += "<div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'><p class='letra18pt-pc'>" + pmadrugos[i].complemento_estado + "</p></div>";
+        html += "<div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'><p class='letra18pt-pc'>" + pmadrugos[i].fecha_cambio + "</p></div>";
+        html += "<div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'><p class='letra18pt-pc'>Conteo: " + descripcionConteo[pmadrugos[i].descripcion] + "</p></div>";
+        html += "</div>";
+        var descripcion = pmadrugos[i].descripcion;
+        if (descripcionConteo[descripcion]) {
+            descripcionConteo[descripcion]++;
+        } else {
+            descripcionConteo[descripcion] = 1;
+        }
+        console.log(descripcion);
     }
     return html;
 };
