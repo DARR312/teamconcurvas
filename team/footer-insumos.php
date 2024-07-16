@@ -906,7 +906,7 @@ $('#verInsumos').on('click', function(){
     $('#terminadosTiempos').css('display', 'none');  
     let listado = obtenerDatajson("ID,grupo,complemento,caracteristica,complemento_caracteristica,presentacion,cantidad","con_t_insumos","variasfilasunicasAlfabetico","grupo","0");
     let listadoInsumos =  JSON.parse(listado);    
-    let user = $('#usuarioCell').attr('name');
+    let user = $('#usuarioLevel').attr('name');
     let html=`<p>${user}</p>`;
     for (let i = 0; i < listadoInsumos.length; i++) {
         html = `${html} <div class=' col-lg-12 col-md-12 col-sm-12 col-xs-12 remover'>
