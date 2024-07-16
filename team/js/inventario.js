@@ -186,19 +186,13 @@ function imprimirPrendasMadrugones(pmadrugos){
                         <p>Conteo total</p>
                     </div>
     `;
-    for (var descripcion in descripcionConteo) {
-        if (descripcionConteo.hasOwnProperty(descripcion)) {
-            html =  `${html} 
-                <div class=' col-lg-6 col-md-6 col-sm-6 col-xs-6 removerPMadurgones'>
-                        <p>Descripción: ${descripcion}</p>
-                </div>
-                
-                <div class=' col-lg-6 col-md-6 col-sm-6 col-xs-6 removerPMadurgones'>
-                        <p>Conteo: ${descripcionConteo[descripcion]}</p>
-                </div>
-            `;
-        }
+    var descripcionesOrdenadas = Object.keys(descripcionConteo).sort();
+
+    for (var i = 0; i < descripcionesOrdenadas.length; i++) {
+        var descripcion = descripcionesOrdenadas[i];
+        html += "<p removerPMadurgones >Descripción: " + descripcion + ", Conteo: " + descripcionConteo[descripcion] + "</p>";
     }
+    
     return html;
 };
 
