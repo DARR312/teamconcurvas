@@ -278,7 +278,7 @@
         var pedidoitem2 = pedidoitem1.replaceAll(">","");
         var pedidoitem3 = pedidoitem2.replaceAll("{","<");  
         pedidoitemString = pedidoitem3.replaceAll("}",">"); 
-        revisarfechasatelite(arrayItems);
+        // revisarfechasatelite(arrayItems);
         restarInventario(refrestar);
         var idCambio = agregarcambio(venta_id,clienteString,pedido,pedidoitemString,notas,excedente,fecha_entrega,idUsuario,idUsuario);
         $('#popup').fadeOut('slow');         

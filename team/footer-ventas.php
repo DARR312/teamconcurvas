@@ -260,7 +260,7 @@
         var prendaString= JSON.stringify(jsonPrendas);
         html=html+"<div class='col-lg-12 col-md-12 col-sm-12 col-xs-12  removeprendavender' id='datospedido' name='"+prendaString+"'>"+
         "<p class='letra3pt-mv letra16pt-pc' id='valor_total' name='"+precio+"'>Precio total: "+precio+"</p></div>";
-        revisarfechasatelite(arraItems);
+        // revisarfechasatelite(arraItems);
         $('#popup4').fadeOut('slow');      
         $('#popup').fadeIn('slow');
         var pedido = $('#pedido');
