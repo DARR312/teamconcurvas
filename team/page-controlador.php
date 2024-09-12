@@ -1427,6 +1427,7 @@ function revisarfechasatelite($valor){
         if($cantidad<=0){
             $fechaDescripcion = array();
             $satel = $wpdb->get_results( "SELECT codigo FROM con_t_trprendas WHERE (referencia_id = ".$referenciasArray[$i].") AND (estado = 'En satélite')", ARRAY_A);  
+            echo $satel;
             $lote = "";
             for($j=1;$j<50;$j++){
                 if(($satel[0]['codigo'][$j] == "0")||($satel[0]['codigo'][$j] == "1")||($satel[0]['codigo'][$j] == "2")||($satel[0]['codigo'][$j] == "3")||($satel[0]['codigo'][$j] == "4")||($satel[0]['codigo'][$j] == "5")||($satel[0]['codigo'][$j] == "6")||($satel[0]['codigo'][$j] == "7")||($satel[0]['codigo'][$j] == "8")||($satel[0]['codigo'][$j] == "9")){

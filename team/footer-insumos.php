@@ -2379,6 +2379,38 @@ const comboActualizarFT = () => {
             var idFichaTecnicaObjeto = prepararjson(objeto);
             
             insertarfila("con_t_medidasproducto",idFichaTecnicaObjeto,tallaInsert,tipo_medida,medida,"0","0","0","0","0","0","0");    
+//////////////////////// AQUI ES DONDE TENGO QUE EDITAR
+            var objeto = {};
+            objeto.tipo = "string";
+            objeto.columna = "nombre";
+            objeto.valor = uniquetallaArray[i].talla;
+            var nombre = prepararjson(objeto);
+
+            var objeto = {};
+            objeto.tipo = "string";
+            objeto.columna = "talla";
+            objeto.valor = uniquetallaArray[i].talla;
+            var tallaInsert = prepararjson(objeto);
+
+            var objeto = {};
+            objeto.tipo = "string";
+            objeto.columna = "color";
+            objeto.valor = uniqueCombinationsArray[j].nombreCombinacion;
+            var color = prepararjson(objeto);
+
+            var objeto = {};
+            objeto.tipo = "int";
+            objeto.columna = "cantidad";
+            objeto.valor = 0;
+            var cantidad = prepararjson(objeto);
+
+            var objeto = {};
+            objeto.tipo = "int";
+            objeto.columna = "foto_link";
+            objeto.valor = "L";
+            var foto_link = prepararjson(objeto);
+
+            insertarfila("con_t_resumen",nombre,color,tallaInsert,cantidad,foto_link,precio_deta,precio_mayo,categoria_id,"0","0","0");    
         }
 
         $('.removerMedidasFicha').remove();
