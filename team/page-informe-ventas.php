@@ -1,7 +1,7 @@
 <?php 
 $valor = $_GET['valor'];
 global $wpdb;
-$diasInforme = 10;
+$diasInforme = 15;
 // Array para llevar la cuenta de todas las referencias vendidas en los últimos 5 días
 $referencias_totales_vendidas = [];
 
