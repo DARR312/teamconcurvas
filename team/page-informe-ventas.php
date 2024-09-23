@@ -1,7 +1,7 @@
 <?php 
 $valor = $_GET['valor'];
 global $wpdb;
-
+$diasInforme = 10;
 // Array para llevar la cuenta de todas las referencias vendidas en los últimos 5 días
 $referencias_totales_vendidas = [];
 
@@ -9,8 +9,8 @@ $referencias_totales_vendidas = [];
 $timezone = new DateTimeZone('America/Bogota');
 $fechados = wp_date('Y-m-d H:i:s', null, $timezone);
 
-// Recorremos los últimos 5 días (incluyendo hoy)
-for ($dia = 0; $dia < 5; $dia++) {
+// Recorremos los últimos diasInforme días (incluyendo hoy)
+for ($dia = 0; $dia < $diasInforme; $dia++) {
     // Calcular la fecha de inicio y fin para el día actual en el bucle
     $fecha_inicio = wp_date('Y-m-d 00:00:00', strtotime("-$dia day"), $timezone);
     $fecha_fin = wp_date('Y-m-d 23:59:59', strtotime("-$dia day"), $timezone);
@@ -96,7 +96,7 @@ for ($dia = 0; $dia < 5; $dia++) {
 }
 
 // Mostrar el recuento total de las referencias vendidas en los últimos 5 días
-echo "<h1>En los últimos 5 días se han vendido las siguientes referencias:</h1>";
+echo "<h1>En los últimos ".$diasInforme." días se han vendido las siguientes referencias:</h1>";
 foreach ($referencias_totales_vendidas as $referencia => $cantidad) {
     echo "<p>$referencia vendidas: $cantidad</p>";
 }
