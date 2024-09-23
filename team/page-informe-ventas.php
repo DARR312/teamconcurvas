@@ -1,20 +1,46 @@
 <?php 
-$valor=$_GET['valor'];
+$valor = $_GET['valor'];
 global $wpdb;
-  //$obtenidosArray = $wpdb->get_results( "SELECT datos_cliente,cliente_id FROM con_t_ventas WHERE venta_id = '".$valor."'", ARRAY_A);
-  //echo $obtenidosArray[0][datos_cliente];
-  //echo $obtenidosArray[0][cliente_id];
-  $timezone = new DateTimeZone( 'America/Bogota' );
-  $fechados = wp_date('Y-m-d H:i:s', null, $timezone );
-  $date = strtotime($fechados);
-  $fecha = wp_date('Y-m-d H:i:s', strtotime("-".date('H', $date)." hours"), $timezone );
-  $vendedores = $wpdb->get_results( "SELECT DISTINCT vendedor_id FROM con_t_ventas ORDER BY vendedor_id ASC", ARRAY_A);
-  for($i=0;$i<sizeof($vendedores);$i++){
-      $vendedornombre = $wpdb->get_results( "SELECT display_name FROM con_users WHERE ID = ".$vendedores[$i]['vendedor_id']."", ARRAY_A);
-      echo $vendedornombre[0]['display_name']." ha vendido: ";
-      $ventas = $wpdb->get_results( "SELECT COUNT(*) FROM con_t_ventas WHERE (fecha_creada BETWEEN '".$fecha."' AND '".$fechados."') AND vendedor_id = ".$vendedores[$i]['vendedor_id']."", ARRAY_A);
-      echo $ventas[0]['COUNT(*)']." ";
-  }
-  $obtenidosArray = $wpdb->get_results( "SELECT COUNT(*) FROM con_t_ventas WHERE (fecha_creada BETWEEN '".$fecha."' AND '".$fechados."')", ARRAY_A);
-  echo "Hoy se han vendido: ".$obtenidosArray[0]['COUNT(*)'];
+
+// Obtener la fecha actual en la zona horaria correcta
+$timezone = new DateTimeZone('America/Bogota');
+$fechados = wp_date('Y-m-d H:i:s', null, $timezone);
+
+// Obtener los vendedores
+$vendedores = $wpdb->get_results("SELECT DISTINCT vendedor_id FROM con_t_ventas ORDER BY vendedor_id ASC", ARRAY_A);
+
+// Recorremos los últimos 5 días (incluyendo hoy)
+for ($dia = 0; $dia < 5; $dia++) {
+    // Calcular la fecha de inicio y fin para el día actual en el bucle
+    $fecha_inicio = wp_date('Y-m-d 00:00:00', strtotime("-$dia day"), $timezone);
+    $fecha_fin = wp_date('Y-m-d 23:59:59', strtotime("-$dia day"), $timezone);
+
+    // Mostrar el encabezado de ventas para el día
+    echo "<h2>Ventas del día: " . wp_date('Y-m-d', strtotime("-$dia day"), $timezone) . "</h2>";
+
+    // Recorremos cada vendedor
+    for ($i = 0; $i < sizeof($vendedores); $i++) {
+        // Obtener el nombre del vendedor
+        $vendedornombre = $wpdb->get_results("SELECT display_name FROM con_users WHERE ID = " . $vendedores[$i]['vendedor_id'], ARRAY_A);
+        echo $vendedornombre[0]['display_name'] . " ha vendido: ";
+
+        // Contar las ventas del vendedor en el día específico
+        $ventas = $wpdb->get_results("
+            SELECT COUNT(*) AS total 
+            FROM con_t_ventas 
+            WHERE (fecha_creada BETWEEN '$fecha_inicio' AND '$fecha_fin') 
+            AND vendedor_id = " . $vendedores[$i]['vendedor_id'], ARRAY_A);
+
+        echo $ventas[0]['total'] . " ventas.<br>";
+    }
+
+    // Mostrar el total de ventas del día
+    $total_ventas = $wpdb->get_results("
+        SELECT COUNT(*) AS total 
+        FROM con_t_ventas 
+        WHERE fecha_creada BETWEEN '$fecha_inicio' AND '$fecha_fin'", ARRAY_A);
+
+    echo "Total de ventas del día: " . $total_ventas[0]['total'] . "<br><br>";
+}
+
 ?>
