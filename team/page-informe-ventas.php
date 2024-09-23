@@ -95,6 +95,9 @@ for ($dia = 0; $dia < $diasInforme; $dia++) {
     echo "<hr>"; // Separador para diferenciar días
 }
 
+// Ordenar las referencias vendidas en los últimos 5 días de mayor a menor
+arsort($referencias_totales_vendidas);
+
 // Mostrar el recuento total de las referencias vendidas en los últimos 5 días
 echo "<h1>En los últimos ".$diasInforme." días se han vendido las siguientes referencias:</h1>";
 foreach ($referencias_totales_vendidas as $referencia => $cantidad) {
