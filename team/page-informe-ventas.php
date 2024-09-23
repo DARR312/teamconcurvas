@@ -22,16 +22,41 @@ for ($dia = 0; $dia < 5; $dia++) {
     for ($i = 0; $i < sizeof($vendedores); $i++) {
         // Obtener el nombre del vendedor
         $vendedornombre = $wpdb->get_results("SELECT display_name FROM con_users WHERE ID = " . $vendedores[$i]['vendedor_id'], ARRAY_A);
-        echo $vendedornombre[0]['display_name'] . " ha vendido: ";
+        echo "<h3>" . $vendedornombre[0]['display_name'] . " ha vendido:</h3>";
 
-        // Contar las ventas del vendedor en el día específico
+        // Obtener los pedidos del vendedor en ese día
         $ventas = $wpdb->get_results("
-            SELECT COUNT(*) AS total 
+            SELECT pedido_item 
             FROM con_t_ventas 
             WHERE (fecha_creada BETWEEN '$fecha_inicio' AND '$fecha_fin') 
             AND vendedor_id = " . $vendedores[$i]['vendedor_id'], ARRAY_A);
 
-        echo $ventas[0]['total'] . " ventas.<br>";
+        // Recorremos cada venta para extraer las referencias y cantidades
+        foreach ($ventas as $venta) {
+            $pedido_items = json_decode($venta['pedido_item'], true);
+
+            // Recorremos cada item en el pedido
+            foreach ($pedido_items as $item) {
+                if (isset($item['referencia'])) {
+                    // Obtenemos la información de la referencia en la tabla con_t_resumen
+                    $referencia_id = $item['referencia'];
+                    $referencia_info = $wpdb->get_results("
+                        SELECT nombre, color, talla 
+                        FROM con_t_resumen 
+                        WHERE referencia_id = $referencia_id", ARRAY_A);
+
+                    if (!empty($referencia_info)) {
+                        // Mostramos el nombre, color y talla de la referencia
+                        $nombre = $referencia_info[0]['nombre'];
+                        $color = $referencia_info[0]['color'];
+                        $talla = $referencia_info[0]['talla'];
+                        $cantidad = isset($item['cantidad']) ? $item['cantidad'] : 1; // Asume que la cantidad es 1 si no está especificada
+
+                        echo "<p>$nombre $color $talla vendidas: $cantidad</p>";
+                    }
+                }
+            }
+        }
     }
 
     // Mostrar el total de ventas del día
@@ -40,7 +65,8 @@ for ($dia = 0; $dia < 5; $dia++) {
         FROM con_t_ventas 
         WHERE fecha_creada BETWEEN '$fecha_inicio' AND '$fecha_fin'", ARRAY_A);
 
-    echo "Total de ventas del día: " . $total_ventas[0]['total'] . "<br><br>";
+    echo "<strong>Total de ventas del día: " . $total_ventas[0]['total'] . "</strong><br><br>";
 }
+
 
 ?>
