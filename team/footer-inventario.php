@@ -648,13 +648,13 @@
 
             // Construye el HTML dinámicamente usando los datos del JSON
             html += '<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">';
-            html += '    <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1" name="Estado">';
+            html += '    <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" name="Estado">';
             html += '        <p class="letra18pt-pc">' + venta.estado + '</p>';
             html += '    </div>';
             html += '    <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1" name="Orden">';
             html += '        <p class="letra18pt-pc">#' + venta.venta_id + '</p>';
             html += '    </div>';
-            html += '    <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">';
+            html += '    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">';
             html += '        <button class="botonmodal darInforme" type="button" id="' + venta.venta_id + '">Dar informe </button>';
             html += '    </div>';
             html += '</div>';
