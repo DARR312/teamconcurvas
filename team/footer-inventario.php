@@ -641,6 +641,28 @@
         ||  estado = 'No empacado'`,"0");
         var jsonventas = JSON.parse(ventas);
         console.log(jsonventas);
+        var html = '';
+        // Recorre el JSON desde el final hacia el principio
+        for (var i = jsonventas.length - 1; i >= 0; i--) {
+            var venta = jsonventas[i];
+
+            // Construye el HTML dinámicamente usando los datos del JSON
+            html += '<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">';
+            html += '    <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1" name="Estado">';
+            html += '        <p class="letra18pt-pc">' + venta.estado + '</p>';
+            html += '    </div>';
+            html += '    <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1" name="Orden">';
+            html += '        <p class="letra18pt-pc">#' + venta.venta_id + '</p>';
+            html += '    </div>';
+            html += '    <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">';
+            html += '        <button class="botonmodal darInforme" type="button" id="' + venta.venta_id + '">Dar informe </button>';
+            html += '    </div>';
+            html += '</div>';
+        }
+
+        // Para añadir el HTML a algún contenedor de tu página
+        $('#cargarInformediv').html(html);
+
     });
     $('#cargarInforme').on('click', function(){ 
         var usuarioCell = $('#usuarioCell').attr("name");
