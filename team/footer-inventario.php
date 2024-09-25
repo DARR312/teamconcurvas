@@ -639,7 +639,8 @@
         `estado = 'Despachado' 
         ||  estado = 'Empacado' 
         ||  estado = 'No empacado'`,"0");
-        console.log(ventas);
+        var jsonventas = JSON.parse(ventas);
+        console.log(jsonventas);
     });
     $('#cargarInforme').on('click', function(){ 
         var usuarioCell = $('#usuarioCell').attr("name");
