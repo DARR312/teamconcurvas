@@ -635,6 +635,11 @@
         $('#liberarEmpacados').css('display', 'none');
         $('#madrugonDiv').css('display', 'none'); 
         $('#fechaslotesdiv').css('display', 'none');
+        var ventas = obtenerDatajson("*","con_t_ventas","variasCondiciones",
+        `estado = 'Despachado' 
+        ||  estado = 'Empacado' 
+        ||  estado = 'No empacado'`,"0");
+        console.log(ventas);
     });
     $('#cargarInforme').on('click', function(){ 
         var usuarioCell = $('#usuarioCell').attr("name");

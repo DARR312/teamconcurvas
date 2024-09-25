@@ -242,10 +242,10 @@ function is_admin_user() {
         </div>
         <div id="subirInformes"  style='display: none;' class="funcionamiento">
             <div class='col-lg-12 col-md-12 col-sm-12 col-xs-12' id='cargarInformediv'>
-                <input type="file" id="demo" accept=".xls,.xlsx" class='col-lg-6 col-md-6 col-sm-6 col-xs-12'/>
+                <!-- <input type="file" id="demo" accept=".xls,.xlsx" class='col-lg-6 col-md-6 col-sm-6 col-xs-12'/>
                 <div class='col-lg-2 col-md-2 col-sm-2 col-xs-12'>
                    <button class='botonmodal botonesInventario' type='button' id='cargarInforme'>Cargar informe</button>
-                </div>
+                </div> -->
             </div>
         </div>
         <div id="informeDinero"  style='display: none;' class="funcionamiento">
