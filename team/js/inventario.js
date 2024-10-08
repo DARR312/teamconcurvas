@@ -161,11 +161,11 @@ function imprimirMadrugones(madrugos){
     return html;
 };
 
-function imprimirPrendasMadrugones(pmadrugos) {
-    var html = "";
+function imprimirPrendasMadrugones(pmadrugos){
+    var html = "";//madrugos[i].ID
+    var html2 = "";
     var descripcionConteo = {};
-
-    for (var i = 0; i < pmadrugos.length; i++) {
+    for(var i = 0; i<(pmadrugos.length);i++){
         html += "<div class='col-lg-12 col-md-12 col-sm-12 col-xs-12 removerPMadurgones'>";
         html += "<div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'><p class='letra18pt-pc'>" + pmadrugos[i].codigoshow + "</p></div>";
         html += "<div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'><p class='letra18pt-pc'>" + pmadrugos[i].descripcion + "</p></div>";
@@ -173,42 +173,28 @@ function imprimirPrendasMadrugones(pmadrugos) {
         html += "<div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'><p class='letra18pt-pc'>" + pmadrugos[i].cual + "</p></div>";
         html += "<div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'><p class='letra18pt-pc'>" + pmadrugos[i].complemento_estado + "</p></div>";
         html += "<div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'><p class='letra18pt-pc'>" + pmadrugos[i].fecha_cambio + "</p></div>";
-
-        // Separar la talla del resto de la descripción
-        var descripcionCompleta = pmadrugos[i].descripcion;
-        var partesDescripcion = descripcionCompleta.split(' '); // Suponiendo que el formato es algo como "Amal Rojo SM"
-        var talla = partesDescripcion.pop(); // Extraer la última parte como talla
-        var descripcion = partesDescripcion.join(' '); // El resto es la descripción sin la talla
-
-        // Crear una clave para la combinación de descripción y talla
-        var clave = descripcion + " " + talla;
-
-        html += "<div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'><p class='letra18pt-pc'>Conteo: " + (descripcionConteo[clave] || 0) + "</p></div>";
+        html += "<div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'><p class='letra18pt-pc'>Conteo: " + descripcionConteo[pmadrugos[i].descripcion] + "</p></div>";
         html += "</div>";
-
-        // Contar por descripción y talla
-        if (descripcionConteo[clave]) {
-            descripcionConteo[clave]++;
+        var descripcion = pmadrugos[i].referencia_id;
+        if (descripcionConteo[descripcion]) {
+            descripcionConteo[descripcion]++;
         } else {
-            descripcionConteo[clave] = 1;
+            descripcionConteo[descripcion] = 1;
         }
     }
-
-    // Mostrar el conteo total agrupado por descripción y talla
-    html = `${html} <div class=' col-lg-12 col-md-12 col-sm-12 col-xs-12 removerPMadurgones'>
-                    <p>Conteo general</p>
-                 </div>`;
-
+    html =  `${html} <div class=' col-lg-12 col-md-12 col-sm-12 col-xs-12 removerPMadurgones'>
+                        <p>Conteo total</p>
+                    </div>
+    `;
     var descripcionesOrdenadas = Object.keys(descripcionConteo).sort();
 
     for (var i = 0; i < descripcionesOrdenadas.length; i++) {
-        var clave = descripcionesOrdenadas[i];
-        html += "<p removerPMadurgones>Descripción: " + clave + ", Conteo: " + descripcionConteo[clave] + "</p>";
+        var descripcion = descripcionesOrdenadas[i];
+        html += "<p removerPMadurgones >Descripción: " + descripcion + ", Conteo: " + descripcionConteo[descripcion] + "</p>";
     }
-
+    
     return html;
 };
-
 
 function imrpimirlotes(){
     $('.removerlotes').remove();
