@@ -161,11 +161,11 @@ function imprimirMadrugones(madrugos){
     return html;
 };
 
-function imprimirPrendasMadrugones(pmadrugos){
-    var html = "";//madrugos[i].ID
-    var html2 = "";
+function imprimirPrendasMadrugones(pmadrugos) {
+    var html = "";
     var descripcionConteo = {};
-    for(var i = 0; i<(pmadrugos.length);i++){
+
+    for (var i = 0; i < pmadrugos.length; i++) {
         html += "<div class='col-lg-12 col-md-12 col-sm-12 col-xs-12 removerPMadurgones'>";
         html += "<div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'><p class='letra18pt-pc'>" + pmadrugos[i].codigoshow + "</p></div>";
         html += "<div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'><p class='letra18pt-pc'>" + pmadrugos[i].descripcion + "</p></div>";
@@ -173,28 +173,39 @@ function imprimirPrendasMadrugones(pmadrugos){
         html += "<div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'><p class='letra18pt-pc'>" + pmadrugos[i].cual + "</p></div>";
         html += "<div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'><p class='letra18pt-pc'>" + pmadrugos[i].complemento_estado + "</p></div>";
         html += "<div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'><p class='letra18pt-pc'>" + pmadrugos[i].fecha_cambio + "</p></div>";
-        html += "<div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'><p class='letra18pt-pc'>Conteo: " + descripcionConteo[pmadrugos[i].descripcion] + "</p></div>";
-        html += "</div>";
-        var descripcion = pmadrugos[i].descripcion;
-        if (descripcionConteo[descripcion]) {
-            descripcionConteo[descripcion]++;
+
+        // Extraer tipo de prenda y talla, ignorando el color
+        var descripcion = pmadrugos[i].descripcion.split(" "); // Suponemos que la talla siempre es la última palabra
+        var talla = descripcion[descripcion.length - 1]; // Obtener la talla (última palabra)
+        var tipoPrenda = descripcion.slice(0, descripcion.length - 2).join(" ") + " " + talla; // Combinar prenda y talla
+        
+        // Agrupar por tipo de prenda y talla
+        if (descripcionConteo[tipoPrenda]) {
+            descripcionConteo[tipoPrenda]++;
         } else {
-            descripcionConteo[descripcion] = 1;
+            descripcionConteo[tipoPrenda] = 1;
         }
+
+        html += "<div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'><p class='letra18pt-pc'>Conteo: " + descripcionConteo[tipoPrenda] + "</p></div>";
+        html += "</div>";
     }
-    html =  `${html} <div class=' col-lg-12 col-md-12 col-sm-12 col-xs-12 removerPMadurgones'>
-                        <p>Conteo total</p>
-                    </div>
-    `;
+
+    // Agregar resumen del conteo total
+    html = `${html} <div class='col-lg-12 col-md-12 col-sm-12 col-xs-12 removerPMadurgones'>
+                <p>Conteo total</p>
+             </div>`;
+
+    // Ordenar las descripciones
     var descripcionesOrdenadas = Object.keys(descripcionConteo).sort();
 
     for (var i = 0; i < descripcionesOrdenadas.length; i++) {
         var descripcion = descripcionesOrdenadas[i];
-        html += "<p removerPMadurgones >Descripción: " + descripcion + ", Conteo: " + descripcionConteo[descripcion] + "</p>";
+        html += "<p removerPMadurgones>Descripción: " + descripcion + ", Conteo: " + descripcionConteo[descripcion] + "</p>";
     }
-    
+
     return html;
-};
+}
+
 
 function imrpimirlotes(){
     $('.removerlotes').remove();

@@ -654,8 +654,8 @@
             html += '    <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1" name="Orden">';
             html += '        <p class="letra18pt-pc">#' + venta.venta_id + '</p>';
             html += '    </div>';
-            html += '    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" name="Orden">';
-            html += '        <p class="letra18pt-pc">#' + venta.notas + '</p>';
+            html += '    <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" name="Orden">';
+            html += '        <p class="letra18pt-pc">' + venta.notas + '</p>';
             html += '    </div>';
             html += '    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">';
             html += '        <button class="botonmodal darInforme" type="button" id="' + venta.venta_id + '">Dar informe </button>';
@@ -667,6 +667,10 @@
         $('#cargarInformediv').html(html);
 
     });
+    $('#darInforme').on('click', function(){ 
+        
+    });
+
     $('#cargarInforme').on('click', function(){ 
         var usuarioCell = $('#usuarioCell').attr("name");
         console.log(usuarioCell);
