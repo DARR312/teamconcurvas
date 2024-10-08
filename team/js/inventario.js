@@ -173,9 +173,15 @@ function imprimirPrendasMadrugones(pmadrugos){
         html += "<div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'><p class='letra18pt-pc'>" + pmadrugos[i].cual + "</p></div>";
         html += "<div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'><p class='letra18pt-pc'>" + pmadrugos[i].complemento_estado + "</p></div>";
         html += "<div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'><p class='letra18pt-pc'>" + pmadrugos[i].fecha_cambio + "</p></div>";
-        html += "<div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'><p class='letra18pt-pc'>Conteo: " + descripcionConteo[pmadrugos[i].descripcion] + "</p></div>";
+        html += "<div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'><p class='letra18pt-pc'>Conteo: " + descripcionConteoIndi[pmadrugos[i].descripcion] + "</p></div>";
         html += "</div>";
-        var descripcion = pmadrugos[i].nombre + pmadrugos[i].talla;
+        var descripcionIndi = pmadrugos[i].descripcion;
+        if (descripcionConteoIndi[descripcionIndi]) {
+            descripcionConteoIndi[descripcionIndi]++;
+        } else {
+            descripcionConteo[descripcion] = 1;
+        }
+        var descripcion = pmadrugos[i].nombre + " " +pmadrugos[i].talla;
         if (descripcionConteo[descripcion]) {
             descripcionConteo[descripcion]++;
         } else {
