@@ -1366,39 +1366,63 @@ function madrugones(){
     echo json_encode($madrugones);
 }
 
-function prendasMadrugon($valor){
+function prendasMadrugon($valor) {
     global $wpdb;
-    $datos = $wpdb->get_results( "SELECT `fecha`, `valor_dinero`,madrugon_ok,valor_cambios FROM `con_t_madrugon` WHERE `ID`=".$valor."", ARRAY_A  );
-    $fechainicio = $datos[0]['fecha']." 00:00:00";
-    $fechafin= $datos[0]['fecha']." 23:00:00";
-    if( $datos[0]['madrugon_ok'] == "No"){
-        $prendas = $wpdb->get_results("SELECT `referencia_id` FROM `con_t_trprendas` WHERE (`estado`='Madrugón') AND (`fecha_cambio` BETWEEN '".$fechainicio."' AND '".$fechafin."')",ARRAY_N);
-        $ids = array();
-        for($j=0;$j<sizeof($prendas);$j++){
-            array_push($ids, $prendas[$j][0]);
-        }
+    $datos = $wpdb->get_results("SELECT `fecha`, `valor_dinero`, madrugon_ok, valor_cambios FROM `con_t_madrugon` WHERE `ID`=" . $valor, ARRAY_A);
+    $fechainicio = $datos[0]['fecha'] . " 00:00:00";
+    $fechafin = $datos[0]['fecha'] . " 23:00:00";
+
+    if ($datos[0]['madrugon_ok'] == "No") {
+        $prendas = $wpdb->get_results("SELECT tr.`referencia_id`, tr.`descripcion`, tr.`codigoshow`, tr.`estado`, tr.`cual`, tr.`complemento_estado`, tr.`fecha_cambio`, 
+                                              res.`nombre`, res.`talla`
+                                       FROM `con_t_trprendas` tr
+                                       JOIN `con_t_resumen` res ON tr.`referencia_id` = res.`referencia_id`
+                                       WHERE (`estado`='Madrugón') 
+                                       AND (`fecha_cambio` BETWEEN '" . $fechainicio . "' AND '" . $fechafin . "')", ARRAY_A);
+
+        $ids = array_column($prendas, 'referencia_id');
         $vals = array_count_values($ids);
         $valortotal = 0;
-        foreach ($vals as $key => $value){
-            $ref = $wpdb->get_results( "SELECT precio_mayorista FROM con_t_resumen WHERE referencia_id = ".$key."", ARRAY_A);
-            $valortotal = $valortotal + ($ref[0]['precio_mayorista']*$value);
+
+        foreach ($vals as $key => $value) {
+            $ref = $wpdb->get_results("SELECT precio_mayorista FROM con_t_resumen WHERE referencia_id = " . $key, ARRAY_A);
+            $valortotal += ($ref[0]['precio_mayorista'] * $value);
         }
-        $updated = $wpdb->update( "con_t_madrugon", array('valor_mercancia' => $valortotal), array( 'ID' =>$valor ));
-        if(($datos[0]['valor_dinero']+$datos[0]['valor_cambios']) == $valortotal){
-            $updated = $wpdb->update( "con_t_madrugon", array('madrugon_ok' => "Si"), array( 'ID' =>$valor ));
-            $datos="UPDATE `con_t_trprendas` SET `estado`='Venta madrugón' WHERE (`estado`='Madrugón') AND (`fecha_cambio` BETWEEN '".$fechainicio."' AND '".$fechafin."')";
-            $wpdb->query($datos);
-            $prendas = $wpdb->get_results("SELECT  `referencia_id`, `descripcion`, `codigoshow`, `estado`, `cual`, `complemento_estado`, `fecha_cambio` FROM `con_t_trprendas` WHERE (`estado`='Venta madrugón') AND (`fecha_cambio` BETWEEN '".$fechainicio."' AND '".$fechafin."')",ARRAY_A);
+
+        $updated = $wpdb->update("con_t_madrugon", array('valor_mercancia' => $valortotal), array('ID' => $valor));
+
+        if (($datos[0]['valor_dinero'] + $datos[0]['valor_cambios']) == $valortotal) {
+            $updated = $wpdb->update("con_t_madrugon", array('madrugon_ok' => "Si"), array('ID' => $valor));
+            $wpdb->query("UPDATE `con_t_trprendas` SET `estado`='Venta madrugón' WHERE (`estado`='Madrugón') AND (`fecha_cambio` BETWEEN '" . $fechainicio . "' AND '" . $fechafin . "')");
+
+            // Obtener las prendas con estado 'Venta madrugón'
+            $prendas = $wpdb->get_results("SELECT tr.`referencia_id`, tr.`descripcion`, tr.`codigoshow`, tr.`estado`, tr.`cual`, tr.`complemento_estado`, tr.`fecha_cambio`, 
+                                                  res.`nombre`, res.`talla`
+                                           FROM `con_t_trprendas` tr
+                                           JOIN `con_t_resumen` res ON tr.`referencia_id` = res.`referencia_id`
+                                           WHERE (`estado`='Venta madrugón') 
+                                           AND (`fecha_cambio` BETWEEN '" . $fechainicio . "' AND '" . $fechafin . "')", ARRAY_A);
             echo json_encode($prendas);
-        }else{
-            $prendas = $wpdb->get_results("SELECT  `referencia_id`, `descripcion`, `codigoshow`, `estado`, `cual`, `complemento_estado`, `fecha_cambio` FROM `con_t_trprendas` WHERE (`estado`='Madrugón') AND (`fecha_cambio` BETWEEN '".$fechainicio."' AND '".$fechafin."')",ARRAY_A);
+        } else {
+            // Obtener prendas que aún están en estado 'Madrugón'
+            $prendas = $wpdb->get_results("SELECT tr.`referencia_id`, tr.`descripcion`, tr.`codigoshow`, tr.`estado`, tr.`cual`, tr.`complemento_estado`, tr.`fecha_cambio`, 
+                                                  res.`nombre`, res.`talla`
+                                           FROM `con_t_trprendas` tr
+                                           JOIN `con_t_resumen` res ON tr.`referencia_id` = res.`referencia_id`
+                                           WHERE (`estado`='Madrugón') 
+                                           AND (`fecha_cambio` BETWEEN '" . $fechainicio . "' AND '" . $fechafin . "')", ARRAY_A);
             echo json_encode($prendas);
         }
-    }else{
-        $prendas = $wpdb->get_results("SELECT  `referencia_id`, `descripcion`, `codigoshow`, `estado`, `cual`, `complemento_estado`, `fecha_cambio` FROM `con_t_trprendas` WHERE (`estado`='Venta madrugón') AND (`fecha_cambio` BETWEEN '".$fechainicio."' AND '".$fechafin."')",ARRAY_A);
+    } else {
+        // Obtener prendas en estado 'Venta madrugón'
+        $prendas = $wpdb->get_results("SELECT tr.`referencia_id`, tr.`descripcion`, tr.`codigoshow`, tr.`estado`, tr.`cual`, tr.`complemento_estado`, tr.`fecha_cambio`, 
+                                              res.`nombre`, res.`talla`
+                                       FROM `con_t_trprendas` tr
+                                       JOIN `con_t_resumen` res ON tr.`referencia_id` = res.`referencia_id`
+                                       WHERE (`estado`='Venta madrugón') 
+                                       AND (`fecha_cambio` BETWEEN '" . $fechainicio . "' AND '" . $fechafin . "')", ARRAY_A);
         echo json_encode($prendas);
     }
-    
 }
 
 function revisarfechasatelite($valor){
