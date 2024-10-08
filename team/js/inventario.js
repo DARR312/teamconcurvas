@@ -165,6 +165,7 @@ function imprimirPrendasMadrugones(pmadrugos){
     var html = "";//madrugos[i].ID
     var html2 = "";
     var descripcionConteo = {};
+    var descripcionConteoIndi = {};
     for(var i = 0; i<(pmadrugos.length);i++){
         html += "<div class='col-lg-12 col-md-12 col-sm-12 col-xs-12 removerPMadurgones'>";
         html += "<div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'><p class='letra18pt-pc'>" + pmadrugos[i].codigoshow + "</p></div>";
