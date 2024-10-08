@@ -174,37 +174,40 @@ function imprimirPrendasMadrugones(pmadrugos) {
         html += "<div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'><p class='letra18pt-pc'>" + pmadrugos[i].complemento_estado + "</p></div>";
         html += "<div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'><p class='letra18pt-pc'>" + pmadrugos[i].fecha_cambio + "</p></div>";
 
-        // Extraer tipo de prenda y talla, ignorando el color
-        var descripcion = pmadrugos[i].descripcion.split(" "); // Suponemos que la talla siempre es la última palabra
-        var talla = descripcion[descripcion.length - 1]; // Obtener la talla (última palabra)
-        var tipoPrenda = descripcion.slice(0, descripcion.length - 2).join(" ") + " " + talla; // Combinar prenda y talla
-        
-        // Agrupar por tipo de prenda y talla
-        if (descripcionConteo[tipoPrenda]) {
-            descripcionConteo[tipoPrenda]++;
-        } else {
-            descripcionConteo[tipoPrenda] = 1;
-        }
+        // Separar la talla del resto de la descripción
+        var descripcionCompleta = pmadrugos[i].descripcion;
+        var partesDescripcion = descripcionCompleta.split(' '); // Suponiendo que el formato es algo como "Amal Rojo SM"
+        var talla = partesDescripcion.pop(); // Extraer la última parte como talla
+        var descripcion = partesDescripcion.join(' '); // El resto es la descripción sin la talla
 
-        html += "<div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'><p class='letra18pt-pc'>Conteo: " + descripcionConteo[tipoPrenda] + "</p></div>";
+        // Crear una clave para la combinación de descripción y talla
+        var clave = descripcion + " " + talla;
+
+        html += "<div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'><p class='letra18pt-pc'>Conteo: " + (descripcionConteo[clave] || 0) + "</p></div>";
         html += "</div>";
+
+        // Contar por descripción y talla
+        if (descripcionConteo[clave]) {
+            descripcionConteo[clave]++;
+        } else {
+            descripcionConteo[clave] = 1;
+        }
     }
 
-    // Agregar resumen del conteo total
-    html = `${html} <div class='col-lg-12 col-md-12 col-sm-12 col-xs-12 removerPMadurgones'>
-                <p>Conteo total</p>
-             </div>`;
+    // Mostrar el conteo total agrupado por descripción y talla
+    html = `${html} <div class=' col-lg-12 col-md-12 col-sm-12 col-xs-12 removerPMadurgones'>
+                    <p>Conteo general</p>
+                 </div>`;
 
-    // Ordenar las descripciones
     var descripcionesOrdenadas = Object.keys(descripcionConteo).sort();
 
     for (var i = 0; i < descripcionesOrdenadas.length; i++) {
-        var descripcion = descripcionesOrdenadas[i];
-        html += "<p removerPMadurgones>Descripción: " + descripcion + ", Conteo: " + descripcionConteo[descripcion] + "</p>";
+        var clave = descripcionesOrdenadas[i];
+        html += "<p removerPMadurgones>Descripción: " + clave + ", Conteo: " + descripcionConteo[clave] + "</p>";
     }
 
     return html;
-}
+};
 
 
 function imrpimirlotes(){
