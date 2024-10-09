@@ -448,12 +448,12 @@ function is_admin_user() {
         </div>
     </div>
     <div id='popup2' style='display: none;' class="pc tablet">
-        <div class='content-popup' id="editarValorCambios">
+        <div class='content-popup' id="informeIndividual">
             <div class='close'><a href='#' id='close2'>
                 <img src='<?php echo get_template_directory_uri(); ?>/imagenes/iconos/close.png'/></a>
             </div>
             <div>
-                <h2 class="letra18pt-pc">Informe para el pedido: </h2>
+                <h2 class="letra18pt-pc" id='labelInforme'>Informe para el pedido: </h2>
                 <div action="" method="get" accept-charset="UTF-8" autocomplete="off" class="" id="formularioCliente">
 					<div class="form-group pmd-textfield pmd-textfield-floating-label">
 						<label for="valorDineroCambio" class="control-label letra18pt-pc"> Estado</label>
@@ -461,9 +461,11 @@ function is_admin_user() {
                             <option value="cancelado">Cancelado</option>
                             <option value="entregado">Entregado</option>
                         </select><span class='pmd-textfield-focused'></span>
+                        <label for="valorDineroCambio" class="control-label letra18pt-pc"> Valor pagado</label>
+						<input class="form-control" type="number" id="valorDineroVenta" name="valorDineroVenta" required=""><span class="pmd-textfield-focused"></span>
                     </div>					
 				</div>
-				<button type="submit" class="botonmodal letra18pt-pc" id="dineroGuardadoCambios"> Guardar dinero </button>
+				<button type="submit" class="botonmodal letra18pt-pc" id="guardarInforme"> Guardar informe </button>
                 <div style='float:left; width:100%;'>
                 </div>
             </div>
