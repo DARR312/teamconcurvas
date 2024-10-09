@@ -77,7 +77,7 @@ for ($dia = 0; $dia < $diasInforme; $dia++) {
                     }
                     $referencias_vendidas[$referencia_nombre] += $cantidad_vendida;
 
-                    // Sumar la cantidad vendida al conteo total (últimos 5 días)
+                    // Sumar la cantidad vendida al conteo total 
                     if (!isset($referencias_totales_vendidas[$referencia_nombre])) {
                         $referencias_totales_vendidas[$referencia_nombre] = 0;
                     }
