@@ -57,6 +57,7 @@ function inventario(){
     });         
     $('#dineroGuardadoCambios').on('click', function(){   
         $('#popup1').fadeOut('slow');       
+        $('#popup2').fadeOut('slow');       
         $('.popup-overlay').fadeOut('slow'); 
         $('#primeraMadrugones').css('display', 'block');
         $('#primeraPrendasMadrugones').css('display', 'none');
