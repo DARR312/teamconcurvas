@@ -41,19 +41,19 @@ for ($dia = 0; $dia < $diasInforme; $dia++) {
 
                
                 // Formato: "Nombre Color Talla"
-                $referencia_nombre = $referencia_info['nombre'] . " " . $referencia_info['color'] . " " . $referencia_info['talla'];
+                // $referencia_nombre = $referencia_info['nombre'] . " " . $referencia_info['color'] . " " . $referencia_info['talla'];
 
                 // Sumar la cantidad vendida a la referencia correspondiente (por día)
-                if (!isset($referencias_vendidas[$referencia_info])) {
-                    $referencias_vendidas[$referencia_info] = 0;
+                if (!isset($referencias_vendidas[$referencia_id])) {
+                    $referencias_vendidas[$referencia_id] = 0;
                 }
-                $referencias_vendidas[$referencia_info] += $cantidad_vendida;
+                $referencias_vendidas[$referencia_id] += $cantidad_vendida;
 
                 // Sumar la cantidad vendida al conteo total (últimos 5 días)
-                if (!isset($referencias_totales_vendidas[$referencia_info])) {
-                    $referencias_totales_vendidas[$referencia_info] = 0;
+                if (!isset($referencias_totales_vendidas[$referencia_id])) {
+                    $referencias_totales_vendidas[$referencia_id] = 0;
                 }
-                $referencias_totales_vendidas[$referencia_info] += $cantidad_vendida;
+                $referencias_totales_vendidas[$referencia_id] += $cantidad_vendida;
                 
             }
         }
