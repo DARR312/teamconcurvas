@@ -72,20 +72,7 @@ function inventario(){
         inventario();
         return false;     
     });  
-    $('.darInforme').on('click', function(){         
-        $('#popup2').fadeIn('slow');         
-        $('.popup-overlay').fadeIn('slow');         
-        $('.popup-overlay').height($(window).height());    
-        return false;    
-    });      
-    $('#close2').on('click', function(){  
-        var id = this.id; // Utiliza 'this.id' directamente, es más eficiente
-        $('#informeIndividual').attr("name", id); 
-        $('#labelInforme').text("Informe para: "+id); // Cambia 'attr("text")' por 'text()' para actualizar el contenido de texto
-        $('#popup2').fadeOut('slow');       
-        $('.popup-overlay').fadeOut('slow'); 
-        return false;  // Si no necesitas prevenir el comportamiento predeterminado, puedes eliminar esta línea
-    });
+    
     
 };
 
