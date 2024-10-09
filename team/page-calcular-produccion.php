@@ -22,7 +22,7 @@ for ($dia = 0; $dia < $diasInforme; $dia++) {
 
     // Array para llevar la cuenta de las referencias vendidas por día
     $referencias_vendidas = [];
-
+    print_r($ventas);
     // Recorremos cada venta para extraer las referencias y cantidades
     foreach ($ventas as $venta) {
         $pedido_items = json_decode($venta['pedido_item'], true);
@@ -59,7 +59,6 @@ for ($dia = 0; $dia < $diasInforme; $dia++) {
         }
     }
 
-    echo "<hr>"; // Separador para diferenciar días
 }
 
 // Ordenar las referencias vendidas en los últimos 5 días de mayor a menor
