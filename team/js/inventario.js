@@ -72,6 +72,17 @@ function inventario(){
         inventario();
         return false;     
     });  
+    $('#darInforme').on('click', function(){         
+        $('#popup2').fadeIn('slow');         
+        $('.popup-overlay').fadeIn('slow');         
+        $('.popup-overlay').height($(window).height());    
+        return false;    
+    });      
+    $('#close2').on('click', function(){   
+        $('#popup2').fadeOut('slow');       
+        $('.popup-overlay').fadeOut('slow'); 
+        return false;     
+    }); 
 };
 
 function imprimirCodigos(arrayPrendas){

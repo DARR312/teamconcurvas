@@ -667,9 +667,6 @@
         $('#cargarInformediv').html(html);
 
     });
-    $('#darInforme').on('click', function(){ 
-        
-    });
 
     $('#cargarInforme').on('click', function(){ 
         var usuarioCell = $('#usuarioCell').attr("name");
