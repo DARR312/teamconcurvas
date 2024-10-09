@@ -180,7 +180,7 @@ function imprimirPrendasMadrugones(pmadrugos){
         if (descripcionConteoIndi[descripcionIndi]) {
             descripcionConteoIndi[descripcionIndi]++;
         } else {
-            descripcionConteo[descripcionIndi] = 1;
+            descripcionConteoIndi[descripcionIndi] = 1;
         }
         var descripcion = pmadrugos[i].nombre + " " +pmadrugos[i].talla;
         if (descripcionConteo[descripcion]) {
