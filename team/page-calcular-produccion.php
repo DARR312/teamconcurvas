@@ -22,7 +22,7 @@ for ($dia = 0; $dia < $diasInforme; $dia++) {
 
     // Array para llevar la cuenta de las referencias vendidas por día
     $referencias_vendidas = [];
-    
+
     // Recorremos cada venta para extraer las referencias y cantidades
     foreach ($ventas as $venta) {
         $pedido_items = json_decode($venta['pedido_item'], true);
@@ -34,27 +34,27 @@ for ($dia = 0; $dia < $diasInforme; $dia++) {
                 $cantidad_vendida = isset($item['cantidad']) ? $item['cantidad'] : 1;
 
                 // Obtener información de la referencia
-                $referencia_info = $wpdb->get_row("
-                    SELECT nombre, color, talla 
-                    FROM con_t_resumen 
-                    WHERE referencia_id = $referencia_id", ARRAY_A);
+                // $referencia_info = $wpdb->get_row("
+                //     SELECT nombre, color, talla 
+                //     FROM con_t_resumen 
+                //     WHERE referencia_id = $referencia_id", ARRAY_A);
 
-                if (!empty($referencia_info)) {
-                    // Formato: "Nombre Color Talla"
-                    $referencia_nombre = $referencia_info['nombre'] . " " . $referencia_info['color'] . " " . $referencia_info['talla'];
+               
+                // Formato: "Nombre Color Talla"
+                $referencia_nombre = $referencia_info['nombre'] . " " . $referencia_info['color'] . " " . $referencia_info['talla'];
 
-                    // Sumar la cantidad vendida a la referencia correspondiente (por día)
-                    if (!isset($referencias_vendidas[$referencia_nombre])) {
-                        $referencias_vendidas[$referencia_nombre] = 0;
-                    }
-                    $referencias_vendidas[$referencia_nombre] += $cantidad_vendida;
-
-                    // Sumar la cantidad vendida al conteo total (últimos 5 días)
-                    if (!isset($referencias_totales_vendidas[$referencia_nombre])) {
-                        $referencias_totales_vendidas[$referencia_nombre] = 0;
-                    }
-                    $referencias_totales_vendidas[$referencia_nombre] += $cantidad_vendida;
+                // Sumar la cantidad vendida a la referencia correspondiente (por día)
+                if (!isset($referencias_vendidas[$referencia_info])) {
+                    $referencias_vendidas[$referencia_info] = 0;
                 }
+                $referencias_vendidas[$referencia_info] += $cantidad_vendida;
+
+                // Sumar la cantidad vendida al conteo total (últimos 5 días)
+                if (!isset($referencias_totales_vendidas[$referencia_info])) {
+                    $referencias_totales_vendidas[$referencia_info] = 0;
+                }
+                $referencias_totales_vendidas[$referencia_info] += $cantidad_vendida;
+                
             }
         }
     }
