@@ -61,6 +61,31 @@ for ($dia = 0; $dia < $diasInforme; $dia++) {
 
 }
 
+$lastId = $wpdb->get_results( "SELECT MAX(referencia_id) as id FROM con_t_resumen");
+$a = array_fill(1, $lastId[0]->id, 0);
+$pedidos = $wpdb->get_results( "SELECT pedido_item FROM con_t_ventas WHERE (estado = 'Sin empacar') OR (estado = 'No empacado')", ARRAY_A);//133
+for ($i=0; $i < sizeof($pedidos) ; $i++) { 
+    $jsonPedidon =  json_decode($pedidos[$i]['pedido_item']);
+    for ($j=1; $j < sizeof($jsonPedidon); $j++) { 
+        $jsonPedido =  (array)$jsonPedidon[$j];
+        $cantidadantigua = $a[$jsonPedido['referencia']];
+        $a[$jsonPedido['referencia']] = $cantidadantigua+1;
+    }
+}
+$lastId = $wpdb->get_results( "SELECT MAX(referencia_id) as id FROM con_t_resumen");
+    $b = array_fill(1, $lastId[0]->id, 0);
+    $pedidos = $wpdb->get_results( "SELECT pedido_item FROM con_t_cambios WHERE (estado = 'Sin empacar') OR (estado = 'No empacado')", ARRAY_A);//133
+    for ($i=0; $i < sizeof($pedidos) ; $i++) { 
+        $jsonPedidon =  json_decode($pedidos[$i]['pedido_item']);
+        for ($j=1; $j < sizeof($jsonPedidon); $j++) { 
+            $jsonPedido =  (array)$jsonPedidon[$j];
+            $cantidadantigua = $b[$jsonPedido['referencia']];
+            $b[$jsonPedido['referencia']] = $cantidadantigua+1;
+        }
+    }
+
+    print_r($a);
+    print_r($b);
 // Ordenar las referencias vendidas en los últimos 5 días de mayor a menor
 arsort($referencias_totales_vendidas);
 
