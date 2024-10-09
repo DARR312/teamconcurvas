@@ -1,5 +1,5 @@
 <?php 
-$diasInforme = $_GET['valor'];
+$diasInforme = $_GET['diasInforme'];
 global $wpdb;
 // Array para llevar la cuenta de todas las referencias vendidas en los últimos 5 días
 $referencias_totales_vendidas = [];
@@ -22,7 +22,7 @@ for ($dia = 0; $dia < $diasInforme; $dia++) {
 
     // Array para llevar la cuenta de las referencias vendidas por día
     $referencias_vendidas = [];
-    print_r($ventas);
+    
     // Recorremos cada venta para extraer las referencias y cantidades
     foreach ($ventas as $venta) {
         $pedido_items = json_decode($venta['pedido_item'], true);
