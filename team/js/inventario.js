@@ -165,7 +165,6 @@ function imprimirPrendasMadrugones(pmadrugos){
     var html = "";//madrugos[i].ID
     var html2 = "";
     var descripcionConteo = {};
-    var descripcionConteoIndi = {};
     for(var i = 0; i<(pmadrugos.length);i++){
         html += "<div class='col-lg-12 col-md-12 col-sm-12 col-xs-12 removerPMadurgones'>";
         html += "<div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'><p class='letra18pt-pc'>" + pmadrugos[i].codigoshow + "</p></div>";
@@ -174,14 +173,7 @@ function imprimirPrendasMadrugones(pmadrugos){
         html += "<div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'><p class='letra18pt-pc'>" + pmadrugos[i].cual + "</p></div>";
         html += "<div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'><p class='letra18pt-pc'>" + pmadrugos[i].complemento_estado + "</p></div>";
         html += "<div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'><p class='letra18pt-pc'>" + pmadrugos[i].fecha_cambio + "</p></div>";
-        html += "<div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'><p class='letra18pt-pc'>Conteo: " + descripcionConteoIndi[pmadrugos[i].descripcion] + "</p></div>";
         html += "</div>";
-        var descripcionIndi = pmadrugos[i].descripcion;
-        if (descripcionConteoIndi[descripcionIndi]) {
-            descripcionConteoIndi[descripcionIndi]++;
-        } else {
-            descripcionConteoIndi[descripcionIndi] = 1;
-        }
         var descripcion = pmadrugos[i].nombre + " " +pmadrugos[i].talla;
         if (descripcionConteo[descripcion]) {
             descripcionConteo[descripcion]++;
