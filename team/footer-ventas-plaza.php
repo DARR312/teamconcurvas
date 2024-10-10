@@ -1018,7 +1018,8 @@
         $('.primeraFilaDia').css('display', 'block');
         var ventaId = $('#bscar').val();
         if(ventaId){
-            var ventasFiltro  = obtenerDatajson('*','con_t_ventasplaza','valoresconcondicion','ID',ventaId);
+            var ventasFiltro = obtenerDatajson('*','con_t_ventasplaza','valoresconcondicion','ID',ventaId);
+            
             var jsonVentasFiltro = JSON.parse(ventasFiltro);
             if(jsonVentasFiltro.length !== 0){
                 $('#primeraFila').after(imprimi(jsonVentasFiltro));
