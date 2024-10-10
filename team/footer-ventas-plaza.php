@@ -87,7 +87,7 @@
         $('.primeraFilaDia').css('display', 'block');
         var Etiqueta = $('#BuscarEtiqueta').val();
         if(Etiqueta){
-            var ventasFiltro = obtenerDatajson('ID,fecha_creada,cliente_id,datos_cliente,codigos_prendas,notas,metodos_pago,valor_total','con_t_ventasplaza','Like','codigos_prendas',Etiqueta);
+            var ventasFiltro = obtenerDatajson('ID,fecha_cliente_id,datos_cliente,codigos_prendas,notas,metodos_pago,valor_total','con_t_ventasplaza','Like','codigos_prendas',Etiqueta);
             var jsonVentasFiltro = JSON.parse(ventasFiltro);
             if(jsonVentasFiltro.length !== 0){
                 $('#primeraFila').after(imprimi(jsonVentasFiltro));
@@ -1011,13 +1011,23 @@
         return false;     
     });
     $('#bscar').on('change',function(){
-	    $('.removerCambios').remove();
+	     $('.removerCambios').remove();
+        // $('.ventasplaza').remove();
         $('.ventasplazaResumen').remove(); 
-	    var ordenesCambio = ordenescambiojson($('#bscar').val(),$('#estadoFiltro').val(),$('#transportador').val(),$('#tipoenvio').val(),$('#datetimepicker-creadacambios').val(),$('#datetimepicker-entregacambios').val());
-        var html = imprimirCambiosjson(ordenesCambio,pedidoUpdate,fechaUpdate,notasUpdate,usuarioUpdate);
-        var primeraFila = $('#primeraFila');
-        primeraFila.after(html);
-    	cambios();
+        $('#primeraFila').css('display', 'none');
+        $('.primeraFilaDia').css('display', 'block');
+        var ventaId = $('#bscar').val();
+        if(ventaId){
+            var ventasFiltro = obtenerDatajson('ID,fecha_cliente_id,datos_cliente,codigos_prendas,notas,metodos_pago,valor_total','con_t_ventasplaza','valoresconcondicion','ID',Etiqueta);
+            var jsonVentasFiltro = JSON.parse(ventasFiltro);
+            if(jsonVentasFiltro.length !== 0){
+                $('#primeraFila').after(imprimi(jsonVentasFiltro));
+            }else{
+              
+                html = "<p style='margin: 335px 23% 200px 40%;'class='col-lg-6 col-md-6 col-sm-6 col-xs-6 cliente'>Sin resultados</p>"
+                $('#primeraFila').after(html);
+            }
+        }
 	}); 
     $('#clienteGuardado').on('click', function(){ 
         if(!$('#nombre').val()){alert("Ingresa el nombre del cliente :)");return false;}
