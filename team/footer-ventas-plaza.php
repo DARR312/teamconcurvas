@@ -1018,7 +1018,7 @@
         $('.primeraFilaDia').css('display', 'block');
         var ventaId = $('#bscar').val();
         if(ventaId){
-            var ventasFiltro = obtenerDatajson('ID,fecha_cliente_id,datos_cliente,codigos_prendas,notas,metodos_pago,valor_total','con_t_ventasplaza','valoresconcondicion','ID',Etiqueta);
+            var ventasFiltro = obtenerDatajson('ID,fecha_cliente_id,datos_cliente,codigos_prendas,notas,metodos_pago,valor_total','con_t_ventasplaza','valoresconcondicion','ID',ventaId);
             var jsonVentasFiltro = JSON.parse(ventasFiltro);
             if(jsonVentasFiltro.length !== 0){
                 $('#primeraFila').after(imprimi(jsonVentasFiltro));
