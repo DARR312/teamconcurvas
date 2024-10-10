@@ -87,7 +87,7 @@
         $('.primeraFilaDia').css('display', 'block');
         var Etiqueta = $('#BuscarEtiqueta').val();
         if(Etiqueta){
-            var ventasFiltro = obtenerDatajson('ID,fecha_cliente_id,datos_cliente,codigos_prendas,notas,metodos_pago,valor_total','con_t_ventasplaza','Like','codigos_prendas',Etiqueta);
+            var ventasFiltro = obtenerDatajson('*','con_t_ventasplaza','Like','codigos_prendas',Etiqueta);
             var jsonVentasFiltro = JSON.parse(ventasFiltro);
             if(jsonVentasFiltro.length !== 0){
                 $('#primeraFila').after(imprimi(jsonVentasFiltro));
@@ -107,7 +107,7 @@
         $('.primeraFilaDia').css('display', 'block');
 	    var telefono = $('#BuscarTelefono').val();
         if(telefono){
-            var ventasFiltro = obtenerDatajson('ID,cliente_id,datos_cliente,codigos_prendas,notas,metodos_pago,valor_total','con_t_ventasplaza','Like','datos_cliente',telefono);
+            var ventasFiltro = obtenerDatajson('*','con_t_ventasplaza','Like','datos_cliente',telefono);
             var jsonVentasFiltro = JSON.parse(ventasFiltro);
             if(jsonVentasFiltro.length !== 0){
                 $('#primeraFila').after(imprimi(jsonVentasFiltro));
