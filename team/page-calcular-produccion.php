@@ -75,7 +75,7 @@ for ($dia = 0; $dia < $diasInforme; $dia++) {
 arsort($referencias_totales_vendidas);
 
 // Mostrar el recuento total de las referencias vendidas en los últimos 5 días
-echo "<h1>En los últimos ".$diasInforme." días se han vendido las siguientes referencias:</h1>";
+echo "<h1>En los últimos ".$diasInforme." días:</h1>";
 foreach ($referencias_totales_vendidas as $referencia => $cantidad) {
       
     $descripcion = $wpdb->get_results( "SELECT nombre,color,talla,precio_detal FROM con_t_resumen WHERE referencia_id = ".$referencia."", ARRAY_A);
