@@ -45,7 +45,7 @@ function inventario(){
     $('.editarValorCambios').on('click', function(){  
         var ids = $(this).attr("name");
         $('#editarValorCambios').attr("name",ids);
-        $('#popup2').fadeIn('slow');         
+        $('#popupDos').fadeIn('slow');         
         $('.popup-overlay').fadeIn('slow');         
         $('.popup-overlay').height($(window).height());
         return false;     
