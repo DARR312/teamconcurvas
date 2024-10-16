@@ -340,8 +340,12 @@ foreach ($obtenidosPlaza as $prenda) {
      if (!empty($ventaPlaza)) {
         echo "<br><br> SELECT * FROM con_t_ventasplaza WHERE codigos_prendas LIKE  '%" . $prenda['codigoshow'] . "%' <br><br>";
         
-        echo "Si hay venta-> " . print_r($ventaPlaza, true) . "<br>";
-        echo "De la prenda-> " . print_r($prenda, true) . "<br>";
+        echo "Si hay venta-> " . print_r($ventaPlaza, true) . "<br><br>";
+        echo "De la prenda-> " . print_r($prenda, true) . "<br><br>";
+
+        if($ventaPlaza['fecha_creada'] > $prenda['fecha_cambio']){
+            echo "Se cambia el estado de la prenda<br>";
+        }
     } 
 }
 
