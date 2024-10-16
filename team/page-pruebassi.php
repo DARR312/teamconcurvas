@@ -349,7 +349,7 @@ foreach ($obtenidosPlaza as $prenda) {
 
         // Comparar las fechas
         if ($fechaCambio < $fechaCreada) {           
-            echo "Se cambia el estado de la prenda $prenda['codigoshow'] por PA-$ventaPlaza['ID'].<br><br>";
+            echo "Se cambia el estado de la prenda ".$prenda['codigoshow']." por PA-".$ventaPlaza['ID']."<br><br>";
         }
     } 
 }
