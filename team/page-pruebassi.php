@@ -343,8 +343,13 @@ foreach ($obtenidosPlaza as $prenda) {
         echo "Si hay venta-> " . print_r($ventaPlaza, true) . "<br><br>";
         echo "De la prenda-> " . print_r($prenda, true) . "<br><br>";
 
-        if($ventaPlaza['fecha_creada'] > $prenda['fecha_cambio']){
-            echo "Se cambia el estado de la prenda<br>";
+        // Convertir las fechas a objetos DateTime para la comparación
+        $fechaCambio = new DateTime($prenda['fecha_cambio']);
+        $fechaCreada = new DateTime($ventaPlaza[0]['fecha_creada']);
+
+        // Comparar las fechas
+        if ($fechaCambio < $fechaCreada) {           
+            echo "La fecha de creación (" . $fechaCreada->format('Y-m-d H:i:s') . ") es mayor o igual que la fecha de cambio (" . $fechaCambio->format('Y-m-d H:i:s') . ").<br><br>";
         }
     } 
 }
