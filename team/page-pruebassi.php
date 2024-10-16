@@ -326,32 +326,51 @@
     // $wpdb->query($datos);*/
 
     global $wpdb;
-$obtenidosPlaza = $wpdb->get_results( "SELECT * FROM con_t_trprendas WHERE estado = 'En Plaza de las américas' AND fecha_cambio < NOW() - INTERVAL 7 DAY", ARRAY_A);
-echo sizeof($obtenidosPlaza);
-
-foreach ($obtenidosPlaza as $prenda) { 
-    $ventaPlaza = $wpdb->get_results( 
-        $wpdb->prepare(
-            "SELECT * FROM con_t_ventasplaza WHERE codigos_prendas LIKE %s", 
-            '%' . $prenda['codigoshow'] . '%'
-        ), 
-        ARRAY_A
-    );
-     if (!empty($ventaPlaza)) {
-        echo "<br><br> SELECT * FROM con_t_ventasplaza WHERE codigos_prendas LIKE  '%" . $prenda['codigoshow'] . "%' <br><br>";
+    $obtenidosPlaza = $wpdb->get_results( "SELECT * FROM con_t_trprendas WHERE estado = 'En Plaza de las américas' AND fecha_cambio < NOW() - INTERVAL 7 DAY", ARRAY_A);
+    echo sizeof($obtenidosPlaza);
+    
+    foreach ($obtenidosPlaza as $prenda) { 
+        $ventaPlaza = $wpdb->get_results( 
+            $wpdb->prepare(
+                "SELECT * FROM con_t_ventasplaza WHERE codigos_prendas LIKE %s", 
+                '%' . $prenda['codigoshow'] . '%'
+            ), 
+            ARRAY_A
+        );
         
-        echo "Si hay venta-> " . print_r($ventaPlaza, true) . "<br><br>";
-        echo "De la prenda-> " . print_r($prenda, true) . "<br><br>";
-
-        // Convertir las fechas a objetos DateTime para la comparación
-        $fechaCambio = new DateTime($prenda['fecha_cambio']);
-        $fechaCreada = new DateTime($ventaPlaza[0]['fecha_creada']);
-
-        // Comparar las fechas
-        if ($fechaCambio < $fechaCreada) {           
-            echo "Se cambia el estado de la prenda ".$prenda['codigoshow']." por PA-".$ventaPlaza['ID']."<br><br>";
-        }
-    } 
-}
+        if (!empty($ventaPlaza)) {
+            echo "<br><br> SELECT * FROM con_t_ventasplaza WHERE codigos_prendas LIKE  '%" . $prenda['codigoshow'] . "%' <br><br>";
+            echo "Si hay venta-> " . print_r($ventaPlaza, true) . "<br><br>";
+            echo "De la prenda-> " . print_r($prenda, true) . "<br><br>";
+    
+            // Convertir las fechas a objetos DateTime para la comparación
+            $fechaCambio = new DateTime($prenda['fecha_cambio']);
+            $fechaCreada = new DateTime($ventaPlaza[0]['fecha_creada']);
+    
+            // Comparar las fechas
+            if ($fechaCambio < $fechaCreada) {
+                // Obtener el ID de la venta
+                $idVenta = $ventaPlaza[0]['ID'];
+    
+                // Actualizar el estado y complemento_estado en con_t_trprendas
+                $resultadoUpdate = $wpdb->update(
+                    'con_t_trprendas',
+                    array(
+                        'estado' => 'Venta local',
+                        'complemento_estado' => 'PA-' . $idVenta
+                    ),
+                    array('ID' => $prenda['ID'])
+                );
+    
+                // Verificar si la actualización fue exitosa
+                if ($resultadoUpdate !== false) {
+                    echo "Estado actualizado a 'Venta local' con complemento 'PA-$idVenta' para la prenda con codigo " . $prenda['codigoshow'] . "<br><br>";
+                } else {
+                    echo "Error al actualizar el estado de la prenda con codigo " . $prenda['codigoshow'] . "<br><br>";
+                }
+            }
+        } 
+    }
+    
 
 ?>
