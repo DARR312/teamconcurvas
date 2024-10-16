@@ -349,25 +349,28 @@
     
             // Comparar las fechas
             if ($fechaCambio < $fechaCreada) {
-                // Obtener el ID de la venta
+               
+                // // Obtener el ID de la venta
                 $idVenta = $ventaPlaza[0]['ID'];
+
+                echo "Estado actualizado a 'Venta local' con complemento 'PA-$idVenta' para la prenda con codigo " . $prenda['codigoshow'] . "<br><br>";
+                
+                // // Actualizar el estado y complemento_estado en con_t_trprendas
+                // $resultadoUpdate = $wpdb->update(
+                //     'con_t_trprendas',
+                //     array(
+                //         'estado' => 'Venta local',
+                //         'complemento_estado' => 'PA-' . $idVenta
+                //     ),
+                //     array('ID' => $prenda['ID'])
+                // );
     
-                // Actualizar el estado y complemento_estado en con_t_trprendas
-                $resultadoUpdate = $wpdb->update(
-                    'con_t_trprendas',
-                    array(
-                        'estado' => 'Venta local',
-                        'complemento_estado' => 'PA-' . $idVenta
-                    ),
-                    array('ID' => $prenda['ID'])
-                );
-    
-                // Verificar si la actualización fue exitosa
-                if ($resultadoUpdate !== false) {
-                    echo "Estado actualizado a 'Venta local' con complemento 'PA-$idVenta' para la prenda con codigo " . $prenda['codigoshow'] . "<br><br>";
-                } else {
-                    echo "Error al actualizar el estado de la prenda con codigo " . $prenda['codigoshow'] . "<br><br>";
-                }
+                // // Verificar si la actualización fue exitosa
+                // if ($resultadoUpdate !== false) {
+                //     echo "Estado actualizado a 'Venta local' con complemento 'PA-$idVenta' para la prenda con codigo " . $prenda['codigoshow'] . "<br><br>";
+                // } else {
+                //     echo "Error al actualizar el estado de la prenda con codigo " . $prenda['codigoshow'] . "<br><br>";
+                // }
             }
         } 
     }
