@@ -339,9 +339,6 @@
         );
         
         if (!empty($ventaPlaza)) {
-            echo "<br><br> SELECT * FROM con_t_ventasplaza WHERE codigos_prendas LIKE  '%" . $prenda['codigoshow'] . "%' <br><br>";
-            echo "Si hay venta-> " . print_r($ventaPlaza, true) . "<br><br>";
-            echo "De la prenda-> " . print_r($prenda, true) . "<br><br>";
     
             // Convertir las fechas a objetos DateTime para la comparación
             $fechaCambio = new DateTime($prenda['fecha_cambio']);
