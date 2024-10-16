@@ -326,7 +326,7 @@
     // $wpdb->query($datos);*/
 
     global $wpdb;
-$obtenidosPlaza = $wpdb->get_results( "SELECT * FROM con_t_trprendas WHERE estado = 'En Plaza de las américas' ", ARRAY_A);
+$obtenidosPlaza = $wpdb->get_results( "SELECT * FROM con_t_trprendas WHERE estado = 'En Plaza de las américas' AND fecha_cambio < NOW() - INTERVAL 7 DAY", ARRAY_A);
 echo sizeof($obtenidosPlaza);
 
 foreach ($obtenidosPlaza as $prenda) { 
