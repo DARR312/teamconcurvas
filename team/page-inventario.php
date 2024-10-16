@@ -447,7 +447,7 @@ function is_admin_user() {
             </div>
         </div>
     </div>
-    <div id='popupDos' style='display: none;' class="pc tablet">
+    <div id='popup2' style='display: none;' class="pc tablet">
         <div class='content-popup' id="informeIndividual">
             <div class='close'><a href='#' id='close2'>
                 <img src='<?php echo get_template_directory_uri(); ?>/imagenes/iconos/close.png'/></a>
