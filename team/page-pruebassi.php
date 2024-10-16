@@ -304,7 +304,7 @@
 //     echo $datos."</br>";
 //     $wpdb->query($datos);
 // }
-    /*************************** CIERRE DE CAJA DB ****************************/
+    /*************************** CIERRE DE CAJA DB ****************************
     
     
     
@@ -323,5 +323,9 @@
         // [0] => Array ( [nombre] => Vero [categoria_id] => 1 [precio_detal] => 60000 [precio_mayorista] => 0
     }
 
-    // $wpdb->query($datos);
+    // $wpdb->query($datos);*/
+
+    global $wpdb;
+    $obtenidosPlaza = $wpdb->get_results( "SELECT * FROM con_t_trprendas WHERE estado = 'En Plaza de las américas' ", ARRAY_A);
+    echo sizeof($obtenidosPlaza);
 ?>
