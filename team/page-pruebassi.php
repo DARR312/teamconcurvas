@@ -349,7 +349,7 @@ foreach ($obtenidosPlaza as $prenda) {
 
         // Comparar las fechas
         if ($fechaCambio < $fechaCreada) {           
-            echo "La fecha de creación (" . $fechaCreada->format('Y-m-d H:i:s') . ") es mayor o igual que la fecha de cambio (" . $fechaCambio->format('Y-m-d H:i:s') . ").<br><br>";
+            echo "Se cambia el estado de la prenda $prenda['codigoshow'] por PA-$ventaPlaza['ID'].<br><br>";
         }
     } 
 }
