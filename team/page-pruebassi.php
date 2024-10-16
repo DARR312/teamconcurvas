@@ -339,8 +339,9 @@ foreach ($obtenidosPlaza as $prenda) {
     );
      if (!empty($ventaPlaza)) {
         echo "<br><br> SELECT * FROM con_t_ventasplaza WHERE codigos_prendas LIKE  '%" . $prenda['codigoshow'] . "%' <br><br>";
-      
+        
         echo "Si hay venta-> " . print_r($ventaPlaza, true) . "<br>";
+        echo "De la prenda-> " . print_r($ventaPlaza, true) . "<br>";
     } 
 }
 
