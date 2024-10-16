@@ -326,12 +326,22 @@
     // $wpdb->query($datos);*/
 
     global $wpdb;
-    $obtenidosPlaza = $wpdb->get_results( "SELECT * FROM con_t_trprendas WHERE estado = 'En Plaza de las américas' ", ARRAY_A);
-    echo sizeof($obtenidosPlaza);
-    // print_r($obtenidosPlaza);
-    foreach ($obtenidosPlaza as $prenda){ 
-        $ventaPlaza = $wpdb->get_results( "SELECT * FROM con_t_ventasplaza WHERE codigos_prendas LIKE  '%".$prenda['codigoshow']."%'", ARRAY_A);
-        echo "<br><br> SELECT * FROM con_t_ventasplaza WHERE codigos_prendas LIKE  '%".$prenda['codigoshow']."%' <br><br>"
-        echo " Si hay venta-> $ventaPlaza <br>";  
-    }
+$obtenidosPlaza = $wpdb->get_results( "SELECT * FROM con_t_trprendas WHERE estado = 'En Plaza de las américas' ", ARRAY_A);
+echo sizeof($obtenidosPlaza);
+
+foreach ($obtenidosPlaza as $prenda) { 
+    $ventaPlaza = $wpdb->get_results( 
+        $wpdb->prepare(
+            "SELECT * FROM con_t_ventasplaza WHERE codigos_prendas LIKE %s", 
+            '%' . $prenda['codigoshow'] . '%'
+        ), 
+        ARRAY_A
+    );
+     if (!empty($ventaPlaza)) {
+        echo "<br><br> SELECT * FROM con_t_ventasplaza WHERE codigos_prendas LIKE  '%" . $prenda['codigoshow'] . "%' <br><br>";
+      
+        echo "Si hay venta-> " . print_r($ventaPlaza, true) . "<br>";
+    } 
+}
+
 ?>
