@@ -27,7 +27,7 @@
     color:#4285f4;
     cursor: pointer;
 }
-#popup, #popup1{     
+#popup, #popup1, #popup2{     
     left: 0;     
     position: absolute;     
     top: 0;     
