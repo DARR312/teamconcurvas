@@ -79,7 +79,9 @@ function inventario(){
         $('#popup2').fadeIn('slow');         
         $('.popup-overlay').fadeIn('slow');         
         $('.popup-overlay').height($(window).height());    
-        console.log('Estoy dando el informe');
+        var prendasAsociadas = obtenerDatajson('*','con_t_trprendas',"valoresconcondicion","cual","V"+id);
+        var jsonprendasAsociadas = JSON.parse(prendasAsociadas);
+        console.log(jsonprendasAsociadas);
         return false;    
     });      
     $('#close2').on('click', function(){  

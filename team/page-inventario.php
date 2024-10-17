@@ -454,15 +454,19 @@ function is_admin_user() {
             </div>
             <div>
                 <h2 class="letra18pt-pc" id='labelInforme'>Informe para el pedido: </h2>
+                <div class="letra18pt-pc" id='Prendas'>
+                    <p>Estas prendas están asosciadas al pedido</p>
+                </div>
                 <div action="" method="get" accept-charset="UTF-8" autocomplete="off" class="" id="formularioCliente">
 					<div class="form-group pmd-textfield pmd-textfield-floating-label">
-						<label for="valorDineroCambio" class="control-label letra18pt-pc"> Estado</label>
+						<label for="nuevoEstado" class="control-label letra18pt-pc"> Estado</label>
 						<select class='form-control referencia' type='select' id='nuevoEstado' name='nuevoEstado' form='formularioReferencia' required=''>
                             <option value="cancelado">Cancelado</option>
                             <option value="entregado">Entregado</option>
                         </select><span class='pmd-textfield-focused'></span>
                     </div>	
                     <div class="form-group pmd-textfield pmd-textfield-floating-label">
+                        <label for="motivoCancelado" class="control-label letra18pt-pc"> Motivo cancelado</label>
                         <select class='form-control referencia' type='select' id='motivoCancelado' name='motivoCancelado' form='formularioReferencia' required=''>
                             <option value="demora_en_la_entrega">Demora en la entrega</option>
                             <option value="danada">Dañada</option>
