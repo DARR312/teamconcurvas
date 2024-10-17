@@ -74,7 +74,7 @@ function inventario(){
     });  
     $('.darInforme').on('click', function(){            
         var id = this.id; // Utiliza 'this.id' directamente, es más eficiente
-        var html = '';
+        var html = '<p>Estas prendas están asosciadas al pedido</p>';
         $('#informeIndividual').attr("name", id); 
         $('#labelInforme').text("Informe para: "+id); // Cambia 'attr("text")' por 'text()' para actualizar el contenido de texto
         $('#popup2').fadeIn('slow');         
@@ -91,6 +91,7 @@ function inventario(){
     $('#close2').on('click', function(){  
         $('#popup2').fadeOut('slow');       
         $('.popup-overlay').fadeOut('slow'); 
+        $('#prendasPreinforme').empty(); 
         return false;  // Si no necesitas prevenir el comportamiento predeterminado, puedes eliminar esta línea
     });
     
