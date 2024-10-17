@@ -76,7 +76,7 @@ function inventario(){
         var id = this.id; // Utiliza 'this.id' directamente, es más eficiente
         $('#informeIndividual').attr("name", id); 
         $('#labelInforme').text("Informe para: "+id); // Cambia 'attr("text")' por 'text()' para actualizar el contenido de texto
-        $('#popup2').fadeIn('slow');         
+        $('#popup1').fadeIn('slow');         
         $('.popup-overlay').fadeIn('slow');         
         $('.popup-overlay').height($(window).height());    
         console.log('Estoy dando el informe');
