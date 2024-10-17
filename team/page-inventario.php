@@ -487,7 +487,7 @@ function is_admin_user() {
 						<input class="form-control" type="number" id="notas" name="notas" required=""><span class="pmd-textfield-focused"></span>
                     </div>				
 				</div>
-				<button type="submit" class="botonmodal letra18pt-pc" id="guardarInforme"> Guardar informe </button>
+				<button type="submit" class="botonmodal letra18pt-pc" id="guardarPreinforme"> Guardar informe </button>
                 <div style='float:left; width:100%;'>
                 </div>
             </div>
