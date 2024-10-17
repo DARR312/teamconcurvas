@@ -457,13 +457,31 @@ function is_admin_user() {
                 <div action="" method="get" accept-charset="UTF-8" autocomplete="off" class="" id="formularioCliente">
 					<div class="form-group pmd-textfield pmd-textfield-floating-label">
 						<label for="valorDineroCambio" class="control-label letra18pt-pc"> Estado</label>
-						<select class='form-control referencia' type='select' id='referencia5' name='referencia5' form='formularioReferencia' required=''>
+						<select class='form-control referencia' type='select' id='nuevoEstado' name='nuevoEstado' form='formularioReferencia' required=''>
                             <option value="cancelado">Cancelado</option>
                             <option value="entregado">Entregado</option>
                         </select><span class='pmd-textfield-focused'></span>
+                    </div>	
+                    <div class="form-group pmd-textfield pmd-textfield-floating-label">
+                        <select class='form-control referencia' type='select' id='motivoCancelado' name='motivoCancelado' form='formularioReferencia' required=''>
+                            <option value="demora_en_la_entrega">Demora en la entrega</option>
+                            <option value="danada">Dañada</option>
+                            <option value="talla">Talla</option>
+                            <option value="cliente_no_en_casa">El cliente no se encontraba en la casa</option>
+                            <option value="no_se_pudo_comunicar">No se pudo comunicar con el cliente</option>
+                            <option value="no_le_gusto">No le gustó</option>
+                            <option value="direccion_erronea">Dirección errónea</option>
+                            <option value="prenda_erronea">Prenda errónea</option>
+                        </select><span class='pmd-textfield-focused'></span>
+                    </div>					
+                    <div class="form-group pmd-textfield pmd-textfield-floating-label">
                         <label for="valorDineroCambio" class="control-label letra18pt-pc"> Valor pagado</label>
 						<input class="form-control" type="number" id="valorDineroVenta" name="valorDineroVenta" required=""><span class="pmd-textfield-focused"></span>
-                    </div>					
+                    </div>		
+                    <div class="form-group pmd-textfield pmd-textfield-floating-label">
+                        <label for="valorDineroCambio" class="control-label letra18pt-pc"> Notas</label>
+						<input class="form-control" type="number" id="notas" name="notas" required=""><span class="pmd-textfield-focused"></span>
+                    </div>				
 				</div>
 				<button type="submit" class="botonmodal letra18pt-pc" id="guardarInforme"> Guardar informe </button>
                 <div style='float:left; width:100%;'>
