@@ -484,7 +484,7 @@ function is_admin_user() {
                     </div>		
                     <div class="form-group pmd-textfield pmd-textfield-floating-label">
                         <label for="valorDineroCambio" class="control-label letra18pt-pc"> Notas</label>
-						<input class="form-control" type="number" id="notas" name="notas" required=""><span class="pmd-textfield-focused"></span>
+						<input class="form-control" type="number" id="notasPreinforme" name="notasPreinforme" required=""><span class="pmd-textfield-focused"></span>
                     </div>				
 				</div>
 				<button type="submit" class="botonmodal letra18pt-pc" id="guardarPreinforme"> Guardar informe </button>

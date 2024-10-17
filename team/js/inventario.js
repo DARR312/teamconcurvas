@@ -117,6 +117,16 @@ function inventario(){
         var pedidoID = getCookie("pedidoID");
         console.log(pedidoID);
 
+        var nuevoEstado = $('#nuevoEstado').val();
+        var motivoCancelado = $('#motivoCancelado').val();
+        var valorDineroVenta = $('#valorDineroVenta').val();
+        var notasPreinforme = $('#notasPreinforme').val();
+
+        console.log(nuevoEstado);
+        console.log(motivoCancelado);
+        console.log(valorDineroVenta);
+        console.log(notasPreinforme);
+
         
         $('#popup2').fadeOut('slow');       
         $('.popup-overlay').fadeOut('slow'); 
