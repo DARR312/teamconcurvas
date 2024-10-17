@@ -454,7 +454,7 @@ function is_admin_user() {
             </div>
             <div>
                 <h2 class="letra18pt-pc" id='labelInforme'>Informe para el pedido: </h2>
-                <div class="letra18pt-pc" id='Prendas'>
+                <div class="letra18pt-pc" id='prendasPreinforme'>
                     <p>Estas prendas están asosciadas al pedido</p>
                 </div>
                 <div action="" method="get" accept-charset="UTF-8" autocomplete="off" class="" id="formularioCliente">

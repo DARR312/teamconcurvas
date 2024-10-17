@@ -74,14 +74,18 @@ function inventario(){
     });  
     $('.darInforme').on('click', function(){            
         var id = this.id; // Utiliza 'this.id' directamente, es más eficiente
+        var html = '';
         $('#informeIndividual').attr("name", id); 
         $('#labelInforme').text("Informe para: "+id); // Cambia 'attr("text")' por 'text()' para actualizar el contenido de texto
         $('#popup2').fadeIn('slow');         
         $('.popup-overlay').fadeIn('slow');         
         $('.popup-overlay').height($(window).height());    
-        var prendasAsociadas = obtenerDatajson('*','con_t_trprendas',"valoresconcondicion","cual","V"+id);
+        var prendasAsociadas = obtenerDatajson('*','con_t_trprendas',"valoresconcondicion","cual","'V"+id+"'");
         var jsonprendasAsociadas = JSON.parse(prendasAsociadas);
-        console.log(jsonprendasAsociadas);
+        for (var i = 0; i < jsonprendasAsociadas.length; i++) {
+            html += "<p>" + jsonprendasAsociadas[i].codigoshow + " " + jsonprendasAsociadas[i].descripcion + "</p>";
+        }
+        $('#prendasPreinforme').append(html); 
         return false;    
     });      
     $('#close2').on('click', function(){  
