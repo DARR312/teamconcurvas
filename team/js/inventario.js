@@ -118,10 +118,8 @@ function inventario(){
 
         // Ejemplo para obtener el valor de la cookie 'pedidoID'
         var pedidoID = getCookie("pedidoID");
-        console.log(pedidoID);
 
         var usuarioId = getCookie("user_id");
-        console.log(usuarioId);
 
         var nuevoEstado = $('#nuevoEstado').val();
         var motivoCancelado = $('#motivoCancelado').val();
@@ -217,7 +215,7 @@ function inventario(){
             var objeto = {};
             objeto.tipo = "int";
             objeto.columna = "dinero_preinforme";
-            objeto.valor = valortotal;
+            objeto.valor = valorDineroVenta;
             var dinero_preinforme = prepararjson(objeto);
             var objeto = {};
             objeto.tipo = "string";
@@ -278,7 +276,6 @@ function cargarInformesVentas(){
         ||  estado = 'Empacado' 
         ||  estado = 'No empacado'`,"0");
         var jsonventas = JSON.parse(ventas);
-        console.log(jsonventas);
         var html = '';
         // Recorre el JSON desde el final hacia el principio
         for (var i = jsonventas.length - 1; i >= 0; i--) {
