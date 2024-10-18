@@ -106,11 +106,14 @@ function inventario(){
     $('#guardarPreinforme').on('click', function(){  
         // Obtener el valor de la cookie 'prendasAsociadas'
         var prendasAsociadasCookie = getCookie("prendasAsociadas");
-
+        var existenPrendas = 0;
         if (prendasAsociadasCookie) {
             // Decodificar y convertir la cadena JSON de nuevo a un objeto
             var jsonprendasAsociadasFromCookie = JSON.parse(decodeURIComponent(prendasAsociadasCookie));
-            console.log(jsonprendasAsociadasFromCookie);
+            console.log(jsonprendasAsociadasFromCookie.length);
+            if(jsonprendasAsociadasFromCookie.length>0){
+                existenPrendas=1;
+            }
         }
 
         // Ejemplo para obtener el valor de la cookie 'pedidoID'
@@ -131,6 +134,11 @@ function inventario(){
             if(motivoCancelado == 'nada'){
                 $('#modalAlertas').modal("show"); 
                 $('#tituloAlertas').text(`Por favor agrega un motivo por el cuál este pedido está cancelado`); 
+                return false;
+            }
+            if(existenPrendas==1){
+                $('#modalAlertas').modal("show"); 
+                $('#tituloAlertas').text(`No puedes cancelar un pedido que aún tiene prendas asociadas, por favor revisa las prendas y escanealas a tu nombre antes de cancelar este pedido`); 
                 return false;
             }
             var objeto = {};
