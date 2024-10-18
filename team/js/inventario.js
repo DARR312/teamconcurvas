@@ -115,7 +115,10 @@ function inventario(){
 
         // Ejemplo para obtener el valor de la cookie 'pedidoID'
         var pedidoID = getCookie("pedidoID");
-        console.log(pedidoID);
+        console.log(pedidoID);user_id
+
+        var usuarioId = getCookie("user_id");
+        console.log(user_id);
 
         var nuevoEstado = $('#nuevoEstado').val();
         var motivoCancelado = $('#motivoCancelado').val();
@@ -123,7 +126,6 @@ function inventario(){
         var notasPreinforme = $('#notasPreinforme').val();
 
         
-        console.log(notasPreinforme);
 
         if(nuevoEstado == 'cancelado'){
             if(motivoCancelado == 'nada'){
@@ -131,6 +133,56 @@ function inventario(){
                 $('#tituloAlertas').text(`Por favor agrega un motivo por el cuál este pedido está cancelado`); 
                 return false;
             }
+            var objeto = {};
+            objeto.columna = "venta_id";
+            objeto.valor = pedidoID;
+            var condicion = prepararjson(objeto);
+            var objeto = {};
+            objeto.tipo = "string";
+            objeto.columna = "estado";
+            objeto.valor = 'Cancelado por revisar';
+            var estado = prepararjson(objeto);
+            var objeto = {};
+            objeto.tipo = "string";
+            objeto.columna = "motivo_cancelado";
+            objeto.valor = motivoCancelado;
+            var motivo_cancelado = prepararjson(objeto);
+            var objeto = {};
+            objeto.tipo = "string";
+            objeto.columna = "notas_preinforme";
+            objeto.valor = notasPreinforme;
+            var notas_preinforme = prepararjson(objeto);
+            
+            actualizarregistros("con_t_ventas",condicion,estado,motivo_cancelado,notas_preinforme,"0","0","0","0","0","0","0","0");
+            const date = new Date();
+            let day = date.getDate();
+            let month = date.getMonth()+1;
+            let year = date.getFullYear();
+            let currentDate = `${month}/${day}/${year}`;//2022-08-08 13:58:58 	
+            var objeto = {};
+            objeto.tipo = "date";
+            objeto.columna = "fecha_hora";
+            objeto.valor = currentDate;
+            var fecha  = prepararjson(objeto);
+            var objeto = {};
+            objeto.tipo = "int";
+            objeto.columna = "venta_id";
+            objeto.valor = pedidoID;
+            var venta_id = prepararjson(objeto);
+            var objeto = {};
+            objeto.tipo = "sting";
+            objeto.columna = "cambio";
+            objeto.valor = 'Cancelado por revisar';
+            var cambio = prepararjson(objeto);
+            var objeto = {};
+            objeto.tipo = "int";
+            objeto.columna = "usuario_id";
+            objeto.valor = usuarioId;
+            var usuario_id = prepararjson(objeto);
+            insertarfila("con_t_ventas",fecha,venta_id,cambio,usuario_id,"0","0","0","0","0","0","0");
+
+            $('#cargarInformediv').empty();
+            cargarInformesVentas();
         }
         if(nuevoEstado == 'entregado'){
             if(!valorDineroVenta || valorDineroVenta == 0){
@@ -138,6 +190,30 @@ function inventario(){
                 $('#tituloAlertas').text(`Por favor si el pedido está entregado agrega el valor que pagó el cliente`); 
                 return false;
             }
+            var objeto = {};
+            objeto.columna = "venta_id";
+            objeto.valor = pedidoID;
+            var condicion = prepararjson(objeto);
+            var objeto = {};
+            objeto.tipo = "string";
+            objeto.columna = "estado";
+            objeto.valor = 'Entregado por revisar';
+            var estado = prepararjson(objeto);
+            var objeto = {};
+            objeto.tipo = "int";
+            objeto.columna = "dinero_preinforme";
+            objeto.valor = valortotal;
+            var dinero_preinforme = prepararjson(objeto);
+            var objeto = {};
+            objeto.tipo = "string";
+            objeto.columna = "notas_preinforme";
+            objeto.valor = notasPreinforme;
+            var notas_preinforme = prepararjson(objeto);
+            
+            actualizarregistros("con_t_ventas",condicion,estado,dinero_preinforme,notas_preinforme,"0","0","0","0","0","0","0","0");
+
+            $('#cargarInformediv').empty();
+            cargarInformesVentas();
         }
         
         $('#popup2').fadeOut('slow');       
@@ -148,7 +224,39 @@ function inventario(){
     
 };
 
+function cargarInformesVentas(){
+    var ventas = obtenerDatajson("*","con_t_ventas","variasCondiciones",
+        `estado = 'Despachado' 
+        ||  estado = 'Empacado' 
+        ||  estado = 'No empacado'`,"0");
+        var jsonventas = JSON.parse(ventas);
+        console.log(jsonventas);
+        var html = '';
+        // Recorre el JSON desde el final hacia el principio
+        for (var i = jsonventas.length - 1; i >= 0; i--) {
+            var venta = jsonventas[i];
 
+            // Construye el HTML dinámicamente usando los datos del JSON
+            html += '<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">';
+            html += '    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2" name="Estado">';
+            html += '        <p class="letra18pt-pc">' + venta.estado + '</p>';
+            html += '    </div>';
+            html += '    <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1" name="Orden">';
+            html += '        <p class="letra18pt-pc">#' + venta.venta_id + '</p>';
+            html += '    </div>';
+            html += '    <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" name="Orden">';
+            html += '        <p class="letra18pt-pc">' + venta.notas + '</p>';
+            html += '    </div>';
+            html += '    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">';
+            html += '        <button class="botonmodal darInforme" type="button" id="' + venta.venta_id + '">Dar informe </button>';
+            html += '    </div>';
+            html += '</div>';
+        }
+
+        // Para añadir el HTML a algún contenedor de tu página
+        $('#cargarInformediv').html(html);
+        inventario();
+};
 function getCookie(name) {
     var value = "; " + document.cookie;
     var parts = value.split("; " + name + "=");
