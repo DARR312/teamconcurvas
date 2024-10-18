@@ -491,6 +491,40 @@ function is_admin_user() {
             </div>
         </div>
     </div>
+    <div id='popup3' style='display: none;' class="pc tablet">
+        <div class='content-popup' id="informeFinalIndividual">
+            <div class='close'><a href='#' id='close3'>
+                <img src='<?php echo get_template_directory_uri(); ?>/imagenes/iconos/close.png'/></a>
+            </div>
+            <div>
+                <h2 class="letra18pt-pc" id='labelInforme'>Informe final para el pedido: </h2>
+                <div class="letra18pt-pc" id='prendasPreinformeFinal'>
+                    
+                </div>
+                <div action="" method="get" accept-charset="UTF-8" autocomplete="off" class="" id="formularioCliente">
+					<div class="form-group pmd-textfield pmd-textfield-floating-label">
+						<label for="nuevoEstado" class="control-label letra18pt-pc"> Estado</label>
+						<select class='form-control referencia' type='select' id='nuevoEstadoFinal' name='nuevoEstadoFinal' form='formularioReferencia' required=''>
+                            <option value="cancelado">Confirmar cancelado</option>
+                            <option value="entregado">Confirmar entregado</option>
+                            <option value="auditar">Auditar</option>
+                        </select><span class='pmd-textfield-focused'></span>
+                    </div>			
+                    <div class="form-group pmd-textfield pmd-textfield-floating-label">
+                        <label for="valorDineroCambio" class="control-label letra18pt-pc"> Valor pagado</label>
+						<input class="form-control" type="number" id="valorDineroVentaFinal" name="valorDineroVenta" required=""><span class="pmd-textfield-focused"></span>
+                    </div>		
+                    <div class="form-group pmd-textfield pmd-textfield-floating-label">
+                        <label for="valorDineroCambio" class="control-label letra18pt-pc"> Notas de auditoría</label>
+						<input class="form-control" type="text" id="notasAuditar" name="notasAuditar" required=""><span class="pmd-textfield-focused"></span>
+                    </div>				
+				</div>
+				<button type="submit" class="botonmodal letra18pt-pc" id="guardarInformeFinal"> Guardar informe </button>
+                <div style='float:left; width:100%;'>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <!-- modal de Bootstrap Alertas -->
     <div class="modal" tabindex="-1" id="modalAlertas">

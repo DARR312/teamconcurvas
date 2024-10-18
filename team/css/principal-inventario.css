@@ -27,7 +27,7 @@
     color:#4285f4;
     cursor: pointer;
 }
-#popup, #popup1, #popup2{     
+#popup, #popup1, #popup2, #popup3{     
     left: 0;     
     position: absolute;     
     top: 0;     
@@ -73,4 +73,4 @@
     width:85%;
 }
 #primerCodigo{margin-top: 40px;}
-.insertCodigo{width: 100% !important;}
+.insertCodigo, .darInformeFinal{width: 100% !important;}
