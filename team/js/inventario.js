@@ -276,7 +276,7 @@ function inventario(){
         // Guardar el valor de 'id' en una cookie
         document.cookie = "pedidoID=" + id + "; path=/; expires=Fri, 31 Dec 9999 23:59:59 GMT"; // La cookie será válida en todo el sitio y no caducará
 
-        $('#labelInforme').text("Informe para: "+id); // Cambia 'attr("text")' por 'text()' para actualizar el contenido de texto
+        $('#labelInformeFinal').text("Informe para: "+id); // Cambia 'attr("text")' por 'text()' para actualizar el contenido de texto
         $('#popup3').fadeIn('slow');         
         $('.popup-overlay').fadeIn('slow');         
         $('.popup-overlay').height($(window).height());    
@@ -291,13 +291,13 @@ function inventario(){
         for (var i = 0; i < jsonprendasAsociadas.length; i++) {
             html += "<p>" + jsonprendasAsociadas[i].codigoshow + " " + jsonprendasAsociadas[i].descripcion + "</p>";
         }
-        $('#prendasPreinforme').append(html); 
+        $('#prendasPreinformeFinal').append(html); 
         return false;    
     });      
     $('#close3').on('click', function(){  
         $('#popup3').fadeOut('slow');       
         $('.popup-overlay').fadeOut('slow'); 
-        $('#prendasPreinforme').empty(); 
+        $('#prendasPreinformeFinal').empty(); 
         return false;  // Si no necesitas prevenir el comportamiento predeterminado, puedes eliminar esta línea
     });
     

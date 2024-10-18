@@ -497,7 +497,7 @@ function is_admin_user() {
                 <img src='<?php echo get_template_directory_uri(); ?>/imagenes/iconos/close.png'/></a>
             </div>
             <div>
-                <h2 class="letra18pt-pc" id='labelInforme'>Informe final para el pedido: </h2>
+                <h2 class="letra18pt-pc" id='labelInformeFinal'>Informe final para el pedido: </h2>
                 <div class="letra18pt-pc" id='prendasPreinformeFinal'>
                     
                 </div>
