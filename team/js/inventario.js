@@ -300,6 +300,172 @@ function inventario(){
         $('#prendasPreinformeFinal').empty(); 
         return false;  // Si no necesitas prevenir el comportamiento predeterminado, puedes eliminar esta línea
     });
+
+    $('#guardarInformeFinal').on('click', function(){  
+        var prendasAsociadasCookie = getCookie("prendasAsociadas");
+        var existenPrendas = 0;
+        if (prendasAsociadasCookie) {
+            // Decodificar y convertir la cadena JSON de nuevo a un objeto
+            var jsonprendasAsociadasFromCookie = JSON.parse(decodeURIComponent(prendasAsociadasCookie));
+            console.log(jsonprendasAsociadasFromCookie.length);
+            if(jsonprendasAsociadasFromCookie.length>0){
+                existenPrendas=1;
+            }
+        }
+
+        // Ejemplo para obtener el valor de la cookie 'pedidoID'
+        var pedidoID = getCookie("pedidoID");
+
+        var usuarioId = getCookie("user_id");
+
+        var nuevoEstado = $('#nuevoEstadoFinal').val();
+        var valorDineroVenta = $('#valorDineroVentaFinal').val();
+        var notasAuditar = $('#notasAuditar').val();
+
+        if(nuevoEstado == 'cancelado'){
+            if(existenPrendas==1){
+                $('#modalAlertas').modal("show"); 
+                $('#tituloAlertas').text(`No puedes cancelar un pedido que aún tiene prendas asociadas, por favor envialo a auditar de nuevo si este pedido debe estar cancelado`); 
+                return false;
+            }
+            var objeto = {};
+            objeto.columna = "venta_id";
+            objeto.valor = pedidoID;
+            var condicion = prepararjson(objeto);
+            var objeto = {};
+            objeto.tipo = "string";
+            objeto.columna = "estado";
+            objeto.valor = 'Cancelado';
+            var estado = prepararjson(objeto);
+            
+            actualizarregistros("con_t_ventas",condicion,estado,"0","0","0","0","0","0","0","0","0","0");
+
+
+            
+            var objeto = {};
+            objeto.tipo = "int";
+            objeto.columna = "venta_id";
+            objeto.valor = pedidoID;
+            var venta_id = prepararjson(objeto);
+            var objeto = {};
+            objeto.tipo = "string";
+            objeto.columna = "cambio";
+            objeto.valor = 'Cancelado';
+            var cambio = prepararjson(objeto);
+            var objeto = {};
+            objeto.tipo = "int";
+            objeto.columna = "usuario_id";
+            objeto.valor = usuarioId;
+            var usuario_id = prepararjson(objeto);
+            var objeto = {};
+            objeto.tipo = "string";
+            objeto.columna = "campo_cambio";
+            objeto.valor = "estado";
+            var campo_cambio = prepararjson(objeto);
+            insertarfila("con_t_ventastr",venta_id,cambio,usuario_id,campo_cambio,"0","0","0","0","0","0","0");
+
+            $('#informeFinalDiv').empty();
+            cargarInformeFinalVentas();
+        }
+        if(nuevoEstado == 'entregado'){
+            if(!valorDineroVenta || valorDineroVenta == 0){
+                $('#modalAlertas').modal("show"); 
+                $('#tituloAlertas').text(`Por favor si el pedido está entregado agrega el valor que pagó el cliente`); 
+                return false;
+            }
+            var objeto = {};
+            objeto.columna = "venta_id";
+            objeto.valor = pedidoID;
+            var condicion = prepararjson(objeto);
+            var objeto = {};
+            objeto.tipo = "string";
+            objeto.columna = "estado";
+            objeto.valor = 'Entregado';
+            var estado = prepararjson(objeto);
+            var objeto = {};
+            objeto.tipo = "int";
+            objeto.columna = "cliente_ok";
+            objeto.valor = valorDineroVenta;
+            var cliente_ok = prepararjson(objeto);
+            
+            actualizarregistros("con_t_ventas",condicion,estado,cliente_ok,"0","0","0","0","0","0","0","0","0");
+
+            var objeto = {};
+            objeto.tipo = "int";
+            objeto.columna = "venta_id";
+            objeto.valor = pedidoID;
+            var venta_id = prepararjson(objeto);
+            var objeto = {};
+            objeto.tipo = "string";
+            objeto.columna = "cambio";
+            objeto.valor = 'Entregado';
+            var cambio = prepararjson(objeto);
+            var objeto = {};
+            objeto.tipo = "int";
+            objeto.columna = "usuario_id";
+            objeto.valor = usuarioId;
+            var usuario_id = prepararjson(objeto);
+            var objeto = {};
+            objeto.tipo = "string";
+            objeto.columna = "campo_cambio";
+            objeto.valor = "estado";
+            var campo_cambio = prepararjson(objeto);
+
+            insertarfila("con_t_ventastr",venta_id,cambio,usuario_id,campo_cambio,"0","0","0","0","0","0","0");
+
+            $('#informeFinalDiv').empty();
+            cargarInformeFinalVentas();
+        }
+        if(nuevoEstado == 'auditar'){
+            if(!notasAuditar){
+                $('#modalAlertas').modal("show"); 
+                $('#tituloAlertas').text(`Por favor si vas a enviar este pedido para auditar, pon en notas las razones por las que se debe auditar`); 
+                return false;
+            }
+            var objeto = {};
+            objeto.columna = "venta_id";
+            objeto.valor = pedidoID;
+            var condicion = prepararjson(objeto);
+            var objeto = {};
+            objeto.tipo = "string";
+            objeto.columna = "estado";
+            objeto.valor = 'Auditar';
+            var estado = prepararjson(objeto);
+            var objeto = {};
+            objeto.tipo = "string";
+            objeto.columna = "notas_auditar";
+            objeto.valor = notasAuditar;
+            var notas_auditar = prepararjson(objeto);
+            
+            actualizarregistros("con_t_ventas",condicion,estado,notas_auditar,"0","0","0","0","0","0","0","0","0");
+
+            var objeto = {};
+            objeto.tipo = "int";
+            objeto.columna = "venta_id";
+            objeto.valor = pedidoID;
+            var venta_id = prepararjson(objeto);
+            var objeto = {};
+            objeto.tipo = "string";
+            objeto.columna = "cambio";
+            objeto.valor = 'Auditar';
+            var cambio = prepararjson(objeto);
+            var objeto = {};
+            objeto.tipo = "int";
+            objeto.columna = "usuario_id";
+            objeto.valor = usuarioId;
+            var usuario_id = prepararjson(objeto);
+            var objeto = {};
+            objeto.tipo = "string";
+            objeto.columna = "campo_cambio";
+            objeto.valor = "estado";
+            var campo_cambio = prepararjson(objeto);
+
+            insertarfila("con_t_ventastr",venta_id,cambio,usuario_id,campo_cambio,"0","0","0","0","0","0","0");
+
+            $('#informeFinalDiv').empty();
+            cargarInformeFinalVentas();
+        }
+    });  
     
 };
 
