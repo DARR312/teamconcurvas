@@ -465,6 +465,11 @@ function inventario(){
             $('#informeFinalDiv').empty();
             cargarInformeFinalVentas();
         }
+
+        $('#popup3').fadeOut('slow');       
+        $('.popup-overlay').fadeOut('slow'); 
+        $('#prendasPreinformeFinal').empty(); 
+        return false;  // Si no necesitas prevenir el comportamiento predeterminado, puedes eliminar esta línea
     });  
     
 };
@@ -473,6 +478,7 @@ function cargarInformesVentas(){
     var ventas = obtenerDatajson("*","con_t_ventas","variasCondiciones",
         `estado = 'Despachado' 
         ||  estado = 'Empacado' 
+        ||  estado = 'Auditar' 
         ||  estado = 'No empacado'`,"0");
         var jsonventas = JSON.parse(ventas);
         var html = '';
@@ -489,7 +495,7 @@ function cargarInformesVentas(){
             html += '        <p class="letra18pt-pc">#' + venta.venta_id + '</p>';
             html += '    </div>';
             html += '    <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" name="Orden">';
-            html += '        <p class="letra18pt-pc">' + venta.notas + '</p>';
+            html += '        <p class="letra18pt-pc">' + venta.notas + ' - '+ venta.notas_preinforme +' - '+ venta.notas_auditar +'</p>';
             html += '    </div>';
             html += '    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">';
             html += '        <button class="botonmodal darInforme" type="button" id="' + venta.venta_id + '">Dar informe </button>';
@@ -521,7 +527,7 @@ function cargarInformeFinalVentas(){
             html += '        <p class="letra18pt-pc">#' + venta.venta_id + '</p>';
             html += '    </div>';
             html += '    <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" name="Orden">';
-            html += '        <p class="letra18pt-pc">' + venta.notas + ' - '+ venta.notas_preinforme +'</p>';
+            html += '        <p class="letra18pt-pc">' + venta.notas + ' - '+ venta.notas_preinforme +' - '+ venta.notas_auditar +'</p>';
             html += '    </div>';
             html += '    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2" name="Orden">';
             html += '        <p class="letra18pt-pc">El cliente pagó: ' + venta.dinero_preinforme + '</p>';
