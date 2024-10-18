@@ -474,6 +474,8 @@ function is_admin_user() {
                             <option value="no_le_gusto">No le gustó</option>
                             <option value="direccion_erronea">Dirección errónea</option>
                             <option value="prenda_erronea">Prenda errónea</option>
+                            <option value="prenda_erronea">Error de ventas</option>
+                            <option value="prenda_erronea">Otro</option>
                         </select><span class='pmd-textfield-focused'></span>
                     </div>					
                     <div class="form-group pmd-textfield pmd-textfield-floating-label">
