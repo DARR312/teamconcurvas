@@ -305,8 +305,8 @@ function cargarInformesVentas(){
 
 function cargarInformeFinalVentas(){
     var ventas = obtenerDatajson("*","con_t_ventas","variasCondiciones",
-        `estado = 'Entregado sin revisar' 
-        ||  estado = 'Cancelado sin revisar'`,"0");
+        `estado = 'Entregado por revisar' 
+        ||  estado = 'Cancelado por revisar'`,"0");
         var jsonventas = JSON.parse(ventas);
         var html = '';
         // Recorre el JSON desde el final hacia el principio
