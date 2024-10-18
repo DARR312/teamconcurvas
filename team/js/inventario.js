@@ -115,7 +115,7 @@ function inventario(){
 
         // Ejemplo para obtener el valor de la cookie 'pedidoID'
         var pedidoID = getCookie("pedidoID");
-        console.log(pedidoID);user_id
+        console.log(pedidoID);
 
         var usuarioId = getCookie("user_id");
         console.log(user_id);
