@@ -492,12 +492,12 @@ function cargarInformesVentas(){
             html += '        <p class="letra18pt-pc">' + venta.estado + '</p>';
             html += '    </div>';
             html += '    <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1" name="Orden">';
-            html += '        <p class="letra18pt-pc">#' + venta.venta_id + '</p>';
+            html += '        <p class="letra18pt-pc">V' + venta.venta_id + '</p>';
             html += '    </div>';
-            html += '    <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" name="Orden">';
+            html += '    <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" name="Orden">';
             html += '        <p class="letra18pt-pc">' + venta.notas + ' - '+ venta.notas_preinforme +' - '+ venta.notas_auditar +'</p>';
             html += '    </div>';
-            html += '    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">';
+            html += '    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">';
             html += '        <button class="botonmodal darInforme" type="button" id="' + venta.venta_id + '">Dar informe </button>';
             html += '    </div>';
             html += '</div>';
