@@ -390,6 +390,47 @@ function inventario(){
             
             actualizarregistros("con_t_ventas",condicion,estado,cliente_ok,"0","0","0","0","0","0","0","0","0");
 
+            for (let i = 0; i < jsonprendasAsociadasFromCookie.length; i++) {   
+
+                var objeto = {};
+                objeto.columna = "codigo";
+                objeto.valor = jsonprendasAsociadasFromCookie[i].codigo;
+                var condicion = prepararjson(objeto);
+
+                const fechaActual = new Date();
+
+                // Obtener los componentes de la fecha (año, mes, día, hora, minutos y segundos)
+                const anio = fechaActual.getFullYear();
+                const mes = String(fechaActual.getMonth() + 1).padStart(2, '0'); // Los meses comienzan desde 0, por lo que se le suma 1
+                const dia = String(fechaActual.getDate()).padStart(2, '0');
+                const hora = String(fechaActual.getHours()).padStart(2, '0');
+                const minutos = String(fechaActual.getMinutes()).padStart(2, '0');
+                const segundos = String(fechaActual.getSeconds()).padStart(2, '0');
+
+                // Construir la cadena de fecha y hora en el formato deseado
+                var fechaActuall  = `${anio}-${mes}-${dia} ${hora}:${minutos}:${segundos}`;
+
+                var objeto = {};
+                objeto.tipo = "string";
+                objeto.columna = "fecha_cambio";
+                objeto.valor = fechaActuall;
+                var fecha_cambio  = prepararjson(objeto);
+                
+                var objeto = {};
+                objeto.tipo = "string";
+                objeto.columna = "estado";
+                objeto.valor = 'Entregado';
+                var estado  = prepararjson(objeto);
+
+                var objeto = {};
+                objeto.tipo = "string";
+                objeto.columna = "cual";
+                objeto.valor = 'V'+pedidoID;
+                var cual  = prepararjson(objeto);
+            
+                actualizarregistros("con_t_trprendas",condicion,estado,fecha_cambio,cual,"0","0","0","0","0","0","0","0");
+            }
+
             var objeto = {};
             objeto.tipo = "int";
             objeto.columna = "venta_id";
