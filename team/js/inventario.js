@@ -118,7 +118,7 @@ function inventario(){
         console.log(pedidoID);
 
         var usuarioId = getCookie("user_id");
-        console.log(user_id);
+        console.log(usuarioId);
 
         var nuevoEstado = $('#nuevoEstado').val();
         var motivoCancelado = $('#motivoCancelado').val();
