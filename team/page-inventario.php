@@ -468,6 +468,7 @@ function is_admin_user() {
                     <div class="form-group pmd-textfield pmd-textfield-floating-label">
                         <label for="motivoCancelado" class="control-label letra18pt-pc"> Motivo cancelado</label>
                         <select class='form-control referencia' type='select' id='motivoCancelado' name='motivoCancelado' form='formularioReferencia' required=''>
+                            <option value="nada">Agregar motivo</option>
                             <option value="demora_en_la_entrega">Demora en la entrega</option>
                             <option value="danada">Dañada</option>
                             <option value="talla">Talla</option>

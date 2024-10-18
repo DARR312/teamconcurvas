@@ -127,6 +127,16 @@ function inventario(){
         console.log(valorDineroVenta);
         console.log(notasPreinforme);
 
+        if(nuevoEstado == 'cancelado'){
+            if(motivoCancelado == 'nada'){
+                $('#modalAlertas').modal("show"); 
+                $('#tituloAlertas').text(`Por favor agrega un motivo por el cuál este pedido está cancelado`); 
+                return false;
+            }
+        }
+        if(nuevoEstado == 'entregado'){
+
+        }
         
         $('#popup2').fadeOut('slow');       
         $('.popup-overlay').fadeOut('slow'); 
