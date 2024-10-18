@@ -394,7 +394,7 @@ function inventario(){
 
                 var objeto = {};
                 objeto.columna = "codigo";
-                objeto.valor = jsonprendasAsociadasFromCookie[i].codigo;
+                objeto.valor = "'"+jsonprendasAsociadasFromCookie[i].codigo+"'";
                 var condicion = prepararjson(objeto);
 
                 const fechaActual = new Date();
@@ -581,7 +581,7 @@ function cargarInformeFinalVentas(){
 
         // Para añadir el HTML a algún contenedor de tu página
         $('#informeFinalDiv').html(html);
-        inventario();
+        
 };
 function getCookie(name) {
     var value = "; " + document.cookie;
