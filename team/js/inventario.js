@@ -162,6 +162,8 @@ function inventario(){
             var notas_preinforme = prepararjson(objeto);
             
             actualizarregistros("con_t_ventas",condicion,estado,motivo_cancelado,notas_preinforme,"0","0","0","0","0","0","0","0");
+
+
             const date = new Date();
             let day = date.getDate();
             let month = date.getMonth()+1;
@@ -178,7 +180,7 @@ function inventario(){
             objeto.valor = pedidoID;
             var venta_id = prepararjson(objeto);
             var objeto = {};
-            objeto.tipo = "sting";
+            objeto.tipo = "string";
             objeto.columna = "cambio";
             objeto.valor = 'Cancelado por revisar';
             var cambio = prepararjson(objeto);
@@ -187,7 +189,12 @@ function inventario(){
             objeto.columna = "usuario_id";
             objeto.valor = usuarioId;
             var usuario_id = prepararjson(objeto);
-            insertarfila("con_t_ventas",fecha,venta_id,cambio,usuario_id,"0","0","0","0","0","0","0");
+            var objeto = {};
+            objeto.tipo = "string";
+            objeto.columna = "campo_cambio";
+            objeto.valor = "estado";
+            var campo_cambio = prepararjson(objeto);
+            insertarfila("con_t_ventastr",fecha,venta_id,cambio,usuario_id,campo_cambio,"0","0","0","0","0","0");
 
             $('#cargarInformediv').empty();
             cargarInformesVentas();
@@ -219,6 +226,39 @@ function inventario(){
             var notas_preinforme = prepararjson(objeto);
             
             actualizarregistros("con_t_ventas",condicion,estado,dinero_preinforme,notas_preinforme,"0","0","0","0","0","0","0","0");
+
+            const date = new Date();
+            let day = date.getDate();
+            let month = date.getMonth()+1;
+            let year = date.getFullYear();
+            let currentDate = `${month}/${day}/${year}`;//2022-08-08 13:58:58 	
+            var objeto = {};
+            objeto.tipo = "date";
+            objeto.columna = "fecha_hora";
+            objeto.valor = currentDate;
+            var fecha  = prepararjson(objeto);
+            var objeto = {};
+            objeto.tipo = "int";
+            objeto.columna = "venta_id";
+            objeto.valor = pedidoID;
+            var venta_id = prepararjson(objeto);
+            var objeto = {};
+            objeto.tipo = "string";
+            objeto.columna = "cambio";
+            objeto.valor = 'Entregado por revisar';
+            var cambio = prepararjson(objeto);
+            var objeto = {};
+            objeto.tipo = "int";
+            objeto.columna = "usuario_id";
+            objeto.valor = usuarioId;
+            var usuario_id = prepararjson(objeto);
+            var objeto = {};
+            objeto.tipo = "string";
+            objeto.columna = "campo_cambio";
+            objeto.valor = "estado";
+            var campo_cambio = prepararjson(objeto);
+
+            insertarfila("con_t_ventastr",fecha,venta_id,cambio,usuario_id,campo_cambio,"0","0","0","0","0","0");
 
             $('#cargarInformediv').empty();
             cargarInformesVentas();

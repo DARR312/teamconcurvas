@@ -199,7 +199,7 @@ function cajadigital() {
         objeto.columna = "estado";
         objeto.valor = "Cancelado";
         var estado = prepararjson(objeto);
-        actualizarregistros("con_t_ventas",condicion,estado,"0","0","0","0","0","0","0","0","0","0");
+        // actualizarregistros("con_t_ventas",condicion,estado,"0","0","0","0","0","0","0","0","0","0");
         $(".remover"+this.name+"").remove();
     });  
     $('.entregarpedido').on('click', function(){ 
