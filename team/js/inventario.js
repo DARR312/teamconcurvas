@@ -122,9 +122,7 @@ function inventario(){
         var valorDineroVenta = $('#valorDineroVenta').val();
         var notasPreinforme = $('#notasPreinforme').val();
 
-        console.log(nuevoEstado);
-        console.log(motivoCancelado);
-        console.log(valorDineroVenta);
+        
         console.log(notasPreinforme);
 
         if(nuevoEstado == 'cancelado'){
@@ -135,7 +133,11 @@ function inventario(){
             }
         }
         if(nuevoEstado == 'entregado'){
-
+            if(!valorDineroVenta || valorDineroVenta == 0){
+                $('#modalAlertas').modal("show"); 
+                $('#tituloAlertas').text(`Por favor si el pedido está entregado agrega el valor que pagó el cliente`); 
+                return false;
+            }
         }
         
         $('#popup2').fadeOut('slow');       
