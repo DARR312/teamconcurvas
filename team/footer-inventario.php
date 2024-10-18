@@ -743,6 +743,7 @@
         $('#liberarEmpacados').css('display', 'none');
         $('#madrugonDiv').css('display', 'none'); 
         $('#fechaslotesdiv').css('display', 'none');
+        cargarInformeFinalVentas();
     });
     $('#cargarInformeDineroButton').on('click', function(){
         var usuarioCell = $('#usuarioCell').attr("name");
