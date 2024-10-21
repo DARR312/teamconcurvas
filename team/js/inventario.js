@@ -466,7 +466,7 @@ function inventario(){
             objeto.tipo = "int";
             objeto.columna = "prendas_vendidas";
             objeto.valor = prendasTotales;
-            var cliente_ok = prepararjson(objeto);
+            var prendasTotalesOb = prepararjson(objeto);
             var objeto = {};
             objeto.tipo = "json";
             objeto.columna = "concepto";
@@ -475,7 +475,7 @@ function inventario(){
 
             // console.log(condicion,estado,cliente_ok,metodosdePago,prendasTotales);
             
-            actualizarregistros("con_t_ventas",condicion,estado,cliente_ok,metodosdePago,prendasTotales,"0","0","0","0","0","0","0");
+            actualizarregistros("con_t_ventas",condicion,estado,cliente_ok,metodosdePago,prendasTotalesOb,"0","0","0","0","0","0","0");
 
             for (let i = 0; i < jsonprendasAsociadasFromCookie.length; i++) {   
 
