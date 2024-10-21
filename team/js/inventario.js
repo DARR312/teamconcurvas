@@ -406,26 +406,43 @@ function inventario(){
             }
 
             // Crear un objeto con los datos
+            // Crear un array para almacenar las ventas válidas
+            var ventas = [];
+
+            // Verificar si cada método es válido y agregar al array de ventas
+            if (metodoUno && metodoUno !== "0") {
+                ventas.push({
+                    metodo: metodoUno,
+                    valor: valorDineroVentaUno
+                });
+            }
+
+            if (metodoDos && metodoDos !== "0") {
+                ventas.push({
+                    metodo: metodoDos,
+                    valor: valorDineroVentaDos
+                });
+            }
+
+            if (metodoTres && metodoTres !== "0") {
+                ventas.push({
+                    metodo: metodoTres,
+                    valor: valorDineroVentaTres
+                });
+            }
+
+            if (metodoCuatro && metodoCuatro !== "0") {
+                ventas.push({
+                    metodo: metodoCuatro,
+                    valor: valorDineroVentaCuatro
+                });
+            }
+
+            // Crear el objeto con los datos
             var ventasData = {
-                ventas: [
-                    {
-                        metodo: metodoUno,
-                        valor: valorDineroVentaUno
-                    },
-                    {
-                        metodo: metodoDos,
-                        valor: valorDineroVentaDos
-                    },
-                    {
-                        metodo: metodoTres,
-                        valor: valorDineroVentaTres
-                    },
-                    {
-                        metodo: metodoCuatro,
-                        valor: valorDineroVentaCuatro
-                    }
-                ]
+                ventas: ventas
             };
+
 
             // Convertir el objeto a JSON
             var jsonVentasData = JSON.stringify(ventasData);
