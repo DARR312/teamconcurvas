@@ -177,7 +177,9 @@
         var jsonprendav = JSON.parse(prendav); 
         var cambiosantiguos = obtenerDatajson("excedente,cambio_id,pedido_item,cliente_ok","con_t_cambios","valoresconcondicion","venta_id",$('#ventaIdentificacion').val());
         var jsoncambiosantiguos = JSON.parse(cambiosantiguos); 
+        console.log(jsoncambiosantiguos);
         var cantidaddecambjos = jsoncambiosantiguos.length;
+        console.log(`cantidaddecambjos ${cantidaddecambjos}`);
         var canttrprendas = jsonprendav.length;//0
         var cantventas = jsonVentaCliente[0].prendas_vendidas;//2
         if(cantidaddecambjos>0){alert('No se puede hacer el cambio porque la venta ya tiene un cambio asociado');return false;}
