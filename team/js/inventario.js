@@ -271,7 +271,7 @@ function inventario(){
     
     $('.darInformeFinal').on('click', function(){            
         var id = this.id; // Utiliza 'this.id' directamente, es más eficiente
-        var html = '<p>Estas prendas están asosciadas al pedido</p>';
+        var html = '<p>Estas prendas están asosciadas al pedido: ';
 
         // Guardar el valor de 'id' en una cookie
         document.cookie = "pedidoID=" + id + "; path=/; expires=Fri, 31 Dec 9999 23:59:59 GMT"; // La cookie será válida en todo el sitio y no caducará
@@ -299,8 +299,9 @@ function inventario(){
         document.cookie = "prendasAsociadas=" + encodeURIComponent(jsonString) + "; path=/; expires=Fri, 31 Dec 9999 23:59:59 GMT";
         
         for (var i = 0; i < jsonprendasAsociadas.length; i++) {
-            html += "<p>" + jsonprendasAsociadas[i].codigoshow + " " + jsonprendasAsociadas[i].descripcion + "</p>";
+            html += jsonprendasAsociadas[i].codigoshow + " " + jsonprendasAsociadas[i].descripcion;
         }
+        html += "</p>";
         $('#prendasPreinformeFinal').append(html); 
         return false;    
     });      
