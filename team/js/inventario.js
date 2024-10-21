@@ -392,8 +392,13 @@ function inventario(){
 
             var prendasTotales = $('#prendasTotales').val();
 
-            valorDineroVenta = parseInt(valorDineroVentaUno) +  parseInt(valorDineroVentaDos) + parseInt(valorDineroVentaTres) + parseInt(valorDineroVentaCuatro);
-            console.log(valorDineroVenta);
+            // Convertir los valores a enteros, usando 0 como valor por defecto si están vacíos o no son números
+            valorDineroVentaUno = parseInt(valorDineroVentaUno) || 0;
+            valorDineroVentaDos = parseInt(valorDineroVentaDos) || 0;
+            valorDineroVentaTres = parseInt(valorDineroVentaTres) || 0;
+            valorDineroVentaCuatro = parseInt(valorDineroVentaCuatro) || 0;
+
+            valorDineroVenta = valorDineroVentaUno +  valorDineroVentaDos + valorDineroVentaTres + valorDineroVentaCuatro;
 
             if(!valorDineroVenta || valorDineroVenta == 0){
                 $('#modalAlertas').modal("show"); 
