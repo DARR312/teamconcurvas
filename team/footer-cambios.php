@@ -182,9 +182,10 @@
         var cantventas = jsonVentaCliente[0].prendas_vendidas;//2
         if(cantidaddecambjos>=0){alert('No se puede hacer el cambio porque la venta ya tiene un cambio asociado');return false;}
         var primeraverificación = canttrprendas -cantventas;
+        console.log(`canttrprendas: ${canttrprendas} cantventas: ${cantventas} primeraverificación ${primeraverificación}`);
         if(primeraverificación>0){alert('No se puede hacer el cambio porque el cliente aún tiene prendas a su nombre');return false;}        
         var html = "<h1  style='display: none;' class='remover' id='datoscliente' name='"+$('#ventaIdentificacion').val()+"'>"+jsonVentaCliente[0].datos_cliente+"</h1>";
-        html = html + "<h1  style='display: none;' class='remover' id='clienteok' name='"+$('#ventaIdentificacion').val()+"'>El cliente tiene un pago confirmado por: "+jsonVentaCliente[0].cliente_ok+"</h1>";
+        html = html + "<h1  style='display: none;' class='remover' id='clienteok' name='"+$('#ventaIdentificacion').val()+"'>El cliente tiene un pago confirmado por:"+jsonVentaCliente[0].cliente_ok+"</h1>";
         $('#popup').fadeOut('slow');         
         $('#popup3').fadeIn('slow'); 
         html = html+"<div class='col-lg-3 col-md-3 col-sm-3 col-xs-3 remover'>";
