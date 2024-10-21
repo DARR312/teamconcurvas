@@ -410,28 +410,28 @@ function inventario(){
             var ventas = [];
 
             // Verificar si cada método es válido y agregar al array de ventas
-            if (metodoUno && metodoUno !== "0") {
+            if (valorDineroVentaUno && valorDineroVentaUno !== "0") {
                 ventas.push({
                     metodo: metodoUno,
                     valor: valorDineroVentaUno
                 });
             }
 
-            if (metodoDos && metodoDos !== "0") {
+            if (valorDineroVentaDos && valorDineroVentaDos !== "0") {
                 ventas.push({
                     metodo: metodoDos,
                     valor: valorDineroVentaDos
                 });
             }
 
-            if (metodoTres && metodoTres !== "0") {
+            if (valorDineroVentaTres && valorDineroVentaTres !== "0") {
                 ventas.push({
                     metodo: metodoTres,
                     valor: valorDineroVentaTres
                 });
             }
 
-            if (metodoCuatro && metodoCuatro !== "0") {
+            if (valorDineroVentaCuatro && valorDineroVentaCuatro !== "0") {
                 ventas.push({
                     metodo: metodoCuatro,
                     valor: valorDineroVentaCuatro
