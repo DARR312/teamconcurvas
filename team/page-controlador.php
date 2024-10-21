@@ -849,14 +849,14 @@ function ordenescambiojson($valor,$estadoFiltro,$transportador,$tipoenvio,$datet
 function ordenesventajson($valor,$estadoFiltro,$tipoenvio,$datetimepicker_default,$datetimepicker_defaultFiltro,$telefono){
     global $wpdb;
     if($valor != "0"){ 
-        $ventas = $wpdb->get_results( "SELECT venta_id,fecha_creada,datos_cliente,pedido,cliente_ok,notas,fecha_entrega,estado,origen,cliente_id FROM con_t_ventas  WHERE venta_id =".$valor."", ARRAY_A  );
+        $ventas = $wpdb->get_results( "SELECT venta_id,fecha_creada,datos_cliente,pedido,cliente_ok,notas,fecha_entrega,estado,origen,cliente_id,vendedor_id FROM con_t_ventas  WHERE venta_id =".$valor."", ARRAY_A  );
         echo json_encode($ventas);    
         return false;   
     }if($telefono != "0"){ 
         $ventascambios = [];
         $clienteId = $wpdb->get_results( "SELECT `cliente_id` FROM `con_t_clientes` WHERE `telefono`=".$telefono."", ARRAY_A  );
         //print_r($clienteId);
-        $ventasTodos = $wpdb->get_results( "SELECT venta_id,fecha_creada,datos_cliente,pedido,cliente_ok,notas,fecha_entrega,estado,origen,cliente_id FROM con_t_ventas  WHERE cliente_id =".$clienteId[0]['cliente_id']."", ARRAY_A  );
+        $ventasTodos = $wpdb->get_results( "SELECT venta_id,fecha_creada,datos_cliente,pedido,cliente_ok,notas,fecha_entrega,estado,origen,cliente_id,vendedor_id FROM con_t_ventas  WHERE cliente_id =".$clienteId[0]['cliente_id']."", ARRAY_A  );
         //print_r($ventasTodos);
         $consultaCambio = "";
         if(sizeof($ventasTodos)>1){                
