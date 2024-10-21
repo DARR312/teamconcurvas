@@ -564,7 +564,7 @@ function is_admin_user() {
                             <label for="valorDineroCambio" class="control-label letra18pt-pc"> Cantidad de prendas compradas por el cliente</label>
                             <input class="form-control" type="number" id="prendasTotales" name="prendasTotales" required=""><span class="pmd-textfield-focused"></span>
                         </div>	
-                    <div class="form-group pmd-textfield pmd-textfield-floating-label col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <div class="form-group pmd-textfield pmd-textfield-floating-label col-lg-6 col-md-6 col-sm-6 col-xs-6">
                         <label for="valorDineroCambio" class="control-label letra18pt-pc"> Notas de auditoría</label>
 						<input class="form-control" type="text" id="notasAuditar" name="notasAuditar" required=""><span class="pmd-textfield-focused"></span>
                     </div>				
