@@ -475,7 +475,7 @@ function inventario(){
             var prendasTotalesOb = prepararjson(objeto);
             var objeto = {};
             objeto.tipo = "json";
-            objeto.columna = "concepto";
+            objeto.columna = "metodo_pago";
             objeto.valor = ventasData;
             var metodosdePago = prepararjson(objeto);
 
