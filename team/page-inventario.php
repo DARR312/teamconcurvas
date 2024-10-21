@@ -512,7 +512,7 @@ function is_admin_user() {
                             <option value="auditar">Auditar</option>
                         </select><span class='pmd-textfield-focused'></span>
                     </div>		
-                    <div class='col-lg-12 col-md-12 col-sm-12 col-xs-12'>
+                    <div class='col-lg-6 col-md-6 col-sm-6 col-xs-6'>
                         <div class="form-group pmd-textfield pmd-textfield-floating-label col-lg-6 col-md-6 col-sm-6 col-xs-6">
                             <label for="valorDineroCambio" class="control-label letra18pt-pc"> Valor pagado</label>
                             <input class="form-control" type="number" id="valorDineroVentaFinalUno" name="valorDineroVentaFinalUno" required=""><span class="pmd-textfield-focused"></span>
@@ -524,7 +524,7 @@ function is_admin_user() {
                             </select><span class='pmd-textfield-focused'></span>
                         </div>	
                     </div>		
-                    <div class='col-lg-12 col-md-12 col-sm-12 col-xs-12'>
+                    <div class='col-lg-6 col-md-6 col-sm-6 col-xs-6'>
                         <div class="form-group pmd-textfield pmd-textfield-floating-label col-lg-6 col-md-6 col-sm-6 col-xs-6">
                             <label for="valorDineroCambio" class="control-label letra18pt-pc"> Valor pagado</label>
                             <input class="form-control" type="number" id="valorDineroVentaFinalDos" name="valorDineroVentaFinalDos" required=""><span class="pmd-textfield-focused"></span>
@@ -536,7 +536,7 @@ function is_admin_user() {
                             </select><span class='pmd-textfield-focused'></span>
                         </div>	
                     </div>		
-                    <div class='col-lg-12 col-md-12 col-sm-12 col-xs-12'>
+                    <div class='col-lg-6 col-md-6 col-sm-6 col-xs-6'>
                         <div class="form-group pmd-textfield pmd-textfield-floating-label col-lg-6 col-md-6 col-sm-6 col-xs-6">
                             <label for="valorDineroCambio" class="control-label letra18pt-pc"> Valor pagado</label>
                             <input class="form-control" type="number" id="valorDineroVentaFinalTres" name="valorDineroVentaFinalTres" required=""><span class="pmd-textfield-focused"></span>
@@ -548,7 +548,7 @@ function is_admin_user() {
                             </select><span class='pmd-textfield-focused'></span>
                         </div>	
                     </div>		
-                    <div class='col-lg-12 col-md-12 col-sm-12 col-xs-12'>
+                    <div class='col-lg-6 col-md-6 col-sm-6 col-xs-6'>
                         <div class="form-group pmd-textfield pmd-textfield-floating-label col-lg-6 col-md-6 col-sm-6 col-xs-6">
                             <label for="valorDineroCambio" class="control-label letra18pt-pc"> Valor pagado</label>
                             <input class="form-control" type="number" id="valorDineroVentaFinalCuatro" name="valorDineroVentaFinalCuatro" required=""><span class="pmd-textfield-focused"></span>
