@@ -47,6 +47,9 @@
     height:550px;
     margin-left: 20%;
 }   
+#informeFinalIndividual{
+    height:800px;
+}
 .content-popup h2 {     
     color:#48484B;     
     border-bottom: 1px solid #48484B;     
