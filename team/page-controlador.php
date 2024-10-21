@@ -1248,7 +1248,7 @@ function actualizarPrendas($valor,$valor2,$valor3,$valor4){////valor = "Empacado
     $fecha = wp_date('Y-m-d H:i:s', null, $timezone );
     $usuarioActual = $usuario[1]." ".$usuario[2];
     global $wpdb;
-    $updated = $wpdb->update( "con_t_trprendas", array('estado' => $valor2,'cual' => $valor3,'complemento_estado' => $usuarioActual, 'fecha_cambio' => $fecha), array( 'codigo' => $valor4) );
+    $updated = $wpdb->update( "con_t_trprendas", array('estado' => $valor2,'cual' => $valor3,'complemento_estado' => $usuarioActual, 'fecha_cambio' => $fecha), array( 'codigoshow' => $valor4) );
     $datos = array("id_prenda" => $valor4 , "cambio" => $valor2." ".$valor3, "id_usuario" => $usuario[2] , "fecha_hora" => $fecha , "campo_cambio" => "estado");
     $wpdb->insert("con_t_historialprendas", $datos);//con_t_historialprendas - id_prenda	cambio	id_usuario	fecha_hora	campo_cambio
 }
