@@ -285,12 +285,13 @@ function inventario(){
 
         var metodosPago = obtenerDatajson('*','con_t_metodospago',"variasfilasunicasAlfabetico","descripcion","0");
         var jsonmetodosPago = JSON.parse(metodosPago);
+        console.log(jsonmetodosPago);
         var metodosHtml = '';
         for (let i = 0; i < jsonmetodosPago.length; i++) {
-            metodosHtml += `<option value="${jsonmetodosPago[i].ID}">${jsonmetodosPago[i].descripcion}</option>`
+            metodosHtml += `<option value="${jsonmetodosPago[i].ID}">${jsonmetodosPago[i].descripcion}</option>`;
             
         }
-        
+        console.log(metodosHtml);
         $('.metodosPagos'),append(metodosHtml);
         // Convertir el objeto JSON a una cadena
         var jsonString = JSON.stringify(jsonprendasAsociadas);
