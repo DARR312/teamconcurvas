@@ -292,7 +292,7 @@ function inventario(){
             
         }
         console.log(metodosHtml);
-        $('.metodosPagos'),append(metodosHtml);
+        $('.metodosPagos').append(metodosHtml);
         // Convertir el objeto JSON a una cadena
         var jsonString = JSON.stringify(jsonprendasAsociadas);
         // Guardar la cadena JSON en una cookie
