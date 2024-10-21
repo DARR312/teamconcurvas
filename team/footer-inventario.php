@@ -636,6 +636,7 @@
         $('#madrugonDiv').css('display', 'none'); 
         $('#fechaslotesdiv').css('display', 'none');
         cargarInformesVentas();
+        inventario();
     });
 
    

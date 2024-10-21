@@ -39,7 +39,7 @@ function inventario(){
         var primeraFila = $('#primeraMadrugones');
         var html = imprimirMadrugones(madrugos);
     	primeraFila.after(html);
-        inventario();
+        // inventario();
         return false;     
     });  
     $('.editarValorCambios').on('click', function(){  
@@ -69,7 +69,7 @@ function inventario(){
         var primeraFila = $('#primeraMadrugones');
         var html = imprimirMadrugones(madrugos);
     	primeraFila.after(html);
-        inventario();
+        // inventario();
         return false;     
     });  
     $('.darInforme').on('click', function(){            

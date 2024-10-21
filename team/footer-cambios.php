@@ -180,6 +180,7 @@
         var cantidaddecambjos = jsoncambiosantiguos.length;
         var canttrprendas = jsonprendav.length;
         var cantventas = jsonVentaCliente[0].prendas_vendidas;
+        if(cantventas == 0){alert('El cambio no se puede hacer porque no tiene informe confirmado aún');return false;}
         if(cantidaddecambjos>0){alert('No se puede hacer el cambio porque la venta ya tiene un cambio asociado');return false;}
         var primeraverificación = canttrprendas -cantventas;
         if(primeraverificación>0){alert('No se puede hacer el cambio porque el cliente aún tiene prendas a su nombre');return false;}        
