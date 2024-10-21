@@ -504,19 +504,30 @@ function is_admin_user() {
                     
                 </div>
                 <div action="" method="get" accept-charset="UTF-8" autocomplete="off" class="" id="formularioCliente">
-					<div class="form-group pmd-textfield pmd-textfield-floating-label">
-						<label for="nuevoEstado" class="control-label letra18pt-pc"> Estado</label>
+					<div class="form-group pmd-textfield pmd-textfield-floating-label col-lg-12 col-md-12 col-sm-12 col-xs-12">
+						<label for="nuevoEstado" class="control-label letra18pt-pc col-lg-12 col-md-12 col-sm-12 col-xs-12"> Estado</label>
 						<select class='form-control referencia' type='select' id='nuevoEstadoFinal' name='nuevoEstadoFinal' form='formularioReferencia' required=''>
                             <option value="cancelado">Confirmar cancelado</option>
                             <option value="entregado">Confirmar entregado</option>
                             <option value="auditar">Auditar</option>
                         </select><span class='pmd-textfield-focused'></span>
-                    </div>			
-                    <div class="form-group pmd-textfield pmd-textfield-floating-label">
-                        <label for="valorDineroCambio" class="control-label letra18pt-pc"> Valor pagado</label>
-						<input class="form-control" type="number" id="valorDineroVentaFinal" name="valorDineroVenta" required=""><span class="pmd-textfield-focused"></span>
                     </div>		
-                    <div class="form-group pmd-textfield pmd-textfield-floating-label">
+                    <div class='col-lg-12 col-md-12 col-sm-12 col-xs-12'>
+                        <div class="form-group pmd-textfield pmd-textfield-floating-label col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                            <label for="valorDineroCambio" class="control-label letra18pt-pc"> Valor pagado</label>
+                            <input class="form-control" type="number" id="valorDineroVentaFinal" name="valorDineroVenta" required=""><span class="pmd-textfield-focused"></span>
+                        </div>		
+                        <div class="form-group pmd-textfield pmd-textfield-floating-label col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                            <label for="nuevoEstado" class="control-label letra18pt-pc col-lg-12 col-md-12 col-sm-12 col-xs-12"> Método de pago</label>
+                            <select class='form-control referencia' type='select' id='metodoUno' name='metodoUno' form='formularioReferencia' required=''>
+                                <option value="cancelado">Confirmar cancelado</option>
+                                <option value="entregado">Confirmar entregado</option>
+                                <option value="auditar">Auditar</option>
+                            </select><span class='pmd-textfield-focused'></span>
+                        </div>	
+                    </div>	
+                    
+                    <div class="form-group pmd-textfield pmd-textfield-floating-label col-lg-12 col-md-12 col-sm-12 col-xs-12">
                         <label for="valorDineroCambio" class="control-label letra18pt-pc"> Notas de auditoría</label>
 						<input class="form-control" type="text" id="notasAuditar" name="notasAuditar" required=""><span class="pmd-textfield-focused"></span>
                     </div>				
