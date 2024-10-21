@@ -282,7 +282,16 @@ function inventario(){
         $('.popup-overlay').height($(window).height());    
         var prendasAsociadas = obtenerDatajson('*','con_t_trprendas',"valoresconcondicion","cual","'V"+id+"'");
         var jsonprendasAsociadas = JSON.parse(prendasAsociadas);
+
+        var metodosPago = obtenerDatajson('*','con_t_metodospago',"variasfilasunicasAlfabetico","descripcion","0");
+        var jsonmetodosPago = JSON.parse(metodosPago);
+        var metodosHtml = '';
+        for (let i = 0; i < jsonmetodosPago.length; i++) {
+            metodosHtml += `<option value="${jsonmetodosPago[i].ID}">${jsonmetodosPago[i].descripcion}</option>`
+            
+        }
         
+        $('.metodosPagos'),append(metodosHtml);
         // Convertir el objeto JSON a una cadena
         var jsonString = JSON.stringify(jsonprendasAsociadas);
         // Guardar la cadena JSON en una cookie

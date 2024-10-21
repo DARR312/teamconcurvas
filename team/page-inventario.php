@@ -515,14 +515,48 @@ function is_admin_user() {
                     <div class='col-lg-12 col-md-12 col-sm-12 col-xs-12'>
                         <div class="form-group pmd-textfield pmd-textfield-floating-label col-lg-6 col-md-6 col-sm-6 col-xs-6">
                             <label for="valorDineroCambio" class="control-label letra18pt-pc"> Valor pagado</label>
-                            <input class="form-control" type="number" id="valorDineroVentaFinal" name="valorDineroVenta" required=""><span class="pmd-textfield-focused"></span>
+                            <input class="form-control" type="number" id="valorDineroVentaFinalUno" name="valorDineroVentaFinalUno" required=""><span class="pmd-textfield-focused"></span>
                         </div>		
                         <div class="form-group pmd-textfield pmd-textfield-floating-label col-lg-6 col-md-6 col-sm-6 col-xs-6">
                             <label for="nuevoEstado" class="control-label letra18pt-pc col-lg-12 col-md-12 col-sm-12 col-xs-12"> Método de pago</label>
-                            <select class='form-control referencia' type='select' id='metodoUno' name='metodoUno' form='formularioReferencia' required=''>
-                                <option value="cancelado">Confirmar cancelado</option>
-                                <option value="entregado">Confirmar entregado</option>
-                                <option value="auditar">Auditar</option>
+                            <select class='form-control metodosPagos' type='select' id='metodoUno' name='metodoUno' form='formularioReferencia' required=''>
+                                
+                            </select><span class='pmd-textfield-focused'></span>
+                        </div>	
+                    </div>		
+                    <div class='col-lg-12 col-md-12 col-sm-12 col-xs-12'>
+                        <div class="form-group pmd-textfield pmd-textfield-floating-label col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                            <label for="valorDineroCambio" class="control-label letra18pt-pc"> Valor pagado</label>
+                            <input class="form-control" type="number" id="valorDineroVentaFinalDos" name="valorDineroVentaFinalDos" required=""><span class="pmd-textfield-focused"></span>
+                        </div>		
+                        <div class="form-group pmd-textfield pmd-textfield-floating-label col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                            <label for="nuevoEstado" class="control-label letra18pt-pc col-lg-12 col-md-12 col-sm-12 col-xs-12"> Método de pago</label>
+                            <select class='form-control metodosPagos' type='select' id='metodoDos' name='metodoDos' form='formularioReferencia' required=''>
+                                
+                            </select><span class='pmd-textfield-focused'></span>
+                        </div>	
+                    </div>		
+                    <div class='col-lg-12 col-md-12 col-sm-12 col-xs-12'>
+                        <div class="form-group pmd-textfield pmd-textfield-floating-label col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                            <label for="valorDineroCambio" class="control-label letra18pt-pc"> Valor pagado</label>
+                            <input class="form-control" type="number" id="valorDineroVentaFinalTres" name="valorDineroVentaFinalTres" required=""><span class="pmd-textfield-focused"></span>
+                        </div>		
+                        <div class="form-group pmd-textfield pmd-textfield-floating-label col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                            <label for="nuevoEstado" class="control-label letra18pt-pc col-lg-12 col-md-12 col-sm-12 col-xs-12"> Método de pago</label>
+                            <select class='form-control metodosPagos' type='select' id='metodoTres' name='metodoTres' form='formularioReferencia' required=''>
+                                
+                            </select><span class='pmd-textfield-focused'></span>
+                        </div>	
+                    </div>		
+                    <div class='col-lg-12 col-md-12 col-sm-12 col-xs-12'>
+                        <div class="form-group pmd-textfield pmd-textfield-floating-label col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                            <label for="valorDineroCambio" class="control-label letra18pt-pc"> Valor pagado</label>
+                            <input class="form-control" type="number" id="valorDineroVentaFinalCuatro" name="valorDineroVentaFinalCuatro" required=""><span class="pmd-textfield-focused"></span>
+                        </div>		
+                        <div class="form-group pmd-textfield pmd-textfield-floating-label col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                            <label for="nuevoEstado" class="control-label letra18pt-pc col-lg-12 col-md-12 col-sm-12 col-xs-12"> Método de pago</label>
+                            <select class='form-control metodosPagos' type='select' id='metodoCuatro' name='metodoCuatro' form='formularioReferencia' required=''>
+                                
                             </select><span class='pmd-textfield-focused'></span>
                         </div>	
                     </div>	
