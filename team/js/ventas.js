@@ -625,8 +625,6 @@ function imprimirVentasjson(jsonVenta,botonrevisar,pedidoUpdate,fechaUpdate,nota
         botonrevisar = "revisarPago";//<div class='col-lg-1 col-md-1 col-sm-1 col-xs-12 cliente_ok"+arrayOrden[7]+"'><button class='botonmodal "+botonrevisar+"' type='button' name='"+arrayOrden[0]+"'>R</button></div>
     }
     var precioFormato = formatoPrecio(press);
-    console.log('jsonVenta');
-    console.log(jsonVenta);
     var notas = jsonVenta[jsonVenta.length-1].notas;
     var estado = jsonVenta[jsonVenta.length-1].estado;
     var html = "<div class='col-lg-12 col-md-12 col-sm-12 col-xs-12 removerVentas' id='primeraVenta'>";

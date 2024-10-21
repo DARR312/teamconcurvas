@@ -171,22 +171,20 @@
     });
     $('#ventaBuscarId').on('click', function(){
         $('.remover').remove();
-        var venta = obtenerDatajson("cliente_ok,datos_cliente,pedido_item","con_t_ventas","valoresconcondicion","venta_id",$('#ventaIdentificacion').val());
+        var venta = obtenerDatajson("cliente_ok,datos_cliente,prendas_vendidas,cliente_ok","con_t_ventas","valoresconcondicion","venta_id",$('#ventaIdentificacion').val());
         var jsonVentaCliente = JSON.parse(venta); 
         var prendav = obtenerDatajson("cual,estado,codigoshow,referencia_id","con_t_trprendas","valoresconcondicion","cual","'V"+$('#ventaIdentificacion').val()+"'");
         var jsonprendav = JSON.parse(prendav); 
         var cambiosantiguos = obtenerDatajson("excedente,cambio_id,pedido_item,cliente_ok","con_t_cambios","valoresconcondicion","venta_id",$('#ventaIdentificacion').val());
         var jsoncambiosantiguos = JSON.parse(cambiosantiguos); 
         var cantidaddecambjos = jsoncambiosantiguos.length;
-        var jsonpedidoitemventa = JSON.parse(jsonVentaCliente[0]['pedido_item']);
-        console.log(jsonpedidoitemventa);
-        var canttrprendas = jsonprendav.length;
-        var cantventas = jsonpedidoitemventa[0]['cantidad'];
-        if(cantidaddecambjos>0){alert('No se puede hacer el cambio porque la venta ya tiene un cambio asociado');return false;}
+        var canttrprendas = jsonprendav.length;//1
+        var cantventas = jsonVentaCliente[0].prendas_vendidas;//2
+        if(cantidaddecambjos>=0){alert('No se puede hacer el cambio porque la venta ya tiene un cambio asociado');return false;}
         var primeraverificación = canttrprendas -cantventas;
         if(primeraverificación>0){alert('No se puede hacer el cambio porque el cliente aún tiene prendas a su nombre');return false;}        
         var html = "<h1  style='display: none;' class='remover' id='datoscliente' name='"+$('#ventaIdentificacion').val()+"'>"+jsonVentaCliente[0].datos_cliente+"</h1>";
-        html = html + "<h1  style='display: none;' class='remover' id='clienteok' name='"+$('#ventaIdentificacion').val()+"'>"+jsonVentaCliente[0].cliente_ok+"</h1>";
+        html = html + "<h1  style='display: none;' class='remover' id='clienteok' name='"+$('#ventaIdentificacion').val()+"'>El cliente tiene un pago confirmado por: "+jsonVentaCliente[0].cliente_ok+"</h1>";
         $('#popup').fadeOut('slow');         
         $('#popup3').fadeIn('slow'); 
         html = html+"<div class='col-lg-3 col-md-3 col-sm-3 col-xs-3 remover'>";
