@@ -473,9 +473,9 @@ function inventario(){
             objeto.valor = ventasData;
             var metodosdePago = prepararjson(objeto);
 
-            console.log(condicion,estado,cliente_ok,metodosdePago,prendasTotales);
+            // console.log(condicion,estado,cliente_ok,metodosdePago,prendasTotales);
             
-            // actualizarregistros("con_t_ventas",condicion,estado,cliente_ok,"0",prendasTotales,"0","0","0","0","0","0","0");
+            actualizarregistros("con_t_ventas",condicion,estado,cliente_ok,metodosdePago,prendasTotales,"0","0","0","0","0","0","0");
 
             for (let i = 0; i < jsonprendasAsociadasFromCookie.length; i++) {   
 
