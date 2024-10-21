@@ -179,13 +179,12 @@
         var jsoncambiosantiguos = JSON.parse(cambiosantiguos); 
         var cantidaddecambjos = jsoncambiosantiguos.length;
         var jsonpedidoitemventa = JSON.parse(jsonVentaCliente[0]['pedido_item']);
+        console.log(jsonpedidoitemventa);
         var canttrprendas = jsonprendav.length;
         var cantventas = jsonpedidoitemventa[0]['cantidad'];
         if(cantidaddecambjos>0){alert('No se puede hacer el cambio porque la venta ya tiene un cambio asociado');return false;}
-        console.log(canttrprendas);
-        console.log(cantventas);
         var primeraverificación = canttrprendas -cantventas;
-        if(primeraverificación>=0){alert('No se puede hacer el cambio porque el cliente aún tiene prendas a su nombre');return false;}        
+        if(primeraverificación>0){alert('No se puede hacer el cambio porque el cliente aún tiene prendas a su nombre');return false;}        
         var html = "<h1  style='display: none;' class='remover' id='datoscliente' name='"+$('#ventaIdentificacion').val()+"'>"+jsonVentaCliente[0].datos_cliente+"</h1>";
         html = html + "<h1  style='display: none;' class='remover' id='clienteok' name='"+$('#ventaIdentificacion').val()+"'>"+jsonVentaCliente[0].cliente_ok+"</h1>";
         $('#popup').fadeOut('slow');         
