@@ -177,20 +177,17 @@
         var jsonprendav = JSON.parse(prendav); 
         var cambiosantiguos = obtenerDatajson("excedente,cambio_id,pedido_item,cliente_ok","con_t_cambios","valoresconcondicion","venta_id",$('#ventaIdentificacion').val());
         var jsoncambiosantiguos = JSON.parse(cambiosantiguos); 
-        console.log(jsoncambiosantiguos);
         var cantidaddecambjos = jsoncambiosantiguos.length;
-        console.log(`cantidaddecambjos ${cantidaddecambjos}`);
-        var canttrprendas = jsonprendav.length;//0
-        var cantventas = jsonVentaCliente[0].prendas_vendidas;//2
+        var canttrprendas = jsonprendav.length;
+        var cantventas = jsonVentaCliente[0].prendas_vendidas;
         if(cantidaddecambjos>0){alert('No se puede hacer el cambio porque la venta ya tiene un cambio asociado');return false;}
         var primeraverificación = canttrprendas -cantventas;
-        console.log(`canttrprendas: ${canttrprendas} cantventas: ${cantventas} primeraverificación ${primeraverificación}`);
         if(primeraverificación>0){alert('No se puede hacer el cambio porque el cliente aún tiene prendas a su nombre');return false;}        
         var html = "<h1  style='display: none;' class='remover' id='datoscliente' name='"+$('#ventaIdentificacion').val()+"'>"+jsonVentaCliente[0].datos_cliente+"</h1>";
         html = html + "<h1  style='display: none;' class='remover' id='clienteok' name='"+$('#ventaIdentificacion').val()+"'>El cliente tiene un pago confirmado por:"+jsonVentaCliente[0].cliente_ok+"</h1>";
         $('#popup').fadeOut('slow');         
         $('#popup3').fadeIn('slow'); 
-        html = html+"<div class='col-lg-3 col-md-3 col-sm-3 col-xs-3 remover'>";
+        html +="<div class='col-lg-3 col-md-3 col-sm-3 col-xs-3 remover'>";
         html +="<button class='botonmodal remover botoncargar' id='botonCargacambios' >Cargar</button></div>";
         html +="<div class='form-group pmd-textfield pmd-textfield-floating-label col-lg-8 col-md-8 col-sm-8 col-xs-8 remover'>";
         html +="<label for='cantidad6' class='control-label letra18pt-pc'> Valor de envío a pagar por el cliente</label>";

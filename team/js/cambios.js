@@ -131,45 +131,30 @@ function cambios() {
         }
         var valorsaliente = precio + envio;
         
-        var venta = obtenerDatajson("cliente_ok,datos_cliente,pedido_item","con_t_ventas","valoresconcondicion","venta_id",$('#ventaIdentificacion').val());
+        var venta = obtenerDatajson("cliente_ok,datos_cliente,pedido_item,prendas_vendidas","con_t_ventas","valoresconcondicion","venta_id",$('#ventaIdentificacion').val());
         var jsonVentaCliente = JSON.parse(venta); 
         var prendav = obtenerDatajson("cual,estado,codigo,referencia_id","con_t_trprendas","valoresconcondicion","cual","'V"+$('#ventaIdentificacion').val()+"'");
         var jsonprendav = JSON.parse(prendav); 
-        var cambiosantiguos = obtenerDatajson("excedente,cambio_id,pedido_item,cliente_ok","con_t_cambios","valoresconcondicion","venta_id",$('#ventaIdentificacion').val());
-        var jsoncambiosantiguos = JSON.parse(cambiosantiguos); 
         var jsonpedidoitemventa = JSON.parse(jsonVentaCliente[0]['pedido_item']);
         var canttrprendas = jsonprendav.length;
         var cantventas = jsonpedidoitemventa[0]['cantidad'];
         var cantcambios = 0;
-        var valormercancia = 0;
-        if(canttrprendas>0){
-            for (let i = 0; i < canttrprendas; i++) {
-                for (let j = 1; j < jsonpedidoitemventa.length; j++) {
-                    if(jsonpedidoitemventa[j]['referencia']==jsonprendav[i]['referencia_id']){
-                        jsonpedidoitemventa.splice(1, j);
-                    }
-                }                
-            }
-            for (let k = 1; k < jsonpedidoitemventa.length; k++) {
-                valormercancia = valormercancia + parseInt(jsonpedidoitemventa[k]['valor']);                
-            }
-        }
-        
+        var valormercancia = jsonVentaCliente[0]['cliente_ok'];    
 
 
         var datoscliente = $("#datoscliente").text();
         var diferencia = valorsaliente - valormercancia;
         var jsondatoscliente = JSON.parse(datoscliente); 
-        var clienteAjuste = "";
+        var clienteAjuste = `El ciente pago inicialmente: ${valormercancia}, `;
         if(diferencia<0){                        
             var fefren = -1*diferencia;
             var formatopre = formatoPrecio(fefren);
-            clienteAjuste = "El cliente queda con saldo a favor de: "+formatopre;
+            clienteAjuste = " queda con saldo a favor de: "+formatopre;
         }if(diferencia==0){
-            clienteAjuste = "El cliente no queda con saldo";
+            clienteAjuste = " no queda con saldo";
         }if(diferencia>0){
             var formatopre = formatoPrecio(diferencia);
-            clienteAjuste = "El cliente queda debe pagar de más: "+formatopre;
+            clienteAjuste = " queda debe pagar de más: "+formatopre;
         }
         var html = "<div class='col-lg-4 col-md-4 col-sm-4 col-xs-4 removeCambio'><p class='letra18pt-pc' id='clienteNombre'>"+jsondatoscliente.nombre+"</p></div>";     
         html =html+ "<div class='col-lg-4 col-md-4 col-sm-4 col-xs-4 removeCambio'><p class='letra18pt-pc' id='clienteTelefono'>"+jsondatoscliente.telefono+"</p></div>";
