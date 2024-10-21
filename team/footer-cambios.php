@@ -178,9 +178,9 @@
         var cambiosantiguos = obtenerDatajson("excedente,cambio_id,pedido_item,cliente_ok","con_t_cambios","valoresconcondicion","venta_id",$('#ventaIdentificacion').val());
         var jsoncambiosantiguos = JSON.parse(cambiosantiguos); 
         var cantidaddecambjos = jsoncambiosantiguos.length;
-        var canttrprendas = jsonprendav.length;//1
+        var canttrprendas = jsonprendav.length;//0
         var cantventas = jsonVentaCliente[0].prendas_vendidas;//2
-        if(cantidaddecambjos>=0){alert('No se puede hacer el cambio porque la venta ya tiene un cambio asociado');return false;}
+        if(cantidaddecambjos>0){alert('No se puede hacer el cambio porque la venta ya tiene un cambio asociado');return false;}
         var primeraverificación = canttrprendas -cantventas;
         console.log(`canttrprendas: ${canttrprendas} cantventas: ${cantventas} primeraverificación ${primeraverificación}`);
         if(primeraverificación>0){alert('No se puede hacer el cambio porque el cliente aún tiene prendas a su nombre');return false;}        
