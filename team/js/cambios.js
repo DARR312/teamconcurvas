@@ -149,12 +149,12 @@ function cambios() {
         if(diferencia<0){                        
             var fefren = -1*diferencia;
             var formatopre = formatoPrecio(fefren);
-            clienteAjuste = " queda con saldo a favor de: "+formatopre;
+            clienteAjuste += " queda con saldo a favor de: "+formatopre;
         }if(diferencia==0){
-            clienteAjuste = " no queda con saldo";
+            clienteAjuste += " no queda con saldo";
         }if(diferencia>0){
             var formatopre = formatoPrecio(diferencia);
-            clienteAjuste = " queda debe pagar de más: "+formatopre;
+            clienteAjuste += " debe pagar de más: "+formatopre;
         }
         var html = "<div class='col-lg-4 col-md-4 col-sm-4 col-xs-4 removeCambio'><p class='letra18pt-pc' id='clienteNombre'>"+jsondatoscliente.nombre+"</p></div>";     
         html =html+ "<div class='col-lg-4 col-md-4 col-sm-4 col-xs-4 removeCambio'><p class='letra18pt-pc' id='clienteTelefono'>"+jsondatoscliente.telefono+"</p></div>";
