@@ -393,6 +393,7 @@ function inventario(){
             var prendasTotales = $('#prendasTotales').val();
 
             valorDineroVenta = parseInt(valorDineroVentaUno) +  parseInt(valorDineroVentaDos) + parseInt(valorDineroVentaTres) + parseInt(valorDineroVentaCuatro);
+            console.log(valorDineroVenta);
 
             if(!valorDineroVenta || valorDineroVenta == 0){
                 $('#modalAlertas').modal("show"); 
