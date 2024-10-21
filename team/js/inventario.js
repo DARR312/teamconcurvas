@@ -299,7 +299,7 @@ function inventario(){
         document.cookie = "prendasAsociadas=" + encodeURIComponent(jsonString) + "; path=/; expires=Fri, 31 Dec 9999 23:59:59 GMT";
         
         for (var i = 0; i < jsonprendasAsociadas.length; i++) {
-            html += jsonprendasAsociadas[i].codigoshow + " " + jsonprendasAsociadas[i].descripcion;
+            html += "   "+jsonprendasAsociadas[i].codigoshow + " " + jsonprendasAsociadas[i].descripcion;
         }
         html += "</p>";
         $('#prendasPreinformeFinal').append(html); 
@@ -330,7 +330,8 @@ function inventario(){
         var usuarioId = getCookie("user_id");
 
         var nuevoEstado = $('#nuevoEstadoFinal').val();
-        var valorDineroVenta = $('#valorDineroVentaFinal').val();
+        
+
         var notasAuditar = $('#notasAuditar').val();
 
         if(nuevoEstado == 'cancelado'){
@@ -379,11 +380,57 @@ function inventario(){
             cargarInformeFinalVentas();
         }
         if(nuevoEstado == 'entregado'){
+            var valorDineroVentaUno = $('#valorDineroVentaFinalUno').val();
+            var valorDineroVentaDos = $('#valorDineroVentaFinalDos').val();
+            var valorDineroVentaTres = $('#valorDineroVentaFinalTres').val();
+            var valorDineroVentaCuatro = $('#valorDineroVentaFinalCuatro').val();
+            
+            var metodoUno = $('#metodoUno').val();
+            var metodoDos = $('#metodoDos').val();
+            var metodoTres = $('#metodoTres').val();
+            var metodoCuatro = $('#metodoCuatro').val();
+
+            var prendasTotales = $('#prendasTotales').val();
+
+            valorDineroVenta = valorDineroVentaUno +  valorDineroVentaDos + valorDineroVentaTres + valorDineroVentaCuatro;
+
             if(!valorDineroVenta || valorDineroVenta == 0){
                 $('#modalAlertas').modal("show"); 
                 $('#tituloAlertas').text(`Por favor si el pedido está entregado agrega el valor que pagó el cliente`); 
                 return false;
             }
+            if(!prendasTotales || prendasTotales == 0){
+                $('#modalAlertas').modal("show"); 
+                $('#tituloAlertas').text(`Por favor asigna cuántas prendas el cliente compró en esta venta.`); 
+                return false;
+            }
+
+            // Crear un objeto con los datos
+            var ventasData = {
+                ventas: [
+                    {
+                        metodo: metodoUno,
+                        valor: valorDineroVentaUno
+                    },
+                    {
+                        metodo: metodoDos,
+                        valor: valorDineroVentaDos
+                    },
+                    {
+                        metodo: metodoTres,
+                        valor: valorDineroVentaTres
+                    },
+                    {
+                        metodo: metodoCuatro,
+                        valor: valorDineroVentaCuatro
+                    }
+                ]
+            };
+
+            // Convertir el objeto a JSON
+            var jsonVentasData = JSON.stringify(ventasData);
+
+
             var objeto = {};
             objeto.columna = "venta_id";
             objeto.valor = pedidoID;
@@ -398,8 +445,20 @@ function inventario(){
             objeto.columna = "cliente_ok";
             objeto.valor = valorDineroVenta;
             var cliente_ok = prepararjson(objeto);
+            var objeto = {};
+            objeto.tipo = "int";
+            objeto.columna = "prendas_vendidas";
+            objeto.valor = prendasTotales;
+            var cliente_ok = prepararjson(objeto);
+            var objeto = {};
+            objeto.tipo = "json";
+            objeto.columna = "concepto";
+            objeto.valor = ventasData;
+            var metodosdePago = prepararjson(objeto);
+
+            console.log(condicion,estado,cliente_ok,metodosdePago,prendasTotales);
             
-            actualizarregistros("con_t_ventas",condicion,estado,cliente_ok,"0","0","0","0","0","0","0","0","0");
+            // actualizarregistros("con_t_ventas",condicion,estado,cliente_ok,"0",prendasTotales,"0","0","0","0","0","0","0");
 
             for (let i = 0; i < jsonprendasAsociadasFromCookie.length; i++) {   
 
