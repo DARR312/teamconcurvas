@@ -328,7 +328,7 @@
     global $wpdb;
     $obtenidosPlaza = $wpdb->get_results( "SELECT * FROM con_t_trprendas WHERE estado = 'En Plaza de las américas'", ARRAY_A);
     echo sizeof($obtenidosPlaza);
-    
+    print_r($obtenidosPlaza);
     foreach ($obtenidosPlaza as $prenda) { 
         $ventaPlaza = $wpdb->get_results( 
             $wpdb->prepare(
@@ -339,7 +339,7 @@
         );
         
         if (!empty($ventaPlaza)) {
-    
+            print_r($ventaPlaza);
             // Convertir las fechas a objetos DateTime para la comparación
             $fechaCambio = new DateTime($prenda['fecha_cambio']);
             $fechaCreada = new DateTime($ventaPlaza[0]['fecha_creada']);
