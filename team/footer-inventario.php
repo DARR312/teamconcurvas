@@ -87,7 +87,7 @@
             segundo.append("<div class='col-lg-12 col-md-12 col-sm-12 col-xs-12' id='accion38'><button class='botonmodal' type='button' id='confirmarTerminados'>Confirmar terminados</button></div>");
         }       
     }
-    $('#crearReferenciaVieja').on('click', function(){   
+    $('#ajustarPrendas').on('click', function(){   
         $('.remover').remove();
         $('#referenciaNuevaAntiguo').css('display', 'none');
         $('#codigosNuevos').css('display', 'none');
