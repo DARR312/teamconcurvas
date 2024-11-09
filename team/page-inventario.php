@@ -11,6 +11,47 @@ function is_admin_user() {
             <input type='button' id='btnExport' class='botonmodal' value=' Descargar excel de marquillas' style='display: none;'/>
             
         </div>
+        <div id="ajustarManual"  style='display: none;' class="funcionamiento">
+            <div class="form-group pmd-textfield pmd-textfield-floating-label col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <label for="cantidad" class="control-label letra18pt-pc"> Código Prenda</label>
+                <input class="form-control" type="text" id="codigoPrenda" name="codigoPrenda" required=""><span class="pmd-textfield-focused"></span>
+            </div>
+            <div id='tituloPrenda'>
+                <div class='col-lg-12 col-md-12 col-sm-12 col-xs-12'>
+    	           <div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'>
+        	           <p class=' letra18pt-pc'>Codigo</p>
+        	       </div> 
+        	       <div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'>
+        	           <p class=' letra18pt-pc'>Descripción</p>
+        	       </div> 
+        	       <div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'>
+        	           <p class=' letra18pt-pc'>Estado</p>
+        	       </div>
+        	       <div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'>
+        	           <p class=' letra18pt-pc'>Cual</p>
+        	       </div>
+        	       <div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'>
+        	           <p class=' letra18pt-pc'>Notas</p>
+        	       </div>
+        	       <div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'>
+        	           <p class=' letra18pt-pc'>Última fecha</p>
+        	       </div>
+                </div>
+	       </div>
+            <div class='form-group pmd-textfield pmd-textfield-floating-label col-lg-4 col-md-4 col-sm-4 col-xs-4'>
+                <label for="nuevoEstado" class="control-label letra18pt-pc"> Nuevo estado</label>
+                <select class='form-control' type='select' id='nuevoEstado' name='nuevoEstado'>
+                    
+                </select><span class='pmd-textfield-focused'></span>
+            </div>
+            <div class="form-group pmd-textfield pmd-textfield-floating-label col-lg-4 col-md-4 col-sm-4 col-xs-4" style='display: none;' id="cualdivColor">
+                <label for="cualEstado" class="control-label letra18pt-pc"> Cuál</label>
+                <input class="form-control" type="text" id="cualEstado" name="cualEstado" required=""><span class="pmd-textfield-focused"></span>
+            </div>
+            <div class='col-lg-4 col-md-4 col-sm-4 col-xs-4' id='guardarRefAntiguo'>
+                <button class='botonmodal' type='button' id='guardarReferenciaAntiguo'>Guardar Referencia</button>
+            </div>
+        </div>
         <div id="referenciaNuevaAntiguo"  style='display: none;' class="funcionamiento">
             <form action='' method='get'  autocomplete='off' class='col-lg-12 col-md-12 col-sm-12 col-xs-12' id='formularioReferencia'>
                 <div class='form-group pmd-textfield pmd-textfield-floating-label col-lg-8 col-md-8 col-sm-8 col-xs-8'>
