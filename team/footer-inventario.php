@@ -116,11 +116,34 @@
         return false;     
     }); 
     $('#buscarPrendaPorCodigo').on('click', function(){  
-        console.log('Damos click');
         var codigo = $('#buscarPrendaAjustar').val();
         var prenda = obtenerDatajson("*","con_t_trprendas","valoresconcondicion","codigoshow","'"+codigo+"'");
         var prendaDatos = JSON.parse(prenda); 
-        console.log(prendaDatos);
+        $('.removerPrendaUnica').remove();
+        var html = `<div class='removerPrendaUnica'>
+                <div class='col-lg-12 col-md-12 col-sm-12 col-xs-12'>
+    	           <div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'>
+        	           <p class=' letra18pt-pc'>${prendaDatos[0].codigoshow}</p>
+        	       </div> 
+        	       <div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'>
+        	           <p class=' letra18pt-pc'>${prendaDatos[0].descripcion}</p>
+        	       </div> 
+        	       <div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'>
+        	           <p class=' letra18pt-pc'>${prendaDatos[0].estado}</p>
+        	       </div>
+        	       <div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'>
+        	           <p class=' letra18pt-pc'>${prendaDatos[0].cual}</p>
+        	       </div>
+        	       <div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'>
+        	           <p class=' letra18pt-pc'>${prendaDatos[0].complemento_estado}</p>
+        	       </div>
+        	       <div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'>
+        	           <p class=' letra18pt-pc'>${prendaDatos[0].fecha_cambio}</p>
+        	       </div>
+                </div>
+	       </div>`;
+           // Muestra todas las cookies guardadas
+        console.log(document.cookie);
     }); 
 
     $('#crearReferenciaVieja').on('click', function(){   
