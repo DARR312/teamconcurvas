@@ -1259,8 +1259,13 @@ function actualizarPrendas($valor, $valor2, $valor3, $valor4) {
         error_log("Error: \$wpdb no está inicializado.");
         return false;
     }
-
     // Actualización en la tabla
+    print_r(array(
+        'estado' => $valor2,
+        'cual' => $valor3,
+        'complemento_estado' => $usuarioActual,
+        'fecha_cambio' => $fecha,
+    ));
     $updated = $wpdb->update(
         "con_t_trprendas",
         array(
