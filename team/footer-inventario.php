@@ -142,7 +142,10 @@
         	       </div>
                 </div>
 	       </div>`;
-           // Muestra todas las cookies guardadas
+        $('#tituloPrenda').after(html);
+        // Ejemplo: Guardar prendaDatos[0].ID en una cookie
+        setCookie("prendaId", prendaDatos[0].ID, 7); // La cookie dura 7 días
+        // Muestra todas las cookies guardadas
         console.log(document.cookie);
     }); 
 
