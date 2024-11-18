@@ -12,6 +12,13 @@ function is_admin_user() {
             
         </div>
         <div id="ajustarManual"  style='display: none;' class="funcionamiento">
+            <div class="form-group pmd-textfield pmd-textfield-floating-label col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                <label for="buscarPrendaAjustar" class="control-label letra18pt-pc">Buscar prenda por codigo</label>
+                <input class="form-control" type="text" id="buscarPrendaAjustar" name="buscarPrendaAjustar" required=""><span class="pmd-textfield-focused"></span>
+            </div>
+            <div class='col-lg-8 col-md-8 col-sm-8 col-xs-8' id='guardarRefAntiguo'>
+                <button class='botonmodal' type='button' id='buscarPrendaPorCodigo'>Buscar prenda</button>
+            </div>
             <div class="form-group pmd-textfield pmd-textfield-floating-label col-lg-12 col-md-12 col-sm-12 col-xs-12">
                 <label for="cantidad" class="control-label letra18pt-pc"> Código Prenda</label>
                 <input class="form-control" type="text" id="codigoPrenda" name="codigoPrenda" required=""><span class="pmd-textfield-focused"></span>
@@ -44,7 +51,7 @@ function is_admin_user() {
                     
                 </select><span class='pmd-textfield-focused'></span>
             </div>
-            <div class="form-group pmd-textfield pmd-textfield-floating-label col-lg-4 col-md-4 col-sm-4 col-xs-4" id="cualdivColor">
+            <div class="form-group pmd-textfield pmd-textfield-floating-label col-lg-4 col-md-4 col-sm-4 col-xs-4">
                 <label for="cualEstado" class="control-label letra18pt-pc"> Cuál</label>
                 <input class="form-control" type="text" id="cualEstado" name="cualEstado" required=""><span class="pmd-textfield-focused"></span>
             </div>
