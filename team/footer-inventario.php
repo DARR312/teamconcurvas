@@ -191,7 +191,7 @@
         actualizarregistros("con_t_trprendas",condicion,nuevoEstado,cual,fecha,complemento_estado,"0","0","0","0","0","0","0");
 
         // con_t_categoria  categoria_id    categoria  padre_id
-        let objeto = {};
+        objeto = {};
         objeto.tipo = "string";
         objeto.columna = "id_prenda";
         objeto.valor = prendaCodigo;
