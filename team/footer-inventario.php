@@ -145,18 +145,83 @@
         $('#tituloPrenda').after(html);
         // Ejemplo: Guardar prendaDatos[0].ID en una cookie
         setCookie("prendaId", prendaDatos[0].ID, 7); // La cookie dura 7 días
+        setCookie("prendaCodigo", prendaDatos[0].codigoshow, 7); // La cookie dura 7 días
         // Leer la cookie prendaId
         
     }); 
     $('#actualizarEstadoPrenda').on('click', function(){   
         var prendaId = getCookie("prendaId");
+        var prendaCodigo = getCookie("prendaCodigo");
         var usiaroId = getCookie("user_id");
         var usuario = obtenerDatajson("*","con_users","valoresconcondicion","ID",usiaroId);
         var usuarioDatos = JSON.parse(usuario); 
         var nuevoEstadoAjuste = $('#nuevoEstadoAjuste').val();
         var cualEstado = $('#cualEstado').val();
-        console.log(`prendaId; ${prendaId} - nuevoEstadoAjuste; ${nuevoEstadoAjuste} - cualEstado; ${cualEstado}`);
-        console.log(usuarioDatos);
+        var complementoEstado = `Cambio manual por ${display_name}`;
+
+        var objeto = {};
+        objeto.columna = "ID";
+        objeto.valor = prendaId;
+        var condicion = prepararjson(objeto);
+        var objeto = {};
+        objeto.tipo = "string";
+        objeto.columna = "estado";
+        objeto.valor = nuevoEstadoAjuste;
+        nuevoEstado = prepararjson(objeto);
+        var objeto = {};
+        objeto.tipo = "string";
+        objeto.columna = "cual";
+        objeto.valor = cualEstado;
+        cual = prepararjson(objeto);
+        var objeto = {};
+        objeto.tipo = "string";
+        objeto.columna = "complemento_estado";
+        objeto.valor = complementoEstado;
+        complemento_estado = prepararjson(objeto);
+        const date = new Date();
+        let day = date.getDate();
+        let month = date.getMonth()+1;
+        let year = date.getFullYear();
+        let currentDate = `${month}/${day}/${year}`;//2022-08-08 13:58:58 	
+        var objeto = {};
+        objeto.tipo = "date_sinhora";
+        objeto.columna = "fecha_cambio";
+        objeto.valor = currentDate;
+        var fecha  = prepararjson(objeto);
+        actualizarregistros("con_t_trprendas",condicion,nuevoEstado,cual,fecha,complemento_estado,"0","0","0","0","0","0","0");
+
+        // con_t_categoria  categoria_id    categoria  padre_id
+        let objeto = {};
+        objeto.tipo = "string";
+        objeto.columna = "id_prenda";
+        objeto.valor = prendaCodigo;
+        let id_prenda = prepararjson(objeto);
+        
+        objeto = {};
+        objeto.tipo = "string";
+        objeto.columna = "cambio";
+        objeto.valor = nuevoEstado;
+        let cambio = prepararjson(objeto);
+
+        objeto = {};
+        objeto.tipo = "int";
+        objeto.columna = "id_usuario";
+        objeto.valor = usiaroId;
+        let id_usuario = prepararjson(objeto);
+
+        objeto = {};
+        objeto.tipo = "date";
+        objeto.columna = "fecha_hora";
+        objeto.valor = currentDate;
+        let fecha_hora = prepararjson(objeto);
+
+        objeto = {};
+        objeto.tipo = "string";
+        objeto.columna = "campo_cambio";
+        objeto.valor = 'Estado';
+        let campo_cambio = prepararjson(objeto);
+
+        let idcategoria = insertarfila("con_t_historialprendas",id_prenda,cambio,id_usuario,fecha_hora,campo_cambio,"0","0","0","0","0","0");
     }); 
 
     $('#crearReferenciaVieja').on('click', function(){   
