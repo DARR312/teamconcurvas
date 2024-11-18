@@ -1242,59 +1242,29 @@ function auditprendas($valor,$valor2,$valor3,$valor4){
     }
 }
 
-function actualizarPrendas($valor, $valor2, $valor3, $valor4) {
-    // Explota el valor y valida el formato
-    $usuario = explode(",", $valor);
-    if (count($usuario) < 3) {
-        error_log("Error: El formato del valor no es válido: $valor");
-        return false;
-    }
-
-    $timezone = new DateTimeZone('America/Bogota');
-    $fecha = wp_date('Y-m-d H:i:s', null, $timezone);
-    $usuarioActual = $usuario[1] . " " . $usuario[2];
-
+function actualizarPrendas($valor,$valor2,$valor3,$valor4){////valor = "Empacado" valor2 = 29
+    $usuario = explode(",",$valor);
+    $timezone = new DateTimeZone( 'America/Bogota' );
+    $fecha = wp_date('Y-m-d H:i:s', null, $timezone );
+    $usuarioActual = $usuario[1]." ".$usuario[2];
     global $wpdb;
-    if (!$wpdb) {
-        error_log("Error: \$wpdb no está inicializado.");
-        return false;
-    }
-    // Actualización en la tabla
-    print_r(array(
-        'estado' => $valor2,
-        'cual' => $valor3,
-        'complemento_estado' => $usuarioActual,
-        'fecha_cambio' => $fecha,
-    ));
-    print_r(array('codigoshow' => $valor4));
-    $updated = $wpdb->update(
-        "con_t_trprendas",
-        array(
-            'estado' => $valor2,
-            'cual' => $valor3,
-            'complemento_estado' => $usuarioActual,
-            'fecha_cambio' => $fecha,
-        ),
-        array('codigoshow' => $valor4)
-    );
-
-    if ($updated === false) {
-        error_log("Error en \$wpdb->update: " . $wpdb->last_error);
-    }
-
-    // Inserción en el historial
-    $datos = array(
-        "id_prenda" => $valor4,
-        "cambio" => $valor2 . " " . $valor3,
-        "id_usuario" => $usuario[2],
-        "fecha_hora" => $fecha,
-        "campo_cambio" => "estado",
-    );
-
-    $insertado = $wpdb->insert("con_t_historialprendas", $datos);
-    if ($insertado === false) {
-        error_log("Error en \$wpdb->insert: " . $wpdb->last_error);
-    }
+     // Sanitización de los valores para la consulta
+     $valor2 = intval($valor2); // Asegúrate de que sea un número entero
+     $valor4 = esc_sql($valor4); // Escapa el string para evitar inyección SQL
+ 
+     // Consulta SQL para actualizar
+     $datos = "UPDATE `con_t_trprendas` 
+               SET `estado` = $valor2, 
+                   `cual` = '" . esc_sql($valor3) . "', 
+                   `complemento_estado` = '" . esc_sql($usuarioActual) . "', 
+                   `fecha_cambio` = '$fecha' 
+               WHERE `codigoshow` = '$valor4'";
+ 
+     $resultado = $wpdb->query($datos); // Ejecuta la consulta
+     echo $resultado;
+    // $updated = $wpdb->update( "con_t_trprendas", array('estado' => $valor2,'cual' => $valor3,'complemento_estado' => $usuarioActual, 'fecha_cambio' => $fecha), array( 'codigoshow' => $valor4) );
+    $datos = array("id_prenda" => $valor4 , "cambio" => $valor2." ".$valor3, "id_usuario" => $usuario[2] , "fecha_hora" => $fecha , "campo_cambio" => "estado");
+    $wpdb->insert("con_t_historialprendas", $datos);//con_t_historialprendas - id_prenda	cambio	id_usuario	fecha_hora	campo_cambio
 }
 
 function inicialcaja($valor){////C1145RB7D13S64°C1145RB4D13S64°
