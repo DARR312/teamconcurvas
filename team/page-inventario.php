@@ -44,12 +44,12 @@ function is_admin_user() {
                     
                 </select><span class='pmd-textfield-focused'></span>
             </div>
-            <div class="form-group pmd-textfield pmd-textfield-floating-label col-lg-4 col-md-4 col-sm-4 col-xs-4" style='display: none;' id="cualdivColor">
+            <div class="form-group pmd-textfield pmd-textfield-floating-label col-lg-4 col-md-4 col-sm-4 col-xs-4" id="cualdivColor">
                 <label for="cualEstado" class="control-label letra18pt-pc"> Cuál</label>
                 <input class="form-control" type="text" id="cualEstado" name="cualEstado" required=""><span class="pmd-textfield-focused"></span>
             </div>
             <div class='col-lg-4 col-md-4 col-sm-4 col-xs-4' id='guardarRefAntiguo'>
-                <button class='botonmodal' type='button' id='guardarReferenciaAntiguo'>Guardar Referencia</button>
+                <button class='botonmodal' type='button' id='actualizarEstadoPrenda'>Actualizar Estado</button>
             </div>
         </div>
         <div id="referenciaNuevaAntiguo"  style='display: none;' class="funcionamiento">

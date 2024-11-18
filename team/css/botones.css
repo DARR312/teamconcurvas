@@ -8,4 +8,6 @@
 		@media only screen and (max-width:991px) and  (min-width:530px){.botonmodal, #reader__dashboard_section_csr span button{height:35px;border-radius:20px;font-size:12px;}}
 		@media only screen and (max-width:529px){.botonmodal, #reader__dashboard_section_csr span button, #readerEmpacar__dashboard_section span button{height:35px;border-radius:20px;font-size:12px;}}
 		/*------------------------BOTON-----------------------*/
-		
+		#actualizarEstadoPrenda{
+			width: 100% !important;
+		}
