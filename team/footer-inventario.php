@@ -151,9 +151,11 @@
     $('#actualizarEstadoPrenda').on('click', function(){   
         var prendaId = getCookie("prendaId");
         var usiaroId = getCookie("user_id");
+        var usuario = obtenerDatajson("*","con_users","valoresconcondicion","ID",usiaroId);
+        var usuarioDatos = JSON.parse(usuario); 
         var nuevoEstadoAjuste = $('#nuevoEstadoAjuste').val();
         var cualEstado = $('#cualEstado').val();
-        console.log(`prendaId; ${prendaId} - usiaroId; ${usiaroId} - nuevoEstadoAjuste; ${nuevoEstadoAjuste} - cualEstado; ${cualEstado}`)
+        console.log(`prendaId; ${prendaId} - usiaroDatos; ${usuarioDatos} - nuevoEstadoAjuste; ${nuevoEstadoAjuste} - cualEstado; ${cualEstado}`)
     }); 
 
     $('#crearReferenciaVieja').on('click', function(){   
