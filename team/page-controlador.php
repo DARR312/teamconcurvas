@@ -1259,7 +1259,7 @@ function actualizarPrendas($valor,$valor2,$valor3,$valor4){////valor = "Empacado
                    `complemento_estado` = '" . esc_sql($usuarioActual) . "', 
                    `fecha_cambio` = '$fecha' 
                WHERE `codigoshow` = '$valor4'";
- 
+ echo $datos;
      $resultado = $wpdb->query($datos); // Ejecuta la consulta
      echo $resultado;
     // $updated = $wpdb->update( "con_t_trprendas", array('estado' => $valor2,'cual' => $valor3,'complemento_estado' => $usuarioActual, 'fecha_cambio' => $fecha), array( 'codigoshow' => $valor4) );
