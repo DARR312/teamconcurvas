@@ -147,6 +147,8 @@
         setCookie("prendaId", prendaDatos[0].ID, 7); // La cookie dura 7 días
         // Muestra todas las cookies guardadas
         console.log(document.cookie);
+        // Leer la cookie prendaId
+        console.log(getCookie("prendaId"));
     }); 
 
     $('#crearReferenciaVieja').on('click', function(){   
