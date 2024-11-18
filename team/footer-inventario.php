@@ -145,10 +145,15 @@
         $('#tituloPrenda').after(html);
         // Ejemplo: Guardar prendaDatos[0].ID en una cookie
         setCookie("prendaId", prendaDatos[0].ID, 7); // La cookie dura 7 días
-        // Muestra todas las cookies guardadas
-        console.log(document.cookie);
         // Leer la cookie prendaId
-        console.log(getCookie("prendaId"));
+        
+    }); 
+    $('#actualizarEstadoPrenda').on('click', function(){   
+        var prendaId = getCookie("prendaId");
+        var usiaroId = getCookie("user_id");
+        var nuevoEstadoAjuste = $('#nuevoEstadoAjuste').val();
+        var cualEstado = $('#cualEstado').val();
+        console.log(`prendaId; ${prendaId} - usiaroId; ${usiaroId} - nuevoEstadoAjuste; ${nuevoEstadoAjuste} - cualEstado; ${cualEstado}`)
     }); 
 
     $('#crearReferenciaVieja').on('click', function(){   
