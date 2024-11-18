@@ -106,9 +106,10 @@
         $('#ajustarManual').css('display', 'block');
         let listado = obtenerDatajson("estado","con_t_trprendas","filasunicas","0","0");
         let listadoEstados =  JSON.parse(listado);    
+        console.log(listadoEstados);
         var html = "";
         for (let i = 0; i < listadoEstados.length; i++) {
-            html=html+"<option class='remover' value='"+listadoEstados[i]+"'>"+listadoEstados[i]+"</option>";
+            html=html+"<option class='remover' value='"+listadoEstados[i].estado+"'>"+listadoEstados[i].estado+"</option>";
         }       
         var nuevoEstadoAjuste = $('#nuevoEstadoAjuste');
         nuevoEstadoAjuste.append(html);
