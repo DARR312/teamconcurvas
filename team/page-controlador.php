@@ -1266,6 +1266,7 @@ function actualizarPrendas($valor, $valor2, $valor3, $valor4) {
         'complemento_estado' => $usuarioActual,
         'fecha_cambio' => $fecha,
     ));
+    print_r(array('codigoshow' => $valor4));
     $updated = $wpdb->update(
         "con_t_trprendas",
         array(
