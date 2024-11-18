@@ -39,8 +39,8 @@ function is_admin_user() {
                 </div>
 	       </div>
             <div class='form-group pmd-textfield pmd-textfield-floating-label col-lg-4 col-md-4 col-sm-4 col-xs-4'>
-                <label for="nuevoEstado" class="control-label letra18pt-pc"> Nuevo estado</label>
-                <select class='form-control' type='select' id='nuevoEstado' name='nuevoEstado'>
+                <label for="nuevoEstadoAjuste" class="control-label letra18pt-pc"> Nuevo estado</label>
+                <select class='form-control' type='select' id='nuevoEstadoAjuste' name='nuevoEstadoAjuste'>
                     
                 </select><span class='pmd-textfield-focused'></span>
             </div>
