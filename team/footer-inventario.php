@@ -155,7 +155,8 @@
         var usuarioDatos = JSON.parse(usuario); 
         var nuevoEstadoAjuste = $('#nuevoEstadoAjuste').val();
         var cualEstado = $('#cualEstado').val();
-        console.log(`prendaId; ${prendaId} - usiaroDatos; ${usuarioDatos} - nuevoEstadoAjuste; ${nuevoEstadoAjuste} - cualEstado; ${cualEstado}`)
+        console.log(`prendaId; ${prendaId} - nuevoEstadoAjuste; ${nuevoEstadoAjuste} - cualEstado; ${cualEstado}`);
+        console.log(usuarioDatos);
     }); 
 
     $('#crearReferenciaVieja').on('click', function(){   
