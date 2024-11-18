@@ -115,6 +115,13 @@
         nuevoEstadoAjuste.append(html);
         return false;     
     }); 
+    $('#buscarPrendaPorCodigo').on('click', function(){  
+        var codigo = $('#buscarPrendaAjustar').val();
+        var prenda = obtenerDatajson("*","con_t_trprendas","valoresconcondicion","codigoshow","'"+codigo+"'");
+        var prendaDatos = JSON.parse(prenda); 
+        console.log(prendaDatos);
+    }); 
+
     $('#crearReferenciaVieja').on('click', function(){   
         $('.remover').remove();
         $('#referenciaNuevaAntiguo').css('display', 'block');
