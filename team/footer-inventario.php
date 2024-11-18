@@ -157,7 +157,7 @@
         var usuarioDatos = JSON.parse(usuario); 
         var nuevoEstadoAjuste = $('#nuevoEstadoAjuste').val();
         var cualEstado = $('#cualEstado').val();
-        var complementoEstado = `Cambio manual por ${display_name}`;
+        var complementoEstado = `Cambio manual por ${usuarioDatos[0].display_name}`;
 
         var objeto = {};
         objeto.columna = "ID";
