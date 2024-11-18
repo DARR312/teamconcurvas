@@ -116,6 +116,7 @@
         return false;     
     }); 
     $('#buscarPrendaPorCodigo').on('click', function(){  
+        console.log('Damos click');
         var codigo = $('#buscarPrendaAjustar').val();
         var prenda = obtenerDatajson("*","con_t_trprendas","valoresconcondicion","codigoshow","'"+codigo+"'");
         var prendaDatos = JSON.parse(prenda); 
