@@ -1249,7 +1249,6 @@ function actualizarPrendas($valor,$valor2,$valor3,$valor4){////valor = "Empacado
     $usuarioActual = $usuario[1]." ".$usuario[2];
     global $wpdb;
      // Sanitización de los valores para la consulta
-     $valor2 = intval($valor2); // Asegúrate de que sea un número entero
      $valor4 = esc_sql($valor4); // Escapa el string para evitar inyección SQL
  
      // Consulta SQL para actualizar
@@ -1258,10 +1257,10 @@ function actualizarPrendas($valor,$valor2,$valor3,$valor4){////valor = "Empacado
                    `cual` = '" . esc_sql($valor3) . "', 
                    `complemento_estado` = '" . esc_sql($usuarioActual) . "', 
                    `fecha_cambio` = '$fecha' 
-               WHERE `codigoshow` = '$valor4'";
- echo $datos;
+               WHERE `codigo` = '$valor4'";
+//  echo $datos;
      $resultado = $wpdb->query($datos); // Ejecuta la consulta
-     echo $resultado;
+        // echo $resultado;
     // $updated = $wpdb->update( "con_t_trprendas", array('estado' => $valor2,'cual' => $valor3,'complemento_estado' => $usuarioActual, 'fecha_cambio' => $fecha), array( 'codigoshow' => $valor4) );
     $datos = array("id_prenda" => $valor4 , "cambio" => $valor2." ".$valor3, "id_usuario" => $usuario[2] , "fecha_hora" => $fecha , "campo_cambio" => "estado");
     $wpdb->insert("con_t_historialprendas", $datos);//con_t_historialprendas - id_prenda	cambio	id_usuario	fecha_hora	campo_cambio
