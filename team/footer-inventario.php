@@ -104,7 +104,9 @@
         $('#madrugonDiv').css('display', 'none'); 
         $('#fechaslotesdiv').css('display', 'none');
         $('#ajustarManual').css('display', 'block');
-       
+        let listado = obtenerDatajson("estado","con_t_trprendas","variasfilasunicas","0","0");
+        let listadoEstados =  JSON.parse(listado);    
+        console.log(listadoEstados);
         return false;     
     }); 
     $('#crearReferenciaVieja').on('click', function(){   
